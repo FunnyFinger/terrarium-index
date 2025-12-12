@@ -42,6 +42,7 @@
   "growthPattern": "upright-bushy",
   "hazard": "non-toxic",
   "rarity": "uncommon",
+  "carnivorous": true,
   "growthHabit": "ground-dwelling",
   "plantType": "flowering-plant",
   "floweringPeriod": "seasonal",

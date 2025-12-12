@@ -32,6 +32,7 @@
   "growthPattern": "rosette",
   "hazard": "non-toxic",
   "rarity": "common",
+  "carnivorous": true,
   "growthHabit": "ground-dwelling",
   "plantType": "flowering-plant",
   "floweringPeriod": "seasonal",

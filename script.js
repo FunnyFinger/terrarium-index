@@ -2234,27 +2234,8 @@ function applyAllFilters() {
                     const scientific = getScientificNameString(plant);
                     return /\s+(x|×)\s+/i.test(scientific);
                 } else if (filterSpecial === 'Carnivorous') {
-                    // Carnivorous plants
-            const category = (plant.category || []).map(c => c.toLowerCase());
-            const name = (plant.name || '').toLowerCase();
-            const scientificName = getScientificNameString(plant).toLowerCase();
-            const description = (plant.description || '').toLowerCase();
-            const genus = plant.taxonomy && plant.taxonomy.genus ? plant.taxonomy.genus.toLowerCase() : '';
-            
-            // Known carnivorous plant genera
-            const carnivorousGenera = [
-                'nepenthes', 'drosera', 'dionaea', 'sarracenia', 'utricularia', 'pinguicula',
-                'cephalotus', 'byblis', 'genlisea', 'aldrovanda', 'roridula', 'heliamphora',
-                'drosophyllum', 'macrocentrum', 'darlingtonia'
-            ];
-            
-                    return category.includes('carnivorous') ||
-                                 name.includes('pitcher') || name.includes('sundew') ||
-                                 name.includes('bladderwort') || name.includes('venus') ||
-                                 name.includes('butterwort') || name.includes('corkscrew') ||
-                                 scientificName.includes('pitcher') || scientificName.includes('sundew') ||
-                                 description.includes('carnivorous') || description.includes('insectivorous') ||
-                                 carnivorousGenera.includes(genus);
+                    // Carnivorous plants - use explicit field from plant data
+                    return plant.carnivorous === true;
                 }
                 return false;
             });
@@ -2349,21 +2330,8 @@ function createPlantCard(plant) {
     // Only match " x " or " × " with spaces on both sides
     const isHybrid = /\s+(x|×)\s+/i.test(scientific);
     
-    // Detect carnivorous plants - only check plantType field and category for reliability
-    const category = (plant.category || []).map(c => c.toLowerCase());
-    const plantType = (plant.plantType || '').toLowerCase();
-    const genus = plant.taxonomy && plant.taxonomy.genus ? plant.taxonomy.genus.toLowerCase() : '';
-    
-    // Known carnivorous plant genera
-    const carnivorousGenera = [
-        'nepenthes', 'drosera', 'dionaea', 'sarracenia', 'utricularia', 'pinguicula',
-        'cephalotus', 'byblis', 'genlisea', 'aldrovanda', 'roridula', 'heliamphora',
-        'drosophyllum', 'macrocentrum', 'darlingtonia'
-    ];
-    
-    const isCarnivorous = category.includes('carnivorous') ||
-                          plantType.includes('carnivorous') ||
-                          carnivorousGenera.includes(genus);
+    // Detect carnivorous plants - use explicit field from plant data
+    const isCarnivorous = plant.carnivorous === true;
     
     // Detect aquatic plants
     const growthHabit = (plant.growthHabit || '').toLowerCase();
