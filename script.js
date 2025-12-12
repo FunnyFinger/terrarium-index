@@ -2334,6 +2334,8 @@ function createPlantCard(plant) {
     const isCarnivorous = plant.carnivorous === true;
     
     // Detect aquatic plants
+    const category = (plant.category || []).map(c => c.toLowerCase());
+    const plantType = (plant.plantType || '').toLowerCase();
     const growthHabit = (plant.growthHabit || '').toLowerCase();
     const substrate = (plant.substrate || '').toLowerCase();
     const specialNeeds = (plant.specialNeeds || '').toLowerCase();
