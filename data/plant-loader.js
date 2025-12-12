@@ -28,22 +28,65 @@ async function loadAllPlants() {
             const mergedIndex = await mergedIndexResp.json();
             const files = mergedIndex.plants || [];
             console.log(`📋 Index lists ${files.length} plant files`);
+            
+            // Test fetch first file to verify connectivity
+            if (files.length > 0) {
+                const testUrl = `data/plants-merged/${files[0]}${cacheBuster}`;
+                const testResp = await fetch(testUrl);
+                console.log(`🔍 Test fetch: ${files[0]} - Status: ${testResp.status} ${testResp.ok ? 'OK' : 'FAILED'}`);
+                if (!testResp.ok) {
+                    console.error(`❌ Cannot access plant files! First file returned: ${testResp.status} ${testResp.statusText}`);
+                    console.error(`   URL tested: ${testUrl}`);
+                }
+            }
+            
             const loadedPlants = [];
             let failedCount = 0;
-            for (const file of files) {
-                try {
-                    const plantResp = await fetch(`data/plants-merged/${file}${cacheBuster}`);
-                    if (plantResp.ok) {
-                        const plant = await plantResp.json();
-                        loadedPlants.push(plant);
-                    } else if (plantResp.status === 404) {
-                        failedCount++;
-                        // File doesn't exist (likely deleted during merge) - skip silently
+            
+            // Load files in batches to avoid overwhelming the server
+            const BATCH_SIZE = 20;
+            const BATCH_DELAY = 50; // ms delay between batches
+            
+            for (let i = 0; i < files.length; i += BATCH_SIZE) {
+                const batch = files.slice(i, i + BATCH_SIZE);
+                const batchPromises = batch.map(async (file) => {
+                    try {
+                        const plantUrl = `data/plants-merged/${file}${cacheBuster}`;
+                        const plantResp = await fetch(plantUrl);
+                        if (plantResp.ok) {
+                            const plant = await plantResp.json();
+                            return { success: true, plant };
+                        } else {
+                            if (failedCount < 5) { // Log first 5 failures for debugging
+                                console.warn(`⚠️ Failed to load ${file}: HTTP ${plantResp.status}`);
+                            }
+                            return { success: false };
+                        }
+                    } catch (err) {
+                        if (failedCount < 5) { // Log first 5 errors for debugging
+                            console.error(`❌ Error loading ${file}:`, err.message);
+                        }
+                        return { success: false };
                     }
-                } catch (err) {
-                    failedCount++;
-                    // Skip silently
+                });
+                
+                const batchResults = await Promise.all(batchPromises);
+                batchResults.forEach(result => {
+                    if (result.success) {
+                        loadedPlants.push(result.plant);
+                    } else {
+                        failedCount++;
+                    }
+                });
+                
+                // Small delay between batches to avoid rate limiting
+                if (i + BATCH_SIZE < files.length) {
+                    await new Promise(resolve => setTimeout(resolve, BATCH_DELAY));
                 }
+            }
+            
+            if (failedCount > 0) {
+                console.warn(`⚠️ Failed to load ${failedCount} plant files (showing first 5 errors above)`);
             }
             if (loadedPlants.length > 0) {
                 const sortedPlants = loadedPlants.sort((a, b) => a.id - b.id);
