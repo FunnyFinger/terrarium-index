@@ -28,7 +28,7 @@ const {
     init: initImageUtils
 } = imageUtils;
 
-const PLANT_RENDER_BATCH_SIZE = 40;
+const PLANT_RENDER_BATCH_SIZE = 60; // Increased for faster initial render
 let currentRenderToken = 0;
 
 // Convert scientific name to slug (matching folder naming convention)
@@ -1711,9 +1711,15 @@ function applyAllFilters() {
     }
     
     // Apply advanced filters
+    // OPTIMIZED: Cache mapPlantToInputs results to avoid repeated calculations
+    const inputsCache = new Map();
     filteredPlants = filteredPlants.filter(plant => {
-        // Get plant inputs with numeric ranges
-        const inputs = mapPlantToInputs(plant);
+        // Get plant inputs with numeric ranges (cached)
+        let inputs = inputsCache.get(plant.id);
+        if (!inputs) {
+            inputs = mapPlantToInputs(plant);
+            inputsCache.set(plant.id, inputs);
+        }
         
         // Humidity filter (numeric range)
         if (advancedFilters.humidity.min !== null || advancedFilters.humidity.max !== null) {
@@ -2223,11 +2229,31 @@ function renderPlants(plants) {
         plantsGrid.appendChild(fragment);
 
         if (renderIndex < plants.length) {
-            requestAnimationFrame(renderBatch);
+            // Use setTimeout with 0 delay for faster rendering (allows browser to paint)
+            setTimeout(renderBatch, 0);
+        } else {
+            // Hide loading indicator when done
+            const loading = document.getElementById('loading');
+            if (loading) {
+                loading.classList.add('hidden');
+            }
         }
     };
 
+    // Start rendering immediately (synchronous first batch for instant feedback)
     renderBatch();
+    
+    // Show loading indicator only if rendering will take time
+    if (plants.length > PLANT_RENDER_BATCH_SIZE) {
+        const loading = document.getElementById('loading');
+        if (loading) {
+            loading.classList.remove('hidden');
+            // Hide after first batch renders
+            setTimeout(() => {
+                if (loading) loading.classList.add('hidden');
+            }, 100);
+        }
+    }
 }
 
 // Create plant card element
@@ -2270,7 +2296,12 @@ function createPlantCard(plant) {
                       specialNeeds === 'aquatic';
     
     // Calculate vivarium types using mathematical logic instead of stored AI-based types
-    const calculatedVivariumTypes = calculatePlantVivariumTypes(plant);
+    // OPTIMIZED: Cache vivarium types calculation (called multiple times per plant)
+    let calculatedVivariumTypes = plant._cachedVivariumTypes;
+    if (!calculatedVivariumTypes) {
+        calculatedVivariumTypes = calculatePlantVivariumTypes(plant);
+        plant._cachedVivariumTypes = calculatedVivariumTypes; // Cache for reuse
+    }
     const badges = calculatedVivariumTypes
         .map(v => {
             const displayName = String(v).split('-').map(word => 
