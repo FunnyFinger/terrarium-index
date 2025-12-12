@@ -3225,7 +3225,44 @@ async function getColTaxonId(name, rank) {
     }
 }
 
-// Load Catalogue of Life links for taxonomy hierarchy
+// Get GBIF species key from name using GBIF API
+async function getGbifSpeciesKey(name) {
+    if (!name) return null;
+    
+    // Use a cache to avoid repeated API calls
+    const cacheKey = `gbif-key-${name}`;
+    if (window.gbifSpeciesKeyCache && window.gbifSpeciesKeyCache.has(cacheKey)) {
+        return window.gbifSpeciesKeyCache.get(cacheKey);
+    }
+    
+    // Initialize cache if it doesn't exist
+    if (!window.gbifSpeciesKeyCache) {
+        window.gbifSpeciesKeyCache = new Map();
+    }
+    
+    try {
+        // Use GBIF species match API
+        const matchUrl = `https://api.gbif.org/v1/species/match?name=${encodeURIComponent(name)}&rank=SPECIES&kingdom=Plantae`;
+        const response = await fetch(matchUrl);
+        
+        if (response.ok) {
+            const data = await response.json();
+            // Check if we got a good match
+            if (data.matchType && data.matchType !== 'NONE' && data.usageKey) {
+                const speciesKey = data.usageKey;
+                window.gbifSpeciesKeyCache.set(cacheKey, speciesKey);
+                return speciesKey;
+            }
+        }
+        
+        return null;
+    } catch (error) {
+        console.warn(`Failed to get GBIF species key for ${name}:`, error);
+        return null;
+    }
+}
+
+// Load Catalogue of Life links for taxonomy hierarchy (with GBIF fallback for species)
 async function loadColTaxonomyLinks(plantId) {
     const taxonomyHierarchy = document.getElementById(`taxonomy-hierarchy-${plantId}`);
     if (!taxonomyHierarchy) return;
@@ -3239,7 +3276,7 @@ async function loadColTaxonomyLinks(plantId) {
         
         if (!name || !rank) continue;
         
-        // Fetch taxon ID
+        // Fetch taxon ID from COL
         const taxonId = await getColTaxonId(name, rank);
         
         if (taxonId) {
@@ -3248,8 +3285,23 @@ async function loadColTaxonomyLinks(plantId) {
             link.target = '_blank';
             link.rel = 'noopener noreferrer';
             link.title = `View ${name} on Catalogue of Life`;
+        } else if (rank === 'species') {
+            // For species rank, try GBIF as fallback
+            const gbifKey = await getGbifSpeciesKey(name);
+            if (gbifKey) {
+                link.href = `https://www.gbif.org/species/${gbifKey}`;
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+                link.title = `View ${name} on GBIF`;
+            } else {
+                // Fallback to COL search URL
+                link.href = `https://www.catalogueoflife.org/search?q=${encodeURIComponent(name)}`;
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+                link.title = `Search for ${name} on Catalogue of Life`;
+            }
         } else {
-            // Fallback to search URL
+            // Fallback to COL search URL for non-species ranks
             link.href = `https://www.catalogueoflife.org/search?q=${encodeURIComponent(name)}`;
             link.target = '_blank';
             link.rel = 'noopener noreferrer';

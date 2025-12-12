@@ -2050,7 +2050,38 @@ async function getColTaxonId(name, rank) {
     }
 }
 
-// Open Catalogue of Life page for a taxon
+// Get GBIF species key from name using GBIF API
+async function getGbifSpeciesKey(name) {
+    if (!name) return null;
+    
+    const cacheKey = `gbif-key-${name}`;
+    if (taxonomicCountCache.has(cacheKey)) {
+        return taxonomicCountCache.get(cacheKey);
+    }
+    
+    try {
+        // Use GBIF species match API
+        const matchUrl = `https://api.gbif.org/v1/species/match?name=${encodeURIComponent(name)}&rank=SPECIES&kingdom=Plantae`;
+        const response = await fetch(matchUrl);
+        
+        if (response.ok) {
+            const data = await response.json();
+            // Check if we got a good match
+            if (data.matchType && data.matchType !== 'NONE' && data.usageKey) {
+                const speciesKey = data.usageKey;
+                taxonomicCountCache.set(cacheKey, speciesKey);
+                return speciesKey;
+            }
+        }
+        
+        return null;
+    } catch (error) {
+        console.warn(`Failed to get GBIF species key for ${name}:`, error);
+        return null;
+    }
+}
+
+// Open Catalogue of Life page for a taxon (with GBIF fallback for species)
 async function openCatalogueOfLife(nodeData) {
     if (!nodeData || !nodeData.data) return;
     
@@ -2062,14 +2093,24 @@ async function openCatalogueOfLife(nodeData) {
         return;
     }
     
-    // Try to get the taxon ID from the API
+    // Try to get the taxon ID from COL API
     const taxonId = await getColTaxonId(name, rank);
     
     if (taxonId) {
         // Open direct taxon page
         window.open(`https://www.catalogueoflife.org/data/taxon/${taxonId}`, '_blank');
+    } else if (rank === 'species') {
+        // For species rank, try GBIF as fallback
+        const gbifKey = await getGbifSpeciesKey(name);
+        if (gbifKey) {
+            window.open(`https://www.gbif.org/species/${gbifKey}`, '_blank');
+        } else {
+            // Fallback: open COL search page with the name
+            const searchUrl = `https://www.catalogueoflife.org/search?q=${encodeURIComponent(name)}`;
+            window.open(searchUrl, '_blank');
+        }
     } else {
-        // Fallback: open search page with the name
+        // Fallback: open COL search page with the name for non-species ranks
         const searchUrl = `https://www.catalogueoflife.org/search?q=${encodeURIComponent(name)}`;
         window.open(searchUrl, '_blank');
     }
