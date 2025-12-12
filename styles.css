@@ -1307,6 +1307,21 @@ main {
     color: #0c5460 !important;
 }
 
+.badge.carnivorous {
+    background: linear-gradient(135deg, #efd700, #ff8001, #ff3700) !important;
+    color: #fff !important;
+}
+
+.badge.aquatic {
+    background: linear-gradient(135deg, #87CEEB, #5F9EA0, #16439d) !important;
+    color: #fff !important;
+}
+
+.badge.variety {
+    background: linear-gradient(135deg, #ffd700, #ffb347, #ff8c00) !important;
+    color: #fff !important;
+}
+
 .plant-quick-info {
     font-size: 0.85rem;
     color: var(--text-light);
@@ -2701,6 +2716,39 @@ main {
 
 .plant-image-container:has(.carnivorous-badge) .aquatic-badge {
     top: 40px;
+    left: 6px;
+    right: auto;
+}
+
+.variety-badge {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    z-index: 3;
+    background: linear-gradient(135deg, #ffd700, #ffb347, #ff8c00);
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+}
+
+/* Reposition variety badge when other badges are present */
+.plant-image-container:has(.hybrid-badge) .variety-badge,
+.plant-image-container:has(.carnivorous-badge) .variety-badge,
+.plant-image-container:has(.aquatic-badge) .variety-badge {
+    top: 40px;
+    left: auto;
+    right: 6px;
+}
+
+.plant-image-container:has(.hybrid-badge):has(.carnivorous-badge) .variety-badge,
+.plant-image-container:has(.hybrid-badge):has(.aquatic-badge) .variety-badge,
+.plant-image-container:has(.carnivorous-badge):has(.aquatic-badge) .variety-badge {
+    top: 74px;
     left: 6px;
     right: auto;
 }

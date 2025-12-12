@@ -2376,6 +2376,11 @@ function createPlantCard(plant) {
                       substrate.includes('aquatic') ||
                       specialNeeds === 'aquatic';
     
+    // Detect variety/cultivar - check scientific name for var., cv., 'variety name', etc.
+    const scientificLower = scientific.toLowerCase();
+    const isVariety = /\b(var\.|variety|cv\.|cultivar|'|")\b/i.test(scientific) ||
+                      /\b(var\s+[a-z]+|cv\s+[a-z]+)\b/i.test(scientific);
+    
     // Calculate vivarium types using mathematical logic instead of stored AI-based types
     // OPTIMIZED: Cache vivarium types calculation (called multiple times per plant)
     let calculatedVivariumTypes = plant._cachedVivariumTypes;
@@ -2383,15 +2388,30 @@ function createPlantCard(plant) {
         calculatedVivariumTypes = calculatePlantVivariumTypes(plant);
         plant._cachedVivariumTypes = calculatedVivariumTypes; // Cache for reuse
     }
-    const badges = calculatedVivariumTypes
-        .map(v => {
-            const displayName = String(v).split('-').map(word => 
-                word.charAt(0).toUpperCase() + word.slice(1)
-            ).join(' ');
-            const cls = String(v).toLowerCase().replace(/\s+/g,'-');
-            return `<span class=\"badge ${cls}\">${displayName}</span>`;
-        })
-        .join('');
+    // Build badges array - include vivarium types plus special badges
+    const badgeArray = [];
+    
+    // Add vivarium type badges
+    calculatedVivariumTypes.forEach(v => {
+        const displayName = String(v).split('-').map(word => 
+            word.charAt(0).toUpperCase() + word.slice(1)
+        ).join(' ');
+        const cls = String(v).toLowerCase().replace(/\s+/g,'-');
+        badgeArray.push(`<span class="badge ${cls}">${displayName}</span>`);
+    });
+    
+    // Add special badges (carnivorous, aquatic, variety) to the badges div
+    if (isCarnivorous) {
+        badgeArray.push(`<span class="badge carnivorous">Carnivorous</span>`);
+    }
+    if (isAquatic) {
+        badgeArray.push(`<span class="badge aquatic">Aquatic</span>`);
+    }
+    if (isVariety) {
+        badgeArray.push(`<span class="badge variety">Variety</span>`);
+    }
+    
+    const badges = badgeArray.join('');
     
     // Ensure imageUrl exists - use first image from images array if available
     // Priority: imageUrl > images[0] > placeholder
@@ -2427,11 +2447,17 @@ function createPlantCard(plant) {
         card.classList.add('aquatic-plant');
     }
     
+    // Add variety class if it's a variety/cultivar
+    if (isVariety) {
+        card.classList.add('variety-plant');
+    }
+    
     card.innerHTML = `
         <div class="plant-image-container" data-plant-id="${plant.id}">
             ${isHybrid ? `<div class="hybrid-badge" title="Hybrid">Hybrid</div>` : ''}
             ${isCarnivorous ? `<div class="carnivorous-badge" title="Carnivorous">Carnivorous</div>` : ''}
             ${isAquatic ? `<div class="aquatic-badge" title="Aquatic">Aquatic</div>` : ''}
+            ${isVariety ? `<div class="variety-badge" title="Variety/Cultivar">Variety</div>` : ''}
             ${displayImageUrl ? 
                 `<img src="${displayImageUrl}" alt="${plant.name}" class="plant-image" loading="lazy" onerror="this.onerror=null; handleImageError(this, ${plant.id})" data-plant-id="${plant.id}">` :
                 `<div class="image-placeholder">🌿</div>`
