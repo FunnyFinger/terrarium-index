@@ -675,26 +675,78 @@ function sortPlants(plants) {
                 bVal = (b.scientificName || '').toLowerCase();
                 break;
             case 'rarity':
-                const rarityOrder = { 'Common': 1, 'Uncommon': 2, 'Rare': 3, 'Very Rare': 4 };
-                aVal = rarityOrder[a.rarity] || 0;
-                bVal = rarityOrder[b.rarity] || 0;
+                // Handle both lowercase and capitalized rarity values
+                const rarityOrder = { 
+                    'common': 1, 'Common': 1,
+                    'uncommon': 2, 'Uncommon': 2,
+                    'rare': 3, 'Rare': 3,
+                    'very rare': 4, 'Very Rare': 4, 'veryrare': 4
+                };
+                const aRarity = (a.rarity || '').toLowerCase();
+                const bRarity = (b.rarity || '').toLowerCase();
+                aVal = rarityOrder[aRarity] || 0;
+                bVal = rarityOrder[bRarity] || 0;
                 break;
             case 'difficulty':
-                const difficultyOrder = { 'Easy': 1, 'Moderate': 2, 'Hard': 3 };
-                aVal = difficultyOrder[a.difficulty] || 0;
-                bVal = difficultyOrder[b.difficulty] || 0;
+                // Use difficultyRange if available, otherwise try difficulty string
+                const difficultyOrder = { 'Easy': 1, 'easy': 1, 'Moderate': 2, 'moderate': 2, 'Hard': 3, 'hard': 3 };
+                const aDiffRange = a.difficultyRange || a.difficulty;
+                const bDiffRange = b.difficultyRange || b.difficulty;
+                if (aDiffRange && typeof aDiffRange === 'object' && aDiffRange.ideal !== undefined) {
+                    aVal = aDiffRange.ideal || (aDiffRange.min + aDiffRange.max) / 2;
+                } else {
+                    aVal = difficultyOrder[aDiffRange] || 0;
+                }
+                if (bDiffRange && typeof bDiffRange === 'object' && bDiffRange.ideal !== undefined) {
+                    bVal = bDiffRange.ideal || (bDiffRange.min + bDiffRange.max) / 2;
+                } else {
+                    bVal = difficultyOrder[bDiffRange] || 0;
+                }
                 break;
             case 'temperature':
-                aVal = extractTemperature(a.temperature);
-                bVal = extractTemperature(b.temperature);
+                // Use temperatureRange if available, otherwise try temperature string
+                const aTempRange = a.temperatureRange || a.temperature;
+                const bTempRange = b.temperatureRange || b.temperature;
+                if (aTempRange && typeof aTempRange === 'object' && aTempRange.ideal !== undefined) {
+                    aVal = aTempRange.ideal || (aTempRange.min + aTempRange.max) / 2;
+                } else {
+                    aVal = extractTemperature(aTempRange);
+                }
+                if (bTempRange && typeof bTempRange === 'object' && bTempRange.ideal !== undefined) {
+                    bVal = bTempRange.ideal || (bTempRange.min + bTempRange.max) / 2;
+                } else {
+                    bVal = extractTemperature(bTempRange);
+                }
                 break;
             case 'humidity':
-                aVal = extractHumidity(a.humidity);
-                bVal = extractHumidity(b.humidity);
+                // Use humidityRange if available, otherwise try humidity string
+                const aHumRange = a.humidityRange || a.humidity;
+                const bHumRange = b.humidityRange || b.humidity;
+                if (aHumRange && typeof aHumRange === 'object' && aHumRange.ideal !== undefined) {
+                    aVal = aHumRange.ideal || (aHumRange.min + aHumRange.max) / 2;
+                } else {
+                    aVal = extractHumidity(aHumRange);
+                }
+                if (bHumRange && typeof bHumRange === 'object' && bHumRange.ideal !== undefined) {
+                    bVal = bHumRange.ideal || (bHumRange.min + bHumRange.max) / 2;
+                } else {
+                    bVal = extractHumidity(bHumRange);
+                }
                 break;
             case 'light':
-                aVal = extractLight(a.lightRequirements);
-                bVal = extractLight(b.lightRequirements);
+                // Use lightRange if available, otherwise try lightRequirements string
+                const aLightRange = a.lightRange || a.lightRequirements;
+                const bLightRange = b.lightRange || b.lightRequirements;
+                if (aLightRange && typeof aLightRange === 'object' && aLightRange.ideal !== undefined) {
+                    aVal = aLightRange.ideal || (aLightRange.min + aLightRange.max) / 2;
+                } else {
+                    aVal = extractLight(aLightRange);
+                }
+                if (bLightRange && typeof bLightRange === 'object' && bLightRange.ideal !== undefined) {
+                    bVal = bLightRange.ideal || (bLightRange.min + bLightRange.max) / 2;
+                } else {
+                    bVal = extractLight(bLightRange);
+                }
                 break;
             case 'growthRate':
                 const aInputs = mapPlantToInputs(a);
