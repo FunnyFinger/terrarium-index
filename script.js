@@ -34,7 +34,12 @@ let currentRenderToken = 0;
 // Convert scientific name to slug (matching folder naming convention)
 function scientificNameToSlug(scientificName) {
     if (!scientificName) return null;
-    return scientificName
+    // Handle both string and object formats
+    const nameStr = typeof scientificName === 'string' 
+        ? scientificName 
+        : (scientificName.scientificName || scientificName.name || String(scientificName));
+    if (!nameStr) return null;
+    return nameStr
         .toLowerCase()
         .trim()
         .replace(/\s+/g, '-')
@@ -738,7 +743,7 @@ function handleSearch() {
     } else {
         filteredPlants = allPlants.filter(plant => {
             const nameMatch = plant.name?.toLowerCase().includes(searchTerm) || false;
-            const scientificMatch = plant.scientificName?.toLowerCase().includes(searchTerm) || false;
+            const scientificMatch = getScientificNameString(plant).toLowerCase().includes(searchTerm);
             const descriptionMatch = plant.description?.toLowerCase().includes(searchTerm) || false;
             const typeMatch = plant.type?.some(t => t.toLowerCase().includes(searchTerm)) || false;
             const commonNamesMatch = plant.commonNames?.some(name => 
@@ -778,6 +783,18 @@ function updateSortDirectionButton() {
     }
 }
 
+// Helper function to extract scientific name as string (handles both string and object formats)
+function getScientificNameString(plant) {
+    if (!plant || !plant.scientificName) return '';
+    if (typeof plant.scientificName === 'string') {
+        return plant.scientificName;
+    }
+    if (typeof plant.scientificName === 'object') {
+        return plant.scientificName.scientificName || plant.scientificName.name || '';
+    }
+    return String(plant.scientificName);
+}
+
 function sortPlants(plants) {
     if (!plants || plants.length === 0) return plants;
     
@@ -792,8 +809,8 @@ function sortPlants(plants) {
                 bVal = (b.name || '').toLowerCase();
                 break;
             case 'scientific':
-                aVal = (a.scientificName || '').toLowerCase();
-                bVal = (b.scientificName || '').toLowerCase();
+                aVal = getScientificNameString(a).toLowerCase();
+                bVal = getScientificNameString(b).toLowerCase();
                 break;
             case 'rarity':
                 // Handle both lowercase and capitalized rarity values
@@ -1737,7 +1754,7 @@ function applyAllFilters() {
         if (searchTerm) {
             filteredPlants = filteredPlants.filter(plant => {
                 const nameMatch = plant.name?.toLowerCase().includes(searchTerm) || false;
-                const scientificMatch = plant.scientificName?.toLowerCase().includes(searchTerm) || false;
+                const scientificMatch = getScientificNameString(plant).toLowerCase().includes(searchTerm);
                 const descriptionMatch = plant.description?.toLowerCase().includes(searchTerm) || false;
                 const typeMatch = plant.type?.some(t => t.toLowerCase().includes(searchTerm)) || false;
                 const commonNamesMatch = plant.commonNames?.some(name => 
@@ -2200,13 +2217,13 @@ function applyAllFilters() {
                     return !isEpiphytic && hasFloatingCharacteristics && isWaterRelated;
                 } else if (filterSpecial === 'Hybrid') {
                     // Hybrid plants: scientific names containing " x " or " × " with spaces
-                    const scientific = plant.scientificName || '';
+                    const scientific = getScientificNameString(plant);
                     return /\s+(x|×)\s+/i.test(scientific);
                 } else if (filterSpecial === 'Carnivorous') {
                     // Carnivorous plants
             const category = (plant.category || []).map(c => c.toLowerCase());
             const name = (plant.name || '').toLowerCase();
-            const scientificName = (plant.scientificName || '').toLowerCase();
+            const scientificName = getScientificNameString(plant).toLowerCase();
             const description = (plant.description || '').toLowerCase();
             const genus = plant.taxonomy && plant.taxonomy.genus ? plant.taxonomy.genus.toLowerCase() : '';
             
@@ -2314,7 +2331,7 @@ function createPlantCard(plant) {
     
     // Detect hybrids: scientific names containing " x " or " × " with spaces before and after
     // This ensures names like "rex" (which contains "x") are not incorrectly tagged
-    const scientific = plant.scientificName || '';
+    const scientific = getScientificNameString(plant);
     // Only match " x " or " × " with spaces on both sides
     const isHybrid = /\s+(x|×)\s+/i.test(scientific);
     
@@ -2420,7 +2437,7 @@ function createPlantCard(plant) {
         </div>
         <div class="plant-info">
             <div class="plant-name">${plant.name}</div>
-            <div class="plant-scientific">${plant.scientificName}</div>
+            <div class="plant-scientific">${getScientificNameString(plant)}</div>
             <div class="plant-badges">${badges}</div>
         </div>
     `;
@@ -2547,7 +2564,7 @@ async function showPlantModal(plant) {
     
     if (savedImages && Array.isArray(savedImages) && savedImages.length > 0) {
         // Validate that saved images match the expected folder structure
-        const folderName = scientificNameToSlug(plant.scientificName);
+        const folderName = scientificNameToSlug(getScientificNameString(plant));
         const allPathsValid = savedImages.every(img => {
             if (!img || typeof img !== 'string') return false;
             // Check if path matches expected format: images/folderName/folderName-number.jpg
@@ -2623,7 +2640,7 @@ async function showPlantModal(plant) {
     
     // Debug: Log plant images
     console.log(`[Modal] Plant: ${plant.name} (ID: ${plant.id})`);
-    console.log(`[Modal] Scientific name: ${plant.scientificName}`);
+    console.log(`[Modal] Scientific name: ${getScientificNameString(plant)}`);
     console.log(`[Modal] Discovered ${discovered.images.length} images from folder`);
     console.log(`[Modal] imageUrl: ${displayImageUrl}`);
     console.log(`[Modal] images array:`, plant.images);
@@ -2783,7 +2800,7 @@ async function showPlantModal(plant) {
             <!-- Column 1, Row 1: Name -->
             <div class="modal-section modal-widget widget-span-1 widget-row-1">
                 <h2 class="modal-plant-name" style="margin: 0; font-size: 1.6rem; color: var(--primary-color); line-height: 1.2;">${plant.name}</h2>
-                <h3 class="modal-plant-scientific" style="margin: 0.3rem 0 0 0; font-size: 1rem; color: var(--text-light); font-style: italic; font-weight: normal; line-height: 1.2;">${plant.scientificName}</h3>
+                <h3 class="modal-plant-scientific" style="margin: 0.3rem 0 0 0; font-size: 1rem; color: var(--text-light); font-style: italic; font-weight: normal; line-height: 1.2;">${getScientificNameString(plant)}</h3>
                 ${(() => {
                     if (!plant.commonNames || !Array.isArray(plant.commonNames) || plant.commonNames.length === 0) {
                         return '';
@@ -2815,7 +2832,7 @@ async function showPlantModal(plant) {
                     // Remove the main plant name if it's in common names (avoid duplication)
                     const filteredNames = processedNames.filter(n => 
                         n.toLowerCase() !== plant.name.toLowerCase() && 
-                        n.toLowerCase() !== plant.scientificName.toLowerCase()
+                        n.toLowerCase() !== getScientificNameString(plant).toLowerCase()
                     );
                     
                     return filteredNames.length > 0 
@@ -3445,7 +3462,7 @@ async function fetchPlantImage(plant) {
     
     // Method 2: Try Unsplash Source API (no key needed, but may have CORS/availability issues)
     const searchTerms = [
-        plant.scientificName,
+        getScientificNameString(plant),
         `${plant.name} plant`,
         plantImageSources.defaultImageSearchTerms[plant.id] || plant.name
     ];
@@ -3471,7 +3488,7 @@ async function fetchPlantImage(plant) {
     
     // Method 3: Try Wikimedia Commons (some images are freely accessible)
     try {
-        const wikiSearch = encodeURIComponent(`${plant.scientificName} plant`);
+        const wikiSearch = encodeURIComponent(`${getScientificNameString(plant)} plant`);
         // Note: This requires API call to Wikimedia, which needs backend due to CORS
         // For client-side, we'd need a proxy or use their OEmbed service
     } catch (e) {}
@@ -3741,8 +3758,9 @@ async function downloadGalleryImage(plantId, imageIndex) {
         const blob = await response.blob();
         
         // Generate filename from plant name and index
-        const plantSlug = plant.scientificName 
-            ? plant.scientificName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+        const scientificNameStr = getScientificNameString(plant);
+        const plantSlug = scientificNameStr 
+            ? scientificNameStr.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
             : plant.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
         
         // Get file extension from URL or default to jpg
@@ -3938,7 +3956,7 @@ async function deleteImageFromGallery(plantId, imageIndex, imgPath) {
 
 // Save plant data to JSON file (persists changes across page refreshes)
 async function savePlantToJsonFile(plant) {
-    if (!plant || !plant.scientificName) {
+    if (!plant || !getScientificNameString(plant)) {
         console.warn('⚠️ Cannot save plant: missing scientific name');
         return;
     }
@@ -3949,7 +3967,7 @@ async function savePlantToJsonFile(plant) {
         
         // If we have folder access, save the JSON file
         if (plantsFolderHandle) {
-            const folderName = scientificNameToSlug(plant.scientificName);
+            const folderName = scientificNameToSlug(getScientificNameString(plant));
             if (!folderName) {
                 console.warn('⚠️ Cannot generate filename from scientific name');
                 return;
@@ -4258,7 +4276,7 @@ async function generateThumbnailFromBlob(imageBlob, plantFolderHandle, plantFold
 
 // Generate 60x60 thumbnail for a plant's main image (browser-side)
 async function generateThumbnailForPlant(plant, imagePath) {
-    if (!plant || !imagePath || !plant.scientificName) {
+    if (!plant || !imagePath || !getScientificNameString(plant)) {
         return;
     }
     
@@ -4266,7 +4284,12 @@ async function generateThumbnailForPlant(plant, imagePath) {
         // Convert scientific name to slug
         function scientificNameToSlug(scientificName) {
             if (!scientificName) return null;
-            return scientificName
+            // Handle both string and object formats
+            const nameStr = typeof scientificName === 'string' 
+                ? scientificName 
+                : (scientificName.scientificName || scientificName.name || String(scientificName));
+            if (!nameStr) return null;
+            return nameStr
                 .toLowerCase()
                 .trim()
                 .replace(/\s+/g, '-')
@@ -4275,7 +4298,7 @@ async function generateThumbnailForPlant(plant, imagePath) {
                 .replace(/^-|-$/g, '');
         }
         
-        const folderName = scientificNameToSlug(plant.scientificName);
+        const folderName = scientificNameToSlug(getScientificNameString(plant));
         if (!folderName) return;
         
         // Load the image
@@ -5321,7 +5344,7 @@ function generateCareCard(plantId) {
         <div class="care-top-section">
             <div class="care-left-section">
                 <div class="care-name">${plant.name}${plant.commonNames && plant.commonNames.length > 0 && plant.commonNames[0].toLowerCase() !== plant.name.toLowerCase() ? ` (${plant.commonNames[0]})` : ''}</div>
-                <div class="care-scientific">${plant.scientificName}</div>
+                <div class="care-scientific">${getScientificNameString(plant)}</div>
                 ${plantDetailsHTML ? `<div class="care-details"><div class="care-details-grid">${plantDetailsHTML}</div></div>` : ''}
             </div>
             ${plantImageUrl ? `<div class="care-image-container"><img src="${plantImageUrl}" alt="${plant.name}" class="care-image" onerror="this.style.display='none';"></div>` : ''}
