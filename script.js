@@ -215,75 +215,89 @@ async function initializeUI() {
         console.log(`🌳 Taxonomy filter applied: ${taxonomyRank} = ${taxonomyName}`);
     }
     
-    // First: Load and validate images from localStorage if available
-    await loadImagesFromLocalStorage(allPlants);
-    
-    // Second: Discover images for all plants from their folders (universal approach)
-    // This ensures consistency - images are always loaded from correct folder based on scientific name
-    // Note: This runs in background to avoid blocking UI rendering
-    // OPTIMIZED: Only discover images for plants without saved images (loadImagesFromLocalStorage already validated cached images)
-    console.log('🔍 Discovering images for plants without saved images (background)...');
-    const imageDiscoveryPromises = allPlants.map(async (plant) => {
-        // Initialize images array if missing
-        if (!plant.images) {
-            plant.images = [];
-        }
-        
-        // If loadImagesFromLocalStorage already loaded valid images, skip discovery
-        if (plant.images && plant.images.length > 0) {
-            return; // Already have valid images from localStorage validation
-        }
-        
-        // Only discover images for plants without saved images
-        const discovered = await getPlantImages(plant);
-        
-        if (discovered.images.length > 0) {
-            // Use discovered order
-            plant.images = discovered.images;
-            plant.imageUrl = discovered.imageUrl;
-            
-            // Find highest image number to store as maxImage limit
-            let highestNumber = 0;
-            for (const imgPath of discovered.images) {
-                const match = imgPath.match(/-(\d+)\./);
-                if (match) {
-                    const num = parseInt(match[1], 10);
-                    if (num > highestNumber) {
-                        highestNumber = num;
-                    }
-                }
-            }
-            
-            // Save to localStorage for future use
-            try {
-                localStorage.setItem(`plant_${plant.id}_images`, JSON.stringify(plant.images));
-                if (plant.imageUrl) {
-                    localStorage.setItem(`plant_${plant.id}_imageUrl`, plant.imageUrl);
-                }
-                // Store maxImage to prevent checking beyond it next time
-                if (highestNumber > 0) {
-                    localStorage.setItem(`plant_${plant.id}_maxImage`, highestNumber.toString());
-                }
-            } catch (e) {
-                // Silent - localStorage update failed
-            }
-        }
-    });
-    
-    // Wait for all image discoveries to complete (but don't block - do in background)
-    Promise.all(imageDiscoveryPromises).then(() => {
-        console.log('✅ Image discovery complete for all plants');
-        // Re-render plants with discovered images (maintain sort order)
-        filteredPlants = sortPlants(filteredPlants);
-        renderPlants(filteredPlants);
+    // First: Load and validate images from localStorage if available (fast, synchronous)
+    // OPTIMIZED: Don't await - let it run in background, render UI immediately
+    loadImagesFromLocalStorage(allPlants).then(() => {
+        console.log('📦 Image validation from localStorage complete');
     }).catch(err => {
-        console.warn('⚠️ Some image discoveries failed:', err);
+        console.warn('⚠️ Image validation error:', err);
     });
     
     console.log(`📊 Plants ready: ${allPlants.length} plants`);
     
-    // Third: Apply filters (including taxonomy filter from URL) and render
+    // Second: Apply filters and render IMMEDIATELY (don't wait for images)
     applyAllFilters();
+    
+    // Third: Discover images for plants without saved images (deferred, low priority)
+    // This runs AFTER initial render so users see content immediately
+    setTimeout(async () => {
+        console.log('🔍 Discovering images for plants without saved images (deferred background)...');
+        const plantsNeedingImages = allPlants.filter(plant => {
+            if (!plant.images) {
+                plant.images = [];
+            }
+            return !plant.images || plant.images.length === 0;
+        });
+        
+        // Process in smaller batches to avoid blocking
+        const BATCH_SIZE = 10;
+        for (let i = 0; i < plantsNeedingImages.length; i += BATCH_SIZE) {
+            const batch = plantsNeedingImages.slice(i, i + BATCH_SIZE);
+            const batchPromises = batch.map(async (plant) => {
+                try {
+                    const discovered = await getPlantImages(plant);
+                    
+                    if (discovered.images.length > 0) {
+                        // Use discovered order
+                        plant.images = discovered.images;
+                        plant.imageUrl = discovered.imageUrl;
+                        
+                        // Find highest image number to store as maxImage limit
+                        let highestNumber = 0;
+                        for (const imgPath of discovered.images) {
+                            const match = imgPath.match(/-(\d+)\./);
+                            if (match) {
+                                const num = parseInt(match[1], 10);
+                                if (num > highestNumber) {
+                                    highestNumber = num;
+                                }
+                            }
+                        }
+                        
+                        // Save to localStorage for future use
+                        try {
+                            localStorage.setItem(`plant_${plant.id}_images`, JSON.stringify(plant.images));
+                            if (plant.imageUrl) {
+                                localStorage.setItem(`plant_${plant.id}_imageUrl`, plant.imageUrl);
+                            }
+                            // Store maxImage to prevent checking beyond it next time
+                            if (highestNumber > 0) {
+                                localStorage.setItem(`plant_${plant.id}_maxImage`, highestNumber.toString());
+                            }
+                        } catch (e) {
+                            // Silent - localStorage update failed
+                        }
+                        
+                        // Update only the specific plant card (more efficient than full re-render)
+                        if (plant.imageUrl) {
+                            updatePlantCardImage(plant.id, plant.imageUrl);
+                        }
+                    }
+                } catch (err) {
+                    // Silent - individual plant discovery failures
+                }
+            });
+            
+            await Promise.all(batchPromises);
+            
+            // Small delay between batches to avoid blocking
+            if (i + BATCH_SIZE < plantsNeedingImages.length) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+        }
+        
+        console.log('✅ Image discovery complete for all plants');
+    }, 500); // Wait 500ms after initial render
     
     // Note: Image scanning is now disabled on page load to prevent console flooding
     // Images will be checked only when:

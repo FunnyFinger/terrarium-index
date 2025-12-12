@@ -44,8 +44,9 @@ async function loadAllPlants() {
             let failedCount = 0;
             
             // Load files in batches to avoid overwhelming the server
-            const BATCH_SIZE = 20;
-            const BATCH_DELAY = 50; // ms delay between batches
+            // Increased batch size and reduced delay for faster loading
+            const BATCH_SIZE = 50; // Increased from 20 to 50
+            const BATCH_DELAY = 10; // Reduced from 50ms to 10ms
             
             for (let i = 0; i < files.length; i += BATCH_SIZE) {
                 const batch = files.slice(i, i + BATCH_SIZE);
