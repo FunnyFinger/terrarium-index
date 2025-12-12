@@ -55,7 +55,7 @@ async function checkImageExists(imagePath) {
                 resolved = true;
                 resolve(false);
             }
-        }, 1500);
+        }, 800); // Reduced from 1500ms to 800ms for faster failure detection
 
         const originalError = console.error;
         const originalWarn = console.warn;
@@ -128,7 +128,7 @@ async function discoverPlantImages(plant, knownImageCount = null) {
     }
 
     const discoveredImages = [];
-    const maxCheck = 10;
+    const maxCheck = 5; // Reduced from 10 - check fewer images initially
     let consecutiveFailures = 0;
     const maxConsecutiveFailures = 1;
 
@@ -270,8 +270,9 @@ async function discoverPlantImages(plant, knownImageCount = null) {
             }
         }
 
-        if (i > 1 && i % 2 === 0) {
-            await new Promise(r => setTimeout(r, 50));
+        // Reduced delay - only every 5 images instead of every 2
+        if (i > 1 && i % 5 === 0) {
+            await new Promise(r => setTimeout(r, 10));
         }
     }
 

@@ -294,12 +294,19 @@ async function initializeUI() {
         
         console.log(`🔍 Discovering images for ${plantsNeedingImages.length} plants without saved images (deferred background)...`);
         
-        // Process in smaller batches to avoid blocking
-        const BATCH_SIZE = 10;
+        // Process in larger batches with better parallelization
+        const BATCH_SIZE = 20; // Increased from 10
         for (let i = 0; i < plantsNeedingImages.length; i += BATCH_SIZE) {
             const batch = plantsNeedingImages.slice(i, i + BATCH_SIZE);
             const batchPromises = batch.map(async (plant) => {
                 try {
+                    // Skip if we already know this plant has no images (maxImage = 0 or null)
+                    const maxImageKey = `plant_${plant.id}_maxImage`;
+                    const savedMaxImage = localStorage.getItem(maxImageKey);
+                    if (savedMaxImage === '0' || savedMaxImage === null) {
+                        return; // Skip plants we know have no images
+                    }
+                    
                     const discovered = await getPlantImages(plant);
                     
                     if (discovered.images.length > 0) {
@@ -337,6 +344,13 @@ async function initializeUI() {
                         if (plant.imageUrl) {
                             updatePlantCardImage(plant.id, plant.imageUrl);
                         }
+                    } else {
+                        // Mark as having no images to skip future checks
+                        try {
+                            localStorage.setItem(maxImageKey, '0');
+                        } catch (e) {
+                            // Silent
+                        }
                     }
                 } catch (err) {
                     // Silent - individual plant discovery failures
@@ -345,9 +359,9 @@ async function initializeUI() {
             
             await Promise.all(batchPromises);
             
-            // Small delay between batches to avoid blocking
+            // Smaller delay between batches
             if (i + BATCH_SIZE < plantsNeedingImages.length) {
-                await new Promise(resolve => setTimeout(resolve, 100));
+                await new Promise(resolve => setTimeout(resolve, 50)); // Reduced from 100ms
             }
         }
         
