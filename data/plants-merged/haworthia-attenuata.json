@@ -121,5 +121,6 @@
     "min": 20,
     "max": 40,
     "ideal": 30
-  }
+  },
+  "carnivorous": false
 }

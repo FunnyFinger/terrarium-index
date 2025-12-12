@@ -83,16 +83,14 @@
     "ideal": 50
   },
   "soilPhRange": {
-    "min": 5.0,
+    "min": 5,
     "max": 7.5,
-    "ideal": 6.0
+    "ideal": 6
   },
   "growthRateRange": {
     "min": 10,
     "max": 30,
     "ideal": 20
-  }
+  },
+  "carnivorous": false
 }
-
-
-

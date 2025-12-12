@@ -82,5 +82,6 @@
     "ideal": 30
   },
   "_filename": "agave-filifera.json",
-  "_filePath": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants-merged\\agave-filifera.json"
+  "_filePath": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants-merged\\agave-filifera.json",
+  "carnivorous": false
 }

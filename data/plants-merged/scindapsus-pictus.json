@@ -85,5 +85,6 @@
     "min": 50,
     "max": 70,
     "ideal": 60
-  }
+  },
+  "carnivorous": false
 }
