@@ -217,16 +217,46 @@ async function initializeUI() {
     
     console.log(`📊 Plants ready: ${allPlants.length} plants`);
     
-    // First: Apply filters and render IMMEDIATELY (don't wait for anything)
-    // This ensures users see content as fast as possible
+    // First: Quickly load images from localStorage (fast synchronous check)
+    // This ensures images are available when cards render
+    // OPTIMIZED: Do a quick synchronous pass first, then validate async
+    let imagesLoadedCount = 0;
+    allPlants.forEach(plant => {
+        try {
+            const savedImages = localStorage.getItem(`plant_${plant.id}_images`);
+            const savedImageUrl = localStorage.getItem(`plant_${plant.id}_imageUrl`);
+            if (savedImages) {
+                const parsedImages = JSON.parse(savedImages);
+                if (Array.isArray(parsedImages) && parsedImages.length > 0) {
+                    plant.images = parsedImages;
+                    if (savedImageUrl && parsedImages.includes(savedImageUrl)) {
+                        plant.imageUrl = savedImageUrl;
+                    } else {
+                        plant.imageUrl = parsedImages[0];
+                    }
+                    imagesLoadedCount++;
+                } else {
+                    if (!plant.images) plant.images = [];
+                }
+            } else {
+                if (!plant.images) plant.images = [];
+            }
+        } catch (e) {
+            // Silent - just initialize empty arrays
+            if (!plant.images) plant.images = [];
+        }
+    });
+    console.log(`📦 Quick-loaded ${imagesLoadedCount} plant images from localStorage`);
+    
+    // Second: Apply filters and render IMMEDIATELY (images are now available)
     applyAllFilters();
     
-    // Second: Load and validate images from localStorage (deferred, non-blocking)
+    // Third: Validate images from localStorage in background (update if needed)
     // OPTIMIZED: Start after initial render to not block UI
     setTimeout(() => {
         loadImagesFromLocalStorage(allPlants).then(() => {
             console.log('📦 Image validation from localStorage complete');
-            // Update plant cards with validated images
+            // Update plant cards with validated images (only if changed)
             filteredPlants.forEach(plant => {
                 if (plant.imageUrl) {
                     updatePlantCardImage(plant.id, plant.imageUrl);
@@ -235,7 +265,7 @@ async function initializeUI() {
         }).catch(err => {
             console.warn('⚠️ Image validation error:', err);
         });
-    }, 100); // Small delay to let UI render first
+    }, 200); // Small delay to let UI render first
     
     // Third: Discover images for plants without saved images (deferred, low priority)
     // This runs AFTER initial render so users see content immediately
