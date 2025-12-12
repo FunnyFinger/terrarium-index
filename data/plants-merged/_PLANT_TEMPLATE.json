@@ -1,0 +1,99 @@
+{
+  "id": 0,
+  "name": "Plant Name",
+  "scientificName": "Genus species",
+  "commonNames": [],
+  "category": [],
+  "substrate": "",
+  "size": "",
+  "growthRate": "",
+  "description": "",
+  "careTips": [],
+  "taxonomy": {
+    "kingdom": "",
+    "phylum": "",
+    "class": "",
+    "order": "",
+    "family": "",
+    "genus": "",
+    "species": ""
+  },
+  "growthPattern": "",
+  "hazard": "",
+  "rarity": "",
+  "growthHabit": "",
+  "plantType": "",
+  "floweringPeriod": "",
+  "propagation": "",
+  "colors": "",
+  "humidityRange": {
+    "min": 0,
+    "max": 100,
+    "ideal": 50
+  },
+  "lightRange": {
+    "min": 0,
+    "max": 100,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 0,
+    "max": 100,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 0,
+    "max": 100,
+    "ideal": 50
+  },
+  "substrateType": "",
+  "specialNeeds": "",
+  "temperatureRange": {
+    "min": 0,
+    "max": 100,
+    "ideal": 50
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 100,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 0,
+    "max": 100,
+    "ideal": 50
+  },
+  "growthRateRange": {
+    "min": 0,
+    "max": 100,
+    "ideal": 50
+  },
+  "carnivorous": false,
+  "waterCirculationRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "waterTemperatureRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "waterPhRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "waterHardnessRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "salinityRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "geographicOrigin": null,
+  "additionalInfo": null
+}

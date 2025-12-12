@@ -107,5 +107,7 @@
     "max": 80,
     "ideal": 70
   },
-  "carnivorous": false
+  "carnivorous": false,
+  "geographicOrigin": null,
+  "additionalInfo": null
 }
