@@ -62,27 +62,37 @@ async function initializePlants() {
     // Priority 2: Wait for plantsLoaded event from modular loader
     await new Promise((resolve) => {
         let resolved = false;
+        let pollInterval = null; // Declare before handler
+        
+        // Polling mechanism to check for plants periodically
+        let pollCount = 0;
+        const maxPolls = 60; // Check for up to 30 seconds (60 * 500ms)
         
         const handler = (e) => {
             if (resolved) return;
             resolved = true;
             window.removeEventListener('plantsLoaded', handler);
+            if (pollInterval) clearInterval(pollInterval); // Stop polling if event fires
             
             console.log('🔔 plantsLoaded event received:', e.detail);
             
-            if (e.detail?.plants && Array.isArray(e.detail.plants) && e.detail.plants.length > 0) {
-                allPlants = [...e.detail.plants];
-                console.log(`✅ Loaded ${allPlants.length} plants from event`);
-            } else if (window.plantsDatabase && Array.isArray(window.plantsDatabase) && window.plantsDatabase.length > 0) {
+            // Always check window.plantsDatabase first (most reliable)
+            if (window.plantsDatabase && Array.isArray(window.plantsDatabase) && window.plantsDatabase.length > 0) {
                 allPlants = [...window.plantsDatabase];
-                console.log(`✅ Loaded ${allPlants.length} plants from window.plantsDatabase`);
+                console.log(`✅ Loaded ${allPlants.length} plants from window.plantsDatabase (event)`);
+            } else if (e.detail?.plants && Array.isArray(e.detail.plants) && e.detail.plants.length > 0) {
+                allPlants = [...e.detail.plants];
+                console.log(`✅ Loaded ${allPlants.length} plants from event detail`);
             } else if (typeof plantsDatabase !== 'undefined' && Array.isArray(plantsDatabase) && plantsDatabase.length > 0) {
                 allPlants = [...plantsDatabase];
-                console.log(`✅ Loaded ${allPlants.length} plants from data.js`);
+                console.log(`✅ Loaded ${allPlants.length} plants from data.js (event)`);
             } else {
-                console.warn('⚠️ No plants found in event - checking all sources...');
+                console.warn('⚠️ No plants found in event - will continue polling...');
                 console.log('window.plantsDatabase:', window.plantsDatabase);
                 console.log('global plantsDatabase:', typeof plantsDatabase !== 'undefined' ? plantsDatabase : 'undefined');
+                // Don't resolve yet - let polling continue
+                resolved = false;
+                return;
             }
             resolve();
         };
@@ -98,31 +108,58 @@ async function initializePlants() {
         console.log('⏳ Waiting for plantsLoaded event...');
         window.addEventListener('plantsLoaded', handler);
         
-        // Extended timeout fallback
-        setTimeout(() => {
-            if (resolved) return;
-            resolved = true;
-            window.removeEventListener('plantsLoaded', handler);
-            
-            console.log('⏰ Timeout reached, checking all sources...');
-            
-            // Final check
-            if (window.plantsDatabase && Array.isArray(window.plantsDatabase) && window.plantsDatabase.length > 0) {
-                allPlants = [...window.plantsDatabase];
-                console.log(`✅ Loaded ${allPlants.length} plants (timeout fallback)`);
-            } else if (typeof plantsDatabase !== 'undefined' && Array.isArray(plantsDatabase) && plantsDatabase.length > 0) {
-                allPlants = [...plantsDatabase];
-                console.log(`✅ Loaded ${allPlants.length} plants from data.js (timeout)`);
-            } else {
-                console.error('❌ No plants loaded after timeout!');
-                console.log('Debug info:');
-                console.log('  - window.plantsDatabase:', window.plantsDatabase);
-                console.log('  - typeof plantsDatabase:', typeof plantsDatabase);
-                console.log('  - window.location.protocol:', window.location.protocol);
+        // Start polling
+        pollInterval = setInterval(() => {
+            pollCount++;
+            if (resolved) {
+                clearInterval(pollInterval);
+                return;
             }
-            resolve();
-        }, 5000); // Increased timeout to 5 seconds
+            
+            // Check if plants are loaded
+            if (window.plantsDatabase && Array.isArray(window.plantsDatabase) && window.plantsDatabase.length > 0) {
+                resolved = true;
+                clearInterval(pollInterval);
+                window.removeEventListener('plantsLoaded', handler);
+                allPlants = [...window.plantsDatabase];
+                console.log(`✅ Loaded ${allPlants.length} plants (polling check)`);
+                resolve();
+            } else if (pollCount >= maxPolls) {
+                // Final timeout after polling
+                resolved = true;
+                clearInterval(pollInterval);
+                window.removeEventListener('plantsLoaded', handler);
+                
+                console.log('⏰ Final timeout reached after polling, checking all sources...');
+                
+                // Final check
+                if (window.plantsDatabase && Array.isArray(window.plantsDatabase) && window.plantsDatabase.length > 0) {
+                    allPlants = [...window.plantsDatabase];
+                    console.log(`✅ Loaded ${allPlants.length} plants (final timeout fallback)`);
+                } else if (typeof plantsDatabase !== 'undefined' && Array.isArray(plantsDatabase) && plantsDatabase.length > 0) {
+                    allPlants = [...plantsDatabase];
+                    console.log(`✅ Loaded ${allPlants.length} plants from data.js (final timeout)`);
+                } else {
+                    console.error('❌ No plants loaded after extended timeout!');
+                    console.log('Debug info:');
+                    console.log('  - window.plantsDatabase:', window.plantsDatabase);
+                    console.log('  - typeof plantsDatabase:', typeof plantsDatabase);
+                    console.log('  - window.location.protocol:', window.location.protocol);
+                }
+                resolve();
+            }
+        }, 500); // Check every 500ms
     });
+    
+    // Final check - sometimes plants load right after the promise resolves
+    if (allPlants.length === 0) {
+        // Wait a bit more and check again
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        if (window.plantsDatabase && Array.isArray(window.plantsDatabase) && window.plantsDatabase.length > 0) {
+            allPlants = [...window.plantsDatabase];
+            console.log(`✅ Loaded ${allPlants.length} plants (final check after promise)`);
+        }
+    }
     
     filteredPlants = [...allPlants];
     
@@ -136,11 +173,31 @@ async function initializePlants() {
         console.log('Debugging info:');
         console.log('  - window.plantsDatabase:', window.plantsDatabase?.length || 'undefined');
         console.log('  - typeof plantsDatabase:', typeof plantsDatabase !== 'undefined' ? plantsDatabase?.length || 'empty' : 'undefined');
-        // Show error message to user
+        
+        // Show a retry button instead of just an error
         const plantsGrid = document.getElementById('plantsGrid');
         if (plantsGrid) {
-            plantsGrid.innerHTML = '<div class="error-message"><p>⚠️ Unable to load plant data. Please check the browser console for errors.</p><p>Make sure you are serving the files from a web server (not file:// protocol).</p><p>Try refreshing the page (Ctrl+F5 for hard refresh).</p></div>';
+            plantsGrid.innerHTML = `
+                <div class="error-message" style="text-align: center; padding: 2rem;">
+                    <p style="font-size: 1.2rem; margin-bottom: 1rem;">⚠️ Unable to load plant data</p>
+                    <p style="margin-bottom: 1rem;">Plants are still loading. Please wait a moment...</p>
+                    <button onclick="location.reload()" style="padding: 0.75rem 1.5rem; font-size: 1rem; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        Retry / Refresh Page
+                    </button>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">Check browser console (F12) for detailed error messages</p>
+                </div>
+            `;
         }
+        
+        // Try one more time after a delay
+        setTimeout(() => {
+            if (window.plantsDatabase && Array.isArray(window.plantsDatabase) && window.plantsDatabase.length > 0) {
+                allPlants = [...window.plantsDatabase];
+                filteredPlants = [...allPlants];
+                console.log(`✅ Loaded ${allPlants.length} plants (delayed retry)`);
+                initializeUI();
+            }
+        }, 2000);
     }
 }
 
