@@ -1,0 +1,80 @@
+{
+  "id": 510,
+  "name": "Sun Pitcher Plant",
+  "scientificName": "Heliamphora nutans",
+  "commonNames": [],
+  "category": [
+    "carnivorous"
+  ],
+  "substrate": "Epiphytic Mix",
+  "size": "30-40 cm",
+  "growthRate": "Slow",
+  "description": "Heliamphora nutans, commonly known as Sun Pitcher Plant, is a carnivorous plant native to the border area between Venezuela, Brazil, and Guyana, particularly on the tepuis (tabletop mountains). It belongs to the Sarraceniaceae family and features upright, tubular pitchers (20-40 cm tall) that trap and digest insects. The plant displays an upright, rosette-forming growth habit. It produces small, white to pink flowers. The trapping mechanism is highly specialized, with some species able to digest prey in just a few hours. Native to nutrient-poor habitats such as bogs, swamps, or sandy soils, where carnivory supplements the limited available nutrients. In its native habitat, it grows in high-altitude, nutrient-poor, wet soils. In terrariums or indoor settings, this plant offers unique intrigue with its distinctive pitcher form. It's popular among carnivorous plant enthusiasts for its unusual habitat and appearance.",
+  "careTips": [
+    "Requires distilled or rain water only",
+    "Bright light essential for health",
+    "Use specialized carnivorous plant media",
+    "Very high humidity preferred (80-90%)",
+    "Feed with small insects occasionally",
+    "Requires cool to moderate temperatures"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Ericales",
+    "family": "Sarraceniaceae",
+    "genus": "Heliamphora",
+    "species": "Heliamphora nutans"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Division, Seed",
+  "colors": "Green, Red, White, Pink",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "substrateType": "moist",
+  "specialNeeds": "carnivorous",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "id": 325,
+  "name": "White-Veined Dutchman's Pipe",
+  "scientificName": "Aristolochia fimbriata",
+  "commonNames": [],
+  "category": [
+    "flowering",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "3-10 cm",
+  "growthRate": "Moderate",
+  "description": "Aristolochia fimbriata, commonly known as White-Veined Dutchman's Pipe or Fringed Dutchman's Pipe, is a perennial climbing plant native to South America, particularly Brazil, Paraguay, Bolivia, Uruguay, and Argentina. It belongs to the Aristolochiaceae family and features heart-shaped to kidney-shaped, dark green leaves (5-10 cm long) with prominent white veins. The plant produces distinctive, pipe-shaped flowers (2-4 cm long) that are white to cream-colored with purple-brown markings and fringed margins. The flowering plant attracts butterflies and is known for its traditional medicinal properties. The plant displays a climbing or trailing growth habit and can reach lengths of 1-2 meters. In its native habitat, it grows as a climbing vine in tropical and subtropical forests. In terrariums or indoor settings, this plant adds unique interest with its distinctive flowers and climbing habit.",
+  "careTips": [
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Monitor watering needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Piperales",
+    "family": "Aristolochiaceae",
+    "genus": "Aristolochia",
+    "species": "Aristolochia fimbriata"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division, Seed",
+  "colors": "White, Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

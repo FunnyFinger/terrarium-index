@@ -1,0 +1,113 @@
+{
+  "id": 11,
+  "name": "Amazon Sword",
+  "scientificName": "Echinodorus amazonicus",
+  "commonNames": [],
+  "category": [
+    "aquatic",
+    "leafy"
+  ],
+  "substrate": "Rich Moisture Retentive",
+  "size": "15-50 cm",
+  "growthRate": "Moderate to Fast",
+  "description": "Echinodorus amazonicus, commonly known as the Amazon Sword or Amazon Sword Plant, is a popular aquatic plant native to the Amazon Basin in South America, particularly Brazil. It belongs to the Alismataceae family and features long, narrow, lanceolate to sword-shaped leaves (30-50 cm long, 2-4 cm wide) that grow vertically from a central rosette. The leaves vary in color from pale green to dark green, with a prominent midrib. This rosette-forming plant is a heavy root feeder and thrives in nutrient-rich substrates. It's ideal for midground to background placement in larger aquariums (minimum 20 gallons) due to its substantial size. The plant produces long flower stalks that emerge above the water surface, bearing small white flowers and adventitious plantlets that can be separated and replanted. Regular trimming of older, yellowing leaves at the base encourages new growth and helps maintain the plant's attractive shape. In nature, it grows in slow-moving rivers and streams with soft, acidic water.",
+  "careTips": [
+    "Heavy root feeder - use root tabs or nutrient-rich substrate (clay-based substrates work well)",
+    "Iron-rich fertilizers help maintain vibrant green leaves and prevent yellowing",
+    "Can grow very large (30-50 cm tall, 20-30 cm wide) - ideal for midground to background in tanks 20+ gallons",
+    "Prefers moderate to high lighting (2-3 watts per gallon) but can tolerate lower light with slower growth",
+    "Keep crown (where leaves emerge) above substrate to prevent rot - plant shallowly",
+    "Regular trimming of older, yellowing leaves at the base encourages new growth",
+    "Propagates through adventitious plantlets on flower stalks - wait until plantlets have 3-4 leaves and roots",
+    "Prefers pH 6.5-7.5 and soft to moderately hard water (2-12 dGH), temperature 22-28°C",
+    "CO2 not required but can promote faster growth and fuller, more vibrant leaves",
+    "Plantlets can be separated once they develop roots and several leaves - plant in substrate",
+    "Native to Amazon Basin, Brazil - prefers warm, soft, slightly acidic water",
+    "Can grow emersed in paludariums with leaves above water",
+    "May experience 'melt' when first introduced - new leaves will grow adapted to tank conditions"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Alismatales",
+    "family": "Alismataceae",
+    "genus": "Echinodorus",
+    "species": "Echinodorus amazonicus"
+  },
+  "growthPattern": "rosette",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "fully-aquatic",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Plantlets, Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 100,
+    "max": 100,
+    "ideal": 100
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "aquatic",
+  "waterCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "temperatureRange": {
+    "min": 44,
+    "max": 56.00000000000001,
+    "ideal": 50
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "waterTemperatureRange": {
+    "min": 44,
+    "max": 56.00000000000001,
+    "ideal": 50
+  },
+  "waterPhRange": {
+    "min": 46.42857142857143,
+    "max": 53.57142857142857,
+    "ideal": 50
+  },
+  "waterHardnessRange": {
+    "min": 6.666666666666667,
+    "max": 40,
+    "ideal": 23.333333333333332
+  },
+  "salinityRange": {
+    "min": 0,
+    "max": 5,
+    "ideal": 2.5
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

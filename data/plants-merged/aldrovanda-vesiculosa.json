@@ -1,0 +1,106 @@
+{
+  "id": 479,
+  "name": "Waterwheel Plant",
+  "scientificName": "Aldrovanda vesiculosa",
+  "commonNames": [],
+  "category": [
+    "carnivorous",
+    "aquatic"
+  ],
+  "substrate": "No Substrate Needed",
+  "size": "30-40 cm",
+  "growthRate": "Fast",
+  "description": "Aldrovanda vesiculosa, commonly known as Waterwheel Plant, is a free-floating, aquatic carnivorous plant native to Europe, Asia, Africa, and Australia. It belongs to the Droseraceae family and features whorls of trap-bearing leaves (6-40 cm long) that snap shut when triggered by prey, similar to a Venus flytrap. The plant displays a floating, aquatic growth habit. It produces small, white flowers above the water surface. Commonly called \"waterwheel\" for its whorled leaf arrangement. In its native habitat, it grows in nutrient-poor, still or slow-moving freshwater. In terrariums or indoor settings, this plant offers unique intrigue with its aquatic trapping mechanism. It's popular among carnivorous plant enthusiasts for its unusual aquatic nature and rapid trap movement.",
+  "careTips": [
+    "Requires clean, still or slow-moving water",
+    "Bright light essential for health",
+    "No substrate needed - floating plant",
+    "Feed with small aquatic insects",
+    "Requires high water quality",
+    "Temperature: 18-24°C"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Caryophyllales",
+    "family": "Droseraceae",
+    "genus": "Aldrovanda",
+    "species": "Aldrovanda vesiculosa"
+  },
+  "growthPattern": "rosette",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "fully-aquatic",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Division, Seed",
+  "colors": "Green, White",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "carnivorous",
+  "waterCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "waterTemperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "waterPhRange": {
+    "min": 50,
+    "max": 57.1,
+    "ideal": 53.6
+  },
+  "waterHardnessRange": {
+    "min": 6.67,
+    "max": 40,
+    "ideal": 23.33
+  },
+  "salinityRange": {
+    "min": 0,
+    "max": 5,
+    "ideal": 2.5
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

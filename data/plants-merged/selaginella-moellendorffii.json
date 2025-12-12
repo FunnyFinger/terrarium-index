@@ -1,0 +1,89 @@
+{
+  "id": 375,
+  "name": "Golden Clubmoss",
+  "scientificName": "Selaginella moellendorffii",
+  "commonNames": [
+    "Moellendorff's Spikemoss",
+    "Asian Spikemoss"
+  ],
+  "category": [
+    "lycophyte",
+    "ground-cover",
+    "colorful"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "5-20 cm",
+  "growthRate": "Moderate to fast",
+  "description": "Selaginella moellendorffii, commonly known as Golden Clubmoss or Moellendorff's Spikemoss, is a vibrant lycophyte native to East Asia, particularly China, Japan, and Taiwan. It features bright lime-green to golden-yellow foliage that creates a dense, carpet-like ground cover. The plant has small, scale-like leaves arranged in a flattened, branching pattern that gives it a fern-like appearance. Unlike true mosses, this is a primitive vascular plant that can survive periods of dryness and revive when rehydrated. It forms dense mats and is excellent for creating lush, prehistoric-looking ground cover in terrariums. The plant thrives in high humidity and filtered light, making it ideal for closed terrarium environments.",
+  "careTips": [
+    "Requires high humidity (75-90%) - ideal for closed terrariums",
+    "Prefers bright indirect light to partial shade",
+    "Keep soil consistently moist but not waterlogged",
+    "Well-draining substrate recommended - peat-based mix with perlite",
+    "Temperature: 18-24°C (65-75°F)",
+    "Can be sensitive to water quality - use filtered or distilled water",
+    "Propagates easily by division or stem cuttings",
+    "Leaves may curl when dry - increase humidity immediately",
+    "Non-toxic to pets and humans",
+    "Fertilize monthly during growing season with diluted fertilizer"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Selaginellopsida",
+    "order": "Selaginellales",
+    "family": "Selaginellaceae",
+    "genus": "Selaginella",
+    "species": "Selaginella moellendorffii"
+  },
+  "growthPattern": "carpeting",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "spikemoss",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Division, Stem Cuttings",
+  "colors": "Lime Green, Golden Yellow",
+  "humidityRange": {
+    "min": 75,
+    "max": 90,
+    "ideal": 82
+  },
+  "lightRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "airCirculationRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "waterNeedsRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 18,
+    "max": 24,
+    "ideal": 21
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 5.5,
+    "max": 6.5,
+    "ideal": 6
+  },
+  "growthRateRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  }
+}

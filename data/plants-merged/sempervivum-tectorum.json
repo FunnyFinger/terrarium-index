@@ -1,0 +1,86 @@
+{
+  "id": 10469,
+  "name": "Common Houseleek",
+  "scientificName": "Sempervivum tectorum",
+  "commonNames": [
+    "House Leek",
+    "Jove's Beard"
+  ],
+  "category": [
+    "succulent",
+    "mini"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "5-15 cm",
+  "growthRate": "Moderate",
+  "description": "Sempervivum tectorum, commonly known as Common Houseleek or Hens and Chicks, is a hardy, evergreen succulent native to the mountains of southern Europe. It features attractive rosettes of thick, fleshy, pointed leaves that are typically green with red-tipped margins, though coloration can vary. The leaves are arranged in a tight, symmetrical rosette formation, and the plant produces offsets (chicks) around the mother rosette (hen), creating a mat-forming habit. The plant typically reaches 5-15 cm in height and spread, with individual rosettes measuring 5-10 cm in diameter. In its native habitat, it grows in rocky, well-draining soils in mountainous regions, often on roofs and walls (hence 'tectorum' meaning 'of roofs'). The plant produces star-shaped, pink to reddish-purple flowers on tall stalks (15-30 cm) in summer, though the mother rosette dies after flowering. It's extremely cold-hardy, tolerating temperatures down to -30°F (-34°C) when dormant. The plant is non-toxic and safe for homes with pets. It's an excellent choice for rock gardens, containers, and terrariums due to its compact size, low maintenance requirements, and ability to form attractive colonies through offsets.",
+  "careTips": [
+    "Provide bright, indirect light to full sun (at least 6 hours daily)",
+    "Use well-draining soil mix to prevent root rot",
+    "Water deeply but infrequently - allow soil to dry between waterings",
+    "Reduce watering during winter dormancy",
+    "Fertilize sparingly - once a year in spring with low-nitrogen fertilizer",
+    "Remove dead leaves to prevent rot",
+    "Easy to propagate through offsets (chicks)",
+    "Extremely cold-hardy when dormant"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Saxifragales",
+    "family": "Crassulaceae",
+    "genus": "Sempervivum",
+    "species": "Sempervivum tectorum"
+  },
+  "growthPattern": "carpeting",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Offsets, Seed",
+  "colors": "Green, Red, Purple, Pink",
+  "humidityRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "lightRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "airCirculationRange": {
+    "min": 50,
+    "max": 80,
+    "ideal": 65
+  },
+  "waterNeedsRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 0,
+    "max": 52,
+    "ideal": 46
+  },
+  "difficultyRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

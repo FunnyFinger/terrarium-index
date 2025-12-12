@@ -1,0 +1,87 @@
+{
+  "id": 55,
+  "name": "Mood Moss",
+  "scientificName": "Dicranum scoparium",
+  "commonNames": [],
+  "category": [
+    "creeper",
+    "moss"
+  ],
+  "substrate": "Wood, rocks, or soil",
+  "size": "1-8 cm",
+  "growthRate": "Moderate",
+  "description": "Dicranum scoparium, commonly known as Mood Moss, Broom Fork-moss, or Windswept Moss, is a widespread terrestrial moss native to the northern hemisphere, including North America, Europe, and Asia. It belongs to the Dicranaceae family and features distinctive tuft-forming growth with curved, sickle-shaped leaves that point in one direction, creating a windswept or moody appearance. The leaves are bright green to yellow-green and have a glossy texture. The plant displays a tuft-forming, clumping growth habit and typically reaches 2-8 cm in height. It forms dense, cushion-like tufts that don't spread horizontally. In its native habitat, it grows on soil, rocks, tree bark, and decaying wood in shaded, moist areas of forests. In terrariums or indoor settings, this plant adds natural beauty with its distinctive curved leaves and tuft-forming habit. It's popular for its unique appearance and ability to create natural, sculptural forms.",
+  "careTips": [
+    "Forms natural tufts - doesn't spread horizontally like mat-forming mosses",
+    "Curved, sickle-shaped leaves add visual interest and distinctive appearance",
+    "Can attach to wood, rocks, or soil using rhizoids - press gently to anchor",
+    "Requires consistent moisture and very high humidity (70-90%) - ideal for closed terrariums",
+    "Native to northern hemisphere - prefers cool to moderate temperatures (10-24°C)",
+    "Low to medium light is best - avoid direct sunlight which can dry it out",
+    "Keep consistently moist but not waterlogged - mist regularly",
+    "Non-toxic and safe for all terrarium inhabitants",
+    "Can be used in terrariums or paludariums",
+    "Propagates via spores or division - simply separate tufts and place elsewhere",
+    "If moss turns brown, increase humidity and check watering schedule",
+    "Forms dense tufts that help retain moisture in terrariums"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Bryophyta",
+    "class": "Bryopsida",
+    "order": "Dicranales",
+    "family": "Dicranaceae",
+    "genus": "Dicranum",
+    "species": "Dicranum scoparium"
+  },
+  "growthPattern": "clumping",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "moss",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Division, Spores",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 10
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 20,
+    "max": 48,
+    "ideal": 34
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

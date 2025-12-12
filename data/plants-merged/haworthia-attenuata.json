@@ -1,0 +1,86 @@
+{
+  "id": 10468,
+  "name": "Zebra Plant",
+  "scientificName": "Haworthia attenuata",
+  "commonNames": [
+    "Zebra Haworthia",
+    "Zebra Cactus"
+  ],
+  "category": [
+    "succulent",
+    "mini"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "5-15 cm",
+  "growthRate": "Slow",
+  "description": "Haworthia attenuata, commonly known as Zebra Plant, is a compact, slow-growing succulent native to South Africa. It features distinctive dark green, triangular leaves adorned with white horizontal stripes or tubercles, creating a striking zebra-like pattern that gives it its common name. The leaves are thick, fleshy, and arranged in a rosette formation, growing in a tight, clumping habit. The plant typically reaches 5-15 cm in height and spread when grown indoors, making it an ideal choice for small containers and terrariums. The leaves are typically 5-8 cm long and 1-2 cm wide at the base, tapering to a point. In its native habitat, it grows in rocky, well-draining soils in semi-arid regions, often in partial shade. The plant produces small, white or pale pink tubular flowers on long, thin stalks in spring and summer, though it's primarily grown for its attractive, patterned foliage. It's an excellent choice for beginners due to its low maintenance requirements and tolerance of various light conditions. The plant is non-toxic and safe for homes with pets. It readily produces offsets (pups) at the base, which can be easily separated and propagated.",
+  "careTips": [
+    "Provide bright, indirect light - can tolerate some direct morning sun",
+    "Use well-draining cactus/succulent soil mix",
+    "Water thoroughly, then allow soil to dry completely before watering again",
+    "Reduce watering frequency during winter months",
+    "Protect from frost and cold temperatures",
+    "Fertilize monthly during growing season with diluted fertilizer",
+    "Avoid overwatering to prevent root rot",
+    "Easy to propagate through offsets (pups)"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Asparagales",
+    "family": "Asphodelaceae",
+    "genus": "Haworthia",
+    "species": "Haworthia attenuata"
+  },
+  "growthPattern": "rosette",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Offsets, Leaf Cuttings",
+  "colors": "Green, White, Pink",
+  "humidityRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 90,
+    "ideal": 75
+  },
+  "airCirculationRange": {
+    "min": 50,
+    "max": 80,
+    "ideal": 65
+  },
+  "waterNeedsRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 40,
+    "max": 52,
+    "ideal": 46
+  },
+  "difficultyRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  }
+}

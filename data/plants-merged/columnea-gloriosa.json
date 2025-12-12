@@ -1,0 +1,89 @@
+{
+  "id": 386,
+  "name": "Goldfish Plant",
+  "scientificName": "Columnea gloriosa",
+  "commonNames": [
+    "Flying Goldfish Plant"
+  ],
+  "category": [
+    "trailing",
+    "flowering",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "Trailing, 30-60 cm",
+  "growthRate": "Moderate to fast",
+  "description": "Columnea gloriosa, commonly known as Goldfish Plant, is a trailing epiphytic plant native to Central and South America. It features glossy, dark green leaves and produces striking tubular flowers that resemble goldfish, typically in shades of orange, red, or yellow. The flowers emerge from the leaf axils and hang down, creating a beautiful cascading display. The plant displays a trailing or hanging growth habit, making it excellent for hanging baskets or as a trailing element in terrariums. It thrives in high humidity and bright, indirect light, making it suitable for terrarium environments.",
+  "careTips": [
+    "Provide bright, indirect light - essential for flowering",
+    "Maintain high humidity (70-85%)",
+    "Keep soil evenly moist but well-draining",
+    "Well-draining, organic-rich mix",
+    "Temperature: 18-24°C (65-75°F)",
+    "Trailing habit - great for hanging or cascading",
+    "Flowers resemble goldfish - orange, red, or yellow",
+    "Propagates by stem cuttings",
+    "Non-toxic to pets and humans",
+    "Fertilize monthly during growing season",
+    "Prune after flowering to maintain shape"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Lamiales",
+    "family": "Gesneriaceae",
+    "genus": "Columnea",
+    "species": "Columnea gloriosa"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "year-round",
+  "propagation": "Stem Cuttings",
+  "colors": "Green, Orange, Red, Yellow",
+  "humidityRange": {
+    "min": 70,
+    "max": 85,
+    "ideal": 77
+  },
+  "lightRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "airCirculationRange": {
+    "min": 40,
+    "max": 70,
+    "ideal": 55
+  },
+  "waterNeedsRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 18,
+    "max": 24,
+    "ideal": 21
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 5.5,
+    "max": 6.5,
+    "ideal": 6
+  },
+  "growthRateRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  }
+}

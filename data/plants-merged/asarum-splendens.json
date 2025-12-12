@@ -1,0 +1,80 @@
+{
+  "id": 328,
+  "name": "Chinese Wild Ginger",
+  "scientificName": "Asarum splendens",
+  "commonNames": [
+    "Splendid Wild Ginger"
+  ],
+  "category": [
+    "flowering",
+    "leafy"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "3-20 cm",
+  "growthRate": "Moderate",
+  "description": "Asarum splendens, commonly known as Chinese Wild Ginger or Splendid Wild Ginger, is a perennial ground cover plant native to China. It belongs to the Asaraceae family and features heart-shaped to kidney-shaped, dark green leaves (5-15 cm long) with silver or white marbling patterns. The leaves have a distinctive, glossy appearance. The plant produces small, inconspicuous, brown to purple flowers that are hidden beneath the foliage. The plant displays a low, spreading growth habit and typically reaches 10-20 cm in height. In its native habitat, it grows as a ground cover in shaded, moist areas of forests. In terrariums or indoor settings, this plant adds unique interest with its marbled leaves and ground-covering habit. It's popular among plant enthusiasts for its attractive foliage.",
+  "careTips": [
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Monitor watering needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Piperales",
+    "family": "Asaraceae",
+    "genus": "Asarum",
+    "species": "Asarum splendens"
+  },
+  "growthPattern": "carpeting",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division, Seed",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "id": 385,
+  "name": "Dwarf Orchid Cactus",
+  "scientificName": "Epiphyllum pumilum",
+  "commonNames": [],
+  "category": [
+    "cactus",
+    "epiphytic",
+    "flowering"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "15-30 cm",
+  "growthRate": "Moderate",
+  "description": "Epiphyllum pumilum is a small, epiphytic cactus native to Central America. Unlike typical desert cacti, this species grows in tropical forests as an epiphyte on trees. It features flattened, leaf-like stems (cladodes) that are green and slightly serrated along the edges. The plant produces beautiful, large flowers that are typically white or cream-colored and open at night. It's a compact species that's well-suited for terrariums where it can be mounted on wood or grown in a well-draining substrate. The plant thrives in high humidity and filtered light, making it ideal for closed terrarium environments.",
+  "careTips": [
+    "Provide bright, indirect light - avoid direct sun",
+    "Maintain high humidity (70-85%)",
+    "Allow substrate to dry slightly between waterings",
+    "Well-draining, organic-rich mix (orchid bark, sphagnum moss)",
+    "Temperature: 18-26°C (65-79°F)",
+    "Can be mounted on wood or grown in substrate",
+    "Flowers typically open at night",
+    "Propagates by stem cuttings",
+    "Non-toxic to pets and humans",
+    "Fertilize monthly during growing season"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Caryophyllales",
+    "family": "Cactaceae",
+    "genus": "Epiphyllum",
+    "species": "Epiphyllum pumilum"
+  },
+  "growthPattern": "carpeting",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings",
+  "colors": "Green, White",
+  "humidityRange": {
+    "min": 70,
+    "max": 85,
+    "ideal": 77
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 40,
+    "max": 70,
+    "ideal": 55
+  },
+  "waterNeedsRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 18,
+    "max": 26,
+    "ideal": 22
+  },
+  "difficultyRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "soilPhRange": {
+    "min": 5.5,
+    "max": 6.5,
+    "ideal": 6
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

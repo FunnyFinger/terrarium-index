@@ -1,0 +1,86 @@
+{
+  "id": 10430,
+  "name": "String of Hearts",
+  "scientificName": "Ceropegia woodii",
+  "commonNames": [
+    "Chain of Hearts",
+    "Rosary Vine",
+    "Sweetheart Vine"
+  ],
+  "category": [
+    "succulent",
+    "tropical",
+    "terrestrial"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "20-200 cm",
+  "growthRate": "Moderate",
+  "description": "Ceropegia woodii 'Variegated', commonly known as Variegated String of Hearts, is a succulent native to tropical regions of South Africa, Swaziland, and Zimbabwe. It belongs to the Apocynaceae family and features trailing stems (60-200 cm long) with small, dramatic, heart-shaped, dark green leaves with distinctive white to pink variegation patterns. The plant displays a trailing growth habit. In its native habitat, it grows in dry, rocky areas. In terrariums or indoor settings, this plant adds vibrant colors and visual interest with its attractive variegated foliage. It's extremely popular among houseplant enthusiasts for its beautiful trailing habit and variegated leaves. Note: toxic if ingested.",
+  "careTips": [
+    "Let soil dry completely between waterings",
+    "Well-draining soil is essential",
+    "Bright indirect light preferred",
+    "Avoid overwatering - prone to root rot",
+    "Thick leaves store water - drought tolerant",
+    "Can trail or climb with support"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Gentianales",
+    "family": "Apocynaceae",
+    "genus": "Ceropegia",
+    "species": "Ceropegia woodii"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "toxic-if-ingested",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Rhizomes",
+  "colors": "Green, White, Pink, Variegated",
+  "humidityRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 50,
+    "max": 90,
+    "ideal": 70
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "succulent",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

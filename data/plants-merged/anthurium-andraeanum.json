@@ -1,0 +1,83 @@
+{
+  "id": 10096,
+  "name": "Anthurium andraeanum",
+  "scientificName": "Anthurium andraeanum",
+  "commonNames": [],
+  "category": [
+    "anthurium",
+    "flowering",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "20-60 cm",
+  "growthRate": "Moderate",
+  "description": "Anthurium andraeanum 'Pure Purple' is a cultivar of Anthurium andraeanum, commonly known as Flamingo Flower or Laceleaf. It is a terrestrial plant native to tropical regions of Colombia and Ecuador. It belongs to the Araceae family and features upright stems (30-60 cm tall) with large, dramatic, heart-shaped, dark green leaves and distinctive purple spathes (modified leaves) surrounding the spadix (flower spike). The plant displays an upright, bushy growth habit. Many species have velvety leaves with prominent white or silver veins that create stunning contrast, and some produce fragrant blooms. In its native habitat, it grows in moist, shaded areas of tropical forests. In terrariums or indoor settings, this plant adds vibrant colors with its distinctive purple flowers. It's popular among Anthurium enthusiasts for its attractive purple blooms.",
+  "careTips": [
+    "Keep soil consistently moist but well-draining",
+    "High humidity preferred",
+    "Bright indirect light",
+    "Toxic if ingested - keep away from pets and children",
+    "Prefers warm, humid conditions",
+    "Bright indirect light for best flowering"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Anthurium",
+    "species": "Anthurium andraeanum"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "toxic-if-ingested",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "year-round",
+  "propagation": "Division, Offsets",
+  "colors": "Green, Purple",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

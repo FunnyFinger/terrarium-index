@@ -1,0 +1,84 @@
+{
+  "id": 10345,
+  "name": "Masdevallia guttulata",
+  "scientificName": "Masdevallia guttulata",
+  "commonNames": [
+    "Kite Orchid"
+  ],
+  "category": [
+    "orchid",
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "5-20 cm",
+  "growthRate": "Moderate",
+  "description": "Masdevallia guttulata is an epiphytic orchid native to tropical regions of South America, particularly Colombia and Ecuador. It belongs to the Orchidaceae family and features upright stems (10-20 cm tall) with small, dramatic, lance-shaped, dark green leaves and distinctive triangular flowers with elongated tails. The plant displays an upright growth habit. Flowers have distinctive triangular shapes with elongated tails or \"ears\". Many species produce flowers in unusual colors (orange, red, yellow) and have fuzzy or hairy textures that make them look otherworldly. In its native habitat, it grows on tree branches in tropical forests. In terrariums or indoor settings, this plant adds unique floral displays with its bizarre, often fuzzy flowers. It's popular among orchid enthusiasts for its unusual flower shape.",
+  "careTips": [
+    "Provide high humidity (60-80%)",
+    "Water when media begins to dry",
+    "Bright indirect light - avoid direct sun",
+    "Good air circulation is important",
+    "Feed with orchid fertilizer during growing season"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Asparagales",
+    "family": "Orchidaceae",
+    "genus": "Masdevallia",
+    "species": "Masdevallia guttulata"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "very-rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "irregular",
+  "propagation": "Division, Pups",
+  "colors": "Green, Red, Yellow, Orange",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

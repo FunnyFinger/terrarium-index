@@ -1,0 +1,87 @@
+{
+  "id": 10462,
+  "name": "Watermelon Peperomia",
+  "scientificName": "Peperomia argyreia",
+  "commonNames": [
+    "Watermelon Begonia"
+  ],
+  "category": [
+    "colorful",
+    "leafy",
+    "mini",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "15-30 cm",
+  "growthRate": "Moderate",
+  "description": "Peperomia argyreia, commonly known as Watermelon Peperomia, is a compact, evergreen perennial native to northern South America, including Bolivia, Brazil, Ecuador, and Venezuela. It features striking, round to oval leaves with silver and green stripes that closely resemble the rind of a watermelon, giving it its common name. The leaves are thick, fleshy, and have a slightly succulent quality, with a distinctive pattern of dark green stripes alternating with silver bands. The plant displays a compact, bushy growth habit and typically reaches 15-30 cm in height and spread when grown indoors. The petioles (leaf stems) are often reddish-pink, adding to the plant's visual appeal. In its native habitat, it grows as an understory plant in tropical forests, thriving in warm, humid conditions with filtered light. The plant produces small, greenish-white flower spikes on long stems, though it's primarily grown for its attractive foliage. It's an excellent choice for terrariums and indoor plant collections due to its compact size, low maintenance requirements, and striking appearance. The plant is non-toxic and safe for homes with pets.",
+  "careTips": [
+    "Provide bright, indirect light - avoid direct sunlight",
+    "Maintain moderate humidity (50-60%)",
+    "Allow top 2-3 inches of soil to dry between waterings",
+    "Water liberally during growing season, reduce in winter",
+    "Use well-draining soil to prevent root rot",
+    "Fertilize monthly during growing season with diluted fertilizer",
+    "Repot every 2-3 years when root-bound",
+    "Prune to maintain shape and encourage bushier growth"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Piperales",
+    "family": "Piperaceae",
+    "genus": "Peperomia",
+    "species": "Peperomia argyreia"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "year-round",
+  "propagation": "Leaf Cuttings, Stem Cuttings",
+  "colors": "Green, Silver, Red",
+  "humidityRange": {
+    "min": 50,
+    "max": 60,
+    "ideal": 55
+  },
+  "lightRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "airCirculationRange": {
+    "min": 40,
+    "max": 70,
+    "ideal": 55
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 40,
+    "max": 52,
+    "ideal": 46
+  },
+  "difficultyRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "id": 10431,
+  "name": "Moonshine Snake Plant",
+  "scientificName": "Dracaena trifasciata",
+  "commonNames": [],
+  "category": [
+    "succulent",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "20-90 cm",
+  "growthRate": "Moderate",
+  "description": "Dracaena trifasciata 'Moonshine' (formerly Sansevieria trifasciata), commonly known as Moonshine Snake Plant, is a succulent native to tropical regions of West Africa, particularly Nigeria and the Congo. It belongs to the Asparagaceae family and features upright, sword-shaped leaves (30-90 cm tall) with large, dramatic, lance-shaped, silvery-green leaves with distinctive patterns. The plant displays an upright, rosette growth habit. In its native habitat, it grows in dry, sunny areas. In terrariums or indoor settings, this plant adds architectural interest with its distinctive upright leaves. It's extremely popular among houseplant enthusiasts for its easy care and attractive silvery foliage. Note: toxic if ingested.",
+  "careTips": [
+    "Let soil dry completely between waterings",
+    "Well-draining soil is essential",
+    "Bright indirect light preferred - can tolerate low light",
+    "Avoid overwatering - prone to root rot",
+    "Thick leaves store water - very drought tolerant",
+    "Low humidity preferred"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Asparagales",
+    "family": "Asparagaceae",
+    "genus": "Dracaena",
+    "species": "Dracaena trifasciata"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "toxic-if-ingested",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "does-not-flower-in-cultivation",
+  "propagation": "Division, Leaf Cuttings",
+  "colors": "Green, Silver-green, Gray-green",
+  "humidityRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 50,
+    "max": 90,
+    "ideal": 70
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "succulent",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

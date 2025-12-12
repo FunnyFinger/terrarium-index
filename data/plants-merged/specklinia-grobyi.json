@@ -1,0 +1,88 @@
+{
+  "id": 75,
+  "name": "Pleurothallis",
+  "scientificName": "Specklinia grobyi",
+  "commonNames": [
+    "Groby's Pleurothallis"
+  ],
+  "category": [
+    "orchid"
+  ],
+  "substrate": "Epiphytic Mix",
+  "size": "3-15 cm",
+  "growthRate": "Moderate",
+  "description": "Specklinia grobyi (synonym: Pleurothallis grobyi), commonly known as Pleurothallis, is a small epiphytic orchid native to Central and South America, particularly cloud forests and montane regions. It belongs to the Orchidaceae family and features small, compact growth with narrow, dark green leaves (5-15 cm long) arranged in a fan-like pattern. The plant produces small but intricate flowers (often less than 1 cm) in various colors including yellow, orange, red, and purple. Many Pleurothallis species have highly specialized flowers designed for specific pollinators. The plant displays an upright, compact growth habit and typically reaches 5-15 cm in height. In its native cloud forest habitat, it grows as an epiphyte on tree trunks and branches in cool, humid, high-altitude environments. In terrariums or indoor settings, this plant brings exotic elegance and sophistication with its intricate, small flowers. It's popular among orchid enthusiasts for its diversity and unique floral structures.",
+  "careTips": [
+    "Many species available - large genus with diverse forms and flower types",
+    "Prefers very high humidity (70-90%) - ideal for closed terrariums",
+    "Can be mounted on bark/cork or potted in fine orchid mix - epiphytic nature",
+    "Small flowers but very interesting - intricate structures and colors",
+    "Native to cloud forests of Central/South America - prefers cool, humid conditions (10-24°C)",
+    "Low to medium light is best - bright indirect light, avoid direct sun",
+    "Keep consistently moist but not waterlogged - never let dry completely",
+    "Feed monthly with diluted orchid fertilizer (quarter strength) during growing season",
+    "Non-toxic to pets and humans",
+    "Can be grown in terrariums with high humidity or specialized orchid setups",
+    "Watch for root rot if kept too wet - ensure good drainage and air circulation",
+    "Flowers are small but highly specialized for specific pollinators"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Asparagales",
+    "family": "Orchidaceae",
+    "genus": "Specklinia",
+    "species": "Specklinia grobyi"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "irregular",
+  "propagation": "Division, Pups, Seed",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 10
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "orchid",
+  "temperatureRange": {
+    "min": 20,
+    "max": 48,
+    "ideal": 34
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "id": 10277,
+  "name": "Philodendron holtonianum",
+  "scientificName": "Philodendron holtonianum",
+  "commonNames": [],
+  "category": [
+    "philodendron",
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "30-300 cm",
+  "growthRate": "Moderate",
+  "description": "Philodendron holtonianum is an epiphytic plant native to tropical regions of South America, particularly Colombia and Ecuador. It belongs to the Araceae family and features climbing stems (60-300 cm long) with large, dramatic, deeply divided (tripartite), dark green leaves. The plant displays a climbing growth habit. The name Philodendron means \"tree lover\" in Greek, referring to its epiphytic growth habit. Many species exhibit dramatic color changes as leaves mature, with new growth often showing vibrant red, pink, or orange hues that fade to green. In tropical forests, this plant typically grows as an epiphyte on tree trunks, receiving filtered sunlight through the dense canopy. In its native habitat, it grows on tree branches in tropical forests. In terrariums or indoor settings, this plant adds natural beauty with its distinctive divided foliage. It's popular among Philodendron enthusiasts for its unique leaf shape.",
+  "careTips": [
+    "Keep soil consistently moist but well-draining",
+    "High humidity preferred",
+    "Bright indirect light",
+    "Toxic if ingested - keep away from pets and children"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Philodendron",
+    "species": "Philodendron holtonianum"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "toxic-if-ingested",
+  "rarity": "uncommon",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "does-not-flower-in-cultivation",
+  "propagation": "Stem Cuttings",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "id": 388,
+  "name": "Dwarf Cryptocoryne",
+  "scientificName": "Cryptocoryne parva",
+  "commonNames": [],
+  "category": [
+    "aquatic",
+    "ground-cover",
+    "tropical"
+  ],
+  "substrate": "Rich Moisture Retentive",
+  "size": "5-10 cm",
+  "growthRate": "Slow",
+  "description": "Cryptocoryne parva is the smallest species in the Cryptocoryne genus, native to Sri Lanka. It features narrow, lance-shaped leaves that are bright green and form dense rosettes. While it's primarily known as an aquatic plant for aquariums, it can also be grown emersed (above water) in high-humidity terrarium environments. When grown emersed, it forms a dense, grassy foreground that's perfect for terrariums. The plant is very slow-growing but eventually forms a beautiful carpet. It thrives in high humidity and can tolerate both submerged and emersed conditions.",
+  "careTips": [
+    "Provide moderate to bright indirect light",
+    "Maintain very high humidity (80-95%) for emersed growth",
+    "Keep substrate consistently moist",
+    "Nutrient-rich substrate recommended",
+    "Temperature: 22-28°C (72-82°F)",
+    "Can grow emersed in high humidity or submerged",
+    "Very slow-growing - be patient",
+    "Propagates by runners",
+    "Non-toxic to pets and humans",
+    "Fertilize regularly with root tabs or liquid fertilizer",
+    "Excellent for creating grassy foregrounds"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Cryptocoryne",
+    "species": "Cryptocoryne parva"
+  },
+  "growthPattern": "rosette",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "fully-aquatic",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "does-not-flower-in-cultivation",
+  "propagation": "Runners",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 80,
+    "max": 95,
+    "ideal": 87
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 20,
+    "max": 50,
+    "ideal": 35
+  },
+  "waterNeedsRange": {
+    "min": 80,
+    "max": 95,
+    "ideal": 87
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "high humidity for emersed",
+  "temperatureRange": {
+    "min": 22,
+    "max": 28,
+    "ideal": 25
+  },
+  "difficultyRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "soilPhRange": {
+    "min": 6,
+    "max": 7,
+    "ideal": 6.5
+  },
+  "growthRateRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  }
+}

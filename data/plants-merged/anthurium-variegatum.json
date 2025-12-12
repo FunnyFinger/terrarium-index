@@ -1,0 +1,81 @@
+{
+  "id": 270,
+  "name": "Variegated Anthurium",
+  "scientificName": "Anthurium variegatum",
+  "commonNames": [],
+  "category": [
+    "anthurium",
+    "colorful",
+    "flowering",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "25-80 cm",
+  "growthRate": "Moderate",
+  "description": "Anthurium variegatum (Thai hybrid) is a variegated epiphytic aroid, likely a hybrid or cultivar with variegated foliage. It belongs to the Araceae family and features lance-shaped to oval, dark green leaves (20-40 cm long) with white, cream, or yellow variegation patterns and prominent veins. The plant displays an upright, compact growth habit and typically reaches 40-80 cm in height. It produces small, inconspicuous flowers typical of aroids. In terrariums or indoor settings, this plant adds vibrant interest with its variegated foliage. It's extremely popular among aroid enthusiasts for its attractive variegation patterns.",
+  "careTips": [
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Monitor watering needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Anthurium",
+    "species": "Anthurium variegatum"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "toxic-if-ingested",
+  "rarity": "very-rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Division, Seed",
+  "colors": "Variegated, Red, White, Silver",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

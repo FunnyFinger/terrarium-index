@@ -1,0 +1,92 @@
+{
+  "id": 52,
+  "name": "Cushion Moss",
+  "scientificName": "Leucobryum glaucum",
+  "commonNames": [],
+  "category": [
+    "leafy",
+    "mini",
+    "moss",
+    "tropical"
+  ],
+  "substrate": "No Substrate Needed",
+  "size": "1-13 cm",
+  "growthRate": "Slow",
+  "description": "Leucobryum glaucum, commonly known as Cushion Moss, Pincushion Moss, or White Moss, is a distinctive terrestrial moss native to temperate and subtropical regions worldwide, including Europe, Asia, North America, and parts of Africa. It belongs to the Leucobryaceae family and features compact, cushion-like clumps of upright stems covered in small, overlapping leaves. The leaves are bright green to gray-green and have a distinctive white appearance due to specialized cells (leucocysts) that store water. The plant displays a clumping, cushion-forming growth habit and typically reaches 1-13 cm in height. It forms dense, pillow-like structures that don't spread horizontally like many other mosses. In its native habitat, it grows in shaded, moist areas of forests where it receives bright indirect light filtered through the forest canopy. It requires constant moisture and high humidity (60-80%), thriving in consistently moist but well-draining substrates. Bright indirect light is ideal, though it can tolerate some direct light. In terrariums or indoor settings, this plant creates natural, sculptural forms and is excellent for water retention. It's popular for its unique appearance and ability to form compact clumps.",
+  "careTips": [
+    "Forms natural compact clumps that don't outgrow spaces",
+    "Excellent water retention - acts like a sponge",
+    "Pre-soak in water until fully rehydrated, then squeeze out excess moisture",
+    "Light misting with spray bottle is usually enough after initial soak",
+    "Best with bright, indirect light (North/East-facing windows in Northern Hemisphere)",
+    "Can tolerate some direct light but not too much",
+    "Press down slightly to anchor rhizoids to substrate",
+    "Can be easily torn apart to create different sized clumps",
+    "Much more manageable and sculptable than sheet moss",
+    "Grows longer and bushier rather than broader or taller",
+    "May need occasional pruning if it gets too big",
+    "Forms soft, pillow-like structures",
+    "Excellent water retention",
+    "Requires constant moisture",
+    "Can cover large areas"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Bryophyta",
+    "class": "Bryopsida",
+    "order": "Dicranales",
+    "family": "Leucobryaceae",
+    "genus": "Leucobryum",
+    "species": "Leucobryum glaucum"
+  },
+  "growthPattern": "clumping",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "moss",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Division, Spores",
+  "colors": "Green, White, Gray",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 54,
+    "ideal": 45
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  }
+}

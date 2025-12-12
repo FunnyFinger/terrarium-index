@@ -1,0 +1,110 @@
+{
+  "id": 66,
+  "name": "Gracilaria",
+  "scientificName": "Gracilaria verrucosa",
+  "commonNames": [
+    "Ogonori"
+  ],
+  "category": [
+    "algae",
+    "colorful",
+    "marine"
+  ],
+  "substrate": "Attach To Driftwood Rocks Mesh",
+  "size": "2-15 cm",
+  "growthRate": "Fast",
+  "description": "Gracilaria verrucosa is a red marine algae (Rhodophyta) with a bushy, branched thallus featuring cylindrical branches. It displays vibrant red to pink coloration and typically grows 6-15 cm in height. This species is widely distributed in coastal regions and is economically important as a source of agar. In marine aquariums, it provides excellent nutrient export, natural filtration, and can be harvested for fish food. It attaches to hard substrates like rocks and shells in intertidal and subtidal zones.",
+  "careTips": [
+    "Fast growing red algae",
+    "Excellent nutrient export and natural filtration",
+    "Can be harvested for fish food",
+    "Requires marine or brackish water conditions",
+    "Attaches to hard substrates like rocks",
+    "Benefits from moderate to high lighting",
+    "Very beneficial for water quality"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Rhodophyta",
+    "class": "Florideophyceae",
+    "order": "Gracilariales",
+    "family": "Gracilariaceae",
+    "genus": "Gracilaria",
+    "species": "Gracilaria verrucosa"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "fully-aquatic",
+  "plantType": "algae",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Division, Fragmentation",
+  "colors": "Red, Pink, Brown",
+  "humidityRange": {
+    "min": 100,
+    "max": 100,
+    "ideal": 100
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "aquatic",
+  "waterCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "temperatureRange": {
+    "min": 40,
+    "max": 56.00000000000001,
+    "ideal": 48
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "waterTemperatureRange": {
+    "min": 40,
+    "max": 56.00000000000001,
+    "ideal": 48
+  },
+  "waterPhRange": {
+    "min": 50,
+    "max": 57.1,
+    "ideal": 53.6
+  },
+  "waterHardnessRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  },
+  "salinityRange": {
+    "min": 75,
+    "max": 100,
+    "ideal": 87.5
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

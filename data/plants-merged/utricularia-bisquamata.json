@@ -1,0 +1,83 @@
+{
+  "id": 151,
+  "name": "Bladderwort",
+  "scientificName": "Utricularia bisquamata",
+  "commonNames": [
+    "Floating Bladderwort"
+  ],
+  "category": [
+    "carnivorous",
+    "colorful",
+    "flowering",
+    "mini",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "9-12 cm",
+  "growthRate": "Moderate",
+  "description": "Utricularia bisquamata, commonly known as Bladderwort, is a small annual carnivorous plant native to southern Africa, including Angola, Lesotho, Madagascar, Namibia, and South Africa. It belongs to the Lentibulariaceae family and features a rosette of narrow leaves and wiry stems that support racemes of two-lipped flowers. The plant grows up to approximately 12 cm in height. It produces small flowers that are typically white, pale violet, or occasionally yellow, with the upper lip having two or three lobes and the lower lip having two short side lobes and a central lobe, often displaying a variable-sized yellow patch at its base. The plant's translucent traps develop in the roots and actively suck in and digest small organisms. The trapping mechanism is highly specialized - bladders create a vacuum to capture prey in milliseconds. In its native habitat, it grows in damp, sandy, or peaty soils among mosses near streams or wet depressions, at altitudes ranging from sea level up to 1,200 meters in South Africa and up to 2,250 meters in Angola. In terrariums or indoor settings, this plant adds unique carnivorous interest with its colorful flowers and fascinating trapping mechanism. It's popular among carnivorous plant enthusiasts for its small size and attractive blooms. The cultivar 'Betty's Bay' is noted for its larger, more colorful flowers.",
+  "careTips": [
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Monitor watering needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Lamiales",
+    "family": "Lentibulariaceae",
+    "genus": "Utricularia",
+    "species": "Utricularia bisquamata"
+  },
+  "growthPattern": "carpeting",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Division, Seed",
+  "colors": "White, Pale Violet, Yellow, Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "carnivorous",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

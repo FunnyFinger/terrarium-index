@@ -1,0 +1,83 @@
+{
+  "id": 98,
+  "name": "Window Haworthia",
+  "scientificName": "Haworthia cooperi",
+  "commonNames": [
+    "Cooper's Haworthia",
+    "Pearl Plant",
+    "Cushion Aloe",
+    "Cooper"
+  ],
+  "category": [
+    "succulent"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "3-15 cm",
+  "growthRate": "Slow",
+  "description": "Haworthia cooperi, commonly known as Cooper's Haworthia or Window Haworthia, is a small succulent native to South Africa, particularly the Eastern Cape Province. It belongs to the Asphodelaceae family and features compact rosettes (5-15 cm across) of fleshy, translucent, green leaves with distinctive \"windows\" at the tips that allow light to penetrate into the plant. The windowed leaves are an adaptation to growing partially buried in soil - light enters through the windows to reach inner photosynthetic tissue. The leaves are arranged in a tight rosette and can have striped or banded patterns. The plant displays a rosette-forming growth habit and typically reaches 5-15 cm in height. It produces small, white to pink flowers on tall stalks, though flowering is infrequent. In its native habitat, it grows in well-draining, rocky soils, often partially buried. In terrariums or indoor settings, this plant adds unique texture with its windowed leaves and distinctive appearance. It's popular among succulent enthusiasts for its unique windows and easy care.",
+  "careTips": [
+    "Very easy to grow",
+    "Can handle low light better than other succulents",
+    "Don't overwater",
+    "Produces offsets freely"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Asparagales",
+    "family": "Asphodelaceae",
+    "genus": "Haworthia",
+    "species": "Haworthia cooperi"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Leaf Cuttings, Stem Cuttings, Offsets",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "lightRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  },
+  "airCirculationRange": {
+    "min": 50,
+    "max": 90,
+    "ideal": 70
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "succulent",
+  "temperatureRange": {
+    "min": 30,
+    "max": 54,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  }
+}

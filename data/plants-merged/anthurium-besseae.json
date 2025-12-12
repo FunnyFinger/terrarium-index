@@ -1,0 +1,83 @@
+{
+  "id": 10117,
+  "name": "Dark Velvet Anthurium",
+  "scientificName": "Anthurium besseae",
+  "commonNames": [],
+  "category": [
+    "anthurium",
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "20-60 cm",
+  "growthRate": "Moderate",
+  "description": "Anthurium besseae aff. 'Dark Velvet' is an epiphytic plant native to the tropical rainforests of Ecuador and Colombia. It belongs to the Araceae family and features upright stems (30-60 cm tall) with large, dramatic, heart-shaped to arrow-shaped, velvety, very dark green to almost black leaves with distinctive venation, giving it the 'Dark Velvet' name. The plant displays an upright, bushy growth habit. Many species have velvety leaves with prominent white or silver veins that create stunning contrast, and some produce fragrant blooms. In its native rainforest habitat, this plant grows in the humid understory with filtered light and high humidity. In its native habitat, it grows on tree branches in tropical forests. In terrariums or indoor settings, this plant adds natural beauty with its distinctive dark, velvety foliage. It's extremely popular among Anthurium enthusiasts for its unique dark coloration.",
+  "careTips": [
+    "Keep soil consistently moist but well-draining",
+    "High humidity preferred",
+    "Bright indirect light",
+    "Toxic if ingested - keep away from pets and children",
+    "Prefers warm, humid conditions",
+    "Bright indirect light for best flowering"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Anthurium",
+    "species": "Anthurium besseae"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "toxic-if-ingested",
+  "rarity": "very-rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "does-not-flower-in-cultivation",
+  "propagation": "Division, Offsets",
+  "colors": "Green, Dark Green, Black",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

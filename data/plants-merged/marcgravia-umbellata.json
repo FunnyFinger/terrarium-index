@@ -1,0 +1,89 @@
+{
+  "id": 10101,
+  "name": "Marcgravia umbellata",
+  "scientificName": "Marcgravia umbellata",
+  "commonNames": [
+    "Shingling Vine"
+  ],
+  "category": [
+    "creeper",
+    "flowering",
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "10-40 cm",
+  "growthRate": "Moderate",
+  "description": "Marcgravia umbellata is a climbing shingling vine native to tropical regions of the Americas. It belongs to the Marcgraviaceae family and exhibits the characteristic shingling growth pattern where juvenile leaves cling flat against surfaces as it climbs. The plant features small to medium-sized leaves that create a layered, shingling appearance. The plant displays a climbing, shingling growth habit and typically reaches 10-40 cm in height when grown in terrariums. It produces small flowers in umbel-like inflorescences. In its native habitat, it grows as an epiphyte on tree trunks and branches in tropical rainforests, receiving filtered sunlight through the dense canopy. In terrariums or indoor settings, this plant adds unique visual interest with its shingling habit. It's popular among terrarium enthusiasts for its distinctive climbing growth pattern.",
+  "careTips": [
+    "Requires high humidity (60-80%) - ideal for terrariums",
+    "Prefers bright, indirect light - avoid direct sunlight",
+    "Keep substrate consistently moist but not waterlogged",
+    "Can be mounted on wood or grown in well-draining mix",
+    "Native to tropical Americas - prefers warm temperatures (18-27°C)",
+    "Shingling growth habit - provide vertical surface for climbing",
+    "Well-suited for terrariums or mounted displays",
+    "Regular misting helps maintain high humidity",
+    "Protect from drafts and temperature fluctuations"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Ericales",
+    "family": "Marcgraviaceae",
+    "genus": "Marcgravia",
+    "species": "Marcgravia umbellata"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 70,
+    "ideal": 55
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic, high humidity",
+  "temperatureRange": {
+    "min": 36,
+    "max": 54,
+    "ideal": 45
+  },
+  "difficultyRange": {
+    "min": 50,
+    "max": 80,
+    "ideal": 65
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

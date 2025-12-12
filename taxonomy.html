@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Taxonomy Tree - Vivarium Plant Index</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=3">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        header {
+            position: relative;
+            z-index: 1000;
+        }
+        
+        main {
+            padding: 0 !important;
+            margin: 0 !important;
+            margin-top: 65px !important; /* Start below the navigation bar (nav-container height) */
+            width: 100vw !important;
+            height: calc(100vh - 65px) !important; /* Fill viewport minus header height */
+            overflow: hidden;
+            position: relative;
+            max-width: 100vw !important;
+        }
+        
+        .taxonomy-container {
+            padding: 0 !important;
+            margin: 0 !important;
+            max-width: 100% !important;
+            width: 100% !important;
+            height: 100% !important;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        footer {
+            display: none !important;
+            height: 0 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        
+        /* Override any container padding from styles.css */
+        main .container {
+            padding: 0 !important;
+            margin: 0 !important;
+            max-width: 100% !important;
+        }
+        
+        /* Ensure no margins from body/html - hide footer if it exists */
+        body > footer {
+            display: none !important;
+        }
+        
+        #taxonomyTree {
+            width: 100%;
+            height: 100%;
+            background: var(--bg-color);
+            border-radius: 0;
+            padding: 0;
+            margin: 0;
+            overflow: visible;
+            flex: 1;
+        }
+        
+        .tree-node {
+            cursor: pointer;
+        }
+        
+        .tree-node circle {
+            fill: var(--card-bg);
+            stroke: var(--primary-color);
+            stroke-width: 2px;
+            transition: stroke-width 0.1s ease, filter 0.1s ease;
+        }
+        
+        .tree-node:hover circle {
+            stroke-width: 3px;
+            filter: brightness(1.1);
+        }
+        
+        .tree-node circle.leaf {
+            fill: var(--accent-color);
+            stroke: var(--primary-color);
+        }
+        
+        .tree-node circle.domain {
+            fill: #1a3009;
+            stroke: #0d1805;
+            stroke-width: 4px;
+        }
+        
+        .tree-node circle.kingdom {
+            fill: #2d5016;
+            stroke: #1a3009;
+            stroke-width: 3px;
+        }
+        
+        .tree-node circle.phylum {
+            fill: #4a7c2a;
+            stroke: #2d5016;
+            stroke-width: 2.5px;
+        }
+        
+        .tree-node circle.class {
+            fill: #6ba84f;
+            stroke: #4a7c2a;
+            stroke-width: 2px;
+        }
+        
+        .tree-node circle.order {
+            fill: #8dc472;
+            stroke: #6ba84f;
+            stroke-width: 1.5px;
+        }
+        
+        .tree-node circle.family {
+            fill: #a8d896;
+            stroke: #8dc472;
+            stroke-width: 1.5px;
+        }
+        
+        .tree-node circle.genus {
+            fill: #c4e5b8;
+            stroke: #a8d896;
+            stroke-width: 1px;
+        }
+        
+        .tree-node circle.species {
+            fill: #e0f3da;
+            stroke: #c4e5b8;
+            stroke-width: 1px;
+        }
+        
+        .tree-link {
+            fill: none;
+            stroke: var(--border-color);
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: opacity 0.1s ease;
+        }
+        
+        .tree-link:hover {
+            opacity: 1 !important;
+        }
+        
+        .tree-label {
+            font-family: 'Lato', sans-serif;
+            font-size: 8px; /* All ranks use same size as species */
+            fill: var(--text-color);
+            pointer-events: none;
+            text-anchor: start;
+            transition: none;
+        }
+        
+        /* Allow pointer events on labels for non-species, non-domain nodes */
+        .tree-label:not(.species):not(.domain) {
+            pointer-events: all;
+        }
+        
+        /* Allow pointer events on species labels as well */
+        .tree-label.species {
+            pointer-events: all;
+        }
+        
+        .tree-label.domain {
+            font-size: 8px; /* Same as species */
+            font-weight: 700;
+            fill: #0d1805;
+        }
+        
+        .tree-label.kingdom {
+            font-size: 8px; /* Same as species */
+            font-weight: 700;
+            fill: #1a3009;
+        }
+        
+        .tree-label.phylum {
+            font-size: 8px; /* Same as species */
+            font-weight: 600;
+            fill: #2d5016;
+        }
+        
+        .tree-label.class {
+            font-size: 8px; /* Same as species */
+            font-weight: 500;
+            fill: #4a7c2a;
+        }
+        
+        .tree-label.order {
+            font-size: 8px; /* Same as species */
+            font-weight: 500;
+        }
+        
+        .tree-label.family {
+            font-size: 8px; /* Same as species */
+        }
+        
+        .tree-label.genus {
+            font-size: 8px; /* Same as species */
+        }
+        
+        .tree-label.species {
+            font-size: 8px;
+        }
+        
+        .plant-thumbnail {
+            /* SVG image elements - dimensions set via attributes, not CSS */
+            cursor: pointer;
+        }
+        
+        
+        .plant-thumbnail-container {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .plant-tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.95);
+            color: white;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            pointer-events: none;
+            z-index: 1000;
+            max-width: 600px;
+            width: auto;
+            min-width: 300px;
+            word-wrap: break-word;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            display: none;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .tooltip-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .tooltip-image {
+            display: block;
+            max-width: 560px;
+            max-height: 560px;
+            width: auto;
+            height: auto;
+            border-radius: 4px;
+            margin: 0 auto;
+            object-fit: contain;
+        }
+        
+        .tooltip-common-name {
+            font-size: 0.85rem;
+            color: #a8d896;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            font-style: italic;
+        }
+        
+        .tooltip-description {
+            font-size: 0.8rem;
+            color: #e0e0e0;
+            line-height: 1.4;
+            margin-top: 0.5rem;
+            text-align: justify;
+            max-width: 100%;
+        }
+        
+        .loading-taxonomy {
+            text-align: center;
+            padding: 4rem;
+            color: var(--text-light);
+        }
+        
+        .loading-taxonomy .spinner {
+            border: 4px solid var(--border-color);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .tree-legend {
+            position: fixed;
+            top: 5rem;
+            right: 2rem;
+            background: var(--card-bg);
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            font-size: 0.85rem;
+            z-index: 100;
+            max-width: 250px;
+        }
+        
+        .tree-legend h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .tree-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0.25rem 0;
+        }
+        
+        .tree-legend-circle {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 1px solid var(--border-color);
+        }
+        
+        .tree-legend-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .tree-legend-controls button {
+            padding: 0.5rem 1rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-color);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.1s ease;
+            width: 100%;
+        }
+        
+        .tree-legend-controls button:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        /* Context menu styles */
+        .context-menu {
+            position: fixed;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            padding: 0.5rem 0;
+            z-index: 10000;
+            min-width: 200px;
+            display: none;
+        }
+        
+        .context-menu-item {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            color: var(--text-color);
+            font-size: 0.9rem;
+            transition: background 0.1s ease;
+        }
+        
+        .context-menu-item:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .context-menu-item:first-child {
+            border-radius: 8px 8px 0 0;
+        }
+        
+        .context-menu-item:last-child {
+            border-radius: 0 0 8px 8px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="index.html" class="logo-link">
+                        <span class="logo-text">Vivarium Plant Index</span>
+                    </a>
+                </div>
+                <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-menu" id="navMenu">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="definitions.html" class="nav-link">Definitions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="taxonomy.html" class="nav-link active">Taxonomy</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="taxonomy-container">
+            <div id="taxonomyTree" class="loading-taxonomy">
+                <div class="spinner"></div>
+                <p>Loading taxonomy tree...</p>
+            </div>
+        </div>
+        
+        <!-- Context menu -->
+        <div id="contextMenu" class="context-menu">
+            <div class="context-menu-item" id="openColMenuItem">Open in Catalogue of Life</div>
+            <div class="context-menu-item" id="isolateMenuItem">Isolate Selected Name</div>
+        </div>
+        
+        <div class="tree-legend">
+            <h3>Taxonomic Ranks</h3>
+            <div class="tree-legend-item">
+                <div class="tree-legend-circle" style="background: #1a3009; border-color: #0d1805;"></div>
+                <span>Domain (Life)</span>
+            </div>
+            <div class="tree-legend-item">
+                <div class="tree-legend-circle" style="background: #2d5016; border-color: #1a3009;"></div>
+                <span>Kingdom</span>
+            </div>
+            <div class="tree-legend-item">
+                <div class="tree-legend-circle" style="background: #4a7c2a; border-color: #2d5016;"></div>
+                <span>Phylum</span>
+            </div>
+            <div class="tree-legend-item">
+                <div class="tree-legend-circle" style="background: #6ba84f; border-color: #4a7c2a;"></div>
+                <span>Class</span>
+            </div>
+            <div class="tree-legend-item">
+                <div class="tree-legend-circle" style="background: #8dc472; border-color: #6ba84f;"></div>
+                <span>Order</span>
+            </div>
+            <div class="tree-legend-item">
+                <div class="tree-legend-circle" style="background: #a8d896; border-color: #8dc472;"></div>
+                <span>Family</span>
+            </div>
+            <div class="tree-legend-item">
+                <div class="tree-legend-circle" style="background: #c4e5b8; border-color: #a8d896;"></div>
+                <span>Genus</span>
+            </div>
+            <div class="tree-legend-item">
+                <div class="tree-legend-circle" style="background: #e0f3da; border-color: #c4e5b8;"></div>
+                <span>Species</span>
+            </div>
+            <div class="tree-legend-controls">
+                <button id="btnExpand">Expand All</button>
+                <button id="btnCollapse">Collapse All</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Plant data - modular structure -->
+    <script src="data.js?v=3"></script>
+    <script src="data/plant-loader.js?v=3"></script>
+    <script src="taxonomy.js?v=1"></script>
+</body>
+</html>

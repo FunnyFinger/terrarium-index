@@ -1,0 +1,89 @@
+{
+  "id": 89,
+  "name": "Rose Grape",
+  "scientificName": "Medinilla magnifica",
+  "commonNames": [
+    "Philippine Orchid"
+  ],
+  "category": [
+    "flowering",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "20-50 cm",
+  "growthRate": "Slow",
+  "description": "Medinilla magnifica, commonly known as Rose Grape, Showy Medinilla, or Malaysian Orchid, is an epiphytic flowering plant native to the Philippines, particularly in tropical rainforests. It belongs to the Melastomataceae family and features large, leathery, dark green leaves (20-30 cm long) with prominent veins. The plant produces spectacular pendulous flower clusters (30-50 cm long) with pink to magenta bracts and small, pink to purple flowers that resemble grapes, hence the common name. The plant displays an upright, bushy growth habit and typically reaches 30-50 cm in height. In its native habitat, it grows as an epiphyte on tree trunks and branches in humid, tropical forests. In terrariums or indoor settings, this plant adds stunning floral displays with its dramatic, pendulous flower clusters. It's popular among plant collectors for its spectacular blooms, though it can be challenging to grow.",
+  "careTips": [
+    "Requires very high humidity (70-90%) - ideal for closed terrariums",
+    "Beautiful pendulous flowers - spectacular pink to magenta flower clusters",
+    "Can be sensitive to conditions - requires consistent care",
+    "Prefers acidic soil - use peat-based mix with good drainage",
+    "Native to Philippines - prefers warm, humid conditions (18-24°C)",
+    "Bright indirect light is essential - avoid direct sun",
+    "Keep consistently moist but not waterlogged - mist regularly",
+    "Well-draining mix recommended - epiphytic nature means roots need air",
+    "Non-toxic to pets and humans",
+    "Can be grown in terrariums with high humidity",
+    "Watch for spider mites and mealybugs, especially in low humidity",
+    "Flowering requires mature plants and optimal conditions"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Myrtales",
+    "family": "Melastomataceae",
+    "genus": "Medinilla",
+    "species": "Medinilla magnifica"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Layering",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 10
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "id": 10447,
+  "name": "Pink Quill",
+  "scientificName": "Wallisia cyanea",
+  "commonNames": [],
+  "category": [
+    "bromeliad",
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "10-40 cm",
+  "growthRate": "Moderate",
+  "description": "Wallisia cyanea (formerly Tillandsia cyanea), commonly known as Pink Quill, is an epiphytic bromeliad native to tropical regions of South America, particularly Ecuador and Peru. It belongs to the Bromeliaceae family and features upright rosettes (20-40 cm tall) with medium-sized, dramatic, lance-shaped, dark green leaves with distinctive pink to purple flower spikes. The plant displays an upright rosette growth habit. Air plants absorb water and nutrients directly through their leaves using specialized structures called trichomes. In its native habitat, it grows on tree branches in tropical forests. In terrariums or indoor settings, this plant creates a modern, sculptural aesthetic when mounted or displayed artistically. It's popular among bromeliad enthusiasts for its attractive pink flower spikes.",
+  "careTips": [
+    "Keep central cup (vase) filled with water",
+    "Water soil sparingly - mainly keep cup filled",
+    "Bright indirect light preferred",
+    "High humidity beneficial",
+    "Remove dead leaves to maintain appearance"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Poales",
+    "family": "Bromeliaceae",
+    "genus": "Wallisia",
+    "species": "Wallisia cyanea"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "irregular",
+  "propagation": "Division, Offsets",
+  "colors": "Green, Pink, Purple, Blue",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

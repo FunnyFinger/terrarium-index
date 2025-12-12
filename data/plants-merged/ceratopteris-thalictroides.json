@@ -1,0 +1,117 @@
+{
+  "id": 50,
+  "name": "Water Sprite",
+  "scientificName": "Ceratopteris thalictroides",
+  "commonNames": [],
+  "category": [
+    "aquatic",
+    "creeper",
+    "fern",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "No Substrate Needed",
+  "size": "5-100 cm",
+  "growthRate": "Very Fast",
+  "description": "Ceratopteris thalictroides, commonly known as Water Sprite, Water Fern, or Indian Fern, is a fast-growing aquatic and semi-aquatic fern native to tropical and subtropical regions worldwide, including Southeast Asia, Africa, Australia, and the Americas. It belongs to the Pteridaceae family and features highly variable, deeply divided, feathery fronds (15-100 cm long) that can be submerged or emersed. When grown submerged, the leaves are typically more finely divided and feathery, while emersed leaves are broader and less divided. The fronds are bright green and grow from a central rosette. This plant displays an upright, bushy growth habit and can reach 15-100 cm in height. It produces spores on the underside of fronds for reproduction. In its native habitat, it grows in shallow water, marshes, and along the edges of ponds and streams. In terrariums or indoor settings, this plant provides lush, feathery texture and excellent water filtration. It's extremely popular in aquariums for its fast growth and ability to provide cover and shade.",
+  "careTips": [
+    "Can be planted in substrate or left floating - both methods work well",
+    "Very fast growing - excellent for nutrient export and algae prevention",
+    "Easy to propagate from adventitious plantlets that form on leaves - separate when they develop roots",
+    "Great for providing cover and shade for fish and other aquatic life",
+    "Thrives in moderate to high light (2-3 watts per gallon) - full sun can be too intense",
+    "Can be grown emersed (above water) or submerged (fully aquatic) - adapts well to both",
+    "Native to tropical/subtropical regions worldwide - prefers warm water (20-28°C)",
+    "Prefers pH 6.0-7.5 and soft to moderately hard water (2-12 dGH)",
+    "Benefits from regular fertilization - use liquid fertilizers or root tabs",
+    "CO2 supplementation beneficial but not required",
+    "Non-toxic and safe for all aquarium inhabitants",
+    "Can be used in aquariums, paludariums, and ripariums",
+    "When grown emersed, requires high humidity (70-90%) and consistently moist substrate",
+    "Trim regularly to control growth - can become invasive if not managed"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Polypodiopsida",
+    "order": "Polypodiales",
+    "family": "Pteridaceae",
+    "genus": "Ceratopteris",
+    "species": "Ceratopteris thalictroides"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "fully-aquatic",
+  "plantType": "fern",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Spores, Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 100,
+    "max": 100,
+    "ideal": 100
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "aquatic",
+  "waterCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "temperatureRange": {
+    "min": 40,
+    "max": 56.00000000000001,
+    "ideal": 48
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "waterTemperatureRange": {
+    "min": 40,
+    "max": 56.00000000000001,
+    "ideal": 48
+  },
+  "waterPhRange": {
+    "min": 42.857142857142854,
+    "max": 53.57142857142857,
+    "ideal": 48.21428571428571
+  },
+  "waterHardnessRange": {
+    "min": 6.666666666666667,
+    "max": 40,
+    "ideal": 23.333333333333332
+  },
+  "salinityRange": {
+    "min": 0,
+    "max": 5,
+    "ideal": 2.5
+  },
+  "growthRateRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  }
+}

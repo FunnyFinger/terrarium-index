@@ -1,0 +1,82 @@
+{
+  "id": 359,
+  "name": "Mother Spleenwort",
+  "scientificName": "Asplenium bulbiferum",
+  "commonNames": [
+    "Hen And Chicken Fern",
+    "Spleenwort"
+  ],
+  "category": [
+    "fern",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "10-60 cm",
+  "growthRate": "Moderate",
+  "description": "Asplenium bulbiferum, commonly known as Mother Spleenwort or Hen and Chicken Fern, is a terrestrial fern native to New Zealand and Australia. It belongs to the Aspleniaceae family and features arching, finely divided, bright green fronds (30-60 cm long) that produce small bulbils (plantlets) on the upper surface, which can drop and grow into new plants, hence the common name. The fronds have a distinctive, feathery appearance. The plant displays an upright, arching growth habit and typically reaches 30-60 cm in height. In its native habitat, it grows in moist, shaded areas of forests. In terrariums or indoor settings, this plant creates a stunning architectural focal point with its elegant fronds and unique bulbil-producing ability. It's popular among fern enthusiasts for its easy propagation via bulbils.",
+  "careTips": [
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Monitor watering needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Polypodiopsida",
+    "order": "Polypodiales",
+    "family": "Aspleniaceae",
+    "genus": "Asplenium",
+    "species": "Asplenium bulbiferum"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "fern",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Spores, Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

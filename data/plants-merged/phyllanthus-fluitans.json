@@ -1,0 +1,117 @@
+{
+  "id": 47,
+  "name": "Red Root Floater",
+  "scientificName": "Phyllanthus fluitans",
+  "commonNames": [
+    "Floating Spurge",
+    "Red Rooted Floater"
+  ],
+  "category": [
+    "aquatic",
+    "colorful"
+  ],
+  "substrate": "No Substrate Needed",
+  "size": "2-5 cm",
+  "growthRate": "Fast",
+  "description": "Phyllanthus fluitans, commonly known as Red Root Floater, is a free-floating aquatic plant native to South America, particularly the Amazon Basin in Brazil, Colombia, and Venezuela. It belongs to the Phyllanthaceae family and features small, round to oval, bright green leaves (1-2 cm across) that float on the water surface. The leaves have a slightly wavy margin and grow in pairs along branching stems. The most distinctive feature is the bright red roots that hang freely in the water, providing striking visual contrast. The plant displays a rosette-like growth habit and forms dense floating mats. Under high light, the leaves can develop red or bronze tints. In its native habitat, it grows floating on the surface of still or slow-moving water bodies in tropical regions. In terrariums or indoor settings, this plant adds vibrant colors with its red roots and can provide shade and natural filtration. It's popular in aquascaping for its unique appearance and fast growth.",
+  "careTips": [
+    "Small floating plant - no substrate needed, roots hang freely in water",
+    "Red roots add striking color contrast - most vibrant under high light",
+    "Needs moderate to high light (2-3 watts per gallon) for best growth and red coloration",
+    "Fast growing - can quickly cover water surface, trim regularly to control",
+    "Native to Amazon Basin (Brazil, Colombia, Venezuela) - prefers warm water (22-28°C)",
+    "Prefers pH 6.0-7.5 and soft to moderately hard water (2-12 dGH)",
+    "Benefits from regular fertilization - absorbs nutrients through roots from water",
+    "CO2 supplementation beneficial but not required",
+    "Non-toxic and safe for all aquarium inhabitants",
+    "Can be used in aquariums, paludariums, and ripariums",
+    "Propagates via stolons (runners) - daughter plants form on stolons",
+    "If roots lose red color, increase light intensity",
+    "Requires some water movement to prevent stagnant conditions",
+    "Leaves may develop red/bronze tints under high light conditions"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Malpighiales",
+    "family": "Phyllanthaceae",
+    "genus": "Phyllanthus",
+    "species": "Phyllanthus fluitans"
+  },
+  "growthPattern": "rosette",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "fully-aquatic",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Division, Runners",
+  "colors": "Red, Brown",
+  "humidityRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "aquatic",
+  "waterCirculationRange": {
+    "min": 10,
+    "max": 30,
+    "ideal": 20
+  },
+  "temperatureRange": {
+    "min": 44,
+    "max": 56.00000000000001,
+    "ideal": 50
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "waterTemperatureRange": {
+    "min": 44,
+    "max": 56.00000000000001,
+    "ideal": 50
+  },
+  "waterPhRange": {
+    "min": 42.857142857142854,
+    "max": 53.57142857142857,
+    "ideal": 48.21428571428571
+  },
+  "waterHardnessRange": {
+    "min": 6.666666666666667,
+    "max": 40,
+    "ideal": 23.333333333333332
+  },
+  "salinityRange": {
+    "min": 0,
+    "max": 5,
+    "ideal": 2.5
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

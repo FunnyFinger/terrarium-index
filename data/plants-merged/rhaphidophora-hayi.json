@@ -1,0 +1,89 @@
+{
+  "id": 390,
+  "name": "Shingle Plant",
+  "scientificName": "Rhaphidophora hayi",
+  "commonNames": [
+    "Hay's Rhaphidophora"
+  ],
+  "category": [
+    "climbing",
+    "unique",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "Climbing, up to 2 m",
+  "growthRate": "Moderate to fast",
+  "description": "Rhaphidophora hayi, commonly known as Shingle Plant, is a fascinating climbing plant native to Southeast Asia. It features heart-shaped leaves that press flat against whatever surface it's growing on, resembling green shingles on a roof. The leaves are dark green with prominent veins and have a velvety texture. As the plant matures, the leaves become larger and more pronounced. The plant displays a climbing growth habit and uses aerial roots to attach to surfaces. It's an excellent choice for terrariums where it can climb up backgrounds or walls, creating a unique shingle-like appearance. The plant thrives in high humidity and filtered light.",
+  "careTips": [
+    "Provide bright, indirect light",
+    "Maintain high humidity (70-85%)",
+    "Keep soil evenly moist but well-draining",
+    "Well-draining potting mix",
+    "Temperature: 18-27°C (65-80°F)",
+    "Needs support to climb - leaves press flat against surface",
+    "Aerial roots attach to surfaces",
+    "Propagates by stem cuttings",
+    "Toxic to pets if ingested",
+    "Fertilize monthly during growing season",
+    "Unique shingle-like growth habit"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Rhaphidophora",
+    "species": "Rhaphidophora hayi"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "toxic-if-ingested",
+  "rarity": "uncommon",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "does-not-flower-in-cultivation",
+  "propagation": "Stem Cuttings",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 70,
+    "max": 85,
+    "ideal": 77
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 40,
+    "max": 70,
+    "ideal": 55
+  },
+  "waterNeedsRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "substrateType": "moist",
+  "specialNeeds": "climbing support",
+  "temperatureRange": {
+    "min": 18,
+    "max": 27,
+    "ideal": 22
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 6,
+    "max": 7,
+    "ideal": 6.5
+  },
+  "growthRateRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  }
+}

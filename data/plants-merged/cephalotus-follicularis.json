@@ -1,0 +1,87 @@
+{
+  "id": 106,
+  "name": "Albany Pitcher Plant",
+  "scientificName": "Cephalotus follicularis",
+  "commonNames": [
+    "Australian Pitcher Plant",
+    "Cephalotus (Albany Pitcher Plant)",
+    "Western Australian Pitcher Plant"
+  ],
+  "category": [
+    "mini",
+    "carnivorous",
+    "leafy"
+  ],
+  "substrate": "Epiphytic Mix",
+  "size": "8-10 cm",
+  "growthRate": "Slow",
+  "description": "Cephalotus follicularis, commonly known as Albany Pitcher Plant or Australian Pitcher Plant, is a carnivorous plant native to a small region in southwestern Australia, particularly around Albany. It belongs to the Cephalotaceae family (monotypic - only species in the family) and features two types of leaves: flat, non-carnivorous leaves and distinctive, pitcher-shaped traps (2-5 cm tall) with a lid. The pitchers are green to red with a waxy interior and are designed to trap and digest insects. The plant displays a compact, rosette-forming growth habit and typically reaches 5-10 cm in height. It produces small, white flowers on tall stalks. In its native habitat, it grows in nutrient-poor, acidic, wet soils in bogs and swamps. In terrariums or indoor settings, this plant is perfect for small spaces with its compact size and fascinating carnivorous pitchers. It's extremely rare and challenging to grow, making it highly sought after by carnivorous plant enthusiasts.",
+  "careTips": [
+    "Requires distilled/rain water only",
+    "Cool temperatures essential",
+    "Very high humidity required",
+    "Very challenging to grow",
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Monitor watering needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Oxalidales",
+    "family": "Cephalotaceae",
+    "genus": "Cephalotus",
+    "species": "Cephalotus follicularis"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division, Seed",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "moist",
+  "specialNeeds": "carnivorous",
+  "temperatureRange": {
+    "min": 30,
+    "max": 48,
+    "ideal": 39
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  }
+}

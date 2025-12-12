@@ -1,0 +1,88 @@
+{
+  "id": 10466,
+  "name": "Prayer Plant",
+  "scientificName": "Maranta leuconeura",
+  "commonNames": [
+    "Tricolor Maranta",
+    "Herringbone Plant"
+  ],
+  "category": [
+    "colorful",
+    "leafy",
+    "mini",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "15-30 cm",
+  "growthRate": "Moderate",
+  "description": "Maranta leuconeura, commonly known as Prayer Plant, is a popular houseplant native to the tropical rainforests of Brazil. It features striking, oval leaves with vibrant patterns of dark green, light green, and red or purple markings, creating a distinctive herringbone or feather-like pattern. The leaves are velvety to the touch and have a unique characteristic: they fold upward at night, resembling hands in prayer, which gives the plant its common name. This nyctinastic movement is a response to light changes. The plant displays a low, spreading growth habit and typically reaches 15-30 cm in height and spread when grown indoors. The undersides of the leaves are often purple or reddish, adding to the plant's visual appeal. In its native habitat, it grows as an understory plant in tropical forests, thriving in warm, humid conditions with filtered light. The plant produces small, white or purple flowers on spikes, though it's primarily grown for its attractive, patterned foliage. It's an excellent choice for terrariums and indoor plant collections due to its compact size, striking appearance, and unique leaf movements. The plant is non-toxic and safe for homes with pets. Popular cultivars include 'Erythroneura' (Red Prayer Plant) and 'Kerchoveana' (Rabbit's Foot).",
+  "careTips": [
+    "Provide bright, indirect light - avoid direct sunlight",
+    "Maintain high humidity (60-80%) - mist regularly or use humidifier",
+    "Keep soil consistently moist but not waterlogged",
+    "Water when top inch of soil feels dry",
+    "Use room-temperature water to avoid shocking roots",
+    "Fertilize every two weeks during growing season with diluted fertilizer",
+    "Protect from drafts and temperature fluctuations",
+    "Regular pruning helps maintain shape and encourage bushier growth"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Zingiberales",
+    "family": "Marantaceae",
+    "genus": "Maranta",
+    "species": "Maranta leuconeura"
+  },
+  "growthPattern": "carpeting",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "year-round",
+  "propagation": "Division, Stem Cuttings",
+  "colors": "Green, Red, Purple, White",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "waterNeedsRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "substrateType": "moist",
+  "specialNeeds": "High humidity required",
+  "temperatureRange": {
+    "min": 40,
+    "max": 52,
+    "ideal": 46
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

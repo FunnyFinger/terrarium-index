@@ -1,0 +1,91 @@
+{
+  "id": 81,
+  "name": "Tropical Pitcher Plant",
+  "scientificName": "Nepenthes ventricosa",
+  "commonNames": [
+    "Monkey Cup",
+    "Nepenthes (Pitcher Plant)"
+  ],
+  "category": [
+    "carnivorous",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Epiphytic Mix",
+  "size": "23-30 cm",
+  "growthRate": "Moderate",
+  "description": "Nepenthes ventricosa, commonly known as Pitcher Plant or Monkey Cup, is a carnivorous plant native to the Philippines, particularly in high-altitude tropical forests. It belongs to the Nepenthaceae family and features modified leaves that form distinctive pitcher-shaped traps (10-30 cm tall) filled with digestive enzymes. The pitchers are typically green to red with a waxy interior that prevents prey from climbing out. The plant displays an upright, climbing or bushy growth habit and typically reaches 10-30 cm in height. It produces small, inconspicuous flowers. In its native habitat, it grows as an epiphyte or terrestrial plant in nutrient-poor soils, supplementing nutrients by trapping and digesting insects. Some larger species can trap small vertebrates. In terrariums or indoor settings, this plant adds unique, fascinating carnivorous interest. It's popular among carnivorous plant enthusiasts for its distinctive pitchers.",
+  "careTips": [
+    "Must use distilled/rain water only - tap water contains minerals that will harm the plant",
+    "Requires very high humidity (70-90%) - ideal for closed terrariums",
+    "Needs consistent moisture - keep substrate moist but not waterlogged",
+    "Feeding optional - catches insects naturally, but can be fed small insects occasionally",
+    "Native to Philippines - prefers warm, humid conditions (18-26°C)",
+    "Bright indirect light is essential - avoid direct sun which can burn pitchers",
+    "Sphagnum moss or specialized carnivorous plant mix recommended - avoid nutrient-rich soils",
+    "Do not fertilize - plant derives nutrients from captured prey",
+    "Non-toxic to pets and humans",
+    "Can be grown in terrariums or paludariums with high humidity",
+    "Watch for pitcher rot if kept too wet - ensure good air circulation",
+    "Pitchers may not form if humidity is too low"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Caryophyllales",
+    "family": "Nepenthaceae",
+    "genus": "Nepenthes",
+    "species": "Nepenthes ventricosa"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division, Seed",
+  "colors": "Red",
+  "humidityRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 10
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "carnivorous",
+  "temperatureRange": {
+    "min": 36,
+    "max": 52,
+    "ideal": 44
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

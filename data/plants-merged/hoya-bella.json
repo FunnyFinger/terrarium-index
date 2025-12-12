@@ -1,0 +1,82 @@
+{
+  "id": 10210,
+  "name": "Miniature Wax Plant",
+  "scientificName": "Hoya bella",
+  "commonNames": [],
+  "category": [
+    "hoya",
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "15-60 cm",
+  "growthRate": "Moderate",
+  "description": "Hoya bella, commonly known as Miniature Wax Plant, is an epiphytic plant native to tropical regions of India and Myanmar. It belongs to the Apocynaceae family and features trailing stems (30-60 cm long) with small, thick, waxy, dark green leaves and clusters of star-shaped, white flowers with pink centers. The flowers have a distinctive star shape with a waxy texture and often emit strong, pleasant fragrances, especially at night. Adapted to tropical climates with high humidity, consistent warmth, and filtered light conditions. In its native habitat, it grows on tree branches in tropical forests. In terrariums or indoor settings, this plant adds tropical charm with its waxy, star-shaped flowers and trailing vines. It's extremely popular among Hoya enthusiasts for its compact size and fragrant flowers.",
+  "careTips": [
+    "Let soil dry between waterings",
+    "Bright indirect light preferred",
+    "High humidity encourages better growth",
+    "Trailing or vining - provide support if needed",
+    "Can be propagated from stem cuttings"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Gentianales",
+    "family": "Apocynaceae",
+    "genus": "Hoya",
+    "species": "Hoya bella"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "very-rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings",
+  "colors": "Green, White, Pink",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

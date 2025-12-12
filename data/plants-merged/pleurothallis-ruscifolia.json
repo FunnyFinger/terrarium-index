@@ -1,0 +1,84 @@
+{
+  "id": 10353,
+  "name": "Pleurothallis ruscifolia",
+  "scientificName": "Pleurothallis ruscifolia",
+  "commonNames": [
+    "Side-flower Orchid"
+  ],
+  "category": [
+    "orchid",
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "5-20 cm",
+  "growthRate": "Moderate",
+  "description": "Pleurothallis ruscifolia is an epiphytic orchid native to tropical regions of Central and South America, particularly Costa Rica, Panama, and Colombia, at elevations of 600-2400 m. It belongs to the Orchidaceae family and features upright stems (10-20 cm tall) with small, dramatic, lance-shaped, dark green leaves and distinctive small flowers. The plant displays an upright growth habit. Orchids have highly specialized flowers designed for specific pollinators. Orchids in the wild grow primarily as epiphytes in humid forests, with some terrestrial species adapted to specific soil conditions. In its native habitat, it grows on tree branches in cloud forests. In terrariums or indoor settings, this plant brings exotic elegance and sophistication to any environment. It's popular among orchid enthusiasts for its compact size.",
+  "careTips": [
+    "Provide high humidity (60-80%)",
+    "Water when media begins to dry",
+    "Bright indirect light - avoid direct sun",
+    "Good air circulation is important",
+    "Feed with orchid fertilizer during growing season"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Asparagales",
+    "family": "Orchidaceae",
+    "genus": "Pleurothallis",
+    "species": "Pleurothallis ruscifolia"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "irregular",
+  "propagation": "Division, Pups",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

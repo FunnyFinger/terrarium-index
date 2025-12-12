@@ -1,0 +1,80 @@
+{
+  "id": 326,
+  "name": "Calico Flower",
+  "scientificName": "Aristolochia littoralis",
+  "commonNames": [],
+  "category": [
+    "creeper",
+    "flowering",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "30-300 cm",
+  "growthRate": "Moderate",
+  "description": "Aristolochia littoralis, commonly known as Calico Flower, Elegant Dutchman's Pipe, or Coastal Dutchman's Pipe, is a perennial climbing plant native to tropical regions of Central and South America, particularly coastal areas. It belongs to the Aristolochiaceae family and features heart-shaped to kidney-shaped, dark green leaves (5-15 cm long). The plant produces distinctive, pipe-shaped flowers (5-10 cm long) that are cream to yellow with purple-brown markings and intricate patterns resembling calico fabric, hence the common name. The scientific name Aristolochia was developed from Ancient Greek aristos (best) + locheia (childbirth), as in ancient times the plant was thought to be effective against infections caused by childbirth. The species name littoralis means 'coastal'. The plant displays a climbing or trailing growth habit and can reach lengths of 2-3 meters. In its native habitat, it grows as a climbing vine in tropical forests. In terrariums or indoor settings, this plant adds unique interest with its distinctive flowers.",
+  "careTips": [
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Monitor watering needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Piperales",
+    "family": "Aristolochiaceae",
+    "genus": "Aristolochia",
+    "species": "Aristolochia littoralis"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Layering",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

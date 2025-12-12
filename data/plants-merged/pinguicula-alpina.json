@@ -1,0 +1,82 @@
+{
+  "id": 454,
+  "name": "Alpine Butterwort",
+  "scientificName": "Pinguicula alpina",
+  "commonNames": [
+    "Butterwort Plant"
+  ],
+  "category": [
+    "carnivorous",
+    "flowering"
+  ],
+  "substrate": "Epiphytic Mix",
+  "size": "8-10 cm",
+  "growthRate": "Moderate",
+  "description": "Pinguicula alpina, commonly known as Alpine Butterwort, is a small carnivorous plant native to high latitudes and altitudes throughout Europe, Asia, and North America, particularly in alpine and subarctic regions. It belongs to the Lentibulariaceae family and features a compact rosette of sticky, bright green leaves (2-5 cm long) that secrete mucilage to trap and digest insects. The plant displays a rosette-forming growth habit and typically reaches 5-10 cm in height. It produces small, white to pale yellow flowers in spring and summer. These carnivorous plants secrete sticky mucilage that not only traps insects but also has antibacterial properties. In its native habitat, it grows in nutrient-poor, wet soils in bogs and alpine meadows. In terrariums or indoor settings, this plant offers unique intrigue with its rosette form and dewy, jewel-like appearance. It's popular among carnivorous plant enthusiasts for its cold tolerance and attractive flowers.",
+  "careTips": [
+    "Requires distilled or rain water only",
+    "Bright light essential for health",
+    "Use specialized carnivorous plant media",
+    "High humidity preferred",
+    "Feed with small insects occasionally"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Lamiales",
+    "family": "Lentibulariaceae",
+    "genus": "Pinguicula",
+    "species": "Pinguicula alpina"
+  },
+  "growthPattern": "rosette",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Division, Leaf Cuttings, Seed",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "substrateType": "moist",
+  "specialNeeds": "carnivorous",
+  "temperatureRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

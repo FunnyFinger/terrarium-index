@@ -1,0 +1,83 @@
+{
+  "id": 10055,
+  "name": "Chinese Evergreen",
+  "scientificName": "Aglaonema commutatum",
+  "commonNames": [
+    "Philippine Evergreen"
+  ],
+  "category": [
+    "aglaonema",
+    "leafy",
+    "mini",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "20-60 cm",
+  "growthRate": "Moderate",
+  "description": "Aglaonema commutatum 'Tom's Pride' is a variegated form of Aglaonema commutatum, a terrestrial plant native to tropical regions of Southeast Asia, particularly the Philippines and Indonesia. It belongs to the Araceae family and features upright stems (30-60 cm tall) with large, dramatic, variegated leaves featuring green with white or cream variegation. The plant displays an upright, bushy growth habit. In tropical forests, this plant typically grows as a terrestrial understory plant, receiving filtered sunlight through the dense canopy. It produces small, inconspicuous flowers. In its native habitat, it grows in moist, shaded areas of tropical forests. In terrariums or indoor settings, this plant adds vibrant colors and visual interest with its variegated foliage. It's popular among houseplant enthusiasts for its attractive variegation and low maintenance requirements.",
+  "careTips": [
+    "Keep soil consistently moist but well-draining",
+    "High humidity preferred",
+    "Bright indirect light",
+    "Toxic if ingested - keep away from pets and children"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Aglaonema",
+    "species": "Aglaonema commutatum"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "toxic-if-ingested",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "does-not-flower-in-cultivation",
+  "propagation": "Stem Cuttings, Division",
+  "colors": "Green, White, Cream, Variegated",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 54,
+    "ideal": 45
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

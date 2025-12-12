@@ -1,0 +1,83 @@
+{
+  "id": 586,
+  "name": "Thorncrest Century Plant",
+  "scientificName": "Agave lophantha",
+  "commonNames": [],
+  "category": [
+    "flowering",
+    "succulent"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "20-60 cm",
+  "growthRate": "Slow",
+  "description": "Agave lophantha, commonly known as Thorncrest Century Plant, is a succulent native to Mexico and the southwestern United States. It belongs to the Asparagaceae family and features a rosette of fleshy, dark green leaves (30-60 cm in diameter) with sharp spines along the margins and a terminal spine. The plant displays a compact, rosette-forming growth habit. It produces yellow to green flowers on a tall spike (up to 1.5 m), after which the rosette dies (monocarpic). Native to mountain forests and found at high elevations, this plant is adapted to cooler temperatures, intense sunlight, and often dramatic temperature fluctuations. In its native habitat, it grows in well-draining, rocky soils in semi-arid to mountainous regions. In terrariums or indoor settings, this plant adds architectural interest with its distinctive spiny form. It's popular among succulent enthusiasts for its hardiness.",
+  "careTips": [
+    "Low humidity preferred",
+    "Ensure good air circulation",
+    "Allow substrate to dry completely between waterings",
+    "Bright, indirect light preferred",
+    "Well-draining substrate essential",
+    "Protect from overwatering",
+    "Requires good drainage",
+    "Handle with care - sharp spines"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Asparagales",
+    "family": "Asparagaceae",
+    "genus": "Agave",
+    "species": "Agave lophantha"
+  },
+  "growthPattern": "rosette",
+  "hazard": "toxic-if-ingested",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Offsets, Seed",
+  "colors": "Green, Yellow",
+  "humidityRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "succulent",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  }
+}

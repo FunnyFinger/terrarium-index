@@ -1,0 +1,93 @@
+{
+  "id": 2,
+  "name": "Baby's Tears",
+  "scientificName": "Soleirolia soleirolii",
+  "commonNames": [
+    "Corsican Creeper",
+    "Irish Moss",
+    "Mind-Your-Own-Business",
+    "Corsican Carpet"
+  ],
+  "category": [
+    "creeper",
+    "house-plant",
+    "mini"
+  ],
+  "substrate": "Rich Moisture Retentive",
+  "size": "2-10 cm",
+  "growthRate": "Fast",
+  "description": "Soleirolia soleirolii (synonym: Helxine soleirolii), commonly known as Baby's Tears, Angel's Tears, or Mind-Your-Own-Business, is a low-growing, mat-forming perennial herb native to the Mediterranean regions, specifically the islands of Sardinia, Corsica, and parts of mainland Italy. It belongs to the Urticaceae (nettle) family and features tiny, round to slightly heart-shaped, bright green leaves (2-4mm in diameter) that create a dense, moss-like carpet. The leaves grow on delicate, creeping stems that root at nodes, allowing the plant to spread rapidly. This fast-spreading plant is one of the most popular choices for terrariums, fairy gardens, and ground cover in shaded areas. It forms dense mats that can quickly cover soil surfaces and even climb over small obstacles, making it ideal for creating miniature landscapes. The plant produces tiny, inconspicuous white or pinkish flowers in spring, though flowering is rare in cultivation. It thrives in high humidity environments and requires consistently moist soil. In its native habitat, it grows in moist, shaded areas, often near streams or in damp forest understories. The plant's ability to form a lush, carpet-like ground cover makes it particularly valued in terrarium design, where it creates a natural, forest-floor appearance.",
+  "careTips": [
+    "Ideal for closed terrariums and fairy gardens due to high humidity requirements",
+    "Can become invasive in favorable conditions - trim regularly to maintain shape and prevent overgrowth",
+    "Yellow leaves indicate too much direct light, insufficient moisture, or low humidity",
+    "Perfect for creating miniature landscapes and ground cover in terrariums",
+    "Requires consistently moist soil - water when top half-inch feels dry, never allow to completely dry out",
+    "Thrives in very high humidity (70-90%) - mist regularly or use pebble tray with water",
+    "Prefers bright indirect light - avoid direct sunlight which can scorch the delicate leaves",
+    "Feed monthly with diluted balanced fertilizer (half strength) during growing season (spring-summer)",
+    "Easy to propagate through division or stem cuttings - roots readily at nodes",
+    "Native to Mediterranean islands - prefers cool to moderate temperatures (15-24°C)",
+    "Can be grown as a houseplant in high humidity environments or closed terrariums",
+    "Watch for root rot if soil becomes waterlogged - ensure good drainage despite need for moisture"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Rosales",
+    "family": "Urticaceae",
+    "genus": "Soleirolia",
+    "species": "Soleirolia soleirolii"
+  },
+  "growthPattern": "carpeting",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Division, Stem Cuttings",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 10
+  },
+  "waterNeedsRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 30,
+    "max": 48,
+    "ideal": 39
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

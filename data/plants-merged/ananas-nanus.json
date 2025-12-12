@@ -1,0 +1,85 @@
+{
+  "id": 207,
+  "name": "Dwarf Pineapple",
+  "scientificName": "Ananas nanus",
+  "commonNames": [
+    "Pineapple",
+    "Pineapple Plant"
+  ],
+  "category": [
+    "bromeliad",
+    "colorful",
+    "flowering",
+    "leafy",
+    "mini",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "8-15 cm",
+  "growthRate": "Moderate",
+  "description": "Ananas nanus, commonly known as Dwarf Pineapple or Mini Pineapple, is a small bromeliad native to tropical regions of South America, particularly Brazil and Paraguay. It belongs to the Bromeliaceae family and features a rosette of stiff, spiny, green to bronze leaves (up to 15 cm long) arranged in a pineapple-like form. The plant produces a small, ornamental pineapple fruit (3-5 cm) that is edible but not as sweet as commercial pineapples. The plant displays an upright, rosette-forming growth habit and typically reaches up to 15 cm in height. It produces small, purple to red flowers before fruiting. In its native habitat, it grows as a terrestrial plant in well-draining soils in tropical regions. In terrariums or indoor settings, this plant adds vibrant interest with its miniature pineapple form. It's popular among bromeliad enthusiasts for its compact size and ornamental fruit.",
+  "careTips": [
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Monitor watering needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Poales",
+    "family": "Bromeliaceae",
+    "genus": "Ananas",
+    "species": "Ananas nanus"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division, Seed",
+  "colors": "Red",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "bromeliad",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

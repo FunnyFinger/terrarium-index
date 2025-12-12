@@ -1,0 +1,86 @@
+{
+  "id": 332,
+  "name": "Norfolk Island Spleenwort",
+  "scientificName": "Asplenium dimorphum",
+  "commonNames": [
+    "Dimorphic Spleenwort",
+    "Two-Frond Lace Fern",
+    "Austral Gem",
+    "Parvati Fern"
+  ],
+  "category": [
+    "colorful",
+    "fern",
+    "leafy",
+    "mini",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "15-45 cm",
+  "growthRate": "Moderate",
+  "description": "Asplenium dimorphum, commonly known as Norfolk Island Spleenwort or Dimorphic Spleenwort, is a fern species endemic to Norfolk Island in the Pacific Ocean. It belongs to the Aspleniaceae family and is notable for its distinctive dimorphic fronds: coarse, sterile fronds and finer, lace-like fertile fronds that produce spores. The plant displays an upright, rosette-forming growth habit and typically reaches 15-45 cm in height and spread when grown indoors. In its native habitat, it thrives in the unique ecosystem of Norfolk Island. The hybrid cultivar 'Parvati' (also known as 'Austral Gem'), which is a cross between A. dimorphum and A. difforme, is popular in cultivation for its thick, glossy, leathery fronds and adaptability to indoor environments, typically reaching 30-45 cm. In terrariums or indoor settings, this plant creates a stunning architectural focal point with its dimorphic frond structure. It's popular among fern enthusiasts for its unique two-form frond appearance.",
+  "careTips": [
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Monitor watering needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Polypodiopsida",
+    "order": "Polypodiales",
+    "family": "Aspleniaceae",
+    "genus": "Asplenium",
+    "species": "Asplenium dimorphum"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "fern",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Spores, Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

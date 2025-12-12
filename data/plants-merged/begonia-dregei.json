@@ -1,0 +1,84 @@
+{
+  "id": 10138,
+  "name": "Maple Leaf Begonia",
+  "scientificName": "Begonia dregei",
+  "commonNames": [
+    "Grape Leaf Begonia",
+    "Bonsai Begonia"
+  ],
+  "category": [
+    "begonia",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "20-60 cm",
+  "growthRate": "Moderate",
+  "description": "Begonia dregei, commonly known as Maple Leaf Begonia or Grape Leaf Begonia, is a semi-tuberous terrestrial plant native to South Africa, particularly the Eastern Cape and KwaZulu-Natal provinces. It was the first African begonia species introduced into cultivation. It belongs to the Begoniaceae family and features upright, cane-like stems (30-60 cm tall) with a distinctive swollen caudex (base). The plant displays an upright, bushy growth habit with small, asymmetrical, maple-like or grape-like lobed leaves that are dark green with distinctive white spots and markings. It produces small white flowers in spring and summer. The swollen caudex and compact growth make it particularly suitable for bonsai cultivation. In its native habitat, it grows in moist, shaded areas of forests. In terrariums or indoor settings, this plant adds natural beauty with its distinctive maple-like foliage and interesting caudex. It's popular among Begonia enthusiasts for its unique leaf shape and bonsai potential.",
+  "careTips": [
+    "Keep soil moist but not soggy",
+    "High humidity beneficial",
+    "Bright indirect light - avoid direct sun",
+    "Good air circulation prevents disease",
+    "Prune regularly to maintain shape"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Cucurbitales",
+    "family": "Begoniaceae",
+    "genus": "Begonia",
+    "species": "Begonia dregei"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division, Seed",
+  "colors": "Green, White",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "caudex formation, bonsai suitable",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

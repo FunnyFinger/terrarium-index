@@ -1,0 +1,84 @@
+{
+  "id": 10467,
+  "name": "Lucky Bamboo",
+  "scientificName": "Dracaena sanderiana",
+  "commonNames": [],
+  "category": [
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "30-100 cm",
+  "growthRate": "Moderate",
+  "description": "Dracaena sanderiana, commonly known as Lucky Bamboo, is a popular houseplant native to tropical Central Africa, particularly Cameroon. Despite its common name, it is not actually a bamboo but a member of the Dracaena genus. It features slender, upright stems with lance-shaped, glossy green leaves that grow in a spiral pattern around the stem. The stems are often trained into decorative shapes such as spirals, braids, or hearts. The plant displays an upright growth habit and typically reaches 30-100 cm in height when grown indoors, though it can grow taller in optimal conditions. The leaves are typically 15-25 cm long and 2-3 cm wide, with a smooth, glossy texture. In its native habitat, it grows in shaded, humid tropical forests. The plant is highly adaptable and can be grown in either water culture (with roots submerged in water) or in well-draining soil, making it versatile for various display methods. It's commonly sold with stems arranged in decorative containers with water and pebbles. The plant is toxic to cats and dogs if ingested, so it should be kept away from pets. It's often used in feng shui practices and is considered a symbol of good luck and prosperity.",
+  "careTips": [
+    "Provide bright, indirect light - can tolerate low light",
+    "If water-grown: keep roots submerged in 1-2 inches of distilled/filtered water",
+    "Change water weekly if grown in water culture",
+    "If soil-grown: use well-draining soil and water when top inch is dry",
+    "Use distilled or filtered water to prevent leaf tip burn from fluoride/chlorine",
+    "Maintain temperatures between 65-90°F (18-32°C)",
+    "Fertilize sparingly (every 2-3 months for water-grown, monthly for soil-grown)",
+    "Wipe leaves occasionally to remove dust",
+    "Keep away from pets - toxic if ingested"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Asparagales",
+    "family": "Asparagaceae",
+    "genus": "Dracaena",
+    "species": "Dracaena sanderiana"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "toxic-if-ingested",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "does-not-flower-in-cultivation",
+  "propagation": "Stem Cuttings",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "lightRange": {
+    "min": 50,
+    "max": 80,
+    "ideal": 65
+  },
+  "airCirculationRange": {
+    "min": 40,
+    "max": 70,
+    "ideal": 55
+  },
+  "waterNeedsRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "substrateType": "moist",
+  "specialNeeds": "Can be grown in water culture or soil",
+  "temperatureRange": {
+    "min": 40,
+    "max": 56,
+    "ideal": 48
+  },
+  "difficultyRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

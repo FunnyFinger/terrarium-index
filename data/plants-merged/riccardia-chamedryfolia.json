@@ -1,0 +1,114 @@
+{
+  "id": 68,
+  "name": "Mini Pellia",
+  "scientificName": "Riccardia chamedryfolia",
+  "commonNames": [],
+  "category": [
+    "aquatic",
+    "creeper",
+    "leafy",
+    "mini"
+  ],
+  "substrate": "Attach To Driftwood Rocks Mesh",
+  "size": "1-3 cm",
+  "growthRate": "Slow",
+  "description": "Riccardia chamedryfolia, commonly known as Mini Pellia, Coral Moss, or Mini Liverwort, is a small aquatic liverwort native to Southeast Asia, particularly Japan, Taiwan, and parts of China. It belongs to the Aneuraceae family and features very fine, coral-like, branching thalli (plant body) that form dense, compact mats. The thalli are bright green and have a distinctive, intricate branching pattern that resembles coral or a miniature fern. The plant displays a mat-forming, creeping growth habit and typically reaches 1-3 cm in height. Unlike true mosses, this is a liverwort - a primitive non-vascular plant. It can grow fully submerged or in very high humidity terrestrial conditions. In its native habitat, it grows in damp, shaded areas of forests, often on rocks or wood near water. In terrariums or indoor settings, this plant is perfect for creating detailed carpets and intricate aquascaping. It's extremely popular in aquascaping for its fine texture and slow, controlled growth.",
+  "careTips": [
+    "Very fine, coral-like texture",
+    "Slow-growing - can be easily overgrown by algae if not properly maintained",
+    "Requires medium to high lighting to thrive",
+    "CO2 supplementation not strictly necessary but can encourage more compact and lush growth",
+    "Does not naturally cling to surfaces - must be securely anchored using thread or aquarium-safe glue",
+    "Regular trimming recommended to maintain compact form and prevent detachment",
+    "Monitor for algae overgrowth due to slow growth rate",
+    "Prefers pH range of 5.5-7.5",
+    "Grows well in soft to moderately hard water",
+    "Excellent for detailed carpets and aquascaping",
+    "Best suited for attachment to hardscape elements like rocks and driftwood",
+    "Maintain stable water parameters for best results"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Marchantiophyta",
+    "class": "Jungermanniopsida",
+    "order": "Metzgeriales",
+    "family": "Aneuraceae",
+    "genus": "Riccardia",
+    "species": "Riccardia chamedryfolia"
+  },
+  "growthPattern": "carpeting",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "fully-aquatic",
+  "plantType": "liverwort",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Division, Fragmentation",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 100,
+    "max": 100,
+    "ideal": 100
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "aquatic",
+  "waterCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "temperatureRange": {
+    "min": 40,
+    "max": 56.00000000000001,
+    "ideal": 48
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "waterTemperatureRange": {
+    "min": 40,
+    "max": 56.00000000000001,
+    "ideal": 48
+  },
+  "waterPhRange": {
+    "min": 50,
+    "max": 57.1,
+    "ideal": 53.6
+  },
+  "waterHardnessRange": {
+    "min": 6.67,
+    "max": 20,
+    "ideal": 13.33
+  },
+  "salinityRange": {
+    "min": 0,
+    "max": 5,
+    "ideal": 2.5
+  },
+  "growthRateRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "id": 377,
+  "name": "Satin Pothos",
+  "scientificName": "Scindapsus pictus",
+  "commonNames": [
+    "Silk Pothos",
+    "Silver Vine"
+  ],
+  "category": [
+    "vining",
+    "variegated",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "Trailing, up to 3 m",
+  "growthRate": "Moderate to fast",
+  "description": "Scindapsus pictus, commonly known as Satin Pothos or Silver Pothos, is a beautiful vining plant native to Southeast Asia, particularly Bangladesh, Thailand, Malaysia, and the Philippines. Despite its common name, it's not a true Pothos but belongs to the same family. It features heart-shaped, velvety leaves with striking silver variegation that creates a shimmering, satin-like appearance. The leaves are dark green with irregular silver splashes and spots, giving each leaf a unique pattern. The plant displays a trailing or climbing growth habit and can reach several meters in length when given support. In its native habitat, it grows as an epiphyte on trees in tropical rainforests. It's an excellent choice for terrariums where it can trail or climb, adding texture and visual interest with its distinctive velvety, variegated foliage.",
+  "careTips": [
+    "Provide bright, indirect light - too little light reduces variegation",
+    "Maintain moderate to high humidity (60-80%)",
+    "Allow top 2-3 cm of soil to dry between waterings",
+    "Well-draining soil mix recommended",
+    "Temperature: 18-27°C (65-80°F)",
+    "Can trail or climb with support",
+    "Prune to maintain desired size and encourage bushier growth",
+    "Propagates easily by stem cuttings",
+    "Toxic to pets if ingested",
+    "Fertilize monthly during growing season"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Scindapsus",
+    "species": "Scindapsus pictus"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "toxic-if-ingested",
+  "rarity": "common",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "does-not-flower-in-cultivation",
+  "propagation": "Stem Cuttings",
+  "colors": "Green, Silver",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 40,
+    "max": 70,
+    "ideal": 55
+  },
+  "waterNeedsRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 18,
+    "max": 27,
+    "ideal": 22
+  },
+  "difficultyRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "soilPhRange": {
+    "min": 6,
+    "max": 7,
+    "ideal": 6.5
+  },
+  "growthRateRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  }
+}

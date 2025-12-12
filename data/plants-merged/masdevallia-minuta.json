@@ -1,0 +1,87 @@
+{
+  "id": 597,
+  "name": "Masdevallia minuta",
+  "scientificName": "Masdevallia minuta",
+  "commonNames": [
+    "Kite Orchid"
+  ],
+  "category": [
+    "flowering",
+    "orchid",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "3-15 cm",
+  "growthRate": "Slow",
+  "description": "Masdevallia minuta, commonly known as the Tiny Masdevallia, is a miniature epiphytic orchid native to tropical regions of South America, including Venezuela, Surinam, Guyana, French Guiana, Colombia, Ecuador, Peru, and Bolivia. It belongs to the Orchidaceae family and features slender, erect stems (ramicauls) enveloped by 2-3 tubular sheaths, each bearing a single, erect, leathery, narrowly obovate leaf. The plant displays an upright, rosette-forming growth habit and reaches heights of 5-15 cm. It blooms in spring, summer, and fall, producing slender, erect inflorescences (15-60 cm long) that carry single flowers held well above the leaves. The flowers have distinctive triangular shapes with elongated tails or \"ears\", typical of Masdevallia orchids. In its native habitat, it grows as an epiphyte in foothill forests at elevations ranging from 220 to 1,500 meters. In terrariums or indoor settings, this plant adds unique floral displays with its delicate, diminutive flowers. It's popular among orchid enthusiasts for its miniature size and unusual flower shape.",
+  "careTips": [
+    "Provide high humidity (60-80%)",
+    "Ensure good air circulation",
+    "Keep substrate evenly moist - avoid severe drought",
+    "Bright, indirect light preferred - suitable for north-facing windows",
+    "Well-draining substrate essential (orchid mix)",
+    "Avoid direct intense sunlight",
+    "Temperature range: 15-25°C (cool to moderate)",
+    "Fertilize 1-2 times monthly with orchid fertilizer during growing season"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Asparagales",
+    "family": "Orchidaceae",
+    "genus": "Masdevallia",
+    "species": "Masdevallia minuta"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Division, Seed",
+  "colors": "Red, Yellow, Orange, Purple",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  }
+}

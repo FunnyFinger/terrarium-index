@@ -1,0 +1,97 @@
+{
+  "id": 34,
+  "name": "Maidenhair Fern",
+  "scientificName": "Adiantum raddianum",
+  "commonNames": [
+    "Delta Maidenhair Fern",
+    "Brazilian Maidenhair Fern"
+  ],
+  "category": [
+    "creeper",
+    "fern",
+    "leafy",
+    "mini"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "5-30 cm",
+  "growthRate": "Moderate",
+  "description": "Adiantum raddianum (synonym: Adiantum cuneatum), commonly known as Delta Maidenhair Fern, Brazilian Maidenhair Fern, or Miniature Maidenhair Fern, is a delicate, graceful fern native to tropical and subtropical regions of South America, particularly Brazil, but also found in Central America and the Caribbean. It belongs to the Pteridaceae family and features triangular to fan-shaped fronds (15-45 cm long) composed of numerous small, wedge-shaped leaflets (pinnae) arranged in a distinctive pattern. The fronds are bright green and have a delicate, lacy appearance. The stems (stipes) are dark brown to black and wiry, creating a striking contrast with the green foliage. This plant displays an arching to semi-upright growth habit with elegant, airy fronds. In its native habitat, it grows in moist, shaded areas of tropical forests, often on rocky slopes or in crevices with high humidity. In terrariums or indoor settings, this plant is perfect for small spaces and terrariums, adding delicate, feathery texture. It typically matures to 10-30 cm in height with a similar spread. The plant produces spores on the underside of fronds for reproduction.",
+  "careTips": [
+    "Very sensitive to dry conditions - will quickly wilt and die if allowed to dry out",
+    "Requires constant high humidity (70-90%) - ideal for closed terrariums or high-humidity environments",
+    "Fronds are very delicate - handle with extreme care, avoid touching or brushing against them",
+    "Don't let soil dry out - keep consistently moist but not waterlogged",
+    "Native to South America (Brazil, Central America, Caribbean) - prefers warm, very humid conditions (18-24°C)",
+    "Bright indirect light to low light is best - direct sun will scorch delicate fronds",
+    "Well-draining, peat-based substrate recommended - retains moisture while preventing waterlogging",
+    "Water when top of soil feels slightly dry - use room temperature, filtered, or distilled water",
+    "Mist fronds regularly or use pebble tray to maintain high humidity",
+    "Feed monthly during growing season with diluted balanced fertilizer (quarter strength) - ferns are light feeders",
+    "Non-toxic to pets and humans",
+    "Watch for scale insects and spider mites, especially in low humidity",
+    "Remove dead or brown fronds at the base to encourage new growth",
+    "Can be propagated by division or spores - division is easier for beginners",
+    "If fronds turn brown or crispy, increase humidity immediately and check watering",
+    "Avoid cold drafts and sudden temperature changes which can cause frond drop",
+    "Perfect for closed terrariums where humidity can be maintained consistently"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Polypodiopsida",
+    "order": "Polypodiales",
+    "family": "Pteridaceae",
+    "genus": "Adiantum",
+    "species": "Adiantum raddianum"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "fern",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Spores, Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 10
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

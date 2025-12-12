@@ -1,0 +1,84 @@
+{
+  "id": 10322,
+  "name": "Australian Tree Fern",
+  "scientificName": "Cyathea cooperi",
+  "commonNames": [
+    "Cooper's Tree Fern",
+    "Lacy Tree Fern"
+  ],
+  "category": [
+    "fern",
+    "leafy",
+    "tropical",
+    "terrestrial"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "15-90 cm",
+  "growthRate": "Moderate",
+  "description": "Cyathea cooperi, commonly known as Australian Tree Fern, is a terrestrial tree fern native to tropical regions of Australia, particularly Queensland and New South Wales. It belongs to the Cyatheaceae family and features a trunk (up to 300-600 cm tall) with large, dramatic, arching, dark green fronds (up to 300 cm long) forming a crown. The plant displays an upright tree-like growth habit. In its native habitat, it grows in moist, shaded areas of tropical forests. In terrariums or indoor settings, this plant provides lush, feathery texture to any environment. It's popular among fern enthusiasts for its impressive size and attractive appearance.",
+  "careTips": [
+    "High humidity is essential",
+    "Keep soil consistently moist but not waterlogged",
+    "Avoid direct sunlight - prefers bright indirect light",
+    "Brown edges indicate low humidity or underwatering"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Polypodiopsida",
+    "order": "Cyatheales",
+    "family": "Cyatheaceae",
+    "genus": "Cyathea",
+    "species": "Cyathea cooperi"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "fern",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Spores, Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

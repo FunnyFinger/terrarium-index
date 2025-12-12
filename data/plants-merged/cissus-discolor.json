@@ -1,0 +1,90 @@
+{
+  "id": 391,
+  "name": "Rex Begonia Vine",
+  "scientificName": "Cissus discolor",
+  "commonNames": [
+    "Tapestry Vine"
+  ],
+  "category": [
+    "vining",
+    "colorful",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "Trailing or climbing, 1-3 m",
+  "growthRate": "Fast",
+  "description": "Cissus discolor, commonly known as Rex Begonia Vine or Tapestry Vine, is a stunning vining plant native to Southeast Asia, particularly Java and Borneo. Despite its common name, it's not a begonia but belongs to the grape family (Vitaceae). It features heart-shaped leaves that are dark green with silver markings and rich burgundy to purple undersides, creating a striking two-tone effect. The leaves have a velvety texture and prominent veining. The plant displays a vigorous trailing or climbing growth habit and can reach several meters in length. It's an excellent choice for terrariums where it can trail or climb, adding dramatic color and texture. The plant thrives in high humidity and filtered light.",
+  "careTips": [
+    "Provide bright, indirect light - essential for vibrant colors",
+    "Maintain very high humidity (75-90%) - critical for this plant",
+    "Keep soil evenly moist but well-draining",
+    "Well-draining, organic-rich mix",
+    "Temperature: 18-26°C (65-79°F) - avoid cold",
+    "Can trail or climb with support",
+    "Stunning burgundy undersides to leaves",
+    "Propagates by stem cuttings",
+    "Non-toxic to pets and humans",
+    "Fertilize monthly during growing season",
+    "Prune regularly to maintain size and shape",
+    "Can be sensitive to low humidity"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Vitales",
+    "family": "Vitaceae",
+    "genus": "Cissus",
+    "species": "Cissus discolor"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "does-not-flower-in-cultivation",
+  "propagation": "Stem Cuttings",
+  "colors": "Green, Silver, Burgundy, Purple",
+  "humidityRange": {
+    "min": 75,
+    "max": 90,
+    "ideal": 82
+  },
+  "lightRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "airCirculationRange": {
+    "min": 40,
+    "max": 70,
+    "ideal": 55
+  },
+  "waterNeedsRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "substrateType": "moist",
+  "specialNeeds": "high humidity",
+  "temperatureRange": {
+    "min": 18,
+    "max": 26,
+    "ideal": 22
+  },
+  "difficultyRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "soilPhRange": {
+    "min": 5.5,
+    "max": 6.5,
+    "ideal": 6
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

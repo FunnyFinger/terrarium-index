@@ -1,0 +1,87 @@
+{
+  "id": 392,
+  "name": "Anubias Barteri",
+  "scientificName": "Anubias barteri",
+  "commonNames": [],
+  "category": [
+    "aquatic",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Attach To Driftwood Rocks Mesh",
+  "size": "15-40 cm",
+  "growthRate": "Slow",
+  "description": "Anubias barteri is a popular aquatic and semi-aquatic plant native to West Africa. It features thick, leathery, dark green leaves that are arrowhead-shaped and very durable. While primarily known as an aquarium plant, it can be grown emersed (above water) in high-humidity terrarium environments. The plant has a rhizome that should not be buried - it can be attached to wood, rocks, or placed on the substrate surface. When grown emersed, it produces larger, more robust leaves. The plant is extremely hardy and slow-growing, making it an excellent low-maintenance addition to terrariums. It thrives in high humidity and can tolerate various light conditions.",
+  "careTips": [
+    "Provide low to moderate indirect light",
+    "Maintain high humidity (75-90%) for emersed growth",
+    "Keep consistently moist - can grow partially submerged",
+    "Rhizome should not be buried - attach to wood/rocks or place on surface",
+    "Temperature: 22-28°C (72-82°F)",
+    "Can grow emersed or submerged",
+    "Very slow-growing but extremely hardy",
+    "Propagates by dividing rhizome",
+    "Non-toxic to pets and humans",
+    "Fertilize occasionally with liquid fertilizer",
+    "Excellent for low-light terrarium areas"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Anubias",
+    "species": "Anubias barteri"
+  },
+  "growthPattern": "rosette",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "fully-aquatic",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "does-not-flower-in-cultivation",
+  "propagation": "Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 75,
+    "max": 90,
+    "ideal": 82
+  },
+  "lightRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "waterNeedsRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "rhizome not buried",
+  "temperatureRange": {
+    "min": 22,
+    "max": 28,
+    "ideal": 25
+  },
+  "difficultyRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  },
+  "soilPhRange": {
+    "min": 6,
+    "max": 7.5,
+    "ideal": 6.75
+  },
+  "growthRateRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  }
+}

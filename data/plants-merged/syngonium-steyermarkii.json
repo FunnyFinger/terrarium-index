@@ -1,0 +1,80 @@
+{
+  "id": 10420,
+  "name": "Arrowhead Plant",
+  "scientificName": "Syngonium steyermarkii",
+  "commonNames": [],
+  "category": [
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "60-300 cm",
+  "growthRate": "Moderate",
+  "description": "Syngonium steyermarkii is an epiphytic aroid native to tropical regions of Central and South America, particularly Guatemala and Costa Rica. It belongs to the Araceae family and features climbing or trailing stems (60-300 cm long) with large, dramatic, arrow-shaped to deeply lobed, dark green leaves. The plant displays a climbing/trailing growth habit. Known as \"arrowhead plant\" for its juvenile arrow-shaped leaves that develop into deeply lobed adult leaves. In tropical forests, this plant typically grows as an epiphyte on tree trunks, receiving filtered sunlight through the dense canopy. In its native habitat, it grows on tree branches in tropical forests. In terrariums or indoor settings, this plant adds dynamic visual interest with leaves that change shape dramatically as the plant matures. It's popular among houseplant enthusiasts for its attractive foliage.",
+  "careTips": [
+    "Keep soil consistently moist but well-draining",
+    "High humidity preferred",
+    "Bright indirect light",
+    "Toxic if ingested - keep away from pets and children"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Syngonium",
+    "species": "Syngonium steyermarkii"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "toxic-if-ingested",
+  "rarity": "very-rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "does-not-flower-in-cultivation",
+  "propagation": "Stem Cuttings, Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "id": 10097,
+  "name": "Anthurium bakeri",
+  "scientificName": "Anthurium bakeri",
+  "commonNames": [],
+  "category": [
+    "anthurium",
+    "flowering",
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "20-60 cm",
+  "growthRate": "Moderate",
+  "description": "Anthurium bakeri is an epiphytic plant native to tropical regions of Central America, particularly Guatemala, Belize, and Mexico. It belongs to the Araceae family and features upright stems (30-60 cm tall) with narrow, lance-shaped, dark green leaves and distinctive red berries. The plant displays an upright, bushy growth habit. Many species have velvety leaves with prominent white or silver veins that create stunning contrast, and some produce fragrant blooms. In tropical forests, this plant typically grows as an epiphyte on tree trunks, receiving filtered sunlight through the dense canopy. In its native habitat, it grows on tree branches in tropical forests. In terrariums or indoor settings, this plant adds natural beauty with its distinctive foliage and colorful berries. It's popular among Anthurium enthusiasts for its attractive berries.",
+  "careTips": [
+    "Keep soil consistently moist but well-draining",
+    "High humidity preferred",
+    "Bright indirect light",
+    "Toxic if ingested - keep away from pets and children",
+    "Prefers warm, humid conditions",
+    "Bright indirect light for best flowering",
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Monitor watering needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Anthurium",
+    "species": "Anthurium bakeri"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "toxic-if-ingested",
+  "rarity": "uncommon",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Division, Offsets, Seed",
+  "colors": "Green, Red",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

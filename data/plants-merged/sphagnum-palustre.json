@@ -1,0 +1,88 @@
+{
+  "id": 57,
+  "name": "Sphagnum Moss",
+  "scientificName": "Sphagnum palustre",
+  "commonNames": [],
+  "category": [
+    "moss",
+    "semi-aquatic",
+    "bog-plant"
+  ],
+  "substrate": "No Substrate Needed",
+  "size": "2-15 cm",
+  "growthRate": "Moderate",
+  "description": "Sphagnum palustre, commonly known as Sphagnum Moss, Peat Moss, or Bog Moss, is a semi-aquatic to terrestrial moss native to bogs, fens, and wetlands in temperate and boreal regions worldwide, including North America, Europe, and Asia. It belongs to the Sphagnaceae family and features upright, branching stems covered in small, overlapping leaves. The leaves are bright green to yellow-green and have specialized cells (hyaline cells) that can hold up to 20 times their weight in water. The plant displays a clumping, cushion-forming growth habit and typically reaches 5-15 cm in height. It can grow floating in water or attached to wet substrates. In its native habitat, it grows in acidic bogs and wetlands, often forming dense mats. In terrariums or indoor settings, this plant provides excellent water retention and can be used as a substrate component. It's popular for carnivorous plant cultivation due to its acidic nature and water-holding capacity.",
+  "careTips": [
+    "Excellent water retention - can hold up to 20 times its weight in water",
+    "Can be used as substrate component or grown as a plant - very versatile",
+    "Requires very high humidity (70-90%) - ideal for closed terrariums or paludariums",
+    "Acidic nature (pH 4.0-5.5) makes it good for carnivorous plants and acid-loving species",
+    "Native to bogs and wetlands - prefers cool to moderate temperatures (10-24°C)",
+    "Bright indirect light is best - can tolerate some direct light",
+    "Keep consistently moist or can grow floating in shallow water",
+    "Can be used in terrariums, paludariums, and ripariums",
+    "Non-toxic and safe for terrarium inhabitants",
+    "Propagates via spores or division - simply separate portions and place elsewhere",
+    "If moss turns brown, increase humidity and check watering schedule",
+    "Excellent for creating bog-like environments in paludariums"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Bryophyta",
+    "class": "Sphagnopsida",
+    "order": "Sphagnales",
+    "family": "Sphagnaceae",
+    "genus": "Sphagnum",
+    "species": "Sphagnum palustre"
+  },
+  "growthPattern": "clumping",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "fully-aquatic",
+  "plantType": "moss",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Division, Spores",
+  "colors": "Green, Yellow",
+  "humidityRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 10
+  },
+  "waterNeedsRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "substrateType": "wet",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 20,
+    "max": 48,
+    "ideal": 34
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 28.6,
+    "max": 39.3,
+    "ideal": 33.9
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "id": 557,
+  "name": "Cupid's Bower",
+  "scientificName": "Achimenes erecta",
+  "commonNames": [
+    "Cupid"
+  ],
+  "category": [
+    "flowering",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "15-60 cm",
+  "growthRate": "Moderate",
+  "description": "Achimenes erecta (syn. A. coccinea), commonly known as Cupid's Bower, Nut Orchid, or Magic Flower, is a tropical plant native to Central and South America, particularly Mexico and Guatemala. It belongs to the Gesneriaceae family and features trailing stems (30-60 cm long) with groups of hairy, heart-shaped, dark green leaves. Despite its name, this plant is a trailing achimenes. It produces a display of bright red flowers and dark green foliage. The reddish green stem carries groups of hairy, heart-shaped leaves. The flowers last only a few days, but are produced over a period lasting all the way from June to October. In its native habitat, it grows in moist, shaded areas of tropical forests. In terrariums or indoor settings, this plant adds vibrant colors with its bright red flowers. It's popular among gesneriad enthusiasts for its long flowering period.",
+  "careTips": [
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Keep substrate consistently moist but not waterlogged",
+    "Bright, indirect light preferred",
+    "Well-draining substrate essential",
+    "Protect from direct sunlight",
+    "Allow to go dormant in winter"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Lamiales",
+    "family": "Gesneriaceae",
+    "genus": "Achimenes",
+    "species": "Achimenes erecta"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Division, Stem Cuttings, Seed",
+  "colors": "Green, Red",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

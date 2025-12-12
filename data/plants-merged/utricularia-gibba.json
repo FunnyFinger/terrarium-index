@@ -1,0 +1,117 @@
+{
+  "id": 85,
+  "name": "Utricularia (Bladderwort)",
+  "scientificName": "Utricularia gibba",
+  "commonNames": [
+    "Floating Bladderwort",
+    "Humped Bladderwort"
+  ],
+  "category": [
+    "aquatic",
+    "carnivorous",
+    "creeper",
+    "mini"
+  ],
+  "substrate": "Epiphytic Mix",
+  "size": "8-10 cm",
+  "growthRate": "Fast",
+  "description": "Utricularia gibba, commonly known as Humped Bladderwort or Floating Bladderwort, is a carnivorous aquatic plant native to freshwater habitats worldwide, including North and South America, Europe, Africa, and Asia. It belongs to the Lentibulariaceae family and features fine, branching stems (2-10 cm long) with small, bladder-like traps that actively suck in and digest tiny aquatic organisms. The plant displays a mat-forming, creeping growth habit and typically reaches 2-10 cm in height. It produces small, yellow, snapdragon-like flowers that emerge above the water surface. In its native habitat, it grows floating in still or slow-moving freshwater, often forming dense mats. The trapping mechanism is highly specialized - bladders create a vacuum to capture prey in milliseconds. In terrariums or indoor settings, this plant adds unique carnivorous interest and can form attractive carpets. It's popular among carnivorous plant enthusiasts for its fascinating underwater trapping mechanism.",
+  "careTips": [
+    "Can form carpets - spreads via stolons to create dense mats",
+    "Requires very high humidity (70-90%) when grown emersed - ideal for paludariums",
+    "Needs consistently wet conditions - can grow fully submerged or in very wet substrate",
+    "Small but beautiful flowers - yellow, snapdragon-like blooms above water",
+    "Native to worldwide freshwater habitats - prefers moderate temperatures (18-26°C)",
+    "Bright light recommended for best growth and flowering",
+    "Live sphagnum moss or wet peat recommended as substrate",
+    "Do not fertilize - plant derives nutrients from captured prey",
+    "CO2 supplementation beneficial but not required",
+    "Non-toxic to pets and humans",
+    "Can be used in aquariums, paludariums, and ripariums",
+    "Propagates via division or stolons - very fast growing"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Lamiales",
+    "family": "Lentibulariaceae",
+    "genus": "Utricularia",
+    "species": "Utricularia gibba"
+  },
+  "growthPattern": "carpeting",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "fully-aquatic",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 10
+  },
+  "waterNeedsRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "carnivorous",
+  "waterCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "temperatureRange": {
+    "min": 36,
+    "max": 52,
+    "ideal": 44
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "waterTemperatureRange": {
+    "min": 36,
+    "max": 52,
+    "ideal": 44
+  },
+  "waterPhRange": {
+    "min": 50,
+    "max": 57.1,
+    "ideal": 53.6
+  },
+  "waterHardnessRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  },
+  "salinityRange": {
+    "min": 0,
+    "max": 5,
+    "ideal": 2.5
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

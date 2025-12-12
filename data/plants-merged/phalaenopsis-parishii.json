@@ -1,0 +1,87 @@
+{
+  "id": 387,
+  "name": "Parish's Phalaenopsis",
+  "scientificName": "Phalaenopsis parishii",
+  "commonNames": [],
+  "category": [
+    "orchid",
+    "epiphytic",
+    "flowering"
+  ],
+  "substrate": "Epiphytic Mix",
+  "size": "10-20 cm",
+  "growthRate": "Slow",
+  "description": "Phalaenopsis parishii is a miniature epiphytic orchid native to Southeast Asia, particularly Myanmar, Thailand, and India. It's one of the smaller Phalaenopsis species, making it suitable for terrariums. The plant features thick, leathery leaves and produces small, fragrant flowers that are typically white with purple or pink markings. The flowers are borne on short inflorescences and have a sweet fragrance. This orchid thrives in high humidity and filtered light, making it ideal for closed terrarium environments. It can be mounted on wood or grown in a well-draining orchid mix.",
+  "careTips": [
+    "Provide bright, indirect light - avoid direct sun",
+    "Maintain very high humidity (75-90%)",
+    "Allow roots to dry slightly between waterings",
+    "Orchid bark or sphagnum moss substrate",
+    "Temperature: 18-26°C (65-79°F)",
+    "Can be mounted on wood or grown in pot",
+    "Small, fragrant flowers",
+    "Propagates by keikis (baby plants)",
+    "Non-toxic to pets and humans",
+    "Fertilize weekly during growing season with orchid fertilizer",
+    "Requires good air circulation around roots"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Asparagales",
+    "family": "Orchidaceae",
+    "genus": "Phalaenopsis",
+    "species": "Phalaenopsis parishii"
+  },
+  "growthPattern": "rosette",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Pups",
+  "colors": "Green, White, Purple, Pink",
+  "humidityRange": {
+    "min": 75,
+    "max": 90,
+    "ideal": 82
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 50,
+    "max": 80,
+    "ideal": 65
+  },
+  "waterNeedsRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "orchid care",
+  "temperatureRange": {
+    "min": 18,
+    "max": 26,
+    "ideal": 22
+  },
+  "difficultyRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "soilPhRange": {
+    "min": 5.5,
+    "max": 6.5,
+    "ideal": 6
+  },
+  "growthRateRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "id": 123,
+  "name": "Kidney Fern",
+  "scientificName": "Adiantum reniforme",
+  "commonNames": [
+    "Kidney-leaved Maidenhair Fern"
+  ],
+  "category": [
+    "fern",
+    "leafy",
+    "tropical",
+    "terrestrial"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "4-20 cm",
+  "growthRate": "Moderate",
+  "description": "Adiantum reniforme, commonly known as Kidney Fern or Kidney-leaved Maidenhair Fern, is a small terrestrial or lithophytic fern native to various regions including the Canary Islands, Madeira, Cape Verde, Comoro Islands, and parts of East Africa. It belongs to the Pteridaceae family and features distinctive, kidney-shaped to round, undivided fronds (1.5-8 cm across) that are bright green with a leathery texture. Unlike most maidenhair ferns, this species has simple, undivided fronds rather than finely divided ones. The fronds emerge from short creeping rhizomes with narrowly lanceolate scales. The plant displays an upright, rosette-forming growth habit and typically reaches 10-20 cm in height. In its native habitat, it grows as a lithophyte in moist, deeply shaded rock crevices at altitudes ranging from 1,600 to 2,100 meters. In terrariums or indoor settings, this plant provides unique texture with its distinctive kidney-shaped fronds. It's popular among fern enthusiasts for its unusual, simple frond shape.",
+  "careTips": [
+    "High humidity is essential (60-80%)",
+    "Keep soil consistently moist but not waterlogged",
+    "Bright indirect light preferred - avoid direct sunlight",
+    "Well-draining soil mix recommended",
+    "Can be grown on rocks or in soil",
+    "Brown edges indicate low humidity or underwatering"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Polypodiopsida",
+    "order": "Polypodiales",
+    "family": "Pteridaceae",
+    "genus": "Adiantum",
+    "species": "Adiantum reniforme"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "fern",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Spores, Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

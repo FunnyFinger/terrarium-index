@@ -1,0 +1,87 @@
+{
+  "id": 10458,
+  "name": "Artillery Plant",
+  "scientificName": "Pilea microphylla",
+  "commonNames": [
+    "Rockweed",
+    "Angeloweed"
+  ],
+  "category": [
+    "creeper",
+    "leafy",
+    "mini",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "5-30 cm",
+  "growthRate": "Fast",
+  "description": "Pilea microphylla, commonly known as Artillery Plant, is a charming, low-growing perennial native to tropical regions of Central and South America. It features tiny, vibrant green, asymmetrical leaves arranged in opposite pairs along delicate, fleshy stems. The leaves are obovate, narrowing to a point, and measure up to 9 mm in length. The plant displays a creeping, mat-forming growth habit and typically reaches 15-30 cm in height when grown indoors, though it can spread much wider as a ground cover. In its native habitat, it thrives in moist, shaded areas such as rocky outcrops, old masonry walls, and disturbed urban areas. The plant gets its common name 'Artillery Plant' from its unique method of dispersing pollen and seeds explosively, which can resemble tiny explosions. It's an excellent choice for terrariums due to its love for high humidity, compact growth habit, and ease of care. The plant is non-toxic and safe for homes with pets.",
+  "careTips": [
+    "Provide bright, indirect light - avoid direct sunlight",
+    "Maintain high humidity (60-80%)",
+    "Keep soil consistently moist but not waterlogged",
+    "Water when top inch of soil feels dry",
+    "Mist regularly if humidity is low",
+    "Fertilize every two weeks during growing season with diluted fertilizer",
+    "Excellent for terrariums due to compact size and humidity needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Rosales",
+    "family": "Urticaceae",
+    "genus": "Pilea",
+    "species": "Pilea microphylla"
+  },
+  "growthPattern": "carpeting",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "year-round",
+  "propagation": "Stem Cuttings, Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "waterNeedsRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 40,
+    "max": 52,
+    "ideal": 46
+  },
+  "difficultyRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "id": 10452,
+  "name": "Fuzzy Air Plant",
+  "scientificName": "Tillandsia pruinosa",
+  "commonNames": [],
+  "category": [
+    "bromeliad",
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "5-20 cm",
+  "growthRate": "Moderate",
+  "description": "Tillandsia pruinosa, commonly known as Fuzzy Air Plant, is an epiphytic bromeliad (air plant) native to tropical regions of Central and South America, particularly Mexico, Guatemala, and Costa Rica. It belongs to the Bromeliaceae family and features upright rosettes (10-20 cm tall) with small, dramatic, lance-shaped, dark green to gray-green leaves with distinctive very dense trichomes (scales) that give it an extremely fuzzy, silvery appearance. The plant displays an upright rosette growth habit. Air plants absorb water and nutrients directly through their leaves using specialized structures called trichomes. Trichomes not only absorb moisture but also reflect light, giving many species a silvery or fuzzy appearance that helps reduce water loss. In its native habitat, it grows on tree branches in tropical forests. In terrariums or indoor settings, this plant creates a modern, sculptural aesthetic when mounted or displayed artistically. It's popular among air plant enthusiasts for its extremely fuzzy appearance.",
+  "careTips": [
+    "Mist regularly or soak in water weekly",
+    "Provide good air circulation",
+    "Bright, indirect light preferred",
+    "Allow to dry completely after watering",
+    "Can be mounted on driftwood, bark, or other supports"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Poales",
+    "family": "Bromeliaceae",
+    "genus": "Tillandsia",
+    "species": "Tillandsia pruinosa"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "irregular",
+  "propagation": "Division, Offsets",
+  "colors": "Green, Gray-green, Silver, Purple",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 30,
+    "max": 54,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "id": 10305,
+  "name": "White Rabbit's Foot Fern",
+  "scientificName": "Humata tyermanii",
+  "commonNames": [
+    "White Rabbit"
+  ],
+  "category": [
+    "fern",
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "10-60 cm",
+  "growthRate": "Moderate",
+  "description": "Humata tyermanii, commonly known as White Rabbit's Foot Fern, is an epiphytic fern native to tropical regions of Southeast Asia, particularly the Philippines and Indonesia. It belongs to the Davalliaceae family and features trailing fronds (30-60 cm long) with medium-sized, dramatic, finely divided, dark green fronds with distinctive white, furry rhizomes that resemble rabbit's feet. The plant displays a trailing growth habit. Thrives in the humid, shaded understory of tropical forests where it receives consistent moisture and protection from direct sunlight. In its native habitat, it grows on tree branches in tropical forests. In terrariums or indoor settings, this plant adds vibrant colors and visual interest to any environment. It's popular among fern enthusiasts for its unique furry rhizomes.",
+  "careTips": [
+    "High humidity is essential",
+    "Keep soil consistently moist but not waterlogged",
+    "Avoid direct sunlight - prefers bright indirect light",
+    "Brown edges indicate low humidity or underwatering"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Polypodiopsida",
+    "order": "Polypodiales",
+    "family": "Davalliaceae",
+    "genus": "Davallia",
+    "species": "Humata tyermanii"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "very-rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "fern",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Spores, Division",
+  "colors": "Green, White",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "_filename": "humata-tyermanii.json",
+  "_filePath": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants-merged\\humata-tyermanii.json"
+}

@@ -1,0 +1,90 @@
+[
+  {
+    "plant": "Agave filifera",
+    "file": "agave-filifera.json",
+    "changes": [
+      {
+        "rank": "family",
+        "old": "Agavaceae",
+        "new": "Asparagaceae"
+      }
+    ]
+  },
+  {
+    "plant": "Davallia fejeensis",
+    "file": "davallia-fejeensis.json",
+    "changes": [
+      {
+        "rank": "phylum",
+        "old": "Pteridophyta",
+        "new": "Tracheophyta"
+      }
+    ]
+  },
+  {
+    "plant": "Dendrochilum tenellum",
+    "file": "dendrochilum-tenellum.json",
+    "changes": [
+      {
+        "rank": "genus",
+        "old": "Dendrochilum",
+        "new": "Coelogyne"
+      }
+    ]
+  },
+  {
+    "plant": "Humata heterophylla",
+    "file": "humata-heterophylla.json",
+    "changes": [
+      {
+        "rank": "genus",
+        "old": "Humata",
+        "new": "Davallia"
+      }
+    ]
+  },
+  {
+    "plant": "Humata tyermanii",
+    "file": "humata-tyermanii.json",
+    "changes": [
+      {
+        "rank": "genus",
+        "old": "Humata",
+        "new": "Davallia"
+      }
+    ]
+  },
+  {
+    "plant": "Saintpaulia ionantha",
+    "file": "saintpaulia-ionantha.json",
+    "changes": [
+      {
+        "rank": "genus",
+        "old": "Saintpaulia",
+        "new": "Streptocarpus"
+      }
+    ]
+  },
+  {
+    "plant": "Selaginella kraussiana",
+    "file": "selaginella-kraussiana.json",
+    "changes": [
+      {
+        "rank": "phylum",
+        "old": "Lycopodiophyta",
+        "new": "Tracheophyta"
+      }
+    ]
+  },
+  {
+    "plant": "Tradescantia zebrina",
+    "file": "tradescantia-zebrina.json",
+    "changes": [
+      {
+        "rank": "phylum",
+        "old": "Magnoliophyta",
+        "new": "Tracheophyta"
+      }
+    ]
+  }
+]

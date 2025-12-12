@@ -1,0 +1,86 @@
+{
+  "id": 10005,
+  "name": "Rhino Skin",
+  "scientificName": "Alocasia melo",
+  "commonNames": [],
+  "category": [
+    "alocasia",
+    "leafy",
+    "mini",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "10-25 cm",
+  "growthRate": "Moderate",
+  "description": "Alocasia melo is a small, terrestrial plant native to Borneo, particularly Sarawak, Malaysia. It belongs to the Araceae family and features upright stems (15-25 cm tall) with small, rounded to heart-shaped, thick, leathery, dark green leaves with a distinctive, rough, melon-like texture, giving it the common name. The plant displays an upright, bushy growth habit. Many species have distinctive leaf textures - some are velvety, others have metallic or iridescent surfaces that change color with viewing angle. In its native habitat, it grows in moist, shaded areas of tropical forests. In terrariums or indoor settings, this plant adds natural beauty with its distinctive textured foliage. It's extremely popular among Alocasia enthusiasts for its unique leaf texture.",
+  "careTips": [
+    "Keep soil consistently moist but well-draining",
+    "High humidity preferred",
+    "Bright indirect light",
+    "Toxic if ingested - keep away from pets and children",
+    "Requires high humidity and consistent moisture",
+    "Dormant period in winter - reduce watering",
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Monitor watering needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Alocasia",
+    "species": "Alocasia melo"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "toxic-if-ingested",
+  "rarity": "very-rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "does-not-flower-in-cultivation",
+  "propagation": "Division, Offsets",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

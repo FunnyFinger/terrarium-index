@@ -1,0 +1,85 @@
+{
+  "id": 10348,
+  "name": "Acianthera recurva",
+  "scientificName": "Acianthera recurva",
+  "commonNames": [],
+  "category": [
+    "orchid",
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Epiphytic Mix",
+  "size": "5-15 cm",
+  "growthRate": "Moderate",
+  "description": "Acianthera recurva (formerly Pleurothallis recurva) is a small, epiphytic orchid native to tropical regions of Central and South America, particularly found in humid montane forests and cloud forests. It belongs to the Orchidaceae family and features compact growth with unifoliate stems bearing a single leathery, lance-shaped leaf. The plant displays a cespitose (clumping) growth habit and typically reaches 5-15 cm in height when grown indoors. The leaves are typically dark green, channeled, and gradually narrow towards the base. The plant produces small, non-resupinate flowers that are typically solitary or few per inflorescence, with sepals basally fused into a tube and a prominent dorsal sepal. The flowers are designed for specific pollinators, primarily small insects such as fungus gnats and flies. In its native habitat, it grows as an epiphyte on tree trunks and branches in montane cloud forests at elevations typically between 800-2000 meters. The plant thrives in high humidity, moderate temperatures, and shaded environments. In terrariums or indoor settings, this plant brings exotic elegance and sophistication to any environment. It's popular among orchid enthusiasts for its compact size and intricate floral structures.",
+  "careTips": [
+    "Provide high humidity (60-80%)",
+    "Water when media begins to dry - allow to dry slightly between waterings",
+    "Bright indirect light - avoid direct sun",
+    "Good air circulation is important",
+    "Feed with orchid fertilizer every 2-4 weeks during growing season",
+    "Best grown mounted on tree fern or cork to accommodate growth habit",
+    "Maintain moderate temperatures (60-80°F / 15-27°C)",
+    "Repot every 1-2 years when medium decomposes"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Asparagales",
+    "family": "Orchidaceae",
+    "genus": "Acianthera",
+    "species": "Acianthera recurva"
+  },
+  "growthPattern": "clumping",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Division, Pups",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 40,
+    "max": 70,
+    "ideal": 55
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

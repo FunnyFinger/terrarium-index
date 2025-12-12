@@ -1,0 +1,82 @@
+{
+  "id": 259,
+  "name": "Anthurium scandens",
+  "scientificName": "Anthurium scandens",
+  "commonNames": [],
+  "category": [
+    "anthurium",
+    "creeper",
+    "flowering",
+    "leafy",
+    "mini",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "15-60 cm",
+  "growthRate": "Moderate",
+  "description": "Anthurium scandens var. pumila is a small, climbing or trailing epiphytic aroid native to tropical regions of Central and South America, particularly Costa Rica, Panama, and Colombia. It belongs to the Araceae family and features small, lance-shaped to oval, dark green leaves (5-15 cm long) with prominent veins. The plant displays a climbing or trailing growth habit and can reach lengths of 30-60 cm. It produces small, white to cream-colored spathes. In its native habitat, it grows as an epiphyte on tree trunks and branches in tropical forests, often climbing. In terrariums or indoor settings, this plant adds unique interest with its small size and trailing or climbing habit. It's popular among aroid enthusiasts for its compact form and vining nature.",
+  "careTips": [
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Monitor watering needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Anthurium",
+    "species": "Anthurium scandens"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "toxic-if-ingested",
+  "rarity": "uncommon",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division",
+  "colors": "Red, White, Silver",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

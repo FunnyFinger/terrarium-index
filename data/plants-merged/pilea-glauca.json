@@ -1,0 +1,91 @@
+{
+  "id": 10475,
+  "name": "Silver Sparkle Pilea",
+  "scientificName": "Pilea glauca",
+  "commonNames": [
+    "Grey Artillery Plant",
+    "Silver Sparkle"
+  ],
+  "category": [
+    "creeper",
+    "leafy",
+    "mini",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "10-30 cm",
+  "growthRate": "Fast",
+  "description": "Pilea glauca, commonly known as Silver Sparkle Pilea or Grey Artillery Plant, is a charming trailing plant with uncertain taxonomic status. While widely cultivated and recognized in horticulture, its exact classification remains debated—some sources suggest it may be synonymous with Pilea libanensis, while others treat it as a distinct but potentially undescribed species. The plant features tiny, round, silvery-green leaves that create a delicate, cascading effect. The leaves are approximately 3-5 mm wide and have a distinctive glaucous (powdery blue-green) appearance that gives the plant its name. The plant displays a trailing, mat-forming growth habit with stems that can reach 20-30 cm in length while maintaining a compact height. The small, rounded leaves densely cover the trailing stems, creating a lush, carpet-like appearance. It thrives in tropical, humid environments with filtered light. The plant produces tiny, inconspicuous flowers, though it's primarily grown for its attractive silvery foliage. It's an excellent choice for hanging baskets, terrariums, or as ground cover in miniature gardens due to its compact size, fast growth rate, and preference for high humidity. The plant is non-toxic and safe for homes with pets. Regular pruning helps maintain a compact shape and encourages bushier, more dense growth.",
+  "careTips": [
+    "Provide bright, indirect light - avoid harsh direct sunlight",
+    "Maintain high humidity (60-80%) - ideal for terrariums",
+    "Keep soil consistently moist but not waterlogged",
+    "Allow top inch of soil to dry between waterings",
+    "Use well-draining, airy potting mix with peat moss or coco coir",
+    "Temperature: 15-27°C (60-80°F)",
+    "Fertilize monthly during growing season with diluted fertilizer",
+    "Prune regularly to maintain compact shape and encourage bushier growth",
+    "Excellent for hanging baskets and terrariums",
+    "Easily propagated from stem cuttings"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Rosales",
+    "family": "Urticaceae",
+    "genus": "Pilea",
+    "species": "Pilea glauca"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings",
+  "colors": "Green, Silver, Blue-Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "waterNeedsRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 15,
+    "max": 27,
+    "ideal": 21
+  },
+  "difficultyRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  },
+  "soilPhRange": {
+    "min": 5.5,
+    "max": 6.5,
+    "ideal": 6
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}
+

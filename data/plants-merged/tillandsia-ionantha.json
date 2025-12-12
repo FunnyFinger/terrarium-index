@@ -1,0 +1,81 @@
+{
+  "id": 109,
+  "name": "Sky Plant",
+  "scientificName": "Tillandsia ionantha",
+  "commonNames": [
+    "Ionantha Air Plant",
+    "Blushing Bride"
+  ],
+  "category": [
+    "air-plant"
+  ],
+  "substrate": "No Substrate Needed",
+  "size": "3-10 cm",
+  "growthRate": "Slow",
+  "description": "Tillandsia ionantha, commonly known as Ionantha Air Plant or Sky Plant, is a small epiphytic bromeliad native to Central America and Mexico, particularly in tropical forests. It belongs to the Bromeliaceae family and features compact rosettes (5-10 cm across) of silvery-green, pointed leaves that turn bright red to pink before flowering. Air plants absorb water and nutrients directly through their leaves using specialized structures called trichomes. Trichomes not only absorb moisture but also reflect light, giving the plant its silvery appearance. The plant displays an upright, rosette-forming growth habit and typically reaches 5-10 cm in height. It produces small, purple to violet flowers that emerge from the center of the rosette. In its native habitat, it grows as an epiphyte on tree branches in humid, tropical environments. In terrariums or indoor settings, this plant creates a modern, sculptural aesthetic when mounted or displayed artistically. It's extremely popular among air plant enthusiasts for its compact size and color-changing ability.",
+  "careTips": [
+    "No substrate needed",
+    "Turns red before flowering",
+    "Very easy to grow",
+    "Can be mounted or placed"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Poales",
+    "family": "Bromeliaceae",
+    "genus": "Tillandsia",
+    "species": "Tillandsia ionantha"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Division, Offsets, Pups",
+  "colors": "Red, Silver",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 54,
+    "ideal": 45
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  }
+}

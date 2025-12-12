@@ -1,0 +1,92 @@
+{
+  "id": 10475,
+  "name": "Peacock Plant",
+  "scientificName": "Goeppertia makoyana",
+  "commonNames": [
+    "Calathea Makoyana",
+    "Peacock Calathea"
+  ],
+  "category": [
+    "colorful",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "30-60 cm",
+  "growthRate": "Moderate",
+  "description": "Goeppertia makoyana, commonly known as Peacock Plant or Cathedral Windows, is a stunning prayer plant native to eastern Brazil. It features large, oval leaves with a distinctive pattern resembling peacock feathers - dark green markings on a light green background with purple undersides. The leaves have a papery texture and are held on long, slender stems. Like other prayer plants, the leaves fold up at night in a prayer-like motion (nyctinasty), revealing their beautiful purple undersides. The plant displays an upright, clumping growth habit and is highly prized for its ornamental foliage. It requires high humidity and consistent care, making it a popular but challenging addition to terrariums and indoor plant collections. The intricate leaf patterns make it one of the most visually striking members of the Marantaceae family.",
+  "careTips": [
+    "Provide bright, indirect light - avoid direct sunlight which can fade patterns",
+    "Maintain very high humidity (70-85%) - essential for healthy growth",
+    "Keep soil consistently moist but not waterlogged",
+    "Use filtered or distilled water to avoid leaf browning and tip burn",
+    "Temperature: 18-24°C (65-75°F) - avoid cold drafts and temperature fluctuations",
+    "Organic-rich, well-draining substrate that retains moisture",
+    "Leaves fold up at night - this is normal prayer plant behavior",
+    "Propagates by division in spring",
+    "Non-toxic to pets and humans",
+    "Fertilize monthly during growing season with diluted, balanced fertilizer",
+    "Can be sensitive to tap water minerals - use filtered or distilled water",
+    "Mist leaves regularly or use a humidity tray to maintain high humidity",
+    "Avoid placing near heating vents or air conditioners"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Zingiberales",
+    "family": "Marantaceae",
+    "genus": "Goeppertia",
+    "species": "Goeppertia makoyana"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "does-not-flower-in-cultivation",
+  "propagation": "Division",
+  "colors": "Green, Purple, White",
+  "humidityRange": {
+    "min": 70,
+    "max": 85,
+    "ideal": 77
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 20,
+    "max": 50,
+    "ideal": 35
+  },
+  "waterNeedsRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "substrateType": "moist",
+  "specialNeeds": "high humidity",
+  "temperatureRange": {
+    "min": 18,
+    "max": 24,
+    "ideal": 21
+  },
+  "difficultyRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "soilPhRange": {
+    "min": 5.5,
+    "max": 6.5,
+    "ideal": 6
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "id": 194,
+  "name": "Black Velvet Alocasia",
+  "scientificName": "Alocasia reginula",
+  "commonNames": [
+    "Jewel Alocasia"
+  ],
+  "category": [
+    "alocasia",
+    "leafy",
+    "mini",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "10-40 cm",
+  "growthRate": "Moderate",
+  "description": "Alocasia reginula 'Black Velvet', commonly known as Black Velvet Alocasia or Jewel Alocasia, is a small tropical aroid native to Borneo, Malaysia. It belongs to the Araceae family and features arrow-shaped to heart-shaped, velvety, dark green to almost black leaves (10-20 cm long) with prominent white to silver veins that create stunning contrast. The leaves have a distinctive velvety texture and are held on short, dark petioles. The plant displays an upright, compact growth habit and typically reaches 20-40 cm in height. It produces small, inconspicuous flowers typical of aroids. In its native habitat, it grows as a terrestrial plant in moist, shaded areas of tropical forests. In terrariums or indoor settings, this plant creates a bold, dramatic statement with its small, velvety, dark leaves. It's extremely popular among aroid enthusiasts for its compact size and striking dark, velvety appearance.",
+  "careTips": [
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Monitor watering needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Alocasia",
+    "species": "Alocasia reginula"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "toxic-if-ingested",
+  "rarity": "very-rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division, Seed",
+  "colors": "Red, Black",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

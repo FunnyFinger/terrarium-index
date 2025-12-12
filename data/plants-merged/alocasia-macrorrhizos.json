@@ -1,0 +1,88 @@
+{
+  "id": 10021,
+  "name": "Giant Taro",
+  "scientificName": "Alocasia macrorrhizos",
+  "commonNames": [
+    "Elephant Ear",
+    "Ape Flower"
+  ],
+  "category": [
+    "alocasia",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "150-450 cm",
+  "growthRate": "Fast",
+  "description": "Alocasia macrorrhizos, commonly known as Giant Taro or Elephant Ear, is a terrestrial plant native to tropical regions of Southeast Asia, particularly the Philippines, Malaysia, and Indonesia. It belongs to the Araceae family and features upright stems (150-450 cm tall in cultivation, can reach 4-5 m in habitat) with very large, dramatic, arrow-shaped to heart-shaped leaves that can reach up to 1.2 meters in length. The plant displays an upright, bushy growth habit. Many species have distinctive leaf textures - some are velvety, others have metallic or iridescent surfaces that change color with viewing angle. In its native habitat, it grows in moist, shaded areas of tropical forests. In terrariums or indoor settings, this plant adds natural beauty with its distinctive large foliage. It's popular among Alocasia enthusiasts for its impressive size. The 'Splash' cultivar features variegated leaves with green and white or cream splashes.",
+  "careTips": [
+    "Keep soil consistently moist but well-draining",
+    "High humidity preferred",
+    "Bright indirect light",
+    "Toxic if ingested - keep away from pets and children",
+    "Requires high humidity and consistent moisture",
+    "Dormant period in winter - reduce watering",
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Monitor watering needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Alocasia",
+    "species": "Alocasia macrorrhizos"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "toxic-if-ingested",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "does-not-flower-in-cultivation",
+  "propagation": "Division, Offsets",
+  "colors": "Green, White, Cream, Variegated",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

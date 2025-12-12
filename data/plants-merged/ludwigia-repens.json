@@ -1,0 +1,115 @@
+{
+  "id": 42,
+  "name": "Creeping Ludwigia",
+  "scientificName": "Ludwigia repens",
+  "commonNames": [],
+  "category": [
+    "aquatic",
+    "creeper",
+    "flowering"
+  ],
+  "substrate": "Rich Moisture Retentive",
+  "size": "10-50 cm",
+  "growthRate": "Fast",
+  "description": "Ludwigia repens, commonly known as Creeping Ludwigia or Red Ludwigia, is a fast-growing aquatic and semi-aquatic plant native to parts of North and Central America, including the southern United States, Mexico, and parts of Central America. It belongs to the Onagraceae (evening primrose) family and features oval to lanceolate leaves (2-4 cm long, 1-2 cm wide) arranged in opposite pairs along branching stems. The leaves are typically green when grown under low light, but develop intense red, orange, or bronze coloration under high light conditions. The stems are reddish-brown to red. This plant displays an upright to semi-upright growth habit and can reach 20-50 cm in height. Leaves develop intense red coloration under high light conditions. It produces small, yellow, four-petaled flowers when grown emersed. In its native habitat, it grows in shallow water, marshes, and along the edges of ponds and streams. In terrariums or indoor settings, this plant adds vibrant red-orange accents to aquatic setups. It's popular in aquascaping for its colorful foliage and ability to provide striking contrast.",
+  "careTips": [
+    "Colors up with high light (3+ watts per gallon) - insufficient light causes green, leggy growth",
+    "Benefits from iron supplementation - iron-rich fertilizers enhance red coloration",
+    "Easy to propagate from stem cuttings - simply cut and replant, roots readily",
+    "Can grow emersed (above water) or submerged (fully aquatic) - adapts well to both",
+    "Native to North and Central America - prefers moderate to warm temperatures (20-28°C)",
+    "Moderate to high light essential for red coloration - low light results in green leaves",
+    "Prefers pH 6.0-7.5 and soft to moderately hard water (2-12 dGH)",
+    "Nutrient-rich substrate recommended - benefits from root tabs or liquid fertilizers",
+    "CO2 supplementation beneficial for faster growth and better coloration",
+    "Trim regularly to encourage bushier growth and maintain shape",
+    "Non-toxic and safe for all aquarium inhabitants",
+    "Can be used as background or midground plant in aquariums",
+    "When grown emersed, requires high humidity (70-90%) and consistently moist substrate",
+    "Plant in groups for best visual effect - creates striking red accents"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Myrtales",
+    "family": "Onagraceae",
+    "genus": "Ludwigia",
+    "species": "Ludwigia repens"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "fully-aquatic",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division",
+  "colors": "Red, Orange",
+  "humidityRange": {
+    "min": 100,
+    "max": 100,
+    "ideal": 100
+  },
+  "lightRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "aquatic",
+  "waterCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "temperatureRange": {
+    "min": 40,
+    "max": 56.00000000000001,
+    "ideal": 48
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "waterTemperatureRange": {
+    "min": 40,
+    "max": 56.00000000000001,
+    "ideal": 48
+  },
+  "waterPhRange": {
+    "min": 42.857142857142854,
+    "max": 53.57142857142857,
+    "ideal": 48.21428571428571
+  },
+  "waterHardnessRange": {
+    "min": 6.666666666666667,
+    "max": 40,
+    "ideal": 23.333333333333332
+  },
+  "salinityRange": {
+    "min": 0,
+    "max": 5,
+    "ideal": 2.5
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

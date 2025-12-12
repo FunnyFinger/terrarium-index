@@ -1,0 +1,82 @@
+{
+  "id": 244,
+  "name": "Anthurium mini",
+  "scientificName": "Anthurium minarum",
+  "commonNames": [],
+  "category": [
+    "anthurium",
+    "colorful",
+    "flowering",
+    "leafy",
+    "mini",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "10-30 cm",
+  "growthRate": "Moderate",
+  "description": "Anthurium minarum (commonly sold as Anthurium mini purple) is a small epiphytic aroid native to tropical regions of Brazil, particularly the Atlantic Forest. It belongs to the Araceae family and features small, lance-shaped to oval, dark green to purple-tinged leaves (5-15 cm long) with prominent white or silver veins. The plant produces small, purple to pink spathes. The plant displays an upright, compact growth habit and typically reaches 15-30 cm in height. In its native habitat, it grows as an epiphyte on tree trunks and branches in tropical forests. In terrariums or indoor settings, this plant adds unique interest with its small size and purple-tinged leaves. It's popular among aroid enthusiasts for its compact form and purple coloration.",
+  "careTips": [
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Monitor watering needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Anthurium",
+    "species": "Anthurium minarum"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "toxic-if-ingested",
+  "rarity": "very-rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division, Seed",
+  "colors": "Red, White, Silver",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

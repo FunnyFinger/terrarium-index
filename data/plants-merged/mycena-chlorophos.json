@@ -1,0 +1,89 @@
+{
+  "id": 374,
+  "name": "Green Glow Mycena",
+  "scientificName": "Mycena chlorophos",
+  "commonNames": [
+    "Bioluminescent Mycena",
+    "Chlorophos Mycena"
+  ],
+  "category": [
+    "fungus",
+    "bioluminescent"
+  ],
+  "substrate": "Decaying Wood",
+  "size": "Cap: 5-30 mm diameter, Stem: 6-30 mm long",
+  "growthRate": "Moderate to fast",
+  "description": "Mycena chlorophos is a small, bioluminescent mushroom species in the Mycenaceae family, first described in 1860. It is native to subtropical regions of Asia (India, Japan, Taiwan, Polynesia, Indonesia, Sri Lanka), Australia, and Brazil. The fruit bodies feature pale brownish-grey sticky caps up to 30 mm in diameter atop slender stems 6-30 mm long. This fascinating fungus emits a pale green light, with bioluminescence most intense at 27°C, about 25-39 hours after primordia begin to form, when the cap has fully expanded. At 21°C, luminescence persists for about three days. The bioluminescence is caused by trans-p-hydroxycinnamic acid in the cap, which activates the light-emitting reaction. Mycena chlorophos typically grows in forests on fallen woody debris such as dead twigs, branches, and logs. In terrariums, it adds a unique bioluminescent element and helps decompose wood substrates. Optimal growth conditions include temperatures around 27°C for mycelial growth and 21°C for primordia development.",
+  "careTips": [
+    "Requires decaying woody substrate - fallen twigs, branches, or logs",
+    "High humidity is essential (85-95%)",
+    "Temperature: 21-27°C (70-81°F) for optimal growth and bioluminescence",
+    "Low to moderate light - bioluminescence is best observed in complete darkness",
+    "Good air circulation to prevent mold",
+    "Keep substrate consistently moist but not waterlogged",
+    "Bioluminescence peaks 25-39 hours after primordia formation at 27°C",
+    "Luminescence persists for about 3 days at 21°C",
+    "Grows on dead or decaying wood in forest-like conditions",
+    "Small size makes it ideal for miniature terrariums",
+    "For display and research purposes - not for consumption"
+  ],
+  "taxonomy": {
+    "kingdom": "Fungi",
+    "phylum": "Basidiomycota",
+    "class": "Agaricomycetes",
+    "order": "Agaricales",
+    "family": "Mycenaceae",
+    "genus": "Mycena",
+    "species": "Mycena chlorophos"
+  },
+  "growthPattern": "clumping",
+  "hazard": "handle-with-care",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "fungus",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Spores, Mycelial Culture",
+  "colors": "Pale brownish-grey, Green (bioluminescent)",
+  "humidityRange": {
+    "min": 85,
+    "max": 95,
+    "ideal": 90
+  },
+  "lightRange": {
+    "min": 10,
+    "max": 30,
+    "ideal": 20
+  },
+  "airCirculationRange": {
+    "min": 50,
+    "max": 80,
+    "ideal": 65
+  },
+  "waterNeedsRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "substrateType": "wood",
+  "specialNeeds": "bioluminescent",
+  "temperatureRange": {
+    "min": 21,
+    "max": 27,
+    "ideal": 24
+  },
+  "difficultyRange": {
+    "min": 60,
+    "max": 85,
+    "ideal": 72
+  },
+  "soilPhRange": {
+    "min": 5.5,
+    "max": 6.5,
+    "ideal": 6
+  },
+  "growthRateRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  }
+}

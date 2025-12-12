@@ -1,0 +1,90 @@
+{
+  "id": 32,
+  "name": "Lemon Button Fern",
+  "scientificName": "Nephrolepis cordifolia",
+  "commonNames": [],
+  "category": [
+    "fern",
+    "leafy"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "5-25 cm",
+  "growthRate": "Moderate",
+  "description": "Nephrolepis cordifolia, commonly known as Lemon Button Fern, Fishbone Fern, or Sword Fern, is a compact fern native to tropical and subtropical regions worldwide, including parts of Asia, Africa, Australia, and the Americas. It belongs to the Nephrolepidaceae family (sometimes placed in Davalliaceae or Lomariopsidaceae) and features small, round to button-like leaflets (pinnae) arranged along arching fronds. The fronds are typically 15-60 cm long and have a bright green color with a slightly lemon-like fragrance when crushed, hence the common name. This plant displays an upright to arching growth habit with elegant, feathery fronds. Unlike the larger Boston Fern (Nephrolepis exaltata), this species is more compact and suitable for smaller spaces. In its native habitat, it grows as an epiphyte on trees or as a terrestrial plant in moist, shaded areas of tropical forests. In terrariums or indoor settings, this plant provides lush, feathery texture to any environment. It produces spores on the underside of fronds for reproduction.",
+  "careTips": [
+    "Requires consistent moisture - never allow soil to completely dry out, but avoid waterlogging",
+    "Tolerates lower light conditions - bright indirect to low light is acceptable, avoid direct sun",
+    "Fronds are delicate - handle carefully and avoid touching to prevent damage",
+    "Divide to propagate - separate rhizomes when repotting, each division should have roots and fronds",
+    "Native to global tropics - prefers warm, humid conditions (18-24°C)",
+    "High humidity (60-80%) is essential - ideal for terrariums or high-humidity rooms",
+    "Well-draining, peat-based substrate recommended - retains moisture while preventing rot",
+    "Water when top inch of soil feels dry - use room temperature water, avoid cold water",
+    "Feed monthly during growing season with diluted balanced fertilizer (quarter strength)",
+    "Non-toxic to pets and humans",
+    "Watch for scale insects and spider mites, especially in dry conditions",
+    "Remove dead or yellowing fronds at the base to encourage new growth",
+    "Can be grown in hanging baskets, terrariums, or as a houseplant",
+    "If fronds turn brown, increase humidity and check watering schedule",
+    "Prefers slightly acidic to neutral soil pH (6.0-7.0)"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Polypodiopsida",
+    "order": "Polypodiales",
+    "family": "Nephrolepidaceae",
+    "genus": "Nephrolepis",
+    "species": "Nephrolepis cordifolia"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "fern",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Spores, Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

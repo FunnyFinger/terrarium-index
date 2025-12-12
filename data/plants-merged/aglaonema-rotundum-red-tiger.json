@@ -1,0 +1,87 @@
+{
+  "id": 596,
+  "name": "Aglaonema Rotunda-Red tiger Variegated",
+  "scientificName": "Aglaonema rotundum 'Red Tiger'",
+  "commonNames": [
+    "Chinese Evergreen",
+    "Red Tiger Aglaonema"
+  ],
+  "category": [
+    "aglaonema",
+    "flowering",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "20-60 cm",
+  "growthRate": "Moderate",
+  "description": "Aglaonema rotundum 'Red Tiger' (also known as Aglaonema Rotunda-Red tiger Variegated) is a variegated Chinese Evergreen native to the tropical forests of Asia. It belongs to the Araceae family and features upright stems (30-60 cm tall) with large, dramatic, variegated leaves featuring striking mixes of red, pink, and green coloration. The plant displays an upright, bushy growth habit. In tropical forests, this plant typically grows as a terrestrial understory plant, receiving filtered sunlight through the dense canopy. It produces small, inconspicuous flowers. In its native habitat, it grows in moist, shaded areas of tropical forests. In terrariums or indoor settings, this plant adds vibrant colors and visual interest with its variegated foliage. It's popular among houseplant enthusiasts for its colorful leaves, air-purifying qualities, and low maintenance requirements.",
+  "careTips": [
+    "Provide moderate to high humidity",
+    "Ensure good air circulation",
+    "Keep substrate consistently moist but not waterlogged",
+    "Low to bright, indirect light preferred",
+    "Well-draining substrate essential",
+    "Protect from direct sunlight",
+    "Toxic if ingested - keep away from pets and children"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Aglaonema",
+    "species": "Aglaonema rotundum"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "toxic-if-ingested",
+  "rarity": "very-rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "does-not-flower-in-cultivation",
+  "propagation": "Stem Cuttings, Division",
+  "colors": "Green, Red, Pink, Variegated",
+  "humidityRange": {
+    "min": 40,
+    "max": 50,
+    "ideal": 45
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 54,
+    "ideal": 45
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "id": 581,
+  "name": "Basket Plant",
+  "scientificName": "Aeschynanthus speciosus",
+  "commonNames": [],
+  "category": [
+    "flowering",
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "30-120 cm",
+  "growthRate": "Moderate",
+  "description": "Aeschynanthus speciosus, commonly known as the Basket Plant or Lipstick Plant, is an epiphytic plant native to tropical regions of Southeast Asia, particularly Malaysia, Indonesia, and the Philippines. It belongs to the Gesneriaceae family and features long, trailing stems (60-120 cm long) with large, fleshy, dark green leaves up to 10 cm long and 4 cm wide, arranged in groups along the stems. The plant displays a trailing or climbing growth habit. It produces large, tubular, bright red to orange flowers (up to 10 cm long) that grow in clusters, giving it the common name \"Lipstick Plant\". In its native habitat, it grows as an epiphyte on tree branches in tropical forests. In terrariums or indoor settings, this plant adds vibrant colors with its bright flowers. It's popular among gesneriad enthusiasts for its large, showy flowers.",
+  "careTips": [
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Keep substrate consistently moist but not waterlogged",
+    "Bright, indirect light preferred",
+    "Well-draining substrate essential",
+    "Protect from direct sunlight",
+    "Can be grown in hanging baskets or mounted on bark"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Lamiales",
+    "family": "Gesneriaceae",
+    "genus": "Aeschynanthus",
+    "species": "Aeschynanthus speciosus"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division",
+  "colors": "Green, Red, Orange",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

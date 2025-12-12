@@ -1,0 +1,98 @@
+{
+  "id": 10477,
+  "name": "Mini Bolbitis",
+  "scientificName": "Bolbitis heteroclita 'Difformis'",
+  "commonNames": [
+    "Baby Leaf Bolbitis",
+    "El Niño Fern 'Difformis'",
+    "Lace Leaf Bolbitis"
+  ],
+  "category": [
+    "fern",
+    "aquatic",
+    "leafy",
+    "mini",
+    "tropical"
+  ],
+  "substrate": "Attached to Rocks or Driftwood",
+  "size": "3-15 cm",
+  "growthRate": "Very Slow",
+  "description": "Bolbitis heteroclita 'Difformis', commonly known as Mini Bolbitis or Baby Leaf Bolbitis, is a miniature cultivar of the Asian Water Fern native to the Philippines. This cultivar features finely divided, lace-like leaves that are more delicate and intricate than the standard species, creating an elegant, fern-like appearance. The leaves are smaller (typically 3-8 cm) and more deeply lobed, giving it a distinctive lace-like texture. The plant displays a creeping, rhizomatous growth habit and grows very slowly, making it ideal for foreground to midground placement in aquascapes. Like the parent species, it can grow both submerged in water and emersed in very humid conditions, making it adaptable for aquariums, paludariums, and terrariums. In its native habitat, it grows in shaded, humid areas near streams, often attached to rocks or driftwood. The fern does not require soil substrate and must be attached directly to hardscape materials - burying the rhizome will cause rot. It's an excellent choice for aquascaping due to its miniature size, delicate appearance, and slow growth rate, which makes it easier to maintain in smaller aquariums. The plant is non-toxic and safe for homes with pets. It prefers slightly cooler temperatures and soft, slightly acidic water for optimal growth.",
+  "careTips": [
+    "Provide low to moderate lighting - avoid strong, direct light",
+    "Maintain high humidity (70-90%) if grown emersed",
+    "Can be grown fully submerged in aquariums or emersed in terrariums",
+    "Attach to rocks or driftwood - NEVER bury the rhizome (will cause rot)",
+    "Ensure good water circulation if grown submerged",
+    "Temperature: 18-26°C (65-79°F) - prefers slightly cooler than standard species",
+    "Prefers soft, slightly acidic water (pH 5.0-7.5)",
+    "Very slow growth rate - be patient",
+    "Benefits from regular liquid fertilization, especially when submerged",
+    "Propagate by dividing the rhizome when plant has multiple leaves",
+    "Avoid drastic environmental changes to prevent plant melt",
+    "Ideal for foreground to midground placement in aquascapes",
+    "Non-toxic to pets and humans"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Polypodiopsida",
+    "order": "Polypodiales",
+    "family": "Dryopteridaceae",
+    "genus": "Bolbitis",
+    "species": "Bolbitis heteroclita"
+  },
+  "growthPattern": "creeping-rhizomatous",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "fern",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Rhizome Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 40,
+    "max": 70,
+    "ideal": 55
+  },
+  "waterNeedsRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "aquatic",
+  "temperatureRange": {
+    "min": 18,
+    "max": 26,
+    "ideal": 22
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 5.0,
+    "max": 7.5,
+    "ideal": 6.0
+  },
+  "growthRateRange": {
+    "min": 10,
+    "max": 30,
+    "ideal": 20
+  }
+}
+
+
+

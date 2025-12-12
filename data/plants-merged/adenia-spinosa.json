@@ -1,0 +1,84 @@
+{
+  "id": 563,
+  "name": "Spiny Adenia",
+  "scientificName": "Adenia spinosa",
+  "commonNames": [],
+  "category": [
+    "flowering",
+    "leafy",
+    "tropical",
+    "succulent"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "20-200 cm",
+  "growthRate": "Moderate",
+  "description": "Adenia spinosa is a caudiciform (caudex-forming) succulent native to southern Africa, particularly South Africa and Namibia. It belongs to the Passifloraceae family and features a swollen, spiny caudex (base) with climbing or trailing stems (50-200 cm long) bearing small, green leaves. The plant displays a climbing or trailing growth habit from the caudex. It produces small, greenish to yellow flowers. Adapted to tropical and semi-arid climates. In its native habitat, it grows in well-draining, rocky soils in semi-arid to tropical regions. In terrariums or indoor settings, this plant adds unique interest with its distinctive caudex form and spiny appearance. It's popular among caudiciform plant enthusiasts for its unusual form.",
+  "careTips": [
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Allow substrate to dry between waterings",
+    "Bright, indirect light preferred",
+    "Well-draining substrate essential",
+    "Protect from overwatering",
+    "Requires support for climbing stems"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Malpighiales",
+    "family": "Passifloraceae",
+    "genus": "Adenia",
+    "species": "Adenia spinosa"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division, Seed",
+  "colors": "Red, Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "succulent",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

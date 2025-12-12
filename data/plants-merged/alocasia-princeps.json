@@ -1,0 +1,84 @@
+{
+  "id": 191,
+  "name": "Purple Cloak Alocasia",
+  "scientificName": "Alocasia princeps",
+  "commonNames": [
+    "Purple Cloak"
+  ],
+  "category": [
+    "alocasia",
+    "colorful",
+    "flowering",
+    "house-plant",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "40-150 cm",
+  "growthRate": "Moderate",
+  "description": "Alocasia princeps 'Purple Cloak', commonly known as Purple Cloak Alocasia, is a tropical aroid native to Borneo, Malaysia. It belongs to the Araceae family (aroid family) and features large, arrow-shaped to shield-shaped, dark purple to almost black leaves (40-80 cm long) with prominent purple veins. The leaves have a velvety texture and are held on long, purple petioles. The plant displays an upright, clumping growth habit and typically reaches 90-150 cm in height. It produces small, inconspicuous flowers typical of aroids (spathe and spadix). In its native habitat, it grows as a terrestrial plant in moist, shaded areas of tropical forests. In terrariums or indoor settings, this plant creates a bold, dramatic statement with its large, dark purple leaves. It's extremely popular among aroid enthusiasts for its striking dark coloration.",
+  "careTips": [
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Monitor watering needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Alocasia",
+    "species": "Alocasia princeps"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "toxic-if-ingested",
+  "rarity": "very-rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division, Seed",
+  "colors": "Purple",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

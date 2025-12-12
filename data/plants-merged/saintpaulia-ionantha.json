@@ -1,0 +1,93 @@
+{
+  "id": 27,
+  "name": "African Violet",
+  "scientificName": "Saintpaulia ionantha",
+  "commonNames": [
+    "Usambara Violet"
+  ],
+  "category": [
+    "house-plant"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "5-20 cm",
+  "growthRate": "Moderate",
+  "description": "Saintpaulia ionantha, commonly known as African Violet, is a small, compact, rosette-forming perennial native to eastern and southwestern Tanzania and southeastern Kenya in tropical East Africa. It belongs to the Gesneriaceae family and features round to oval, velvety, dark green leaves (3-8 cm long) with slightly scalloped edges. The leaves are covered in fine hairs and grow in a rosette pattern. The plant produces clusters of five-petaled flowers in various colors including purple, blue, pink, white, and bicolored varieties. Flowers can be single, semi-double, or double and appear on stalks rising above the foliage. This plant displays an upright, bushy growth habit and typically matures to 10-20 cm in height and width. In its native habitat, it grows in shaded, humid areas of tropical forests, often on rocky outcroppings or in crevices. In terrariums or indoor settings, this plant adds natural beauty and continuous flowering to any environment. It's one of the most popular houseplants worldwide due to its long flowering period and relatively easy care.",
+  "careTips": [
+    "Bottom water only - place pot in saucer of water for 30 minutes, then remove excess water",
+    "Don't get water on leaves - water on leaves can cause spots, rot, or fungal issues",
+    "Requires consistent humidity (60-80%) - use pebble tray or humidifier, avoid misting leaves",
+    "Fertilize monthly when flowering with African Violet-specific fertilizer or balanced fertilizer at quarter strength",
+    "Native to Tanzania and Kenya - prefers warm, humid conditions (18-24°C)",
+    "Bright indirect light is essential - east or north-facing windows are ideal, avoid direct sun",
+    "Keep soil consistently moist but not waterlogged - use room temperature water",
+    "Well-draining, peat-based substrate recommended - specialized African Violet mix works best",
+    "Repot annually in spring using fresh soil - plant in pot only slightly larger than root ball",
+    "Remove spent flowers and dead leaves to encourage new blooms and prevent disease",
+    "Non-toxic to pets and humans",
+    "Watch for cyclamen mites, mealybugs, and thrips - treat promptly if detected",
+    "Flowers best when slightly root-bound - don't overpot",
+    "Can bloom year-round with proper care and adequate light",
+    "Avoid cold drafts and sudden temperature changes which can cause leaf drop"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Lamiales",
+    "family": "Gesneriaceae",
+    "genus": "Streptocarpus",
+    "species": "Saintpaulia ionantha"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division, Seed",
+  "colors": "Purple, Green, Brown",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "_filename": "saintpaulia-ionantha.json",
+  "_filePath": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants-merged\\saintpaulia-ionantha.json"
+}

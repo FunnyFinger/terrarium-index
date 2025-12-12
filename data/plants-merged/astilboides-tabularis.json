@@ -1,0 +1,80 @@
+{
+  "id": 337,
+  "name": "Shieldleaf",
+  "scientificName": "Astilboides tabularis",
+  "commonNames": [
+    "Umbrella Plant"
+  ],
+  "category": [
+    "flowering",
+    "leafy"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "30-120 cm",
+  "growthRate": "Moderate",
+  "description": "Astilboides tabularis, commonly known as Shieldleaf or Umbrella Plant, is a perennial plant native to northeastern China, Korea, and parts of Russia. It belongs to the Saxifragaceae family and features large, round to kidney-shaped, shield-like leaves (30-60 cm across) that are dark green with prominent veins and serrated margins. The leaves are held on long petioles and create a distinctive umbrella-like appearance. The plant displays an upright, clumping growth habit and typically reaches 60-120 cm in height. It produces small, white to cream-colored flowers in tall, plume-like inflorescences in summer. In its native habitat, it grows in moist, shaded areas of forests. In terrariums or indoor settings, this plant adds dramatic interest with its large, shield-like leaves. It's popular among plant enthusiasts for its distinctive foliage.",
+  "careTips": [
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Monitor watering needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Saxifragales",
+    "family": "Saxifragaceae",
+    "genus": "Astilboides",
+    "species": "Astilboides tabularis"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division, Seed",
+  "colors": "White, Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

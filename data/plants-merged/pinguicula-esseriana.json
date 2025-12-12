@@ -1,0 +1,81 @@
+{
+  "id": 456,
+  "name": "Esseriana Butterwort",
+  "scientificName": "Pinguicula esseriana",
+  "commonNames": [
+    "Butterwort Plant"
+  ],
+  "category": [
+    "carnivorous"
+  ],
+  "substrate": "Epiphytic Mix",
+  "size": "4-5 cm",
+  "growthRate": "Moderate",
+  "description": "Pinguicula esseriana is a small carnivorous plant native to Mexico, particularly in the state of San Luis Potosí. It belongs to the Lentibulariaceae family and features a compact rosette of sticky, bright green to red-tinged leaves (2-4 cm long) that secrete mucilage to trap and digest insects. The leaves curl inward when an insect is trapped, increasing contact area for digestion. The plant displays a rosette-forming growth habit and typically reaches 3-5 cm in height. It produces small, pink to purple flowers in spring and summer. Despite its tropical habitat, this species is frost-tolerant. In its native habitat, it grows in nutrient-poor, wet soils in high-altitude regions. In terrariums or indoor settings, this plant offers unique intrigue with its rosette form and attractive flowers. It's popular among carnivorous plant enthusiasts for its compact size and cold tolerance.",
+  "careTips": [
+    "Requires distilled or rain water only",
+    "Bright light essential for health",
+    "Use specialized carnivorous plant media",
+    "High humidity preferred",
+    "Feed with small insects occasionally"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Lamiales",
+    "family": "Lentibulariaceae",
+    "genus": "Pinguicula",
+    "species": "Pinguicula esseriana"
+  },
+  "growthPattern": "rosette",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Division, Leaf Cuttings, Seed",
+  "colors": "Green, Pink, Purple",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "substrateType": "moist",
+  "specialNeeds": "carnivorous",
+  "temperatureRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "id": 10319,
+  "name": "Hart's Tongue Fern",
+  "scientificName": "Asplenium scolopendrium",
+  "commonNames": [
+    "Spleenwort"
+  ],
+  "category": [
+    "fern",
+    "leafy",
+    "tropical",
+    "terrestrial"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "10-60 cm",
+  "growthRate": "Moderate",
+  "description": "Asplenium scolopendrium, commonly known as Hart's Tongue Fern, is a terrestrial fern native to temperate and subtropical regions of Europe, Asia, and North America. It belongs to the Aspleniaceae family and features upright fronds (30-60 cm tall) with large, dramatic, strap-shaped, dark green fronds with distinctive wavy edges. The plant displays an upright rosette growth habit. In its native habitat, it grows in moist, shaded areas, often on limestone rocks. In terrariums or indoor settings, this plant creates a stunning architectural focal point with its elegant, strap-shaped fronds. It's popular among fern enthusiasts for its unique frond shape.",
+  "careTips": [
+    "High humidity is essential",
+    "Keep soil consistently moist but not waterlogged",
+    "Avoid direct sunlight - prefers bright indirect light",
+    "Brown edges indicate low humidity or underwatering"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Polypodiopsida",
+    "order": "Polypodiales",
+    "family": "Aspleniaceae",
+    "genus": "Asplenium",
+    "species": "Asplenium scolopendrium"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "fern",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Spores, Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 50,
+    "max": 90,
+    "ideal": 70
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

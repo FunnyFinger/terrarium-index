@@ -1,0 +1,83 @@
+{
+  "id": 10102,
+  "name": "Anthurium hookeri",
+  "scientificName": "Anthurium hookeri",
+  "commonNames": [],
+  "category": [
+    "anthurium",
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "40-120 cm",
+  "growthRate": "Moderate",
+  "description": "Anthurium hookeri is an epiphytic plant native to tropical regions of Central and South America, particularly Colombia, Ecuador, and Peru. It belongs to the Araceae family and features upright stems (60-120 cm tall) with large, dramatic, lance-shaped to oblong, dark green leaves. The plant displays an upright, bushy growth habit. Many species have velvety leaves with prominent white or silver veins that create stunning contrast, and some produce fragrant blooms. In tropical forests, this plant typically grows as an epiphyte on tree trunks, receiving filtered sunlight through the dense canopy. In its native habitat, it grows on tree branches in tropical forests. In terrariums or indoor settings, this plant adds natural beauty with its distinctive large foliage. It's popular among Anthurium enthusiasts for its impressive size.",
+  "careTips": [
+    "Keep soil consistently moist but well-draining",
+    "High humidity preferred",
+    "Bright indirect light",
+    "Toxic if ingested - keep away from pets and children",
+    "Prefers warm, humid conditions",
+    "Bright indirect light for best flowering"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Anthurium",
+    "species": "Anthurium hookeri"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "toxic-if-ingested",
+  "rarity": "rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "does-not-flower-in-cultivation",
+  "propagation": "Division, Offsets",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

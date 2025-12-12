@@ -1,0 +1,86 @@
+{
+  "id": 585,
+  "name": "Thread Agave",
+  "scientificName": "Agave filifera",
+  "commonNames": [],
+  "category": [
+    "flowering",
+    "leafy",
+    "mini",
+    "succulent"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "15-40 cm",
+  "growthRate": "Slow",
+  "description": "Agave filifera, commonly known as Thread Agave, is a small succulent native to Mexico, particularly the states of Hidalgo and Querétaro. It belongs to the Asparagaceae family and features a compact rosette of fleshy, dark green leaves (20-40 cm in diameter) with white, thread-like filaments along the leaf margins, giving it the common name. The plant displays a compact, rosette-forming growth habit. It produces small, yellow to green flowers on a tall spike, after which the rosette dies (monocarpic). In its native habitat, it grows in well-draining, rocky soils in semi-arid regions. In terrariums or indoor settings, this plant adds unique interest with its distinctive thread-like filaments. It's popular among succulent enthusiasts for its compact size and unusual appearance.",
+  "careTips": [
+    "Low humidity preferred",
+    "Ensure good air circulation",
+    "Allow substrate to dry completely between waterings",
+    "Bright, indirect light preferred",
+    "Well-draining substrate essential",
+    "Protect from overwatering",
+    "Requires good drainage"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Asparagales",
+    "family": "Asparagaceae",
+    "genus": "Agave",
+    "species": "Agave filifera"
+  },
+  "growthPattern": "rosette",
+  "hazard": "toxic-if-ingested",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Offsets, Seed",
+  "colors": "Green, White, Yellow",
+  "humidityRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "succulent",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  },
+  "_filename": "agave-filifera.json",
+  "_filePath": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants-merged\\agave-filifera.json"
+}

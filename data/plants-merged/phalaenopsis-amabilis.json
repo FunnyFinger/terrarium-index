@@ -1,0 +1,92 @@
+{
+  "id": 73,
+  "name": "Moth Orchid",
+  "scientificName": "Phalaenopsis amabilis",
+  "commonNames": [
+    "Butterfly Orchid",
+    "Moon Orchid"
+  ],
+  "category": [
+    "flowering",
+    "mini",
+    "orchid"
+  ],
+  "substrate": "Epiphytic Mix",
+  "size": "5-20 cm",
+  "growthRate": "Slow",
+  "description": "Phalaenopsis amabilis, commonly known as Moth Orchid, Moon Orchid, or Queen of the Philippines, is an epiphytic orchid native to tropical regions of Southeast Asia, particularly the Philippines, Indonesia, Malaysia, and parts of Australia. It belongs to the Orchidaceae family and features broad, leathery, dark green leaves (10-20 cm long) arranged in a rosette pattern. The plant produces long, arching flower spikes bearing multiple large, white to cream-colored flowers (5-10 cm across) with yellow and red markings on the lip. The flowers have a distinctive moth-like appearance, hence the common name. The plant displays an upright, rosette-forming growth habit and typically reaches 10-20 cm in height (excluding flower spikes). In its native habitat, it grows as an epiphyte on tree trunks and branches in tropical forests. In terrariums or indoor settings, this plant adds elegant, long-lasting flowers and tropical beauty. It's one of the most popular orchids for indoor cultivation.",
+  "careTips": [
+    "Requires good air circulation - epiphytic nature means roots need air flow",
+    "Roots need to breathe - don't overwater, allow to dry between waterings",
+    "Fertilize monthly with orchid fertilizer (balanced, diluted) during growing season",
+    "Flowers can last 2-3 months - one of the longest-lasting orchid blooms",
+    "Native to Southeast Asia - prefers warm, humid conditions (18-27°C)",
+    "Bright indirect light is essential - avoid direct sun which can burn leaves",
+    "High humidity (60-80%) helps maintain healthy leaves and encourage flowering",
+    "Epiphytic/mounted culture preferred - can be grown in bark or mounted on cork",
+    "Water when roots turn silvery - typically once or twice per week",
+    "Non-toxic to pets and humans",
+    "Can be grown in terrariums with good air circulation or as houseplant",
+    "After flowering, cut spike above node to encourage reblooming",
+    "Watch for mealybugs and scale insects, especially in leaf axils"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Asparagales",
+    "family": "Orchidaceae",
+    "genus": "Phalaenopsis",
+    "species": "Phalaenopsis amabilis"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "irregular",
+  "propagation": "Division, Pups, Seed",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "orchid",
+  "temperatureRange": {
+    "min": 36,
+    "max": 54,
+    "ideal": 45
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  }
+}

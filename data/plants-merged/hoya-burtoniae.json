@@ -1,0 +1,81 @@
+{
+  "id": 10194,
+  "name": "Hoya burtoniae",
+  "scientificName": "Hoya burtoniae",
+  "commonNames": [],
+  "category": [
+    "hoya",
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "30-120 cm",
+  "growthRate": "Moderate",
+  "description": "Hoya burtoniae is an epiphytic plant native to tropical regions of the Philippines. It belongs to the Apocynaceae family and features trailing or climbing stems (60-120 cm long) with thick, fleshy, waxy, dark green leaves and clusters of star-shaped, red to burgundy flowers. The flowers have a distinctive star shape with a waxy texture and often emit strong, pleasant fragrances, especially at night. Adapted to tropical climates with high humidity, consistent warmth, and filtered light conditions. In its native habitat, it grows on tree branches in tropical forests. In terrariums or indoor settings, this plant adds tropical charm with its waxy, star-shaped flowers and trailing vines. It's popular among Hoya enthusiasts for its attractive red flowers.",
+  "careTips": [
+    "Let soil dry completely between waterings",
+    "Well-draining soil is essential",
+    "Bright light preferred - can tolerate direct sun",
+    "Avoid overwatering - prone to root rot"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Gentianales",
+    "family": "Apocynaceae",
+    "genus": "Hoya",
+    "species": "Hoya burtoniae"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "very-rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings",
+  "colors": "Green, Red, Burgundy",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

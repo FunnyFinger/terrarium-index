@@ -1,0 +1,81 @@
+{
+  "id": 457,
+  "name": "Gypsum Butterwort × Moctezumae",
+  "scientificName": "Pinguicula gypsicola × moctezumae",
+  "commonNames": [
+    "Butterwort Plant"
+  ],
+  "category": [
+    "carnivorous"
+  ],
+  "substrate": "Epiphytic Mix",
+  "size": "6-8 cm",
+  "growthRate": "Moderate",
+  "description": "Pinguicula gypsicola × moctezumae is a hybrid carnivorous plant resulting from a cross between Pinguicula gypsicola and Pinguicula moctezumae. It belongs to the Lentibulariaceae family and features a compact rosette of sticky, bright green to red-tinged leaves (4-7 cm long) that secrete mucilage to trap and digest insects. The leaves curl inward when an insect is trapped, increasing contact area for digestion. The plant displays a rosette-forming growth habit and typically reaches 5-8 cm in height. It produces small, pink to purple flowers in spring and summer. These carnivorous plants secrete sticky mucilage that not only traps insects but also has antibacterial properties. In terrariums or indoor settings, this plant offers unique intrigue with its rosette form and dewy, jewel-like appearance. It's popular among carnivorous plant enthusiasts for its hybrid vigor and attractive flowers.",
+  "careTips": [
+    "Requires distilled or rain water only",
+    "Bright light essential for health",
+    "Use specialized carnivorous plant media",
+    "High humidity preferred",
+    "Feed with small insects occasionally"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Lamiales",
+    "family": "Lentibulariaceae",
+    "genus": "Pinguicula",
+    "species": "Pinguicula gypsicola × moctezumae"
+  },
+  "growthPattern": "rosette",
+  "hazard": "non-toxic",
+  "rarity": "very-rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Division, Leaf Cuttings, Seed",
+  "colors": "Green, Pink, Purple",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "substrateType": "moist",
+  "specialNeeds": "carnivorous",
+  "temperatureRange": {
+    "min": 36,
+    "max": 52,
+    "ideal": 44
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

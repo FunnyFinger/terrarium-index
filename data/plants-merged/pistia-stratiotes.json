@@ -1,0 +1,116 @@
+{
+  "id": 46,
+  "name": "Water Lettuce",
+  "scientificName": "Pistia stratiotes",
+  "commonNames": [],
+  "category": [
+    "aquatic",
+    "creeper",
+    "flowering",
+    "tropical"
+  ],
+  "substrate": "No Substrate Needed",
+  "size": "3-15 cm",
+  "growthRate": "Fast",
+  "description": "Pistia stratiotes, commonly known as Water Lettuce, Nile Cabbage, or Shellflower, is a free-floating aquatic plant native to tropical and subtropical regions worldwide, including Africa, Asia, and the Americas. It belongs to the Araceae family and features rosettes of velvety, light green to gray-green leaves (5-15 cm long) with prominent parallel veins and wavy, scalloped edges. The leaves are covered in fine hairs that trap air, helping the plant float. The plant displays a rosette growth habit and forms dense floating mats. It produces small, inconspicuous white to green flowers hidden in the center of the rosette. The roots hang freely in the water and can reach 50 cm or more in length. In its native habitat, it grows floating on the surface of still or slow-moving water bodies including ponds, lakes, and slow streams. In terrariums or indoor settings, this plant provides excellent shade, natural filtration, and a tropical appearance. It's considered invasive in many regions, so check local regulations before cultivation.",
+  "careTips": [
+    "Floating plant - no substrate needed, roots hang freely in water",
+    "Provides excellent shade for fish and other aquatic life - helps reduce algae",
+    "Fast growing - can quickly cover water surface, trim regularly to control",
+    "Check local regulations - considered invasive in many regions (illegal in some states/countries)",
+    "Native to tropical/subtropical regions worldwide - prefers warm water (22-30°C)",
+    "Moderate to high light recommended (2-3 watts per gallon) for best growth",
+    "Prefers pH 6.0-7.5 and soft to moderately hard water (2-12 dGH)",
+    "Benefits from regular fertilization - absorbs nutrients through roots from water",
+    "CO2 supplementation beneficial but not required",
+    "Non-toxic and safe for all aquarium inhabitants",
+    "Can be used in aquariums, paludariums, and ripariums",
+    "Propagates via stolons (runners) - daughter plants form on stolons",
+    "If leaves turn yellow, increase light or add fertilizer",
+    "Requires some water movement to prevent stagnant conditions"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Pistia",
+    "species": "Pistia stratiotes"
+  },
+  "growthPattern": "rosette",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "fully-aquatic",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Division, Runners",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "aquatic",
+  "waterCirculationRange": {
+    "min": 10,
+    "max": 30,
+    "ideal": 20
+  },
+  "temperatureRange": {
+    "min": 44,
+    "max": 60,
+    "ideal": 52
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "waterTemperatureRange": {
+    "min": 44,
+    "max": 60,
+    "ideal": 52
+  },
+  "waterPhRange": {
+    "min": 42.857142857142854,
+    "max": 53.57142857142857,
+    "ideal": 48.21428571428571
+  },
+  "waterHardnessRange": {
+    "min": 6.666666666666667,
+    "max": 40,
+    "ideal": 23.333333333333332
+  },
+  "salinityRange": {
+    "min": 0,
+    "max": 5,
+    "ideal": 2.5
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

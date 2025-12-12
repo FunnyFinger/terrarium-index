@@ -1,0 +1,90 @@
+{
+  "id": 35,
+  "name": "Silver Falls",
+  "scientificName": "Dichondra argentea",
+  "commonNames": [
+    "Silver Ponyfoot"
+  ],
+  "category": [
+    "creeper",
+    "flowering",
+    "house-plant"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "20-90 cm",
+  "growthRate": "Fast",
+  "description": "Dichondra argentea, commonly known as Silver Falls, Silver Ponyfoot, or Silver Dichondra, is a trailing, herbaceous perennial native to the southwestern United States and northern Mexico. It belongs to the Convolvulaceae (morning glory) family and features small, round to kidney-shaped, silvery-gray to silver-green leaves (1-2 cm across) that grow on trailing stems. The leaves have a velvety texture and create a cascading, waterfall-like effect when grown in hanging baskets or allowed to trail. The plant displays a prostrate, trailing growth habit and can reach lengths of 90 cm or more. It produces small, inconspicuous greenish-white flowers, though flowering is rare in cultivation. In its native habitat, it grows in dry, rocky areas and is drought-tolerant. In terrariums or indoor settings, this plant adds striking silver foliage and cascading texture. It's popular for its unique silver coloration and trailing habit.",
+  "careTips": [
+    "Drought tolerant once established - allow soil to dry between waterings",
+    "Prefers bright light to full sun - silver color is most vibrant in bright conditions",
+    "Can handle some drying - avoid overwatering which can cause root rot",
+    "Trim regularly to maintain shape and encourage bushier growth",
+    "Native to southwestern USA and northern Mexico - prefers moderate temperatures (18-27°C)",
+    "Well-draining substrate essential - avoid waterlogged conditions",
+    "Moderate humidity (50-60%) is sufficient - does not require high humidity",
+    "Feed monthly during growing season with balanced liquid fertilizer at half strength",
+    "Non-toxic to pets and humans",
+    "Can be grown in hanging baskets, terrariums, or as ground cover",
+    "If leaves lose silver color, increase light exposure",
+    "Watch for spider mites in dry conditions"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Solanales",
+    "family": "Convolvulaceae",
+    "genus": "Dichondra",
+    "species": "Dichondra argentea"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Layering",
+  "colors": "Silver, Green",
+  "humidityRange": {
+    "min": 50,
+    "max": 60,
+    "ideal": 55
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 54,
+    "ideal": 45
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

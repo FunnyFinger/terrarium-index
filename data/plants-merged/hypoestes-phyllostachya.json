@@ -1,0 +1,94 @@
+{
+  "id": 19,
+  "name": "Polka Dot Plant",
+  "scientificName": "Hypoestes phyllostachya",
+  "category": [
+    "colorful",
+    "flowering",
+    "house-plant",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "5-30 cm",
+  "growthRate": "Fast",
+  "description": "Hypoestes phyllostachya, commonly known as Polka Dot Plant, Freckle Face, or Measles Plant, is a species of flowering plant in the Acanthaceae family, native to Madagascar, South Africa, and Southeast Asia. It features oval to lanceolate leaves (2-5 cm long) with a distinctive spotted or mottled pattern. The most common variety has green leaves with pink spots, but cultivars are available with white, red, or purple spots on green, white, or red backgrounds. The spots often merge into larger areas of color, creating a striking variegated appearance. This herbaceous perennial grows as a small, bushy plant with opposite leaves and produces small, inconspicuous lavender to pink flowers on spikes, though flowering is often removed to maintain foliage quality. In its native habitat, it grows as an understory plant in tropical forests, where it receives bright indirect light filtered through the forest canopy. It prefers moderate to high humidity (60-80%), consistently moist but well-draining soil, and warm temperatures (18-27°C). Insufficient light causes colors to fade and leggy growth, while direct sunlight can scorch the delicate leaves. It's commonly grown as a houseplant or in terrariums for its colorful foliage, where it benefits from regular pinching to maintain a compact, bushy shape.",
+  "careTips": [
+    "Pinch tips regularly to encourage bushiness and prevent leggy growth",
+    "Colors fade in low light - provide bright indirect light for best coloration",
+    "Can become leggy if not pruned regularly - trim back to maintain compact shape",
+    "Easy to propagate from stem cuttings - roots readily in water or soil",
+    "Native to Madagascar, South Africa, Southeast Asia - prefers warm, humid conditions",
+    "Keep soil consistently moist but not waterlogged - water when top inch feels dry",
+    "High humidity (60-80%) helps maintain vibrant leaf colors",
+    "Feed monthly during growing season with balanced liquid fertilizer at half strength",
+    "Flowers are small and can be removed to direct energy to foliage growth",
+    "Non-toxic to pets and humans",
+    "Can be grown in terrariums or as a houseplant in high humidity environments",
+    "If leaves lose color, increase light exposure (but avoid direct sun)",
+    "Watch for spider mites and aphids, especially in dry conditions"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Lamiales",
+    "family": "Acanthaceae",
+    "genus": "Hypoestes",
+    "species": "Hypoestes phyllostachya"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division",
+  "colors": "Green, Pink, Red, White, Purple",
+  "commonNames": [
+    "Freckle Face",
+    "Measles Plant"
+  ],
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 54,
+    "ideal": 45
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

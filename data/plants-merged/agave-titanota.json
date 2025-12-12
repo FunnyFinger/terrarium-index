@@ -1,0 +1,84 @@
+{
+  "id": 590,
+  "name": "Century Plant",
+  "scientificName": "Agave titanota",
+  "commonNames": [],
+  "category": [
+    "flowering",
+    "leafy",
+    "succulent"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "20-60 cm",
+  "growthRate": "Slow",
+  "description": "Agave titanota is a succulent native to Mexico, particularly the state of Oaxaca. It belongs to the Asparagaceae family and features a compact rosette of fleshy, dark green to gray-green leaves (30-60 cm in diameter) with distinctive white markings and sharp, black terminal spines. The plant displays a compact, rosette-forming growth habit. It produces yellow to green flowers on a tall spike, after which the rosette dies (monocarpic). In its native habitat, it grows in well-draining, rocky soils in semi-arid regions. In terrariums or indoor settings, this plant adds architectural interest with its distinctive spiny form and white markings. It's popular among succulent enthusiasts for its compact size and attractive coloration.",
+  "careTips": [
+    "Low humidity preferred",
+    "Ensure good air circulation",
+    "Allow substrate to dry completely between waterings",
+    "Bright, indirect light preferred",
+    "Well-draining substrate essential",
+    "Protect from overwatering",
+    "Requires good drainage",
+    "Handle with care - sharp spines"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Asparagales",
+    "family": "Asparagaceae",
+    "genus": "Agave",
+    "species": "Agave titanota"
+  },
+  "growthPattern": "rosette",
+  "hazard": "toxic-if-ingested",
+  "rarity": "very-rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Offsets, Seed",
+  "colors": "Green, Gray-green, White, Yellow",
+  "humidityRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  },
+  "substrateType": "dry",
+  "specialNeeds": "succulent",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  }
+}

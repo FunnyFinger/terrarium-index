@@ -1,0 +1,91 @@
+{
+  "id": 102,
+  "name": "Jade Plant",
+  "scientificName": "Crassula ovata",
+  "commonNames": [
+    "Jade Tree",
+    "Lucky Plant",
+    "Money Plant",
+    "Money Tree"
+  ],
+  "category": [
+    "colorful",
+    "flowering",
+    "mini",
+    "succulent"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "3-15 cm",
+  "growthRate": "Moderate",
+  "description": "Crassula ovata, commonly known as Jade Plant, Money Plant, or Lucky Plant, is a succulent native to South Africa, particularly the Eastern Cape and KwaZulu-Natal provinces. It belongs to the Crassulaceae family and features thick, woody stems with glossy, oval to round, jade-green leaves (2-5 cm long) that can develop red edges when exposed to bright light or stress. The leaves are arranged in opposite pairs along the stems. The plant displays an upright, tree-like growth habit and can reach 5-15 cm in height (much larger when mature, up to 1-2 meters). It produces small, star-shaped, white to pink flowers in winter, though flowering is infrequent in cultivation. In its native habitat, it grows in well-draining, rocky soils in semi-arid regions. In terrariums or indoor settings, this plant adds natural beauty with its tree-like form and glossy leaves. It's extremely popular as a houseplant and is considered a symbol of good luck in many cultures.",
+  "careTips": [
+    "Many species available",
+    "Easy to propagate",
+    "Don't overwater",
+    "Can handle some neglect",
+    "Let soil dry completely between waterings",
+    "Well-draining soil is essential",
+    "Bright light preferred - can tolerate direct sun",
+    "Avoid overwatering - prone to root rot",
+    "Very drought tolerant"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Saxifragales",
+    "family": "Crassulaceae",
+    "genus": "Crassula",
+    "species": "Crassula ovata"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Leaf Cuttings, Stem Cuttings, Offsets",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 50,
+    "max": 90,
+    "ideal": 70
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "succulent",
+  "temperatureRange": {
+    "min": 30,
+    "max": 54,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

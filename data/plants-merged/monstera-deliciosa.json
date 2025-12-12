@@ -1,0 +1,86 @@
+{
+  "id": 10435,
+  "name": "Swiss Cheese Plant",
+  "scientificName": "Monstera deliciosa",
+  "commonNames": [
+    "Mexican Breadfruit",
+    "Split-leaf Philodendron",
+    "Thai Constellation Monstera"
+  ],
+  "category": [
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "50-400 cm",
+  "growthRate": "Moderate",
+  "description": "Monstera deliciosa 'Thai Constellation', commonly known as Thai Constellation Monstera, is an epiphytic aroid native to tropical regions of Central and South America, particularly Mexico, Guatemala, and Costa Rica. It belongs to the Araceae family and features climbing stems (300-600 cm long) with very large, dramatic, heart-shaped to deeply lobed, dark green leaves with distinctive white to cream variegation patterns and natural holes (fenestrations). The plant displays a climbing growth habit. Monstera leaves (fenestrations) allow light to pass through to lower leaves in dense tropical forests. Young leaves emerge solid and develop fenestrations as they mature - the plant \"decides\" where to place holes based on light conditions. In tropical forests, this plant typically grows as an epiphyte on tree trunks, receiving filtered sunlight through the dense canopy. In its native habitat, it grows on tree branches in tropical forests. In terrariums or indoor settings, this plant adds dramatic visual interest with its large, variegated, fenestrated leaves. It's extremely popular among houseplant enthusiasts for its attractive variegated foliage. Note: toxic if ingested.",
+  "careTips": [
+    "Keep soil consistently moist but well-draining",
+    "High humidity preferred",
+    "Bright indirect light",
+    "Toxic if ingested - keep away from pets and children",
+    "Provide support for climbing growth",
+    "Aerial roots can be trained or trimmed"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Monstera",
+    "species": "Monstera deliciosa"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "toxic-if-ingested",
+  "rarity": "uncommon",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "does-not-flower-in-cultivation",
+  "propagation": "Stem Cuttings, Division",
+  "colors": "Green, White, Cream, Variegated",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

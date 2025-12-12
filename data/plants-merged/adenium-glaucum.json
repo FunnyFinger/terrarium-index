@@ -1,0 +1,82 @@
+{
+  "id": 567,
+  "name": "Desert Rose",
+  "scientificName": "Adenium glaucum",
+  "commonNames": [],
+  "category": [
+    "flowering",
+    "succulent"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "15-100 cm",
+  "growthRate": "Moderate",
+  "description": "Adenium glaucum is a succulent native to southern Africa, particularly South Africa and Namibia. It belongs to the Apocynaceae family and features a swollen, gray-green caudex (base) with upright, branching stems (30-100 cm tall) bearing small, gray-green, fleshy leaves. The plant displays an upright, bushy growth habit. It produces small, pink to red flowers. Native to southern Africa, this plant has adapted to local climate and growing conditions of its original habitat, which includes semi-arid regions. In its native habitat, it grows in well-draining, rocky soils in semi-arid regions. In terrariums or indoor settings, this plant adds unique interest with its distinctive caudex form. It's popular among succulent enthusiasts for its unusual form and attractive flowers.",
+  "careTips": [
+    "Low to moderate humidity preferred",
+    "Ensure good air circulation",
+    "Allow substrate to dry completely between waterings",
+    "Bright, indirect light preferred",
+    "Well-draining substrate essential",
+    "Protect from overwatering",
+    "Requires warm temperatures"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Malpighiales",
+    "family": "Apocynaceae",
+    "genus": "Adenium",
+    "species": "Adenium glaucum"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "toxic-if-ingested",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Seed",
+  "colors": "Gray-green, Pink, Red",
+  "humidityRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  },
+  "substrateType": "dry",
+  "specialNeeds": "succulent",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

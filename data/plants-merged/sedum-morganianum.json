@@ -1,0 +1,86 @@
+{
+  "id": 103,
+  "name": "Burro's Tail",
+  "scientificName": "Sedum morganianum",
+  "commonNames": [
+    "Donkey's Tail",
+    "Burro"
+  ],
+  "category": [
+    "colorful",
+    "creeper",
+    "flowering",
+    "leafy",
+    "succulent",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "20-90 cm",
+  "growthRate": "Fast",
+  "description": "Sedum morganianum, commonly known as Burro's Tail or Donkey's Tail, is a trailing succulent native to southern Mexico and Honduras. It belongs to the Crassulaceae family and features long, trailing stems covered in plump, blue-green, tear-drop shaped leaves (1-2 cm long) that store water. The leaves are arranged in a spiral pattern along the stems, creating a distinctive beaded appearance. This vining plant features trailing or climbing growth with fleshy, water-storing leaves. In its native habitat, it grows in rocky, well-draining soil in semi-arid regions. The plant can reach lengths of 60-90 cm when trailing. It produces small, star-shaped, pink to red flowers at the tips of stems in summer, though flowering is infrequent in cultivation. In terrariums or indoor settings, this plant adds vibrant colors and visual interest to any environment. It's popular for hanging baskets and cascading displays.",
+  "careTips": [
+    "Very easy to grow",
+    "Can form mats",
+    "Easy to propagate",
+    "Prefers bright light"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Saxifragales",
+    "family": "Crassulaceae",
+    "genus": "Sedum",
+    "species": "Sedum morganianum"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Leaf Cuttings, Stem Cuttings, Offsets",
+  "colors": "Blue-green, Pink, Red",
+  "humidityRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 50,
+    "max": 90,
+    "ideal": 70
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "succulent",
+  "temperatureRange": {
+    "min": 30,
+    "max": 54,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

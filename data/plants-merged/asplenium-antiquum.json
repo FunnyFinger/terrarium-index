@@ -1,0 +1,83 @@
+{
+  "id": 10295,
+  "name": "Japanese Bird's Nest Fern",
+  "scientificName": "Asplenium antiquum",
+  "commonNames": [
+    "Spleenwort"
+  ],
+  "category": [
+    "fern",
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "10-60 cm",
+  "growthRate": "Moderate",
+  "description": "Asplenium antiquum, commonly known as Japanese Bird's Nest Fern, is an epiphytic fern native to tropical regions of East Asia, particularly Japan, China, and Taiwan. It belongs to the Aspleniaceae family and features upright fronds (30-60 cm tall) with large, dramatic, wavy, dark green fronds forming a rosette shape. The plant displays an upright rosette growth habit. Named \"bird's nest\" for its rosette shape that collects organic matter, mimicking a bird's nest. This epiphytic fern naturally grows on trees and rocks, forming vase-like rosettes that trap falling debris as natural fertilizer. In its native habitat, it grows on tree branches in tropical forests. In terrariums or indoor settings, this plant creates a stunning architectural focal point with its wavy, elegant fronds that spiral outward. It's popular among fern enthusiasts for its attractive wavy fronds.",
+  "careTips": [
+    "High humidity is essential",
+    "Keep soil consistently moist but not waterlogged",
+    "Avoid direct sunlight - prefers bright indirect light",
+    "Brown edges indicate low humidity or underwatering"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Polypodiopsida",
+    "order": "Polypodiales",
+    "family": "Aspleniaceae",
+    "genus": "Asplenium",
+    "species": "Asplenium antiquum"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "fern",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Spores, Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

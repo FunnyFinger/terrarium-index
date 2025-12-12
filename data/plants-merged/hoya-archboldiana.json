@@ -1,0 +1,83 @@
+{
+  "id": 10186,
+  "name": "Hoya archboldiana",
+  "scientificName": "Hoya archboldiana",
+  "commonNames": [],
+  "category": [
+    "flowering",
+    "house-plant",
+    "hoya",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "3-7 cm",
+  "growthRate": "Moderate",
+  "description": "This plant displays an upright, bushy growth habit. Native to the tropical lowland forests of. The flowers have a distinctive star shape with a waxy texture and often emit strong, pleasant fragrances, especially at night. Adapted to tropical climates with high humidity, consistent warmth, and filtered light conditions.",
+  "careTips": [
+    "Let soil dry between waterings",
+    "Bright indirect light preferred",
+    "High humidity encourages better growth",
+    "Trailing or vining - provide support if needed",
+    "Can be propagated from stem cuttings"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Gentianales",
+    "family": "Apocynaceae",
+    "genus": "Hoya",
+    "species": "Hoya archboldiana"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "very-rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division",
+  "colors": "Red",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 54,
+    "ideal": 45
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

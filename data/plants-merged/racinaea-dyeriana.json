@@ -1,0 +1,84 @@
+{
+  "id": 10446,
+  "name": "Racinaea dyeriana",
+  "scientificName": "Racinaea dyeriana",
+  "commonNames": [
+    "Dyer's Racinaea"
+  ],
+  "category": [
+    "bromeliad",
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "10-40 cm",
+  "growthRate": "Moderate",
+  "description": "Racinaea dyeriana (formerly Tillandsia dyeriana) is an epiphytic bromeliad native to tropical regions of South America, particularly Ecuador and Colombia. It belongs to the Bromeliaceae family and features upright rosettes (20-40 cm tall) with medium-sized, dramatic, lance-shaped, dark green leaves with distinctive patterns and central water-holding cups. The plant displays an upright rosette growth habit. Many bromeliads form central water-holding rosettes that create mini ecosystems. In tropical forests, this plant typically grows as an epiphyte on tree trunks, receiving filtered sunlight through the dense canopy. In its native habitat, it grows on tree branches in tropical forests. In terrariums or indoor settings, this plant adds natural beauty with its attractive foliage. It's popular among bromeliad enthusiasts for its distinctive appearance.",
+  "careTips": [
+    "Keep central cup (vase) filled with water",
+    "Water soil sparingly - mainly keep cup filled",
+    "Bright indirect light preferred",
+    "High humidity beneficial",
+    "Remove dead leaves to maintain appearance"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Poales",
+    "family": "Bromeliaceae",
+    "genus": "Racinaea",
+    "species": "Racinaea dyeriana"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "very-rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "irregular",
+  "propagation": "Division, Offsets",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

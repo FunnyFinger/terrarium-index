@@ -1,0 +1,81 @@
+{
+  "id": 583,
+  "name": "African spear sansevieria",
+  "scientificName": "Dracaena angolensis",
+  "commonNames": [],
+  "category": [
+    "succulent"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "30-120 cm",
+  "growthRate": "Slow",
+  "description": "Dracaena angolensis (syn. Sansevieria cylindrica), commonly known as African Spear or Cylindrical Snake Plant, is a succulent native to Angola. It belongs to the Asparagaceae family and features upright, cylindrical, gray-green leaves (60-120 cm tall, 2-3 cm in diameter) arranged in a fan-like rosette. The plant displays an upright, columnar growth habit. It produces small, white to greenish flowers on a spike, though flowering is rare in cultivation. In its native habitat, it grows in well-draining, sandy soils in semi-arid regions. In terrariums or indoor settings, this plant adds architectural interest with its distinctive cylindrical leaves. It's popular among succulent enthusiasts for its unique form and low maintenance requirements.",
+  "careTips": [
+    "Low humidity preferred",
+    "Ensure good air circulation",
+    "Allow substrate to dry completely between waterings",
+    "Bright, indirect light preferred (tolerates low light)",
+    "Well-draining substrate essential",
+    "Protect from overwatering",
+    "Requires minimal care"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Asparagales",
+    "family": "Asparagaceae",
+    "genus": "Dracaena",
+    "species": "Dracaena angolensis"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "toxic-if-ingested",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "does-not-flower-in-cultivation",
+  "propagation": "Division, Leaf Cuttings",
+  "colors": "Gray-green, Green",
+  "humidityRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "succulent",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  }
+}

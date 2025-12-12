@@ -1,0 +1,81 @@
+{
+  "id": 278,
+  "name": "Queen Anthurium",
+  "scientificName": "Anthurium warocqueanum",
+  "commonNames": [],
+  "category": [
+    "anthurium",
+    "creeper",
+    "leafy",
+    "tropical",
+    "flowering"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "50-120 cm",
+  "growthRate": "Moderate",
+  "description": "Anthurium warocqueanum, commonly known as Queen Anthurium, is a large epiphytic aroid native to Colombia. It belongs to the Araceae family and features large, velvety, dark green to almost black leaves (60-120 cm long) with prominent white or silver veins that create stunning contrast. The leaves have a distinctive velvety texture and are held on long petioles. The plant displays an upright, climbing growth habit and typically reaches 3-4 feet (90-120 cm) in height. It produces small, inconspicuous flowers typical of aroids. In its native habitat, it grows as an epiphyte on tree trunks and branches in tropical forests. In terrariums or indoor settings, this plant creates a dramatic statement with its large, velvety, veined leaves. It's extremely popular among aroid enthusiasts for its striking appearance.",
+  "careTips": [
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Monitor watering needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Anthurium",
+    "species": "Anthurium warocqueanum"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "toxic-if-ingested",
+  "rarity": "rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Division, Seed",
+  "colors": "Red, White, Silver",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

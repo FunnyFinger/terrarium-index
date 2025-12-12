@@ -1,0 +1,84 @@
+{
+  "id": 10339,
+  "name": "Goodyera daibuzanensis",
+  "scientificName": "Goodyera daibuzanensis",
+  "commonNames": [
+    "Rattlesnake Plantain"
+  ],
+  "category": [
+    "orchid",
+    "leafy",
+    "tropical",
+    "terrestrial"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "5-20 cm",
+  "growthRate": "Moderate",
+  "description": "Goodyera daibuzanensis is a terrestrial orchid native to tropical regions of Asia, particularly Japan and Taiwan. It belongs to the Orchidaceae family and features creeping stems (10-20 cm long) with small, dramatic, oval-shaped, dark green leaves with distinctive intricate vein patterns that resemble precious metalwork. The plant displays a creeping growth habit. Prized more for their beautiful leaves than flowers, unlike most orchids. The intricate vein patterns on leaves resemble precious metalwork, with some species having iridescent or metallic-looking patterns. In its native habitat, it grows in moist, shaded areas of temperate to subtropical forests. In terrariums or indoor settings, this plant adds exotic elegance with its stunning veined foliage and unique growth habit. It's popular among orchid enthusiasts for its attractive veined foliage.",
+  "careTips": [
+    "Provide high humidity (60-80%)",
+    "Water when media begins to dry",
+    "Bright indirect light - avoid direct sun",
+    "Good air circulation is important",
+    "Feed with orchid fertilizer during growing season"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Asparagales",
+    "family": "Orchidaceae",
+    "genus": "Goodyera",
+    "species": "Goodyera daibuzanensis"
+  },
+  "growthPattern": "rosette",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "irregular",
+  "propagation": "Division, Stem Cuttings",
+  "colors": "Green, White, Silver",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "orchid",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

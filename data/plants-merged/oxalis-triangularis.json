@@ -1,0 +1,96 @@
+{
+  "id": 20,
+  "name": "Purple Shamrock",
+  "scientificName": "Oxalis triangularis",
+  "commonNames": [
+    "False Shamrock",
+    "Love Plant",
+    "Wood Sorrel"
+  ],
+  "category": [
+    "bulb",
+    "colorful",
+    "flowering",
+    "house-plant",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "15-30 cm",
+  "growthRate": "Fast",
+  "description": "Oxalis triangularis, commonly known as Purple Shamrock or False Shamrock, is a bulbous perennial native to South America, particularly Brazil, Bolivia, Argentina, Paraguay, and Uruguay. It belongs to the Oxalidaceae family and features distinctive triangular, three-lobed leaves (2-5 cm across) that are deep purple to burgundy on the upper surface and lighter purple or green on the underside. The leaves are arranged in groups of three, resembling a shamrock, and exhibit photonastic movements, opening in response to light during the day and closing at night. The plant typically grows 15-30 cm tall and spreads 30-60 cm wide. It produces delicate, white to pale pink, five-petaled flowers from spring through autumn on long stalks that rise above the foliage. It grows from corms (bulb-like storage organs) and can spread to form clumps. In its native habitat, it grows in shaded, moist areas of tropical and subtropical forests. The plant undergoes regular dormancy periods, during which it may appear to die back, but it will regrow from its corms when conditions improve. It's popular as a houseplant and in terrariums for its striking purple foliage and interesting leaf movement.",
+  "careTips": [
+    "Leaves fold at night or in low light - this is normal nyctinasty (sleep movement), not a problem",
+    "Can go dormant (leaves die back) during stress or unfavorable conditions - don't throw away, reduce watering and wait for regrowth",
+    "Propagates from corms - divide corms when repotting to create new plants",
+    "Prefers bright indirect light - too much direct sun can fade purple color, too little light causes leggy growth",
+    "Native to South America (Brazil, Bolivia, Argentina, Paraguay, Uruguay) - prefers moderate temperatures (15-24°C)",
+    "Water when top inch of soil feels dry - avoid overwatering which can cause corm rot",
+    "Well-draining substrate essential - corms can rot in waterlogged soil",
+    "High humidity (60-80%) helps maintain vibrant leaf color and prevents leaf edges from browning",
+    "Feed monthly during active growth with balanced liquid fertilizer at half strength",
+    "Can be grown outdoors in USDA zones 8-11 in shaded locations",
+    "Contains soluble calcium oxalates - toxic if ingested in large quantities by humans and pets",
+    "If plant goes dormant, reduce watering and place in cooler location until new growth appears",
+    "Remove spent flowers to encourage more blooms and maintain tidy appearance"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Oxalidales",
+    "family": "Oxalidaceae",
+    "genus": "Oxalis",
+    "species": "Oxalis triangularis"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "toxic-if-ingested",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Division, Rhizomes",
+  "colors": "Green, Purple, Burgundy, Pink, White",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 30,
+    "max": 48,
+    "ideal": 39
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

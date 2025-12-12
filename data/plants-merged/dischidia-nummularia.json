@@ -1,0 +1,89 @@
+{
+  "id": 389,
+  "name": "String of Nickels",
+  "scientificName": "Dischidia nummularia",
+  "commonNames": [
+    "Button Orchid"
+  ],
+  "category": [
+    "trailing",
+    "epiphytic",
+    "succulent-like"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "Trailing, up to 1 m",
+  "growthRate": "Moderate",
+  "description": "Dischidia nummularia, commonly known as String of Nickels, is an epiphytic vining plant native to Southeast Asia and Australia. It features small, round, coin-like leaves that are silver-green to gray-green in color, giving it the appearance of a string of coins or nickels. The leaves are succulent-like and store water. The plant displays a trailing or climbing growth habit and can be grown mounted on wood or in a well-draining substrate. It produces small, inconspicuous flowers. The plant thrives in high humidity and filtered light, making it ideal for terrarium environments where it can trail or climb.",
+  "careTips": [
+    "Provide bright, indirect light",
+    "Maintain high humidity (70-85%)",
+    "Allow substrate to dry slightly between waterings",
+    "Well-draining mix or mount on wood",
+    "Temperature: 18-26°C (65-79°F)",
+    "Can trail or climb with support",
+    "Succulent-like leaves store water",
+    "Propagates by stem cuttings",
+    "Non-toxic to pets and humans",
+    "Fertilize monthly during growing season",
+    "Excellent for hanging or trailing displays"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Gentianales",
+    "family": "Apocynaceae",
+    "genus": "Dischidia",
+    "species": "Dischidia nummularia"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "year-round",
+  "propagation": "Stem Cuttings",
+  "colors": "Silver, Green, Gray",
+  "humidityRange": {
+    "min": 70,
+    "max": 85,
+    "ideal": 77
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 40,
+    "max": 70,
+    "ideal": 55
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 18,
+    "max": 26,
+    "ideal": 22
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 5.5,
+    "max": 6.5,
+    "ideal": 6
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

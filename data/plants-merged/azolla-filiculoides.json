@@ -1,0 +1,116 @@
+{
+  "id": 72,
+  "name": "Azolla (Water Fern)",
+  "scientificName": "Azolla filiculoides",
+  "commonNames": [],
+  "category": [
+    "aquatic",
+    "fern",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "No Substrate Needed",
+  "size": "0.1-0.2 cm",
+  "growthRate": "Very Fast",
+  "description": "Azolla filiculoides, commonly known as Water Fern, Mosquito Fern, or Fairy Moss, is a free-floating aquatic fern native to warm temperate and tropical regions of the Americas, though it has been naturalized in many parts of the world. It belongs to the Salviniaceae family and features small, overlapping, scale-like leaves (1-2 mm across) that form dense, mat-like rosettes. The leaves are typically bright green but can turn red, pink, or bronze under high light conditions or stress. The plant has a symbiotic relationship with the cyanobacterium Anabaena azollae, which allows it to fix atmospheric nitrogen. The plant displays a surface-spreading, mat-forming growth habit and forms dense floating mats. In its native habitat, it grows floating on the surface of still or slow-moving freshwater bodies. In terrariums or indoor settings, this plant provides excellent surface cover, natural nitrogen fixation, and can add vibrant red coloration under high light. It's popular in aquariums and ponds for its fast growth and ability to fix nitrogen.",
+  "careTips": [
+    "Can fix atmospheric nitrogen through symbiotic relationship with cyanobacteria - reduces need for nitrogen fertilizers",
+    "Turns red, pink, or bronze with high light or stress - adds vibrant color to tank",
+    "Very fast growing - can double in size every few days, trim regularly to control",
+    "Excellent nutrient export - removes excess nutrients from water",
+    "Native to warm temperate and tropical regions - prefers moderate to warm temperatures (15-30°C)",
+    "Moderate to high light recommended (2-3 watts per gallon) for best growth and coloration",
+    "Prefers pH 6.0-7.5 and soft to moderately hard water (2-12 dGH)",
+    "Benefits from regular fertilization (except nitrogen) - phosphorus and potassium helpful",
+    "CO2 supplementation beneficial but not required",
+    "Non-toxic and safe for all aquarium inhabitants",
+    "Can be used in aquariums, paludariums, and ripariums",
+    "Propagates via division - daughter plants form on stems",
+    "If leaves turn pale, increase light or add fertilizer",
+    "Can be invasive in natural waterways - dispose responsibly"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Polypodiopsida",
+    "order": "Salviniales",
+    "family": "Salviniaceae",
+    "genus": "Azolla",
+    "species": "Azolla filiculoides"
+  },
+  "growthPattern": "carpeting",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "fully-aquatic",
+  "plantType": "fern",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Spores, Division",
+  "colors": "Green, Red, Pink, Bronze",
+  "humidityRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "aquatic",
+  "waterCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "temperatureRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "waterTemperatureRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "waterPhRange": {
+    "min": 42.857142857142854,
+    "max": 53.57142857142857,
+    "ideal": 48.21428571428571
+  },
+  "waterHardnessRange": {
+    "min": 6.666666666666667,
+    "max": 40,
+    "ideal": 23.333333333333332
+  },
+  "salinityRange": {
+    "min": 0,
+    "max": 5,
+    "ideal": 2.5
+  },
+  "growthRateRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  }
+}

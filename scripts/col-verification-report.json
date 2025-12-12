@@ -1,0 +1,1647 @@
+{
+  "verified": [
+    {
+      "file": "acalypha-hispida-small-form.json",
+      "name": "Acalypha hispida \" form\"",
+      "scientific": "Acalypha hispida",
+      "colName": {
+        "created": "2025-10-22T21:53:14.860693",
+        "createdBy": 102,
+        "modified": "2025-10-22T21:53:14.860693",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "mX49pQ2mGLsh48r8NZszo",
+        "sectorKey": 63496,
+        "verbatimSourceKey": 293998135,
+        "scientificName": "Acalypha hispida",
+        "authorship": "Benth.",
+        "rank": "species",
+        "genus": "Acalypha",
+        "specificEpithet": "hispida",
+        "combinationAuthorship": {
+          "authors": [
+            "Benth."
+          ]
+        },
+        "code": "botanical",
+        "publishedInId": "2e36041b-7b44-4834-a1f5-bcafb08dac4a",
+        "origin": "source",
+        "type": "scientific",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "Benth."
+          ]
+        }
+      },
+      "status": "ambiguous synonym"
+    },
+    {
+      "file": "acanthostachys-strobilacea-bromeliad.json",
+      "name": "Acanthostachys strobilacea",
+      "scientific": "Acanthostachys strobilacea",
+      "colName": {
+        "created": "2025-09-17T15:11:54.736653",
+        "createdBy": 102,
+        "modified": "2025-09-17T15:11:54.736653",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "pOGN3UgFz-7y5_Uyyz9SN2",
+        "sectorKey": 63560,
+        "verbatimSourceKey": 285399711,
+        "identifier": [
+          "ipni:121533-1"
+        ],
+        "scientificName": "Acanthostachys strobilacea",
+        "authorship": "(Schult. & Schult.f.) Klotzsch",
+        "rank": "species",
+        "genus": "Acanthostachys",
+        "specificEpithet": "strobilacea",
+        "combinationAuthorship": {
+          "authors": [
+            "Klotzsch"
+          ]
+        },
+        "basionymAuthorship": {
+          "authors": [
+            "Schult.",
+            "Schult.f."
+          ]
+        },
+        "code": "botanical",
+        "publishedInId": "93a6f39a-274f-4b03-a394-8259165997cb",
+        "origin": "source",
+        "type": "scientific",
+        "link": "https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:121533-1",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "Schult.",
+            "Schult.f."
+          ]
+        }
+      },
+      "status": "VERIFIED ✅"
+    },
+    {
+      "file": "achimenes-erecta-m.json",
+      "name": "Achimenes erecta",
+      "scientific": "Achimenes erecta",
+      "colName": {
+        "created": "2025-10-22T22:08:38.071627",
+        "createdBy": 102,
+        "modified": "2025-10-22T22:08:38.071627",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "AckVxF6qqLdT2GqlPjt9r0",
+        "sectorKey": 919,
+        "verbatimSourceKey": 294168936,
+        "scientificName": "Achimenes erecta",
+        "authorship": "(Lam.) H.P.Fuchs",
+        "rank": "species",
+        "genus": "Achimenes",
+        "specificEpithet": "erecta",
+        "combinationAuthorship": {
+          "authors": [
+            "H.P.Fuchs"
+          ]
+        },
+        "basionymAuthorship": {
+          "authors": [
+            "Lam."
+          ]
+        },
+        "code": "botanical",
+        "publishedInId": "08ad755f-2d04-4898-9a89-850e4091fa12",
+        "publishedInPage": "15",
+        "origin": "source",
+        "type": "scientific",
+        "link": "http://www.worldplants.de/?deeplink=Achimenes-erecta",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "Lam."
+          ]
+        }
+      },
+      "status": "VERIFIED ✅"
+    },
+    {
+      "file": "actiniopteris-australis.json",
+      "name": "Eyelash fern",
+      "scientific": "Actiniopteris australis",
+      "colName": {
+        "created": "2025-10-22T15:53:24.163185",
+        "createdBy": 102,
+        "modified": "2025-10-22T15:53:24.163185",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "14Xj4WISB4efDx72N0Y-7",
+        "sectorKey": 1108,
+        "verbatimSourceKey": 292715195,
+        "scientificName": "Actiniopteris australis",
+        "authorship": "(L.fil.) Link",
+        "rank": "species",
+        "genus": "Actiniopteris",
+        "specificEpithet": "australis",
+        "combinationAuthorship": {
+          "authors": [
+            "Link"
+          ]
+        },
+        "basionymAuthorship": {
+          "authors": [
+            "L.fil."
+          ]
+        },
+        "code": "botanical",
+        "publishedInId": "53ddd9d9-6c30-4e8e-b221-d22f544c8d99",
+        "origin": "source",
+        "type": "scientific",
+        "link": "http://www.worldplants.de/?deeplink=Actiniopteris-australis",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "L.fil."
+          ]
+        }
+      },
+      "status": "VERIFIED ✅"
+    },
+    {
+      "file": "adansonia-sp-baobab.json",
+      "name": "Adansonia sp (Baobab)",
+      "scientific": "Adansonia sp",
+      "colName": {
+        "created": "2024-06-05T19:43:00.974069",
+        "createdBy": 102,
+        "modified": "2024-06-05T19:43:00.974069",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "x53znd1fa4uM8dGgRz4HS",
+        "sectorKey": 55,
+        "verbatimSourceKey": 227791830,
+        "scientificName": "Anoplius frigidus",
+        "authorship": "Sp. Schneider",
+        "rank": "species",
+        "genus": "Anoplius",
+        "specificEpithet": "frigidus",
+        "combinationAuthorship": {
+          "authors": [
+            "Sp.Schneider"
+          ]
+        },
+        "code": "zoological",
+        "origin": "source",
+        "type": "scientific",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "Sp.Schneider"
+          ]
+        }
+      },
+      "status": "VERIFIED ✅"
+    },
+    {
+      "file": "adenia-lanceolata.json",
+      "name": "Adenia lanceolata",
+      "scientific": "Adenia lanceolata",
+      "colName": {
+        "created": "2025-10-22T21:48:42.925021",
+        "createdBy": 102,
+        "modified": "2025-10-22T21:48:42.925021",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "Iy-Af1vmndPn8_-oxL9HH2",
+        "sectorKey": 63496,
+        "verbatimSourceKey": 293946699,
+        "scientificName": "Adenia lanceolata",
+        "authorship": "Engl.",
+        "rank": "species",
+        "genus": "Adenia",
+        "specificEpithet": "lanceolata",
+        "combinationAuthorship": {
+          "authors": [
+            "Engl."
+          ]
+        },
+        "code": "botanical",
+        "publishedInId": "80974153-8053-4dc3-8da6-f67c82721ba4",
+        "origin": "source",
+        "type": "scientific",
+        "link": "http://www.worldplants.de/?deeplink=Adenia-lanceolata",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "Engl."
+          ]
+        }
+      },
+      "status": "VERIFIED ✅"
+    },
+    {
+      "file": "adenia-lindiensis.json",
+      "name": "Adenia lindiensis",
+      "scientific": "Adenia lindiensis",
+      "colName": {
+        "created": "2025-10-22T21:48:42.925021",
+        "createdBy": 102,
+        "modified": "2025-10-22T21:48:42.925021",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "yPbLl4e4LRfN985tPCAC02",
+        "sectorKey": 63496,
+        "verbatimSourceKey": 293946689,
+        "scientificName": "Adenia lindiensis",
+        "authorship": "Harms",
+        "rank": "species",
+        "genus": "Adenia",
+        "specificEpithet": "lindiensis",
+        "combinationAuthorship": {
+          "authors": [
+            "Harms"
+          ]
+        },
+        "code": "botanical",
+        "publishedInId": "5e657551-2998-4c87-a838-1df4d3a54981",
+        "publishedInPage": "425",
+        "origin": "source",
+        "type": "scientific",
+        "link": "http://www.worldplants.de/?deeplink=Adenia-lindiensis",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "Harms"
+          ]
+        }
+      },
+      "status": "VERIFIED ✅"
+    },
+    {
+      "file": "adenia-viridiflora.json",
+      "name": "Adenia viridiflora",
+      "scientific": "Adenia viridiflora",
+      "colName": {
+        "created": "2025-10-22T21:48:50.77385",
+        "createdBy": 102,
+        "modified": "2025-10-22T21:48:50.77385",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "ZxqACNubPwcxAp-EHXvrH1",
+        "sectorKey": 63496,
+        "verbatimSourceKey": 293946829,
+        "scientificName": "Adenia viridiflora",
+        "authorship": "Craib",
+        "rank": "species",
+        "genus": "Adenia",
+        "specificEpithet": "viridiflora",
+        "combinationAuthorship": {
+          "authors": [
+            "Craib"
+          ]
+        },
+        "code": "botanical",
+        "publishedInId": "627a1031-f08a-48bf-8612-907656e838f9",
+        "publishedInPage": "124",
+        "origin": "source",
+        "type": "scientific",
+        "link": "http://www.worldplants.de/?deeplink=Adenia-viridiflora",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "Craib"
+          ]
+        }
+      },
+      "status": "VERIFIED ✅"
+    },
+    {
+      "file": "adenium-obesum-2.json",
+      "name": "Adenium obesum “2”",
+      "scientific": "Adenium obesum",
+      "colName": {
+        "created": "2025-10-22T20:26:37.596173",
+        "createdBy": 102,
+        "modified": "2025-10-22T20:26:37.596173",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "mSlvoAExBFcwCdJglsX972",
+        "sectorKey": 1062,
+        "verbatimSourceKey": 293167735,
+        "scientificName": "Adenium obesum",
+        "authorship": "(Forssk.) Roem. & Schult.",
+        "rank": "species",
+        "genus": "Adenium",
+        "specificEpithet": "obesum",
+        "combinationAuthorship": {
+          "authors": [
+            "Roem.",
+            "Schult."
+          ]
+        },
+        "basionymAuthorship": {
+          "authors": [
+            "Forssk."
+          ]
+        },
+        "code": "botanical",
+        "publishedInId": "27e9f8e5-8c12-4098-ba02-809705fafd97",
+        "origin": "source",
+        "type": "scientific",
+        "link": "http://www.worldplants.de/?deeplink=Adenium-obesum",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "Forssk."
+          ]
+        }
+      },
+      "status": "VERIFIED ✅"
+    },
+    {
+      "file": "adenium-variegated-grafted.json",
+      "name": "Adenium variegated (grafted)",
+      "scientific": "Adenium obesum",
+      "colName": {
+        "created": "2025-10-22T20:26:37.596173",
+        "createdBy": 102,
+        "modified": "2025-10-22T20:26:37.596173",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "mSlvoAExBFcwCdJglsX972",
+        "sectorKey": 1062,
+        "verbatimSourceKey": 293167735,
+        "scientificName": "Adenium obesum",
+        "authorship": "(Forssk.) Roem. & Schult.",
+        "rank": "species",
+        "genus": "Adenium",
+        "specificEpithet": "obesum",
+        "combinationAuthorship": {
+          "authors": [
+            "Roem.",
+            "Schult."
+          ]
+        },
+        "basionymAuthorship": {
+          "authors": [
+            "Forssk."
+          ]
+        },
+        "code": "botanical",
+        "publishedInId": "27e9f8e5-8c12-4098-ba02-809705fafd97",
+        "origin": "source",
+        "type": "scientific",
+        "link": "http://www.worldplants.de/?deeplink=Adenium-obesum",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "Forssk."
+          ]
+        }
+      },
+      "status": "VERIFIED ✅"
+    },
+    {
+      "file": "adromischus-marianiae.json",
+      "name": "Adromischus marianiae",
+      "scientific": "Adromischus marianiae",
+      "colName": {
+        "created": "2025-10-22T20:45:56.35695",
+        "createdBy": 102,
+        "modified": "2025-10-22T20:45:56.35695",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "fc3VZfjQEgfJ3SV4usIEG",
+        "sectorKey": 933,
+        "verbatimSourceKey": 293348593,
+        "scientificName": "Adromischus marianiae",
+        "authorship": "(Marloth) A.Berger",
+        "rank": "species",
+        "genus": "Adromischus",
+        "specificEpithet": "marianiae",
+        "combinationAuthorship": {
+          "authors": [
+            "A.Berger"
+          ]
+        },
+        "basionymAuthorship": {
+          "authors": [
+            "Marloth"
+          ]
+        },
+        "code": "botanical",
+        "publishedInId": "2fc23109-263d-44be-97bc-9398c5aecd79",
+        "publishedInPage": "416",
+        "origin": "source",
+        "type": "scientific",
+        "link": "http://www.worldplants.de/?deeplink=Adromischus-marianiae",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "Marloth"
+          ]
+        }
+      },
+      "status": "VERIFIED ✅"
+    },
+    {
+      "file": "aechmea-fasciata.json",
+      "name": "Aechmea fasciata",
+      "scientific": "Aechmea fasciata",
+      "colName": {
+        "created": "2025-09-17T15:11:54.736653",
+        "createdBy": 102,
+        "modified": "2025-09-17T15:11:54.736653",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "RwQTiebAZruqCOchZGIX81",
+        "sectorKey": 63560,
+        "verbatimSourceKey": 285398862,
+        "identifier": [
+          "ipni:121640-1"
+        ],
+        "scientificName": "Aechmea fasciata",
+        "authorship": "(Lindl.) Baker",
+        "rank": "species",
+        "genus": "Aechmea",
+        "specificEpithet": "fasciata",
+        "combinationAuthorship": {
+          "authors": [
+            "Baker"
+          ]
+        },
+        "basionymAuthorship": {
+          "authors": [
+            "Lindl."
+          ]
+        },
+        "code": "botanical",
+        "publishedInId": "654e9634-05c6-4939-9860-7ba29c577c2b",
+        "origin": "source",
+        "type": "scientific",
+        "link": "https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:121640-1",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "Lindl."
+          ]
+        }
+      },
+      "status": "VERIFIED ✅"
+    },
+    {
+      "file": "aeschynanthus-humilis.json",
+      "name": "Aeschynanthus humilis",
+      "scientific": "Aeschynanthus humilis",
+      "colName": {
+        "created": "2025-10-22T22:08:28.713457",
+        "createdBy": 102,
+        "modified": "2025-10-22T22:08:28.713457",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "UvuImxG5K6sIAC7uYIqiO0",
+        "sectorKey": 919,
+        "verbatimSourceKey": 294166707,
+        "scientificName": "Aeschynanthus humilis",
+        "authorship": "Hemsl.",
+        "rank": "species",
+        "genus": "Aeschynanthus",
+        "specificEpithet": "humilis",
+        "combinationAuthorship": {
+          "authors": [
+            "Hemsl."
+          ]
+        },
+        "code": "botanical",
+        "publishedInId": "bc13f12f-100f-4c7a-be76-b9fded7b7a7f",
+        "publishedInPage": "516-517",
+        "origin": "source",
+        "type": "scientific",
+        "link": "http://www.worldplants.de/?deeplink=Aeschynanthus-humilis",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "Hemsl."
+          ]
+        }
+      },
+      "status": "VERIFIED ✅"
+    },
+    {
+      "file": "aeschynanthus-speciosus.json",
+      "name": "Aeschynanthus speciosus",
+      "scientific": "Aeschynanthus speciosus",
+      "colName": {
+        "created": "2025-10-22T22:08:28.713457",
+        "createdBy": 102,
+        "modified": "2025-10-22T22:08:28.713457",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "MhuTECQTjvcHAtzaCAbYy",
+        "sectorKey": 919,
+        "verbatimSourceKey": 294166543,
+        "scientificName": "Aeschynanthus speciosus",
+        "authorship": "Hook.",
+        "rank": "species",
+        "genus": "Aeschynanthus",
+        "specificEpithet": "speciosus",
+        "combinationAuthorship": {
+          "authors": [
+            "Hook."
+          ]
+        },
+        "code": "botanical",
+        "publishedInId": "9b7c7d61-985a-48c1-ab68-6975a829828b",
+        "origin": "source",
+        "type": "scientific",
+        "link": "http://www.worldplants.de/?deeplink=Aeschynanthus-speciosus",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "Hook."
+          ]
+        }
+      },
+      "status": "VERIFIED ✅"
+    },
+    {
+      "file": "agave-filifera.json",
+      "name": "Agave filifera",
+      "scientific": "Agave filifera",
+      "colName": {
+        "created": "2025-09-17T16:00:00.224653",
+        "createdBy": 102,
+        "modified": "2025-09-17T16:00:00.224653",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "56fG1JzVGWvc5tb_Trz7F0",
+        "sectorKey": 63516,
+        "verbatimSourceKey": 285666395,
+        "identifier": [
+          "ipni:61972-1"
+        ],
+        "scientificName": "Agave filifera",
+        "authorship": "Salm-Dyck",
+        "rank": "species",
+        "genus": "Agave",
+        "specificEpithet": "filifera",
+        "combinationAuthorship": {
+          "authors": [
+            "Salm-Dyck"
+          ]
+        },
+        "code": "botanical",
+        "publishedInId": "3774fc0b-41b8-44c9-bf81-bb532ee4093c",
+        "origin": "source",
+        "type": "scientific",
+        "link": "https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:61972-1",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "Salm-Dyck"
+          ]
+        }
+      },
+      "status": "VERIFIED ✅"
+    },
+    {
+      "file": "agave-lophantha.json",
+      "name": "Agave lophantha",
+      "scientific": "Agave lophantha",
+      "colName": {
+        "created": "2025-09-17T16:00:00.224653",
+        "createdBy": 102,
+        "modified": "2025-09-17T16:00:00.224653",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "JCGpeLiiWHA63_RZkMVbK2",
+        "sectorKey": 63516,
+        "verbatimSourceKey": 285666511,
+        "identifier": [
+          "ipni:62093-1"
+        ],
+        "scientificName": "Agave lophantha",
+        "authorship": "Schiede",
+        "rank": "species",
+        "genus": "Agave",
+        "specificEpithet": "lophantha",
+        "combinationAuthorship": {
+          "authors": [
+            "Schiede"
+          ]
+        },
+        "code": "botanical",
+        "publishedInId": "8a292b51-c019-4407-965a-4cea9d57ddb1",
+        "origin": "source",
+        "type": "scientific",
+        "link": "https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:62093-1",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "Schiede"
+          ]
+        }
+      },
+      "status": "VERIFIED ✅"
+    },
+    {
+      "file": "agave-macroacantha.json",
+      "name": "Agave macroacantha",
+      "scientific": "Agave macroacantha",
+      "colName": {
+        "created": "2025-09-17T16:00:00.224653",
+        "createdBy": 102,
+        "modified": "2025-09-17T16:00:00.224653",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "DAiIcMSMs7tuA8_Le0YYk2",
+        "sectorKey": 63516,
+        "verbatimSourceKey": 285666286,
+        "identifier": [
+          "ipni:62096-1"
+        ],
+        "scientificName": "Agave macroacantha",
+        "authorship": "Zucc.",
+        "rank": "species",
+        "genus": "Agave",
+        "specificEpithet": "macroacantha",
+        "combinationAuthorship": {
+          "authors": [
+            "Zucc."
+          ]
+        },
+        "code": "botanical",
+        "publishedInId": "2584246c-461c-4786-baa4-05af4e5a9182",
+        "origin": "source",
+        "type": "scientific",
+        "link": "https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:62096-1",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "Zucc."
+          ]
+        }
+      },
+      "status": "VERIFIED ✅"
+    },
+    {
+      "file": "agave-titanota.json",
+      "name": "Agave titanota",
+      "scientific": "Agave titanota",
+      "colName": {
+        "created": "2025-09-17T16:00:00.224653",
+        "createdBy": 102,
+        "modified": "2025-09-17T16:00:00.224653",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "drVe9oIVOv929l01Sz5UA2",
+        "sectorKey": 63516,
+        "verbatimSourceKey": 285666466,
+        "identifier": [
+          "ipni:899111-1"
+        ],
+        "scientificName": "Agave titanota",
+        "authorship": "Gentry",
+        "rank": "species",
+        "genus": "Agave",
+        "specificEpithet": "titanota",
+        "combinationAuthorship": {
+          "authors": [
+            "Gentry"
+          ]
+        },
+        "code": "botanical",
+        "publishedInId": "a0d90bfa-a3c5-4b7a-91a8-4f53ee1d1f18",
+        "origin": "source",
+        "type": "scientific",
+        "link": "https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:899111-1",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "Gentry"
+          ]
+        }
+      },
+      "status": "VERIFIED ✅"
+    },
+    {
+      "file": "agave-victoriae-reginae.json",
+      "name": "Agave victoriae reginae",
+      "scientific": "Agave victoriae-reginae",
+      "colName": {
+        "created": "2025-09-17T16:00:00.224653",
+        "createdBy": 102,
+        "modified": "2025-09-17T16:00:00.224653",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "T9My_Ud56tNG9lAZFpY4q2",
+        "sectorKey": 63516,
+        "verbatimSourceKey": 285666507,
+        "identifier": [
+          "ipni:62342-1"
+        ],
+        "scientificName": "Agave victoriae-reginae",
+        "authorship": "T.Moore",
+        "rank": "species",
+        "genus": "Agave",
+        "specificEpithet": "victoriae-reginae",
+        "combinationAuthorship": {
+          "authors": [
+            "T.Moore"
+          ]
+        },
+        "code": "botanical",
+        "publishedInId": "59c06c3c-55ed-42a2-b00a-e9426172c86a",
+        "origin": "source",
+        "type": "scientific",
+        "link": "https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:62342-1",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "T.Moore"
+          ]
+        }
+      },
+      "status": "VERIFIED ✅"
+    },
+    {
+      "file": "aglaonema-pumilum.json",
+      "name": "Aglaonema pumilum",
+      "scientific": "Aglaonema pumilum",
+      "colName": {
+        "created": "2025-09-17T15:33:02.536491",
+        "createdBy": 102,
+        "modified": "2025-09-17T15:33:02.536491",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "UvjbWR9d5cfh1tAryBYgd2",
+        "sectorKey": 63501,
+        "verbatimSourceKey": 285483900,
+        "identifier": [
+          "ipni:84098-1"
+        ],
+        "scientificName": "Aglaonema pumilum",
+        "authorship": "Hook.f.",
+        "rank": "species",
+        "genus": "Aglaonema",
+        "specificEpithet": "pumilum",
+        "combinationAuthorship": {
+          "authors": [
+            "Hook.f."
+          ]
+        },
+        "code": "botanical",
+        "publishedInId": "fc4bff88-5b20-40a3-b220-e61c34294704",
+        "origin": "source",
+        "type": "scientific",
+        "link": "https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:84098-1",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "Hook.f."
+          ]
+        }
+      },
+      "status": "VERIFIED ✅"
+    },
+    {
+      "file": "albuca-humilis.json",
+      "name": "Albuca humilis",
+      "scientific": "Albuca humilis",
+      "colName": {
+        "created": "2025-09-17T16:00:14.724649",
+        "createdBy": 102,
+        "modified": "2025-09-17T16:00:14.724649",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "KNqhVIYs6vd62CTgf97Yx2",
+        "sectorKey": 63516,
+        "verbatimSourceKey": 285669151,
+        "identifier": [
+          "ipni:527383-1"
+        ],
+        "scientificName": "Albuca humilis",
+        "authorship": "Baker",
+        "rank": "species",
+        "genus": "Albuca",
+        "specificEpithet": "humilis",
+        "combinationAuthorship": {
+          "authors": [
+            "Baker"
+          ]
+        },
+        "code": "botanical",
+        "publishedInId": "1bb1c1b9-9914-483d-a4db-c23d760e1711",
+        "origin": "source",
+        "type": "scientific",
+        "link": "https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:527383-1",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "Baker"
+          ]
+        }
+      },
+      "status": "VERIFIED ✅"
+    },
+    {
+      "file": "albuca-spiralis.json",
+      "name": "Frizzle Sizzle",
+      "scientific": "Albuca spiralis",
+      "colName": {
+        "created": "2025-09-17T16:00:14.724649",
+        "createdBy": 102,
+        "modified": "2025-09-17T16:00:14.724649",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "iC6p8A4rlkey-hVEIW1oc1",
+        "sectorKey": 63516,
+        "verbatimSourceKey": 285669216,
+        "identifier": [
+          "ipni:527461-1"
+        ],
+        "scientificName": "Albuca spiralis",
+        "authorship": "L.f.",
+        "rank": "species",
+        "genus": "Albuca",
+        "specificEpithet": "spiralis",
+        "combinationAuthorship": {
+          "authors": [
+            "L.f."
+          ]
+        },
+        "code": "botanical",
+        "publishedInId": "9dd2452d-fd71-4f84-8fe0-3187c9d0a82b",
+        "origin": "source",
+        "type": "scientific",
+        "link": "https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:527461-1",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "L.f."
+          ]
+        }
+      },
+      "status": "VERIFIED ✅"
+    },
+    {
+      "file": "alocasia-boyceana.json",
+      "name": "Alocasia boyceana",
+      "scientific": "Alocasia boyceana",
+      "colName": {
+        "created": "2025-09-17T15:32:33.29591",
+        "createdBy": 102,
+        "modified": "2025-09-17T15:32:33.29591",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "Nux0qWYDSUuT9p4GuOaUS",
+        "sectorKey": 63501,
+        "verbatimSourceKey": 285477734,
+        "identifier": [
+          "ipni:1010788-1"
+        ],
+        "scientificName": "Alocasia boyceana",
+        "authorship": "A.Hay",
+        "rank": "species",
+        "genus": "Alocasia",
+        "specificEpithet": "boyceana",
+        "combinationAuthorship": {
+          "authors": [
+            "A.Hay"
+          ]
+        },
+        "code": "botanical",
+        "publishedInId": "c4565e4a-fda3-44df-a62f-d1ec426f0acb",
+        "origin": "source",
+        "type": "scientific",
+        "link": "https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:1010788-1",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "A.Hay"
+          ]
+        }
+      },
+      "status": "VERIFIED ✅"
+    },
+    {
+      "file": "anathallis-minutalis.json",
+      "name": "Anathallis minutalis",
+      "scientific": "Anathallis minutalis",
+      "colName": {
+        "created": "2025-09-17T16:09:19.369968",
+        "createdBy": 102,
+        "modified": "2025-09-17T16:09:19.369968",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "eQUYzRdsaav78Kmj178Sl0",
+        "sectorKey": 63526,
+        "verbatimSourceKey": 285748072,
+        "identifier": [
+          "ipni:1170559-2"
+        ],
+        "scientificName": "Anathallis minutalis",
+        "authorship": "(Lindl.) Pridgeon & M.W.Chase",
+        "rank": "species",
+        "genus": "Anathallis",
+        "specificEpithet": "minutalis",
+        "combinationAuthorship": {
+          "authors": [
+            "Pridgeon",
+            "M.W.Chase"
+          ]
+        },
+        "basionymAuthorship": {
+          "authors": [
+            "Lindl."
+          ]
+        },
+        "code": "botanical",
+        "publishedInId": "ffbbfbed-7217-4c5a-9898-e8fe187a6eb4",
+        "origin": "source",
+        "type": "scientific",
+        "link": "https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:1170559-2",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "Lindl."
+          ]
+        }
+      },
+      "status": "VERIFIED ✅"
+    },
+    {
+      "file": "antplant.json",
+      "name": "Antplant",
+      "scientific": "Dischidia oiantha",
+      "colName": {
+        "created": "2025-10-22T20:24:18.225661",
+        "createdBy": 102,
+        "modified": "2025-10-22T20:24:18.225661",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "DBPzxIbWkju964n0lfDty",
+        "sectorKey": 1062,
+        "verbatimSourceKey": 293137297,
+        "scientificName": "Dischidia oiantha",
+        "authorship": "Schltr.",
+        "rank": "species",
+        "genus": "Dischidia",
+        "specificEpithet": "oiantha",
+        "combinationAuthorship": {
+          "authors": [
+            "Schltr."
+          ]
+        },
+        "code": "botanical",
+        "publishedInId": "67e35562-ec16-471d-8287-2532b8fa9588",
+        "publishedInPage": "127",
+        "origin": "source",
+        "type": "scientific",
+        "link": "http://www.worldplants.de/?deeplink=Dischidia-oiantha",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "Schltr."
+          ]
+        }
+      },
+      "status": "VERIFIED ✅"
+    },
+    {
+      "file": "araflora-no-name-bromelia-vdv.json",
+      "name": "Araflora no name bromelia vdv",
+      "scientific": "Bromeliaceae sp.",
+      "colName": {
+        "created": "2024-06-05T19:43:00.974069",
+        "createdBy": 102,
+        "modified": "2024-06-05T19:43:00.974069",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "x53znd1fa4uM8dGgRz4HS",
+        "sectorKey": 55,
+        "verbatimSourceKey": 227791830,
+        "scientificName": "Anoplius frigidus",
+        "authorship": "Sp. Schneider",
+        "rank": "species",
+        "genus": "Anoplius",
+        "specificEpithet": "frigidus",
+        "combinationAuthorship": {
+          "authors": [
+            "Sp.Schneider"
+          ]
+        },
+        "code": "zoological",
+        "origin": "source",
+        "type": "scientific",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "Sp.Schneider"
+          ]
+        }
+      },
+      "status": "VERIFIED ✅"
+    },
+    {
+      "file": "ardisia-sp.json",
+      "name": "Ardisia sp",
+      "scientific": "Ardisia sp",
+      "colName": {
+        "created": "2024-06-05T19:43:00.974069",
+        "createdBy": 102,
+        "modified": "2024-06-05T19:43:00.974069",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "x53znd1fa4uM8dGgRz4HS",
+        "sectorKey": 55,
+        "verbatimSourceKey": 227791830,
+        "scientificName": "Anoplius frigidus",
+        "authorship": "Sp. Schneider",
+        "rank": "species",
+        "genus": "Anoplius",
+        "specificEpithet": "frigidus",
+        "combinationAuthorship": {
+          "authors": [
+            "Sp.Schneider"
+          ]
+        },
+        "code": "zoological",
+        "origin": "source",
+        "type": "scientific",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "Sp.Schneider"
+          ]
+        }
+      },
+      "status": "VERIFIED ✅"
+    },
+    {
+      "file": "argostemma-bicolor.json",
+      "name": "Argostemma bicolor",
+      "scientific": "Argostemma bicolor",
+      "colName": {
+        "created": "2025-10-22T20:26:37.596173",
+        "createdBy": 102,
+        "modified": "2025-10-22T20:26:37.596173",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "WjQOl4-w2k7i2Wpqhz1Bi",
+        "sectorKey": 1062,
+        "verbatimSourceKey": 293166054,
+        "scientificName": "Argostemma bicolor",
+        "authorship": "King",
+        "rank": "species",
+        "genus": "Argostemma",
+        "specificEpithet": "bicolor",
+        "combinationAuthorship": {
+          "authors": [
+            "King"
+          ]
+        },
+        "code": "botanical",
+        "publishedInId": "1e623fbb-622d-483b-9159-20d47a637617",
+        "publishedInPage": "155",
+        "origin": "source",
+        "type": "scientific",
+        "link": "http://www.worldplants.de/?deeplink=Argostemma-bicolor",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "King"
+          ]
+        }
+      },
+      "status": "VERIFIED ✅"
+    },
+    {
+      "file": "arisaema-filiforme.json",
+      "name": "Arisaema filiforme",
+      "scientific": "Arisaema filiforme",
+      "colName": {
+        "created": "2025-09-17T15:33:02.536491",
+        "createdBy": 102,
+        "modified": "2025-09-17T15:33:02.536491",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "hKASUhpMuP7F6S6BbVfP70",
+        "sectorKey": 63501,
+        "verbatimSourceKey": 285484305,
+        "identifier": [
+          "ipni:85643-1"
+        ],
+        "scientificName": "Arisaema filiforme",
+        "authorship": "(Reinw.) Blume",
+        "rank": "species",
+        "genus": "Arisaema",
+        "specificEpithet": "filiforme",
+        "combinationAuthorship": {
+          "authors": [
+            "Blume"
+          ]
+        },
+        "basionymAuthorship": {
+          "authors": [
+            "Reinw."
+          ]
+        },
+        "code": "botanical",
+        "publishedInId": "9a08e5dc-1ea8-4d62-8b04-518b820110f6",
+        "origin": "source",
+        "type": "scientific",
+        "link": "https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:85643-1",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "Reinw."
+          ]
+        }
+      },
+      "status": "VERIFIED ✅"
+    }
+  ],
+  "notFound": [
+    {
+      "file": "adenium-glauca.json",
+      "name": "Adenium glauca",
+      "scientific": "Adenium glauca",
+      "status": "NOT FOUND in COL"
+    },
+    {
+      "file": "aechmea-pink-flower.json",
+      "name": "Aechmea 'Pink Flower'",
+      "scientific": "Easily identified",
+      "status": "NOT FOUND in COL"
+    },
+    {
+      "file": "aeonium-tabuliforme-variegata.json",
+      "name": "Aeonium tabuliforme variegata",
+      "scientific": "Aeonium tabuliforme",
+      "status": "NOT FOUND in COL"
+    },
+    {
+      "file": "aeschynanthus-spec.json",
+      "name": "Aeschynanthus spec",
+      "scientific": "Aeschynanthus spec",
+      "status": "NOT FOUND in COL"
+    },
+    {
+      "file": "anoectochillus-albolineatus-variegata.json",
+      "name": "Anoectochillus albolineatus variegata",
+      "scientific": "Anoectochillus albolineatus",
+      "status": "NOT FOUND in COL"
+    },
+    {
+      "file": "anoectochillus-formosanus.json",
+      "name": "Anoectochillus formosanus",
+      "scientific": "Anoectochillus formosanus",
+      "status": "NOT FOUND in COL"
+    },
+    {
+      "file": "anoectochillus-leyli-green.json",
+      "name": "Anoectochillus leyli Green",
+      "scientific": "Anoectochillus leyli",
+      "status": "NOT FOUND in COL"
+    },
+    {
+      "file": "anoectochillus-reinwardtii.json",
+      "name": "Anoectochillus reinwardtii",
+      "scientific": "Anoectochillus reinwardtii",
+      "status": "NOT FOUND in COL"
+    },
+    {
+      "file": "anoectochillus-roxburghii.json",
+      "name": "Anoectochillus roxburghii",
+      "scientific": "Anoectochillus roxburghii",
+      "status": "NOT FOUND in COL"
+    },
+    {
+      "file": "anoectochilus-burmanicus.json",
+      "name": "Anoectochilus burmanicus",
+      "scientific": "Anoectochilus burmanicus",
+      "status": "NOT FOUND in COL"
+    },
+    {
+      "file": "anoectochilus-simensis-x-ludisia-discolor.json",
+      "name": "Anoectochilus simensis x Ludisia discolor",
+      "scientific": "Anoectochilus simensis",
+      "status": "NOT FOUND in COL"
+    },
+    {
+      "file": "anthurium-bakerii-type-a03.json",
+      "name": "Anthurium Type A03",
+      "scientific": "Anthurium bakerii",
+      "status": "NOT FOUND in COL"
+    }
+  ],
+  "synonyms": [
+    {
+      "file": "adenium-arabicum-baobab.json",
+      "name": "Adenium arabicum 'Baobab'",
+      "scientific": "Adenium arabicum",
+      "acceptedName": {
+        "created": "2025-10-22T20:34:05.913367",
+        "createdBy": 102,
+        "modified": "2025-10-22T20:34:05.913367",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "_HoeFKu74k8VECtWHsnc10",
+        "sectorKey": 1062,
+        "verbatimSourceKey": 293246709,
+        "scientificName": "Adenium arabicum",
+        "authorship": "Balf.fil.",
+        "rank": "species",
+        "genus": "Adenium",
+        "specificEpithet": "arabicum",
+        "combinationAuthorship": {
+          "authors": [
+            "Balf.fil."
+          ]
+        },
+        "code": "botanical",
+        "publishedInId": "5805dff4-3945-4e69-b4df-16c0baebd169",
+        "publishedInPage": "161",
+        "origin": "source",
+        "type": "scientific",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "Balf.fil."
+          ]
+        }
+      },
+      "status": "SYNONYM - update recommended"
+    },
+    {
+      "file": "african-spear-sansevieria.json",
+      "name": "African spear sansevieria",
+      "scientific": "Sansevieria cylindrica",
+      "acceptedName": {
+        "created": "2025-09-17T16:00:46.905924",
+        "createdBy": 102,
+        "modified": "2025-09-17T16:00:46.905924",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "BC-iOlWMY9cNDdmDN5lmM2",
+        "sectorKey": 63516,
+        "verbatimSourceKey": 285678703,
+        "identifier": [
+          "ipni:429843-1"
+        ],
+        "scientificName": "Sansevieria cylindrica",
+        "authorship": "Bojer ex Hook.",
+        "rank": "species",
+        "genus": "Sansevieria",
+        "specificEpithet": "cylindrica",
+        "combinationAuthorship": {
+          "authors": [
+            "Hook."
+          ],
+          "exAuthors": [
+            "Bojer"
+          ]
+        },
+        "code": "botanical",
+        "publishedInId": "16f78c80-52e4-414c-96e9-181f6a0c82b1",
+        "origin": "source",
+        "type": "scientific",
+        "link": "https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:429843-1",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "Hook."
+          ],
+          "exAuthors": [
+            "Bojer"
+          ]
+        }
+      },
+      "status": "SYNONYM - update recommended"
+    },
+    {
+      "file": "african-violet-mini.json",
+      "name": "African Violet",
+      "scientific": "Saintpaulia ionantha",
+      "acceptedName": {
+        "created": "2025-10-22T22:18:25.001977",
+        "createdBy": 102,
+        "modified": "2025-10-22T22:18:25.001977",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "MIGYVZwSoh8p94E2TG36H2",
+        "sectorKey": 919,
+        "verbatimSourceKey": 294257174,
+        "scientificName": "Saintpaulia ionantha",
+        "authorship": "H.Wendl.",
+        "rank": "species",
+        "genus": "Saintpaulia",
+        "specificEpithet": "ionantha",
+        "combinationAuthorship": {
+          "authors": [
+            "H.Wendl."
+          ]
+        },
+        "code": "botanical",
+        "publishedInId": "b31b556c-e62d-401a-b2cd-e5dad4d8c735",
+        "publishedInPage": "321 fig. 66 t. 1391",
+        "origin": "source",
+        "type": "scientific",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "H.Wendl."
+          ]
+        }
+      },
+      "status": "SYNONYM - update recommended"
+    },
+    {
+      "file": "agave-stricta-var-nana.json",
+      "name": "Agave stricta var. nana",
+      "scientific": "Agave stricta var. nana",
+      "acceptedName": {
+        "created": "2025-07-18T13:57:30.837144",
+        "createdBy": 102,
+        "modified": "2025-07-18T13:57:30.837144",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "HdSF0-48AHOvAty1nb8qg2",
+        "sectorKey": 60401,
+        "verbatimSourceKey": 108922424,
+        "scientificName": "Sphenoptera libani",
+        "authorship": "(Théry var. of pharaon; , 1929)",
+        "rank": "species",
+        "genus": "Sphenoptera",
+        "specificEpithet": "libani",
+        "combinationAuthorship": {
+          "authors": [
+            "(Théry var. of pharaon;, 1929)"
+          ]
+        },
+        "code": "zoological",
+        "origin": "source",
+        "type": "scientific",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "(Théry var. of pharaon;, 1929)"
+          ]
+        }
+      },
+      "status": "SYNONYM - update recommended"
+    },
+    {
+      "file": "aglaomorpha-coronans-snake-leaf-fern.json",
+      "name": "Aglaomorpha coronans 'Snake Leaf Fern'",
+      "scientific": "Aglaomorpha coronans",
+      "acceptedName": {
+        "created": "2025-10-22T15:57:37.253387",
+        "createdBy": 102,
+        "modified": "2025-10-22T15:57:37.253387",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "3IaZZzGIrmOsDxB41sA3z0",
+        "sectorKey": 1108,
+        "verbatimSourceKey": 292770267,
+        "scientificName": "Aglaomorpha coronans",
+        "authorship": "(Wall. ex Mett.) Copel.",
+        "rank": "species",
+        "genus": "Aglaomorpha",
+        "specificEpithet": "coronans",
+        "combinationAuthorship": {
+          "authors": [
+            "Copel."
+          ]
+        },
+        "basionymAuthorship": {
+          "authors": [
+            "Mett."
+          ],
+          "exAuthors": [
+            "Wall."
+          ]
+        },
+        "code": "botanical",
+        "publishedInId": "3f0c4d5d-08a2-48d8-bdb9-e966c5929d34",
+        "publishedInPage": "117",
+        "origin": "source",
+        "type": "scientific",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "Mett."
+          ],
+          "exAuthors": [
+            "Wall."
+          ]
+        }
+      },
+      "status": "SYNONYM - update recommended"
+    },
+    {
+      "file": "aglaonema-hybrid-1.json",
+      "name": "Aglaonema hybrid 1",
+      "scientific": "Aglaonema hybrid",
+      "acceptedName": {
+        "created": "2025-10-06T16:13:07.588105",
+        "createdBy": 102,
+        "modified": "2025-10-06T16:13:07.588105",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "HobDP30yYjcp1G9ukibrv2",
+        "sectorKey": 1302,
+        "verbatimSourceKey": 291383464,
+        "scientificName": "Lambis (Millepes) cristinae",
+        "authorship": "Bozzetti, 1999 [hybrid of L. indomaris x L. lambis]",
+        "rank": "species",
+        "genus": "Lambis",
+        "infragenericEpithet": "Millepes",
+        "specificEpithet": "cristinae",
+        "combinationAuthorship": {
+          "authors": [
+            "Bozzetti, 1999 [hybrid of L. indomaris x L. lambis]"
+          ]
+        },
+        "code": "zoological",
+        "publishedInId": "290cd976-d38d-4d03-a69c-f19a258d59c3",
+        "origin": "source",
+        "type": "scientific",
+        "link": "https://www.molluscabase.org/aphia.php?p=taxdetails&id=1599084",
+        "remarks": "unaccepted",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "Bozzetti, 1999 [hybrid of L. indomaris x L. lambis]"
+          ]
+        }
+      },
+      "status": "SYNONYM - update recommended"
+    },
+    {
+      "file": "ananas-nanus.json",
+      "name": "Ananas nanus",
+      "scientific": "Ananas nanus",
+      "acceptedName": {
+        "created": "2025-09-17T15:12:21.36593",
+        "createdBy": 102,
+        "modified": "2025-09-17T15:12:21.36593",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "iio-pN-6kp7p24QrDeRqS1",
+        "sectorKey": 63560,
+        "verbatimSourceKey": 285407462,
+        "identifier": [
+          "ipni:12349-2"
+        ],
+        "scientificName": "Ananas nanus",
+        "authorship": "(L.B.Sm.) L.B.Sm.",
+        "rank": "species",
+        "genus": "Ananas",
+        "specificEpithet": "nanus",
+        "combinationAuthorship": {
+          "authors": [
+            "L.B.Sm."
+          ]
+        },
+        "basionymAuthorship": {
+          "authors": [
+            "L.B.Sm."
+          ]
+        },
+        "code": "botanical",
+        "publishedInId": "7d7327b7-bd53-4f9c-a744-c1ab49711199",
+        "origin": "source",
+        "type": "scientific",
+        "link": "https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:12349-2",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "L.B.Sm."
+          ]
+        }
+      },
+      "status": "SYNONYM - update recommended"
+    },
+    {
+      "file": "anoectochillus-sp-green.json",
+      "name": "Anoectochillus sp Green",
+      "scientific": "Easy to grow",
+      "acceptedName": {
+        "created": "2025-10-06T16:04:21.345453",
+        "createdBy": 102,
+        "modified": "2025-10-06T16:04:21.345453",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "0pVya9lKLyuoE0jHOZRxg",
+        "sectorKey": 1302,
+        "verbatimSourceKey": 291280455,
+        "scientificName": "Chilodontaidae",
+        "authorship": "\"Wenz, 1938\" [proposed to address assumed homonymy]",
+        "rank": "family",
+        "uninomial": "Chilodontaidae",
+        "combinationAuthorship": {
+          "authors": [
+            "\"Wenz, 1938\" [proposed to address assumed homonymy]"
+          ]
+        },
+        "code": "zoological",
+        "origin": "source",
+        "type": "scientific",
+        "link": "https://www.molluscabase.org/aphia.php?p=taxdetails&id=1058794",
+        "remarks": "nomen nudum",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "\"Wenz, 1938\" [proposed to address assumed homonymy]"
+          ]
+        }
+      },
+      "status": "SYNONYM - update recommended"
+    },
+    {
+      "file": "ant-plant.json",
+      "name": "Ant Plant",
+      "scientific": "Myrmecodia tuberosa",
+      "acceptedName": {
+        "created": "2025-10-22T20:29:51.433538",
+        "createdBy": 102,
+        "modified": "2025-10-22T20:29:51.433538",
+        "modifiedBy": 102,
+        "datasetKey": 3,
+        "id": "Yzny8j2q49edB_GXiwowR1",
+        "sectorKey": 1062,
+        "verbatimSourceKey": 293206307,
+        "scientificName": "Myrmecodia tuberosa",
+        "authorship": "Becc. ex Treub",
+        "rank": "species",
+        "genus": "Myrmecodia",
+        "specificEpithet": "tuberosa",
+        "combinationAuthorship": {
+          "authors": [
+            "Treub"
+          ],
+          "exAuthors": [
+            "Becc."
+          ]
+        },
+        "code": "botanical",
+        "publishedInId": "b1cbf696-c367-4834-8639-9fc61fba4a75",
+        "publishedInPage": "192",
+        "origin": "source",
+        "type": "scientific",
+        "merged": false,
+        "parsed": true,
+        "basionymOrCombinationAuthorship": {
+          "authors": [
+            "Treub"
+          ],
+          "exAuthors": [
+            "Becc."
+          ]
+        }
+      },
+      "status": "SYNONYM - update recommended"
+    }
+  ],
+  "errors": []
+}

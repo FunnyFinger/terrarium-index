@@ -1,0 +1,82 @@
+{
+  "id": 10310,
+  "name": "Asparagus Fern",
+  "scientificName": "Asparagus setaceus",
+  "commonNames": [
+    "Lace Fern"
+  ],
+  "category": [
+    "leafy",
+    "tropical",
+    "terrestrial"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "20-150 cm",
+  "growthRate": "Moderate",
+  "description": "Asparagus setaceus, commonly known as Asparagus Fern or Lace Fern, is a terrestrial plant native to tropical regions of South Africa. It belongs to the Asparagaceae family and features climbing or trailing stems (60-150 cm long) with fine, feathery, dark green foliage that resembles fern fronds but is actually modified stems (cladodes). The plant displays a climbing or trailing growth habit. Despite its common name, it is not a true fern but a flowering plant. Thrives in the humid, shaded understory of tropical forests where it receives consistent moisture and protection from direct sunlight. In its native habitat, it grows in moist, shaded areas. In terrariums or indoor settings, this plant adds vibrant colors and visual interest to any environment. It's extremely popular for its delicate, fern-like appearance.",
+  "careTips": [
+    "High humidity is essential",
+    "Keep soil consistently moist but not waterlogged",
+    "Avoid direct sunlight - prefers bright indirect light",
+    "Brown edges indicate low humidity or underwatering"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Asparagales",
+    "family": "Asparagaceae",
+    "genus": "Asparagus",
+    "species": "Asparagus setaceus"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "toxic-if-ingested",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Division, Seed",
+  "colors": "Green, White",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

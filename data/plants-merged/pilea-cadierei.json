@@ -1,0 +1,89 @@
+{
+  "id": 31,
+  "name": "Aluminum Plant",
+  "scientificName": "Pilea cadierei",
+  "commonNames": [],
+  "category": [
+    "leafy",
+    "mini",
+    "tropical",
+    "house-plant"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "15-60 cm",
+  "growthRate": "Moderate",
+  "description": "Pilea cadierei, commonly known as Aluminum Plant or Watermelon Pilea, is a bushy, upright perennial native to Vietnam and China. It belongs to the Urticaceae (nettle) family and features oval to elliptical leaves (5-8 cm long) with distinctive silvery-white markings that resemble aluminum or watermelon rind patterns. The leaves are dark green with raised, metallic-looking silver patches arranged in pairs along the veins, creating a striking variegated appearance. The leaves have a slightly puckered texture and grow on upright stems. This plant displays an upright, bushy growth habit and typically reaches 30-60 cm in height. In its native habitat, it grows in shaded, humid areas of tropical forests where it receives bright indirect light filtered through the forest canopy. It prefers high humidity (60-80%), consistently moist but well-draining soil, and moderate temperatures (15-24°C). Insufficient light causes the silvery variegation to fade, while direct sunlight can scorch the delicate leaves. In terrariums or indoor settings, this plant adds modern appeal with its unique leaf patterns and textures. It produces small, inconspicuous flowers, though flowering is rare in cultivation.",
+  "careTips": [
+    "Pinch tips regularly to keep bushy and compact - prevents leggy growth",
+    "Prefers high humidity (60-80%) for best growth - ideal for terrariums or high-humidity rooms",
+    "Leaves lose silvery pattern in low light - provide bright indirect light for best variegation",
+    "Easy to propagate from stem cuttings - roots readily in water or moist soil",
+    "Keep soil consistently moist but not waterlogged - water when top inch feels dry",
+    "Native to Vietnam and China - prefers moderate temperatures (15-24°C)",
+    "Well-draining substrate recommended - peat-based mix works well",
+    "Feed monthly during growing season with balanced liquid fertilizer at half strength",
+    "Non-toxic to pets and humans",
+    "Watch for spider mites and mealybugs, especially in low humidity conditions",
+    "Can be grown in terrariums or as a houseplant in high humidity environments",
+    "If leaves drop, check humidity levels and watering schedule"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Rosales",
+    "family": "Urticaceae",
+    "genus": "Pilea",
+    "species": "Pilea cadierei"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division",
+  "colors": "Green, Silver, White",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 30,
+    "max": 48,
+    "ideal": 39
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "id": 10472,
+  "name": "Chinese Banyan",
+  "scientificName": "Ficus microcarpa",
+  "commonNames": [
+    "Ginseng Ficus",
+    "Indian Laurel Fig",
+    "Curtain Fig"
+  ],
+  "category": [
+    "tree",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "30-300 cm",
+  "growthRate": "Moderate",
+  "description": "Ficus microcarpa, commonly known as Chinese Banyan or Ginseng Ficus, is a versatile evergreen tree native to tropical and subtropical regions of Asia, including China, India, Malaysia, and Australia. It features glossy, oval to elliptical leaves that are typically 5-10 cm long and 3-5 cm wide, with a leathery texture and dark green coloration. The plant displays a tree-like growth habit and can reach impressive sizes in nature (up to 20 meters), though when grown indoors or in containers, it typically reaches 30-300 cm in height and spread, depending on pruning and container size. The plant is often grown as a bonsai or houseplant, with the 'Ginseng' variety featuring thick, exposed roots that create an attractive, sculptural appearance. In its native habitat, it grows as an epiphyte initially, eventually developing into a large tree with aerial roots. The plant produces small, inconspicuous flowers that develop into small, round, green to yellow fruits. It's an excellent choice for indoor plant collections due to its adaptability, attractive foliage, and ability to be shaped through pruning. The plant is toxic to pets if ingested, so it should be kept away from cats and dogs.",
+  "careTips": [
+    "Provide bright, indirect sunlight - avoid harsh direct sun",
+    "Maintain consistent moisture without waterlogging",
+    "Water when top 1-2 inches of soil feel dry",
+    "Use well-draining, humus-rich soil mix",
+    "Maintain high humidity (60-80%) - mist regularly if needed",
+    "Fertilize every 4-6 weeks during growing season with balanced fertilizer",
+    "Regular pruning helps maintain shape and encourages bushier growth",
+    "Repot every 1-2 years in spring",
+    "Protect from drafts and sudden temperature changes",
+    "Keep away from pets - toxic if ingested"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Rosales",
+    "family": "Moraceae",
+    "genus": "Ficus",
+    "species": "Ficus microcarpa"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "toxic-if-ingested",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "year-round",
+  "propagation": "Stem Cuttings, Layering, Seed",
+  "colors": "Green, Yellow",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "airCirculationRange": {
+    "min": 40,
+    "max": 70,
+    "ideal": 55
+  },
+  "waterNeedsRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 40,
+    "max": 50,
+    "ideal": 45
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

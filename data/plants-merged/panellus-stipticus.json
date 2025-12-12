@@ -1,0 +1,88 @@
+{
+  "id": 373,
+  "name": "Bitter Oyster",
+  "scientificName": "Panellus stipticus",
+  "commonNames": [
+    "Luminescent Panellus",
+    "Bitter Panellus"
+  ],
+  "category": [
+    "fungus",
+    "bioluminescent"
+  ],
+  "substrate": "Decaying Wood",
+  "size": "1-4 cm",
+  "growthRate": "Moderate",
+  "description": "Panellus stipticus, commonly known as the Bitter Oyster, is a small, fan-shaped fungus native to North America, Europe, and parts of Asia. It belongs to the Mycenaceae family and features small, kidney-shaped to fan-shaped fruit bodies (1-4 cm wide) that grow in overlapping clusters on decaying hardwood logs, particularly oak, birch, and beech. The caps are typically tan to brownish with a smooth or slightly velvety surface. This fungus is notable for its bioluminescence - certain strains emit a greenish glow in the dark, making it a fascinating addition to terrariums. The fruit bodies are inedible due to their extremely bitter taste. In its native habitat, it grows as a saprotroph on dead or dying hardwood trees. In terrariums or indoor settings, this fungus adds unique bioluminescent interest and helps with decomposition of wood substrates. It's popular among mycological enthusiasts for its glowing properties and distinctive appearance.",
+  "careTips": [
+    "Requires decaying hardwood substrate - oak, birch, or beech logs work best",
+    "High humidity is essential (80-95%)",
+    "Moderate to low light - bioluminescence is best observed in darkness",
+    "Good air circulation prevents mold growth",
+    "Keep substrate consistently moist but not waterlogged",
+    "Temperature range: 10-20°C (50-68°F)",
+    "Bioluminescence may vary by strain - not all specimens glow",
+    "Fruit bodies appear in overlapping clusters",
+    "Inedible due to bitter taste - for display only",
+    "Helps decompose wood in terrarium ecosystems"
+  ],
+  "taxonomy": {
+    "kingdom": "Fungi",
+    "phylum": "Basidiomycota",
+    "class": "Agaricomycetes",
+    "order": "Agaricales",
+    "family": "Mycenaceae",
+    "genus": "Panellus",
+    "species": "Panellus stipticus"
+  },
+  "growthPattern": "clumping",
+  "hazard": "toxic-if-ingested",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "fungus",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Spores",
+  "colors": "Tan, Brown",
+  "humidityRange": {
+    "min": 80,
+    "max": 95,
+    "ideal": 87
+  },
+  "lightRange": {
+    "min": 20,
+    "max": 50,
+    "ideal": 35
+  },
+  "airCirculationRange": {
+    "min": 40,
+    "max": 70,
+    "ideal": 55
+  },
+  "waterNeedsRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "substrateType": "wood",
+  "specialNeeds": "bioluminescent",
+  "temperatureRange": {
+    "min": 20,
+    "max": 36,
+    "ideal": 28
+  },
+  "difficultyRange": {
+    "min": 50,
+    "max": 80,
+    "ideal": 65
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

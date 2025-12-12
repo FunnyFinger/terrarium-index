@@ -1,0 +1,87 @@
+{
+  "id": 342,
+  "name": "Rex Begonia",
+  "scientificName": "Begonia rex",
+  "commonNames": [],
+  "category": [
+    "begonia",
+    "colorful",
+    "flowering",
+    "leafy",
+    "mini",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "10-30 cm",
+  "growthRate": "Moderate",
+  "description": "Begonia rex, commonly known as Rex Begonia or Painted-Leaf Begonia, is a rhizomatous begonia native to northeastern India, particularly Assam. It belongs to the Begoniaceae family and features large, asymmetrical, heart-shaped to oval leaves (15-30 cm long) with striking patterns including spirals, spots, stripes, and iridescent sheens in colors ranging from silver, pink, red, purple, and green. Some varieties have translucent \"windows\" in their leaves. The plant displays an upright, clumping growth habit and typically reaches 15-30 cm in height. It produces small, pink to white flowers, though the foliage is the main attraction. In its native habitat, it grows in moist, shaded areas of tropical forests. In terrariums or indoor settings, this plant adds vibrant color and visual interest with its spectacularly patterned leaves. It's extremely popular among begonia enthusiasts for its stunning foliage.",
+  "careTips": [
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Monitor watering needs",
+    "Keep soil moist but not soggy",
+    "High humidity beneficial",
+    "Bright indirect light - avoid direct sun",
+    "Good air circulation prevents disease",
+    "Prune regularly to maintain shape"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Cucurbitales",
+    "family": "Begoniaceae",
+    "genus": "Begonia",
+    "species": "Begonia rex"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Leaf Cuttings, Division, Rhizomes",
+  "colors": "Silver, Pink, Red, Purple, Green, Variegated",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

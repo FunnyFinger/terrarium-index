@@ -1,0 +1,83 @@
+{
+  "id": 99,
+  "name": "String of Pearls",
+  "scientificName": "Senecio rowleyanus",
+  "commonNames": [
+    "Bead Vine",
+    "Rosary Vine"
+  ],
+  "category": [
+    "creeper",
+    "flowering",
+    "succulent"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "10-90 cm",
+  "growthRate": "Moderate",
+  "description": "Senecio rowleyanus, commonly known as String of Pearls, String of Beads, or Rosary Vine, is a trailing succulent native to southwestern Africa, particularly Namibia and South Africa. It belongs to the Asteraceae family and features long, trailing stems (30-90 cm or more) covered in small, spherical, pea-like leaves (5-10 mm across) that resemble pearls or beads, hence the common name. The leaves are bright green with a translucent \"window\" that allows light to penetrate. The plant displays a trailing, cascading growth habit and can reach lengths of 30-90 cm or more. It produces small, white, daisy-like flowers with cinnamon-scented centers in late winter to early spring. In its native habitat, it grows in well-draining, rocky soils, often trailing over rocks. In terrariums or indoor settings, this plant adds natural beauty with its unique, bead-like leaves and graceful trailing habit. It's extremely popular for hanging baskets and terrariums.",
+  "careTips": [
+    "Don't overwater - prone to rot",
+    "Trails beautifully",
+    "Can be sensitive to humidity",
+    "Easily propagated from cuttings"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Asterales",
+    "family": "Asteraceae",
+    "genus": "Senecio",
+    "species": "Senecio rowleyanus"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "handle-with-care",
+  "rarity": "very-rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 50,
+    "max": 90,
+    "ideal": 70
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "succulent",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

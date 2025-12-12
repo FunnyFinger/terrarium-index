@@ -1,0 +1,87 @@
+{
+  "id": 10461,
+  "name": "English Ivy",
+  "scientificName": "Hedera helix",
+  "commonNames": [
+    "Common Ivy",
+    "European Ivy"
+  ],
+  "category": [
+    "vine",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "20-300 cm",
+  "growthRate": "Fast",
+  "description": "Hedera helix, commonly known as English Ivy, is an evergreen climbing vine native to Europe and parts of western Asia. It features dark green, glossy leaves that are palmately lobed in juvenile form and become unlobed and cordate as the plant matures. The plant displays a vigorous climbing or trailing growth habit and can reach impressive lengths in natural settings (20-30 meters), though in terrariums and indoor settings it can be maintained at much smaller sizes (20-300 cm) through regular pruning. The plant produces small, greenish-yellow flowers in late summer to late autumn, followed by purple-black to orange-yellow berries that ripen in late winter. English Ivy is valued for its dense evergreen foliage and versatility as a ground cover or climbing vine. It's a hardy plant that adapts well to various conditions, though it requires regular pruning to maintain a manageable size in terrariums. The plant is toxic to humans and pets if ingested, and the sap can cause skin irritation in sensitive individuals. All parts of the plant contain compounds that can cause symptoms if consumed.",
+  "careTips": [
+    "Provide bright, indirect light - variegated varieties need more light",
+    "Maintain moderate to high humidity (50-70%)",
+    "Keep soil evenly moist but not waterlogged",
+    "Allow top inch of soil to dry between waterings",
+    "Regular pruning is essential to maintain size in terrariums",
+    "Fertilize every 2 weeks during growing season",
+    "Can be trained to climb or allowed to trail",
+    "Keep away from pets and children - toxic if ingested"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Apiales",
+    "family": "Araliaceae",
+    "genus": "Hedera",
+    "species": "Hedera helix"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "toxic-if-ingested",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings",
+  "colors": "Green, Yellow, Purple, Orange",
+  "humidityRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 90,
+    "ideal": 75
+  },
+  "airCirculationRange": {
+    "min": 40,
+    "max": 70,
+    "ideal": 55
+  },
+  "waterNeedsRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "substrateType": "moist",
+  "specialNeeds": "Regular pruning required to maintain size",
+  "temperatureRange": {
+    "min": 32,
+    "max": 50,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

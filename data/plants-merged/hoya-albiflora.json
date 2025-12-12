@@ -1,0 +1,83 @@
+{
+  "id": 10185,
+  "name": "Hoya albiflora",
+  "scientificName": "Hoya albiflora",
+  "commonNames": [],
+  "category": [
+    "creeper",
+    "flowering",
+    "house-plant",
+    "hoya",
+    "leafy"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "10-18 cm",
+  "growthRate": "Moderate",
+  "description": "This vining plant features trailing or climbing growth. Belongs to the hoya genus. The flowers have a distinctive star shape with a waxy texture and often emit strong, pleasant fragrances, especially at night",
+  "careTips": [
+    "Let soil dry between waterings",
+    "Bright indirect light preferred",
+    "High humidity encourages better growth",
+    "Trailing or vining - provide support if needed",
+    "Can be propagated from stem cuttings"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Gentianales",
+    "family": "Apocynaceae",
+    "genus": "Hoya",
+    "species": "Hoya albiflora"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "very-rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 50,
+    "max": 60,
+    "ideal": 55
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

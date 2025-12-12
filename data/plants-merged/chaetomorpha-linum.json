@@ -1,0 +1,113 @@
+{
+  "id": 63,
+  "name": "Spaghetti Algae",
+  "scientificName": "Chaetomorpha linum",
+  "commonNames": [],
+  "category": [
+    "algae",
+    "aquatic"
+  ],
+  "substrate": "No Substrate Needed",
+  "size": "10-60 cm",
+  "growthRate": "Fast",
+  "description": "Chaetomorpha linum, commonly known as Spaghetti Algae, Green Hair Algae, or Chaeto, is a species of green macroalgae (Chlorophyta) native to marine and brackish water environments worldwide, including coastal regions of the Atlantic, Pacific, and Indian Oceans. It belongs to the Cladophoraceae family and features fine, hair-like, unbranched filaments that form dense, tangled masses resembling green spaghetti. The filaments are bright green and can reach 30-60 cm in length. The plant can grow as free-floating masses or attached to substrates. In its native habitat, it grows in shallow coastal waters, estuaries, and brackish environments. In aquariums and paludariums, this algae provides excellent nutrient export, helps maintain water quality by removing nitrates and phosphates, and can be used as a natural filtration system. It's extremely popular in marine and reef aquariums for its ability to outcompete nuisance algae.",
+  "careTips": [
+    "Excellent nutrient export - removes nitrates, phosphates, and other nutrients from water",
+    "Free-floating - can be placed in refugium or allowed to float in display tank",
+    "Fast growing - can be harvested regularly to remove nutrients from system",
+    "Helps maintain water quality - natural biological filtration",
+    "Native to marine and brackish waters worldwide - prefers saltwater or brackish conditions",
+    "Moderate to high light recommended (2-3 watts per gallon) for best growth",
+    "Prefers pH 7.8-8.4 and salinity 1.020-1.025 (marine) or brackish conditions",
+    "Benefits from water movement - helps prevent detritus accumulation",
+    "Non-toxic and safe for all aquarium inhabitants",
+    "Can be used in marine aquariums, paludariums, and ripariums",
+    "Propagates via fragmentation - simply break off pieces and they will grow",
+    "If algae turns pale, increase light or add nutrients",
+    "Regular harvesting encourages faster growth and better nutrient export"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Chlorophyta",
+    "class": "Ulvophyceae",
+    "order": "Cladophorales",
+    "family": "Cladophoraceae",
+    "genus": "Chaetomorpha",
+    "species": "Chaetomorpha linum"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "fully-aquatic",
+  "plantType": "algae",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Fragmentation, Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 100,
+    "max": 100,
+    "ideal": 100
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "aquatic",
+  "waterCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "temperatureRange": {
+    "min": 40,
+    "max": 56.00000000000001,
+    "ideal": 48
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "waterTemperatureRange": {
+    "min": 40,
+    "max": 56.00000000000001,
+    "ideal": 48
+  },
+  "waterPhRange": {
+    "min": 55.714285714285715,
+    "max": 60,
+    "ideal": 57.85714285714286
+  },
+  "waterHardnessRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  },
+  "salinityRange": {
+    "min": 66.66666666666673,
+    "max": 83.33333333333303,
+    "ideal": 74.99999999999989
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

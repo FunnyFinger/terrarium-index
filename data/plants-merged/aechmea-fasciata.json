@@ -1,0 +1,82 @@
+{
+  "id": 10366,
+  "name": "Silver Vase",
+  "scientificName": "Aechmea fasciata",
+  "commonNames": [],
+  "category": [
+    "bromeliad",
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "25-60 cm",
+  "growthRate": "Moderate",
+  "description": "Aechmea fasciata, commonly known as Silver Vase or Urn Plant, is an epiphytic bromeliad native to tropical regions of Brazil. It belongs to the Bromeliaceae family and features upright rosettes (30-60 cm tall) with large, dramatic, lance-shaped, dark green leaves with distinctive silver banding and central water-holding cups. The plant displays an upright rosette growth habit. Many bromeliads form central water-holding rosettes that create mini ecosystems. Adapted to tropical climates with high humidity, consistent warmth, and filtered light conditions. In its native habitat, it grows on tree branches in tropical forests. In terrariums or indoor settings, this plant adds natural beauty and greenery to any environment. It's extremely popular among bromeliad enthusiasts for its attractive silver-banded foliage and pink flower spikes.",
+  "careTips": [
+    "Keep central cup (vase) filled with water",
+    "Water soil sparingly - mainly keep cup filled",
+    "Bright indirect light preferred",
+    "High humidity beneficial",
+    "Remove dead leaves to maintain appearance"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Poales",
+    "family": "Bromeliaceae",
+    "genus": "Aechmea",
+    "species": "Aechmea fasciata"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "irregular",
+  "propagation": "Division, Offsets",
+  "colors": "Green, Silver, Pink, Red",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

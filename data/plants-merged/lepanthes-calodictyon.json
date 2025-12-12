@@ -1,0 +1,90 @@
+{
+  "id": 76,
+  "name": "Lepanthes",
+  "scientificName": "Lepanthes calodictyon",
+  "commonNames": [],
+  "category": [
+    "colorful",
+    "flowering",
+    "leafy",
+    "mini",
+    "orchid"
+  ],
+  "substrate": "Epiphytic Mix",
+  "size": "2-10 cm",
+  "growthRate": "Slow",
+  "description": "Lepanthes calodictyon, commonly known as Lepanthes, is one of the smallest orchid genera, with many species native to cloud forests and montane regions of Central and South America, particularly Costa Rica, Colombia, and Ecuador. It belongs to the Orchidaceae family and features extremely small, compact growth with tiny, dark green leaves (2-10 cm long) arranged in a fan-like pattern. The plant produces tiny but intricate flowers (often 2-5 mm) in various colors including red, orange, yellow, and purple. Many species have fascinating, complex floral structures despite their minute size. The plant displays an upright, compact growth habit and typically reaches 2-10 cm in height. In its native cloud forest habitat, it grows as an epiphyte on small twigs and branches in cool, humid, high-altitude environments. In terrariums or indoor settings, this plant adds vibrant colors and visual interest with its tiny but intricate flowers. It's popular among orchid enthusiasts for its miniature size and fascinating floral structures.",
+  "careTips": [
+    "Extremely small orchids - one of the smallest orchid genera, perfect for mini terrariums",
+    "Requires very high humidity (70-90%) - ideal for closed terrariums",
+    "Best mounted on small twigs or bark - epiphytic nature, needs air around roots",
+    "Fascinating, intricate flowers - despite tiny size, flowers are highly complex",
+    "Native to cloud forests of Central/South America - prefers cool, humid conditions (15-24°C)",
+    "Low to medium light is best - bright indirect light, avoid direct sun",
+    "Keep consistently moist but not waterlogged - mist regularly",
+    "Feed monthly with diluted orchid fertilizer (quarter strength) during growing season",
+    "Non-toxic to pets and humans",
+    "Can be grown in terrariums with high humidity or specialized orchid setups",
+    "Watch for root rot if kept too wet - ensure good drainage and air circulation",
+    "Flowers are tiny but highly specialized - use magnifying glass to appreciate details"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Asparagales",
+    "family": "Orchidaceae",
+    "genus": "Lepanthes",
+    "species": "Lepanthes calodictyon"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "very-rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "irregular",
+  "propagation": "Division, Pups, Seed",
+  "colors": "Red, Orange, Yellow, Purple, Green",
+  "humidityRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 10
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "orchid",
+  "temperatureRange": {
+    "min": 30,
+    "max": 48,
+    "ideal": 39
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  }
+}

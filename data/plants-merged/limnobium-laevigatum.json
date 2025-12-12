@@ -1,0 +1,114 @@
+{
+  "id": 49,
+  "name": "Frogbit",
+  "scientificName": "Limnobium laevigatum",
+  "commonNames": [],
+  "category": [
+    "aquatic"
+  ],
+  "substrate": "No Substrate Needed",
+  "size": "2-8 cm",
+  "growthRate": "Fast",
+  "description": "Limnobium laevigatum, commonly known as Amazon Frogbit, South American Spongeplant, or Smooth Frogbit, is a free-floating aquatic plant native to Central and South America, particularly the Amazon Basin. It belongs to the Hydrocharitaceae family and features round to heart-shaped, bright green leaves (3-8 cm across) that float on the water surface. The leaves have a spongy texture on the underside that helps them float, and they grow in rosettes. The plant displays a rosette growth habit and forms dense floating mats. It produces long, feathery roots (10-50 cm) that hang freely in the water, providing excellent cover for fish and other aquatic life. It produces small, white, three-petaled flowers that emerge above the water surface. In its native habitat, it grows floating on the surface of still or slow-moving water bodies in tropical regions. In terrariums or indoor settings, this plant provides excellent shade, natural filtration, and a tropical appearance. It's popular in aquariums for its fast growth and ability to provide cover.",
+  "careTips": [
+    "Floating plant - no substrate needed, roots hang freely in water",
+    "Long roots (10-50 cm) provide excellent cover for fish, shrimp, and fry",
+    "Fast growing - can quickly cover water surface, trim regularly to control",
+    "Provides shade for fish and helps reduce algae by blocking light",
+    "Native to Central and South America (Amazon Basin) - prefers warm water (20-28°C)",
+    "Moderate to high light recommended (2-3 watts per gallon) for best growth",
+    "Prefers pH 6.0-7.5 and soft to moderately hard water (2-12 dGH)",
+    "Benefits from regular fertilization - absorbs nutrients through roots from water",
+    "CO2 supplementation beneficial but not required",
+    "Non-toxic and safe for all aquarium inhabitants",
+    "Can be used in aquariums, paludariums, and ripariums",
+    "Propagates via stolons (runners) - daughter plants form on stolons",
+    "If leaves turn yellow, increase light or add fertilizer",
+    "Requires some water movement to prevent stagnant conditions",
+    "Leaves have spongy texture on underside that helps them float"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Alismatales",
+    "family": "Hydrocharitaceae",
+    "genus": "Limnobium",
+    "species": "Limnobium laevigatum"
+  },
+  "growthPattern": "rosette",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "fully-aquatic",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Division, Runners",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "aquatic",
+  "waterCirculationRange": {
+    "min": 10,
+    "max": 30,
+    "ideal": 20
+  },
+  "temperatureRange": {
+    "min": 40,
+    "max": 56.00000000000001,
+    "ideal": 48
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "waterTemperatureRange": {
+    "min": 40,
+    "max": 56.00000000000001,
+    "ideal": 48
+  },
+  "waterPhRange": {
+    "min": 42.857142857142854,
+    "max": 53.57142857142857,
+    "ideal": 48.21428571428571
+  },
+  "waterHardnessRange": {
+    "min": 6.666666666666667,
+    "max": 40,
+    "ideal": 23.333333333333332
+  },
+  "salinityRange": {
+    "min": 0,
+    "max": 5,
+    "ideal": 2.5
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

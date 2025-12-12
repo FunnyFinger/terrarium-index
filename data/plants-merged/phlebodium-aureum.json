@@ -1,0 +1,83 @@
+{
+  "id": 96,
+  "name": "Blue Star Fern",
+  "scientificName": "Phlebodium aureum",
+  "commonNames": [
+    "Golden Polypody",
+    "Polypody"
+  ],
+  "category": [
+    "fern",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "10-40 cm",
+  "growthRate": "Moderate",
+  "description": "Phlebodium aureum, commonly known as Blue Star Fern, Golden Polypody, or Cabbage Palm Fern, is an epiphytic fern native to tropical and subtropical regions of the Americas, from Florida and the Caribbean to South America. It belongs to the Polypodiaceae family and features broad, wavy, blue-green to silvery-blue fronds (20-40 cm long) with a distinctive blue tint that becomes more pronounced with good light. The fronds emerge from creeping, golden-brown rhizomes covered in scales. The plant displays an upright, arching growth habit and typically reaches 20-40 cm in height. In its native habitat, it grows as an epiphyte on tree trunks and branches in tropical forests. In terrariums or indoor settings, this plant provides lush, feathery texture with its distinctive blue-green coloration. It's popular among fern enthusiasts for its unique color and relatively easy care compared to other ferns.",
+  "careTips": [
+    "Blue tint more visible with good light",
+    "Creeping rhizomes can spread",
+    "More drought tolerant than most ferns",
+    "Easy to divide"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Polypodiopsida",
+    "order": "Polypodiales",
+    "family": "Polypodiaceae",
+    "genus": "Phlebodium",
+    "species": "Phlebodium aureum"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "tree-dwelling",
+  "plantType": "fern",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Spores, Division",
+  "colors": "Blue",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 54,
+    "ideal": 45
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

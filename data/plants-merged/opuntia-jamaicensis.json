@@ -1,0 +1,83 @@
+{
+  "id": 10423,
+  "name": "Opuntia 'Jamaican Ghost'",
+  "scientificName": "Opuntia jamaicensis",
+  "commonNames": [
+    "Nopal",
+    "Paddle Cactus",
+    "Prickly Pear"
+  ],
+  "category": [
+    "cactus",
+    "succulent"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "20-100 cm",
+  "growthRate": "Moderate",
+  "description": "Opuntia jamaicensis 'Jamaican Ghost' is a succulent cactus native to tropical regions of the Caribbean, particularly Jamaica. It belongs to the Cactaceae family and features upright, flattened, pad-like stems (30-100 cm tall) with small, dramatic, oval-shaped, gray-green to white-green pads with distinctive spines. The plant displays an upright growth habit. In its native habitat, it grows in dry, sunny areas. In terrariums or indoor settings, this plant adds natural beauty with its distinctive ghostly appearance. It's popular among cactus enthusiasts for its unique coloration.",
+  "careTips": [
+    "Bright indirect light recommended",
+    "Keep soil moist",
+    "Requires consistent care and attention",
+    "Monitor plant regularly for health"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Caryophyllales",
+    "family": "Cactaceae",
+    "genus": "Opuntia",
+    "species": "Opuntia jamaicensis"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "handle-with-care",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Offsets",
+  "colors": "Gray-green, White-green, Yellow",
+  "humidityRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 50,
+    "max": 90,
+    "ideal": 70
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "succulent",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

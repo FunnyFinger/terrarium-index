@@ -1,0 +1,89 @@
+{
+  "id": 10465,
+  "name": "Happy Bean Peperomia",
+  "scientificName": "Peperomia ferreyrae",
+  "commonNames": [
+    "Pincushion Peperomia",
+    "Green Bean Peperomia"
+  ],
+  "category": [
+    "succulent",
+    "leafy",
+    "mini",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "15-25 cm",
+  "growthRate": "Moderate",
+  "description": "Peperomia ferreyrae, commonly known as Happy Bean or Pincushion Peperomia, is a small, succulent perennial native to Peru. It features distinctive bright green, bean-shaped leaves that grow in a whorled pattern along its upright stems, giving it a unique, architectural appearance. The leaves are thick, fleshy, and succulent-like, with a glossy surface and a distinctive shape that resembles green beans or pincushions. The plant displays an upright, bushy growth habit and typically reaches 15-25 cm in height when grown indoors. The stems are often reddish-brown, providing a nice contrast to the bright green foliage. In its native habitat, it grows as an epiphyte or terrestrial plant in tropical forests, thriving in warm, humid conditions with filtered light. The plant produces small, greenish-white flower spikes on long stems, though it's primarily grown for its attractive, unusual foliage. It's an excellent choice for terrariums and indoor plant collections due to its compact size, low maintenance requirements, and distinctive bean-shaped leaves. The plant is non-toxic and safe for homes with pets. Its succulent nature makes it more drought-tolerant than other Peperomia species.",
+  "careTips": [
+    "Provide bright, indirect light - can tolerate some direct morning sun",
+    "Maintain moderate humidity (40-50%)",
+    "Allow soil to dry completely between waterings - more drought-tolerant than other Peperomias",
+    "Water thoroughly but infrequently to prevent root rot",
+    "Use well-draining succulent soil mix",
+    "Fertilize monthly during growing season with diluted succulent fertilizer",
+    "Reduce watering significantly in fall and winter",
+    "Protect from temperatures below 60°F (15°C)",
+    "Can be grown in smaller pots as it prefers to be slightly root-bound"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Piperales",
+    "family": "Piperaceae",
+    "genus": "Peperomia",
+    "species": "Peperomia ferreyrae"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "year-round",
+  "propagation": "Stem Cuttings, Leaf Cuttings",
+  "colors": "Green, Red",
+  "humidityRange": {
+    "min": 40,
+    "max": 50,
+    "ideal": 45
+  },
+  "lightRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "airCirculationRange": {
+    "min": 40,
+    "max": 70,
+    "ideal": 55
+  },
+  "waterNeedsRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "substrateType": "dry",
+  "specialNeeds": "succulent",
+  "temperatureRange": {
+    "min": 40,
+    "max": 52,
+    "ideal": 46
+  },
+  "difficultyRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

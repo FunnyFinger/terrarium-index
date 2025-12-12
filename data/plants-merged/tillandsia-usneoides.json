@@ -1,0 +1,96 @@
+{
+  "id": 108,
+  "name": "Spanish Moss",
+  "scientificName": "Tillandsia usneoides",
+  "commonNames": [
+    "Old Man's Beard",
+    "Tree Hair"
+  ],
+  "category": [
+    "air-plant",
+    "bromeliad",
+    "creeper",
+    "flowering",
+    "leafy",
+    "mini",
+    "moss",
+    "tropical"
+  ],
+  "substrate": "No Substrate Needed",
+  "size": "60-300 cm",
+  "growthRate": "Fast",
+  "description": "Tillandsia usneoides, commonly known as Spanish Moss, Old Man's Beard, or Florida Moss, is an epiphytic bromeliad native to the southeastern United States, Mexico, Central America, South America, and the Caribbean. Despite its name, it is not a true moss but a flowering plant in the Bromeliaceae family. It features long, gray-green, thread-like stems (60-300 cm or more) that hang in graceful, cascading curtains. The plant has no true roots and absorbs all water and nutrients through specialized scales (trichomes) on its leaves. Trichomes not only absorb moisture but also reflect light, giving the plant its silvery appearance. The plant displays a trailing, cascading growth habit and can reach lengths of 60-300 cm or more. It produces small, yellow-green, fragrant flowers, though flowering is infrequent. In its native habitat, it grows hanging from tree branches in humid, subtropical to tropical environments. In terrariums or indoor settings, this plant adds natural, aged appearance with its graceful, hanging form. It's popular for creating natural, weathered effects in terrariums.",
+  "careTips": [
+    "Epiphytic - no substrate needed, grows on trees or structures",
+    "Can hang or drape from branches or hanging displays",
+    "Mist 2-3 times per week or soak weekly in water",
+    "Thrives in humid environments like terrariums",
+    "Very adaptable to temperature - tolerates wide range",
+    "Bright indirect light to full sun - very adaptable",
+    "Obtains nutrients from air and rainfall",
+    "Gray-green color protects from excessive sun",
+    "Can be grown indoors in humid areas like kitchens or bathrooms",
+    "Easy to propagate from fragments or division",
+    "Drought tolerant once established",
+    "Perfect for creating natural hanging effects in terrariums"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Poales",
+    "family": "Bromeliaceae",
+    "genus": "Tillandsia",
+    "species": "Tillandsia usneoides"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "does-not-flower-in-cultivation",
+  "propagation": "Division, Fragmentation",
+  "colors": "Gray-green, Silver",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 20,
+    "max": 70,
+    "ideal": 45
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

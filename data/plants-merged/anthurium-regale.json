@@ -1,0 +1,80 @@
+{
+  "id": 256,
+  "name": "Anthurium regale",
+  "scientificName": "Anthurium regale",
+  "commonNames": [],
+  "category": [
+    "anthurium",
+    "flowering",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "40-120 cm",
+  "growthRate": "Moderate",
+  "description": "Anthurium regale × luxurians is a hybrid epiphytic aroid created by crossing Anthurium regale and Anthurium luxurians. It belongs to the Araceae family and features large, velvety, dark green to almost black leaves (40-80 cm long) with prominent white or silver veins that create stunning contrast. The leaves have a distinctive velvety texture. The plant displays an upright, compact growth habit and typically reaches 60-120 cm in height. It produces small, inconspicuous flowers typical of aroids. In terrariums or indoor settings, this plant adds dramatic interest with its large, velvety, veined leaves. It's extremely popular among aroid enthusiasts for its striking appearance and hybrid vigor.",
+  "careTips": [
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Monitor watering needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Anthurium",
+    "species": "Anthurium regale"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "toxic-if-ingested",
+  "rarity": "rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division, Seed",
+  "colors": "Red, White, Silver",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

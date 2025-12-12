@@ -1,0 +1,81 @@
+{
+  "id": 86,
+  "name": "Cape Sundew",
+  "scientificName": "Drosera capensis",
+  "commonNames": [
+    "Dew Plant"
+  ],
+  "category": [
+    "carnivorous",
+    "flowering"
+  ],
+  "substrate": "Epiphytic Mix",
+  "size": "6-8 cm",
+  "growthRate": "Moderate",
+  "description": "Drosera capensis, commonly known as Cape Sundew, is a carnivorous plant native to South Africa, particularly the Cape region. It belongs to the Droseraceae family and features upright, linear leaves (2-8 cm long) covered in red, sticky, glandular tentacles that glisten like dew in sunlight, hence the name \"sundew\". The sticky tentacles secrete a mucilage that traps insects, and the tentacles can move to wrap around trapped prey. The entire leaf can curl around larger insects within minutes. The plant displays an upright, rosette-forming growth habit and typically reaches 2-8 cm in height. It produces small, pink to purple flowers on tall stalks. In its native habitat, it grows in nutrient-poor, acidic soils in bogs and wetlands where carnivory supplements limited nutrients. In terrariums or indoor settings, this plant adds fascinating carnivorous interest with its glistening, dewy appearance. It's one of the easiest sundews to grow and is popular among carnivorous plant enthusiasts.",
+  "careTips": [
+    "Requires distilled/rain water only",
+    "Bright light essential",
+    "Keep very wet",
+    "Don't touch the sticky traps"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Caryophyllales",
+    "family": "Droseraceae",
+    "genus": "Drosera",
+    "species": "Drosera capensis"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division, Seed",
+  "colors": "Green, Red, Pink, Purple",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "moist",
+  "specialNeeds": "carnivorous",
+  "temperatureRange": {
+    "min": 36,
+    "max": 52,
+    "ideal": 44
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

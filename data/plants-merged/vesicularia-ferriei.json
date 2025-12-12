@@ -1,0 +1,112 @@
+{
+  "id": 60,
+  "name": "Weeping Moss",
+  "scientificName": "Vesicularia ferriei",
+  "commonNames": [],
+  "category": [
+    "aquatic",
+    "colorful",
+    "leafy",
+    "mini",
+    "moss"
+  ],
+  "substrate": "Attach To Driftwood Rocks Mesh",
+  "size": "3-15 cm",
+  "growthRate": "Moderate",
+  "description": "Vesicularia ferriei, commonly known as Weeping Moss, is an aquatic moss native to Southeast Asia, particularly China. It belongs to the Hypnaceae family and features distinctive downward-cascading growth that resembles a weeping willow tree. The stems branch and droop downward, creating a graceful, cascading appearance. The leaves are bright green and small, creating a delicate, feathery texture. The plant displays a cascading, mat-forming growth habit and typically reaches 5-15 cm in length when allowed to hang. It can grow fully submerged, floating, or attached to surfaces. In its native habitat, it grows in slow-moving or still water bodies, often attached to rocks or wood. In terrariums or indoor settings, this plant adds unique texture and visual interest with its distinctive weeping growth habit. It's extremely popular in aquascaping for creating depth and natural-looking cascades.",
+  "careTips": [
+    "Exhibits distinctive downward cascading growth like a weeping willow",
+    "Best attached to elevated surfaces like driftwood branches",
+    "Can be easily propagated by dividing and attaching small portions",
+    "Attach to hard surfaces where it will anchor and spread naturally",
+    "Provides excellent cover for small fish and invertebrates",
+    "Thrives in a range of water conditions - very adaptable",
+    "Relatively low-maintenance moss suitable for beginners",
+    "Creates depth and texture in aquascapes",
+    "Very attractive appearance with delicate drooping fronds"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Bryophyta",
+    "class": "Bryopsida",
+    "order": "Hypnales",
+    "family": "Hypnaceae",
+    "genus": "Vesicularia",
+    "species": "Vesicularia ferriei"
+  },
+  "growthPattern": "carpeting",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "fully-aquatic",
+  "plantType": "moss",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Division, Fragmentation",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 100,
+    "max": 100,
+    "ideal": 100
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "aquatic",
+  "waterCirculationRange": {
+    "min": 10,
+    "max": 30,
+    "ideal": 20
+  },
+  "temperatureRange": {
+    "min": 36,
+    "max": 56.00000000000001,
+    "ideal": 46
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "waterTemperatureRange": {
+    "min": 36,
+    "max": 56.00000000000001,
+    "ideal": 46
+  },
+  "waterPhRange": {
+    "min": 50,
+    "max": 57.1,
+    "ideal": 53.6
+  },
+  "waterHardnessRange": {
+    "min": 40,
+    "max": 66.67,
+    "ideal": 53.33
+  },
+  "salinityRange": {
+    "min": 0,
+    "max": 5,
+    "ideal": 2.5
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "id": 25,
+  "name": "Wandering Jew",
+  "scientificName": "Tradescantia zebrina",
+  "commonNames": [],
+  "category": [
+    "creeper",
+    "house-plant",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "20-90 cm",
+  "growthRate": "Fast",
+  "description": "Tradescantia zebrina, commonly known as Wandering Jew, Inch Plant, or Zebra Plant, is a fast-growing, trailing perennial native to Mexico, Central America, and Colombia. It belongs to the Commelinaceae family and features lanceolate to ovate leaves (5-10 cm long, 2-3 cm wide) with a distinctive striped pattern. The upper surface of the leaves is green to purple-green with two longitudinal silver stripes, while the underside is deep purple to burgundy. The leaves are slightly succulent and have a velvety texture. This vining plant features trailing or climbing growth and can reach lengths of 60-90 cm or more. It produces small, three-petaled, pink to purple flowers, though flowering is infrequent in indoor cultivation. Adapted to tropical climates with high humidity, consistent warmth, and filtered light conditions. In its native habitat, it grows as ground cover or on rocky slopes in shaded areas. In terrariums or indoor settings, this plant adds natural beauty and greenery to any environment. It's extremely easy to grow and propagate, making it popular among beginners.",
+  "careTips": [
+    "Very easy to grow - ideal for beginners and low-maintenance gardens",
+    "Propagates easily in water or soil - stem cuttings root within days",
+    "Pinch regularly to encourage bushiness and prevent leggy growth",
+    "Can handle some neglect - relatively drought-tolerant once established",
+    "Native to Mexico, Central America, Colombia - prefers moderate to warm temperatures (18-27°C)",
+    "Bright indirect light is best - some direct morning sun enhances leaf colors, too much sun can fade colors",
+    "Water when top inch of soil feels dry - allow slight drying between waterings",
+    "Well-draining substrate recommended - can tolerate various soil types",
+    "Moderate humidity (50-60%) is sufficient, though higher humidity promotes better growth",
+    "Feed monthly during growing season with balanced liquid fertilizer at half strength",
+    "Non-toxic to humans but can cause mild skin irritation in sensitive individuals",
+    "Can become invasive if planted outdoors in warm climates - keep contained",
+    "Watch for spider mites and aphids, especially in dry conditions",
+    "Leaves may lose variegation in low light - provide adequate light for best colors",
+    "Can be grown in hanging baskets, terrariums, or as ground cover"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Commelinales",
+    "family": "Commelinaceae",
+    "genus": "Tradescantia",
+    "species": "Tradescantia zebrina"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Layering",
+  "colors": "Red, Green",
+  "humidityRange": {
+    "min": 50,
+    "max": 60,
+    "ideal": 55
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 90
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 54,
+    "ideal": 45
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "_filename": "tradescantia-zebrina.json",
+  "_filePath": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants-merged\\tradescantia-zebrina.json"
+}

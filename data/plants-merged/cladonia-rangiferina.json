@@ -1,0 +1,87 @@
+{
+  "id": 69,
+  "name": "Lichens (Various)",
+  "scientificName": "Cladonia rangiferina",
+  "commonNames": [],
+  "category": [
+    "lichen"
+  ],
+  "substrate": "Attach To Driftwood Rocks Mesh",
+  "size": "1-5 cm",
+  "growthRate": "Slow",
+  "description": "Lichens are symbiotic organisms composed of a fungus (mycobiont) and an alga or cyanobacterium (photobiont) living together. Cladonia rangiferina, commonly known as Reindeer Lichen or Reindeer Moss, is one example of many lichen species that can be used in terrariums. Lichens are not true plants but composite organisms that form crusty, leafy, or shrubby growths on rocks, trees, and soil. They come in various colors including green, gray, yellow, orange, and red, depending on the species. Lichens are extremely slow-growing (often less than 1 mm per year) and can live for hundreds or even thousands of years. They are found in diverse habitats worldwide, from Arctic tundra to tropical rainforests. In terrariums or indoor settings, lichens add natural, aged appearance and unique texture. They require good air circulation, appropriate humidity, and indirect light. Many lichen species are protected, so only collect from nature if legal and sustainable.",
+  "careTips": [
+    "Very slow growing - often less than 1 mm per year, be patient",
+    "Adds natural aged appearance - creates authentic, weathered look",
+    "Best in moderate to high humidity (60-80%) with good air circulation",
+    "Collect from nature (if legal) - many species are protected, check local regulations",
+    "Requires good air circulation - avoid stagnant, overly humid conditions",
+    "Bright indirect light is best - avoid direct sunlight which can dry them out",
+    "Can attach to wood, rocks, or bark - press gently to anchor",
+    "Mist occasionally but avoid overwatering - lichens absorb moisture from air",
+    "Non-toxic and safe for terrarium inhabitants",
+    "Can be used in terrariums or paludariums with good ventilation",
+    "Propagates very slowly via fragmentation or spores - division is difficult",
+    "If lichen turns brittle or brown, increase humidity and check air circulation",
+    "Different species have different requirements - research specific species needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Fungi",
+    "phylum": "Ascomycota",
+    "class": "Lecanoromycetes",
+    "order": "Lecanorales",
+    "family": "Cladoniaceae",
+    "genus": "Cladonia",
+    "species": "Cladonia rangiferina"
+  },
+  "growthPattern": "clumping",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Fragmentation, Spores",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 20,
+    "max": 48,
+    "ideal": 34
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  }
+}

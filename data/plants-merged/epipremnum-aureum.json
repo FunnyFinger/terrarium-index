@@ -1,0 +1,79 @@
+{
+  "id": 343,
+  "name": "Golden Pothos",
+  "scientificName": "Epipremnum aureum",
+  "commonNames": [],
+  "category": [
+    "creeper",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "20-200 cm",
+  "growthRate": "Moderate",
+  "description": "Epipremnum aureum, commonly known as Pothos, Devil's Ivy, or Golden Pothos, is a climbing or trailing aroid native to French Polynesia, particularly the Society Islands. It belongs to the Araceae family and features heart-shaped to oval, glossy, green leaves (5-15 cm long) with yellow or white variegation patterns. The plant displays a climbing or trailing growth habit and can reach lengths of 2-3 meters or more. It produces small, inconspicuous flowers typical of aroids, though flowering is rare in cultivation. In its native habitat, it grows as an epiphyte on tree trunks and branches in tropical forests, receiving filtered sunlight through the dense canopy. In terrariums or indoor settings, this plant adds vibrant color with its variegated foliage and trailing habit. It's extremely popular as a houseplant for its easy care and attractive variegation.",
+  "careTips": [
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Monitor watering needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Epipremnum",
+    "species": "Epipremnum aureum"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "toxic-if-ingested",
+  "rarity": "uncommon",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "does-not-flower-in-cultivation",
+  "propagation": "Stem Cuttings",
+  "colors": "Green, Yellow, White, Variegated",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

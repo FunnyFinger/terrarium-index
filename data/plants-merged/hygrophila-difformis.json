@@ -1,0 +1,113 @@
+{
+  "id": 37,
+  "name": "Water Wisteria",
+  "scientificName": "Hygrophila difformis",
+  "commonNames": [],
+  "category": [
+    "aquatic"
+  ],
+  "substrate": "Rich Moisture Retentive",
+  "size": "10-50 cm",
+  "growthRate": "Fast",
+  "description": "Hygrophila difformis, commonly known as Water Wisteria, is a fast-growing aquatic plant native to marshy habitats in the Indian subcontinent, including India, Bangladesh, Nepal, and Bhutan. It belongs to the Acanthaceae family and features highly variable, deeply lobed to feathery leaves that change shape dramatically depending on growing conditions. When grown submerged, the leaves are typically deeply divided and feathery (5-8 cm long), while emersed leaves are more rounded and less divided. The leaves are bright green and arranged in opposite pairs along the stem. This plant displays an upright, bushy growth habit and can reach 20-50 cm in height. Known for rapid growth and ability to thrive both submerged and emersed. In its native habitat, it grows in shallow water, marshes, and along the edges of ponds and streams. In terrariums or indoor settings, this plant adds lush underwater forests with its fast-growing, feathery foliage. It's extremely popular in aquascaping for its ability to quickly fill space and provide background coverage.",
+  "careTips": [
+    "Very fast growing - can grow several inches per week under optimal conditions",
+    "Easy to propagate from stem cuttings - simply cut and replant, roots readily",
+    "Can grow emersed (above water) or submerged (fully aquatic) - adapts well to both",
+    "Benefits from regular fertilization - use liquid fertilizers or root tabs for best growth",
+    "Native to Indian subcontinent (India, Bangladesh, Nepal, Bhutan) - prefers warm water (22-28°C)",
+    "Moderate to high light (2-3 watts per gallon) for best growth and leaf development",
+    "Prefers pH 6.5-7.5 and soft to moderately hard water (2-12 dGH)",
+    "Nutrient-rich substrate recommended - benefits from root fertilization",
+    "CO2 supplementation beneficial but not required - promotes faster, fuller growth",
+    "Trim regularly to maintain shape and prevent overgrowth - can become invasive",
+    "Non-toxic and safe for all aquarium inhabitants",
+    "Can be used as background or midground plant in aquariums",
+    "When grown emersed, requires high humidity (70-90%) and consistently moist substrate",
+    "Leaves may melt when first introduced - new leaves will grow adapted to tank conditions"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Lamiales",
+    "family": "Acanthaceae",
+    "genus": "Hygrophila",
+    "species": "Hygrophila difformis"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "fully-aquatic",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 100,
+    "max": 100,
+    "ideal": 100
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "aquatic",
+  "waterCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "temperatureRange": {
+    "min": 44,
+    "max": 56.00000000000001,
+    "ideal": 50
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "waterTemperatureRange": {
+    "min": 44,
+    "max": 56.00000000000001,
+    "ideal": 50
+  },
+  "waterPhRange": {
+    "min": 46.42857142857143,
+    "max": 53.57142857142857,
+    "ideal": 50
+  },
+  "waterHardnessRange": {
+    "min": 6.666666666666667,
+    "max": 40,
+    "ideal": 23.333333333333332
+  },
+  "salinityRange": {
+    "min": 0,
+    "max": 5,
+    "ideal": 2.5
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

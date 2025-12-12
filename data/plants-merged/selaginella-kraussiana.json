@@ -1,0 +1,95 @@
+{
+  "id": 16,
+  "name": "Trailing Spikemoss",
+  "scientificName": "Selaginella kraussiana",
+  "commonNames": [
+    "African Clubmoss",
+    "Krauss's Spikemoss"
+  ],
+  "category": [
+    "lycophyte",
+    "leafy",
+    "spike-moss"
+  ],
+  "substrate": "Rich Moisture Retentive",
+  "size": "3-15 cm",
+  "growthRate": "Moderate",
+  "description": "Selaginella kraussiana, commonly known as African Clubmoss, Krauss's Spikemoss, or Trailing Spikemoss, is a primitive vascular plant native to Africa (particularly South Africa and tropical regions) and naturalized in New Zealand, the Azores, and parts of Europe. Despite its common names suggesting it's a moss or fern, it belongs to the Selaginellaceae family and is a lycophyte - an ancient group of vascular plants that predates both ferns and seed plants. It features small, scale-like leaves arranged in a flattened, branching pattern that creates a fern-like or moss-like appearance. The plant displays a creeping to semi-upright growth habit, forming dense mats or clumps. These are not true ferns but primitive vascular plants called \"spike mosses\" that can survive near-complete desiccation and revive when rehydrated - a process called poikilohydry shared with true mosses and some ferns. In terrariums or indoor settings, this plant adds ancient, prehistoric texture with its primitive fern-like appearance. The plant produces spores in cone-like structures (strobili) at the tips of branches, rather than flowers or seeds.",
+  "careTips": [
+    "Requires constant high humidity (70-90%) - ideal for closed terrariums or high-humidity environments",
+    "Can be sensitive to water quality - use distilled, rainwater, or filtered water to avoid mineral buildup",
+    "Propagates by division or stem cuttings - roots readily at nodes",
+    "Leaves curl when dry - this is a survival mechanism, rehydrate immediately",
+    "Native to Africa and naturalized in New Zealand - prefers warm, humid conditions (18-24°C)",
+    "Prefers bright indirect light to low light - avoid direct sunlight which can scorch leaves",
+    "Keep soil consistently moist but not waterlogged - allow slight drying between waterings",
+    "Well-draining substrate recommended - peat-based mix with perlite or sphagnum moss",
+    "Can be grown as ground cover in terrariums or in hanging baskets",
+    "Watch for spider mites and mealybugs in low humidity conditions",
+    "Non-toxic to pets and humans",
+    "If leaves turn brown, increase humidity and check watering schedule",
+    "Can be grown outdoors in USDA zones 9-11 in shaded, humid locations",
+    "Fertilize monthly during growing season with diluted balanced fertilizer (quarter strength)"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Selaginellopsida",
+    "order": "Selaginellales",
+    "family": "Selaginellaceae",
+    "genus": "Selaginella",
+    "species": "Selaginella kraussiana"
+  },
+  "growthPattern": "carpeting",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "spikemoss",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Division, Stem Cuttings",
+  "colors": "Red",
+  "humidityRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 10
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "_filename": "selaginella-kraussiana.json",
+  "_filePath": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants-merged\\selaginella-kraussiana.json"
+}

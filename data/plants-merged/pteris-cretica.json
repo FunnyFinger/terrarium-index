@@ -1,0 +1,86 @@
+{
+  "id": 380,
+  "name": "Cretan Brake Fern",
+  "scientificName": "Pteris cretica",
+  "commonNames": [],
+  "category": [
+    "fern",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "30-60 cm",
+  "growthRate": "Moderate",
+  "description": "Pteris cretica, commonly known as Cretan Brake Fern or Ribbon Fern, is an elegant fern native to Europe, Asia, and Africa. It features arching fronds with long, narrow pinnae (leaflets) that create a graceful, ribbon-like appearance. The fronds can be solid green or variegated with white or cream stripes down the center. The plant displays an upright to arching growth habit and typically reaches 30-60 cm in height. It's a popular houseplant and terrarium fern due to its elegant appearance and relatively easy care requirements. The fern thrives in high humidity and filtered light, making it ideal for closed terrarium environments.",
+  "careTips": [
+    "Provide bright, indirect light - avoid direct sun",
+    "Maintain high humidity (70-85%)",
+    "Keep soil consistently moist but not waterlogged",
+    "Well-draining, organic-rich substrate",
+    "Temperature: 18-24°C (65-75°F)",
+    "Can tolerate lower light but grows best in bright indirect light",
+    "Propagates by spores or division",
+    "Non-toxic to pets and humans",
+    "Fertilize monthly during growing season with diluted fertilizer",
+    "Mist regularly or provide high humidity"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Polypodiopsida",
+    "order": "Pteridales",
+    "family": "Pteridaceae",
+    "genus": "Pteris",
+    "species": "Pteris cretica"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "fern",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Spores, Division",
+  "colors": "Green, White",
+  "humidityRange": {
+    "min": 70,
+    "max": 85,
+    "ideal": 77
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "waterNeedsRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 18,
+    "max": 24,
+    "ideal": 21
+  },
+  "difficultyRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "soilPhRange": {
+    "min": 5.5,
+    "max": 6.5,
+    "ideal": 6
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

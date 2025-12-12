@@ -1,0 +1,82 @@
+{
+  "id": 101,
+  "name": "Aloe Vera",
+  "scientificName": "Aloe vera",
+  "commonNames": [
+    "Burn Plant",
+    "First Aid Plant",
+    "Medicinal Aloe"
+  ],
+  "category": [
+    "succulent"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "5-20 cm",
+  "growthRate": "Moderate",
+  "description": "Aloe vera, commonly known as Aloe, Medicinal Aloe, or Burn Plant, is a succulent native to the Arabian Peninsula, though it has been naturalized in many tropical and subtropical regions worldwide. It belongs to the Asphodelaceae family and features rosettes of thick, fleshy, lance-shaped, gray-green leaves (5-20 cm long) with serrated edges and white spots. The leaves contain a gel-like substance that has been used medicinally for centuries. The plant displays an upright, rosette-forming growth habit and typically reaches 5-20 cm in height (larger when mature). It produces tall spikes of yellow to orange, tubular flowers, though flowering is infrequent in cultivation. In its native habitat, it grows in well-draining, sandy or rocky soils in arid to semi-arid regions. In terrariums or indoor settings, this plant adds natural beauty with its distinctive rosette form. It's extremely popular for its easy care and medicinal properties.",
+  "careTips": [
+    "Very easy to care for",
+    "Don't overwater",
+    "Prefers bright light",
+    "Produces offsets for propagation"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Asparagales",
+    "family": "Asphodelaceae",
+    "genus": "Aloe",
+    "species": "Aloe vera"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "handle-with-care",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Leaf Cuttings, Stem Cuttings, Offsets",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 50,
+    "max": 90,
+    "ideal": 70
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "succulent",
+  "temperatureRange": {
+    "min": 36,
+    "max": 54,
+    "ideal": 45
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

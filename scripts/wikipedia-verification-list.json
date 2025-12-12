@@ -1,0 +1,473 @@
+{
+  "botanicalNamesUsed": [
+    {
+      "file": "adenia-lanceolata.json",
+      "name": "Adenia lanceolata",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "adenia-lindiensis.json",
+      "name": "Adenia lindiensis",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "adenia-viridiflora.json",
+      "name": "Adenia viridiflora",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "adenium-glauca.json",
+      "name": "Adenium glauca",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "aechmea-fasciata.json",
+      "name": "Aechmea fasciata",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "aeschynanthus-humilis.json",
+      "name": "Aeschynanthus humilis",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "aeschynanthus-spec.json",
+      "name": "Aeschynanthus spec",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "aeschynanthus-speciosus.json",
+      "name": "Aeschynanthus speciosus",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "agave-filifera.json",
+      "name": "Agave filifera",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "agave-lophantha.json",
+      "name": "Agave lophantha",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "agave-macroacantha.json",
+      "name": "Agave macroacantha",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "agave-titanota.json",
+      "name": "Agave titanota",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "anathallis-minutalis.json",
+      "name": "Anathallis minutalis",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "anoectochilus-burmanicus.json",
+      "name": "Anoectochilus burmanicus",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "aspidogyne-argentea.json",
+      "name": "Aspidogyne argentea",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "asplenium-scolopendrium.json",
+      "name": "Asplenium scolopendrium",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "cryptanthus-bivittatus.json",
+      "name": "Cryptanthus bivittatus",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "cryptanthus-zonatus.json",
+      "name": "Cryptanthus zonatus",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "cyathea-cooperi.json",
+      "name": "Cyathea cooperi",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "elaphoglossum-crinitum.json",
+      "name": "Elaphoglossum crinitum",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "elaphoglossum-metallicum.json",
+      "name": "Elaphoglossum metallicum",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "humata-heterophylla.json",
+      "name": "Humata heterophylla",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "monstera-acacoyaguensis.json",
+      "name": "Monstera acacoyaguensis",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "monstera-aureopinnata.json",
+      "name": "Monstera aureopinnata",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "monstera-dissecta.json",
+      "name": "Monstera dissecta",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "monstera-egregia.json",
+      "name": "Monstera egregia",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "monstera-lechleriana.json",
+      "name": "Monstera lechleriana",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "monstera-subpinnata.json",
+      "name": "Monstera subpinnata",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "philodendron-billietiae.json",
+      "name": "Philodendron billietiae",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "philodendron-brandtianum.json",
+      "name": "Philodendron brandtianum",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "philodendron-grandipes.json",
+      "name": "Philodendron grandipes",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "philodendron-holtonianum.json",
+      "name": "Philodendron holtonianum",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "philodendron-joepii.json",
+      "name": "Philodendron joepii",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "philodendron-mamei.json",
+      "name": "Philodendron mamei",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "philodendron-micans.json",
+      "name": "Philodendron micans",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "philodendron-microstictum.json",
+      "name": "Philodendron microstictum",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "philodendron-pendulatum.json",
+      "name": "Philodendron pendulatum",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "philodendron-polypodioides.json",
+      "name": "Philodendron polypodioides",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "philodendron-squamiferum.json",
+      "name": "Philodendron squamiferum",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "restrepia-tsubatae.json",
+      "name": "Restrepia tsubatae",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "tillandsia-andreana.json",
+      "name": "Tillandsia andreana",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "tillandsia-capitata.json",
+      "name": "Tillandsia capitata",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "tillandsia-flabellata.json",
+      "name": "Tillandsia flabellata",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "tillandsia-pruinosa.json",
+      "name": "Tillandsia pruinosa",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "tillandsia-stricta.json",
+      "name": "Tillandsia stricta",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "tillandsia-duratii.json",
+      "name": "Tillandsia duratii",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "adenia-lanceolata.json",
+      "name": "Adenia lanceolata",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "adenia-lindiensis.json",
+      "name": "Adenia lindiensis",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "adenia-viridiflora.json",
+      "name": "Adenia viridiflora",
+      "note": "Botanical name commonly used - OK"
+    },
+    {
+      "file": "asplenium-bulbiferum.json",
+      "name": "Asplenium bulbiferum",
+      "note": "Botanical name commonly used - OK"
+    }
+  ],
+  "needsVerification": [
+    {
+      "file": "acanthostachys-strobilacea-bromeliad.json",
+      "name": "Acanthostachys strobilacea",
+      "scientificName": "Acanthostachys strobilacea",
+      "searchQuery": "Acanthostachys strobilacea common name",
+      "wikipediaSearch": "https://en.wikipedia.org/wiki/Acanthostachys_strobilacea"
+    },
+    {
+      "file": "achimenes-erecta-m.json",
+      "name": "Achimenes erecta",
+      "scientificName": "Achimenes erecta",
+      "searchQuery": "Achimenes erecta common name",
+      "wikipediaSearch": "https://en.wikipedia.org/wiki/Achimenes_erecta"
+    },
+    {
+      "file": "albuca-humilis.json",
+      "name": "Albuca humilis",
+      "scientificName": "Albuca humilis",
+      "searchQuery": "Albuca humilis common name",
+      "wikipediaSearch": "https://en.wikipedia.org/wiki/Albuca_humilis"
+    },
+    {
+      "file": "albuca-spiralis.json",
+      "name": "Albuca spiralis",
+      "scientificName": "Albuca spiralis",
+      "searchQuery": "Albuca spiralis common name",
+      "wikipediaSearch": "https://en.wikipedia.org/wiki/Albuca_spiralis"
+    },
+    {
+      "file": "ananas-nanus.json",
+      "name": "Ananas nanus",
+      "scientificName": "Ananas nanus",
+      "searchQuery": "Ananas nanus common name",
+      "wikipediaSearch": "https://en.wikipedia.org/wiki/Ananas_nanus"
+    },
+    {
+      "file": "anoectochillus-formosanus.json",
+      "name": "Anoectochillus formosanus",
+      "scientificName": "Anoectochillus formosanus",
+      "searchQuery": "Anoectochillus formosanus common name",
+      "wikipediaSearch": "https://en.wikipedia.org/wiki/Anoectochillus_formosanus"
+    },
+    {
+      "file": "anoectochillus-reinwardtii.json",
+      "name": "Anoectochillus reinwardtii",
+      "scientificName": "Anoectochillus reinwardtii",
+      "searchQuery": "Anoectochillus reinwardtii common name",
+      "wikipediaSearch": "https://en.wikipedia.org/wiki/Anoectochillus_reinwardtii"
+    },
+    {
+      "file": "anoectochillus-roxburghii.json",
+      "name": "Anoectochillus roxburghii",
+      "scientificName": "Anoectochillus roxburghii",
+      "searchQuery": "Anoectochillus roxburghii common name",
+      "wikipediaSearch": "https://en.wikipedia.org/wiki/Anoectochillus_roxburghii"
+    },
+    {
+      "file": "ardisia-sp.json",
+      "name": "Ardisia sp",
+      "scientificName": "Ardisia sp",
+      "searchQuery": "Ardisia sp common name",
+      "wikipediaSearch": "https://en.wikipedia.org/wiki/Ardisia_sp"
+    },
+    {
+      "file": "argostemma-bicolor.json",
+      "name": "Argostemma bicolor",
+      "scientificName": "Argostemma bicolor",
+      "searchQuery": "Argostemma bicolor common name",
+      "wikipediaSearch": "https://en.wikipedia.org/wiki/Argostemma_bicolor"
+    },
+    {
+      "file": "aristolochia-fimbriata.json",
+      "name": "Aristolochia fimbriata",
+      "scientificName": "Aristolochia fimbriata",
+      "searchQuery": "Aristolochia fimbriata common name",
+      "wikipediaSearch": "https://en.wikipedia.org/wiki/Aristolochia_fimbriata"
+    },
+    {
+      "file": "aristolochia-littoralis.json",
+      "name": "Aristolochia littoralis",
+      "scientificName": "Aristolochia littoralis",
+      "searchQuery": "Aristolochia littoralis common name",
+      "wikipediaSearch": "https://en.wikipedia.org/wiki/Aristolochia_littoralis"
+    },
+    {
+      "file": "asarum-splendens.json",
+      "name": "Asarum splendens",
+      "scientificName": "Asarum splendens",
+      "searchQuery": "Asarum splendens common name",
+      "wikipediaSearch": "https://en.wikipedia.org/wiki/Asarum_splendens"
+    },
+    {
+      "file": "aspidistra-eliator.json",
+      "name": "Aspidistra eliator",
+      "scientificName": "Aspidistra eliator",
+      "searchQuery": "Aspidistra eliator common name",
+      "wikipediaSearch": "https://en.wikipedia.org/wiki/Aspidistra_eliator"
+    },
+    {
+      "file": "astilboides-tabularis.json",
+      "name": "Astilboides tabularis",
+      "scientificName": "Astilboides tabularis",
+      "searchQuery": "Astilboides tabularis common name",
+      "wikipediaSearch": "https://en.wikipedia.org/wiki/Astilboides_tabularis"
+    },
+    {
+      "file": "byblis-liniflora.json",
+      "name": "Byblis liniflora",
+      "scientificName": "Byblis liniflora",
+      "searchQuery": "Byblis liniflora common name",
+      "wikipediaSearch": "https://en.wikipedia.org/wiki/Byblis_liniflora"
+    },
+    {
+      "file": "dossinia-marmorata.json",
+      "name": "Dossinia marmorata",
+      "scientificName": "Dossinia marmorata",
+      "searchQuery": "Dossinia marmorata common name",
+      "wikipediaSearch": "https://en.wikipedia.org/wiki/Dossinia_marmorata"
+    },
+    {
+      "file": "drosophyllum-lusitanicum.json",
+      "name": "Drosophyllum lusitanicum",
+      "scientificName": "Drosophyllum lusitanicum",
+      "searchQuery": "Drosophyllum lusitanicum common name",
+      "wikipediaSearch": "https://en.wikipedia.org/wiki/Drosophyllum_lusitanicum"
+    },
+    {
+      "file": "genlisea-violacea.json",
+      "name": "Genlisea violacea",
+      "scientificName": "Genlisea violacea",
+      "searchQuery": "Genlisea violacea common name",
+      "wikipediaSearch": "https://en.wikipedia.org/wiki/Genlisea_violacea"
+    },
+    {
+      "file": "goodyera-daibuzanensis.json",
+      "name": "Goodyera daibuzanensis",
+      "scientificName": "Goodyera daibuzanensis",
+      "searchQuery": "Goodyera daibuzanensis common name",
+      "wikipediaSearch": "https://en.wikipedia.org/wiki/Goodyera_daibuzanensis"
+    },
+    {
+      "file": "macrocentrum-droseroides.json",
+      "name": "Macrocentrum droseroides",
+      "scientificName": "Macrocentrum droseroides",
+      "searchQuery": "Macrocentrum droseroides common name",
+      "wikipediaSearch": "https://en.wikipedia.org/wiki/Macrocentrum_droseroides"
+    },
+    {
+      "file": "senecio-coccineiflorus.json",
+      "name": "Senecio coccineiflorus",
+      "scientificName": "Senecio coccineiflorus",
+      "searchQuery": "Senecio coccineiflorus common name",
+      "wikipediaSearch": "https://en.wikipedia.org/wiki/Senecio_coccineiflorus"
+    },
+    {
+      "file": "acanthostachys-pitcairnioides-bromeliad.json",
+      "name": "Acanthostachys pitcairnioides",
+      "scientificName": "Acanthostachys pitcairnioides",
+      "searchQuery": "Acanthostachys pitcairnioides common name",
+      "wikipediaSearch": "https://en.wikipedia.org/wiki/Acanthostachys_pitcairnioides"
+    },
+    {
+      "file": "acanthostachys-strobilacea-bromeliad.json",
+      "name": "Acanthostachys strobilacea",
+      "scientificName": "Acanthostachys strobilacea",
+      "searchQuery": "Acanthostachys strobilacea common name",
+      "wikipediaSearch": "https://en.wikipedia.org/wiki/Acanthostachys_strobilacea"
+    },
+    {
+      "file": "actiniopteris-radiata.json",
+      "name": "Actiniopteris radiata",
+      "scientificName": "Actiniopteris radiata",
+      "searchQuery": "Actiniopteris radiata common name",
+      "wikipediaSearch": "https://en.wikipedia.org/wiki/Actiniopteris_radiata"
+    },
+    {
+      "file": "adiantum-hispidulum.json",
+      "name": "Adiantum hispidulum",
+      "scientificName": "Adiantum hispidulum",
+      "searchQuery": "Adiantum hispidulum common name",
+      "wikipediaSearch": "https://en.wikipedia.org/wiki/Adiantum_hispidulum"
+    },
+    {
+      "file": "adiantum-reniformis.json",
+      "name": "Adiantum reniformis",
+      "scientificName": "Adiantum reniformis",
+      "searchQuery": "Adiantum reniformis common name",
+      "wikipediaSearch": "https://en.wikipedia.org/wiki/Adiantum_reniformis"
+    },
+    {
+      "file": "aglaomorpha-brooksii.json",
+      "name": "Aglaomorpha brooksii",
+      "scientificName": "Aglaomorpha brooksii",
+      "searchQuery": "Aglaomorpha brooksii common name",
+      "wikipediaSearch": "https://en.wikipedia.org/wiki/Aglaomorpha_brooksii"
+    },
+    {
+      "file": "adiantum-hispidulum.json",
+      "name": "Adiantum hispidulum",
+      "scientificName": "Adiantum hispidulum",
+      "searchQuery": "Adiantum hispidulum common name",
+      "wikipediaSearch": "https://en.wikipedia.org/wiki/Adiantum_hispidulum"
+    },
+    {
+      "file": "adiantum-reniformis.json",
+      "name": "Adiantum reniformis",
+      "scientificName": "Adiantum reniformis",
+      "searchQuery": "Adiantum reniformis common name",
+      "wikipediaSearch": "https://en.wikipedia.org/wiki/Adiantum_reniformis"
+    },
+    {
+      "file": "aglaomorpha-brooksii.json",
+      "name": "Aglaomorpha brooksii",
+      "scientificName": "Aglaomorpha brooksii",
+      "searchQuery": "Aglaomorpha brooksii common name",
+      "wikipediaSearch": "https://en.wikipedia.org/wiki/Aglaomorpha_brooksii"
+    }
+  ]
+}

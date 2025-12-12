@@ -1,0 +1,87 @@
+{
+  "id": 10463,
+  "name": "Emerald Ripple Peperomia",
+  "scientificName": "Peperomia caperata",
+  "commonNames": [
+    "Ripple Peperomia"
+  ],
+  "category": [
+    "colorful",
+    "leafy",
+    "mini",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "15-30 cm",
+  "growthRate": "Moderate",
+  "description": "Peperomia caperata, commonly known as Emerald Ripple Peperomia, is a compact, evergreen perennial native to Brazil. It features distinctive heart-shaped, deeply corrugated leaves that range in color from deep green to rich burgundy, creating a striking textured appearance. The leaves have a rippled or quilted surface that gives the plant its common name. The plant displays a compact, bushy growth habit and typically reaches 15-30 cm in height and spread when grown indoors. The deeply textured leaves catch and reflect light beautifully, adding visual interest to any indoor space. In its native habitat, it grows as an understory plant in tropical forests, thriving in warm, humid conditions with filtered light. The plant produces small, white flower spikes on long stems, though it's primarily grown for its attractive, textured foliage. It's well-suited for indoor environments due to its manageable size, low maintenance requirements, and distinctive appearance. The plant is non-toxic and safe for homes with pets. Various cultivars are available, including 'Luna Red' with burgundy leaves and 'Rosso' with red undersides.",
+  "careTips": [
+    "Provide bright, indirect light - avoid direct sunlight",
+    "Maintain moderate to high humidity (50-60%)",
+    "Allow top inch of soil to dry between waterings",
+    "Water thoroughly but avoid overwatering to prevent root rot",
+    "Use well-draining soil to prevent waterlogging",
+    "Fertilize every 4-6 weeks during growing season with diluted fertilizer",
+    "Reduce watering frequency in fall and winter",
+    "Protect from temperatures below 65°F (18°C)"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Piperales",
+    "family": "Piperaceae",
+    "genus": "Peperomia",
+    "species": "Peperomia caperata"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "year-round",
+  "propagation": "Stem Cuttings, Leaf Cuttings",
+  "colors": "Green, Burgundy, Red, White",
+  "humidityRange": {
+    "min": 50,
+    "max": 60,
+    "ideal": 55
+  },
+  "lightRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "airCirculationRange": {
+    "min": 40,
+    "max": 70,
+    "ideal": 55
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 40,
+    "max": 52,
+    "ideal": 46
+  },
+  "difficultyRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

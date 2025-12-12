@@ -1,0 +1,114 @@
+{
+  "id": 59,
+  "name": "Christmas Moss",
+  "scientificName": "Vesicularia montagnei",
+  "commonNames": [],
+  "category": [
+    "creeper",
+    "leafy",
+    "moss",
+    "tropical"
+  ],
+  "substrate": "Attach To Driftwood Rocks Mesh",
+  "size": "1-10 cm",
+  "growthRate": "Moderate",
+  "description": "Vesicularia montagnei (synonym: Vesicularia dubyana), commonly known as Christmas Moss, Xmas Moss, or Java Moss (though different from Taxiphyllum barbieri), is an aquatic and semi-aquatic moss native to tropical regions of Southeast Asia, particularly India, Thailand, and the Philippines. It belongs to the Hypnaceae family and features branching stems covered in small, overlapping leaves arranged in a distinctive triangular pattern that resembles a Christmas tree, hence its common name. The leaves are bright green and create a dense, bushy appearance. The plant displays a mat-forming, creeping growth habit and typically reaches 1-10.2 cm in height. It can grow fully submerged, floating, or attached to surfaces. In its native habitat, it grows in slow-moving or still water bodies, often attached to rocks or wood. In terrariums or indoor settings, this plant provides excellent ground cover, water filtration, and hiding places for small aquatic life. It's extremely popular in aquascaping for its unique appearance and versatility.",
+  "careTips": [
+    "Can grow fully submerged, terrestrially, or epiphytically",
+    "When terrestrial: Keep moist at all times - particularly important during acclimation",
+    "Use distilled or purified water to prevent streaks on glass",
+    "Place chunks of Sphagnum Moss underneath when planting epiphytically for moisture retention",
+    "Requires warm temperature and very high humidity when grown out of water",
+    "Can be challenging to grow with other plants due to higher moisture needs",
+    "Use water dropper for precise watering in mixed plant terrariums",
+    "Can be easily propagated through division or trimmed into small cuttings",
+    "Excellent for carpeting or attaching to hardscape",
+    "Works well in pure moss terrariums or tank-style tropical terrariums",
+    "Avoid direct sunlight which can dry out this moisture-sensitive moss",
+    "Artificial lighting helpful for optimum growth without drying risk"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Bryophyta",
+    "class": "Bryopsida",
+    "order": "Hypnales",
+    "family": "Hypnaceae",
+    "genus": "Vesicularia",
+    "species": "Vesicularia montagnei"
+  },
+  "growthPattern": "carpeting",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "fully-aquatic",
+  "plantType": "moss",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Division, Fragmentation",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 10
+  },
+  "waterNeedsRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "aquatic",
+  "waterCirculationRange": {
+    "min": 10,
+    "max": 30,
+    "ideal": 20
+  },
+  "temperatureRange": {
+    "min": 42,
+    "max": 64,
+    "ideal": 53
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "waterTemperatureRange": {
+    "min": 42,
+    "max": 64,
+    "ideal": 53
+  },
+  "waterPhRange": {
+    "min": 50,
+    "max": 57.1,
+    "ideal": 53.6
+  },
+  "waterHardnessRange": {
+    "min": 40,
+    "max": 66.67,
+    "ideal": 53.33
+  },
+  "salinityRange": {
+    "min": 0,
+    "max": 5,
+    "ideal": 2.5
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

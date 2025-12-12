@@ -1,0 +1,84 @@
+{
+  "id": 53,
+  "name": "Star Moss",
+  "scientificName": "Syntrichia ruralis",
+  "commonNames": [],
+  "category": [
+    "colorful",
+    "creeper",
+    "leafy",
+    "moss"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "2-4 cm",
+  "growthRate": "Moderate",
+  "description": "Syntrichia ruralis, commonly known as Star Moss, Rural Haircap Moss, or Syntrichia Moss, is a hardy terrestrial moss native to a wide range of climates worldwide, from Arctic regions to temperate zones to deserts. It belongs to the Pottiaceae family and features distinctive tuft-forming growth with star-like arrangements of leaves. The leaves are bright green when wet and curl tightly around the stem when dry, turning reddish-brown. The plant displays a tuft-forming, clumping growth habit and typically reaches 4 cm in height. It's extremely drought-tolerant and can survive complete desiccation for many years, reviving when rehydrated. In its native habitat, it grows on soil, rocks, walls, and tree bark in various climates. In terrariums or indoor settings, this plant adds unique texture and visual interest with its color-changing ability and distinctive star-like appearance.",
+  "careTips": [
+    "Extremely drought tolerant - can survive desiccation for many years",
+    "Curls when dry (leaves wrap around stem) - expands when wet",
+    "Changes color from bright green (wet) to reddish brown (dry)",
+    "Tolerates a wide variety of light conditions",
+    "Prefers calcareous soils but adapts to many soil types",
+    "Can become metabolically active again after decades of desiccation",
+    "Forms distinctive tufts perfect for terrarium displays"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Bryophyta",
+    "class": "Bryopsida",
+    "order": "Pottiales",
+    "family": "Pottiaceae",
+    "genus": "Syntrichia",
+    "species": "Syntrichia ruralis"
+  },
+  "growthPattern": "clumping",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "moss",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Division, Spores",
+  "colors": "Green, Brown",
+  "humidityRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 10
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 40,
+    "max": 50,
+    "ideal": 45
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

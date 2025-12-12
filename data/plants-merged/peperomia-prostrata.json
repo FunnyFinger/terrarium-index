@@ -1,0 +1,87 @@
+{
+  "id": 10464,
+  "name": "String of Turtles",
+  "scientificName": "Peperomia prostrata",
+  "commonNames": [
+    "Turtle Vine"
+  ],
+  "category": [
+    "creeper",
+    "leafy",
+    "mini",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "5-60 cm",
+  "growthRate": "Moderate",
+  "description": "Peperomia prostrata, commonly known as String of Turtles, is a charming trailing plant native to Brazil's rainforest understory. It features small, round to oval leaves with distinctive turtle-shell-like patterns of dark green veins on a lighter green background, giving it its common name. The leaves are succulent-like, thick, and fleshy, arranged alternately along thin, trailing stems. The plant displays a trailing, cascading growth habit and typically reaches 5-15 cm in height while trailing stems can extend 30-60 cm or more in length. The unique leaf pattern, resembling turtle shells, makes it a highly sought-after plant for hanging baskets and terrariums. In its native habitat, it grows as an epiphyte or terrestrial plant in the humid, shaded understory of tropical rainforests. The plant produces small, white flower spikes on long stems, though it's primarily grown for its attractive, patterned foliage. It's an excellent choice for terrariums and hanging displays due to its compact size, trailing habit, and preference for high humidity. The plant is non-toxic and safe for homes with pets.",
+  "careTips": [
+    "Provide bright, indirect light - avoid direct sunlight",
+    "Maintain moderate to high humidity (50-70%)",
+    "Allow top inch of soil to dry between waterings",
+    "Use well-draining, airy soil to prevent root rot",
+    "Water thoroughly but avoid overwatering",
+    "Fertilize monthly during growing season with diluted fertilizer",
+    "Ideal for hanging baskets and terrariums",
+    "Protect from temperatures below 65°F (18°C)"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Piperales",
+    "family": "Piperaceae",
+    "genus": "Peperomia",
+    "species": "Peperomia prostrata"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "year-round",
+  "propagation": "Stem Cuttings, Leaf Cuttings",
+  "colors": "Green, White",
+  "humidityRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "lightRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "airCirculationRange": {
+    "min": 40,
+    "max": 70,
+    "ideal": 55
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 40,
+    "max": 52,
+    "ideal": 46
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

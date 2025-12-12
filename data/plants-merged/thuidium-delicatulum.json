@@ -1,0 +1,89 @@
+{
+  "id": 56,
+  "name": "Fern Moss",
+  "scientificName": "Thuidium delicatulum",
+  "commonNames": [],
+  "category": [
+    "creeper",
+    "fern",
+    "leafy",
+    "moss"
+  ],
+  "substrate": "Decaying Wood",
+  "size": "2-10 cm",
+  "growthRate": "Moderate",
+  "description": "Thuidium delicatulum, commonly known as Fern Moss or Delicate Fern Moss, is a terrestrial moss native to temperate regions of North America, Europe, and Asia. It belongs to the Thuidiaceae family and features a distinctive fern-like appearance with feathery, branching stems covered in small, overlapping leaves. The leaves are bright green and arranged in a pinnate (fern-like) pattern, creating a lush, feathery texture. The plant displays a mat-forming, creeping growth habit and typically reaches 3-10 cm in height. It forms dense, carpet-like mats that spread horizontally. In its native habitat, it grows on soil, rocks, tree bark, and decaying wood in shaded, moist areas of forests. In terrariums or indoor settings, this plant provides lush, feathery texture and excellent ground cover. It's popular for its fern-like appearance and fast growth rate compared to other mosses.",
+  "careTips": [
+    "Fern-like appearance with feathery, branching stems - unique among mosses",
+    "Fast growing for a moss - can spread quickly to form dense mats",
+    "Forms dense mats - excellent for covering substrate in terrariums",
+    "Excellent groundcover - creates lush, forest-floor appearance",
+    "Native to temperate regions - prefers cool to moderate temperatures (15-24°C)",
+    "Low to medium light is best - avoid direct sunlight which can dry it out",
+    "Requires very high humidity (70-90%) - ideal for closed terrariums",
+    "Keep consistently moist but not waterlogged - mist regularly",
+    "Non-toxic and safe for all terrarium inhabitants",
+    "Can be used in terrariums or paludariums",
+    "Propagates via spores or division - simply separate portions and place elsewhere",
+    "If moss turns brown, increase humidity and check watering schedule"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Bryophyta",
+    "class": "Bryopsida",
+    "order": "Hypnales",
+    "family": "Thuidiaceae",
+    "genus": "Thuidium",
+    "species": "Thuidium delicatulum"
+  },
+  "growthPattern": "carpeting",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "moss",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Division, Spores",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 10
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 30,
+    "max": 48,
+    "ideal": 39
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "id": 10100,
+  "name": "Rainbow Marcgravia",
+  "scientificName": "Marcgravia sintenisii",
+  "commonNames": [
+    "Shingling Vine"
+  ],
+  "category": [
+    "creeper",
+    "flowering",
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "10-40 cm",
+  "growthRate": "Moderate",
+  "description": "Marcgravia sintenisii, commonly known as Rainbow Marcgravia, is a rare shingling vine endemic to Puerto Rico. It belongs to the Marcgraviaceae family and exhibits a distinctive shingling growth pattern where juvenile leaves cling flat against surfaces as it climbs. New growth emerges in vibrant red or pink hues, transitioning to deep green as the leaves mature, earning it the nickname \"Rainbow Marcgravia.\" The leaves are typically 2.5-4 cm (1-1.5 inches) long. The plant displays a climbing, shingling growth habit and typically reaches 10-40 cm in height when grown in terrariums. It produces small, inconspicuous flowers. In its native habitat, it thrives in humid montane forests, climbing over trees and rocks. In terrariums or indoor settings, this plant adds unique visual interest with its shingling habit and colorful new growth. It's popular among terrarium enthusiasts for its rare and distinctive appearance.",
+  "careTips": [
+    "Requires high humidity (70-90%) - ideal for closed terrariums or grow cabinets",
+    "Prefers bright, indirect light - avoid direct sunlight which can scorch leaves",
+    "Keep substrate consistently moist but not waterlogged",
+    "Can be mounted on wood or grown in well-draining mix",
+    "Native to Puerto Rico - prefers warm temperatures (18-28°C)",
+    "Shingling growth habit - provide vertical surface for climbing",
+    "New growth is red/pink, matures to green - this is normal",
+    "Well-suited for terrariums or mounted displays",
+    "Regular misting helps maintain high humidity",
+    "Protect from drafts and temperature fluctuations"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Ericales",
+    "family": "Marcgraviaceae",
+    "genus": "Marcgravia",
+    "species": "Marcgravia sintenisii"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings",
+  "colors": "Green, Red, Pink",
+  "humidityRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 70,
+    "ideal": 55
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic, high humidity",
+  "temperatureRange": {
+    "min": 36,
+    "max": 56,
+    "ideal": 46
+  },
+  "difficultyRange": {
+    "min": 50,
+    "max": 80,
+    "ideal": 65
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

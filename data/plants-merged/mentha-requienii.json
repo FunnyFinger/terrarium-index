@@ -1,0 +1,89 @@
+{
+  "id": 376,
+  "name": "Corsican Mint",
+  "scientificName": "Mentha requienii",
+  "commonNames": [
+    "Creeping Mint",
+    "Mint Corsica"
+  ],
+  "category": [
+    "herb",
+    "ground-cover",
+    "aromatic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "1-3 cm",
+  "growthRate": "Fast",
+  "description": "Mentha requienii, commonly known as Corsican Mint, is the smallest member of the mint family, native to Corsica, Sardinia, and parts of mainland France and Italy. It forms an extremely dense, low-growing mat of tiny, round, bright green leaves that release a strong minty fragrance when crushed or walked upon. The plant reaches only 1-3 cm in height, making it one of the smallest ground cover plants available. It produces tiny purple flowers in summer. This plant is perfect for terrariums where it creates a lush, fragrant carpet. It thrives in consistently moist conditions and prefers partial shade to filtered light. The strong minty aroma makes it a delightful addition to any terrarium.",
+  "careTips": [
+    "Requires consistently moist soil - never let it dry out",
+    "Prefers partial shade to filtered light",
+    "High humidity (70-85%) is beneficial",
+    "Well-draining but moisture-retentive substrate",
+    "Temperature: 15-22°C (60-72°F)",
+    "Can be invasive in open gardens but manageable in terrariums",
+    "Propagates easily by division or stem cuttings",
+    "Fragrant when touched or crushed",
+    "Non-toxic and edible (mint flavor)",
+    "Trim regularly to maintain dense mat"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Lamiales",
+    "family": "Lamiaceae",
+    "genus": "Mentha",
+    "species": "Mentha requienii"
+  },
+  "growthPattern": "carpeting",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Division, Stem Cuttings",
+  "colors": "Green, Purple",
+  "humidityRange": {
+    "min": 70,
+    "max": 85,
+    "ideal": 77
+  },
+  "lightRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "waterNeedsRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "substrateType": "moist",
+  "specialNeeds": "aromatic",
+  "temperatureRange": {
+    "min": 15,
+    "max": 22,
+    "ideal": 18
+  },
+  "difficultyRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "soilPhRange": {
+    "min": 6,
+    "max": 7,
+    "ideal": 6.5
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

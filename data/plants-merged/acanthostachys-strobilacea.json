@@ -1,0 +1,87 @@
+{
+  "id": 116,
+  "name": "Pineapple Bromeliad",
+  "scientificName": "Acanthostachys strobilacea",
+  "commonNames": [
+    "Pineapple Plant"
+  ],
+  "category": [
+    "bromeliad",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "15-40 cm",
+  "growthRate": "Moderate",
+  "description": "Acanthostachys strobilacea, commonly known as Pineapple Bromeliad or Pineapple Plant, is an epiphytic bromeliad native to tropical regions of South America, particularly Brazil, Paraguay, and Argentina. It belongs to the Bromeliaceae family and features a rosette of stiff, spiny, gray-green leaves (20-40 cm long) arranged in a pineapple-like form. Many bromeliads form central water-holding rosettes (tanks) that create mini ecosystems. The plant produces small, inconspicuous flowers. The plant displays an upright, rosette-forming growth habit and typically reaches 20-40 cm in height. In its native habitat, it grows as an epiphyte on tree trunks and branches in tropical forests. In terrariums or indoor settings, this plant adds natural beauty with its distinctive pineapple-like form. It's popular among bromeliad enthusiasts for its unique appearance.",
+  "careTips": [
+    "Requires high humidity (60-80%) - ideal for terrariums",
+    "Bright indirect light is essential - avoid direct sun",
+    "Keep central rosette (tank) filled with water - this is how it absorbs moisture",
+    "Well-draining epiphytic mix recommended - orchid bark, sphagnum moss",
+    "Native to tropical South America - prefers warm, humid conditions (18-24°C)",
+    "Epiphytic nature - can be mounted on wood or grown in pots",
+    "Non-toxic to pets and humans",
+    "Can be grown in terrariums, paludariums, or aereriums",
+    "Watch for scale insects and mealybugs",
+    "After flowering, plant produces offsets (pups) that can be separated"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Poales",
+    "family": "Bromeliaceae",
+    "genus": "Acanthostachys",
+    "species": "Acanthostachys strobilacea"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division, Seed",
+  "colors": "Red, Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "bromeliad",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "id": 10456,
+  "name": "Button Fern",
+  "scientificName": "Pellaea rotundifolia",
+  "commonNames": [
+    "Round-leaved Fern",
+    "New Zealand Button Fern"
+  ],
+  "category": [
+    "fern",
+    "leafy",
+    "mini",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "15-30 cm",
+  "growthRate": "Moderate",
+  "description": "Pellaea rotundifolia, commonly known as Button Fern, is a charming, compact evergreen fern native to New Zealand. It features distinctive round, dark-green leaflets arranged along arching fronds, creating an elegant, cascading appearance. The plant displays a compact, bushy growth habit and typically reaches 15-30 cm in height and spread when grown indoors. In its native habitat, it thrives in forest understories and rocky areas. The glossy, rounded leaflets give it a unique appearance compared to other ferns, making it a popular choice for terrariums and indoor plant collections. It's well-suited for terrarium environments due to its compact size and preference for high humidity. The plant is non-toxic and pet-friendly, making it safe for homes with pets.",
+  "careTips": [
+    "Provide bright, indirect light - avoid direct sunlight",
+    "Keep soil consistently moist but not waterlogged",
+    "Maintain moderate to high humidity (60-80%)",
+    "Water when top inch of soil feels dry",
+    "Protect from cold drafts and temperature fluctuations",
+    "Fertilize monthly during growing season with diluted fertilizer"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Polypodiopsida",
+    "order": "Polypodiales",
+    "family": "Pteridaceae",
+    "genus": "Pellaea",
+    "species": "Pellaea rotundifolia"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "fern",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Division, Rhizomes",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "waterNeedsRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 40,
+    "max": 48,
+    "ideal": 44
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

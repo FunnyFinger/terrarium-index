@@ -1,0 +1,83 @@
+{
+  "id": 1762082843880,
+  "name": "Philodendron Pink Princess",
+  "scientificName": "Philodendron erubescens",
+  "commonNames": [
+    "Blushing Philodendron"
+  ],
+  "category": [
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "30-300 cm",
+  "growthRate": "Moderate",
+  "description": "Philodendron erubescens 'Pink Princess' is a variegated cultivar of the Blushing Philodendron, an epiphytic aroid native to tropical regions of Colombia. It belongs to the Araceae family and features climbing or trailing growth (30-300 cm long) with large, dramatic, heart-shaped to arrow-shaped, dark green leaves (up to 40 cm long) with distinctive pink variegation. The plant displays a climbing/trailing growth habit with red stems. The name Philodendron means \"tree lover\" in Greek, referring to its epiphytic growth habit. Many species exhibit dramatic color changes as leaves mature, with new growth often showing vibrant red, pink, or orange hues that fade to green. In its native rainforest habitat, this plant grows in the humid understory with filtered light and high humidity. In terrariums or indoor settings, this plant adds vibrant colors and visual interest with its attractive pink variegation. It's popular among aroid enthusiasts for its unique coloration.",
+  "careTips": [
+    "Keep soil consistently moist but well-draining",
+    "High humidity preferred",
+    "Bright indirect light",
+    "Toxic if ingested - keep away from pets and children"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Philodendron",
+    "species": "Philodendron erubescens",
+    "cultivar": "'Pink Princess'"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "toxic-if-ingested",
+  "rarity": "rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "does-not-flower-in-cultivation",
+  "propagation": "Stem Cuttings, Division",
+  "colors": "Green, Pink, Red, Variegated",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

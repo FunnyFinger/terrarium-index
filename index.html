@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vivarium Plant Index</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=3">
+</head>
+<body>
+    <header>
+        <div class="banner">
+            <img src="images/banner.jpg" alt="Vivarium Plant Index banner" class="banner-image">
+            <!-- Navigation Bar -->
+            <nav class="main-nav">
+                <div class="nav-container">
+                    <div class="nav-logo">
+                        <a href="index.html" class="logo-link">
+                            <span class="logo-text">Vivarium Plant Index</span>
+                        </a>
+                    </div>
+                    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <ul class="nav-menu" id="navMenu">
+                        <li class="nav-item">
+                            <a href="index.html" class="nav-link active">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="definitions.html" class="nav-link">Definitions</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="taxonomy.html" class="nav-link">Taxonomy</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="banner-overlay">
+                <h1>Vivarium Plant Index</h1>
+                <p class="subtitle">Comprehensive database of plants for all enclosed ecosystems</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Control Panel: Search, Sort, and View -->
+        <div class="control-panel">
+            <div class="control-panel-content">
+                <!-- Search -->
+                <div class="control-group search-group">
+                <input type="text" id="searchInput" placeholder="Search plants by name, scientific name, or characteristics...">
+                <button id="searchBtn">Search</button>
+            </div>
+            
+                <!-- Sort Controls -->
+                <div class="control-group sort-group">
+                    <label for="sortSelect">Sort by:</label>
+                    <select id="sortSelect" class="sort-select">
+                        <option value="name">Name</option>
+                        <option value="scientific" selected>Scientific Name</option>
+                        <option value="rarity">Rarity</option>
+                        <option value="difficulty">Difficulty</option>
+                        <option value="temperature">Temperature</option>
+                        <option value="humidity">Humidity</option>
+                        <option value="light">Light Requirements</option>
+                        <option value="growthRate">Growth Rate</option>
+                    </select>
+                    <button id="sortDirectionBtn" class="sort-direction-btn" title="Toggle sort direction">
+                        <span class="sort-icon">↑</span>
+                    </button>
+                </div>
+                
+                <!-- Filter Toggle -->
+                <div class="control-group filter-group">
+                    <button id="filterToggle" class="filter-toggle-btn" title="Toggle filters">
+                        <span class="filter-icon">🔍</span>
+                        <span>Filters</span>
+                    </button>
+                </div>
+            </div>
+            </div>
+            
+        <div class="main-layout">
+            <!-- Left Sidebar Filters -->
+            <aside class="filters-sidebar" id="filtersSidebar">
+                <div class="filters-header">
+                    <h3>Filters</h3>
+                    <button class="btn-reset-filters" id="resetFiltersBtn">Reset All</button>
+                </div>
+                
+                <div class="filters-content">
+                    <!-- Vivarium Type -->
+                    <div class="filter-group">
+                        <label class="filter-group-label">Vivarium Type</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="vivariumType" value="Aquarium">
+                                <span>Aquarium</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="vivariumType" value="Paludarium">
+                                <span>Paludarium</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="vivariumType" value="Riparium">
+                                <span>Riparium</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="vivariumType" value="Aerarium">
+                                <span>Aerarium</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="vivariumType" value="Open Terrarium">
+                                <span>Open Terrarium</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="vivariumType" value="Closed Terrarium">
+                                <span>Closed Terrarium</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="vivariumType" value="Deserterium">
+                                <span>Deserterium</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="vivariumType" value="Indoor">
+                                <span>Indoor</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="vivariumType" value="Outdoor">
+                                <span>Outdoor</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Enclosure Height -->
+                    <div class="filter-group">
+                        <label class="filter-group-label">Enclosure Height</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="enclosureSize" value="tiny">
+                                <span>Tiny (0-5 cm)</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="enclosureSize" value="small">
+                                <span>Small (5-15 cm)</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="enclosureSize" value="medium">
+                                <span>Medium (15-30 cm)</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="enclosureSize" value="large">
+                                <span>Large (30-60 cm)</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="enclosureSize" value="xlarge">
+                                <span>X-Large (60-180 cm)</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="enclosureSize" value="open">
+                                <span>Open (180+ cm)</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Humidity Range -->
+                    <div class="filter-group">
+                        <label class="filter-group-label">Humidity (%)</label>
+                        <div class="range-input-group">
+                            <input type="number" id="humidityMin" class="range-input" placeholder="Min" min="0" max="100" step="1">
+                            <span>to</span>
+                            <input type="number" id="humidityMax" class="range-input" placeholder="Max" min="0" max="100" step="1">
+                        </div>
+                        <div class="dual-range-slider-group">
+                            <div class="dual-range-container">
+                                <input type="range" id="humidityMinSlider" class="range-slider range-slider-min" min="0" max="100" step="1" value="0">
+                                <input type="range" id="humidityMaxSlider" class="range-slider range-slider-max" min="0" max="100" step="1" value="100">
+                            </div>
+                            <div class="range-values">
+                                <span id="humidityMinDisplay">0</span>
+                                <span id="humidityMaxDisplay">100</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Light Range -->
+                    <div class="filter-group">
+                        <label class="filter-group-label">Light (%)</label>
+                        <div class="range-input-group">
+                            <input type="number" id="lightMin" class="range-input" placeholder="Min" min="0" max="100" step="1">
+                            <span>to</span>
+                            <input type="number" id="lightMax" class="range-input" placeholder="Max" min="0" max="100" step="1">
+                        </div>
+                        <div class="dual-range-slider-group">
+                            <div class="dual-range-container">
+                                <input type="range" id="lightMinSlider" class="range-slider range-slider-min" min="0" max="100" step="1" value="0">
+                                <input type="range" id="lightMaxSlider" class="range-slider range-slider-max" min="0" max="100" step="1" value="100">
+                            </div>
+                            <div class="range-values">
+                                <span id="lightMinDisplay">0</span>
+                                <span id="lightMaxDisplay">100</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Temperature Range -->
+                    <div class="filter-group">
+                        <label class="filter-group-label">Temperature (°C)</label>
+                        <div class="range-input-group">
+                            <input type="number" id="tempMin" class="range-input" placeholder="Min" min="0" max="40" step="1">
+                            <span>to</span>
+                            <input type="number" id="tempMax" class="range-input" placeholder="Max" min="0" max="40" step="1">
+                        </div>
+                        <div class="dual-range-slider-group">
+                            <div class="dual-range-container">
+                                <input type="range" id="tempMinSlider" class="range-slider range-slider-min" min="0" max="40" step="1" value="0">
+                                <input type="range" id="tempMaxSlider" class="range-slider range-slider-max" min="0" max="40" step="1" value="40">
+                            </div>
+                            <div class="range-values">
+                                <span id="tempMinDisplay">0</span>
+                                <span id="tempMaxDisplay">40</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Air Circulation Range -->
+                    <div class="filter-group">
+                        <label class="filter-group-label">Air Circulation (%)</label>
+                        <div class="range-input-group">
+                            <input type="number" id="airCirculationMin" class="range-input" placeholder="Min" min="0" max="100" step="1">
+                            <span>to</span>
+                            <input type="number" id="airCirculationMax" class="range-input" placeholder="Max" min="0" max="100" step="1">
+                        </div>
+                        <div class="dual-range-slider-group">
+                            <div class="dual-range-container">
+                                <input type="range" id="airCirculationMinSlider" class="range-slider range-slider-min" min="0" max="100" step="1" value="0">
+                                <input type="range" id="airCirculationMaxSlider" class="range-slider range-slider-max" min="0" max="100" step="1" value="100">
+                            </div>
+                            <div class="range-values">
+                                <span id="airCirculationMinDisplay">0</span>
+                                <span id="airCirculationMaxDisplay">100</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Water Needs Range -->
+                    <div class="filter-group">
+                        <label class="filter-group-label">Water Needs (%)</label>
+                        <div class="range-input-group">
+                            <input type="number" id="waterNeedsMin" class="range-input" placeholder="Min" min="0" max="100" step="1">
+                            <span>to</span>
+                            <input type="number" id="waterNeedsMax" class="range-input" placeholder="Max" min="0" max="100" step="1">
+                        </div>
+                        <div class="dual-range-slider-group">
+                            <div class="dual-range-container">
+                                <input type="range" id="waterNeedsMinSlider" class="range-slider range-slider-min" min="0" max="100" step="1" value="0">
+                                <input type="range" id="waterNeedsMaxSlider" class="range-slider range-slider-max" min="0" max="100" step="1" value="100">
+                            </div>
+                            <div class="range-values">
+                                <span id="waterNeedsMinDisplay">0</span>
+                                <span id="waterNeedsMaxDisplay">100</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Difficulty Range -->
+                    <div class="filter-group">
+                        <label class="filter-group-label">Difficulty (%)</label>
+                        <div class="range-input-group">
+                            <input type="number" id="difficultyMin" class="range-input" placeholder="Min" min="0" max="100" step="1">
+                            <span>to</span>
+                            <input type="number" id="difficultyMax" class="range-input" placeholder="Max" min="0" max="100" step="1">
+                        </div>
+                        <div class="dual-range-slider-group">
+                            <div class="dual-range-container">
+                                <input type="range" id="difficultyMinSlider" class="range-slider range-slider-min" min="0" max="100" step="1" value="0">
+                                <input type="range" id="difficultyMaxSlider" class="range-slider range-slider-max" min="0" max="100" step="1" value="100">
+                            </div>
+                            <div class="range-values">
+                                <span id="difficultyMinDisplay">0</span>
+                                <span id="difficultyMaxDisplay">100</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Growth Rate Range -->
+                    <div class="filter-group">
+                        <label class="filter-group-label">Growth Rate (%)</label>
+                        <div class="range-input-group">
+                            <input type="number" id="growthRateMin" class="range-input" placeholder="Min" min="0" max="100" step="1">
+                            <span>to</span>
+                            <input type="number" id="growthRateMax" class="range-input" placeholder="Max" min="0" max="100" step="1">
+                        </div>
+                        <div class="dual-range-slider-group">
+                            <div class="dual-range-container">
+                                <input type="range" id="growthRateMinSlider" class="range-slider range-slider-min" min="0" max="100" step="1" value="0">
+                                <input type="range" id="growthRateMaxSlider" class="range-slider range-slider-max" min="0" max="100" step="1" value="100">
+                            </div>
+                            <div class="range-values">
+                                <span id="growthRateMinDisplay">0</span>
+                                <span id="growthRateMaxDisplay">100</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Soil pH Range -->
+                    <div class="filter-group">
+                        <label class="filter-group-label">Soil pH (%)</label>
+                        <div class="range-input-group">
+                            <input type="number" id="soilPhMin" class="range-input" placeholder="Min" min="0" max="100" step="1">
+                            <span>to</span>
+                            <input type="number" id="soilPhMax" class="range-input" placeholder="Max" min="0" max="100" step="1">
+                        </div>
+                        <div class="dual-range-slider-group">
+                            <div class="dual-range-container">
+                                <input type="range" id="soilPhMinSlider" class="range-slider range-slider-min" min="0" max="100" step="1" value="0">
+                                <input type="range" id="soilPhMaxSlider" class="range-slider range-slider-max" min="0" max="100" step="1" value="100">
+                            </div>
+                            <div class="range-values">
+                                <span id="soilPhMinDisplay">0</span>
+                                <span id="soilPhMaxDisplay">100</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Submerged Parameters Section -->
+                    <div class="filter-group">
+                        <label class="filter-group-label" style="font-weight: 700; color: var(--primary-color); margin-top: 1rem; padding-top: 1rem; border-top: 2px solid var(--border-color);">Submerged Parameters</label>
+                    </div>
+                    
+                    <!-- Water Temperature Range -->
+                    <div class="filter-group">
+                        <label class="filter-group-label">Water Temperature (°C)</label>
+                        <div class="range-input-group">
+                            <input type="number" id="waterTempMin" class="range-input" placeholder="Min" min="0" max="40" step="1">
+                            <span>to</span>
+                            <input type="number" id="waterTempMax" class="range-input" placeholder="Max" min="0" max="40" step="1">
+                        </div>
+                        <div class="dual-range-slider-group">
+                            <div class="dual-range-container">
+                                <input type="range" id="waterTempMinSlider" class="range-slider range-slider-min" min="0" max="40" step="1" value="0">
+                                <input type="range" id="waterTempMaxSlider" class="range-slider range-slider-max" min="0" max="40" step="1" value="40">
+                            </div>
+                            <div class="range-values">
+                                <span id="waterTempMinDisplay">0</span>
+                                <span id="waterTempMaxDisplay">40</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Water pH Range -->
+                    <div class="filter-group">
+                        <label class="filter-group-label">Water pH (%)</label>
+                        <div class="range-input-group">
+                            <input type="number" id="waterPhMin" class="range-input" placeholder="Min" min="0" max="100" step="1">
+                            <span>to</span>
+                            <input type="number" id="waterPhMax" class="range-input" placeholder="Max" min="0" max="100" step="1">
+                        </div>
+                        <div class="dual-range-slider-group">
+                            <div class="dual-range-container">
+                                <input type="range" id="waterPhMinSlider" class="range-slider range-slider-min" min="0" max="100" step="1" value="0">
+                                <input type="range" id="waterPhMaxSlider" class="range-slider range-slider-max" min="0" max="100" step="1" value="100">
+                            </div>
+                            <div class="range-values">
+                                <span id="waterPhMinDisplay">0</span>
+                                <span id="waterPhMaxDisplay">100</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Water Hardness Range -->
+                    <div class="filter-group">
+                        <label class="filter-group-label">Water Hardness (%)</label>
+                        <div class="range-input-group">
+                            <input type="number" id="waterHardnessMin" class="range-input" placeholder="Min" min="0" max="100" step="1">
+                            <span>to</span>
+                            <input type="number" id="waterHardnessMax" class="range-input" placeholder="Max" min="0" max="100" step="1">
+                        </div>
+                        <div class="dual-range-slider-group">
+                            <div class="dual-range-container">
+                                <input type="range" id="waterHardnessMinSlider" class="range-slider range-slider-min" min="0" max="100" step="1" value="0">
+                                <input type="range" id="waterHardnessMaxSlider" class="range-slider range-slider-max" min="0" max="100" step="1" value="100">
+                            </div>
+                            <div class="range-values">
+                                <span id="waterHardnessMinDisplay">0</span>
+                                <span id="waterHardnessMaxDisplay">100</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Salinity Range -->
+                    <div class="filter-group">
+                        <label class="filter-group-label">Salinity (%)</label>
+                        <div class="range-input-group">
+                            <input type="number" id="salinityMin" class="range-input" placeholder="Min" min="0" max="100" step="1">
+                            <span>to</span>
+                            <input type="number" id="salinityMax" class="range-input" placeholder="Max" min="0" max="100" step="1">
+                        </div>
+                        <div class="dual-range-slider-group">
+                            <div class="dual-range-container">
+                                <input type="range" id="salinityMinSlider" class="range-slider range-slider-min" min="0" max="100" step="1" value="0">
+                                <input type="range" id="salinityMaxSlider" class="range-slider range-slider-max" min="0" max="100" step="1" value="100">
+                            </div>
+                            <div class="range-values">
+                                <span id="salinityMinDisplay">0</span>
+                                <span id="salinityMaxDisplay">100</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Water Circulation Range -->
+                    <div class="filter-group">
+                        <label class="filter-group-label">Water Circulation (%)</label>
+                        <div class="range-input-group">
+                            <input type="number" id="waterCirculationMin" class="range-input" placeholder="Min" min="0" max="100" step="1">
+                            <span>to</span>
+                            <input type="number" id="waterCirculationMax" class="range-input" placeholder="Max" min="0" max="100" step="1">
+                        </div>
+                        <div class="dual-range-slider-group">
+                            <div class="dual-range-container">
+                                <input type="range" id="waterCirculationMinSlider" class="range-slider range-slider-min" min="0" max="100" step="1" value="0">
+                                <input type="range" id="waterCirculationMaxSlider" class="range-slider range-slider-max" min="0" max="100" step="1" value="100">
+                            </div>
+                            <div class="range-values">
+                                <span id="waterCirculationMinDisplay">0</span>
+                                <span id="waterCirculationMaxDisplay">100</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Rarity -->
+                    <div class="filter-group">
+                        <label class="filter-group-label">Rarity</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="rarity" value="Common">
+                                <span>Common</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="rarity" value="Uncommon">
+                                <span>Uncommon</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="rarity" value="Rare">
+                                <span>Rare</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="rarity" value="Very Rare">
+                                <span>Very Rare</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Special Characteristics -->
+                    <div class="filter-group">
+                        <label class="filter-group-label">Special Characteristics</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="special" value="Background">
+                                <span>Background</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="special" value="Midground">
+                                <span>Midground</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="special" value="Front">
+                                <span>Front</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="special" value="Carpeting">
+                                <span>Carpeting</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="special" value="Hanging">
+                                <span>Hanging</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="special" value="Main Piece">
+                                <span>Main Piece</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="special" value="Submerged">
+                                <span>Submerged</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="special" value="Floating">
+                                <span>Floating</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="special" value="Carnivorous">
+                                <span>Carnivorous</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="special" value="Hybrid">
+                                <span>Hybrid</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Plant Classification -->
+                    <div class="filter-group">
+                        <label class="filter-group-label">Plant Classification</label>
+                        <input type="text" id="classificationSearch" class="classification-search" placeholder="Search classifications...">
+                        <div class="checkbox-group classification-checkbox-group">
+                            <!-- Phylum-level filters (evolutionarily ancient groups) -->
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="Fern">
+                                <span>Ferns</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="Moss">
+                                <span>Mosses</span>
+                            </label>
+                            
+                            <!-- Genus-level filters (sorted alphabetically) -->
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:acanthostachys">
+                                <span>Acanthostachys</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:acianthera">
+                                <span>Acianthera</span>
+                            </label>
+                            
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:adenia">
+                                <span>Adenia</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:aechmea">
+                                <span>Aechmea</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:aeonium">
+                                <span>Aeonium</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:saintpaulia">
+                                <span>African Violet</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:agave">
+                                <span>Agave</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:aglaonema">
+                                <span>Aglaonema</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:tillandsia">
+                                <span>Air Plant</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:albuca">
+                                <span>Albuca</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:alluaudia">
+                                <span>Alluaudia</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:alocasia">
+                                <span>Alocasia</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:aloe">
+                                <span>Aloe</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:aquarius">
+                                <span>Amazon Sword</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:anathallis">
+                                <span>Anathallis</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:myrmecodia">
+                                <span>Ant Plant</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:anthurium">
+                                <span>Anthurium</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:argostemma">
+                                <span>Argostemma</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:sagittaria">
+                                <span>Arrowhead</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:syngonium">
+                                <span>Arrowhead Plant</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:asparagus">
+                                <span>Asparagus Fern</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:aspidogyne">
+                                <span>Aspidogyne</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:astilboides">
+                                <span>Astilboides</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:cephalotus">
+                                <span>Australian Pitcher</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:soleirolia">
+                                <span>Baby's Tears</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:bacopa">
+                                <span>Bacopa</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:begonia">
+                                <span>Begonia</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:utricularia">
+                                <span>Bladderwort</span>
+                            </label>
+                            
+                            
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:bulbophyllum">
+                                <span>Bulbophyllum</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:pinguicula">
+                                <span>Butterwort</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:catopsis">
+                                <span>Catopsis</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:chaetomorpha">
+                                <span>Chaetomorpha</span>
+                            </label>
+                            
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:darlingtonia">
+                                <span>Cobra Lily</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:arisaema">
+                                <span>Cobra Lily</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:coelogyne">
+                                <span>Coelogyne</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:acalypha">
+                                <span>Copperleaf</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:genlisea">
+                                <span>Corkscrew Plant</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:crassula">
+                                <span>Crassula</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:cryptocoryne">
+                                <span>Cryptocoryne</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:riccia">
+                                <span>Crystalwort</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:dendrochilum">
+                                <span>Dendrochilum</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:adenium">
+                                <span>Desert Rose</span>
+                            </label>
+                            
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:dischidia">
+                                <span>Dischidia</span>
+                            </label>
+                            
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:dracaena">
+                                <span>Dracaena</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:drosophyllum">
+                                <span>Drosophyllum</span>
+                            </label>
+                            
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:lemna">
+                                <span>Duckweed</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:aristolochia">
+                                <span>Dutchman's Pipe</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:eleocharis">
+                                <span>Dwarf Hairgrass</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:cryptanthus">
+                                <span>Earth Star</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:echeveria">
+                                <span>Echeveria</span>
+                            </label>
+                            
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:elodea">
+                                <span>Elodea</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:episcia">
+                                <span>Episcia</span>
+                            </label>
+                            
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:ficus">
+                                <span>Fig</span>
+                            </label>
+                            
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:hydrocharis">
+                                <span>Frogbit</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:goudaea">
+                                <span>Goudaea</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:gracilaria">
+                                <span>Gracilaria</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:halymenia">
+                                <span>Halymenia</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:haworthia">
+                                <span>Haworthia</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:ceratophyllum">
+                                <span>Hornwort</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:achimenes">
+                                <span>Hot Water Plant</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:hoya">
+                                <span>Hoya</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:hygrophila">
+                                <span>Hygrophila</span>
+                            </label>
+
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="jewel-orchid">
+                                <span>Jewel Orchid</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:kleinia">
+                                <span>Kleinia</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:kroenleinia">
+                                <span>Kroenleinia</span>
+                            </label>
+                            
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:lepanthes">
+                                <span>Lepanthes</span>
+                            </label>
+                            
+                            
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:cladonia">
+                                <span>Lichens</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:aeschynanthus">
+                                <span>Lipstick Plant</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:ludwigia">
+                                <span>Ludwigia</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:macrocentrum">
+                                <span>Macrocentrum</span>
+                            </label>
+                            
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:mammillaria">
+                                <span>Mammillaria</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:aegagropila">
+                                <span>Marimo</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:masdevallia">
+                                <span>Masdevallia</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:medinilla">
+                                <span>Medinilla</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:rhipsalis">
+                                <span>Mistletoe Cactus</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:monosolenium">
+                                <span>Monosolenium</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:monstera">
+                                <span>Monstera</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:phalaenopsis">
+                                <span>Moth Orchid</span>
+                            </label>
+                            
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:neoregelia">
+                                <span>Neoregelia</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:fittonia">
+                                <span>Nerve Plant</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:peperomia">
+                                <span>Peperomia</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:philodendron">
+                                <span>Philodendron</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:phyllanthus">
+                                <span>Phyllanthus</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:pilea">
+                                <span>Pilea</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:ananas">
+                                <span>Pineapple</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:wallisia">
+                                <span>Pink Quill</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:nepenthes">
+                                <span>Pitcher Plant</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:sarracenia">
+                                <span>Pitcher Plant</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:platystele">
+                                <span>Platystele</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:pleurothallis">
+                                <span>Pleurothallis</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:adromischus">
+                                <span>Plover Eggs</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:hypoestes">
+                                <span>Polka Dot Plant</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:epipremnum">
+                                <span>Pothos</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:opuntia">
+                                <span>Prickly Pear</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:procris">
+                                <span>Procris</span>
+                            </label>
+                            
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:racinaea">
+                                <span>Racinaea</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:byblis">
+                                <span>Rainbow Plant</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:restrepia">
+                                <span>Restrepia</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:riccardia">
+                                <span>Riccardia</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:roridula">
+                                <span>Roridula</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:rotala">
+                                <span>Rotala</span>
+                            </label>
+                            
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:senecio">
+                                <span>Senecio</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:oxalis">
+                                <span>Shamrock</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:dichondra">
+                                <span>Silver Falls</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:specklinia">
+                                <span>Specklinia</span>
+                            </label>
+                            
+                            
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:tradescantia">
+                                <span>Spiderwort</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:selaginella">
+                                <span>Spikemoss</span>
+                            </label>
+                            
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:euphorbia">
+                                <span>Spurge</span>
+                            </label>
+                            
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:sedum">
+                                <span>Stonecrop</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:streptocarpus">
+                                <span>Streptocarpus</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:ceropegia">
+                                <span>String of Hearts</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:heliamphora">
+                                <span>Sun Pitcher</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:drosera">
+                                <span>Sundew</span>
+                            </label>
+                            
+                            
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:vriesea">
+                                <span>Vriesea</span>
+                            </label>
+                            
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:pistia">
+                                <span>Water Lettuce</span>
+                            </label>
+                            
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:aldrovanda">
+                                <span>Waterwheel Plant</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:asarum">
+                                <span>Wild Ginger</span>
+                            </label>
+                            
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="classification" value="genus:dioscorea">
+                                <span>Yam</span>
+                            </label>
+                        </div>
+                    </div>
+                        </div>
+            </aside>
+            
+            <!-- Main Content Area -->
+            <div class="main-content">
+        <div class="stats">
+            <span id="plantCount">0 plants found</span>
+        </div>
+
+        <div id="plantsGrid" class="plants-grid">
+            <!-- Plant cards will be dynamically inserted here -->
+        </div>
+
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p>Loading plant images...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="plantModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modalBody">
+                <!-- Detailed plant information will be displayed here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Upload Modal -->
+    <div id="uploadModal" class="upload-modal hidden">
+        <div class="upload-modal-content">
+            <span class="close" id="closeUploadModal">&times;</span>
+            <h2 style="margin-bottom: 1rem; color: var(--primary-color);">Upload Plant Image</h2>
+            <p id="uploadPlantName" style="margin-bottom: 1.5rem; color: var(--text-light);"></p>
+            
+            <!-- Hidden file input for click functionality on drag-drop area -->
+            <input type="file" id="fileInput" accept="image/*" multiple style="display: none;">
+
+            <!-- Drag & Drop Section -->
+            <div class="drag-drop-section">
+                <div class="drag-drop-area" id="dragDropArea">
+                    <div id="dragDropEmpty" class="drag-drop-empty">
+                        <p style="font-size: 3rem; margin: 0;">📤</p>
+                        <p><strong>Drag and drop image here</strong></p>
+                        <p>or click to browse</p>
+                        <p style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-light);">or press Ctrl+V to paste</p>
+                    </div>
+                    <div id="dragDropGallery" class="drag-drop-gallery" style="display: none;">
+                        <div class="drag-drop-gallery-header">
+                            <span>Dropped Images (<span id="dragDropCount">0</span>)</span>
+                            <button class="btn-clear-gallery" onclick="clearDragDropGallery()" title="Clear all images">Clear All</button>
+                        </div>
+                        <div id="dragDropGalleryGrid" class="drag-drop-gallery-grid"></div>
+                    </div>
+                </div>
+                
+                <!-- URL Input Section -->
+                <div class="url-input-section" style="margin-top: 1.5rem;">
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input type="url" id="imageUrlInput" class="url-input" placeholder="Paste image URL here..." style="flex: 1;">
+                        <button class="btn btn-primary" id="loadUrlBtn">Load</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="upload-buttons">
+                <button class="btn btn-secondary" id="selectFolderBtn" style="display: none;">📁 Select Images Folder</button>
+                <button class="btn btn-primary" id="saveImageBtn">💾 Save Image</button>
+                <button class="btn btn-secondary" id="cancelUploadBtn">Cancel</button>
+            </div>
+            <div id="folderStatus" style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Vivarium Plant Index | Data sourced from various plant databases</p>
+        </div>
+    </footer>
+
+    <!-- Plant data - modular structure -->
+    <!-- Load image search terms first (also declares empty plantsDatabase) -->
+    <script src="data.js?v=3"></script>
+    <!-- Then load plants from JSON files into the existing plantsDatabase -->
+    <script src="data/plant-loader.js?v=3"></script>
+    <!-- Filters helpers must load before the main script -->
+    <script src="filters.js?v=1"></script>
+    <!-- Image discovery/localStorage helpers -->
+    <script src="images.js?v=11"></script>
+    <!-- Upload/gallery helpers -->
+    <script src="upload.js?v=1"></script>
+    <!-- Finally initialize the application -->
+    <script src="script.js?v=3"></script>
+</body>
+</html>
+

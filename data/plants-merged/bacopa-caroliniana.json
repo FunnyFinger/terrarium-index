@@ -1,0 +1,115 @@
+{
+  "id": 43,
+  "name": "Lemon Bacopa",
+  "scientificName": "Bacopa caroliniana",
+  "commonNames": [],
+  "category": [
+    "aquatic",
+    "flowering"
+  ],
+  "substrate": "Rich Moisture Retentive",
+  "size": "10-40 cm",
+  "growthRate": "Moderate",
+  "description": "Bacopa caroliniana, commonly known as Lemon Bacopa, Blue Water Hyssop, or Carolina Water Hyssop, is a hardy aquatic and semi-aquatic plant native to the southeastern United States, particularly Florida, Texas, and other Gulf Coast states, as well as parts of Central America. It belongs to the Plantaginaceae family and features oval to lanceolate, succulent, bright green leaves (1-2 cm long, 0.5-1 cm wide) arranged in opposite pairs along upright stems. The leaves have a distinctive lemon-like fragrance when crushed, hence one of its common names. Under high light, the leaves can develop a bronze or reddish tint. This plant displays an upright, bushy growth habit and can reach 20-40 cm in height. It produces small, blue to lavender, five-petaled flowers when grown emersed. In its native habitat, it grows in shallow water, marshes, and along the edges of ponds and streams. It's extremely hardy and adaptable, making it ideal for beginners. In terrariums or indoor settings, this plant adds natural beauty and pleasant fragrance to aquatic environments.",
+  "careTips": [
+    "Very hardy and beginner-friendly - tolerates wide range of conditions",
+    "Can grow emersed (above water) or submerged (fully aquatic) - adapts well to both",
+    "Easy to propagate from stem cuttings - simply cut and replant, roots readily",
+    "Benefits from regular fertilization - use liquid fertilizers or root tabs for best growth",
+    "Native to southeastern USA and Central America - prefers moderate to warm temperatures (20-28°C)",
+    "Moderate to high light recommended (2-3 watts per gallon) for best growth and coloration",
+    "Prefers pH 6.0-7.5 and soft to moderately hard water (2-12 dGH)",
+    "Nutrient-rich substrate recommended - benefits from root fertilization",
+    "CO2 supplementation beneficial but not required - grows well without it",
+    "Leaves have lemon-like fragrance when crushed - adds sensory interest",
+    "Non-toxic and safe for all aquarium inhabitants",
+    "Can be used as background or midground plant in aquariums",
+    "When grown emersed, requires high humidity (70-90%) and consistently moist substrate",
+    "Trim regularly to encourage bushier growth and prevent legginess",
+    "Very forgiving of water parameters - ideal for beginners"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Lamiales",
+    "family": "Plantaginaceae",
+    "genus": "Bacopa",
+    "species": "Bacopa caroliniana"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "fully-aquatic",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 100,
+    "max": 100,
+    "ideal": 100
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "aquatic",
+  "waterCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "temperatureRange": {
+    "min": 40,
+    "max": 56.00000000000001,
+    "ideal": 48
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "waterTemperatureRange": {
+    "min": 40,
+    "max": 56.00000000000001,
+    "ideal": 48
+  },
+  "waterPhRange": {
+    "min": 42.857142857142854,
+    "max": 53.57142857142857,
+    "ideal": 48.21428571428571
+  },
+  "waterHardnessRange": {
+    "min": 6.666666666666667,
+    "max": 40,
+    "ideal": 23.333333333333332
+  },
+  "salinityRange": {
+    "min": 0,
+    "max": 5,
+    "ideal": 2.5
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

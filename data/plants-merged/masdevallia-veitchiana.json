@@ -1,0 +1,90 @@
+{
+  "id": 74,
+  "name": "Veitch's Masdevallia",
+  "scientificName": "Masdevallia veitchiana",
+  "commonNames": [
+    "King of the Masdevallias",
+    "Kite Orchid"
+  ],
+  "category": [
+    "orchid"
+  ],
+  "substrate": "Epiphytic Mix",
+  "size": "5-15 cm",
+  "growthRate": "Slow",
+  "description": "Masdevallia veitchiana, commonly known as Veitch's Masdevallia or King of the Masdevallias, is an epiphytic orchid native to the cloud forests of Peru and Ecuador in South America. It belongs to the Orchidaceae family and features small, compact growth with narrow, dark green leaves (8-15 cm long) arranged in a fan-like pattern. The plant produces distinctive triangular flowers with elongated tails or \"ears\" that are bright orange to red-orange with yellow markings. Many Masdevallia species produce flowers in unusual colors (orange, red, yellow, purple) and have fuzzy or hairy textures that make them look otherworldly. The plant displays an upright, compact growth habit and typically reaches 8-15 cm in height. In its native cloud forest habitat, it grows as an epiphyte on tree trunks and branches in cool, humid, high-altitude environments. In terrariums or indoor settings, this plant adds unique floral displays with its bizarre, often fuzzy flowers. It's popular among orchid enthusiasts for its distinctive appearance.",
+  "careTips": [
+    "Requires very high humidity (70-90%) - ideal for closed terrariums",
+    "Prefers cooler temperatures (15-24°C) - avoid temperatures above 27°C",
+    "Never let dry completely - keep consistently moist but not waterlogged",
+    "Excellent for closed terrariums where humidity can be maintained",
+    "Native to cloud forests of Peru and Ecuador - prefers cool, humid conditions",
+    "Low to medium light is best - bright indirect light, avoid direct sun",
+    "Epiphytic/mounted culture preferred - can be grown in sphagnum moss or fine orchid mix",
+    "Water when substrate begins to dry - typically 2-3 times per week",
+    "Feed monthly with diluted orchid fertilizer (quarter strength) during growing season",
+    "Non-toxic to pets and humans",
+    "Can be grown in terrariums with high humidity or specialized orchid setups",
+    "Watch for root rot if kept too wet - ensure good drainage",
+    "Flowers are distinctive with triangular shape and elongated tails"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Asparagales",
+    "family": "Orchidaceae",
+    "genus": "Masdevallia",
+    "species": "Masdevallia veitchiana"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "irregular",
+  "propagation": "Division, Pups, Seed",
+  "colors": "Red, Yellow, Orange",
+  "humidityRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 10
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "orchid",
+  "temperatureRange": {
+    "min": 30,
+    "max": 48,
+    "ideal": 39
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  }
+}

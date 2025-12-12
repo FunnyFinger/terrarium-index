@@ -1,0 +1,116 @@
+{
+  "id": 15,
+  "name": "Marimo Moss Ball",
+  "scientificName": "Aegagropila linnaei",
+  "category": [
+    "algae",
+    "leafy",
+    "moss"
+  ],
+  "substrate": "No Substrate Needed",
+  "size": "2-12 cm",
+  "growthRate": "Slow",
+  "description": "Aegagropila linnaei (synonym: Cladophora aegagropila), commonly known as Marimo Moss Ball, Lake Ball, or Moss Ball, is a rare form of filamentous green algae (Chlorophyta) that grows in spherical colonies. Despite its common name, it is not a moss but a type of green algae belonging to the Cladophoraceae family. Native to specific lakes in Japan (Lake Akan, Lake Myvatn in Iceland, Lake Zeller in Austria, and some lakes in Estonia and Scotland), these unique organisms form velvety green balls through slow, continuous growth of algal filaments. In their natural habitat, gentle water currents roll them along the lake bottom, maintaining their spherical shape and ensuring even light exposure. Marimo are extremely slow-growing (about 5mm per year) and can live for decades, with some specimens estimated to be over 100 years old. They are popular in aquariums and as houseplants, requiring minimal care and helping to filter water by absorbing nitrates, phosphates, and other nutrients. The spherical shape is maintained by the growth pattern of the algae and gentle water movement. In Japan, Marimo are considered a national treasure and are protected.",
+  "careTips": [
+    "Roll occasionally (weekly) to maintain spherical shape and ensure even light exposure on all sides",
+    "Very slow growing - about 5mm per year, so be patient with growth",
+    "Helps filter water by absorbing nitrates, phosphates, and other nutrients - beneficial for aquarium health",
+    "Can live for decades, with some specimens over 100 years old - a long-term companion",
+    "Prefers cool water temperatures (20-26°C) - avoid temperatures above 28°C",
+    "Low to moderate light is sufficient (0.5-1.5 watts per gallon) - avoid direct sunlight which can cause browning",
+    "Change water regularly (weekly to bi-weekly) to prevent buildup of waste and maintain water quality",
+    "Can be kept in aquariums or simple containers (bowls, jars) - very versatile",
+    "Native to specific lakes in Japan, Iceland, Estonia, Scotland - rare in nature, mostly cultivated now",
+    "Gentle water movement helps maintain shape in natural habitat - can use air stone or gentle filter flow",
+    "Not actually a moss - it's a type of filamentous green algae (Chlorophyta)",
+    "If brown spots appear, increase water changes and reduce light intensity",
+    "Can be kept with most fish and invertebrates - non-aggressive and safe",
+    "Do not squeeze or handle roughly - can damage the delicate algal structure",
+    "Can be split carefully if it becomes too large, but this is rarely necessary"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Chlorophyta",
+    "class": "Ulvophyceae",
+    "order": "Cladophorales",
+    "family": "Cladophoraceae",
+    "genus": "Aegagropila",
+    "species": "Aegagropila linnaei"
+  },
+  "growthPattern": "clumping",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "fully-aquatic",
+  "plantType": "algae",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Division, Spores",
+  "colors": "Green",
+  "commonNames": [],
+  "humidityRange": {
+    "min": 100,
+    "max": 100,
+    "ideal": 100
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "aquatic",
+  "waterCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "temperatureRange": {
+    "min": 40,
+    "max": 52,
+    "ideal": 46
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "waterTemperatureRange": {
+    "min": 40,
+    "max": 52,
+    "ideal": 46
+  },
+  "waterPhRange": {
+    "min": 50,
+    "max": 57.1,
+    "ideal": 53.6
+  },
+  "waterHardnessRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  },
+  "salinityRange": {
+    "min": 0,
+    "max": 5,
+    "ideal": 2.5
+  },
+  "growthRateRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  }
+}

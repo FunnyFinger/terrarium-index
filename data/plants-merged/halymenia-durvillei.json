@@ -1,0 +1,117 @@
+{
+  "id": 65,
+  "name": "Dragon's Tongue Algae",
+  "scientificName": "Halymenia durvillei",
+  "commonNames": [
+    "Red Dragon's Tongue",
+    "Dragon"
+  ],
+  "category": [
+    "algae",
+    "colorful",
+    "aquatic"
+  ],
+  "substrate": "Attach To Driftwood Rocks Mesh",
+  "size": "4-30 cm",
+  "growthRate": "Moderate",
+  "description": "Halymenia durvillei, commonly known as Dragon's Tongue Algae or Red Dragon's Tongue, is a species of red macroalgae (Rhodophyta) native to tropical marine waters, particularly in the Indo-Pacific region. It belongs to the Halymeniaceae family and features broad, flat, blade-like fronds (10-30 cm long) with a distinctive red to burgundy coloration and irregular, wavy margins that resemble a dragon's tongue. The fronds are thin and flexible, creating a graceful, flowing appearance in water currents. The plant displays a bushy, upright growth habit when attached to substrates. In its native habitat, it grows attached to rocks and coral in shallow tropical waters. In aquariums and paludariums, this algae adds vibrant red coloration, provides natural filtration, and creates striking visual contrast. It's popular in marine aquariums for its unique appearance and color.",
+  "careTips": [
+    "Adds striking red to burgundy color to tank - provides visual contrast",
+    "Moderate nutrient export - helps remove nitrates and phosphates from water",
+    "Requires moderate to high light (2-3 watts per gallon) for best coloration",
+    "Attractive appearance - unique blade-like fronds with wavy margins",
+    "Native to tropical marine waters (Indo-Pacific) - requires saltwater conditions",
+    "Prefers pH 7.8-8.4 and salinity 1.020-1.025 (marine)",
+    "Can attach to rocks or other hard substrates using holdfasts",
+    "Benefits from water movement - helps prevent detritus accumulation",
+    "Non-toxic and safe for all aquarium inhabitants",
+    "Can be used in marine aquariums, paludariums, and ripariums",
+    "Propagates via fragmentation - simply break off pieces and they will grow",
+    "If color fades, increase light intensity",
+    "Regular water changes help maintain water quality"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Rhodophyta",
+    "class": "Florideophyceae",
+    "order": "Halymeniales",
+    "family": "Halymeniaceae",
+    "genus": "Halymenia",
+    "species": "Halymenia durvillei"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "fully-aquatic",
+  "plantType": "algae",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Division, Fragmentation",
+  "colors": "Red, Burgundy",
+  "humidityRange": {
+    "min": 100,
+    "max": 100,
+    "ideal": 100
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "aquatic",
+  "waterCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "temperatureRange": {
+    "min": 44,
+    "max": 56.00000000000001,
+    "ideal": 50
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "waterTemperatureRange": {
+    "min": 44,
+    "max": 56.00000000000001,
+    "ideal": 50
+  },
+  "waterPhRange": {
+    "min": 55.714285714285715,
+    "max": 60,
+    "ideal": 57.85714285714286
+  },
+  "waterHardnessRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  },
+  "salinityRange": {
+    "min": 66.66666666666673,
+    "max": 83.33333333333303,
+    "ideal": 74.99999999999989
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

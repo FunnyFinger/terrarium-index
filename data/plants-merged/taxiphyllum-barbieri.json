@@ -1,0 +1,112 @@
+{
+  "id": 13,
+  "name": "Java Moss",
+  "scientificName": "Taxiphyllum barbieri",
+  "commonNames": [],
+  "category": [
+    "creeper",
+    "moss"
+  ],
+  "substrate": "No Substrate Needed",
+  "size": "1-5 cm",
+  "growthRate": "Fast",
+  "description": "Taxiphyllum barbieri, commonly known as Java Moss, is an aquatic bryophyte (moss) native to Southeast Asia, particularly Java, Malaysia, and Thailand. It belongs to the Hypnaceae family and forms dense, creeping mats of fine, branching stems covered in small, overlapping leaves (1-2 mm long). The plant readily attaches to wood, rocks, driftwood, and other surfaces using rhizoids (root-like structures), making it ideal for aquascaping. It thrives in low to medium light and tolerates a wide range of water conditions, making it extremely beginner-friendly. Java Moss is ideal for aquariums and paludariums where it provides cover for small aquatic life (shrimp, fry, small fish), spawning sites, and helps improve water quality by absorbing nitrates and other nutrients. It can be used to create moss walls, carpets, or attached to hardscape for a natural appearance. The plant grows steadily and can be easily trimmed to maintain desired shape and density. Its versatility and ease of care have made it one of the most popular aquatic mosses in the aquarium hobby.",
+  "careTips": [
+    "Can be attached to hardscape (driftwood, rocks) with thread, fishing line, or mesh - will attach naturally over time",
+    "Trimming encourages denser, bushier growth - trim regularly to prevent overgrowth",
+    "Filters water and provides hiding places for shrimp, fry, and small fish",
+    "Very forgiving of water conditions - pH 5.0-8.0, soft to hard water, temperature 18-30°C",
+    "Tolerates low to moderate light (0.5-2 watts per gallon) - too much light can cause algae growth",
+    "Does not require CO₂ supplementation but benefits from it for faster, denser growth",
+    "Can be grown emersed (above water) or submerged (fully aquatic)",
+    "Propagates easily through division - simply separate portions and attach elsewhere",
+    "Native to Southeast Asia - Java, Malaysia, Thailand",
+    "Can be used to create moss walls by attaching to mesh or plastic grids",
+    "Regular water flow helps prevent debris accumulation and promotes healthy growth",
+    "If algae appears, reduce light intensity or duration, or introduce algae-eating organisms"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Bryophyta",
+    "class": "Bryopsida",
+    "order": "Hypnales",
+    "family": "Hypnaceae",
+    "genus": "Taxiphyllum",
+    "species": "Taxiphyllum barbieri"
+  },
+  "growthPattern": "carpeting",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "fully-aquatic",
+  "plantType": "moss",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Division, Fragmentation",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 100,
+    "max": 100,
+    "ideal": 100
+  },
+  "lightRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "aquatic",
+  "waterCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "temperatureRange": {
+    "min": 36,
+    "max": 60,
+    "ideal": 48
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "waterTemperatureRange": {
+    "min": 36,
+    "max": 60,
+    "ideal": 48
+  },
+  "waterPhRange": {
+    "min": 35.714285714285715,
+    "max": 57.14285714285714,
+    "ideal": 46.42857142857143
+  },
+  "waterHardnessRange": {
+    "min": 6.67,
+    "max": 20,
+    "ideal": 13.33
+  },
+  "salinityRange": {
+    "min": 0,
+    "max": 5,
+    "ideal": 2.5
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

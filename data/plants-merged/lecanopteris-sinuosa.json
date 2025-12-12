@@ -1,0 +1,81 @@
+{
+  "id": 210,
+  "name": "Ant Fern",
+  "scientificName": "Lecanopteris sinuosa",
+  "commonNames": [
+    "Solanopteris Brunei",
+    "Solanopteris Brunei)"
+  ],
+  "category": [
+    "fern",
+    "leafy"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "10-60 cm",
+  "growthRate": "Moderate",
+  "description": "Lecanopteris sinuosa (commonly known as Ant Fern or Solanopteris brunei), is an epiphytic fern native to Southeast Asia, particularly Borneo and surrounding regions. It belongs to the Polypodiaceae family and features distinctive, swollen, hollow rhizomes that provide shelter for ants in a symbiotic relationship. The fern produces finely divided, bright green fronds (20-40 cm long) that emerge from the ant-housing rhizomes. The plant displays an upright, arching growth habit and typically reaches 30-60 cm in height. In its native habitat, it grows as an epiphyte on tree trunks and branches in tropical forests. In terrariums or indoor settings, this plant provides lush, feathery texture and unique interest with its ant-fern symbiosis. It's popular among fern enthusiasts for its fascinating ecological relationships.",
+  "careTips": [
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Monitor watering needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Polypodiopsida",
+    "order": "Polypodiales",
+    "family": "Polypodiaceae",
+    "genus": "Lecanopteris",
+    "species": "Lecanopteris sinuosa"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "very-rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "fern",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Spores, Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

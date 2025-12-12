@@ -1,0 +1,114 @@
+{
+  "id": 9,
+  "name": "Java Fern",
+  "scientificName": "Microsorum pteropus",
+  "commonNames": [],
+  "category": [
+    "aquatic",
+    "fern",
+    "leafy"
+  ],
+  "substrate": "Attach To Driftwood Rocks Mesh",
+  "size": "5-35 cm",
+  "growthRate": "Slow",
+  "description": "Microsorum pteropus, commonly known as Java Fern, is a popular aquatic and semi-aquatic fern native to Southeast Asia, including Java (Indonesia), Malaysia, Thailand, parts of India, and the Philippines. It belongs to the Polypodiaceae family and features thick, leathery, lance-shaped to strap-like leaves (15-30 cm long, 2-4 cm wide) that grow from a creeping, dark brown to black rhizome. The leaves are dark green and can develop a slightly iridescent appearance under certain lighting conditions. The leaves often have a prominent midrib and may develop black spots or lines on the underside - these are sporangia (spore-producing structures) and are completely normal. Unlike many aquatic plants, Java Fern should not be buried in substrate - its rhizome must be attached to driftwood, rocks, or other hardscape using thread, fishing line, or aquarium-safe glue. This epiphytic fern is extremely hardy and tolerates a wide range of water conditions, making it ideal for beginners. It reproduces through adventitious plantlets (daughter plants) that form on the leaves, which can be separated and attached elsewhere once they develop roots and several leaves. In nature, it grows attached to rocks and tree roots in streams and rivers.",
+  "careTips": [
+    "Do not bury rhizome in substrate - attach to driftwood or rocks with thread, fishing line, or aquarium-safe glue",
+    "Tolerates low to moderate light conditions (0.5-1.5 watts per gallon) - too much light can cause algae growth on leaves",
+    "Rhizome can be divided to propagate - cut with sharp, sterile knife between growth points",
+    "Very forgiving of water parameters - pH 6.0-8.0, soft to hard water (2-15 dGH), temperature 20-28°C",
+    "Adventitious plantlets form on leaves - separate when they develop 2-3 leaves and roots",
+    "Black spots or lines on leaves are normal - these are sporangia (spore-producing structures), not disease",
+    "Can grow emersed (above water) or submerged (fully aquatic) - adapts to both conditions",
+    "Slow-growing but very hardy once established - ideal for low-maintenance aquariums",
+    "Does not require CO₂ supplementation but benefits from it for faster growth",
+    "Native to Southeast Asia - Java, Malaysia, Thailand, India, Philippines",
+    "Remove dead or dying leaves at the base to encourage new growth",
+    "Can be used in paludariums and ripariums where it grows partially emersed",
+    "Iron supplementation helps maintain vibrant green color"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Polypodiopsida",
+    "order": "Polypodiales",
+    "family": "Polypodiaceae",
+    "genus": "Microsorum",
+    "species": "Microsorum pteropus"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "fully-aquatic",
+  "plantType": "fern",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Spores, Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 100,
+    "max": 100,
+    "ideal": 100
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "aquatic",
+  "waterCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "temperatureRange": {
+    "min": 40,
+    "max": 56.00000000000001,
+    "ideal": 48
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "waterTemperatureRange": {
+    "min": 40,
+    "max": 56.00000000000001,
+    "ideal": 48
+  },
+  "waterPhRange": {
+    "min": 42.857142857142854,
+    "max": 57.14285714285714,
+    "ideal": 50
+  },
+  "waterHardnessRange": {
+    "min": 6.666666666666667,
+    "max": 50,
+    "ideal": 28.333333333333332
+  },
+  "salinityRange": {
+    "min": 0,
+    "max": 5,
+    "ideal": 2.5
+  },
+  "growthRateRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  }
+}

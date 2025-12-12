@@ -1,0 +1,86 @@
+{
+  "id": 10471,
+  "name": "Venus Flytrap",
+  "scientificName": "Dionaea muscipula",
+  "commonNames": [
+    "Venus's Flytrap"
+  ],
+  "category": [
+    "carnivorous",
+    "flowering",
+    "mini"
+  ],
+  "substrate": "Carnivorous Mix",
+  "size": "5-15 cm",
+  "growthRate": "Moderate",
+  "description": "Dionaea muscipula, commonly known as Venus Flytrap, is a captivating carnivorous plant native to the subtropical wetlands of North and South Carolina, USA. It features distinctive, hinged trap leaves with sensitive trigger hairs on the inner surface. When an insect touches these hairs, the trap snaps shut in less than a second, capturing the prey. The traps are typically 2-3 cm long and have red coloration on the inner surface, with small teeth-like projections along the edges. The plant displays a rosette-forming growth habit and typically reaches 5-15 cm in height and spread when grown indoors. The traps are modified leaves that photosynthesize and also function as the plant's digestive organs. In its native habitat, it grows in nutrient-poor, acidic, sandy soils in bogs and wetlands, where it supplements its nutrition by capturing and digesting insects. The plant produces small, white flowers on tall stalks (20-30 cm) in spring, though flowering can weaken the plant, so many growers remove the flower stalks. It requires a winter dormancy period of 3-4 months with cooler temperatures (35-50°F / 2-10°C) for long-term health. The plant is non-toxic to humans and pets, though the traps can close on small fingers, which is harmless. It's an excellent choice for carnivorous plant collections and specialized terrariums.",
+  "careTips": [
+    "Provide bright, direct sunlight - at least 4-6 hours daily",
+    "Use only distilled, rainwater, or reverse osmosis water - never tap water",
+    "Keep soil consistently moist - place pot in tray with half inch of water",
+    "Use nutrient-poor, acidic soil mix (peat moss and perlite/sand)",
+    "Feed small live insects every 2-4 weeks if grown indoors",
+    "Requires winter dormancy (3-4 months) with cooler temperatures (35-50°F)",
+    "Remove flower stalks to prevent weakening the plant",
+    "Avoid fertilizers and regular potting soil"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Caryophyllales",
+    "family": "Droseraceae",
+    "genus": "Dionaea",
+    "species": "Dionaea muscipula"
+  },
+  "growthPattern": "rosette",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Division, Leaf Cuttings, Seed",
+  "colors": "Green, Red, White",
+  "humidityRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 50,
+    "max": 80,
+    "ideal": 65
+  },
+  "waterNeedsRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "substrateType": "wet",
+  "specialNeeds": "Requires winter dormancy, only use distilled/rainwater, nutrient-poor soil",
+  "temperatureRange": {
+    "min": 8,
+    "max": 56,
+    "ideal": 46
+  },
+  "difficultyRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "soilPhRange": {
+    "min": 35.7,
+    "max": 42.9,
+    "ideal": 39.3
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

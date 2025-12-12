@@ -1,0 +1,82 @@
+{
+  "id": 10400,
+  "name": "Bulbosa Air Plant",
+  "scientificName": "Tillandsia bulbosa",
+  "commonNames": [],
+  "category": [
+    "bromeliad",
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "8-30 cm",
+  "growthRate": "Moderate",
+  "description": "Tillandsia bulbosa is an epiphytic bromeliad (air plant) native to tropical regions of Central and South America, particularly Mexico, Guatemala, and Costa Rica. It belongs to the Bromeliaceae family and features upright rosettes (15-30 cm tall) with medium-sized, dramatic, curled, dark green to gray-green leaves with distinctive bulbous bases and dense trichomes (scales) that give it a fuzzy, silvery appearance. The plant displays an upright rosette growth habit. Trichomes not only absorb moisture but also reflect light, giving many species a silvery or fuzzy appearance that helps reduce water loss. In tropical forests, this plant typically grows as an epiphyte on tree trunks, receiving filtered sunlight through the dense canopy. In its native habitat, it grows on tree branches in tropical forests. In terrariums or indoor settings, this plant adds natural beauty with its distinctive fuzzy, bulbous, curled appearance. It's extremely popular among air plant enthusiasts for its unique bulbous base and curled leaves.",
+  "careTips": [
+    "Mist regularly or soak in water weekly",
+    "Provide good air circulation",
+    "Bright, indirect light preferred",
+    "Allow to dry completely after watering",
+    "Can be mounted on driftwood, bark, or other supports"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Poales",
+    "family": "Bromeliaceae",
+    "genus": "Tillandsia",
+    "species": "Tillandsia bulbosa"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "irregular",
+  "propagation": "Division, Offsets",
+  "colors": "Green, Gray-green, Silver, Purple",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

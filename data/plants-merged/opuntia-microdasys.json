@@ -1,0 +1,86 @@
+{
+  "id": 10470,
+  "name": "Bunny Ear Cactus",
+  "scientificName": "Opuntia microdasys",
+  "commonNames": [
+    "Polka Dot Cactus",
+    "Angel's Wings"
+  ],
+  "category": [
+    "cactus",
+    "succulent"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "15-60 cm",
+  "growthRate": "Moderate",
+  "description": "Opuntia microdasys, commonly known as Bunny Ear Cactus, is a charming, low-growing cactus native to central and northern Mexico. It features flattened, oval to round pads (cladodes) that resemble bunny ears, giving it its common name. The pads are covered with dense clusters of tiny, golden-yellow glochids (barbed bristles) instead of large spines, creating a polka-dot appearance. These glochids are easily detached and can cause skin irritation, so the plant should be handled with care. The plant displays a branching, spreading growth habit and typically reaches 15-60 cm in height and spread when grown indoors, though it can grow larger in optimal conditions. Individual pads are typically 5-15 cm long and 4-10 cm wide. In its native habitat, it grows in arid, rocky soils in desert regions. The plant produces small, yellow flowers in spring and summer, followed by red or purple edible fruits. It's an excellent choice for cactus collections and desert-themed terrariums due to its distinctive appearance and low maintenance requirements. The plant is non-toxic but the glochids can cause skin irritation, so it should be kept away from children and pets.",
+  "careTips": [
+    "Provide bright, direct sunlight - at least 6 hours daily",
+    "Use well-draining cactus soil mix",
+    "Water thoroughly but infrequently - allow soil to dry completely between waterings",
+    "Water every 2-3 weeks in spring/summer, once a month or less in fall/winter",
+    "Fertilize every 4-6 weeks during growing season with diluted cactus fertilizer",
+    "Protect from temperatures below 45°F (7°C)",
+    "Handle with gloves to avoid contact with glochids",
+    "Repot every 2-3 years in late spring"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Caryophyllales",
+    "family": "Cactaceae",
+    "genus": "Opuntia",
+    "species": "Opuntia microdasys"
+  },
+  "growthPattern": "carpeting",
+  "hazard": "handle-with-care",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings",
+  "colors": "Green, Yellow, Red, Purple",
+  "humidityRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 50,
+    "max": 80,
+    "ideal": 65
+  },
+  "waterNeedsRange": {
+    "min": 10,
+    "max": 30,
+    "ideal": 20
+  },
+  "substrateType": "dry",
+  "specialNeeds": "Handle with care - glochids can cause skin irritation",
+  "temperatureRange": {
+    "min": 28,
+    "max": 56,
+    "ideal": 48
+  },
+  "difficultyRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

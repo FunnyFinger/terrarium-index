@@ -1,0 +1,84 @@
+{
+  "id": 10428,
+  "name": "Adenium variegated (grafted)",
+  "scientificName": "Adenium arabicum",
+  "commonNames": [
+    "Baobab"
+  ],
+  "category": [
+    "succulent",
+    "flowering"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "15-100 cm",
+  "growthRate": "Moderate",
+  "description": "Adenium arabicum, commonly known as Desert Rose or Baobab, is a succulent native to tropical regions of the Arabian Peninsula and East Africa, particularly Yemen and Somalia. It belongs to the Apocynaceae family and features upright, swollen caudex stems (30-100 cm tall) with small, dramatic, oval-shaped, dark green leaves and distinctive pink to red flowers. The plant displays an upright growth habit with a swollen base (caudex). In its native habitat, it grows in dry, sunny areas. In terrariums or indoor settings, this plant adds natural beauty with its distinctive caudex and attractive flowers. It's popular among succulent enthusiasts for its unique swollen base and colorful flowers. Note: toxic if ingested.",
+  "careTips": [
+    "Let soil dry completely between waterings",
+    "Well-draining soil is essential",
+    "Bright light preferred - can tolerate direct sun",
+    "Avoid overwatering - prone to root rot",
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Monitor watering needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Gentianales",
+    "family": "Apocynaceae",
+    "genus": "Adenium",
+    "species": "Adenium arabicum"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "toxic-if-ingested",
+  "rarity": "very-rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Seed",
+  "colors": "Green, Pink, Red",
+  "humidityRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "succulent",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

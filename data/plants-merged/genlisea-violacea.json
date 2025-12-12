@@ -1,0 +1,82 @@
+{
+  "id": 480,
+  "name": "Genlisea violacea",
+  "scientificName": "Genlisea violacea",
+  "commonNames": [
+    "Violet Corkscrew Plant"
+  ],
+  "category": [
+    "carnivorous"
+  ],
+  "substrate": "Epiphytic Mix",
+  "size": "11-15 cm",
+  "growthRate": "Moderate",
+  "description": "Genlisea violacea is a small, herbaceous, perennial carnivorous plant native to Brazil. It belongs to the Lentibulariaceae family and features a rosette of above-ground leaves and long, slender, underground stolons (traps) that resemble corkscrews and trap nematodes and small soil insects. The plant displays a rosette-forming growth habit and typically reaches 5-15 cm in height. Five-petaled flowers resemble viola flowers, which gives the species its name. The flowers are typically violet to purple. In its native habitat, it grows in nutrient-poor, wet soils in bogs and wetlands. In terrariums or indoor settings, this plant offers unique intrigue with its underground trapping mechanism. It's popular among carnivorous plant enthusiasts for its unusual trap design.",
+  "careTips": [
+    "Requires distilled or rain water only",
+    "Bright light essential for health",
+    "Use specialized carnivorous plant media",
+    "High humidity preferred",
+    "Feed with small insects occasionally",
+    "Keep substrate consistently moist"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Lamiales",
+    "family": "Lentibulariaceae",
+    "genus": "Genlisea",
+    "species": "Genlisea violacea"
+  },
+  "growthPattern": "rosette",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Division, Seed",
+  "colors": "Green, Purple, Violet",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "substrateType": "moist",
+  "specialNeeds": "carnivorous",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

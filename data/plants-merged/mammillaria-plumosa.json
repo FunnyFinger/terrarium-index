@@ -1,0 +1,80 @@
+{
+  "id": 136,
+  "name": "Feather Cactus",
+  "scientificName": "Mammillaria plumosa",
+  "commonNames": [
+    "Feather Ball"
+  ],
+  "category": [
+    "cactus",
+    "flowering"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "5-12 cm",
+  "growthRate": "Moderate",
+  "description": "Mammillaria plumosa, commonly known as Feather Cactus or Feather Ball, is a small, clustering cactus native to northeastern Mexico, particularly Coahuila and Nuevo León. It belongs to the Cactaceae family and features spherical to cylindrical, clustering stems (7 cm in diameter, up to 12 cm tall) completely covered in white, feathery, downy spines that resemble bird feathers, hence the common name. The spines are soft and protect the plant from intense desert sun. The plant displays a clustering, cushion-forming growth habit and can spread to 40 cm wide. It produces small, white to greenish-yellow flowers in late summer, though flowering is infrequent in cultivation. In its native habitat, it grows in well-draining, rocky soils in semi-arid regions. In terrariums or indoor settings, this plant adds unique texture with its soft, feathery appearance. It's extremely popular among cactus enthusiasts for its unusual, soft spines.",
+  "careTips": [
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Monitor watering needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Caryophyllales",
+    "family": "Cactaceae",
+    "genus": "Mammillaria",
+    "species": "Mammillaria plumosa"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "handle-with-care",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Offsets, Seed",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "succulent",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "id": 114,
+  "name": "Flame Violet",
+  "scientificName": "Episcia cupreata",
+  "commonNames": [
+    "Carpet Plant",
+    "Peacock Plant"
+  ],
+  "category": [
+    "flowering",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "5-20 cm",
+  "growthRate": "Moderate",
+  "description": "Episcia cupreata, commonly known as Flame Violet, Copper Leaf, or Chocolate Soldier, is a perennial plant native to tropical regions of South America, particularly Brazil, Colombia, and Venezuela. It belongs to the Gesneriaceae family and features oval to heart-shaped, coppery-bronze to green leaves (5-10 cm long) with prominent veining and a velvety texture. The leaves can have silver, bronze, or green variegation. The plant produces small, tubular, orange to red flowers. The plant displays a trailing, stoloniferous growth habit and spreads via runners (stolons). It typically reaches 10-20 cm in height. In its native habitat, it grows as a ground cover in tropical forests where it receives bright indirect light filtered through the forest canopy. It requires high humidity (60-80%), consistently moist but well-draining soil, and warm temperatures (18-24°C). Direct sunlight can scorch the delicate velvety leaves, while insufficient light causes the vibrant colors to fade. In terrariums or indoor settings, this plant adds vibrant color with its coppery foliage and flowers. It's popular among plant enthusiasts for its colorful leaves and trailing habit, making it an excellent ground cover or hanging plant.",
+  "careTips": [
+    "Requires high humidity (60-80%) - ideal for terrariums",
+    "Bright indirect light is essential - avoid direct sun",
+    "Keep consistently moist but not waterlogged - mist regularly",
+    "Well-draining mix recommended - peat-based mix works well",
+    "Native to tropical South America - prefers warm, humid conditions (18-24°C)",
+    "Trailing habit - spreads via stolons, can be used as ground cover",
+    "Non-toxic to pets and humans",
+    "Can be grown in terrariums with high humidity",
+    "Watch for spider mites and mealybugs, especially in low humidity",
+    "Flowers are small but colorful - orange to red tubular blooms"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Lamiales",
+    "family": "Gesneriaceae",
+    "genus": "Episcia",
+    "species": "Episcia cupreata"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division, Seed",
+  "colors": "Green, Bronze, Copper, Orange, Red, Silver",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

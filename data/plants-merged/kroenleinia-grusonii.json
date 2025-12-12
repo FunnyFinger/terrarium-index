@@ -1,0 +1,82 @@
+{
+  "id": 113,
+  "name": "Golden Barrel Cactus",
+  "scientificName": "Kroenleinia grusonii",
+  "commonNames": [
+    "Golden Ball Cactus",
+    "Golden Barrel",
+    "Mother-in-law's Cushion"
+  ],
+  "category": [
+    "cactus"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "3-15 cm",
+  "growthRate": "Slow",
+  "description": "Echinocactus grusonii (synonym: Kroenleinia grusonii), commonly known as Golden Barrel Cactus, Mother-in-Law's Cushion, or Golden Ball, is a barrel-shaped cactus native to central Mexico, particularly in the states of Hidalgo and Querétaro. It belongs to the Cactaceae family and features a spherical to barrel-shaped, ribbed stem (5-15 cm in diameter when young, up to 1 meter when mature) covered in golden-yellow spines. The stem is bright green with prominent vertical ribs. The plant displays an upright, spherical growth habit and typically reaches 5-15 cm in diameter when young (much larger when mature). It produces yellow flowers at the crown, though flowering is infrequent in cultivation. In its native habitat, it grows in well-draining, rocky soils in semi-arid regions. In terrariums or indoor settings, this plant adds sculptural, geometric interest with its distinctive barrel shape. It's extremely popular among cactus enthusiasts for its golden spines and easy care.",
+  "careTips": [
+    "Very low water needs",
+    "Requires bright, direct light",
+    "Excellent drainage is essential",
+    "Susceptible to rot if overwatered"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Caryophyllales",
+    "family": "Cactaceae",
+    "genus": "Kroenleinia",
+    "species": "Kroenleinia grusonii"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "handle-with-care",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Seed, Offsets",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 40,
+    "max": 50,
+    "ideal": 45
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 50,
+    "max": 90,
+    "ideal": 70
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "succulent",
+  "temperatureRange": {
+    "min": 36,
+    "max": 60,
+    "ideal": 48
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  }
+}

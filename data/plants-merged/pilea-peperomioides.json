@@ -1,0 +1,80 @@
+{
+  "id": 10433,
+  "name": "Chinese Money Plant",
+  "scientificName": "Pilea peperomioides",
+  "commonNames": [],
+  "category": [
+    "leafy",
+    "tropical",
+    "terrestrial"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "10-40 cm",
+  "growthRate": "Moderate",
+  "description": "Pilea peperomioides, commonly known as Chinese Money Plant or Pancake Plant, is a terrestrial plant native to tropical regions of China, particularly Yunnan Province. It belongs to the Urticaceae family and features upright stems (20-40 cm tall) with large, dramatic, circular, dark green leaves with distinctive coin-like shape. The plant displays an upright growth habit. The famous \"Chinese money plant\" (Pilea peperomioides) has circular, coin-like leaves. Many species have leaves that \"dance\" or move slightly throughout the day, responding to light changes with subtle movements. Adapted to tropical climates with high humidity, consistent warmth, and filtered light conditions. In its native habitat, it grows in moist, shaded areas of tropical forests. In terrariums or indoor settings, this plant adds modern appeal with its unique leaf shapes and textures. It's extremely popular among houseplant enthusiasts for its attractive circular leaves.",
+  "careTips": [
+    "High humidity preferred",
+    "Keep soil consistently moist",
+    "Bright indirect light preferred",
+    "Regular fertilization during growing season"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Rosales",
+    "family": "Urticaceae",
+    "genus": "Pilea",
+    "species": "Pilea peperomioides"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "very-rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "does-not-flower-in-cultivation",
+  "propagation": "Division, Offsets",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

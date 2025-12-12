@@ -1,0 +1,97 @@
+{
+  "id": 22,
+  "name": "Kipandi Hoya",
+  "scientificName": "Hoya waymaniae",
+  "commonNames": [],
+  "category": [
+    "creeper",
+    "epiphytic",
+    "flowering",
+    "hoya",
+    "succulent",
+    "air-plant",
+    "colorful",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Epiphytic Mix",
+  "size": "20-180 cm",
+  "growthRate": "Moderate",
+  "description": "Hoya waymaniae 'Kipandi', commonly known as Kipandi Hoya, is a vining epiphytic succulent native to tropical rainforests of Borneo, particularly the Kapuas region. It belongs to the Apocynaceae family and is part of the large Hoya genus, known for their waxy, star-shaped flowers. This cultivar features thick, leathery, oval to lanceolate leaves (5-10 cm long) that are deep green with prominent veining. Under optimal lighting conditions, the leaves may develop silvery-grey spots, and in bright light, they can exhibit reddish or copper tones, adding seasonal variation. The leaves have a waxy texture typical of Hoyas. The plant displays a vining growth habit and can climb or trail extensively, making it suitable for hanging baskets, trellises, or mounting on bark or cork. The flowers are small, star-shaped, appearing in dense clusters (umbels) in delicate shades of yellow or orange, emitting a pleasant, sweet fragrance especially in the evening to attract pollinators. In tropical forests, this plant typically grows as an epiphyte on tree trunks and branches, receiving filtered sunlight through the dense canopy. It stores water in its thick leaves, making it relatively drought-tolerant.",
+  "careTips": [
+    "Can be mounted on bark/cork or potted in well-draining mix - epiphytic nature means it needs air around roots",
+    "Tolerates some drying between waterings - allow top 2-3 cm of soil to dry before watering",
+    "Flowers are fragrant, especially at night - enjoy the sweet scent",
+    "Don't remove spent flower stems (peduncles) - they will rebloom from the same stem",
+    "Provide adequate humidity (50-70%) - mist regularly or use pebble tray",
+    "Ensure good air circulation to prevent fungal issues - avoid stagnant air",
+    "Monitor watering needs - overwatering can cause root rot, underwatering causes leaf drop",
+    "Native to Southeast Asia (Borneo) - prefers warm, humid conditions (18-27°C)",
+    "Bright indirect light is best - some morning sun is acceptable, avoid harsh afternoon sun",
+    "Well-draining substrate essential - use orchid mix, bark, perlite, or specialized Hoya mix",
+    "Feed monthly during growing season with balanced fertilizer at half strength",
+    "Can be propagated from stem cuttings - allow cut end to callus before planting",
+    "Non-toxic to pets and humans",
+    "Watch for mealybugs and scale insects, especially in leaf axils",
+    "Flowering requires maturity and proper conditions - be patient, can take several years"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Gentianales",
+    "family": "Apocynaceae",
+    "genus": "Hoya",
+    "species": "Hoya waymaniae"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "very-rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Layering",
+  "colors": "Green, Yellow, Orange",
+  "humidityRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 54,
+    "ideal": 45
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

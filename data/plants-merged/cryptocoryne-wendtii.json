@@ -1,0 +1,113 @@
+{
+  "id": 12,
+  "name": "Wendt's Crypt",
+  "scientificName": "Cryptocoryne wendtii",
+  "commonNames": [],
+  "category": [
+    "aquatic"
+  ],
+  "substrate": "Rich Moisture Retentive",
+  "size": "5-50 cm",
+  "growthRate": "Slow",
+  "description": "Cryptocoryne wendtii, commonly known as Wendt's Crypt, Wendt's Water Trumpet, or simply Cryptocoryne, is a popular aquatic plant native to Sri Lanka, where it grows in streams and rivers. It belongs to the Araceae family and is one of the most variable species in the Cryptocoryne genus, with numerous color and size variants including green, brown, red, bronze, and even variegated forms. The plant features lanceolate to ovate leaves (10-30 cm long, 2-5 cm wide) that grow in a rosette pattern from a creeping rhizome. The leaves have a wavy or slightly ruffled margin and prominent veining. Cryptocoryne wendtii is famous for \"crypt melt\" - a natural adaptation where leaves die back when environmental conditions change (such as when first introduced to a new tank, water parameter changes, or lighting changes), then regrow adapted to the new conditions. This slow-growing plant is ideal for midground to foreground placement and thrives in nutrient-rich substrates. It produces inflorescences with a characteristic spathe (modified leaf) that resembles a water trumpet, hence one of its common names. It's non-toxic and safe for all aquarium inhabitants.",
+  "careTips": [
+    "May melt when first introduced or when conditions change - this is normal 'crypt melt' adaptation, be patient",
+    "Prefer stable water parameters - avoid sudden changes in pH, temperature, or lighting",
+    "Slow growing but very hardy once established - can live for many years",
+    "Benefits from root fertilization - use root tabs or nutrient-rich substrate (clay-based recommended)",
+    "Native to Sri Lanka - tropical aquatic plant from streams and rivers",
+    "Numerous color variants available (green, brown, red, bronze, variegated) - choose based on tank design",
+    "Non-toxic and safe for all aquarium inhabitants including fish, shrimp, and snails",
+    "Can be grown emersed (above water) or submerged (fully aquatic) - adapts to both",
+    "Propagates through runners (stolons) - divide rhizome with sharp knife to create new plants",
+    "Low to moderate light is sufficient (1-2 watts per gallon) - too much light can cause algae",
+    "Leaves will regrow after melt - new leaves will be adapted to current tank conditions",
+    "Prefers pH 5.5-8.0, soft to moderately hard water (2-15 dGH), temperature 22-28°C",
+    "Plant with crown just above substrate - burying too deep can cause rot",
+    "CO2 supplementation beneficial but not required for survival"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Cryptocoryne",
+    "species": "Cryptocoryne wendtii"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "very-rare",
+  "growthHabit": "fully-aquatic",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Division, Runners",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 100,
+    "max": 100,
+    "ideal": 100
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "aquatic",
+  "waterCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "temperatureRange": {
+    "min": 44,
+    "max": 56.00000000000001,
+    "ideal": 50
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "waterTemperatureRange": {
+    "min": 44,
+    "max": 56.00000000000001,
+    "ideal": 50
+  },
+  "waterPhRange": {
+    "min": 39.285714285714285,
+    "max": 57.14285714285714,
+    "ideal": 48.21428571428571
+  },
+  "waterHardnessRange": {
+    "min": 6.666666666666667,
+    "max": 50,
+    "ideal": 28.333333333333332
+  },
+  "salinityRange": {
+    "min": 0,
+    "max": 5,
+    "ideal": 2.5
+  },
+  "growthRateRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  }
+}

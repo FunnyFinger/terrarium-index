@@ -1,0 +1,39 @@
+{
+  "name": "terrarium-index",
+  "version": "1.0.0",
+  "description": "Plant index for terrariums, vivariums, and enclosed ecosystems",
+  "main": "script.js",
+  "scripts": {
+    "fetch-araflora": "node scripts/fetch-araflora-data.js",
+    "extract-all-araflora": "node scripts/extract-all-araflora-plants.js",
+    "integrate-araflora": "node scripts/finalize-araflora-integration.js",
+    "normalize-si": "node scripts/normalize-si-units.js",
+    "normalize-plant-info": "node scripts/normalize-plant-info.js",
+    "populate-hazards": "node scripts/populate-hazards.js",
+    "normalize-common-names": "node scripts/normalize-common-names.js",
+    "populate-care-tips": "node scripts/populate-care-tips.js",
+    "enhance-descriptions": "node scripts/clean-and-enhance-descriptions.js",
+    "check-descriptions": "node scripts/final-description-check.js",
+    "remove-sources": "node scripts/remove-sources.js",
+    "augment-schema": "node scripts/augment-schema.js",
+    "enrich-taxonomy": "node scripts/enrich-taxonomy-gbif.js",
+    "update-rarity": "node scripts/update-rarity.js",
+    "generate-thumbnails": "node scripts/generate-thumbnails.js",
+    "convert-heif": "node scripts/convert-heif-to-jpeg.js",
+    "normalize-kingdom": "node scripts/normalize-kingdom-names.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "plants",
+    "terrarium",
+    "vivarium",
+    "aquarium"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.0",
+    "cheerio": "^1.0.0-rc.12",
+    "sharp": "^0.33.5"
+  }
+}

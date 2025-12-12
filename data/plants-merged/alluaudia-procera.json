@@ -1,0 +1,84 @@
+{
+  "id": 608,
+  "name": "Madagascar Ocotillo",
+  "scientificName": "Alluaudia procera",
+  "commonNames": [
+    "African Ocotillo"
+  ],
+  "category": [
+    "succulent"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "30-100 cm",
+  "growthRate": "Slow",
+  "description": "Alluaudia procera is a succulent native to Madagascar. It belongs to the Didiereaceae family and features upright, columnar stems (30-100 cm indoors, up to 6 m in habitat) with small, fleshy, water-storing leaves and sharp spines. The plant displays an upright, columnar growth habit. It produces small, inconspicuous flowers. In its native habitat, it grows in well-draining, sandy soils in semi-arid regions. In terrariums or indoor settings, this plant adds architectural interest with its distinctive columnar form. It's popular among succulent enthusiasts for its unusual appearance and spiny form.",
+  "careTips": [
+    "Low humidity preferred",
+    "Ensure good air circulation",
+    "Allow substrate to dry completely between waterings",
+    "Bright, indirect light preferred",
+    "Well-draining substrate essential",
+    "Protect from overwatering",
+    "Requires good drainage",
+    "Handle with care - sharp spines"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Caryophyllales",
+    "family": "Didiereaceae",
+    "genus": "Alluaudia",
+    "species": "Alluaudia procera"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "handle-with-care",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "does-not-flower-in-cultivation",
+  "propagation": "Stem Cuttings, Seed",
+  "colors": "Green, Gray-green",
+  "humidityRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  },
+  "substrateType": "dry",
+  "specialNeeds": "succulent",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  }
+}

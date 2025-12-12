@@ -1,0 +1,83 @@
+{
+  "id": 552,
+  "name": "Sundew",
+  "scientificName": "Drosera fimbriata",
+  "commonNames": [
+    "Dew Plant"
+  ],
+  "category": [
+    "carnivorous",
+    "flowering"
+  ],
+  "substrate": "Epiphytic Mix",
+  "size": "11-15 cm",
+  "growthRate": "Moderate",
+  "description": "Drosera fimbriata is a small carnivorous plant native to Western Australia. It belongs to the Droseraceae family and features a rosette of sticky, glandular leaves (5-15 cm in diameter) covered with tentacles that trap and digest insects. The plant displays a rosette-forming growth habit. Commonly called \"sundew\" for the glistening, dew-like droplets on each tentacle. The sticky tentacles can move to wrap around trapped insects, and the entire leaf can curl around larger prey within minutes. It produces small, white flowers in October. Native to nutrient-poor habitats such as bogs, swamps, or sandy soils, where carnivory supplements the limited available nutrients. In its native habitat, it grows in nutrient-poor, wet soils in bogs and wetlands. In terrariums or indoor settings, this plant offers unique intrigue with its sticky trapping mechanism. It's popular among carnivorous plant enthusiasts for its rapid movement.",
+  "careTips": [
+    "Requires distilled or rain water only",
+    "Bright light essential for health",
+    "Use specialized carnivorous plant media",
+    "High humidity preferred",
+    "Feed with small insects occasionally",
+    "Requires cool temperatures"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Caryophyllales",
+    "family": "Droseraceae",
+    "genus": "Drosera",
+    "species": "Drosera fimbriata"
+  },
+  "growthPattern": "rosette",
+  "hazard": "non-toxic",
+  "rarity": "very-rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Division, Leaf Cuttings, Seed",
+  "colors": "Green, Red, White",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "substrateType": "moist",
+  "specialNeeds": "carnivorous",
+  "temperatureRange": {
+    "min": 20,
+    "max": 30,
+    "ideal": 25
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

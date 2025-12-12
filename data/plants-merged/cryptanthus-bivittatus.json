@@ -1,0 +1,84 @@
+{
+  "id": 10364,
+  "name": "Earth Star",
+  "scientificName": "Cryptanthus bivittatus",
+  "commonNames": [
+    "Starfish Plant"
+  ],
+  "category": [
+    "bromeliad",
+    "leafy",
+    "tropical",
+    "terrestrial"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "5-20 cm",
+  "growthRate": "Moderate",
+  "description": "Cryptanthus bivittatus, commonly known as Earth Star, is a terrestrial bromeliad native to tropical regions of Brazil. It belongs to the Bromeliaceae family and features low-growing rosettes (10-20 cm wide) with small, dramatic, star-shaped, dark green leaves with distinctive pink to red striped patterns. The plant displays a rosette growth habit. Known as \"earth stars\" for their low-growing, star-shaped rosettes. In its native habitat, it grows in moist, shaded areas of tropical forests. In terrariums or indoor settings, this plant adds vibrant star-shaped rosettes with stunning striped patterns. It's popular among bromeliad enthusiasts for its attractive striped foliage.",
+  "careTips": [
+    "Keep central cup (vase) filled with water",
+    "Water soil sparingly - mainly keep cup filled",
+    "Bright indirect light preferred",
+    "High humidity beneficial",
+    "Remove dead leaves to maintain appearance"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Poales",
+    "family": "Bromeliaceae",
+    "genus": "Cryptanthus",
+    "species": "Cryptanthus bivittatus"
+  },
+  "growthPattern": "rosette",
+  "hazard": "non-toxic",
+  "rarity": "very-rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "irregular",
+  "propagation": "Division, Offsets",
+  "colors": "Green, Pink, Red, Variegated",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "bromeliad",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

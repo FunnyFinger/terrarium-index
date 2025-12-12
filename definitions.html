@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Information Definitions - Vivarium Plant Index</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=3">
+    <style>
+        .definitions-wrapper {
+            display: flex;
+            min-height: calc(100vh - 200px);
+            width: 100%;
+            margin: 0;
+            padding: 2rem 0 2rem 0;
+            gap: 2rem;
+        }
+
+        /* Side Navigation */
+        .definitions-sidebar {
+            width: 320px;
+            min-width: 320px;
+            background: var(--card-bg);
+            border-radius: 0 12px 12px 0;
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            position: sticky;
+            top: 2rem;
+            max-height: calc(100vh - 4rem);
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+            align-self: flex-start;
+        }
+
+        .definitions-sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .definitions-sidebar::-webkit-scrollbar-track {
+            background: var(--bg-color);
+            border-radius: 3px;
+        }
+
+        .definitions-sidebar::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 3px;
+        }
+
+        .definitions-sidebar::-webkit-scrollbar-thumb:hover {
+            background: var(--text-light);
+        }
+
+        .sidebar-header {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .definitions-sidebar .nav-item {
+            list-style: none;
+            margin: 0;
+        }
+
+        .definitions-sidebar .nav-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.6rem 0.75rem;
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            border-left: 3px solid transparent;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .definitions-sidebar .nav-link:hover {
+            background: var(--bg-color);
+            color: var(--primary-color);
+            border-left-color: var(--accent-color);
+        }
+
+        .definitions-sidebar .nav-link.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-left-color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .definitions-sidebar .nav-link.has-children::after {
+            content: '▶';
+            font-size: 0.7rem;
+            transition: transform 0.3s ease;
+            margin-left: 0.5rem;
+        }
+
+        .definitions-sidebar .nav-link.has-children.expanded::after {
+            transform: rotate(90deg);
+        }
+
+        .definitions-sidebar .nav-children {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .definitions-sidebar .nav-children.expanded {
+            max-height: 2000px;
+        }
+
+        /* Level 1 - Sections (Plant Details, Growth Details, etc.) */
+        .definitions-sidebar .nav-level-1 {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 1rem;
+            margin-top: 0.75rem;
+            margin-bottom: 0.25rem;
+            padding: 0.75rem 1rem;
+            background: var(--bg-color);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .definitions-sidebar .nav-level-1:hover {
+            background: rgba(45, 80, 22, 0.1);
+        }
+
+        .definitions-sidebar .nav-level-1.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        /* Level 2 - Fields (Plant Type, Size, etc.) */
+        .definitions-sidebar .nav-level-2 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-color);
+            padding-left: 1.5rem;
+            padding-right: 0.75rem;
+            margin-left: 0.5rem;
+            border-left: 3px solid var(--border-color);
+        }
+
+        .definitions-sidebar .nav-level-2:hover {
+            border-left-color: var(--accent-color);
+        }
+
+        .definitions-sidebar .nav-level-2.active {
+            color: white !important;
+            border-left-color: var(--accent-color);
+        }
+
+        /* Level 3 - Values (Flowering Plant, Fern, etc.) */
+        .definitions-sidebar .nav-level-3 {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: var(--text-light);
+            padding-left: 2.5rem;
+            padding-right: 0.75rem;
+            margin-left: 0.5rem;
+            border-left: 2px solid var(--border-color);
+        }
+
+        .definitions-sidebar .nav-level-3:hover {
+            color: var(--primary-color);
+            border-left-color: var(--accent-color);
+        }
+
+        .definitions-sidebar .nav-level-3.active {
+            color: white !important;
+            border-left-color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        /* Indentation for nested children */
+        .definitions-sidebar .nav-children .nav-children {
+            margin-left: 0;
+        }
+
+        /* Main Content */
+        .definitions-content {
+            flex: 1;
+            min-width: 0;
+            align-self: flex-start;
+        }
+
+        .content-viewer {
+            background: var(--card-bg);
+            border-radius: 12px 0 0 12px;
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            min-height: 400px;
+            display: none;
+            width: 100%;
+        }
+
+        .content-viewer.active {
+            display: block;
+        }
+
+        .content-viewer h2 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .content-viewer h3 {
+            color: var(--secondary-color);
+            font-size: 1.4rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .content-viewer h4 {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .content-description {
+            color: var(--text-color);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+
+        .value-description {
+            color: var(--text-color);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-light);
+            width: 100%;
+        }
+
+        .empty-state h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        /* Mobile Responsive */
+        .mobile-nav-toggle {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1001;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 56px;
+            height: 56px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-nav-toggle:hover {
+            background: var(--secondary-color);
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 1024px) {
+            .definitions-wrapper {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .definitions-sidebar {
+                width: 100%;
+                min-width: auto;
+                position: relative;
+                top: 0;
+                max-height: none;
+                display: none;
+            }
+
+            .definitions-sidebar.active {
+                display: block;
+            }
+
+            .mobile-nav-toggle {
+                display: block;
+            }
+
+            .definitions-content {
+                width: 100%;
+            }
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="banner">
+            <img src="images/banner.jpg" alt="Vivarium Plant Index banner" class="banner-image">
+            <!-- Navigation Bar -->
+            <nav class="main-nav">
+                <div class="nav-container">
+                    <div class="nav-logo">
+                        <a href="index.html" class="logo-link">
+                            <span class="logo-text">Vivarium Plant Index</span>
+                        </a>
+                    </div>
+                    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <ul class="nav-menu" id="navMenu">
+                        <li class="nav-item">
+                            <a href="index.html" class="nav-link">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="definitions.html" class="nav-link active">Definitions</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="taxonomy.html" class="nav-link">Taxonomy</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="banner-overlay">
+                <h1>Plant Information Definitions</h1>
+                <p class="subtitle">Comprehensive guide to understanding plant data fields and terminology</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <a href="index.html" class="back-link" style="display: inline-block; margin: 2rem 2rem 1rem; color: var(--primary-color); text-decoration: none; font-weight: 600; transition: color 0.3s;">← Back to Plant Index</a>
+        
+        <div class="definitions-wrapper">
+            <!-- Side Navigation -->
+            <aside class="definitions-sidebar" id="definitionsSidebar">
+                <div class="sidebar-header">Navigation</div>
+                <nav id="hierarchicalNav">
+                    <!-- Navigation will be generated by JavaScript -->
+                </nav>
+            </aside>
+
+            <!-- Main Content Viewer -->
+            <div class="definitions-content">
+                <div class="empty-state" id="emptyState">
+                    <h2>Select an item from the navigation</h2>
+                    <p>Choose a category, field, or value from the left panel to view its definition</p>
+                    </div>
+
+                <div class="content-viewer" id="contentViewer"></div>
+                        </div>
+                            </div>
+    </main>
+
+    <!-- Mobile Navigation Toggle -->
+    <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle navigation">☰</button>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Vivarium Plant Index | Comprehensive plant database for all enclosed ecosystems</p>
+                        </div>
+    </footer>
+
+    <script>
+        // Navigation data structure
+        const navigationData = {
+            "plant-details": {
+                title: "Plant Details",
+                description: "Basic information about plant characteristics and classification",
+                fields: {
+                    "plant-type": {
+                        title: "Plant Type",
+                        description: "The botanical classification or category of the plant based on its characteristics and structure. Based on major plant groups - each plant belongs to exactly ONE botanical group. No overlap.",
+                        values: {
+                            "flowering-plant": {
+                                title: "Flowering Plant",
+                                description: "<strong>Characteristics:</strong> All flowering plants (angiosperms) that produce flowers and reproduce through seeds. This is the largest and most diverse group of plants, including orchids, herbs, trees, cacti, succulents, bromeliads, carnivorous plants, and most common houseplants. They range from tiny ground covers to massive trees.<br><br><strong>Note:</strong> Orchids, cacti, and succulents are all flowering plants - they are not separate plant types but rather growth forms or families within flowering plants.<br><br><strong>Typical Habitats:</strong> Found in virtually every terrestrial environment worldwide - tropical rainforests, temperate forests, grasslands, deserts, and even aquatic environments. Many are adapted to specific climates and conditions.<br><br><strong>Care Requirements:</strong> Varies widely by species. Most require moderate to high humidity (40-80%), well-draining or moisture-retentive soil depending on species, and appropriate light levels. Many tropical flowering plants thrive in terrariums with high humidity, while others adapt well to typical house plant conditions.<br><br><strong>Vivarium Suitability:</strong> Excellent for terrariums (tropical species), paludariums (marginal and emergent species), house plants (adaptable species), and aerariums (epiphytic species). Some aquatic flowering plants are suitable for aquariums and ripariums. Generally not suitable for desertariums unless specifically adapted to arid conditions."
+                            },
+                            "conifer": {
+                                title: "Conifer",
+                                description: "<strong>Characteristics:</strong> Cone-bearing plants (gymnosperms) including conifers, cycads, and ginkgo. These plants produce seeds in cones rather than flowers. They are typically evergreen trees or shrubs with needle-like or scale-like leaves.<br><br><strong>Typical Habitats:</strong> Found primarily in temperate and boreal regions, though some species occur in tropical and subtropical areas. Many are adapted to cold climates and poor soils.<br><br><strong>Care Requirements:</strong> Most require well-draining soil, moderate humidity, and bright light. Many are cold-hardy and prefer cooler temperatures. Some species can be grown as houseplants or bonsai.<br><br><strong>Vivarium Suitability:</strong> Limited suitability for most vivarium types due to size and environmental requirements. Some smaller species may work in large terrariums or as house plants."
+                            },
+                            "fern": {
+                                title: "Fern",
+                                description: "<strong>Characteristics:</strong> Non-flowering vascular plants that reproduce via spores rather than seeds. Characterized by their distinctive fronds (leaves) that unfurl from coiled structures called fiddleheads. Ferns are among the oldest plant groups, dating back over 360 million years. They lack true flowers, fruits, or seeds, instead producing spores on the undersides of fronds or in specialized structures.<br><br><strong>Typical Habitats:</strong> Primarily found in moist, shaded environments such as tropical and temperate forests, along stream banks, in rock crevices, and in humid microclimates. Many are epiphytic (growing on trees), while others are terrestrial or lithophytic (growing on rocks). Some species are aquatic or semi-aquatic.<br><br><strong>Care Requirements:</strong> Most ferns require <strong>high humidity (60-90%)</strong>, consistent moisture (but not waterlogged soil), indirect or filtered light, and good air circulation. They are sensitive to dry air and direct sunlight. Soil should be rich, well-draining, and moisture-retentive. Many benefit from regular misting or placement in high-humidity environments.<br><br><strong>Vivarium Suitability:</strong> Excellent for terrariums (especially closed terrariums), paludariums (many can grow with roots in water), ripariums (marginal species), and house plants (hardier species with adequate humidity). Not suitable for desertariums due to high humidity requirements. Some aquatic ferns are suitable for aquariums."
+                            },
+                            "spikemoss": {
+                                title: "Spikemoss",
+                                description: "<strong>Characteristics:</strong> Primitive vascular plants (lycophytes) including clubmosses and spikemosses (Selaginella, Lycopodium, etc.). Despite their names, they are not true mosses or ferns. They are ancient plants that predate both ferns and seed plants. They produce spores in cone-like structures (strobili) and can survive near-complete desiccation, reviving when rehydrated.<br><br><strong>Note:</strong> Spikemosses are often confused with ferns or mosses but belong to a separate group (lycophytes).<br><br><strong>Typical Habitats:</strong> Found in moist, shaded environments worldwide. Many species form dense mats or clumps in tropical and temperate forests. Some are adapted to survive periods of drought.<br><br><strong>Care Requirements:</strong> Require <strong>very high humidity (70-90%)</strong>, consistent moisture, indirect or low light, and good air circulation. They prefer acidic substrates and benefit from regular misting. Sensitive to dry conditions and direct sunlight.<br><br><strong>Vivarium Suitability:</strong> Excellent for terrariums (especially closed terrariums), paludariums, and house plants with high humidity. Not suitable for desertariums or typical house plant conditions due to extremely high humidity requirements."
+                            },
+                            "moss": {
+                                title: "Moss",
+                                description: "<strong>Characteristics:</strong> Small, non-vascular plants belonging to the Bryophyta division. They form dense green clumps, mats, or cushions and lack true roots, stems, or leaves (instead having simplified structures). Mosses reproduce via spores and can absorb water and nutrients directly through their surfaces. They are excellent indicators of moisture levels and air quality.<br><br><strong>Typical Habitats:</strong> Found in moist, shaded environments worldwide - on forest floors, rocks, tree bark, soil banks, and in wetlands. They thrive in high-humidity environments and can survive periods of desiccation, rehydrating when moisture returns. Some species are aquatic or semi-aquatic.<br><br><strong>Care Requirements:</strong> Require <strong>very high humidity (70-90%)</strong>, consistent moisture, indirect or low light, and good air circulation. They prefer acidic substrates and benefit from regular misting. Mosses are sensitive to dry conditions and direct sunlight. They can be attached to various surfaces including rocks, wood, and soil.<br><br><strong>Vivarium Suitability:</strong> Excellent for terrariums (especially closed terrariums for ground cover and vertical surfaces), paludariums (terrestrial and semi-aquatic species), ripariums (marginal species), and some aquariums (aquatic mosses like Java moss). Not suitable for desertariums or typical house plant conditions due to extremely high humidity requirements."
+                            },
+                            "liverwort": {
+                                title: "Liverwort",
+                                description: "<strong>Characteristics:</strong> Small, non-vascular plants belonging to the Marchantiophyta division, closely related to mosses. They are among the oldest land plants, with some species dating back over 400 million years. Liverworts have a flattened, thalloid (ribbon-like) or leafy structure and reproduce via spores. They lack true roots, stems, or leaves, instead having simplified structures called rhizoids for attachment. Some species are aquatic or semi-aquatic.<br><br><strong>Typical Habitats:</strong> Found in moist, shaded environments worldwide - on damp soil, rocks, tree bark, and in wetlands. They thrive in high-humidity environments and are often found near water sources. Some species are fully aquatic, growing submerged in freshwater streams and ponds. They can survive periods of desiccation and rehydrate when moisture returns.<br><br><strong>Care Requirements:</strong> Require <strong>very high humidity (70-90%)</strong>, consistent moisture, indirect or low light, and good air circulation. They prefer acidic substrates and benefit from regular misting. Aquatic species require clean, well-oxygenated water. Liverworts are sensitive to dry conditions and direct sunlight. They can be attached to various surfaces including rocks, wood, and soil.<br><br><strong>Vivarium Suitability:</strong> Excellent for terrariums (especially closed terrariums), paludariums (terrestrial and semi-aquatic species), ripariums (marginal species), and aquariums (aquatic species like Riccia fluitans). Not suitable for desertariums or typical house plant conditions due to extremely high humidity requirements."
+                            },
+                            "algae": {
+                                title: "Algae",
+                                description: "<strong>Characteristics:</strong> Simple, photosynthetic organisms ranging from microscopic single-celled forms to large multicellular seaweeds. Algae are not true plants but are often grouped with them. They lack roots, stems, leaves, and vascular tissues. Includes both marine and freshwater species, with some adapted to brackish water. Some algae form symbiotic relationships with other organisms (like lichens with fungi).<br><br><strong>Typical Habitats:</strong> Found in virtually all aquatic environments - oceans, lakes, rivers, ponds, and even in moist terrestrial locations. Marine algae include seaweeds and kelp forests, while freshwater algae include everything from microscopic plankton to filamentous forms. Some species grow on rocks, wood, or other surfaces in aquatic environments.<br><br><strong>Care Requirements:</strong> Require water (fully submerged or in very wet conditions), appropriate lighting (varies by species), and proper water chemistry (pH, nutrients, salinity for marine species). Most benefit from water movement and good water quality. Some species require CO₂ supplementation. Temperature requirements vary by species and origin.<br><br><strong>Vivarium Suitability:</strong> Primarily suitable for aquariums (both freshwater and marine), paludariums (aquatic sections), and ripariums (submerged areas). Some species can be used in terrariums if kept very moist, but most require fully aquatic conditions. Not suitable for desertariums or typical house plant conditions."
+                            },
+                            "fungus": {
+                                title: "Fungus",
+                                description: "<strong>Characteristics:</strong> Fungi are not plants but are often included in plant collections. They include mushrooms, molds, and other fungal organisms. Some fungi form symbiotic relationships with plants (mycorrhizae), while others are decomposers or parasites. Bioluminescent fungi are particularly popular in vivarium collections.<br><br><strong>Typical Habitats:</strong> Found in diverse environments - on decaying wood, soil, and organic matter. Many fungi prefer dark, moist conditions. Some species are adapted to specific substrates or host organisms.<br><br><strong>Care Requirements:</strong> Require appropriate substrate (often decaying wood or organic matter), high humidity, and low to moderate light. Temperature and air circulation requirements vary by species. Some species require specific environmental conditions to fruit (produce mushrooms).<br><br><strong>Vivarium Suitability:</strong> Suitable for terrariums with appropriate substrate and conditions. Bioluminescent species are popular for their unique visual appeal. Not suitable for most other vivarium types unless specifically adapted."
+                            }
+                        }
+                    },
+                    "size": {
+                        title: "Size",
+                        description: "The typical mature size of the plant, usually given as height, width, or spread measurements.",
+                        values: {
+                            "format-examples": {
+                                title: "Format Examples",
+                                description: "May be expressed as: \"10-20 cm\", \"30-50 cm tall\", \"10-15 cm tall, 30-60 cm spread\", or \"Varies\" for plants with highly variable sizes."
+                            }
+                        }
+                    },
+                    "rarity": {
+                        title: "Rarity",
+                        description: "Indicates how commonly available or easy to find this plant is in cultivation and trade.",
+                        values: {
+                            "common": {
+                                title: "Common",
+                                description: "Widely available in nurseries, garden centers, and online. Easy to find and typically affordable."
+                            },
+                            "uncommon": {
+                                title: "Uncommon",
+                                description: "Available but may require searching specialty stores or online retailers. Moderately priced."
+                            },
+                            "rare": {
+                                title: "Rare",
+                                description: "Difficult to find, typically available only from specialty growers or collectors. Higher price point."
+                            },
+                            "very-rare": {
+                                title: "Very Rare",
+                                description: "Extremely difficult to obtain, often limited to collectors or specialized nurseries. Premium pricing."
+                            }
+                        }
+                    },
+                    "hazard": {
+                        title: "Hazard",
+                        description: "Safety information regarding potential toxicity or harm to humans and pets.",
+                        values: {
+                            "non-toxic": {
+                                title: "Non-toxic",
+                                description: "Safe for humans and pets. No known harmful effects if ingested or touched."
+                            },
+                            "toxic-if-ingested": {
+                                title: "Toxic if ingested",
+                                description: "Contains substances that can cause harm if eaten. Keep away from children and pets. May cause mild to severe symptoms."
+                            },
+                            "handle-with-care": {
+                                title: "Handle with care",
+                                description: "May cause skin irritation or other reactions. Use gloves when handling and avoid contact with eyes or mouth."
+                            }
+                        }
+                    },
+                    "flowering-period": {
+                        title: "Flowering Period",
+                        description: "When and how often the plant produces flowers.",
+                        values: {
+                            "seasonal": {
+                                title: "Seasonal",
+                                description: "Flowers during specific seasons (spring, summer, fall, or winter) on a regular annual cycle."
+                            },
+                            "year-round": {
+                                title: "Year-round",
+                                description: "Can flower continuously throughout the year under proper conditions."
+                            },
+                            "irregular": {
+                                title: "Irregular",
+                                description: "Flowering occurs unpredictably or infrequently, not following a regular pattern."
+                            },
+                            "does-not-flower": {
+                                title: "Does not flower",
+                                description: "Plant does not produce flowers (e.g., ferns, mosses, some algae). Reproduces through other means."
+                            },
+                            "does-not-flower-in-cultivation": {
+                                title: "Does not flower in cultivation",
+                                description: "May flower in nature but rarely or never flowers when grown indoors or in terrariums."
+                            }
+                        }
+                    },
+                    "colors": {
+                        title: "Colors",
+                        description: "The primary colors present in the plant's foliage, flowers, or overall appearance. May include multiple colors separated by commas.",
+                        values: {
+                            "common-colors": {
+                                title: "Common Colors",
+                                description: "Green, Red, Blue, Yellow, Orange, Purple, Pink, White, Black, Silver, Gold, Brown, Variegated (multiple colors), Multicolor, Tricolor, Rainbow"
+                            }
+                        }
+                    }
+                }
+            },
+            "growth-details": {
+                title: "Growth Details",
+                description: "Information about how plants grow and develop",
+                fields: {
+                    "growth-rate": {
+                        title: "Growth Rate",
+                        description: "How quickly the plant grows and develops new foliage. Stored as both text description (growthRate, e.g., \"Moderate\") and numeric range (growthRateRange: { min, max, ideal }) on a 0-100% scale.",
+                        values: {
+                            "very-slow": {
+                                title: "Very Slow (0-20%)",
+                                description: "Minimal growth over months or years. Requires patience and minimal maintenance. Numeric range: 0-20% (ideal: 10%)."
+                            },
+                            "slow": {
+                                title: "Slow (20-40%)",
+                                description: "Gradual growth, noticeable changes over several months. Low maintenance. Numeric range: 20-40% (ideal: 30%)."
+                            },
+                            "moderate": {
+                                title: "Moderate (40-60%)",
+                                description: "Steady, visible growth over weeks to months. Regular maintenance may be needed. Numeric range: 40-60% (ideal: 50%)."
+                            },
+                            "fast": {
+                                title: "Fast (60-80%)",
+                                description: "Rapid growth with noticeable changes in weeks. May require frequent pruning or trimming. Numeric range: 60-80% (ideal: 70%)."
+                            },
+                            "very-fast": {
+                                title: "Very Fast (80-100%)",
+                                description: "Extremely rapid growth, can become invasive. Requires frequent maintenance and control. Numeric range: 80-100% (ideal: 90%)."
+                            }
+                        }
+                    },
+                    "growth-pattern": {
+                        title: "Growth Pattern",
+                        description: "The physical form or structure of how the plant grows and spreads. Each describes a distinct growth form. No overlap.",
+                        values: {
+                            "upright-columnar": {
+                                title: "Upright/Columnar",
+                                description: "Tall, narrow, tree-like or columnar form. Grows vertically with a single or few main stems, creating a narrow, upright appearance. Good for vertical interest and focal points."
+                            },
+                            "upright-bushy": {
+                                title: "Upright/Bushy",
+                                description: "Grows vertically with multiple stems creating a full, bushy appearance. Good for background or focal points. More full and rounded than columnar forms."
+                            },
+                            "upright-single-stem": {
+                                title: "Upright/Single Stem",
+                                description: "Single main stem with upright growth. Tree-like form with one primary trunk or stem. Common in palms and some succulents."
+                            },
+                            "vining-climbing": {
+                                title: "Vining/Climbing",
+                                description: "Climbs with support using aerial roots, tendrils, or other structures. Ideal for climbing supports, trellises, or walls. Requires something to attach to."
+                            },
+                            "vining-trailing": {
+                                title: "Vining/Trailing",
+                                description: "Hangs down or trails freely without climbing. Long, trailing stems ideal for hanging baskets or cascading over edges. Does not require support to climb."
+                            },
+                            "rosette": {
+                                title: "Rosette",
+                                description: "Leaves arranged in a circular pattern radiating from a central point. Common in succulents and aquatic plants. Forms a circular, flat or rounded arrangement."
+                            },
+                            "clumping": {
+                                title: "Clumping",
+                                description: "Forms tight clusters or clumps as it grows. Spreads slowly by producing offsets. Creates dense, compact groups of stems or leaves."
+                            },
+                            "carpeting": {
+                                title: "Carpeting",
+                                description: "Low-growing, spreads horizontally to form a dense mat or carpet. Perfect for ground cover. Creates a thick, uniform layer."
+                            },
+                            "spreading": {
+                                title: "Spreading",
+                                description: "Spreads horizontally but not as dense as carpeting. More open growth pattern than carpeting, with space between stems or leaves."
+                            },
+                            "pendent": {
+                                title: "Pendent",
+                                description: "Hangs down from attachment point. Common in epiphytic plants. Grows downward from where it's attached (tree, rock, etc.)."
+                            }
+                        }
+                    },
+                    "growth-habit": {
+                        title: "Growth Habit",
+                        description: "The way the plant grows in relation to its environment and substrate. Each describes a distinct environmental relationship. No overlap. Using common descriptive terms instead of scientific names.",
+                        values: {
+                            "ground-dwelling": {
+                                title: "Ground-dwelling",
+                                description: "Grows in soil or substrate with roots anchored in the ground. Most common growth habit. Plants obtain nutrients and water from soil."
+                            },
+                            "tree-dwelling": {
+                                title: "Tree-dwelling",
+                                description: "Grows on other plants (like trees) without being parasitic. Absorbs nutrients from air and rain. Examples: orchids, air plants, bromeliads. Also called epiphytic."
+                            },
+                            "rock-dwelling": {
+                                title: "Rock-dwelling",
+                                description: "Grows on or among rocks. Roots anchor in rock crevices or on rock surfaces. Adapted to rocky environments with minimal soil."
+                            },
+                            "fully-aquatic": {
+                                title: "Fully Aquatic",
+                                description: "Fully submerged in water. Completely adapted to underwater life. All parts of the plant are typically underwater."
+                            },
+                            "emergent-aquatic": {
+                                title: "Emergent Aquatic",
+                                description: "Roots in water, leaves/stems above water. Grows with roots submerged but foliage above the water surface. Also called marginal aquatic."
+                            },
+                            "semi-aquatic": {
+                                title: "Semi-aquatic",
+                                description: "Can grow in both aquatic and terrestrial conditions. Adaptable to both environments. May grow with roots in water or in moist soil."
+                            },
+                            "semi-epiphytic": {
+                                title: "Semi-epiphytic",
+                                description: "Starts tree-dwelling, later becomes ground-dwelling (or vice versa). Transitions between epiphytic and terrestrial growth during its life cycle. Also called hemiepiphytic."
+                            }
+                        }
+                    },
+                    "propagation": {
+                        title: "Propagation",
+                        description: "Methods used to create new plants from an existing plant. Multiple methods may be listed, separated by commas.",
+                        values: {
+                            "stem-cuttings": {
+                                title: "Stem Cuttings",
+                                description: "Cut a section of stem with nodes, place in water or soil to root. One of the most common propagation methods."
+                            },
+                            "leaf-cuttings": {
+                                title: "Leaf Cuttings",
+                                description: "Remove a healthy leaf and place it in soil or water. New plant grows from the leaf base. Common for succulents."
+                            },
+                            "division": {
+                                title: "Division",
+                                description: "Separate a mature plant into smaller sections, each with roots. Each section becomes a new plant."
+                            },
+                            "offsets": {
+                                title: "Offsets",
+                                description: "Small plants that grow from the base of the parent plant. Can be separated once they develop roots."
+                            },
+                            "pups": {
+                                title: "Pups",
+                                description: "Small offshoots produced by the parent plant, especially in bromeliads and some succulents. Similar to offsets."
+                            },
+                            "runners": {
+                                title: "Runners",
+                                description: "Horizontal stems that produce new plants at nodes. Common in ground cover plants and some aquatic species."
+                            },
+                            "layering": {
+                                title: "Layering",
+                                description: "Bend a stem to the ground and cover part of it with soil. Roots form at the buried section, then it can be separated."
+                            },
+                            "spores": {
+                                title: "Spores",
+                                description: "Reproductive cells produced by ferns, mosses, and some other non-flowering plants. Requires specific conditions to germinate."
+                            },
+                            "seed": {
+                                title: "Seed",
+                                description: "Reproduction through seeds. Requires pollination and seed development. Can be slow but produces genetic diversity."
+                            },
+                            "fragmentation": {
+                                title: "Fragmentation",
+                                description: "Breaking apart the plant into pieces, each capable of growing into a new plant. Common in algae and some aquatic plants. Includes trimming and reattachment for mosses."
+                            },
+                            "plantlets": {
+                                title: "Plantlets",
+                                description: "Small plants that form on flower stalks or other parts of the parent plant (also called adventitious plantlets). Includes spiderettes, keikis (orchid plantlets), and other naturally occurring plantlets. Can be removed and planted once roots develop."
+                            },
+                            "rhizomes": {
+                                title: "Rhizomes",
+                                description: "Underground stems that produce new growth. Includes corms, tubers, and other underground storage structures. Can be divided to create new plants."
+                            },
+                            "mycelial-culture": {
+                                title: "Mycelial Culture",
+                                description: "For fungi: propagation through mycelium (the vegetative part of fungi). Requires sterile conditions and appropriate substrate. Used for mushroom cultivation."
+                            }
+                        }
+                    }
+                }
+            },
+            "requirements-details": {
+                title: "Requirements Details",
+                description: "Environmental and care requirements for plants",
+                fields: {
+                    "difficulty": {
+                        title: "Difficulty Level",
+                        description: "How challenging the plant is to care for, based on its specific needs and tolerance to varying conditions.",
+                        values: {
+                            "easy": {
+                                title: "Easy",
+                                description: "Forgiving and adaptable. Tolerates a range of conditions and occasional care mistakes. Good for beginners."
+                            },
+                            "moderate": {
+                                title: "Moderate",
+                                description: "Requires consistent care and attention to specific needs. Some experience helpful but not essential."
+                            },
+                            "hard": {
+                                title: "Hard",
+                                description: "Demanding specific conditions and careful maintenance. Best for experienced growers with proper setup."
+                            }
+                        }
+                    },
+                    "light-requirements": {
+                        title: "Light Requirements",
+                        description: "The amount and type of light the plant needs to thrive. Stored as both text description (lightRequirements) and numeric range (lightRange: { min, max, ideal }) on a 0-100% scale where 0% = complete darkness and 100% = direct sunlight.",
+                        values: {
+                            "very-low": {
+                                title: "Very Low",
+                                description: "Thrives in very low light conditions, away from direct sunlight. Can survive in dimly lit areas. Numeric range: 0-20% (ideal: 10%)."
+                            },
+                            "low": {
+                                title: "Low",
+                                description: "Thrives in low light conditions, away from direct sunlight. Can survive in dimly lit areas. Numeric range: 20-40% (ideal: 30%)."
+                            },
+                            "low-to-moderate": {
+                                title: "Low to Moderate",
+                                description: "Prefers low to medium light levels. Can tolerate some variation but avoids direct sun. Numeric range: 30-50% (ideal: 40%)."
+                            },
+                            "moderate": {
+                                title: "Moderate",
+                                description: "Needs medium light levels. Bright but indirect light is ideal. Numeric range: 40-60% (ideal: 50%)."
+                            },
+                            "moderate-to-high": {
+                                title: "Moderate to High",
+                                description: "Prefers medium to bright light. Can handle some direct sunlight, especially morning sun. Numeric range: 50-70% (ideal: 60%)."
+                            },
+                            "bright-indirect": {
+                                title: "Bright Indirect",
+                                description: "Needs bright light but not direct sun. Near a bright window with filtered light is ideal. Numeric range: 60-80% (ideal: 70%)."
+                            },
+                            "high": {
+                                title: "High",
+                                description: "Requires bright, direct or very bright indirect light. May need supplemental lighting in some situations. Numeric range: 80-100% (ideal: 90%)."
+                            }
+                        }
+                    },
+                    "humidity": {
+                        title: "Humidity",
+                        description: "The amount of moisture in the air that the plant requires. Stored as both text description (humidity) and numeric range (humidityRange: { min, max, ideal }) on a 0-100% scale where 0% = very dry air and 100% = fully submerged/aquatic. <strong>Important:</strong> Humidity represents air moisture above soil, different from watering (soil moisture).",
+                        values: {
+                            "very-low": {
+                                title: "Very Low (20-35%)",
+                                description: "Requires very low humidity, similar to arid/desert conditions. Ideal for desertariums, cacti, and succulents. Numeric range: 20-35% (ideal: 25%)."
+                            },
+                            "low": {
+                                title: "Low (35-50%)",
+                                description: "Requires low humidity, similar to typical indoor conditions. Ideal for desertariums, cacti, and succulents. Numeric range: 35-50% (ideal: 40%)."
+                            },
+                            "moderate": {
+                                title: "Moderate (50-70%)",
+                                description: "Prefers moderate humidity, typical of indoor home or office environments. Suitable for most house plants. Numeric range: 50-70% (ideal: 60%)."
+                            },
+                            "high": {
+                                title: "High (70-90%)",
+                                description: "Requires consistently high humidity. Terrariums, paludariums, humidifiers, or frequent misting recommended. Essential for tropical plants, ferns, and moisture-loving species. Numeric range: 70-90% (ideal: 80%)."
+                            },
+                            "very-high": {
+                                title: "Very High (90-100%)",
+                                description: "Needs very high humidity levels. Best in closed terrariums or high-humidity environments. Required for many tropical plants, mosses, and extremely moisture-dependent species. Numeric range: 90-100% (ideal: 95%)."
+                            },
+                            "aquatic": {
+                                title: "Aquatic (100%)",
+                                description: "Fully aquatic plant that grows completely underwater. No air humidity concerns - water quality and parameters are the primary considerations. Numeric range: 100% (fully submerged)."
+                            }
+                        }
+                    },
+                    "temperature": {
+                        title: "Temperature",
+                        description: "The ideal temperature range for the plant. Stored as both text description (temperature, e.g., \"18-24°C\") and numeric range (temperatureRange: { min, max, ideal }) on a 0-100% scale converted from Celsius (approximately 0°C = 0%, 40°C = 100%).",
+                        values: {
+                            "cool": {
+                                title: "Cool (18-21°C / 64-70°F)",
+                                description: "Prefers cooler temperatures. Numeric range typically: 36-42% (ideal: 38%)."
+                            },
+                            "moderate": {
+                                title: "Moderate (20-24°C / 68-75°F)",
+                                description: "Prefers moderate room temperatures. Numeric range typically: 40-48% (ideal: 44%)."
+                            },
+                            "warm": {
+                                title: "Warm (22-26°C / 72-79°F)",
+                                description: "Prefers warm temperatures. Numeric range typically: 44-52% (ideal: 48%)."
+                            },
+                            "hot": {
+                                title: "Hot (24-30°C / 75-86°F)",
+                                description: "Prefers hot temperatures. Numeric range typically: 48-60% (ideal: 54%)."
+                            }
+                        }
+                    },
+                    "watering": {
+                        title: "Watering / Water Needs",
+                        description: "How and how often the plant should be watered. Stored as both text description (watering) and numeric range (waterNeedsRange: { min, max, ideal }) on a 0-100% scale where 0% = minimal/drought tolerant and 100% = constant/submerged. <strong>Important:</strong> Water Needs represents soil moisture below soil, different from humidity (air moisture).",
+                        values: {
+                            "minimal": {
+                                title: "Minimal (0-20%)",
+                                description: "Minimal watering needed. Let soil dry completely between waterings. Common for succulents and cacti. Numeric range: 0-20% (ideal: 10%)."
+                            },
+                            "low": {
+                                title: "Low (20-40%)",
+                                description: "Low water needs. Allow soil to dry between waterings. Numeric range: 20-40% (ideal: 30%)."
+                            },
+                            "moderate": {
+                                title: "Moderate (40-60%)",
+                                description: "Moderate water needs. Water when top layer of soil begins to dry. Numeric range: 40-60% (ideal: 50%)."
+                            },
+                            "high": {
+                                title: "High (60-80%)",
+                                description: "Keep soil consistently moist. Water regularly to maintain moisture. Numeric range: 60-80% (ideal: 70%)."
+                            },
+                            "constant": {
+                                title: "Constant (80-100%)",
+                                description: "Grows completely submerged in water or requires constantly moist soil. No traditional \"watering\" - plant is always in water or very wet. Numeric range: 80-100% (ideal: 90%)."
+                            }
+                        }
+                    },
+                    "substrate": {
+                        title: "Substrate",
+                        description: "The type of growing medium or surface the plant needs.",
+                        values: {
+                            "well-draining-mix": {
+                                title: "Well-draining mix",
+                                description: "Soil that allows water to flow through easily, preventing waterlogging. Often includes perlite or sand."
+                            },
+                            "rich-moisture-retentive": {
+                                title: "Rich, moisture-retentive",
+                                description: "Nutrient-rich soil that holds moisture well. May include compost, peat moss, or organic matter."
+                            },
+                            "rich-substrate": {
+                                title: "Rich substrate / Rich, nutrient-dense substrate",
+                                description: "For aquatic plants: substrate with high nutrient content. May require root tabs or specialized aquatic soil."
+                            },
+                            "fine-substrate": {
+                                title: "Fine substrate",
+                                description: "Small-grained substrate, often used for carpeting plants or plants with delicate roots."
+                            },
+                            "attach-to-driftwood-rocks-mesh": {
+                                title: "Attach to driftwood, rocks, or mesh",
+                                description: "Epiphytic or aquatic plants that don't need soil. Attach to hardscape using thread, glue, or natural attachment."
+                            },
+                            "no-substrate-needed": {
+                                title: "No substrate needed",
+                                description: "Floating plants or plants that don't require anchoring in substrate."
+                            }
+                        }
+                    },
+                    "co2": {
+                        title: "CO₂",
+                        description: "Whether the plant benefits from or requires carbon dioxide supplementation, primarily for aquatic plants. Stored as text value (co2 field).",
+                        values: {
+                            "not-required": {
+                                title: "Not required",
+                                description: "Plant grows well without CO₂ supplementation. Suitable for low-tech setups."
+                            },
+                            "beneficial": {
+                                title: "Beneficial",
+                                description: "CO₂ supplementation will improve growth, color, and overall health but is not essential."
+                            },
+                            "recommended": {
+                                title: "Recommended",
+                                description: "CO₂ supplementation is strongly recommended for optimal growth and appearance."
+                            },
+                            "required": {
+                                title: "Required",
+                                description: "CO₂ supplementation is necessary for the plant to thrive. High-tech setup needed."
+                            }
+                        }
+                    },
+                    "growth-rate": {
+                        title: "Growth Rate",
+                        description: "How quickly the plant grows and develops new foliage. Stored as both text description (growthRate, e.g., \"Moderate\") and numeric range (growthRateRange: { min, max, ideal }) on a 0-100% scale.",
+                        values: {
+                            "very-slow": {
+                                title: "Very Slow (0-20%)",
+                                description: "Minimal growth over months or years. Requires patience and minimal maintenance. Numeric range: 0-20% (ideal: 10%)."
+                            },
+                            "slow": {
+                                title: "Slow (20-40%)",
+                                description: "Gradual growth, noticeable changes over several months. Low maintenance. Numeric range: 20-40% (ideal: 30%)."
+                            },
+                            "moderate": {
+                                title: "Moderate (40-60%)",
+                                description: "Steady, visible growth over weeks to months. Regular maintenance may be needed. Numeric range: 40-60% (ideal: 50%)."
+                            },
+                            "fast": {
+                                title: "Fast (60-80%)",
+                                description: "Rapid growth with noticeable changes in weeks. May require frequent pruning or trimming. Numeric range: 60-80% (ideal: 70%)."
+                            },
+                            "very-fast": {
+                                title: "Very Fast (80-100%)",
+                                description: "Extremely rapid growth, can become invasive. Requires frequent maintenance and control. Numeric range: 80-100% (ideal: 90%)."
+                            }
+                        }
+                    },
+                    "requirement-scales": {
+                        title: "Requirement Scales",
+                        description: "All plant requirements are measured on a 0-100% scale. Each plant has numeric ranges stored as objects with <code>min</code>, <code>max</code>, and <code>ideal</code> values. The scales show the plant's tolerable range (min-max) and ideal value. Each scale has tick marks every 10% for easy reference.",
+                        values: {
+                            "light-scale": {
+                                title: "Light Requirements Scale (lightRange)",
+                                description: "<strong>Scale Range:</strong> 0% to 100%<br><br><strong>0%:</strong> Complete darkness - no light exposure<br><strong>100%:</strong> Direct sunlight - full sun exposure<br><br>The scale represents the intensity of light the plant needs. Plants are shown with their tolerable range (minimum to maximum) and ideal light level. Stored as: <code>{ min: 0-100, max: 0-100, ideal: 0-100 }</code><br><br><strong>Typical Ranges:</strong><br>• Very Low: 0-20% (ideal: 10%)<br>• Low: 20-40% (ideal: 30%)<br>• Moderate: 40-60% (ideal: 50%)<br>• Bright: 60-80% (ideal: 70%)<br>• Very Bright: 80-100% (ideal: 90%)"
+                            },
+                            "humidity-scale": {
+                                title: "Humidity Scale (humidityRange)",
+                                description: "<strong>Scale Range:</strong> 0% to 100%<br><br><strong>0%:</strong> Very dry air - arid conditions<br><strong>100%:</strong> Fully submerged/aquatic - complete water immersion<br><br><strong>Important Distinction:</strong> Humidity represents <strong>air moisture above soil</strong> - the moisture content in the air around the plant's foliage. This is different from watering (soil moisture). Plants are shown with their tolerable humidity range and ideal level. Stored as: <code>{ min: 0-100, max: 0-100, ideal: 0-100 }</code><br><br><strong>Typical Ranges:</strong><br>• Very Low: 20-35% (ideal: 25%) - Desertariums<br>• Low: 35-50% (ideal: 40%) - Indoor conditions<br>• Moderate: 50-70% (ideal: 60%) - House plants<br>• High: 70-90% (ideal: 80%) - Terrariums<br>• Very High: 90-100% (ideal: 95%) - Closed terrariums<br>• Aquatic: 100% (fully submerged)"
+                            },
+                            "air-circulation-scale": {
+                                title: "Air Circulation Scale (airCirculationRange)",
+                                description: "<strong>Scale Range:</strong> 0% to 100%<br><br><strong>0%:</strong> Sealed/closed - no air exchange (closed terrariums)<br><strong>100%:</strong> Open air/outdoor - full exposure to room air circulation<br><br>The scale represents how much air movement and ventilation the plant needs. Plants requiring low air circulation (0-30%) thrive in closed terrariums, while those needing high circulation (60-100%) require open environments like indoor house plants or aerariums. Stored as: <code>{ min: 0-100, max: 0-100, ideal: 0-100 }</code><br><br><strong>Typical Ranges:</strong><br>• Minimal: 0-20% (ideal: 10%) - Closed terrariums<br>• Low: 20-40% (ideal: 30%)<br>• Moderate: 40-60% (ideal: 50%) - Open terrariums<br>• High: 60-80% (ideal: 70%) - Indoor conditions<br>• Very High: 80-100% (ideal: 90%) - Aerariums, outdoor"
+                            },
+                            "water-needs-scale": {
+                                title: "Water Needs Scale (waterNeedsRange)",
+                                description: "<strong>Scale Range:</strong> 0% to 100%<br><br><strong>0%:</strong> Minimal/drought tolerant - very infrequent watering<br><strong>100%:</strong> Constant/submerged - always in water or constantly moist<br><br><strong>Important Distinction:</strong> Water Needs represents <strong>soil moisture below soil</strong> - the moisture content in the substrate/soil where the plant's roots are located. This is different from humidity (air moisture). Plants are shown with their tolerable water needs range and ideal level. Stored as: <code>{ min: 0-100, max: 0-100, ideal: 0-100 }</code><br><br><strong>Typical Ranges:</strong><br>• Minimal: 0-20% (ideal: 10%) - Succulents, cacti<br>• Low: 20-40% (ideal: 30%)<br>• Moderate: 40-60% (ideal: 50%) - Most house plants<br>• High: 60-80% (ideal: 70%) - Terrarium plants<br>• Constant: 80-100% (ideal: 90%) - Aquatic plants"
+                            },
+                            "temperature-scale": {
+                                title: "Temperature Scale (temperatureRange)",
+                                description: "<strong>Scale Range:</strong> 0% to 100% (converted from Celsius)<br><br><strong>0%:</strong> Very cold (approximately 0°C/32°F)<br><strong>100%:</strong> Very hot (approximately 40°C/104°F)<br><br>The scale represents the temperature range the plant can tolerate. Stored as: <code>{ min: 0-100, max: 0-100, ideal: 0-100 }</code><br><br><strong>Typical Ranges:</strong><br>• Cool: 36-42% (ideal: 38%) - 18-21°C / 64-70°F<br>• Moderate: 40-48% (ideal: 44%) - 20-24°C / 68-75°F<br>• Warm: 44-52% (ideal: 48%) - 22-26°C / 72-79°F<br>• Hot: 48-60% (ideal: 54%) - 24-30°C / 75-86°F"
+                            },
+                            "difficulty-scale": {
+                                title: "Difficulty Scale (difficultyRange)",
+                                description: "<strong>Scale Range:</strong> 0% to 100%<br><br><strong>0%:</strong> Very Easy - extremely forgiving, minimal care needed<br><strong>100%:</strong> Very Hard - requires expert knowledge and specialized equipment<br><br>The scale represents how challenging the plant is to care for. Stored as: <code>{ min: 0-100, max: 0-100, ideal: 0-100 }</code><br><br><strong>Typical Ranges:</strong><br>• Easy: 0-30% (ideal: 15%) - Forgiving, beginner-friendly<br>• Moderate: 30-60% (ideal: 45%) - Requires consistent care<br>• Hard: 60-90% (ideal: 75%) - Demanding, expert-level<br>• Very Hard: 90-100% (ideal: 95%) - Extremely challenging"
+                            },
+                            "soil-ph-scale": {
+                                title: "Soil pH Scale (soilPhRange)",
+                                description: "<strong>Scale Range:</strong> 0% to 100% (converted from pH 0-14)<br><br><strong>0%:</strong> Very acidic (pH 0-2)<br><strong>50%:</strong> Neutral (pH 7)<br><strong>100%:</strong> Very alkaline (pH 12-14)<br><br>The scale represents the soil pH range the plant prefers. Stored as: <code>{ min: 0-100, max: 0-100, ideal: 0-100 }</code><br><br><strong>Typical Ranges:</strong><br>• Acidic: 28.6-42.9% (ideal: 35.7%) - pH 4-6 (most plants)<br>• Neutral: 42.9-57.1% (ideal: 50%) - pH 6.5-7.5<br>• Alkaline: 57.1-71.4% (ideal: 64.3%) - pH 8-10"
+                            },
+                            "growth-rate-scale": {
+                                title: "Growth Rate Scale (growthRateRange)",
+                                description: "<strong>Scale Range:</strong> 0% to 100%<br><br><strong>0%:</strong> Very Slow - minimal growth over months or years<br><strong>100%:</strong> Very Fast - extremely rapid growth, can become invasive<br><br>The scale represents how quickly the plant grows. Stored as: <code>{ min: 0-100, max: 0-100, ideal: 0-100 }</code><br><br><strong>Typical Ranges:</strong><br>• Very Slow: 0-20% (ideal: 10%)<br>• Slow: 20-40% (ideal: 30%)<br>• Moderate: 40-60% (ideal: 50%)<br>• Fast: 60-80% (ideal: 70%)<br>• Very Fast: 80-100% (ideal: 90%)"
+                            }
+                        }
+                    }
+                }
+            },
+            "vivarium-definitions": {
+                title: "Vivarium Definitions",
+                description: "Types of enclosed environments for plants",
+                fields: {
+                    "terrarium": {
+                        title: "Terrarium",
+                        description: "A glass or transparent container that creates a miniature world for terrestrial plants, where moisture and warmth combine to support lush growth. Unlike aquatic setups, terrariums contain no body of water, relying instead on moist substrate and soil to maintain the humid environment that many tropical plants crave. The design can range from fully sealed enclosures that create self-contained ecosystems to partially open containers that allow gentle air exchange. In closed terrariums, air movement is minimal, creating a still environment where humidity builds naturally through the water cycle. Semi-closed designs offer moderate air movement while still maintaining elevated moisture levels. Plants within these enclosures are protected from the direct exposure to room air, existing in their own carefully controlled microclimate. This environment is perfect for terrestrial and epiphytic plants that require high humidity and consistent moisture, but it's not suitable for aquatic plants that need complete submersion, nor for plants that require low humidity or strong air circulation.",
+                        values: {
+                            "closed-terrarium": {
+                                title: "Closed Terrarium",
+                                description: "Picture a sealed glass world, a miniature ecosystem that sustains itself through the beautiful dance of condensation and evaporation. The closed terrarium is nature's own greenhouse, trapping moisture and creating a stable microclimate where humidity levels remain consistently high. Inside this sealed environment, tropical plants flourish in the still, humid air that mimics their native rainforest homes. The water cycle creates a self-sustaining system where moisture condenses on the glass and trickles back down, nourishing the plants below. This creates a nearly autonomous ecosystem where plants recycle their own moisture through transpiration and condensation. The sealed design means minimal water loss, making these terrariums incredibly low-maintenance once properly established. However, the lack of air exchange means they require careful plant selection, as species that need air movement or are prone to fungal issues may struggle. The high humidity and still air create perfect conditions for mosses, ferns, and other moisture-loving plants that thrive in stagnant, humid environments. These terrariums can remain sealed for extended periods, only needing occasional opening to refresh the air or remove excess condensation.<br><br>Numeric Scales:<br>Humidity: 60-100% (ideal: 80%)<br>Light: 20-70% (ideal: 40%)<br>Air Circulation: 0-30% (ideal: 20%)<br>Substrate: moist, wet, epiphytic<br>Water Needs: 40-100% (ideal: 70%)<br>Water Body: None"
+                            },
+                            "open-terrarium": {
+                                title: "Open Terrarium",
+                                description: "Imagine a glass container with its top partially open, creating a delicate balance between humidity and fresh air. This is the open terrarium, where tropical plants find their perfect home. The design allows gentle air currents to flow through while maintaining that essential high humidity that many plants crave. You'll find terrestrial plants and epiphytes thriving here, their leaves glistening with moisture yet breathing freely. The partially open design prevents the stagnant air conditions that can lead to mold and fungal issues, while still providing the elevated moisture levels that tropical species require. This setup is particularly well-suited for plants that benefit from some air movement, such as those prone to rot in completely still environments. Since the open design allows humidity to escape more readily than closed systems, humidity levels can be restored or maintained through manual misting or automatic water spraying and fogging systems. The increased ventilation also makes open terrariums more forgiving for beginners, as they're less prone to overwatering issues and allow for easier adjustment of environmental conditions.<br><br>Numeric Scales:<br>Humidity: 70-100% (ideal: 85%)<br>Light: 20-80% (ideal: 50%)<br>Air Circulation: 40-60% (ideal: 50%)<br>Substrate: moist, wet, epiphytic<br>Water Needs: 40-100% (ideal: 70%)<br>Water Body: None"
+                            }
+                        }
+                    },
+                    "aquarium": {
+                        title: "Aquarium",
+                        description: "Dive into a fully aquatic world where plants exist entirely underwater, their entire life cycle playing out beneath the surface. The aquarium is a water-filled environment where aquatic plants grow completely submerged, obtaining all their nutrients from the water column and specialized aquatic substrates. These plants have adapted to life underwater through remarkable evolutionary changes, with leaves designed to absorb nutrients directly from water, reduced cuticles that allow gas exchange, and stems that float or anchor in aquatic media. Some species attach themselves to driftwood or rocks using specialized holdfasts, while others root in fine gravel or specialized aquatic soils rich in nutrients. The environment is completely saturated, with no emergent parts, creating an underwater garden that supports not just plants but an entire aquatic ecosystem including fish, invertebrates, and beneficial bacteria. Lighting penetrates the water to fuel photosynthesis, with specialized aquarium lights providing the spectrum and intensity needed for aquatic plant growth. Water circulation through filters and pumps ensures nutrients reach every plant while maintaining water quality. The water chemistry, including pH, hardness, and nutrient levels, becomes critical for plant health, requiring careful monitoring and management. Some aquariums incorporate CO2 injection systems to enhance plant growth, while others rely on natural processes and careful plant selection.<br><br>Numeric Scales:<br>Humidity: 100% (fully submerged)<br>Light: 20-70% (ideal: 50%)<br>Air Circulation: 0-30% (ideal: 20%)<br>Substrate: aquatic<br>Water Needs: 80-100% (ideal: 90%)<br>Water Body: Required<br>Water Circulation: 0-100% (ideal: 50%)",
+                        values: {
+                            "fully-submerged": {
+                                title: "Fully Submerged",
+                                description: "Plants that grow completely underwater, requiring specialized aquatic care including water quality management, appropriate lighting, and often substrate or hardscape attachment."
+                            }
+                        }
+                    },
+                    "paludarium": {
+                        title: "Paludarium",
+                        description: "Step into a world where land and water meet, where aquatic plants drift beneath the surface while terrestrial species reach toward the light above. The paludarium is a semi-aquatic masterpiece, featuring a permanent water body alongside carefully designed land areas. Derived from the Latin word 'palus' meaning marsh or swamp, paludariums replicate these transitional ecosystems where water and land coexist. Here, fully submerged plants create underwater gardens while emergent species send their roots into the water and their leaves into the humid air above. Terrestrial plants thrive in the saturated soil near the water's edge, benefiting from the constant humidity created by evaporation. This is the realm of bog plants, marginal species, and those fascinating plants that bridge two worlds. The water section becomes a living pond, supporting aquatic life while the land areas create elevated habitats for moisture-loving terrestrial plants. The design allows for incredible biodiversity, housing both aquatic and terrestrial species in a single cohesive environment. Water circulation systems help maintain water quality while contributing to the overall humidity of the terrestrial zones. While the water body naturally contributes to humidity through evaporation, open paludarium designs often benefit from supplemental humidity maintenance through manual misting or automatic water spraying and fogging systems, ensuring optimal conditions for both aquatic and terrestrial inhabitants. The combination of water and land creates naturalistic displays that showcase the beauty of wetland ecosystems.<br><br>Numeric Scales:<br>Humidity: 70-100% (ideal: 90%)<br>Light: 20-100% (ideal: 60%)<br>Air Circulation: 20-60% (ideal: 50%)<br>Substrate: wet, aquatic, moist<br>Water Needs: 40-100% (ideal: 80%)<br>Water Body: Required<br>Water Circulation: 10-30% (ideal: 20%)",
+                        values: {
+                            "semi-aquatic-setup": {
+                                title: "Semi-Aquatic Setup",
+                                description: "Fully submerged aquatic plants, emergent plants (roots in water, foliage above), and terrestrial plants. Ideal for plants that can grow both underwater and above water, such as many ferns, mosses, and marginal plants."
+                            },
+                            "water-body-required": {
+                                title: "Water Body Required",
+                                description: "Unlike terrariums, paludariums must have an actual body of water - a pond, pool, or water section - not just moist soil. This water body creates high humidity through evaporation and supports aquatic plants. This is the defining characteristic that distinguishes paludariums from terrariums."
+                            }
+                        }
+                    },
+                    "riparium": {
+                        title: "Riparium",
+                        description: "Experience the dynamic environment of a riverbank brought indoors, where plants straddle the boundary between water and air. The riparium, derived from the Latin 'ripa' meaning riverbank, features a shallow water section with high air circulation, perfectly suited for marginal and riparian plants that naturally grow at water's edge. These remarkable plants send their roots into the water while their foliage extends above the surface, creating a striking vertical display that emphasizes the transition zone between aquatic and terrestrial environments. The high air circulation mimics the moving air of streamside environments, where plants experience both aquatic roots and exposed foliage, preventing the stagnant conditions that can plague other setups. Some houseplants adapt beautifully to this setup, growing hydroponically with roots submerged while maintaining their terrestrial foliage above, making ripariums versatile displays that combine aquatic and terrestrial aesthetics. The constant water evaporation creates elevated humidity levels, benefiting the emergent growth while the flowing water ensures roots receive constant hydration. Unlike paludariums which feature deeper water sections and more extensive land areas, ripariums focus specifically on the shallow water margin, creating a more specialized habitat for plants that thrive in this unique ecological niche. Water circulation systems help maintain water quality while creating the gentle flow that many marginal plants appreciate.<br><br>Numeric Scales:<br>Humidity: 70-100% (ideal: 85%)<br>Light: 20-70% (ideal: 50%)<br>Air Circulation: 60-100% (ideal: 80%)<br>Substrate: wet, aquatic<br>Water Needs: 60-100% (ideal: 80%)<br>Water Body: Required<br>Water Circulation: 30-80% (ideal: 55%)",
+                        values: {
+                            "marginal-plants": {
+                                title: "Marginal Plants",
+                                description: "Plants that naturally grow at the water's edge, with roots in water or very wet soil and foliage above the waterline. Perfect for riparium setups where plants need both aquatic roots and air-exposed foliage."
+                            },
+                            "root-in-water-plants": {
+                                title: "Root-in-Water Plants",
+                                description: "House plants and terrestrial plants that can adapt to having roots submerged in water while foliage grows above water. These plants can be grown using hydroponic/root-in-water methods in riparium setups, where they benefit from high humidity from water evaporation while maintaining their terrestrial foliage above the waterline."
+                            }
+                        }
+                    },
+                    "house-plant": {
+                        title: "Indoor",
+                        description: "Discover the world of adaptable houseplants that thrive in typical home and office environments without requiring specialized enclosures. These plants have learned to adapt to moderate humidity levels, making them perfect companions for everyday living spaces. They appreciate good light and benefit from the natural air movement that comes with being in an open room, whether that's gentle breezes from HVAC systems or the subtle air currents of a well-ventilated space. Potted in containers with appropriate soil mixes, these plants bring nature indoors while remaining accessible and easy to care for. While they might appreciate the extra humidity of a terrarium, they don't require it, making them ideal for those who want greenery without the commitment of specialized vivarium setups.<br><br>Numeric Scales:<br>Humidity: 30-70% (ideal: 50%)<br>Light: 40-100% (ideal: 70%)<br>Air Circulation: 60-100% (ideal: 80%)<br>Substrate: moist, dry<br>Water Needs: 20-60% (ideal: 40%)<br>Water Body: None",
+                        values: {
+                            "indoor-conditions": {
+                                title: "Indoor Conditions",
+                                description: "Plants that adapt well to average indoor temperatures, humidity (30-70%), and lighting. Potted plants in containers with soil, placed indoors. May benefit from terrarium conditions but don't require them."
+                            }
+                        }
+                    },
+                    "aerarium": {
+                        title: "Aerarium",
+                        description: "Enter a space designed for plants that defy convention, growing without soil or water bodies, suspended in air like living sculptures. The aerarium celebrates epiphytic plants in their natural glory, mounted on branches, bark, driftwood, or specialized structures that mimic their tree-dwelling habitats. High air circulation flows through this open-air enclosure, essential for these air-breathing plants that absorb moisture and nutrients directly from the atmosphere through specialized structures like trichomes and velamen roots. Orchids display their intricate blooms, bromeliads form rosettes that catch rainwater and debris, and Tillandsia species cling to surfaces with their specialized holdfasts. These plants have evolved to thrive without traditional soil, instead extracting what they need from the air, rain, and organic matter that accumulates around them. The moderate to high humidity levels are maintained through regular misting, fogging systems, or humidifiers, creating an environment that replicates the canopy of tropical forests where these remarkable plants naturally thrive. The open design ensures excellent air movement, preventing the stagnant conditions that can lead to rot in epiphytic species. Some aerariums incorporate fans to simulate the breezy conditions of their natural canopy habitats, while others rely on natural room air circulation.<br><br>Numeric Scales:<br>Humidity: 50-90% (ideal: 70%)<br>Light: 40-100% (ideal: 70%)<br>Air Circulation: 60-100% (ideal: 80%)<br>Substrate: epiphytic<br>Water Needs: 20-60% (ideal: 40%)<br>Water Body: None",
+                        values: {
+                            "epiphytic-plants": {
+                                title: "Epiphytic Plants",
+                                description: "Plants that grow on other plants or surfaces without being parasitic. They absorb moisture and nutrients from the air, rain, and debris. Examples include many orchids, bromeliads, and Tillandsia species."
+                            }
+                        }
+                    },
+                    "deserterium": {
+                        title: "Deserterium",
+                        description: "Welcome to an arid landscape recreated indoors, where succulents and cacti showcase their incredible adaptations to harsh conditions. The deserterium, also known as a desertarium or xerarium, is a dry, well-ventilated space where low humidity and excellent air circulation prevent the moisture buildup that would spell disaster for these desert dwellers. Bright light floods the enclosure, mimicking the intense sun of arid regions, while fast-draining substrates like sand, pumice, or specialized cactus mixes ensure that water never lingers around sensitive roots. Here, plants with water-storing tissues, reduced leaf surfaces, waxy coatings, and specialized root systems demonstrate their survival strategies. The environment celebrates the beauty of xerophytic plants, from the geometric perfection of cacti with their spines and ribbed structures to the plump leaves of succulents that store water in their tissues. These plants have evolved CAM photosynthesis, allowing them to open their stomata at night to minimize water loss. The low humidity prevents fungal diseases and rot, while the high light levels ensure proper growth and often trigger spectacular flowering displays. Ventilation is crucial to prevent any moisture accumulation, making these setups ideal for arid-adapted species that would suffer in the high-humidity conditions of traditional terrariums.<br><br>Numeric Scales:<br>Humidity: 20-50% (ideal: 30%)<br>Light: 60-100% (ideal: 90%)<br>Air Circulation: 60-100% (ideal: 80%)<br>Substrate: dry<br>Water Needs: 0-30% (ideal: 15%)<br>Water Body: None",
+                        values: {
+                            "xerophytic-plants": {
+                                title: "Xerophytic Plants",
+                                description: "Plants adapted to survive in environments with little water. They have specialized features like water-storing tissues, reduced leaf surface area, and deep root systems. Includes cacti, succulents, and many desert-adapted species."
+                            }
+                        }
+                    },
+                    "outdoor": {
+                        title: "Outdoor",
+                        description: "Embrace the natural world where plants experience the full spectrum of environmental conditions, from gentle morning mists to intense afternoon sun. Outdoor growing environments offer plants exposure to natural weather patterns, unrestricted air movement, and the variable humidity that comes with changing seasons and weather conditions. These plants are adapted to handle environmental fluctuations, thriving in conditions that would challenge more delicate species. Whether planted in garden beds, containers on patios, or integrated into landscape designs, outdoor plants benefit from maximum air circulation and natural light cycles. They've evolved to handle the realities of outdoor life, from temperature swings to varying moisture levels, creating resilient displays that change with the seasons.<br><br>Numeric Scales:<br>Humidity: 20-80% (ideal: 50%)<br>Light: 60-100% (ideal: 90%)<br>Air Circulation: 80-100% (ideal: 95%)<br>Substrate: moist, dry, wet<br>Water Needs: 10-70% (ideal: 40%)<br>Water Body: None",
+                        values: {}
+                    }
+                }
+            }
+        };
+
+        // Generate hierarchical navigation
+        function generateNavigation() {
+            const navContainer = document.getElementById('hierarchicalNav');
+            const ul = document.createElement('ul');
+            ul.style.cssText = 'list-style: none; padding: 0; margin: 0;';
+
+            Object.keys(navigationData).forEach(sectionKey => {
+                const section = navigationData[sectionKey];
+                
+                // Level 1: Section
+                const li1 = document.createElement('li');
+                li1.className = 'nav-item';
+                const link1 = document.createElement('a');
+                link1.className = 'nav-link nav-level-1 has-children';
+                link1.textContent = section.title;
+                link1.setAttribute('data-type', 'section');
+                link1.setAttribute('data-key', sectionKey);
+                link1.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    toggleNavItem(link1);
+                });
+                li1.appendChild(link1);
+
+                    // Level 2: Fields
+                    const ul2 = document.createElement('ul');
+                    ul2.className = 'nav-children';
+                    ul2.style.cssText = 'list-style: none; padding: 0; margin: 0.25rem 0;';
+
+                Object.keys(section.fields).forEach(fieldKey => {
+                    const field = section.fields[fieldKey];
+                    
+                    const li2 = document.createElement('li');
+                    li2.className = 'nav-item';
+                    const link2 = document.createElement('a');
+                    link2.className = 'nav-link nav-level-2 has-children';
+                    link2.textContent = field.title;
+                    link2.setAttribute('data-type', 'field');
+                    link2.setAttribute('data-section', sectionKey);
+                    link2.setAttribute('data-key', fieldKey);
+                    link2.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        toggleNavItem(link2);
+                        setActiveLink(link2);
+                        showContent('field', sectionKey, fieldKey);
+                    });
+                    li2.appendChild(link2);
+
+                    // Level 3: Values
+                    const ul3 = document.createElement('ul');
+                    ul3.className = 'nav-children';
+                    ul3.style.cssText = 'list-style: none; padding: 0; margin: 0.15rem 0;';
+
+                    if (field.values) {
+                        Object.keys(field.values).forEach(valueKey => {
+                            const value = field.values[valueKey];
+                            
+                            const li3 = document.createElement('li');
+                            li3.className = 'nav-item';
+                            const link3 = document.createElement('a');
+                            link3.className = 'nav-link nav-level-3';
+                            link3.textContent = value.title;
+                            link3.setAttribute('data-type', 'value');
+                            link3.setAttribute('data-section', sectionKey);
+                            link3.setAttribute('data-field', fieldKey);
+                            link3.setAttribute('data-key', valueKey);
+                            link3.addEventListener('click', (e) => {
+                                e.preventDefault();
+                                setActiveLink(link3);
+                                showContent('value', sectionKey, fieldKey, valueKey);
+                            });
+                            li3.appendChild(link3);
+                            ul3.appendChild(li3);
+                        });
+                    }
+
+                    li2.appendChild(ul3);
+                    ul2.appendChild(li2);
+                });
+
+                li1.appendChild(ul2);
+                ul.appendChild(li1);
+            });
+
+            navContainer.appendChild(ul);
+        }
+
+        // Toggle navigation item (expand/collapse)
+        function toggleNavItem(link) {
+            const children = link.parentElement.querySelector('.nav-children');
+            if (children) {
+                const isExpanded = children.classList.contains('expanded');
+                if (isExpanded) {
+                    children.classList.remove('expanded');
+                    link.classList.remove('expanded');
+                } else {
+                    children.classList.add('expanded');
+                    link.classList.add('expanded');
+                }
+            }
+        }
+
+        // Set active link
+        function setActiveLink(activeLink) {
+            document.querySelectorAll('.definitions-sidebar .nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            activeLink.classList.add('active');
+        }
+
+        // Show content in viewer
+        function showContent(type, sectionKey, fieldKey, valueKey = null) {
+            const emptyState = document.getElementById('emptyState');
+            const contentViewer = document.getElementById('contentViewer');
+            
+            emptyState.style.display = 'none';
+            contentViewer.classList.add('active');
+            contentViewer.innerHTML = '';
+
+            const section = navigationData[sectionKey];
+            const field = section.fields[fieldKey];
+
+            if (type === 'field') {
+                // Show only field description
+                const h2 = document.createElement('h2');
+                h2.textContent = field.title;
+                contentViewer.appendChild(h2);
+
+                const breadcrumb = document.createElement('div');
+                breadcrumb.style.cssText = 'color: var(--text-light); margin-bottom: 1rem; font-size: 0.9rem;';
+                breadcrumb.innerHTML = `${section.title} → ${field.title}`;
+                contentViewer.appendChild(breadcrumb);
+
+                const desc = document.createElement('div');
+                desc.className = 'content-description';
+                // Remove Numeric Scales text before displaying
+                const cleanDescription = field.description.replace(/<br><br>Numeric Scales:[\s\S]*$/, '');
+                desc.innerHTML = cleanDescription;
+                contentViewer.appendChild(desc);
+            } else if (type === 'value' && valueKey) {
+                // Show specific value content
+                const value = field.values[valueKey];
+                
+                const h2 = document.createElement('h2');
+                h2.textContent = value.title;
+                contentViewer.appendChild(h2);
+
+                const breadcrumb = document.createElement('div');
+                breadcrumb.style.cssText = 'color: var(--text-light); margin-bottom: 1rem; font-size: 0.9rem;';
+                breadcrumb.innerHTML = `${section.title} → ${field.title} → ${value.title}`;
+                contentViewer.appendChild(breadcrumb);
+
+                const desc = document.createElement('div');
+                desc.className = 'content-description';
+                // Remove Numeric Scales text before displaying
+                const cleanDescription = value.description.replace(/<br><br>Numeric Scales:[\s\S]*$/, '');
+                desc.innerHTML = cleanDescription;
+                contentViewer.appendChild(desc);
+            }
+            
+            // Render scales immediately after content is added (synchronously)
+            renderVivariumScales();
+        }
+
+        // Navigation functionality
+        function initNavigation() {
+            const navToggle = document.getElementById('navToggle');
+            const navMenu = document.getElementById('navMenu');
+            
+            if (navToggle && navMenu) {
+                navToggle.addEventListener('click', () => {
+                    navToggle.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                });
+                
+                const navLinks = navMenu.querySelectorAll('.nav-link');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        navToggle.classList.remove('active');
+                        navMenu.classList.remove('active');
+                    });
+                });
+                
+                document.addEventListener('click', (e) => {
+                    if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
+                        navToggle.classList.remove('active');
+                        navMenu.classList.remove('active');
+                    }
+                });
+            }
+        }
+
+        // Mobile sidebar toggle
+        function initMobileNav() {
+            const mobileToggle = document.getElementById('mobileNavToggle');
+            const sidebar = document.getElementById('definitionsSidebar');
+
+            if (mobileToggle && sidebar) {
+                mobileToggle.addEventListener('click', () => {
+                    sidebar.classList.toggle('active');
+                });
+            }
+        }
+
+        // Function to create visual requirement scale (matching plant modal format)
+        function createRequirementScale(label, range) {
+            if (!range || range.min === undefined || range.max === undefined) {
+                return `<div class="info-item"><div class="info-item-label">${label}</div><div class="info-item-value">N/A</div></div>`;
+            }
+            
+            const min = range.min;
+            const max = range.max;
+            const ideal = range.ideal !== undefined ? range.ideal : (min + max) / 2;
+            
+            // Generate tick marks every 10%
+            let tickMarks = '';
+            for (let i = 0; i <= 100; i += 10) {
+                tickMarks += `<div class="requirement-scale-tick" style="left: ${i}%;"></div>`;
+            }
+            
+            // Determine scale labels based on requirement type
+            let leftLabel = '0%';
+            let rightLabel = '100%';
+            let idealLabel = '';
+            
+            if (label === 'Temperature') {
+                leftLabel = '0°C';
+                rightLabel = '50°C';
+                const idealTemp = (ideal / 100) * 50;
+                idealLabel = idealTemp.toFixed(0) + '°C';
+            } else if (label === 'Difficulty Level') {
+                leftLabel = 'Easy';
+                rightLabel = 'Hard';
+                idealLabel = ideal.toFixed(0) + '%';
+            } else if (label === 'Soil pH' || label === 'Water pH') {
+                leftLabel = 'pH 0';
+                rightLabel = 'pH 14';
+                const idealPh = (ideal / 100) * 14;
+                idealLabel = idealPh.toFixed(1);
+            } else if (label === 'Water Circulation') {
+                leftLabel = 'Still';
+                rightLabel = 'Strong Current';
+                idealLabel = ideal.toFixed(0) + '%';
+            } else if (label === 'Water Temperature') {
+                leftLabel = '0°C';
+                rightLabel = '40°C';
+                const idealTemp = (ideal / 100) * 40;
+                idealLabel = idealTemp.toFixed(0) + '°C';
+            } else if (label === 'Water Hardness') {
+                leftLabel = '0 dGH';
+                rightLabel = '30 dGH';
+                const idealGH = (ideal / 100) * 30;
+                idealLabel = idealGH.toFixed(1) + ' dGH';
+            } else if (label === 'Salinity') {
+                leftLabel = 'Fresh';
+                rightLabel = 'Marine';
+                const idealSal = (ideal / 100) * 40;
+                if (ideal <= 5) {
+                    idealLabel = 'Fresh';
+                } else {
+                    idealLabel = idealSal.toFixed(1) + ' ppt';
+                }
+            } else if (label === 'Light' || label === 'Light Requirements') {
+                leftLabel = 'Darkness';
+                rightLabel = 'Direct Sunlight';
+                idealLabel = ideal.toFixed(0) + '%';
+            } else if (label === 'Air Circulation') {
+                leftLabel = 'Still';
+                rightLabel = 'Constant Flow';
+                idealLabel = ideal.toFixed(0) + '%';
+            } else if (label === 'Watering' || label === 'Water Needs') {
+                leftLabel = 'Drought Tolerant';
+                rightLabel = 'Constantly Moist';
+                idealLabel = ideal.toFixed(0) + '%';
+            } else if (label === 'Growth Rate') {
+                leftLabel = 'Very Slow';
+                rightLabel = 'Very Fast';
+                idealLabel = ideal.toFixed(0) + '%';
+            } else {
+                idealLabel = ideal.toFixed(0) + '%';
+            }
+            
+            return `
+                <div class="info-item requirement-scale-item">
+                    <div class="info-item-label">${label}</div>
+                    <div class="requirement-scale-container">
+                        <div class="requirement-scale-track">
+                            ${tickMarks}
+                            <div class="requirement-scale-range" style="left: ${min}%; width: ${max - min}%;"></div>
+                            <div class="requirement-scale-ideal" style="left: ${ideal}%;">
+                                <span class="requirement-scale-ideal-label">${idealLabel}</span>
+                            </div>
+                        </div>
+                        <div class="requirement-scale-labels">
+                            <span class="requirement-scale-value">${leftLabel}</span>
+                            <span class="requirement-scale-value">${rightLabel}</span>
+                        </div>
+                    </div>
+                </div>`;
+        }
+
+        // Vivarium type scale data (what the environment CAN PROVIDE)
+        const vivariumScales = {
+            'closed-terrarium': {
+                humidity: { min: 60, max: 100, ideal: 80 },
+                light: { min: 20, max: 70, ideal: 40 },
+                airCirculation: { min: 0, max: 30, ideal: 20 },
+                waterNeeds: { min: 40, max: 100, ideal: 70 },
+                temperature: { min: 36, max: 50, ideal: 42 },
+                difficulty: { min: 20, max: 50, ideal: 35 },
+                soilPh: { min: 35.7, max: 57.1, ideal: 46.4 }
+            },
+            'open-terrarium': {
+                humidity: { min: 70, max: 100, ideal: 85 },
+                light: { min: 20, max: 80, ideal: 50 },
+                airCirculation: { min: 40, max: 60, ideal: 50 },
+                waterNeeds: { min: 40, max: 100, ideal: 70 },
+                temperature: { min: 36, max: 50, ideal: 42 },
+                difficulty: { min: 30, max: 70, ideal: 50 },
+                soilPh: { min: 35.7, max: 57.1, ideal: 46.4 }
+            },
+            'aquarium': {
+                light: { min: 20, max: 70, ideal: 50 },
+                difficulty: { min: 50, max: 90, ideal: 70 },
+                soilPh: { min: 35.7, max: 57.1, ideal: 46.4 },
+                waterCirculation: { min: 0, max: 100, ideal: 50 },
+                waterTemperature: { min: 40, max: 50, ideal: 45 },
+                waterPh: { min: 46.4, max: 53.6, ideal: 50 },
+                waterHardness: { min: 0, max: 50, ideal: 25 },
+                salinity: { min: 0, max: 5, ideal: 0 }
+            },
+            'paludarium': {
+                humidity: { min: 70, max: 100, ideal: 90 },
+                light: { min: 20, max: 100, ideal: 60 },
+                airCirculation: { min: 20, max: 60, ideal: 50 },
+                waterNeeds: { min: 40, max: 100, ideal: 80 },
+                temperature: { min: 36, max: 50, ideal: 42 },
+                difficulty: { min: 50, max: 90, ideal: 70 },
+                soilPh: { min: 35.7, max: 57.1, ideal: 46.4 },
+                waterCirculation: { min: 10, max: 30, ideal: 20 },
+                waterTemperature: { min: 40, max: 50, ideal: 45 },
+                waterPh: { min: 46.4, max: 53.6, ideal: 50 },
+                waterHardness: { min: 0, max: 50, ideal: 25 },
+                salinity: { min: 0, max: 5, ideal: 0 }
+            },
+            'riparium': {
+                humidity: { min: 70, max: 100, ideal: 85 },
+                light: { min: 20, max: 70, ideal: 50 },
+                airCirculation: { min: 60, max: 100, ideal: 80 },
+                waterNeeds: { min: 60, max: 100, ideal: 80 },
+                temperature: { min: 36, max: 50, ideal: 42 },
+                difficulty: { min: 50, max: 90, ideal: 70 },
+                soilPh: { min: 35.7, max: 57.1, ideal: 46.4 },
+                waterCirculation: { min: 30, max: 80, ideal: 55 },
+                waterTemperature: { min: 40, max: 50, ideal: 45 },
+                waterPh: { min: 46.4, max: 53.6, ideal: 50 },
+                waterHardness: { min: 0, max: 50, ideal: 25 },
+                salinity: { min: 0, max: 5, ideal: 0 }
+            },
+            'indoor': {
+                humidity: { min: 30, max: 70, ideal: 50 },
+                light: { min: 40, max: 100, ideal: 70 },
+                airCirculation: { min: 60, max: 100, ideal: 80 },
+                waterNeeds: { min: 20, max: 60, ideal: 40 },
+                temperature: { min: 36, max: 50, ideal: 42 },
+                difficulty: { min: 20, max: 60, ideal: 40 },
+                soilPh: { min: 35.7, max: 57.1, ideal: 46.4 }
+            },
+            'aerarium': {
+                humidity: { min: 50, max: 90, ideal: 70 },
+                light: { min: 40, max: 100, ideal: 70 },
+                airCirculation: { min: 60, max: 100, ideal: 80 },
+                waterNeeds: { min: 20, max: 60, ideal: 40 },
+                temperature: { min: 36, max: 50, ideal: 42 },
+                difficulty: { min: 50, max: 90, ideal: 70 },
+                soilPh: { min: 35.7, max: 57.1, ideal: 46.4 }
+            },
+            'deserterium': {
+                humidity: { min: 20, max: 50, ideal: 30 },
+                light: { min: 60, max: 100, ideal: 90 },
+                airCirculation: { min: 60, max: 100, ideal: 80 },
+                waterNeeds: { min: 0, max: 30, ideal: 15 },
+                temperature: { min: 40, max: 60, ideal: 50 },
+                difficulty: { min: 30, max: 60, ideal: 45 },
+                soilPh: { min: 42.9, max: 64.3, ideal: 53.6 }
+            },
+            'outdoor': {
+                humidity: { min: 20, max: 80, ideal: 50 },
+                light: { min: 60, max: 100, ideal: 90 },
+                airCirculation: { min: 80, max: 100, ideal: 95 },
+                waterNeeds: { min: 10, max: 70, ideal: 40 },
+                temperature: { min: 20, max: 80, ideal: 50 },
+                difficulty: { min: 20, max: 60, ideal: 40 },
+                soilPh: { min: 28.6, max: 64.3, ideal: 46.4 }
+            }
+        };
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            initNavigation();
+            initMobileNav();
+            generateNavigation();
+            
+            // Render scales for vivarium types immediately
+            renderVivariumScales();
+        });
+
+        // Function to render scales for vivarium types
+        function renderVivariumScales() {
+            const contentViewer = document.getElementById('contentViewer');
+            if (!contentViewer) return;
+            
+            // Mapping of vivarium type titles to keys
+            const vivariumTitleMap = {
+                'Closed Terrarium': 'closed-terrarium',
+                'Open Terrarium': 'open-terrarium',
+                'Aquarium': 'aquarium',
+                'Paludarium': 'paludarium',
+                'Riparium': 'riparium',
+                'Indoor': 'indoor',
+                'Aerarium': 'aerarium',
+                'Deserterium': 'deserterium',
+                'Outdoor': 'outdoor'
+            };
+            
+            // Find all h2 titles and their following descriptions
+            const allH2s = contentViewer.querySelectorAll('h2');
+            
+            allH2s.forEach(h2 => {
+                const title = h2.textContent.trim();
+                const vivariumKey = vivariumTitleMap[title];
+                
+                if (vivariumKey && vivariumScales[vivariumKey]) {
+                    const scales = vivariumScales[vivariumKey];
+                    
+                    // Find the description element (it might be after breadcrumb)
+                    let desc = h2.nextElementSibling;
+                    while (desc && desc.classList && !desc.classList.contains('content-description')) {
+                        desc = desc.nextElementSibling;
+                    }
+                    
+                    if (desc && desc.classList && desc.classList.contains('content-description')) {
+                        // Check if scales haven't been rendered yet
+                        const hasScalesContainer = desc.nextElementSibling && 
+                            desc.nextElementSibling.classList && 
+                            desc.nextElementSibling.classList.contains('vivarium-scales-container');
+                        
+                        if (!hasScalesContainer) {
+                            // Create scales container
+                            const scalesContainer = document.createElement('div');
+                            scalesContainer.className = 'vivarium-scales-container';
+                            scalesContainer.style.cssText = 'margin-top: 2rem; padding-top: 2rem; border-top: 2px solid var(--border-color);';
+                            
+                            // Add title
+                            const scalesTitle = document.createElement('h3');
+                            scalesTitle.textContent = 'Environmental Parameters (What This Vivarium Can Provide)';
+                            scalesTitle.style.cssText = 'font-size: 1.1rem; margin-bottom: 1.5rem; color: var(--primary-color);';
+                            scalesContainer.appendChild(scalesTitle);
+                            
+                            // Create scales group with grid layout (matching plant details widgets)
+                            const scalesGroup = document.createElement('div');
+                            scalesGroup.className = 'info-group';
+                            scalesGroup.style.cssText = 'display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1rem;';
+                            
+                            // Render all applicable scales
+                            const scaleLabels = {
+                                humidity: 'Humidity',
+                                light: 'Light',
+                                airCirculation: 'Air Circulation',
+                                waterNeeds: 'Water Needs',
+                                temperature: 'Temperature',
+                                difficulty: 'Difficulty Level',
+                                soilPh: 'Soil pH',
+                                waterCirculation: 'Water Circulation',
+                                waterTemperature: 'Water Temperature',
+                                waterPh: 'Water pH',
+                                waterHardness: 'Water Hardness',
+                                salinity: 'Salinity'
+                            };
+                            
+                            Object.keys(scales).forEach(scaleKey => {
+                                if (scales[scaleKey]) {
+                                    scalesGroup.innerHTML += createRequirementScale(scaleLabels[scaleKey] || scaleKey, scales[scaleKey]);
+                                }
+                            });
+                            
+                            scalesContainer.appendChild(scalesGroup);
+                            
+                            // Insert scales container after description
+                            desc.parentNode.insertBefore(scalesContainer, desc.nextSibling);
+                        }
+                    }
+                }
+            });
+        }
+        
+    </script>
+</body>
+</html>

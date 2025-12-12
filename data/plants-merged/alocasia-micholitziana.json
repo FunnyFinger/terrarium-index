@@ -1,0 +1,82 @@
+{
+  "id": 187,
+  "name": "Green Velvet Alocasia",
+  "scientificName": "Alocasia micholitziana",
+  "commonNames": [
+    "Green Velvet Taro"
+  ],
+  "category": [
+    "alocasia",
+    "house-plant",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "20-90 cm",
+  "growthRate": "Moderate",
+  "description": "Alocasia micholitziana 'Frydek', commonly known as Green Velvet Alocasia or Alocasia Frydek, is a tropical aroid native to the Philippines. It belongs to the Araceae family and features arrow-shaped to heart-shaped, velvety, dark green leaves (30-60 cm long) with prominent white to silver veins that create stunning contrast. The leaves have a distinctive velvety texture and are held on long, green petioles. The plant displays an upright, clumping growth habit and typically reaches 30-90 cm in height. It produces small, inconspicuous flowers typical of aroids. In its native habitat, it grows as a terrestrial plant in moist, shaded areas of tropical forests. In terrariums or indoor settings, this plant creates a bold, tropical statement with its velvety, veined leaves. It's extremely popular among aroid enthusiasts for its striking velvety texture and white veining.",
+  "careTips": [
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Monitor watering needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Alocasia",
+    "species": "Alocasia micholitziana"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "toxic-if-ingested",
+  "rarity": "very-rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division, Seed",
+  "colors": "Red",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

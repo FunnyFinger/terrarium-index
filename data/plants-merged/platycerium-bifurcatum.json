@@ -1,0 +1,86 @@
+{
+  "id": 10302,
+  "name": "Staghorn Fern",
+  "scientificName": "Platycerium bifurcatum",
+  "commonNames": [],
+  "category": [
+    "fern",
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "15-120 cm",
+  "growthRate": "Moderate",
+  "description": "Platycerium bifurcatum, commonly known as Staghorn Fern, is an epiphytic fern native to tropical regions of Australia and New Guinea. It belongs to the Polypodiaceae family and features two types of fronds: shield fronds (30-60 cm wide) that anchor to surfaces and fertile fronds (60-120 cm long) that are forked and resemble deer antlers. The plant displays an upright growth habit. Commonly called \"staghorn fern\" for its distinctive forked fronds resembling deer antlers. Produces two types of fronds: shield fronds that anchor to surfaces and fertile fronds that bear spores. In its native habitat, it grows on tree branches in tropical forests. In terrariums or indoor settings, this plant creates a dramatic prehistoric aesthetic with its antler-like fronds. It's extremely popular among fern enthusiasts for its unique appearance.",
+  "careTips": [
+    "High humidity is essential",
+    "Keep soil consistently moist but not waterlogged",
+    "Avoid direct sunlight - prefers bright indirect light",
+    "Can be mounted on bark or grown in well-draining media",
+    "Brown edges indicate low humidity or underwatering",
+    "Must be mounted - cannot be potted normally",
+    "Requires high humidity",
+    "Water by soaking the mount",
+    "Unique antler-like fronds"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Polypodiopsida",
+    "order": "Polypodiales",
+    "family": "Polypodiaceae",
+    "genus": "Platycerium",
+    "species": "Platycerium bifurcatum"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "tree-dwelling",
+  "plantType": "fern",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Spores, Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "id": 111,
+  "name": "Medusa's Head Air Plant",
+  "scientificName": "Tillandsia caput-medusae",
+  "commonNames": [
+    "Octopus Plant"
+  ],
+  "category": [
+    "air-plant",
+    "bromeliad",
+    "flowering",
+    "tropical"
+  ],
+  "substrate": "No Substrate Needed",
+  "size": "5-20 cm",
+  "growthRate": "Slow",
+  "description": "Tillandsia caput-medusae, commonly known as Medusa's Head Air Plant or Octopus Plant, is an epiphytic bromeliad native to Mexico, Central America, and parts of South America, particularly in tropical forests. It belongs to the Bromeliaceae family and features distinctive, curled, snake-like leaves (10-20 cm long) that resemble the hair of Medusa from Greek mythology, hence the common name. The leaves are silvery-gray to green and curl tightly, creating a unique, sculptural appearance. Trichomes not only absorb moisture but also reflect light, giving the plant its silvery appearance. The plant displays an upright, rosette-forming growth habit and typically reaches 10-20 cm in height. It produces a tall, red inflorescence with small, purple flowers. In its native habitat, it grows as an epiphyte on tree trunks and branches in tropical forests, receiving filtered sunlight through the dense canopy. In terrariums or indoor settings, this plant creates a unique, sculptural aesthetic with its distinctive curled form. It's popular among air plant enthusiasts for its unusual appearance.",
+  "careTips": [
+    "No substrate needed",
+    "Unique curled appearance",
+    "Turns red before flowering",
+    "Very interesting shape"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Poales",
+    "family": "Bromeliaceae",
+    "genus": "Tillandsia",
+    "species": "Tillandsia caput-medusae"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Division, Offsets, Pups",
+  "colors": "Red, Silver",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 54,
+    "ideal": 45
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  }
+}

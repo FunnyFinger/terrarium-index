@@ -1,0 +1,82 @@
+{
+  "id": 10196,
+  "name": "Hoya callistophylla",
+  "scientificName": "Hoya callistophylla",
+  "commonNames": [],
+  "category": [
+    "hoya",
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "30-120 cm",
+  "growthRate": "Moderate",
+  "description": "Hoya callistophylla 'Black Cat' is an epiphytic plant native to the tropical rainforests of Southeast Asia, particularly Malaysia and Indonesia. It belongs to the Apocynaceae family and features trailing or climbing stems (60-120 cm long) with large, thick, waxy, dark green leaves with distinctive venation patterns and clusters of star-shaped, white to cream flowers. The flowers have a distinctive star shape with a waxy texture and often emit strong, pleasant fragrances, especially at night. In its native rainforest habitat, this plant grows in the humid understory with filtered light and high humidity. In its native habitat, it grows on tree branches in tropical forests. In terrariums or indoor settings, this plant adds tropical charm with its waxy, star-shaped flowers and trailing vines. It's popular among Hoya enthusiasts for its attractive leaves and flowers.",
+  "careTips": [
+    "Let soil dry between waterings",
+    "Bright indirect light preferred",
+    "High humidity encourages better growth",
+    "Trailing or vining - provide support if needed",
+    "Can be propagated from stem cuttings"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Gentianales",
+    "family": "Apocynaceae",
+    "genus": "Hoya",
+    "species": "Hoya callistophylla"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "very-rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings",
+  "colors": "Green, White, Cream",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 54,
+    "ideal": 45
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "id": 10457,
+  "name": "Crocodile Fern",
+  "scientificName": "Microsorum musifolium",
+  "commonNames": [
+    "Crocodyllus Fern",
+    "Alligator Fern"
+  ],
+  "category": [
+    "fern",
+    "epiphyte",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "60-120 cm",
+  "growthRate": "Moderate",
+  "description": "Microsorum musifolium, commonly known as Crocodile Fern, is a distinctive tropical epiphytic fern native to Southeast Asia and parts of Australia. It features unique, leathery, light green fronds with dark green veins that create a crocodile skin-like texture, giving it its common name. The plant displays an upright, arching growth habit with fronds forming dense clumps. Indoors, fronds typically reach 60-90 cm in length, while in natural habitats they can grow up to 120 cm. The glossy, textured fronds add an exotic, tropical ambiance to any indoor space. As an epiphyte, it naturally grows on trees in its native habitat, making it well-suited for mounting or growing in well-draining substrates. The plant is non-toxic and pet-friendly, making it safe for homes with pets. It thrives in warm, humid environments and is an excellent choice for terrariums or high-humidity indoor gardens.",
+  "careTips": [
+    "Provide bright, indirect light - avoid direct sunlight",
+    "Maintain high humidity (60-80%)",
+    "Keep soil consistently moist but not waterlogged",
+    "Use non-calcareous water to prevent leaf yellowing",
+    "Protect from cold drafts and temperature fluctuations",
+    "Fertilize monthly during growing season with diluted fertilizer",
+    "Can be mounted as an epiphyte or grown in well-draining substrate"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Polypodiopsida",
+    "order": "Polypodiales",
+    "family": "Polypodiaceae",
+    "genus": "Microsorum",
+    "species": "Microsorum musifolium"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "tree-dwelling",
+  "plantType": "fern",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Division, Rhizomes",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "airCirculationRange": {
+    "min": 40,
+    "max": 70,
+    "ideal": 55
+  },
+  "waterNeedsRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 40,
+    "max": 48,
+    "ideal": 44
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

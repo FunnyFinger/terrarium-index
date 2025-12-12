@@ -1,0 +1,84 @@
+{
+  "id": 321,
+  "name": "Antplant",
+  "scientificName": "Dischidia oiantha",
+  "commonNames": [
+    "And There",
+    "Ant Plant",
+    "Million Hearts"
+  ],
+  "category": [
+    "epiphytic",
+    "colorful",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "20-120 cm",
+  "growthRate": "Moderate",
+  "description": "Dischidia oiantha, commonly known as Ant Plant or Million Hearts, is an epiphytic climbing plant native to the Philippines. It belongs to the Apocynaceae family and features small, elliptic to oval, fleshy, dark green leaves (1-2 cm long) arranged in opposite pairs along trailing or climbing stems. The foliage has a pendant growth habit, and there is also a variety with variegated leaf margins. The plant displays a trailing or climbing growth habit and can reach lengths of 60-120 cm. It produces small, inconspicuous flowers. In its native habitat, it grows as an epiphyte on tree trunks and branches in tropical forests. In terrariums or indoor settings, this plant adds unique interest with its trailing habit and small, heart-like leaves. It's popular among plant enthusiasts for its compact form and trailing nature.",
+  "careTips": [
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Monitor watering needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Gentianales",
+    "family": "Apocynaceae",
+    "genus": "Dischidia",
+    "species": "Dischidia oiantha"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "toxic-if-ingested",
+  "rarity": "very-rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division",
+  "colors": "Green, Variegated",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

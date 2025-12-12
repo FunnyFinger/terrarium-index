@@ -1,0 +1,83 @@
+{
+  "id": 577,
+  "name": "Dinner Plate Aeonium",
+  "scientificName": "Aeonium tabuliforme",
+  "commonNames": [],
+  "category": [
+    "colorful",
+    "leafy",
+    "succulent"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "3-15 cm",
+  "growthRate": "Slow",
+  "description": "Aeonium tabuliforme (variegated form), commonly known as Dinner Plate Aeonium, is a succulent native to the Canary Islands, particularly Tenerife. It belongs to the Crassulaceae family and features a distinctive, flat, disc-shaped rosette of fleshy, water-storing leaves (5-15 cm in diameter) arranged in a perfect circle, resembling a dinner plate. The variegated form features green leaves with cream or yellow margins. The plant displays a flat, rosette-forming growth habit. It produces small, yellow flowers on a tall spike, after which the rosette dies (monocarpic). In its native habitat, it grows in well-draining, rocky soils in coastal regions. In terrariums or indoor settings, this plant adds unique interest with its distinctive flat rosette form. It's popular among succulent enthusiasts for its unusual appearance.",
+  "careTips": [
+    "Low to moderate humidity preferred",
+    "Ensure good air circulation",
+    "Allow substrate to dry between waterings",
+    "Bright, indirect light preferred",
+    "Well-draining substrate essential",
+    "Protect from overwatering",
+    "Requires good drainage"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Saxifragales",
+    "family": "Crassulaceae",
+    "genus": "Aeonium",
+    "species": "Aeonium tabuliforme"
+  },
+  "growthPattern": "rosette",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Leaf Cuttings, Seed",
+  "colors": "Green, Cream, Yellow, Variegated",
+  "humidityRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "succulent",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  }
+}

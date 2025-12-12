@@ -1,0 +1,92 @@
+{
+  "id": 82,
+  "name": "Yellow Pitcher Plant",
+  "scientificName": "Sarracenia flava",
+  "commonNames": [
+    "North American Pitcher Plant",
+    "Trumpet Pitcher"
+  ],
+  "category": [
+    "carnivorous",
+    "colorful",
+    "creeper",
+    "flowering",
+    "leafy"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "68-90 cm",
+  "growthRate": "Moderate",
+  "description": "Sarracenia flava, commonly known as Yellow Pitcher Plant, Trumpet Pitcher, or Yellow Trumpet, is a carnivorous plant native to the southeastern United States, particularly in bogs, swamps, and wet pine savannas from Virginia to Florida and west to Texas. It belongs to the Sarraceniaceae family and features tall, upright, trumpet-shaped pitchers (up to 90 cm tall) that are bright yellow-green with red veining. The pitchers are modified leaves that trap and digest insects using a combination of slippery surfaces, downward-pointing hairs, and digestive enzymes. The plant displays an upright, rosette-forming growth habit and typically reaches 90 cm in height. It produces large, yellow, nodding flowers in spring before pitchers fully develop. In its native habitat, it grows in nutrient-poor, acidic soils where carnivory supplements limited nutrients. In terrariums or indoor settings, this plant adds striking vertical interest and fascinating carnivorous behavior. It's popular among carnivorous plant enthusiasts for its impressive size and coloration.",
+  "careTips": [
+    "Thrives in full sun - essential for healthy growth",
+    "Keep soil consistently moist to wet - never let it dry out",
+    "Use lime-free water only (distilled, rainwater, or reverse osmosis) - tap water will harm it",
+    "Requires acidic soils",
+    "Do not fertilize - plant derives nutrients from carnivorous activities",
+    "Excellent for bog gardens or containers",
+    "Can grow in dense colonies when conditions are favorable",
+    "Produces new pitchers in spring and summer",
+    "Flowers appear in spring before pitchers fully develop",
+    "Native to southeastern United States - temperate species",
+    "Suitable for neutral to acidic water gardens"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Ericales",
+    "family": "Sarraceniaceae",
+    "genus": "Sarracenia",
+    "species": "Sarracenia flava"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Division, Seed",
+  "colors": "Yellow, White",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "moist",
+  "specialNeeds": "carnivorous",
+  "temperatureRange": {
+    "min": 20,
+    "max": 60,
+    "ideal": 40
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

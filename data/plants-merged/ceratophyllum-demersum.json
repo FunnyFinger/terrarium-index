@@ -1,0 +1,115 @@
+{
+  "id": 38,
+  "name": "Hornwort",
+  "scientificName": "Ceratophyllum demersum",
+  "commonNames": [],
+  "category": [
+    "aquatic",
+    "flowering"
+  ],
+  "substrate": "No Substrate Needed",
+  "size": "20-120 cm",
+  "growthRate": "Very Fast",
+  "description": "Ceratophyllum demersum, commonly known as Hornwort, Coontail, or Rigid Hornwort, is a free-floating or rootless aquatic plant native to all continents except Antarctica. It belongs to the Ceratophyllaceae family and is one of the most widespread aquatic plants globally. It features whorled, needle-like, dark green leaves (1-2 cm long) arranged in dense clusters along branching stems. The leaves are stiff and forked, giving the plant a bushy, coontail-like appearance. This plant displays an upright, bushy growth habit when anchored, or can float freely. It can reach 60-120 cm in length. This aquatic plant can thrive both fully submerged and partially emersed, though it's primarily a submerged species. Unlike most aquatic plants, Hornwort has no true roots - it can be anchored in substrate or left to float. It produces small, inconspicuous flowers at leaf nodes. In nature, it grows in still or slow-moving water bodies including ponds, lakes, and slow streams. In terrariums or indoor settings, this plant adds natural beauty, dynamic movement, and excellent water filtration to aquatic environments. It's extremely hardy and beginner-friendly.",
+  "careTips": [
+    "Can float freely or be anchored in substrate - no roots needed, will grow either way",
+    "No roots needed - absorbs nutrients directly through leaves and stems",
+    "Very fast growing - can grow several inches per week, excellent for nutrient export",
+    "Helps with water quality - absorbs nitrates, phosphates, and provides oxygen",
+    "Native to all continents except Antarctica - extremely adaptable and hardy",
+    "Low to moderate light is sufficient (1-2 watts per gallon) - very forgiving",
+    "Tolerates wide temperature range (15-30°C) - can survive in various climates",
+    "CO2 supplementation beneficial but not required - grows well without it",
+    "Trim regularly to control growth and maintain desired shape",
+    "Non-toxic and safe for all aquarium inhabitants",
+    "Provides excellent hiding places for fry and small fish",
+    "Can be used as background plant or floating cover in aquariums",
+    "If leaves drop, this is normal - plant will continue growing from remaining stems",
+    "Easy to propagate - simply break off pieces and they will grow into new plants",
+    "Can help reduce algae by competing for nutrients"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Ceratophyllales",
+    "family": "Ceratophyllaceae",
+    "genus": "Ceratophyllum",
+    "species": "Ceratophyllum demersum"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "fully-aquatic",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 100,
+    "max": 100,
+    "ideal": 100
+  },
+  "lightRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "aquatic",
+  "waterCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "temperatureRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "waterTemperatureRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "waterPhRange": {
+    "min": 50,
+    "max": 57.1,
+    "ideal": 53.6
+  },
+  "waterHardnessRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  },
+  "salinityRange": {
+    "min": 0,
+    "max": 5,
+    "ideal": 2.5
+  },
+  "growthRateRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "id": 10217,
+  "name": "Monstera standleyana",
+  "scientificName": "Monstera standleyana",
+  "commonNames": [
+    "Mexican Breadfruit",
+    "Split-leaf Philodendron",
+    "Swiss Cheese Plant"
+  ],
+  "category": [
+    "monstera",
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "30-300 cm",
+  "growthRate": "Moderate",
+  "description": "Monstera standleyana 'Aurea Variegated' is a variegated form of Monstera standleyana, an epiphytic plant native to tropical regions of Central America, particularly Costa Rica, Honduras, and Nicaragua. It belongs to the Araceae family and features climbing stems (60-300 cm long) with large, dramatic, lance-shaped to oblong, dark green leaves with distinctive yellow to cream variegation and patterns. The plant displays a climbing growth habit. The holes in Monstera leaves (fenestrations) allow light to pass through to lower leaves in dense tropical forests. Young leaves emerge solid and develop fenestrations as they mature - the plant \"decides\" where to place holes based on light conditions. In its native habitat, it grows on tree branches in tropical forests. In terrariums or indoor settings, this plant adds natural beauty with its distinctive variegated foliage. It's popular among Monstera enthusiasts for its attractive variegation.",
+  "careTips": [
+    "Keep soil consistently moist but well-draining",
+    "High humidity preferred",
+    "Bright indirect light",
+    "Toxic if ingested - keep away from pets and children",
+    "Provide support for climbing growth",
+    "Aerial roots can be trained or trimmed"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Monstera",
+    "species": "Monstera standleyana"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "toxic-if-ingested",
+  "rarity": "rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "does-not-flower-in-cultivation",
+  "propagation": "Stem Cuttings",
+  "colors": "Green, Yellow, Cream, Variegated",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

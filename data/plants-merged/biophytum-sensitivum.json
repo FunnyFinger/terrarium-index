@@ -1,0 +1,89 @@
+{
+  "id": 379,
+  "name": "Little Tree Plant",
+  "scientificName": "Biophytum sensitivum",
+  "commonNames": [
+    "Sensitive Plant",
+    "Life Plant"
+  ],
+  "category": [
+    "unique",
+    "sensitive",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "5-25 cm",
+  "growthRate": "Moderate",
+  "description": "Biophytum sensitivum, commonly known as Little Tree Plant or Sensitive Plant, is a fascinating small herbaceous plant native to tropical Asia and Africa. It features a palm-like appearance with a single stem topped by a rosette of pinnate leaves that resemble a miniature palm tree. The leaves are highly sensitive and fold down when touched, shaken, or at night (nyctinastic movement), similar to Mimosa pudica but in a more compact form. The plant produces small yellow flowers with pink or purple centers. It's an annual or short-lived perennial that adds unique interest to terrariums with its sensitive leaf movements and palm-like appearance. The plant thrives in warm, humid conditions with filtered light.",
+  "careTips": [
+    "Provide bright, indirect light - avoid direct sun",
+    "Maintain high humidity (70-85%)",
+    "Keep soil consistently moist but well-draining",
+    "Temperature: 20-28°C (68-82°F) - warm conditions essential",
+    "Organic-rich, well-draining substrate",
+    "Leaves fold when touched or at night - this is normal",
+    "Can be grown as annual or short-lived perennial",
+    "Propagates by seeds",
+    "Non-toxic to pets and humans",
+    "Fertilize monthly during growing season"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Oxalidales",
+    "family": "Oxalidaceae",
+    "genus": "Biophytum",
+    "species": "Biophytum sensitivum"
+  },
+  "growthPattern": "rosette",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "year-round",
+  "propagation": "Seed",
+  "colors": "Green, Yellow, Pink",
+  "humidityRange": {
+    "min": 70,
+    "max": 85,
+    "ideal": 77
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "waterNeedsRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "substrateType": "moist",
+  "specialNeeds": "sensitive leaves",
+  "temperatureRange": {
+    "min": 40,
+    "max": 56,
+    "ideal": 48
+  },
+  "difficultyRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "soilPhRange": {
+    "min": 39.3,
+    "max": 46.4,
+    "ideal": 42.9
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

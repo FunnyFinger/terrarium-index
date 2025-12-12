@@ -1,0 +1,111 @@
+{
+  "id": 67,
+  "name": "Pellia",
+  "scientificName": "Monosolenium tenerum",
+  "commonNames": [],
+  "category": [
+    "moss",
+    "aquatic",
+    "liverwort"
+  ],
+  "substrate": "Attach To Driftwood Rocks Mesh",
+  "size": "2-5 cm",
+  "growthRate": "Moderate to Fast",
+  "description": "Monosolenium tenerum, commonly known as Pellia, is a liverwort species native to East Asia (India, Nepal, China, Taiwan, Japan, and Hawaii). Despite its common name suggesting it's a moss, it's actually a liverwort that forms dense, dark green cushions or mats. In aquariums, it remains at the bottom of the tank, resembling a larger version of Riccia fluitans but without the tendency to float. The plant has a brittle nature and should be attached to hardscape using fishing line or mesh to prevent it from breaking apart. Once established, it requires minimal maintenance and provides excellent shelter for small aquatic creatures.",
+  "careTips": [
+    "Actually a liverwort, not a moss or fern",
+    "Forms dense, dark green cushions at the bottom of aquariums",
+    "Brittle nature - attach to stones or driftwood with fishing line or mesh",
+    "Thrives in low to medium light conditions",
+    "No CO₂ supplementation required",
+    "Can be grown fully submerged or in high humidity terrestrial conditions",
+    "Native to moist, shady environments in subtropical/temperate climates",
+    "Often confused with Süsswassertang (which is actually a fern gametophyte)",
+    "Provides shelter for small aquatic creatures",
+    "Easy to care for once established"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Marchantiophyta",
+    "class": "Marchantiopsida",
+    "order": "Marchantiales",
+    "family": "Monosoleniaceae",
+    "genus": "Monosolenium",
+    "species": "Monosolenium tenerum"
+  },
+  "growthPattern": "carpeting",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "fully-aquatic",
+  "plantType": "liverwort",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Division, Fragmentation",
+  "colors": "Dark green",
+  "humidityRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "aquatic",
+  "waterCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "temperatureRange": {
+    "min": 36,
+    "max": 56.00000000000001,
+    "ideal": 46
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "waterTemperatureRange": {
+    "min": 36,
+    "max": 56.00000000000001,
+    "ideal": 46
+  },
+  "waterPhRange": {
+    "min": 50,
+    "max": 57.1,
+    "ideal": 53.6
+  },
+  "waterHardnessRange": {
+    "min": 40,
+    "max": 66.67,
+    "ideal": 53.33
+  },
+  "salinityRange": {
+    "min": 0,
+    "max": 5,
+    "ideal": 2.5
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

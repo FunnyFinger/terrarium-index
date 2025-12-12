@@ -1,0 +1,86 @@
+{
+  "id": 382,
+  "name": "Trailing Watermelon Begonia",
+  "scientificName": "Procris repens",
+  "commonNames": [],
+  "category": [
+    "herbaceous",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "15-30 cm",
+  "growthRate": "Moderate",
+  "description": "Procris repens, commonly known as Trailing Watermelon Begonia, is a tropical herbaceous plant native to Southeast Asia. It features attractive, textured leaves with prominent veining and often has a slightly succulent quality. The plant displays a trailing or creeping growth habit and is well-suited for terrarium environments. This species has undergone several reclassifications and was previously known as Elatostema repens, Pellionia repens, and Polychroa repens. It's related to Pilea and shares similar care requirements. The plant thrives in high humidity and filtered light, making it an excellent choice for closed terrariums. It adds interesting texture and foliage interest to terrarium compositions.",
+  "careTips": [
+    "Provide bright, indirect light",
+    "Maintain high humidity (70-85%)",
+    "Keep soil consistently moist but well-draining",
+    "Organic-rich, well-draining substrate",
+    "Temperature: 18-26°C (65-79°F)",
+    "Propagates by stem cuttings or division",
+    "Non-toxic to pets and humans",
+    "Fertilize monthly during growing season",
+    "Prune to maintain compact shape",
+    "Similar care to Pilea species"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Rosales",
+    "family": "Urticaceae",
+    "genus": "Procris",
+    "species": "Procris repens"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "year-round",
+  "propagation": "Stem Cuttings, Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 70,
+    "max": 85,
+    "ideal": 77
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "waterNeedsRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 18,
+    "max": 26,
+    "ideal": 22
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 5.5,
+    "max": 6.5,
+    "ideal": 6
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

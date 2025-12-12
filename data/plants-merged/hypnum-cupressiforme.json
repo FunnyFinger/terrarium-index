@@ -1,0 +1,87 @@
+{
+  "id": 51,
+  "name": "Sheet Moss",
+  "scientificName": "Hypnum cupressiforme",
+  "commonNames": [],
+  "category": [
+    "creeper",
+    "moss"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "1-5 cm",
+  "growthRate": "Slow",
+  "description": "Hypnum cupressiforme, commonly known as Sheet Moss, Cypress-leaved Plait-moss, or Hypnum Moss, is a widespread terrestrial moss native to temperate regions worldwide, including Europe, Asia, North America, and parts of Africa. It belongs to the Hypnaceae family and features prostrate, creeping stems covered in small, overlapping, scale-like leaves (1-2 mm long) that create a dense, carpet-like mat. The leaves are bright green to yellow-green and have a slightly glossy appearance. The plant displays a mat-forming, creeping growth habit and typically reaches 2-5 cm in height. It forms dense, sheet-like mats that can cover large areas. In its native habitat, it grows on soil, rocks, tree bark, and decaying wood in shaded, moist areas. In terrariums or indoor settings, this plant provides excellent ground cover and creates a natural, forest-floor appearance. It's one of the most common mosses used in terrariums and landscaping.",
+  "careTips": [
+    "Can attach to various surfaces (soil, rocks, wood) using rhizoids - press gently to anchor",
+    "Requires constant high humidity (70-90%) - ideal for closed terrariums",
+    "Mist daily in open terrariums or use pebble tray to maintain humidity",
+    "Excellent for covering substrate - forms dense, carpet-like mats",
+    "Native to temperate regions worldwide - prefers cool to moderate temperatures (10-24°C)",
+    "Low to medium light is best - avoid direct sunlight which can dry it out",
+    "Keep consistently moist but not waterlogged - mist regularly",
+    "Non-toxic and safe for all terrarium inhabitants",
+    "Can be used in terrariums, paludariums, or as ground cover",
+    "Propagates via spores or division - simply separate portions and place elsewhere",
+    "If moss turns brown, increase humidity and check watering schedule",
+    "Forms dense mats that help retain moisture in terrariums"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Bryophyta",
+    "class": "Bryopsida",
+    "order": "Hypnales",
+    "family": "Hypnaceae",
+    "genus": "Hypnum",
+    "species": "Hypnum cupressiforme"
+  },
+  "growthPattern": "carpeting",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "moss",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Division, Spores",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 10
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 20,
+    "max": 48,
+    "ideal": 34
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  }
+}

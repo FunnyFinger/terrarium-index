@@ -1,0 +1,90 @@
+{
+  "id": 384,
+  "name": "White Fusion Calathea",
+  "scientificName": "Goeppertia lietzei",
+  "commonNames": [
+    "Fusion White",
+    "Calathea White Fusion"
+  ],
+  "category": [
+    "colorful",
+    "variegated",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "30-50 cm",
+  "growthRate": "Moderate",
+  "description": "Goeppertia lietzei, commonly known as White Fusion Calathea, is a stunning prayer plant native to Brazil. It features highly variegated leaves with splashes of green, white, and sometimes lilac or pink, creating a unique and eye-catching appearance. The leaves are oval to lance-shaped with a velvety texture. Like other prayer plants, the leaves fold up at night in a prayer-like motion (nyctinasty). The plant displays a compact, bushy growth habit and is highly prized for its striking variegation. It requires high humidity and consistent care, making it a challenging but rewarding addition to terrariums.",
+  "careTips": [
+    "Provide bright, indirect light - direct sun will fade variegation",
+    "Maintain very high humidity (75-90%) - essential for this plant",
+    "Keep soil consistently moist but not waterlogged",
+    "Use filtered or distilled water to avoid leaf browning",
+    "Temperature: 18-24°C (65-75°F) - avoid cold drafts",
+    "Organic-rich, well-draining substrate",
+    "Leaves fold up at night - this is normal",
+    "Propagates by division",
+    "Non-toxic to pets and humans",
+    "Fertilize monthly during growing season with diluted fertilizer",
+    "Can be sensitive to tap water - use filtered water"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Zingiberales",
+    "family": "Marantaceae",
+    "genus": "Goeppertia",
+    "species": "Goeppertia lietzei"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "does-not-flower-in-cultivation",
+  "propagation": "Division",
+  "colors": "Green, White, Lilac, Pink",
+  "humidityRange": {
+    "min": 75,
+    "max": 90,
+    "ideal": 82
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 20,
+    "max": 50,
+    "ideal": 35
+  },
+  "waterNeedsRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "substrateType": "moist",
+  "specialNeeds": "high humidity",
+  "temperatureRange": {
+    "min": 18,
+    "max": 24,
+    "ideal": 21
+  },
+  "difficultyRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "soilPhRange": {
+    "min": 5.5,
+    "max": 6.5,
+    "ideal": 6
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

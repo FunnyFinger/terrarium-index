@@ -1,0 +1,88 @@
+{
+  "id": 378,
+  "name": "Swedish Ivy",
+  "scientificName": "Plectranthus verticillatus",
+  "commonNames": [
+    "Whorled Plectranthus"
+  ],
+  "category": [
+    "trailing",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "Trailing, 30-60 cm",
+  "growthRate": "Fast",
+  "description": "Plectranthus verticillatus, commonly known as Swedish Ivy, is a fast-growing trailing plant native to southern Africa. Despite its common name, it's not a true ivy but belongs to the mint family (Lamiaceae). It features glossy, scalloped, round to oval leaves that are bright green with a slightly succulent texture. The plant displays a vigorous trailing or cascading growth habit, making it excellent for hanging baskets or as a trailing element in terrariums. The leaves are arranged in whorls along the stems, giving it a distinctive appearance. It produces small white or pale purple flowers in spikes, though it's primarily grown for its attractive foliage. The plant is very easy to care for and adapts well to various conditions, making it a popular choice for beginners and terrarium enthusiasts.",
+  "careTips": [
+    "Provide bright, indirect light - tolerates lower light",
+    "Maintain moderate humidity (50-70%)",
+    "Keep soil evenly moist but not waterlogged",
+    "Well-draining soil recommended",
+    "Temperature: 18-24°C (65-75°F)",
+    "Fast-growing - prune regularly to maintain size",
+    "Propagates easily by stem cuttings",
+    "Non-toxic to pets and humans",
+    "Fertilize monthly during growing season",
+    "Can become leggy - pinch tips to encourage bushiness"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Lamiales",
+    "family": "Lamiaceae",
+    "genus": "Plectranthus",
+    "species": "Plectranthus verticillatus"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "year-round",
+  "propagation": "Stem Cuttings",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 40,
+    "max": 70,
+    "ideal": 55
+  },
+  "waterNeedsRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 18,
+    "max": 24,
+    "ideal": 21
+  },
+  "difficultyRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  },
+  "soilPhRange": {
+    "min": 6,
+    "max": 7,
+    "ideal": 6.5
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

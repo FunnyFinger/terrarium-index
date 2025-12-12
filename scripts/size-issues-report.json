@@ -1,0 +1,63 @@
+{
+  "summary": {
+    "total": 348,
+    "high": 0,
+    "medium": 0,
+    "low": 3,
+    "missing": 0
+  },
+  "high": [],
+  "medium": [],
+  "low": [
+    {
+      "file": "00009-marimo-moss-ball.json",
+      "name": "Marimo Moss Ball",
+      "scientificName": "Aegagropila linnaei",
+      "size": "2-12 cm",
+      "growthPattern": "spherical/clumping",
+      "growthRate": "Slow",
+      "category": [
+        "algae",
+        "leafy",
+        "moss"
+      ],
+      "issues": [
+        "Very wide range (2-12cm, ratio 6.0x) - may need narrowing"
+      ]
+    },
+    {
+      "file": "00034-water-sprite.json",
+      "name": "Water Sprite",
+      "scientificName": "Ceratopteris thalictroides",
+      "size": "15-100 cm",
+      "growthPattern": "upright/bushy",
+      "growthRate": "Very Fast",
+      "category": [
+        "aquatic",
+        "creeper",
+        "fern",
+        "leafy",
+        "tropical"
+      ],
+      "issues": [
+        "Very wide range (15-100cm, ratio 6.7x) - may need narrowing"
+      ]
+    },
+    {
+      "file": "00194-european-aldrovanda-vesiculosa.json",
+      "name": "Waterwheel Plant",
+      "scientificName": "Aldrovanda vesiculosa",
+      "size": "6-40 cm",
+      "growthPattern": "floating/whorled",
+      "growthRate": "Fast",
+      "category": [
+        "carnivorous",
+        "aquatic"
+      ],
+      "issues": [
+        "Very wide range (6-40cm, ratio 6.7x) - may need narrowing"
+      ]
+    }
+  ],
+  "missing": []
+}

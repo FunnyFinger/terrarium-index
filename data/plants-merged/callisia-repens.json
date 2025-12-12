@@ -1,0 +1,89 @@
+{
+  "id": 10460,
+  "name": "Turtle Vine",
+  "scientificName": "Callisia repens",
+  "commonNames": [
+    "Creeping Inchplant",
+    "Pink Lady"
+  ],
+  "category": [
+    "creeper",
+    "succulent",
+    "leafy",
+    "mini",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "5-60 cm",
+  "growthRate": "Fast",
+  "description": "Callisia repens, commonly known as Turtle Vine or Creeping Inchplant, is a low-growing, trailing perennial native to Central and South America. It features dense mats of small, fleshy, oval leaves that are typically green on top with purple undersides. Variegated cultivars, such as 'Pink Lady', may display pink and cream tones. The plant displays a trailing, mat-forming growth habit and typically reaches up to 15 cm in height while spreading over 60 cm. As a semi-succulent species, it has fleshy leaves that store water, making it relatively drought-tolerant. The plant produces small, white or pink, three-petaled flowers that bloom in late spring to early summer, though it's primarily grown for its attractive foliage. It's an adaptable and relatively easy-to-maintain plant, making it popular for hanging baskets, tabletop planters, or as groundcover in warm climates. The plant is toxic to pets and humans if ingested, causing symptoms like nausea, vomiting, and diarrhea. The sap can also cause skin irritation, so handle with care.",
+  "careTips": [
+    "Provide bright, indirect light - can tolerate some morning sun",
+    "Maintain moderate to high humidity (50-70%)",
+    "Allow top 1-2 inches of soil to dry between waterings",
+    "Use well-draining soil to prevent root rot",
+    "Fertilize monthly during growing season with diluted fertilizer",
+    "Regular pruning helps maintain compact shape",
+    "Ideal for hanging baskets and cascading displays",
+    "Keep away from pets and children - toxic if ingested"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Commelinales",
+    "family": "Commelinaceae",
+    "genus": "Callisia",
+    "species": "Callisia repens"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "toxic-if-ingested",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings",
+  "colors": "Green, Purple, Pink, White",
+  "humidityRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "lightRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "airCirculationRange": {
+    "min": 40,
+    "max": 70,
+    "ideal": 55
+  },
+  "waterNeedsRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 44,
+    "max": 52,
+    "ideal": 48
+  },
+  "difficultyRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

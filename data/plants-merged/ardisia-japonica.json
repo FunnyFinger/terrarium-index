@@ -1,0 +1,91 @@
+{
+  "id": 394,
+  "name": "Japanese Ardisia",
+  "scientificName": "Ardisia japonica",
+  "commonNames": [
+    "Marlberry",
+    "Japanese Marlberry"
+  ],
+  "category": [
+    "shrub",
+    "berry",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "20-40 cm",
+  "growthRate": "Slow to moderate",
+  "description": "Ardisia japonica, commonly known as Japanese Ardisia or Marlberry, is a small evergreen shrub native to Japan, Korea, and China. It features glossy, dark green, leathery leaves that are lance-shaped to elliptical. The plant displays a compact, bushy growth habit and produces small white or pink flowers followed by attractive red berries. There are also variegated cultivars available. The plant thrives in high humidity and filtered light, making it suitable for terrarium environments. It's a slow-growing plant that adds structure and interest to terrarium compositions, and the berries add seasonal color.",
+  "careTips": [
+    "Provide bright, indirect light",
+    "Maintain high humidity (70-85%)",
+    "Keep soil consistently moist but well-draining",
+    "Organic-rich, well-draining substrate",
+    "Temperature: 18-24°C (65-75°F)",
+    "Slow-growing but very hardy",
+    "Produces attractive red berries",
+    "Propagates by seeds or stem cuttings",
+    "Non-toxic to pets and humans",
+    "Fertilize monthly during growing season",
+    "Variegated forms available",
+    "Can be pruned to maintain compact size"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Ericales",
+    "family": "Primulaceae",
+    "genus": "Ardisia",
+    "species": "Ardisia japonica"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Seed, Stem Cuttings",
+  "colors": "Green, White, Pink, Red",
+  "humidityRange": {
+    "min": 70,
+    "max": 85,
+    "ideal": 77
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 40,
+    "max": 70,
+    "ideal": 55
+  },
+  "waterNeedsRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 18,
+    "max": 24,
+    "ideal": 21
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 5.5,
+    "max": 6.5,
+    "ideal": 6
+  },
+  "growthRateRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  }
+}

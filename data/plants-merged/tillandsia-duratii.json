@@ -1,0 +1,79 @@
+{
+  "id": 467,
+  "name": "Tillandsia duratii",
+  "scientificName": "Tillandsia duratii",
+  "commonNames": [],
+  "category": [
+    "air-plant"
+  ],
+  "substrate": "No Substrate Needed",
+  "size": "10-40 cm",
+  "growthRate": "Moderate",
+  "description": "Tillandsia duratii is an epiphytic air plant native to South America, particularly Argentina, Bolivia, Brazil, and Paraguay. It belongs to the Bromeliaceae family and features long, narrow, gray-green to silver leaves (20-40 cm long) arranged in a rosette. The leaves are covered with trichomes (specialized scales) that absorb moisture and nutrients from the air. Trichomes not only absorb moisture but also reflect light, giving many species a silvery or fuzzy appearance that helps reduce water loss. The plant displays an upright, rosette-forming growth habit. It produces small, purple to red flowers on a spike. In its native habitat, it grows as an epiphyte on tree branches and rocks in tropical and subtropical regions. In terrariums or indoor settings, this plant adds natural beauty with its distinctive silvery appearance. It's popular among air plant enthusiasts for its unique form and easy care.",
+  "careTips": [
+    "Mist regularly or soak weekly",
+    "Bright, indirect light preferred",
+    "No substrate needed - mount on bark or rock",
+    "Good air circulation essential",
+    "High humidity preferred"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Poales",
+    "family": "Bromeliaceae",
+    "genus": "Tillandsia",
+    "species": "Tillandsia duratii"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Division, Offsets, Seed",
+  "colors": "Green, Silver, Purple",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

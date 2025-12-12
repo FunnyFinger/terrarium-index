@@ -1,0 +1,79 @@
+{
+  "id": 466,
+  "name": "Rainbow Plant",
+  "scientificName": "Byblis liniflora",
+  "commonNames": [],
+  "category": [
+    "carnivorous"
+  ],
+  "substrate": "Epiphytic Mix",
+  "size": "23-30 cm",
+  "growthRate": "Moderate",
+  "description": "Byblis liniflora, commonly known as Rainbow Plant, is a carnivorous plant native to Australia and New Guinea. It belongs to the Byblidaceae family and features upright, slender stems (15-30 cm tall) covered with sticky, glandular hairs that trap and digest insects. The plant displays an upright, bushy growth habit. The trapping mechanism is highly specialized, with some species able to digest prey in just a few hours. The plant produces small, colorful flowers (pink, purple, blue) that give it the common name \"Rainbow Plant\". In its native habitat, it grows in nutrient-poor, sandy soils in open, sunny areas. In terrariums or indoor settings, this plant offers unique intrigue with its sticky trapping mechanism and colorful flowers. It's popular among carnivorous plant enthusiasts for its distinctive appearance.",
+  "careTips": [
+    "Requires distilled or rain water only",
+    "Bright light essential for health",
+    "Use specialized carnivorous plant media",
+    "High humidity preferred",
+    "Feed with small insects occasionally"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Lamiales",
+    "family": "Byblidaceae",
+    "genus": "Byblis",
+    "species": "Byblis liniflora"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Division, Seed",
+  "colors": "Green, Pink, Purple, Blue",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 50,
+    "max": 90,
+    "ideal": 70
+  },
+  "waterNeedsRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "substrateType": "moist",
+  "specialNeeds": "carnivorous",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

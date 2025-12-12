@@ -1,0 +1,115 @@
+{
+  "id": 14,
+  "name": "Dwarf Hairgrass",
+  "scientificName": "Eleocharis parvula",
+  "commonNames": [],
+  "category": [
+    "aquatic",
+    "carpeting",
+    "grass"
+  ],
+  "substrate": "Fine Substrate",
+  "size": "3-15 cm",
+  "growthRate": "Fast",
+  "description": "Eleocharis parvula, commonly known as Dwarf Hairgrass or Small Spike-rush, is a popular aquatic carpeting plant native to North America (United States, Canada), Europe, and parts of Asia (including Japan and China). It belongs to the Cyperaceae (sedge) family and features thin, grass-like, cylindrical leaves (5-15 cm long, less than 1 mm wide) that grow in dense clumps from a creeping rhizome. The leaves are bright green and grow vertically, creating a lush green carpet effect in aquariums when planted densely. This fast-growing plant spreads through stolons (runners), making it ideal for foreground planting in aquascapes. It requires high light and benefits from CO₂ supplementation to achieve optimal carpeting growth. The plant forms dense mats that provide excellent hiding places for small fish and invertebrates. In nature, it grows in shallow water, marshes, and along the edges of ponds and streams. It can produce small, inconspicuous flowers on spikes that emerge above the water surface.",
+  "careTips": [
+    "Plant in small clumps (3-5 stems), spread 2-3 cm apart to encourage carpeting and runner formation",
+    "Benefits from CO₂ injection (20-30 ppm) for faster, denser growth and better carpeting",
+    "Requires high light (2-3 watts per gallon or 50+ PAR) for optimal carpeting - insufficient light causes vertical growth",
+    "Trim regularly (weekly) to encourage horizontal spreading and prevent shading of lower leaves",
+    "Fine substrate recommended (sand or fine gravel) for root development and easier planting",
+    "Can be grown emersed (above water) or submerged (fully aquatic) - adapts to both conditions",
+    "Propagates through stolons (runners) - divide clumps when they become too dense to spread",
+    "Iron-rich fertilizers help maintain vibrant green color and prevent yellowing",
+    "May take several weeks (4-8 weeks) to establish and start spreading - be patient",
+    "Keep crown (where leaves emerge) just above substrate to prevent rot - plant shallowly",
+    "Native to North America, Europe, Asia - prefers moderate to warm temperatures (20-28°C)",
+    "Prefers pH 6.5-7.5 and soft to moderately hard water (2-12 dGH)",
+    "Root tabs or nutrient-rich substrate beneficial for faster growth",
+    "Can be used in paludariums and ripariums where it grows partially emersed"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Poales",
+    "family": "Cyperaceae",
+    "genus": "Eleocharis",
+    "species": "Eleocharis parvula"
+  },
+  "growthPattern": "carpeting",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "fully-aquatic",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Division, Runners, Seed",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 100,
+    "max": 100,
+    "ideal": 100
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "aquatic",
+  "waterCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "temperatureRange": {
+    "min": 40,
+    "max": 56.00000000000001,
+    "ideal": 48
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "waterTemperatureRange": {
+    "min": 40,
+    "max": 56.00000000000001,
+    "ideal": 48
+  },
+  "waterPhRange": {
+    "min": 46.42857142857143,
+    "max": 53.57142857142857,
+    "ideal": 50
+  },
+  "waterHardnessRange": {
+    "min": 6.666666666666667,
+    "max": 40,
+    "ideal": 23.333333333333332
+  },
+  "salinityRange": {
+    "min": 0,
+    "max": 5,
+    "ideal": 2.5
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

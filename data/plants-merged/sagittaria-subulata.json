@@ -1,0 +1,113 @@
+{
+  "id": 41,
+  "name": "Dwarf Sagittaria",
+  "scientificName": "Sagittaria subulata",
+  "commonNames": [],
+  "category": [
+    "aquatic",
+    "carpeting"
+  ],
+  "substrate": "Rich Moisture Retentive",
+  "size": "15-50 cm",
+  "growthRate": "Fast",
+  "description": "Sagittaria subulata, commonly known as Dwarf Sagittaria, Narrow-leaved Arrowhead, or Awl-leaf Arrowhead, is a fast-growing aquatic and semi-aquatic plant native to the eastern United States, from New York to Florida. It belongs to the Alismataceae family and features narrow, grass-like, linear leaves (5-50 cm long, 2-5 mm wide) that grow in a rosette pattern from a central point. The leaves are bright green and grow vertically, creating a grass-like appearance. Under high light, this plant spreads rapidly via runners (stolons) to form dense carpets. The plant displays an upright, grass-like growth habit and can reach 5-50 cm in height depending on conditions. It produces small, white, three-petaled flowers on stalks that emerge above the water surface when grown emersed. In its native habitat, it grows in shallow water, marshes, and along the edges of ponds and streams. In terrariums or indoor settings, this plant is ideal for creating foreground carpets in aquariums and works well in paludariums and ripariums.",
+  "careTips": [
+    "Spreads quickly via runners (stolons) - can form dense carpets under high light",
+    "Can carpet under high light (3+ watts per gallon) - insufficient light causes vertical growth",
+    "Benefits from CO2 injection (20-30 ppm) for faster, denser carpeting growth",
+    "Trim regularly to control growth and maintain desired carpet height",
+    "Native to eastern USA (New York to Florida) - prefers moderate to warm temperatures (20-28°C)",
+    "Prefers pH 6.5-7.5 and soft to moderately hard water (2-12 dGH)",
+    "Nutrient-rich substrate recommended - benefits from root tabs or liquid fertilizers",
+    "Plant in small clumps (3-5 stems), spread 2-3 cm apart to encourage carpeting",
+    "Can grow emersed (above water) or submerged (fully aquatic) - adapts to both",
+    "Non-toxic and safe for all aquarium inhabitants",
+    "Iron-rich fertilizers help maintain vibrant green color",
+    "When grown emersed, requires high humidity (70-90%) and consistently moist substrate",
+    "Keep crown (where leaves emerge) just above substrate to prevent rot"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Alismatales",
+    "family": "Alismataceae",
+    "genus": "Sagittaria",
+    "species": "Sagittaria subulata"
+  },
+  "growthPattern": "carpeting",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "fully-aquatic",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Division, Runners",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 100,
+    "max": 100,
+    "ideal": 100
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "aquatic",
+  "waterCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "temperatureRange": {
+    "min": 40,
+    "max": 56.00000000000001,
+    "ideal": 48
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "waterTemperatureRange": {
+    "min": 40,
+    "max": 56.00000000000001,
+    "ideal": 48
+  },
+  "waterPhRange": {
+    "min": 46.42857142857143,
+    "max": 53.57142857142857,
+    "ideal": 50
+  },
+  "waterHardnessRange": {
+    "min": 6.666666666666667,
+    "max": 40,
+    "ideal": 23.333333333333332
+  },
+  "salinityRange": {
+    "min": 0,
+    "max": 5,
+    "ideal": 2.5
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

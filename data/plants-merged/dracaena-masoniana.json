@@ -1,0 +1,85 @@
+{
+  "id": 1762082843896,
+  "name": "Whale Fin Snake Plant",
+  "scientificName": "Dracaena masoniana",
+  "commonNames": [
+    "Mason's Congo",
+    "Mason"
+  ],
+  "category": [
+    "succulent",
+    "leafy"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "40-150 cm",
+  "growthRate": "Slow",
+  "description": "Dracaena masoniana, commonly known as Whale Fin Snake Plant or Mason's Congo, is a succulent native to the Democratic Republic of the Congo in Central Africa. It belongs to the Asparagaceae family and features upright growth (90-150 cm tall, 30-60 cm wide) with large, dramatic, paddle-shaped, dark green leaves mottled with light green spots. The leaves are thick, stiff, and waxy, and can measure up to 90-120 cm long and 20-25 cm wide. The leaf resembles the fin of a whale or shark, hence its common names. Just below the soil surface, there is a distinctive purple-banded sheath. This semi-succulent rhizomatous plant has evolved water-storing adaptations for survival in its native habitat. The plant produces fragrant white flower clusters from the center during summer. In terrariums or indoor settings, this plant creates a striking architectural focal point with its distinctive single or few paddle-shaped leaves. It's popular among succulent enthusiasts for its unique leaf shape and low-maintenance nature.",
+  "careTips": [
+    "Very drought tolerant - allow soil to dry completely between waterings",
+    "Avoid overwatering - most common cause of problems",
+    "Bright indirect light preferred, but tolerant of low light",
+    "Avoid temperatures below 13°C",
+    "Repot when pot-bound or roots emerge from drainage holes",
+    "Can be propagated by division or leaf cuttings",
+    "Low maintenance - perfect for beginners"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Asparagales",
+    "family": "Asparagaceae",
+    "genus": "Dracaena",
+    "species": "Dracaena masoniana"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "toxic-if-ingested",
+  "rarity": "very-rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Division, Leaf Cuttings",
+  "colors": "Green, Purple, White",
+  "humidityRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 50,
+    "max": 90,
+    "ideal": 70
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "succulent",
+  "temperatureRange": {
+    "min": 36,
+    "max": 57.99999999999999,
+    "ideal": 47
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "id": 10476,
+  "name": "Asian Water Fern",
+  "scientificName": "Bolbitis heteroclita",
+  "commonNames": [
+    "El Niño Fern",
+    "Water Fern"
+  ],
+  "category": [
+    "fern",
+    "aquatic",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Attached to Rocks or Driftwood",
+  "size": "5-30 cm",
+  "growthRate": "Moderate",
+  "description": "Bolbitis heteroclita, commonly known as Asian Water Fern or El Niño Fern, is a versatile aquatic fern native to Southeast Asia and Melanesia. It features deeply lobed, bright green leaves that grow on creeping rhizomes, creating a dense, lush appearance. The leaves typically reach lengths of 5-10 cm and have a delicate, textured appearance with prominent veining. The plant displays a creeping, rhizomatous growth habit and can grow both submerged in water and emersed in very humid conditions, making it highly adaptable for aquariums, paludariums, and terrariums. In its native habitat, it grows in shaded, humid areas near streams and waterfalls, often attached to rocks or driftwood. The fern does not require soil substrate and can be attached directly to hardscape materials. It's an excellent choice for aquatic setups and high-humidity terrariums due to its adaptability, attractive foliage, and relatively easy care. The plant is non-toxic and safe for homes with pets. Its resilience makes it suitable for both beginners and experienced plant enthusiasts.",
+  "careTips": [
+    "Provide low to moderate lighting - avoid strong, direct light",
+    "Maintain high humidity (70-90%) if grown emersed",
+    "Can be grown fully submerged in aquariums or emersed in terrariums",
+    "Attach to rocks or driftwood - do not bury the rhizome",
+    "Ensure good water circulation if grown submerged",
+    "Temperature: 20-28°C (68-82°F)",
+    "Benefits from regular liquid fertilization, especially when submerged",
+    "Propagate by dividing the rhizome when plant has at least three leaves on both sides",
+    "Avoid drastic environmental changes to prevent plant melt",
+    "Non-toxic to pets and humans"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Polypodiopsida",
+    "order": "Polypodiales",
+    "family": "Dryopteridaceae",
+    "genus": "Bolbitis",
+    "species": "Bolbitis heteroclita"
+  },
+  "growthPattern": "creeping-rhizomatous",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "fern",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Rhizome Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 40,
+    "max": 70,
+    "ideal": 55
+  },
+  "waterNeedsRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "aquatic",
+  "temperatureRange": {
+    "min": 20,
+    "max": 28,
+    "ideal": 24
+  },
+  "difficultyRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "soilPhRange": {
+    "min": 5.5,
+    "max": 6.5,
+    "ideal": 6
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}
+

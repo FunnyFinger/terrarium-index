@@ -1,0 +1,81 @@
+{
+  "id": 1762082843839,
+  "name": "Blue Oil Fern",
+  "scientificName": "Microsorum thailandicum",
+  "commonNames": [],
+  "category": [
+    "fern",
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Epiphytic Mix",
+  "size": "10-60 cm",
+  "growthRate": "Moderate",
+  "description": "Microsorum thailandicum, commonly known as Blue Oil Fern, is an epiphytic fern native to tropical regions of Southeast Asia, particularly Thailand. It belongs to the Polypodiaceae family and features upright fronds (30-60 cm tall) with medium-sized, dramatic, lance-shaped, dark green leaves with distinctive blue iridescence. The plant displays an upright growth habit. Like several other shady understory plant species, its leaves display blue iridescence. Initially unknown, the mechanism was later described as resulting from cellulose microfibrils stacked into helicoidal structures. Those structures appear on both the adaxial and abaxial epidermal surface, differing, with adaxial (top) epidermis being more blue, while abaxial (bottom) being red-shifted and less intense. In its native habitat, it grows on tree branches in tropical forests. In terrariums or indoor settings, this plant adds unique visual interest with its distinctive blue iridescent foliage. It's popular among fern enthusiasts for its unusual blue coloration.",
+  "careTips": [
+    "Can be mounted on bark or rocks",
+    "Prefers high humidity",
+    "Protect from direct sunlight",
+    "Water when substrate begins to dry"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Polypodiopsida",
+    "order": "Polypodiales",
+    "family": "Polypodiaceae",
+    "genus": "Microsorum",
+    "species": "Microsorum thailandicum"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "very-rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "fern",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Spores, Division",
+  "colors": "Green, Blue, Iridescent",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

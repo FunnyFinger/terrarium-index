@@ -1,0 +1,80 @@
+{
+  "id": 445,
+  "name": "Mexican Yam",
+  "scientificName": "Dioscorea mexicana",
+  "commonNames": [
+    "Tortoise Plant"
+  ],
+  "category": [
+    "flowering",
+    "mini"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "10-25 cm",
+  "growthRate": "Moderate",
+  "description": "Dioscorea mexicana, commonly known as Mexican Yam or Tortoise Plant, is a caudiciform (caudex-forming) plant native to Mexico. It belongs to the Dioscoreaceae family and features a distinctive, dome-shaped caudex (swollen base) with a thick, woody outer layer up to 90 cm in diameter and 20-25 cm in height. The caudex is divided into regular polygonal plates that become protuberant with age, separated by deep fissures, resembling a tortoise shell, hence one of its common names. The vigorous annual vines, which may reach 9 meters long before dying back in winter, grow from the caudex and bear heart-shaped leaves. The plant displays a climbing growth habit from the caudex. In its native habitat, it grows in well-draining soils in tropical regions. In terrariums or indoor settings, this plant adds unique interest with its distinctive caudex form. It's extremely popular among caudiciform plant enthusiasts for its tortoise-shell-like appearance.",
+  "careTips": [
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Monitor watering needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Dioscoreales",
+    "family": "Dioscoreaceae",
+    "genus": "Dioscorea",
+    "species": "Dioscorea mexicana"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division, Seed",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 40,
+    "max": 50,
+    "ideal": 45
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

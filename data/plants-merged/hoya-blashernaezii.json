@@ -1,0 +1,83 @@
+{
+  "id": 10191,
+  "name": "Hoya blashernaezii",
+  "scientificName": "Hoya blashernaezii",
+  "commonNames": [],
+  "category": [
+    "hoya",
+    "leafy",
+    "mini",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "15-60 cm",
+  "growthRate": "Moderate",
+  "description": "Hoya blashernaezii is an epiphytic plant native to tropical regions of the Philippines. It belongs to the Apocynaceae family and features trailing stems (30-60 cm long) with small, thick, waxy, dark green leaves and clusters of star-shaped, red to pink flowers, perfect for compact spaces. The plant displays a trailing growth habit. Hoya flowers produce sweet nectar that drips like honey - hence the nickname \"wax plant\". In its native habitat, it grows on tree branches in tropical forests. In terrariums or indoor settings, this plant adds tropical charm with its waxy, star-shaped flowers and trailing vines. It's popular among Hoya enthusiasts for its compact size and attractive flowers.",
+  "careTips": [
+    "Let soil dry between waterings",
+    "Bright indirect light preferred",
+    "High humidity encourages better growth",
+    "Trailing or vining - provide support if needed",
+    "Can be propagated from stem cuttings"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Gentianales",
+    "family": "Apocynaceae",
+    "genus": "Hoya",
+    "species": "Hoya blashernaezii"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "very-rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings",
+  "colors": "Green, Red, Pink",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

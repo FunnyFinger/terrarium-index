@@ -1,0 +1,95 @@
+{
+  "id": 18,
+  "name": "Trailing Watermelon Begonia",
+  "scientificName": "Pellionia repens",
+  "category": [
+    "creeper",
+    "colorful",
+    "house-plant",
+    "tropical"
+  ],
+  "substrate": "Rich Moisture Retentive",
+  "size": "3-15 cm",
+  "growthRate": "Moderate to Fast",
+  "description": "Pellionia repens, commonly known as Trailing Watermelon Begonia, Rainbow Vine, or Satin Pellionia, is a tropical perennial herb native to Southeast Asia (Vietnam, Thailand, Malaysia) and the Indian subcontinent. Despite its common name suggesting it's a begonia, it is not a begonia but belongs to the Urticaceae (nettle) family, related to Pilea and other nettle family plants. It features narrow, pointed to ovate, asymmetrical leaves (3-6 cm long, 1-2 cm wide) with bright green centers, maroon to brown edges, and distinctive mottled veining. The underside of the leaves is reddish-purple to burgundy, while the top surface has an olive-green to bronze background with deep green veining, creating a striking watermelon-like or mosaic pattern. The leaves have a slightly velvety texture. This trailing or creeping plant grows from a rhizome and spreads via stolons, making it ideal for hanging baskets, terrariums, or as ground cover in tropical gardens. It thrives in high humidity environments and prefers consistently moist, well-draining soil. The plant produces small, inconspicuous flowers, though flowering is rare in cultivation.",
+  "careTips": [
+    "Thrives in high humidity (60-80%) - ideal for terrariums, paludariums, or high-humidity rooms",
+    "Can trail or climb with support - perfect for hanging baskets, terrariums, or as ground cover",
+    "Easy to propagate from stem cuttings or division - roots readily at nodes",
+    "Keep soil consistently moist but not waterlogged - allow slight drying between waterings",
+    "Water when top inch of soil feels dry - use room temperature water",
+    "Bright indirect light preferred (avoid direct sun which can fade leaf colors) - can tolerate lower light",
+    "Regular pruning encourages bushier, more compact growth and prevents legginess",
+    "Feed with balanced liquid fertilizer every 4-6 weeks during growing season (spring-summer) at half strength",
+    "Watch for spider mites and mealybugs, especially in low humidity conditions - mist regularly",
+    "Non-toxic to pets and humans",
+    "Native to Southeast Asia and Indian subcontinent - prefers warm, humid conditions (18-27°C)",
+    "Well-draining, peat-based substrate recommended - can add perlite for better drainage",
+    "Leaves may lose their vibrant colors in low light - provide bright indirect light for best coloration",
+    "Can be grown as a houseplant in high humidity environments or closed terrariums",
+    "If leaves drop, check humidity levels and watering schedule - plant is sensitive to dry conditions"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Rosales",
+    "family": "Urticaceae",
+    "genus": "Pellionia",
+    "species": "Pellionia repens"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division",
+  "colors": "Green, Red, Brown, Purple",
+  "commonNames": [
+    "Rainbow Vine",
+    "Satin Pellionia"
+  ],
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 10
+  },
+  "waterNeedsRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 54,
+    "ideal": 45
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

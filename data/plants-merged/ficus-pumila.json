@@ -1,0 +1,92 @@
+{
+  "id": 4,
+  "name": "Creeping Fig",
+  "scientificName": "Ficus pumila",
+  "commonNames": [
+    "Creeping Ficus"
+  ],
+  "category": [
+    "creeper",
+    "house-plant",
+    "leafy",
+    "mini"
+  ],
+  "substrate": "Rich Moisture Retentive",
+  "size": "5-450 cm",
+  "growthRate": "Fast",
+  "description": "Ficus pumila, commonly known as Creeping Fig, Climbing Fig, or Fig Ivy, is an evergreen, fast-growing vine native to East Asia, including China, Japan, Vietnam, and Taiwan. It belongs to the Moraceae (mulberry) family and is known for its two distinct growth phases: juvenile and mature. The juvenile form features small (1-2.5 cm), heart-shaped, bright green leaves that grow closely spaced along thin, wiry stems. This form is ideal for terrariums and indoor cultivation. As the plant matures, it develops larger (5-10 cm), leathery, oval leaves on thicker, woody stems and can reach heights of 3-4.5 meters (10-15 feet) when climbing indoors, or 7.5-9 meters (25-30 feet) outdoors. The plant produces small, inconspicuous flowers and edible (though rarely produced in cultivation) fig-like fruits. It attaches to surfaces using aerial roots that secrete a sticky latex substance, allowing it to climb walls, trees, and other structures. In its native habitat, it grows as an epiphyte or ground cover in tropical and subtropical forests. The dramatic difference between juvenile and mature forms makes this plant particularly interesting for terrarium enthusiasts, as the juvenile form maintains its compact, small-leaved appearance when kept in containers.",
+  "careTips": [
+    "Can become aggressive and invasive - prune regularly to control growth and prevent damage to structures",
+    "Aerial roots with sticky latex help it climb surfaces - can damage painted walls if not managed",
+    "Tolerates some drought once established but prefers consistently moist soil",
+    "Leaf drop indicates low humidity, insufficient watering, or sudden temperature changes",
+    "Hardy to USDA zones 8-11, can tolerate temperatures down to -1°C but does not tolerate hard frost",
+    "Often grown as a houseplant in temperate regions where it stays in juvenile form",
+    "Juvenile form is ideal for terrariums with small leaves - mature form is too large for most terrariums",
+    "Can be trained to climb trellises or trail from hanging baskets",
+    "Native to East Asia - prefers warm, humid conditions (18-27°C optimal)",
+    "Bright indirect light is best - direct sun can scorch leaves, too little light causes leggy growth",
+    "Water when top inch of soil feels dry - avoid waterlogging",
+    "Feed monthly during growing season with balanced liquid fertilizer",
+    "Non-toxic to humans but can cause mild skin irritation from latex sap"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Rosales",
+    "family": "Moraceae",
+    "genus": "Ficus",
+    "species": "Ficus pumila"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Layering",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 54,
+    "ideal": 45
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

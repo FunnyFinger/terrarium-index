@@ -1,0 +1,109 @@
+{
+  "id": 61,
+  "name": "Phoenix Moss",
+  "scientificName": "Fissidens fontanus",
+  "commonNames": [],
+  "category": [
+    "moss",
+    "aquatic"
+  ],
+  "substrate": "Attach To Driftwood Rocks Mesh",
+  "size": "2-8 cm",
+  "growthRate": "Slow",
+  "description": "Fissidens fontanus, commonly known as Phoenix Moss, is a delicate, feathery aquatic moss native to North America. It features soft, medium to dark green shoots with feather-like fronds that form lush, dense cushions over time. The leaves are approximately 5-7 mm long, spaced about 1.5 mm apart. This slow-growing moss is highly adaptable and can be attached to various surfaces such as driftwood, rocks, or mesh. Once established, it forms excellent carpeting mats and provides hiding spots for small fish and invertebrates. It thrives in low to moderate lighting and prefers pH levels between 6.0-7.5.",
+  "careTips": [
+    "Feather-like appearance with delicate fronds",
+    "Slow-growing but forms dense mats over time",
+    "Excellent carpeting moss for foreground or background",
+    "Very hardy and adaptable",
+    "Thrives in low to moderate lighting",
+    "Can be attached to driftwood, rocks, or mesh",
+    "Regular water changes and good filtration recommended",
+    "CO2 not required but can enhance growth",
+    "Benefits from occasional balanced liquid fertilizer"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Bryophyta",
+    "class": "Bryopsida",
+    "order": "Dicranales",
+    "family": "Fissidentaceae",
+    "genus": "Fissidens",
+    "species": "Fissidens fontanus"
+  },
+  "growthPattern": "carpeting",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "fully-aquatic",
+  "plantType": "moss",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Division, Fragmentation",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 100,
+    "max": 100,
+    "ideal": 100
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "aquatic",
+  "waterCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "temperatureRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "waterTemperatureRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "waterPhRange": {
+    "min": 50,
+    "max": 57.1,
+    "ideal": 53.6
+  },
+  "waterHardnessRange": {
+    "min": 6.67,
+    "max": 20,
+    "ideal": 13.33
+  },
+  "salinityRange": {
+    "min": 0,
+    "max": 5,
+    "ideal": 2.5
+  },
+  "growthRateRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  }
+}

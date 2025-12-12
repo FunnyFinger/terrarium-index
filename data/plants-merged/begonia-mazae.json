@@ -1,0 +1,82 @@
+{
+  "id": 10163,
+  "name": "Begonia mazae",
+  "scientificName": "Begonia mazae",
+  "commonNames": [],
+  "category": [
+    "begonia",
+    "leafy",
+    "mini",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "10-30 cm",
+  "growthRate": "Moderate",
+  "description": "Begonia mazae f. nigricans is a terrestrial plant native to tropical regions of Mexico, particularly Chiapas. It belongs to the Begoniaceae family and features upright stems (15-30 cm tall) with small, asymmetrical, very dark green to almost black leaves (nigricans means \"black\") with distinctive patterns. The plant displays an upright, bushy growth habit. Leaves often feature striking patterns including spirals, spots, stripes, and iridescent sheens, with some species having translucent \"windows\" in their leaves. In its native habitat, it grows in moist, shaded areas of tropical forests. In terrariums or indoor settings, this plant adds natural beauty with its distinctive dark foliage. It's popular among Begonia enthusiasts for its unique dark coloration.",
+  "careTips": [
+    "Keep soil moist but not soggy",
+    "High humidity beneficial",
+    "Bright indirect light - avoid direct sun",
+    "Good air circulation prevents disease",
+    "Prune regularly to maintain shape"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Cucurbitales",
+    "family": "Begoniaceae",
+    "genus": "Begonia",
+    "species": "Begonia mazae"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "very-rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Leaf Cuttings, Stem Cuttings, Division",
+  "colors": "Green, Dark Green, Black",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

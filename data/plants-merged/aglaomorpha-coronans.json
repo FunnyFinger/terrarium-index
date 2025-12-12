@@ -1,0 +1,83 @@
+{
+  "id": 10294,
+  "name": "Snake Leaf Fern",
+  "scientificName": "Aglaomorpha coronans",
+  "commonNames": [
+    "Crown Fern"
+  ],
+  "category": [
+    "fern",
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "15-120 cm",
+  "growthRate": "Moderate",
+  "description": "Aglaomorpha coronans, commonly known as Snake Leaf Fern, is an epiphytic fern native to tropical regions of Southeast Asia, particularly the Philippines, Malaysia, and Indonesia. It belongs to the Polypodiaceae family and features upright fronds (60-120 cm tall) with large, dramatic, deeply divided, dark green fronds with distinctive snake-like patterns. The plant displays an upright growth habit. Thrives in the humid, shaded understory of tropical forests where it receives consistent moisture and protection from direct sunlight. In its native habitat, it grows on tree branches in tropical forests. In terrariums or indoor settings, this plant adds vibrant colors and visual interest to any environment. It's popular among fern enthusiasts for its attractive frond shape.",
+  "careTips": [
+    "High humidity is essential",
+    "Keep soil consistently moist but not waterlogged",
+    "Avoid direct sunlight - prefers bright indirect light",
+    "Brown edges indicate low humidity or underwatering"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Polypodiopsida",
+    "order": "Polypodiales",
+    "family": "Polypodiaceae",
+    "genus": "Aglaomorpha",
+    "species": "Aglaomorpha coronans"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "tree-dwelling",
+  "plantType": "fern",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Spores, Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

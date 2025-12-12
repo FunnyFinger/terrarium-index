@@ -1,0 +1,87 @@
+{
+  "id": 582,
+  "name": "Lipstick Plant",
+  "scientificName": "Aeschynanthus radicans",
+  "commonNames": [],
+  "category": [
+    "flowering",
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "30-150 cm",
+  "growthRate": "Moderate",
+  "description": "Aeschynanthus radicans, commonly known as the Lipstick Plant, is an epiphytic plant native to the humid tropics of the Malay Peninsula south to Java. It belongs to the Gesneriaceae family and features trailing stems (60-150 cm long) with leathery, dark green, ovate to lanceolate leaves (4-8 cm long). The plant displays a trailing or climbing growth habit, making it ideal for hanging baskets. It produces bright red, tubular flowers (5-7.5 cm long) that emerge from dark maroon calyces, resembling a tube of lipstick, hence its common name. The flowers bloom intermittently from spring to fall. In its native habitat, it grows as an epiphyte on tree branches in tropical forests. In terrariums or indoor settings, this plant adds vibrant colors with its bright red flowers and glossy green foliage. It's popular among gesneriad enthusiasts for its showy flowers and trailing habit.",
+  "careTips": [
+    "Provide high humidity (50-70%)",
+    "Ensure good air circulation",
+    "Keep substrate consistently moist but not waterlogged",
+    "Bright, indirect light preferred",
+    "Well-draining substrate essential",
+    "Protect from direct sunlight",
+    "Water when top 1-2 inches of soil feel dry",
+    "Reduce watering in winter months",
+    "Can be grown in hanging baskets or mounted on bark",
+    "Prune after flowering to maintain bushy appearance"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Lamiales",
+    "family": "Gesneriaceae",
+    "genus": "Aeschynanthus",
+    "species": "Aeschynanthus radicans"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division",
+  "colors": "Green, Red, Maroon",
+  "humidityRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "substrateType": "moist",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "id": 71,
+  "name": "Water Spangles",
+  "scientificName": "Salvinia minima",
+  "commonNames": [],
+  "category": [
+    "aquatic",
+    "fern",
+    "leafy",
+    "mini"
+  ],
+  "substrate": "No Substrate Needed",
+  "size": "1-2 cm",
+  "growthRate": "Fast",
+  "description": "Salvinia minima, commonly known as Water Spangles, Common Salvinia, or Floating Fern, is a free-floating aquatic fern native to Central and South America, particularly Mexico, Central America, and parts of South America, though it has been naturalized in many regions worldwide. It belongs to the Salviniaceae family and features small, round to oval, bright green leaves (1-2 cm across) that float on the water surface. The leaves have a distinctive water-repellent, velvety texture due to tiny hairs that trap air, helping the plant float. The leaves grow in pairs along branching stems, and the plant produces feathery, root-like structures (modified leaves) that hang beneath the water surface. The plant displays a surface-spreading, mat-forming growth habit and forms dense floating mats. In its native habitat, it grows floating on the surface of still or slow-moving freshwater bodies. In terrariums or indoor settings, this plant provides excellent surface cover, shade, and natural filtration. It's popular in aquariums for its fast growth and ability to provide cover for fish.",
+  "careTips": [
+    "Water-repellent leaves with velvety texture - tiny hairs trap air for flotation",
+    "Fast growing - can quickly cover water surface, trim regularly to control",
+    "Provides excellent cover and shade for fish and other aquatic life",
+    "Easy to control - can be manually removed or netted out",
+    "Native to Central and South America - prefers warm water (20-28°C)",
+    "Moderate to high light recommended (2-3 watts per gallon) for best growth",
+    "Prefers pH 6.0-7.5 and soft to moderately hard water (2-12 dGH)",
+    "Benefits from regular fertilization - absorbs nutrients through root-like structures",
+    "CO2 supplementation beneficial but not required",
+    "Non-toxic and safe for all aquarium inhabitants",
+    "Can be used in aquariums, paludariums, and ripariums",
+    "Propagates via division - daughter plants form on stems",
+    "If leaves turn yellow, increase light or add fertilizer",
+    "Requires some water movement to prevent stagnant conditions"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Polypodiopsida",
+    "order": "Salviniales",
+    "family": "Salviniaceae",
+    "genus": "Salvinia",
+    "species": "Salvinia minima"
+  },
+  "growthPattern": "carpeting",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "fully-aquatic",
+  "plantType": "fern",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Spores, Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "aquatic",
+  "waterCirculationRange": {
+    "min": 10,
+    "max": 30,
+    "ideal": 20
+  },
+  "temperatureRange": {
+    "min": 40,
+    "max": 56.00000000000001,
+    "ideal": 48
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "waterTemperatureRange": {
+    "min": 40,
+    "max": 56.00000000000001,
+    "ideal": 48
+  },
+  "waterPhRange": {
+    "min": 42.857142857142854,
+    "max": 53.57142857142857,
+    "ideal": 48.21428571428571
+  },
+  "waterHardnessRange": {
+    "min": 6.666666666666667,
+    "max": 40,
+    "ideal": 23.333333333333332
+  },
+  "salinityRange": {
+    "min": 0,
+    "max": 5,
+    "ideal": 2.5
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

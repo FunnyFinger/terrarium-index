@@ -1,0 +1,88 @@
+{
+  "id": 90,
+  "name": "Mistletoe Cactus",
+  "scientificName": "Rhipsalis baccifera",
+  "commonNames": [
+    "Coral Cactus",
+    "Spaghetti Cactus"
+  ],
+  "category": [
+    "cactus"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "10-60 cm",
+  "growthRate": "Moderate",
+  "description": "Rhipsalis baccifera, commonly known as Mistletoe Cactus or Spaghetti Cactus, is an epiphytic cactus native to tropical regions of Central and South America, the Caribbean, Africa, and Sri Lanka. It belongs to the Cactaceae family and features long, thin, cylindrical, segmented stems (20-60 cm long) that hang or trail gracefully. Unlike desert cacti, this is a jungle cactus that grows in trees, absorbing moisture from humid air. The stems are bright green and produce small, white to cream-colored flowers followed by white, mistletoe-like berries. The plant displays a trailing, cascading growth habit and can reach lengths of 20-60 cm or more. In its native habitat, it grows as an epiphyte on tree trunks and branches in tropical forests. In terrariums or indoor settings, this plant adds natural beauty with its graceful, trailing stems. It's popular for hanging baskets and terrariums due to its epiphytic nature and easy care.",
+  "careTips": [
+    "Epiphytic cactus - NOT a desert plant, requires higher humidity than desert cacti",
+    "Prefers moderate to high humidity (50-70%) - mist regularly or use pebble tray",
+    "Can trail or hang beautifully - ideal for hanging baskets",
+    "Easy to propagate from stem cuttings",
+    "Native to tropical forests - prefers filtered light, not direct sun",
+    "Well-draining, epiphytic mix recommended - use orchid bark, perlite, or specialized cactus mix",
+    "Water when top inch of soil feels dry - more frequent than desert cacti",
+    "Non-toxic to pets and humans",
+    "Can be grown in terrariums with good air circulation",
+    "Watch for mealybugs and scale insects",
+    "Tolerates lower light better than most cacti due to epiphytic nature"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Caryophyllales",
+    "family": "Cactaceae",
+    "genus": "Rhipsalis",
+    "species": "Rhipsalis baccifera"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "handle-with-care",
+  "rarity": "uncommon",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "succulent",
+  "temperatureRange": {
+    "min": 36,
+    "max": 54,
+    "ideal": 45
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

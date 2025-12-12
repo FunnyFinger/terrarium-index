@@ -1,0 +1,79 @@
+{
+  "id": 124,
+  "name": "Brooks' Aglaomorpha",
+  "scientificName": "Drynaria brooksii",
+  "commonNames": [],
+  "category": [
+    "fern",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "10-60 cm",
+  "growthRate": "Moderate",
+  "description": "Drynaria brooksii (synonym: Aglaomorpha brooksii), commonly known as Brooks' Aglaomorpha, is an epiphytic fern native to tropical regions of Southeast Asia, particularly Malaysia and Indonesia. It belongs to the Polypodiaceae family and features two types of fronds: small, brown, nest-like fronds (nest leaves) that collect organic matter, and large, green, fertile fronds (foliage leaves) that are deeply divided and feathery. The plant displays an upright, rosette-forming growth habit and can reach varying sizes. In its native habitat, it grows as an epiphyte on tree trunks and branches in tropical forests. In terrariums or indoor settings, this plant adds natural beauty with its distinctive nest-forming habit. It's popular among fern enthusiasts for its unique dual-frond structure.",
+  "careTips": [
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Monitor watering needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Polypodiopsida",
+    "order": "Polypodiales",
+    "family": "Polypodiaceae",
+    "genus": "Drynaria",
+    "species": "Drynaria brooksii"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "very-rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "fern",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Spores, Division",
+  "colors": "Red, Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

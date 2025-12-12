@@ -1,0 +1,88 @@
+{
+  "id": 10337,
+  "name": "Bulbophyllum depressum",
+  "scientificName": "Bulbophyllum depressum",
+  "commonNames": [
+    "Bulb Orchid"
+  ],
+  "category": [
+    "orchid",
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "5-20 cm",
+  "growthRate": "Moderate",
+  "description": "Bulbophyllum depressum is an epiphytic orchid native to tropical regions of Southeast Asia, particularly Malaysia, Indonesia, and the Philippines. It belongs to the Orchidaceae family and features creeping rhizomes (10-20 cm long) with small, dramatic, oval-shaped, dark green leaves and distinctive flattened pseudobulbs. The plant displays a creeping growth habit. Orchids have highly specialized flowers designed for specific pollinators. In its native habitat, it grows on tree branches in tropical forests. In terrariums or indoor settings, this plant brings exotic elegance and sophistication to any environment. It's popular among orchid enthusiasts for its unique flattened pseudobulbs.",
+  "careTips": [
+    "Provide high humidity (60-80%)",
+    "Water when media begins to dry",
+    "Bright indirect light - avoid direct sun",
+    "Good air circulation is important",
+    "Feed with orchid fertilizer during growing season",
+    "Many mini species available",
+    "Some have unusual flower scents",
+    "Can be mounted or potted",
+    "Very diverse genus"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Asparagales",
+    "family": "Orchidaceae",
+    "genus": "Bulbophyllum",
+    "species": "Bulbophyllum depressum"
+  },
+  "growthPattern": "rosette",
+  "hazard": "non-toxic",
+  "rarity": "very-rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "irregular",
+  "propagation": "Division, Pups",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

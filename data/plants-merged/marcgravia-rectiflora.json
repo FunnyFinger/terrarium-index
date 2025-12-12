@@ -1,0 +1,90 @@
+{
+  "id": 10455,
+  "name": "Marcgravia rectiflora",
+  "scientificName": "Marcgravia rectiflora",
+  "commonNames": [
+    "Shingling Vine"
+  ],
+  "category": [
+    "creeper",
+    "flowering",
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "10-50 cm",
+  "growthRate": "Fast",
+  "description": "Marcgravia rectiflora is an epiphytic climbing vine native to tropical regions of Central and South America, including Colombia, Cuba, the Dominican Republic, Guatemala, Haiti, Honduras, Peru, and Puerto Rico. It belongs to the Marcgraviaceae family and features narrow leaves with rounded tips that emerge light yellow-green and mature to emerald or lime green, depending on light exposure. Young leaves are bright red, creating a striking contrast with mature green foliage. The leaves are typically 2.5-3 cm (under one inch to just over an inch) in size under typical terrarium conditions. The plant displays a climbing, shingling growth habit and typically reaches 10-50 cm in height when grown in terrariums. It produces small flowers. In its native habitat, it grows in humid, shaded environments of tropical rainforests, often found on tree trunks and branches. In terrariums or indoor settings, this plant adds vibrant color with its red new growth and green mature leaves. It's popular among terrarium enthusiasts for its resilience, fast growth, and tolerance of water on its leaves, making it a good option for beginners.",
+  "careTips": [
+    "Requires high humidity (60%+) - ideal for terrariums",
+    "Prefers bright, indirect light - can tolerate semi-sun conditions",
+    "Keep substrate consistently moist but not waterlogged",
+    "Tolerant of water on leaves - good for high humidity terrariums",
+    "Can be mounted on wood or grown in well-draining mix",
+    "Native to Central and South America - prefers warm temperatures (18-27°C)",
+    "Shingling growth habit - provide vertical surface for climbing",
+    "Well-suited for terrariums, can climb back walls or wood structures",
+    "Considered beginner-friendly due to resilience",
+    "Fast-growing species - may need regular pruning"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Ericales",
+    "family": "Marcgraviaceae",
+    "genus": "Marcgravia",
+    "species": "Marcgravia rectiflora"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings",
+  "colors": "Green, Yellow-green, Red",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 50,
+    "max": 80,
+    "ideal": 65
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic, high humidity",
+  "temperatureRange": {
+    "min": 36,
+    "max": 54,
+    "ideal": 45
+  },
+  "difficultyRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

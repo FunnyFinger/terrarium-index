@@ -1,0 +1,79 @@
+{
+  "id": 118,
+  "name": "Adenia lanceolata",
+  "scientificName": "Adenia lanceolata",
+  "commonNames": [],
+  "category": [
+    "flowering",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "15-100 cm",
+  "growthRate": "Moderate",
+  "description": "Adenia lanceolata is a caudiciform (caudex-forming) plant native to tropical regions of Africa, particularly Madagascar and parts of East Africa. It belongs to the Passifloraceae family and features a swollen, water-storing base (caudex) with climbing or trailing stems bearing lance-shaped, green leaves. The plant displays an upright to climbing growth habit and can reach varying sizes depending on conditions. It produces small, inconspicuous flowers. In its native habitat, it grows in well-draining soils in tropical regions. In terrariums or indoor settings, this plant adds unique interest with its caudex form. It's popular among caudiciform plant enthusiasts for its distinctive swollen base.",
+  "careTips": [
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Monitor watering needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Malpighiales",
+    "family": "Passifloraceae",
+    "genus": "Adenia",
+    "species": "Adenia lanceolata"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "very-rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division, Seed",
+  "colors": "Red, Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

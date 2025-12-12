@@ -1,0 +1,95 @@
+{
+  "id": 21,
+  "name": "Nerve Plant",
+  "scientificName": "Fittonia albivenis",
+  "commonNames": [
+    "Fittonia (Nerve Plant)",
+    "Mosaic Plant"
+  ],
+  "category": [
+    "colorful",
+    "flowering",
+    "house-plant",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "3-10 cm",
+  "growthRate": "Moderate",
+  "description": "Fittonia albivenis (synonym: Fittonia verschaffeltii), commonly known as Nerve Plant, Mosaic Plant, or Painted Net Leaf, is a low-growing, creeping perennial native to the tropical rainforests of South America, particularly Peru, Colombia, Ecuador, and Bolivia. It belongs to the Acanthaceae family and features oval to elliptical leaves (5-10 cm long) with distinctive, colorful veining that resembles a network of nerves. The most common variety has dark green leaves with white or pink veins, but cultivars are available with red, pink, or silver veins on various background colors. The plant has a prostrate to semi-upright growth habit, forming dense mats or clumps. In its native rainforest habitat, this plant grows in the humid understory with filtered light and high humidity, often as ground cover. It produces small, inconspicuous white to yellow flowers on spikes, though flowering is rare in cultivation and often removed. In terrariums or indoor settings, this plant adds vibrant colors and visual interest to any environment. It's particularly well-suited for closed terrariums due to its high humidity requirements.",
+  "careTips": [
+    "Perfect for small terrariums, especially closed terrariums due to high humidity needs",
+    "Leaves droop dramatically when thirsty - this is a clear indicator to water immediately",
+    "Can be kept very compact with regular pruning - ideal for small spaces",
+    "Native to South American rainforests (Peru, Colombia, Ecuador, Bolivia) - requires high humidity (60-80%)",
+    "Prefers bright indirect light to low light - direct sun can scorch leaves, too little light causes leggy growth",
+    "Keep soil consistently moist but not waterlogged - never allow to completely dry out",
+    "Well-draining, peat-based substrate recommended - retains moisture while preventing waterlogging",
+    "Feed monthly during growing season with diluted balanced fertilizer (quarter to half strength)",
+    "Non-toxic to pets and humans",
+    "Watch for spider mites and mealybugs, especially in low humidity conditions",
+    "If leaves become crispy or brown, increase humidity and check watering schedule",
+    "Can be propagated easily from stem cuttings - roots readily in water or moist soil",
+    "Regular pinching of growing tips encourages bushier, more compact growth",
+    "Ideal temperature range 18-24°C - avoid temperatures below 15°C or above 27°C"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Lamiales",
+    "family": "Acanthaceae",
+    "genus": "Fittonia",
+    "species": "Fittonia albivenis"
+  },
+  "growthPattern": "carpeting",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division, Seed",
+  "colors": "Green, White, Pink, Red, Silver",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "airCirculationRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 10
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

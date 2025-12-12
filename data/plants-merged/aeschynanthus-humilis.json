@@ -1,0 +1,84 @@
+{
+  "id": 578,
+  "name": "Lipstick Plant",
+  "scientificName": "Aeschynanthus humilis",
+  "commonNames": [],
+  "category": [
+    "flowering",
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "20-60 cm",
+  "growthRate": "Moderate",
+  "description": "Aeschynanthus humilis is an epiphytic plant native to tropical regions of Southeast Asia, particularly Malaysia and Indonesia. It belongs to the Gesneriaceae family and features trailing or climbing stems (30-60 cm long) with small, fleshy, dark green leaves. The plant displays a trailing or climbing growth habit. It produces small, tubular, red to orange flowers. Adapted to tropical climates with high humidity, consistent warmth, and filtered light conditions. In its native habitat, it grows as an epiphyte on tree branches in tropical forests. In terrariums or indoor settings, this plant adds vibrant colors with its bright flowers. It's popular among gesneriad enthusiasts for its compact size and attractive blooms.",
+  "careTips": [
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Keep substrate consistently moist but not waterlogged",
+    "Bright, indirect light preferred",
+    "Well-draining substrate essential",
+    "Protect from direct sunlight",
+    "Can be mounted on bark or grown in baskets"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Lamiales",
+    "family": "Gesneriaceae",
+    "genus": "Aeschynanthus",
+    "species": "Aeschynanthus humilis"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "very-rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division",
+  "colors": "Green, Red, Orange",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

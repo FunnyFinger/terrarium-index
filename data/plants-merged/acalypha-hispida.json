@@ -1,0 +1,87 @@
+{
+  "id": 554,
+  "name": "Chenille Plant",
+  "scientificName": "Acalypha hispida",
+  "commonNames": [
+    "Red Hot Cat's Tail",
+    "Red Hot Cat"
+  ],
+  "category": [
+    "flowering",
+    "leafy",
+    "mini",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "20-100 cm",
+  "growthRate": "Moderate",
+  "description": "Acalypha hispida 'Small Form', commonly known as Chenille Plant or Red Hot Cat's Tail, is a tropical plant native to New Guinea and the Malay Archipelago. It belongs to the Euphorbiaceae family and features upright stems (20-40 cm in the small form) with large, heart-shaped, green leaves and distinctive, long, drooping, red catkin-like inflorescences (flowers) that give it the common name. The plant displays an upright, bushy growth habit. Adapted to tropical climates with high humidity, consistent warmth, and filtered light conditions. In its native habitat, it grows in moist, shaded areas of tropical forests. In terrariums or indoor settings, this plant adds vibrant colors and visual interest with its distinctive red inflorescences. It's popular among plant enthusiasts for its unusual flowers.",
+  "careTips": [
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Keep substrate consistently moist but not waterlogged",
+    "Bright, indirect light preferred",
+    "Well-draining substrate essential",
+    "Protect from direct sunlight",
+    "Handle with care - toxic sap"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Malpighiales",
+    "family": "Euphorbiaceae",
+    "genus": "Acalypha",
+    "species": "Acalypha hispida"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "toxic-if-ingested",
+  "rarity": "very-rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division, Seed",
+  "colors": "Green, Red",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

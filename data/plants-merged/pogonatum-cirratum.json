@@ -1,0 +1,86 @@
+{
+  "id": 381,
+  "name": "Cirrate Haircap Moss",
+  "scientificName": "Pogonatum cirratum",
+  "commonNames": [],
+  "category": [
+    "moss",
+    "ground-cover",
+    "primitive"
+  ],
+  "substrate": "Decaying Wood",
+  "size": "2-5 cm",
+  "growthRate": "Slow to moderate",
+  "description": "Pogonatum cirratum is a species of haircap moss native to various regions. Haircap mosses are characterized by their distinctive spore capsules that have a hairy cap (calyptra) covering them. This moss forms dense, green cushions or mats and thrives in moist, shaded environments. It's an excellent choice for terrariums where it can create a natural, forest-floor appearance. The moss helps maintain humidity and provides a natural substrate for other small plants. It's particularly useful for creating realistic miniature landscapes in terrariums.",
+  "careTips": [
+    "Requires very high humidity (85-95%)",
+    "Prefers low to moderate indirect light",
+    "Keep consistently moist - never let dry out",
+    "Can grow on soil, rocks, or wood",
+    "Temperature: 15-22°C (60-72°F)",
+    "Mist regularly to maintain humidity",
+    "Non-toxic and safe",
+    "Slow-growing but forms dense mats over time",
+    "Propagates by spores or division",
+    "Excellent for creating natural terrarium landscapes"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Bryophyta",
+    "class": "Polytrichopsida",
+    "order": "Polytrichales",
+    "family": "Polytrichaceae",
+    "genus": "Pogonatum",
+    "species": "Pogonatum cirratum"
+  },
+  "growthPattern": "clumping",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "moss",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Spores, Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 85,
+    "max": 95,
+    "ideal": 90
+  },
+  "lightRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "airCirculationRange": {
+    "min": 0,
+    "max": 20,
+    "ideal": 10
+  },
+  "waterNeedsRange": {
+    "min": 80,
+    "max": 95,
+    "ideal": 87
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 15,
+    "max": 22,
+    "ideal": 18
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 5.5,
+    "max": 6.5,
+    "ideal": 6
+  },
+  "growthRateRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  }
+}

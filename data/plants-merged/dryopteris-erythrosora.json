@@ -1,0 +1,81 @@
+{
+  "id": 338,
+  "name": "Autumn Fern",
+  "scientificName": "Dryopteris erythrosora",
+  "commonNames": [
+    "Japanese Shield Fern"
+  ],
+  "category": [
+    "colorful",
+    "fern",
+    "leafy"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "10-70 cm",
+  "growthRate": "Moderate",
+  "description": "Dryopteris erythrosora, commonly known as Autumn Fern or Japanese Shield Fern, is a terrestrial fern native to East Asia, particularly Japan, China, and Korea. It belongs to the Dryopteridaceae family and features arching, triangular, divided fronds (30-70 cm long) that emerge copper-red to orange in spring, mature to green, and turn bronze in autumn, hence the common name. The fronds have a distinctive, leathery texture. The plant displays an upright, arching growth habit and typically reaches 30-70 cm in height. In its native habitat, it grows in moist, shaded areas of temperate forests. In terrariums or indoor settings, this plant adds vibrant seasonal color with its color-changing fronds. It's extremely popular among fern enthusiasts for its autumn coloration and easy care.",
+  "careTips": [
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Monitor watering needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Polypodiopsida",
+    "order": "Polypodiales",
+    "family": "Dryopteridaceae",
+    "genus": "Dryopteris",
+    "species": "Dryopteris erythrosora"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "fern",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Spores, Division",
+  "colors": "Green, Copper, Orange, Bronze",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

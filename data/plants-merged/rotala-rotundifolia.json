@@ -1,0 +1,113 @@
+{
+  "id": 29,
+  "name": "Dwarf Rotala",
+  "scientificName": "Rotala rotundifolia",
+  "commonNames": [],
+  "category": [
+    "house-plant"
+  ],
+  "substrate": "Rich Moisture Retentive",
+  "size": "5-50 cm",
+  "growthRate": "Fast",
+  "description": "Rotala rotundifolia, commonly known as Dwarf Rotala, Roundleaf Toothcup, or Pink Rotala, is a fast-growing aquatic and semi-aquatic plant native to Southeast Asia, including India, China, Japan, Thailand, and Vietnam. It belongs to the Lythraceae family and features small, round to oval leaves (1-2 cm long) that grow in opposite pairs along the stem. When grown submerged, the leaves are typically green, but under high light and proper conditions, they can develop pink, red, or orange hues, especially in the upper portions. When grown emersed (above water), the leaves are rounder and greener. This plant displays an upright, bushy growth habit and can reach 10-50 cm in height depending on conditions. It produces small, pink to purple flowers when grown emersed. Adapted to tropical climates with high humidity, consistent warmth, and filtered to bright light conditions. In nature, it grows in shallow water, marshes, and along the edges of ponds and streams, often partially submerged. It's a popular choice for aquascaping, paludariums, and ripariums.",
+  "careTips": [
+    "Can grow emersed (above water) or submerged (fully aquatic) - adapts well to both conditions",
+    "Colors up with more light (high light 3+ watts per gallon for submerged) - insufficient light causes green, leggy growth",
+    "Fast growing - trim regularly (weekly) to maintain shape and encourage bushier growth",
+    "Perfect for paludariums and ripariums where it can grow partially emersed",
+    "Benefits from CO2 injection (20-30 ppm) and regular fertilization when submerged for best growth and coloration",
+    "Can be propagated by stem cuttings - simply cut and replant, roots readily",
+    "Native to Southeast Asia (India, China, Japan, Thailand, Vietnam) - prefers warm water (22-28°C)",
+    "Prefers pH 6.0-7.5 and soft to moderately hard water (2-12 dGH) when submerged",
+    "Plant in groups for best visual effect - space stems 2-3 cm apart",
+    "Iron-rich fertilizers help enhance red/pink coloration in leaves",
+    "When grown emersed, requires high humidity (70-90%) and consistently moist substrate",
+    "Can be used as background or midground plant in aquariums",
+    "Regular trimming prevents lower leaves from being shaded and dying off",
+    "Root tabs or nutrient-rich substrate beneficial for faster, healthier growth"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Myrtales",
+    "family": "Lythraceae",
+    "genus": "Rotala",
+    "species": "Rotala rotundifolia"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "fully-aquatic",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division",
+  "colors": "Red",
+  "humidityRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 10
+  },
+  "waterNeedsRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "aquatic",
+  "waterCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "temperatureRange": {
+    "min": 36,
+    "max": 54,
+    "ideal": 45
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "waterTemperatureRange": {
+    "min": 36,
+    "max": 54,
+    "ideal": 45
+  },
+  "waterPhRange": {
+    "min": 42.857142857142854,
+    "max": 53.57142857142857,
+    "ideal": 48.21428571428571
+  },
+  "waterHardnessRange": {
+    "min": 6.666666666666667,
+    "max": 40,
+    "ideal": 23.333333333333332
+  },
+  "salinityRange": {
+    "min": 0,
+    "max": 5,
+    "ideal": 2.5
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

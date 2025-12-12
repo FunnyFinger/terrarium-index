@@ -1,0 +1,79 @@
+{
+  "id": 227,
+  "name": "Anthurium acaule",
+  "scientificName": "Anthurium acaule",
+  "commonNames": [],
+  "category": [
+    "anthurium",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "20-50 cm",
+  "growthRate": "Moderate",
+  "description": "Anthurium acaule is an epiphytic aroid native to the Caribbean, particularly Martinique, and tropical regions of Central and South America. It belongs to the Araceae family and features unlobed, lance-shaped to oval, dark green leaves (40-56 cm long, occasionally up to 1.3 meters, and 8-10 cm wide) with prominent white or silver veins. The leaves are held on short petioles (2-6 cm long). The plant displays an upright, compact growth habit and typically reaches 30-50 cm in height (up to 50 cm under optimal conditions) with a spread of 15-150 cm. It produces small, inconspicuous flowers typical of aroids (spathe and spadix). In its native habitat, it grows as an epiphyte on tree trunks and branches or on rocks in tropical forests, receiving filtered sunlight through the dense canopy. In terrariums or indoor settings, this plant adds unique interest with its large leaves relative to its compact form. It's popular among aroid enthusiasts for its distinctive appearance.",
+  "careTips": [
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Monitor watering needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Anthurium",
+    "species": "Anthurium acaule"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "toxic-if-ingested",
+  "rarity": "rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Stem Cuttings, Division, Seed",
+  "colors": "Red, White, Silver",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

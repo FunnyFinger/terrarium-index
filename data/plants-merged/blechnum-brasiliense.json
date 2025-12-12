@@ -1,0 +1,83 @@
+{
+  "id": 10304,
+  "name": "Brazilian Tree Fern",
+  "scientificName": "Blechnum brasiliense",
+  "commonNames": [
+    "Red Brazilian Tree Fern"
+  ],
+  "category": [
+    "fern",
+    "leafy",
+    "tropical",
+    "terrestrial"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "15-120 cm",
+  "growthRate": "Moderate",
+  "description": "Blechnum brasiliense 'Volcano', commonly known as Brazilian Tree Fern, is a terrestrial fern native to tropical regions of South America, particularly Brazil. It belongs to the Blechnaceae family and features upright fronds (60-120 cm tall) with large, dramatic, lance-shaped, dark green fronds with distinctive red to bronze new growth. The plant displays an upright rosette growth habit. In its native habitat, it grows in moist, shaded areas of tropical forests. In terrariums or indoor settings, this plant adds vibrant colors and visual interest to any environment. It's popular among fern enthusiasts for its attractive new growth coloration.",
+  "careTips": [
+    "High humidity is essential",
+    "Keep soil consistently moist but not waterlogged",
+    "Avoid direct sunlight - prefers bright indirect light",
+    "Brown edges indicate low humidity or underwatering"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Polypodiopsida",
+    "order": "Polypodiales",
+    "family": "Blechnaceae",
+    "genus": "Blechnum",
+    "species": "Blechnum brasiliense"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "fern",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Spores, Division",
+  "colors": "Green, Red, Bronze",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

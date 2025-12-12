@@ -1,0 +1,84 @@
+{
+  "id": 10018,
+  "name": "Red Secret",
+  "scientificName": "Alocasia cuprea",
+  "commonNames": [
+    "Mirror Plant"
+  ],
+  "category": [
+    "alocasia",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "20-60 cm",
+  "growthRate": "Moderate",
+  "description": "Alocasia cuprea, commonly known as Red Secret or Mirror Plant, is a terrestrial plant native to Borneo, particularly Sarawak, Malaysia. It belongs to the Araceae family and features upright stems (30-60 cm tall) with large, dramatic, arrow-shaped to heart-shaped, metallic copper to red-bronze leaves with a distinctive, iridescent surface that changes color with viewing angle. The plant displays an upright, bushy growth habit. Many species have distinctive leaf textures - some are velvety, others have metallic or iridescent surfaces that change color with viewing angle. In its native habitat, it grows in moist, shaded areas of tropical forests. In terrariums or indoor settings, this plant adds natural beauty with its distinctive metallic foliage. It's extremely popular among Alocasia enthusiasts for its unique iridescent leaves.",
+  "careTips": [
+    "Keep soil consistently moist but well-draining",
+    "High humidity preferred",
+    "Bright indirect light",
+    "Toxic if ingested - keep away from pets and children",
+    "Requires high humidity and consistent moisture",
+    "Dormant period in winter - reduce watering"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Alocasia",
+    "species": "Alocasia cuprea"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "toxic-if-ingested",
+  "rarity": "rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "does-not-flower-in-cultivation",
+  "propagation": "Division, Offsets",
+  "colors": "Copper, Red, Bronze, Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

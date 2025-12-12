@@ -1,0 +1,86 @@
+{
+  "id": 10356,
+  "name": "Grass Orchid",
+  "scientificName": "Dendrochilum tenellum",
+  "commonNames": [
+    "Slender Dendrochilum"
+  ],
+  "category": [
+    "orchid",
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "5-20 cm",
+  "growthRate": "Moderate",
+  "description": "Dendrochilum tenellum, commonly known as Grass Orchid, is an epiphytic orchid native to tropical regions of Southeast Asia, particularly the Philippines and Indonesia. It belongs to the Orchidaceae family and features upright stems (10-20 cm tall) with small, dramatic, grass-like, dark green leaves and distinctive small flowers. The plant displays an upright growth habit. In its native habitat, it grows on tree branches in tropical forests. In terrariums or indoor settings, this plant is perfect for small spaces and terrariums. It's popular among orchid enthusiasts for its grass-like appearance and compact size.",
+  "careTips": [
+    "Provide high humidity (60-80%)",
+    "Water when media begins to dry",
+    "Bright indirect light - avoid direct sun",
+    "Good air circulation is important",
+    "Feed with orchid fertilizer during growing season"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Asparagales",
+    "family": "Orchidaceae",
+    "genus": "Coelogyne",
+    "species": "Dendrochilum tenellum"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "very-rare",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "irregular",
+  "propagation": "Division, Pups",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 32,
+    "max": 48,
+    "ideal": 40
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "_filename": "dendrochilum-tenellum.json",
+  "_filePath": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants-merged\\dendrochilum-tenellum.json"
+}

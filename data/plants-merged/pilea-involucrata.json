@@ -1,0 +1,87 @@
+{
+  "id": 10465,
+  "name": "Friendship Plant",
+  "scientificName": "Pilea involucrata",
+  "commonNames": [
+    "Panamiga"
+  ],
+  "category": [
+    "colorful",
+    "leafy",
+    "mini",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "15-30 cm",
+  "growthRate": "Moderate",
+  "description": "Pilea involucrata, commonly known as Friendship Plant, is a charming tropical houseplant native to Central and South America. It features textured, quilted leaves with a distinctive bronze-green coloration and deeply veined, puckered surface that gives it a unique, tactile appearance. The leaves are oval to round, with a quilted or corrugated texture that creates interesting light and shadow patterns. The plant displays a compact, bushy growth habit and typically reaches 15-30 cm in height and spread when grown indoors. The stems are often reddish-brown, adding to the plant's visual appeal. In its native habitat, it grows as an understory plant in tropical rainforests, thriving in warm, humid conditions with filtered light. The plant produces small, pinkish flowers in clusters, though it's primarily grown for its attractive, textured foliage. It's an excellent choice for terrariums and indoor plant collections due to its compact size, ease of care, and distinctive appearance. The plant gets its common name 'Friendship Plant' from its ease of propagation, making it easy to share with friends. It's non-toxic and safe for homes with pets.",
+  "careTips": [
+    "Provide bright, indirect light - avoid direct sunlight",
+    "Maintain moderate to high humidity (50-70%)",
+    "Keep soil consistently moist but not waterlogged",
+    "Allow top inch of soil to dry between waterings",
+    "Use well-draining, nutrient-rich soil",
+    "Fertilize monthly during growing season with diluted fertilizer",
+    "Regular pruning helps maintain bushy appearance",
+    "Protect from temperatures below 50°F (10°C)"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Rosales",
+    "family": "Urticaceae",
+    "genus": "Pilea",
+    "species": "Pilea involucrata"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "year-round",
+  "propagation": "Stem Cuttings",
+  "colors": "Green, Bronze, Pink",
+  "humidityRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "lightRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "airCirculationRange": {
+    "min": 40,
+    "max": 70,
+    "ideal": 55
+  },
+  "waterNeedsRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 40,
+    "max": 50,
+    "ideal": 45
+  },
+  "difficultyRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

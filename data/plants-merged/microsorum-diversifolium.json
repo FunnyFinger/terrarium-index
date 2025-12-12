@@ -1,0 +1,85 @@
+{
+  "id": 10301,
+  "name": "Kangaroo Paw Fern",
+  "scientificName": "Microsorum diversifolium",
+  "commonNames": [],
+  "category": [
+    "fern",
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "10-60 cm",
+  "growthRate": "Moderate",
+  "description": "Microsorum diversifolium, commonly known as Kangaroo Paw Fern, is an epiphytic fern native to tropical regions of Australia and New Zealand. It belongs to the Polypodiaceae family and features trailing fronds (30-60 cm long) with medium-sized, dramatic, leathery, dark green fronds with distinctive shapes. The plant displays a trailing growth habit. Microsorum species have thick, leathery fronds that help retain moisture. This plant has adapted to local climate and growing conditions of its original habitat. In its native habitat, it grows on tree branches in tropical forests. In terrariums or indoor settings, this plant adds exotic fern texture with its leathery, sometimes iridescent fronds. It's popular among fern enthusiasts for its easy care and attractive fronds.",
+  "careTips": [
+    "High humidity is essential",
+    "Keep soil consistently moist but not waterlogged",
+    "Avoid direct sunlight - prefers bright indirect light",
+    "Brown edges indicate low humidity or underwatering",
+    "Very easy to grow",
+    "Can be mounted or potted",
+    "Tolerates lower humidity than most ferns",
+    "Fronds can grow quite long"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Polypodiopsida",
+    "order": "Polypodiales",
+    "family": "Polypodiaceae",
+    "genus": "Microsorum",
+    "species": "Microsorum diversifolium"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "tree-dwelling",
+  "plantType": "fern",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Spores, Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

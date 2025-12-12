@@ -1,0 +1,82 @@
+{
+  "id": 117,
+  "name": "Fan Fern",
+  "scientificName": "Actiniopteris radiata",
+  "commonNames": [
+    "Radiant Fern"
+  ],
+  "category": [
+    "creeper",
+    "fern",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "8-45 cm",
+  "growthRate": "Moderate",
+  "description": "Actiniopteris radiata, commonly known as Fan Fern or Radiant Fern, is a small terrestrial fern native to tropical and subtropical regions of Africa, Asia, and the Middle East, particularly in dry, rocky areas. It belongs to the Pteridaceae family and features distinctive, fan-shaped, palmately divided fronds (15-45 cm long) that radiate from a central point, resembling a hand or fan. The fronds are bright green and have a leathery texture. The plant displays an upright, rosette-forming growth habit and typically reaches 15-45 cm in height. In its native habitat, it grows in well-draining, rocky soils in semi-arid to tropical regions. In terrariums or indoor settings, this plant provides unique texture with its distinctive fan-shaped fronds. It's popular among fern enthusiasts for its unusual form and relatively easy care.",
+  "careTips": [
+    "Provide adequate humidity",
+    "Ensure good air circulation",
+    "Monitor watering needs"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Polypodiopsida",
+    "order": "Polypodiales",
+    "family": "Pteridaceae",
+    "genus": "Actiniopteris",
+    "species": "Actiniopteris radiata"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "fern",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Spores, Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

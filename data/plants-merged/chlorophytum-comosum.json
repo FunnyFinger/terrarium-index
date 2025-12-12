@@ -1,0 +1,86 @@
+{
+  "id": 10473,
+  "name": "Spider Plant",
+  "scientificName": "Chlorophytum comosum",
+  "commonNames": [
+    "St. Bernard's Lily"
+  ],
+  "category": [
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "20-60 cm",
+  "growthRate": "Fast",
+  "description": "Chlorophytum comosum, commonly known as Spider Plant, is a popular and easy-to-care-for houseplant native to tropical and southern Africa. It features long, arching, grass-like leaves that are typically green with white or cream-colored stripes along the edges or center, depending on the cultivar. The leaves are linear, typically 20-45 cm long and 1-2 cm wide, creating a graceful, cascading appearance. The plant displays a clumping, arching growth habit and typically reaches 20-60 cm in height and spread when grown indoors. The plant produces small, white, star-shaped flowers on long, thin stems, followed by small plantlets (spiderettes or pups) that develop at the ends of these stems. These plantlets can be easily propagated to create new plants. In its native habitat, it grows as a ground cover in forest understories and rocky areas. The plant is highly valued for its air-purifying qualities, removing toxins such as formaldehyde and xylene from the air. It's an excellent choice for hanging baskets due to its cascading growth habit and production of plantlets. The plant is non-toxic and safe for homes with pets. Popular cultivars include 'Variegatum' with white-edged leaves and 'Vittatum' with white-centered leaves.",
+  "careTips": [
+    "Provide bright, indirect sunlight - can tolerate lower light",
+    "Keep soil evenly moist - allow top inch to dry between waterings",
+    "Use well-draining potting mix",
+    "Maintain moderate humidity levels",
+    "Fertilize monthly during growing season with balanced fertilizer",
+    "Remove dead or yellowing leaves to maintain appearance",
+    "Easy to propagate through plantlets (spiderettes)",
+    "Use distilled water if tap water causes brown leaf tips",
+    "Repot when root-bound to encourage growth"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Asparagales",
+    "family": "Asparagaceae",
+    "genus": "Chlorophytum",
+    "species": "Chlorophytum comosum"
+  },
+  "growthPattern": "clumping",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "year-round",
+  "propagation": "Plantlets, Division",
+  "colors": "Green, White, Cream",
+  "humidityRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 40,
+    "max": 70,
+    "ideal": 55
+  },
+  "waterNeedsRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 40,
+    "max": 50,
+    "ideal": 45
+  },
+  "difficultyRange": {
+    "min": 20,
+    "max": 40,
+    "ideal": 30
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  }
+}

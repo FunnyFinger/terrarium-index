@@ -1,0 +1,1034 @@
+{
+  "invalidScientificName": [
+    {
+      "file": "macodes-sanderiana-x-limii.json",
+      "id": 1762082843829,
+      "name": "Macodes Hybrid",
+      "scientific": "Macodes sanderiana × limii",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\macodes-sanderiana-x-limii.json",
+      "issue": "Invalid format or missing"
+    },
+    {
+      "file": "caput-medusae.json",
+      "id": 111,
+      "name": "Medusa's Head Air Plant",
+      "scientific": "Tillandsia caput-medusae",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\air-plants\\caput-medusae.json",
+      "issue": "Invalid format or missing"
+    },
+    {
+      "file": "aquatical-moss.json",
+      "id": 315,
+      "name": "Aquatical moss",
+      "scientific": "Taxiphyllum sp.",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\aquarium\\aquatical-moss.json",
+      "issue": "Invalid format or missing"
+    }
+  ],
+  "hasSizeDescriptor": [
+    {
+      "file": "miniature-maidenhair-fern.json",
+      "id": 34,
+      "name": "Miniature Maidenhair Fern",
+      "scientific": "Adiantum raddianum 'Fragrans'",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\miniature-maidenhair-fern.json",
+      "descriptor": "Miniature"
+    }
+  ],
+  "sameNameAndScientific": [],
+  "missingCommonName": [
+    {
+      "file": "acanthostachys-strobilacea-bromeliad.json",
+      "id": 116,
+      "name": "Acanthostachys strobilacea",
+      "scientific": "Acanthostachys strobilacea",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\acanthostachys-strobilacea-bromeliad.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "achimenes-erecta-m.json",
+      "id": 557,
+      "name": "Achimenes erecta",
+      "scientific": "Achimenes erecta",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\achimenes-erecta-m.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "adenia-lanceolata.json",
+      "id": 118,
+      "name": "Adenia lanceolata",
+      "scientific": "Adenia lanceolata",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\adenia-lanceolata.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "adenia-lindiensis.json",
+      "id": 119,
+      "name": "Adenia lindiensis",
+      "scientific": "Adenia lindiensis",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\adenia-lindiensis.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "adenia-viridiflora.json",
+      "id": 121,
+      "name": "Adenia viridiflora",
+      "scientific": "Adenia viridiflora",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\adenia-viridiflora.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "adenium-arabicum-baobab.json",
+      "id": 1762082843552,
+      "name": "Adenium arabicum 'Baobab'",
+      "scientific": "Adenium arabicum",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\adenium-arabicum-baobab.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "adenium-glauca.json",
+      "id": 567,
+      "name": "Adenium glauca",
+      "scientific": "Adenium glauca",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\adenium-glauca.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "adromischus-marianiae.json",
+      "id": 573,
+      "name": "Adromischus marianiae",
+      "scientific": "Adromischus marianiae 'Coffee Bean'",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\adromischus-marianiae.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "aechmea-fasciata.json",
+      "id": 1762082843553,
+      "name": "Aechmea fasciata",
+      "scientific": "Aechmea fasciata",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\aechmea-fasciata.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "aeonium-tabuliforme-variegata.json",
+      "id": 577,
+      "name": "Aeonium tabuliforme variegata",
+      "scientific": "Aeonium tabuliforme",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\aeonium-tabuliforme-variegata.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "aeschynanthus-humilis.json",
+      "id": 578,
+      "name": "Aeschynanthus humilis",
+      "scientific": "Aeschynanthus humilis",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\aeschynanthus-humilis.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "aeschynanthus-spec.json",
+      "id": 580,
+      "name": "Aeschynanthus spec",
+      "scientific": "Aeschynanthus spec",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\aeschynanthus-spec.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "aeschynanthus-speciosus.json",
+      "id": 581,
+      "name": "Aeschynanthus speciosus",
+      "scientific": "Aeschynanthus speciosus",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\aeschynanthus-speciosus.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "african-spear-sansevieria.json",
+      "id": 583,
+      "name": "African spear sansevieria",
+      "scientific": "African spear",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\african-spear-sansevieria.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "agave-filifera.json",
+      "id": 585,
+      "name": "Agave filifera",
+      "scientific": "Agave filifera",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\agave-filifera.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "agave-lophantha.json",
+      "id": 586,
+      "name": "Agave lophantha",
+      "scientific": "Agave lophantha",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\agave-lophantha.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "agave-macroacantha.json",
+      "id": 588,
+      "name": "Agave macroacantha",
+      "scientific": "Agave macroacantha",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\agave-macroacantha.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "agave-titanota.json",
+      "id": 590,
+      "name": "Agave titanota",
+      "scientific": "Agave titanota",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\agave-titanota.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "agave-victoriae-reginae.json",
+      "id": 591,
+      "name": "Agave victoriae reginae",
+      "scientific": "Agave victoriae",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\agave-victoriae-reginae.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "aglaonema-pumilum.json",
+      "id": 134,
+      "name": "Aglaonema pumilum",
+      "scientific": "Aglaonema pumilum 'XL'",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\aglaonema-pumilum.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "albuca-humilis.json",
+      "id": 604,
+      "name": "Albuca humilis",
+      "scientific": "Albuca humilis",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\albuca-humilis.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "albuca-spiralis.json",
+      "id": 607,
+      "name": "Albuca spiralis",
+      "scientific": "Albuca spiralis",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\albuca-spiralis.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "alocasia-boyceana.json",
+      "id": 630,
+      "name": "Alocasia boyceana",
+      "scientific": "Alocasia cucullata 'Buddha Hand Plant'",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\alocasia-boyceana.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "ananas-nanus.json",
+      "id": 207,
+      "name": "Ananas nanus",
+      "scientific": "Ananas nanus",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\ananas-nanus.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "anathallis-minutalis.json",
+      "id": 1762082843629,
+      "name": "Anathallis minutalis",
+      "scientific": "Anathallis minutalis",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\anathallis-minutalis.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "anoectochillus-albolineatus-variegata.json",
+      "id": 1762082843630,
+      "name": "Anoectochillus albolineatus variegata",
+      "scientific": "Anoectochillus albolineatus",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\anoectochillus-albolineatus-variegata.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "anoectochillus-formosanus.json",
+      "id": 1762082843631,
+      "name": "Anoectochillus formosanus",
+      "scientific": "Anoectochillus formosanus",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\anoectochillus-formosanus.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "anoectochillus-reinwardtii.json",
+      "id": 1762082843632,
+      "name": "Anoectochillus reinwardtii",
+      "scientific": "Anoectochillus reinwardtii",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\anoectochillus-reinwardtii.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "anoectochillus-roxburghii.json",
+      "id": 1762082843632,
+      "name": "Anoectochillus roxburghii",
+      "scientific": "Anoectochillus roxburghii",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\anoectochillus-roxburghii.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "anoectochilus-burmanicus.json",
+      "id": 1762082843634,
+      "name": "Anoectochilus burmanicus",
+      "scientific": "Anoectochilus burmanicus",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\anoectochilus-burmanicus.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "ardisia-sp.json",
+      "id": 319,
+      "name": "Ardisia sp",
+      "scientific": "Ardisia sp",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\ardisia-sp.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "argostemma-bicolor.json",
+      "id": 322,
+      "name": "Argostemma bicolor",
+      "scientific": "Argostemma bicolor",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\argostemma-bicolor.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "arisaema-filiforme.json",
+      "id": 324,
+      "name": "Arisaema filiforme",
+      "scientific": "Arisaema filiforme 'Java'",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\arisaema-filiforme.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "aristolochia-fimbriata.json",
+      "id": 325,
+      "name": "Aristolochia fimbriata",
+      "scientific": "Aristolochia fimbriata",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\aristolochia-fimbriata.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "aristolochia-littoralis.json",
+      "id": 326,
+      "name": "Aristolochia littoralis",
+      "scientific": "Aristolochia littoralis",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\aristolochia-littoralis.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "asarum-splendens.json",
+      "id": 328,
+      "name": "Asarum splendens",
+      "scientific": "Asarum splendens",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\asarum-splendens.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "aspidistra-eliator.json",
+      "id": 330,
+      "name": "Aspidistra eliator",
+      "scientific": "Aspidistra eliator",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\aspidistra-eliator.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "aspidogyne-argentea.json",
+      "id": 1762082843677,
+      "name": "Aspidogyne argentea",
+      "scientific": "Aspidogyne argentea",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\aspidogyne-argentea.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "asplenium-antiquum-leslie.json",
+      "id": 1762082843678,
+      "name": "Asplenium antiquum 'Leslie'",
+      "scientific": "Asplenium antiquum",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\asplenium-antiquum-leslie.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "asplenium-scolopendrium.json",
+      "id": 1762082843681,
+      "name": "Asplenium scolopendrium",
+      "scientific": "Asplenium scolopendrium",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\asplenium-scolopendrium.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "astilboides-tabularis.json",
+      "id": 337,
+      "name": "Astilboides tabularis",
+      "scientific": "Astilboides tabularis",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\astilboides-tabularis.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "blechnum-brasiliense-volcano.json",
+      "id": 1762082843745,
+      "name": "Blechnum brasiliense 'Volcano'",
+      "scientific": "Blechnum brasiliense",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\blechnum-brasiliense-volcano.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "byblis-liniflora.json",
+      "id": 466,
+      "name": "Byblis liniflora",
+      "scientific": "Byblis liniflora",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\byblis-liniflora.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "catopsis-morreniana-red.json",
+      "id": 1762082843751,
+      "name": "Catopsis morreniana 'Red'",
+      "scientific": "Catopsis morreniana",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\catopsis-morreniana-red.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "cryptanthus-bivittatus.json",
+      "id": 1762082843757,
+      "name": "Cryptanthus bivittatus",
+      "scientific": "Cryptanthus bivittatus",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\cryptanthus-bivittatus.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "cryptanthus-zonatus.json",
+      "id": 1762082843757,
+      "name": "Cryptanthus zonatus",
+      "scientific": "Cryptanthus zonatus",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\cryptanthus-zonatus.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "cyathea-cooperi.json",
+      "id": 1762082843758,
+      "name": "Cyathea cooperi",
+      "scientific": "Cyathea cooperi",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\cyathea-cooperi.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "dioscorea-mexicana.json",
+      "id": 445,
+      "name": "Dioscorea mexicana",
+      "scientific": "Dioscorea bulbifera or",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\dioscorea-mexicana.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "dossinia-marmorata.json",
+      "id": 1762082843762,
+      "name": "Dossinia marmorata",
+      "scientific": "Dossinia marmorata",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\dossinia-marmorata.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "drosophyllum-lusitanicum.json",
+      "id": 478,
+      "name": "Drosophyllum lusitanicum",
+      "scientific": "Drosophyllum lusitanicum",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\drosophyllum-lusitanicum.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "elaphoglossum-crinitum.json",
+      "id": 1762082843763,
+      "name": "Elaphoglossum crinitum",
+      "scientific": "Elaphoglossum crinitum",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\elaphoglossum-crinitum.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "elaphoglossum-metallicum.json",
+      "id": 1762082843764,
+      "name": "Elaphoglossum metallicum",
+      "scientific": "Elaphoglossum metallicum",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\elaphoglossum-metallicum.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "episcia-cupreata.json",
+      "id": 114,
+      "name": "Episcia cupreata",
+      "scientific": "Episcia cupreata 'Pink panther'",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\episcia-cupreata.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "genlisea-violacea.json",
+      "id": 480,
+      "name": "Genlisea violacea",
+      "scientific": "Genlisea violacea",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\genlisea-violacea.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "goodyera-daibuzanensis.json",
+      "id": 1762082843766,
+      "name": "Goodyera daibuzanensis",
+      "scientific": "Goodyera daibuzanensis",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\goodyera-daibuzanensis.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "goodyera-hispida.json",
+      "id": 1762082843767,
+      "name": "Goodyera hispida",
+      "scientific": "Stunning little",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\goodyera-hispida.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "humata-heterophylla.json",
+      "id": 1762082843813,
+      "name": "Humata heterophylla",
+      "scientific": "Humata heterophylla",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\humata-heterophylla.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "ludisia-discolor-green-velvet.json",
+      "id": 1762082843826,
+      "name": "Ludisia discolor 'Green Velvet'",
+      "scientific": "Ludisia discolor",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\ludisia-discolor-green-velvet.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "macrocentrum-droseroides.json",
+      "id": 482,
+      "name": "Macrocentrum droseroides",
+      "scientific": "Macrocentrum droseroides",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\macrocentrum-droseroides.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "monstera-acacoyaguensis.json",
+      "id": 1762082843840,
+      "name": "Monstera acacoyaguensis",
+      "scientific": "Monstera acacoyaguensis",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\monstera-acacoyaguensis.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "monstera-adansonii-janda-bolong.json",
+      "id": 1762082843841,
+      "name": "Monstera adansonii 'Janda Bolong'",
+      "scientific": "Monstera adansonii",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\monstera-adansonii-janda-bolong.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "monstera-aureopinnata.json",
+      "id": 1762082843844,
+      "name": "Monstera aureopinnata",
+      "scientific": "Monstera aureopinnata",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\monstera-aureopinnata.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "monstera-deliciosa-thai-constellation.json",
+      "id": 1762081800690,
+      "name": "Monstera deliciosa 'Thai Constellation'",
+      "scientific": "Monstera deliciosa",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\monstera-deliciosa-thai-constellation.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "monstera-dissecta.json",
+      "id": 1762082843846,
+      "name": "Monstera dissecta",
+      "scientific": "Monstera dissecta",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\monstera-dissecta.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "monstera-dubia-semi-mature.json",
+      "id": 1762082843846,
+      "name": "Monstera dubia 'Semi-Mature'",
+      "scientific": "Monstera dubia",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\monstera-dubia-semi-mature.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "monstera-egregia.json",
+      "id": 1762082843847,
+      "name": "Monstera egregia",
+      "scientific": "Monstera egregia",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\monstera-egregia.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "monstera-lechleriana.json",
+      "id": 1762082843849,
+      "name": "Monstera lechleriana",
+      "scientific": "Monstera lechleriana",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\monstera-lechleriana.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "monstera-obliqua-amazonas-b.json",
+      "id": 1762082843850,
+      "name": "Monstera obliqua 'Amazonas B'",
+      "scientific": "Monstera obliqua",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\monstera-obliqua-amazonas-b.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "monstera-siltepecana-el-salvador.json",
+      "id": 1762082843851,
+      "name": "Monstera siltepecana 'El Salvador'",
+      "scientific": "Monstera siltepecana",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\monstera-siltepecana-el-salvador.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "monstera-standleyana-aurea-variegated.json",
+      "id": 1762082843853,
+      "name": "Monstera standleyana 'Aurea Variegated'",
+      "scientific": "Monstera standleyana",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\monstera-standleyana-aurea-variegated.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "monstera-subpinnata.json",
+      "id": 1762082843854,
+      "name": "Monstera subpinnata",
+      "scientific": "Monstera subpinnata",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\monstera-subpinnata.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "philodendron-billietiae.json",
+      "id": 1762082843869,
+      "name": "Philodendron billietiae",
+      "scientific": "Philodendron billietiae",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\philodendron-billietiae.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "philodendron-bipinnatifidum-tortum.json",
+      "id": 1762082843870,
+      "name": "Philodendron bipinnatifidum 'Tortum'",
+      "scientific": "Philodendron bipinnatifidum",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\philodendron-bipinnatifidum-tortum.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "philodendron-birkin-pink.json",
+      "id": 1762082843870,
+      "name": "Philodendron birkin 'Pink'",
+      "scientific": "Philodendron birkin",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\philodendron-birkin-pink.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "philodendron-brandtianum.json",
+      "id": 1762082843871,
+      "name": "Philodendron brandtianum",
+      "scientific": "Philodendron brandtianum",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\philodendron-brandtianum.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "philodendron-gloriosum-dark-form.json",
+      "id": 1762082843873,
+      "name": "Philodendron gloriosum 'Dark Form'",
+      "scientific": "Philodendron gloriosum",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\philodendron-gloriosum-dark-form.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "philodendron-grandipes.json",
+      "id": 1762082843874,
+      "name": "Philodendron grandipes",
+      "scientific": "Philodendron grandipes",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\philodendron-grandipes.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "philodendron-holtonianum.json",
+      "id": 1762082843875,
+      "name": "Philodendron holtonianum",
+      "scientific": "Philodendron holtonianum",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\philodendron-holtonianum.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "philodendron-joepii.json",
+      "id": 1762082843876,
+      "name": "Philodendron joepii",
+      "scientific": "Philodendron joepii",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\philodendron-joepii.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "philodendron-mamei.json",
+      "id": 1762082843877,
+      "name": "Philodendron mamei",
+      "scientific": "Philodendron mamei",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\philodendron-mamei.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "philodendron-micans.json",
+      "id": 1762082843877,
+      "name": "Philodendron micans",
+      "scientific": "Philodendron micans",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\philodendron-micans.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "philodendron-microstictum.json",
+      "id": 1762082843878,
+      "name": "Philodendron microstictum",
+      "scientific": "Philodendron microstictum",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\philodendron-microstictum.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "philodendron-pendulatum.json",
+      "id": 1762082843880,
+      "name": "Philodendron pendulatum",
+      "scientific": "Philodendron pendulatum",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\philodendron-pendulatum.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "philodendron-polypodioides.json",
+      "id": 1762082843881,
+      "name": "Philodendron polypodioides",
+      "scientific": "Philodendron polypodioides",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\philodendron-polypodioides.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "philodendron-scandens-brasil.json",
+      "id": 1762082843884,
+      "name": "Philodendron scandens 'Brasil'",
+      "scientific": "Philodendron scandens",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\philodendron-scandens-brasil.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "philodendron-squamiferum.json",
+      "id": 1762082843886,
+      "name": "Philodendron squamiferum",
+      "scientific": "Philodendron squamiferum",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\philodendron-squamiferum.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "restrepia-tsubatae.json",
+      "id": 1762082843896,
+      "name": "Restrepia tsubatae",
+      "scientific": "Restrepia tsubatae",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\restrepia-tsubatae.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "sansevieria-masoniana-whale-fin.json",
+      "id": 1762082843896,
+      "name": "Sansevieria masoniana 'Whale fin'",
+      "scientific": "Sansevieria masoniana",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\sansevieria-masoniana-whale-fin.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "sansevieria-trifasciata-moonshine.json",
+      "id": 1762082843897,
+      "name": "Sansevieria trifasciata 'Moonshine'",
+      "scientific": "Sansevieria trifasciata",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\sansevieria-trifasciata-moonshine.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "senecio-coccineiflorus.json",
+      "id": 423,
+      "name": "Senecio coccineiflorus",
+      "scientific": "Senecio coccineiflorus",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\senecio-coccineiflorus.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "stelis-costaricensis.json",
+      "id": 1762082843898,
+      "name": "Stelis costaricensis",
+      "scientific": "Description coming",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\stelis-costaricensis.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "tillandsia-andreana.json",
+      "id": 1762082843916,
+      "name": "Tillandsia andreana",
+      "scientific": "Tillandsia andreana",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\tillandsia-andreana.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "tillandsia-capitata.json",
+      "id": 1762082843918,
+      "name": "Tillandsia capitata",
+      "scientific": "Tillandsia capitata",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\tillandsia-capitata.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "tillandsia-flabellata.json",
+      "id": 1762082843921,
+      "name": "Tillandsia flabellata",
+      "scientific": "Tillandsia flabellata",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\tillandsia-flabellata.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "tillandsia-leiboldiana-mora.json",
+      "id": 1762082843924,
+      "name": "Tillandsia leiboldiana 'Mora'",
+      "scientific": "Tillandsia leiboldiana",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\tillandsia-leiboldiana-mora.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "tillandsia-pruinosa.json",
+      "id": 1762082843927,
+      "name": "Tillandsia pruinosa",
+      "scientific": "Tillandsia pruinosa",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\tillandsia-pruinosa.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "tillandsia-stricta.json",
+      "id": 1762082843928,
+      "name": "Tillandsia stricta",
+      "scientific": "Tillandsia stricta",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\tillandsia-stricta.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "vriesea-gigantea-nova.json",
+      "id": 1762082843931,
+      "name": "Vriesea gigantea 'Nova'",
+      "scientific": "Vriesea gigantea",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\vriesea-gigantea-nova.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "vriesea-ospinae.json",
+      "id": 1762082843932,
+      "name": "Vriesea ospinae",
+      "scientific": "Endemic to",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\additional\\vriesea-ospinae.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "tillandsia-duratii.json",
+      "id": 467,
+      "name": "Tillandsia duratii",
+      "scientific": "Tillandsia duratii",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\air-plants\\tillandsia-duratii.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "acanthostachys-pitcairnioides-bromeliad.json",
+      "id": 115,
+      "name": "Acanthostachys pitcairnioides",
+      "scientific": "Acanthostachys pitcairnioides",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\araflora-import\\acanthostachys-pitcairnioides-bromeliad.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "acanthostachys-strobilacea-bromeliad.json",
+      "id": 116,
+      "name": "Acanthostachys strobilacea",
+      "scientific": "Acanthostachys strobilacea",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\araflora-import\\acanthostachys-strobilacea-bromeliad.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "actiniopteris-radiata.json",
+      "id": 117,
+      "name": "Actiniopteris radiata",
+      "scientific": "Actiniopteris radiata",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\araflora-import\\actiniopteris-radiata.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "adenia-lanceolata.json",
+      "id": 118,
+      "name": "Adenia lanceolata",
+      "scientific": "Adenia lanceolata",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\araflora-import\\adenia-lanceolata.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "adenia-lindiensis.json",
+      "id": 119,
+      "name": "Adenia lindiensis",
+      "scientific": "Adenia lindiensis",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\araflora-import\\adenia-lindiensis.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "adenia-viridiflora.json",
+      "id": 121,
+      "name": "Adenia viridiflora",
+      "scientific": "Adenia viridiflora",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\araflora-import\\adenia-viridiflora.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "adiantum-hispidulum.json",
+      "id": 122,
+      "name": "Adiantum hispidulum",
+      "scientific": "Adiantum hispidulum",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\araflora-import\\adiantum-hispidulum.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "adiantum-reniformis.json",
+      "id": 123,
+      "name": "Adiantum reniformis",
+      "scientific": "Adiantum reniformis",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\araflora-import\\adiantum-reniformis.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "aglaomorpha-brooksii.json",
+      "id": 124,
+      "name": "Aglaomorpha brooksii",
+      "scientific": "Aglaomorpha brooksii",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\araflora-import\\aglaomorpha-brooksii.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "aglaonema-hybrid-red.json",
+      "id": 131,
+      "name": "Aglaonema hybrid red",
+      "scientific": "Aglaonema hybrid",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\araflora-import\\aglaonema-hybrid-red.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "aglaonema-hybrid.json",
+      "id": 127,
+      "name": "Aglaonema hybrid",
+      "scientific": "Aglaonema hybrid 'Crete'",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\araflora-import\\aglaonema-hybrid.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "aglaonema-pumilum.json",
+      "id": 134,
+      "name": "Aglaonema pumilum",
+      "scientific": "Aglaonema pumilum 'XL'",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\araflora-import\\aglaonema-pumilum.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "aglaonema-species.json",
+      "id": 135,
+      "name": "Aglaonema species",
+      "scientific": "Aglaonema species 'red green'",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\araflora-import\\aglaonema-species.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "australian-pitcherplant.json",
+      "id": 148,
+      "name": "Australian pitcherplant",
+      "scientific": "Australian pitcherplant 'Cephalotus follicularis '",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\araflora-import\\australian-pitcherplant.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "episcia-cupreata.json",
+      "id": 114,
+      "name": "Episcia cupreata",
+      "scientific": "Episcia cupreata 'Pink panther'",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\araflora-import\\episcia-cupreata.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "australian-pitcherplant.json",
+      "id": 148,
+      "name": "Australian pitcherplant",
+      "scientific": "Cephalotus follicularis",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\carnivorous\\australian-pitcherplant.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "darlingtonia-californica.json",
+      "id": 477,
+      "name": "Darlingtonia californica",
+      "scientific": "Darlingtonia californica 'Long Fang'",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\carnivorous\\darlingtonia-californica.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "trumpet-pitcherplant.json",
+      "id": 158,
+      "name": "Trumpet pitcherplant",
+      "scientific": "Trumpet pitcherplant 'Sarracenia x yellow bird'",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\carnivorous\\trumpet-pitcherplant.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "actiniopteris-radiata.json",
+      "id": 117,
+      "name": "Actiniopteris radiata",
+      "scientific": "Antiniopteris radiata",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\ferns\\actiniopteris-radiata.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "adiantum-hispidulum.json",
+      "id": 122,
+      "name": "Adiantum hispidulum",
+      "scientific": "Adiantum hispidulum",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\ferns\\adiantum-hispidulum.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "adiantum-reniformis.json",
+      "id": 123,
+      "name": "Adiantum reniformis",
+      "scientific": "Adiantum reniformis",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\ferns\\adiantum-reniformis.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "aglaomorpha-brooksii.json",
+      "id": 124,
+      "name": "Aglaomorpha brooksii",
+      "scientific": "Aglaomorpha brooksii",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\ferns\\aglaomorpha-brooksii.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "asplenium-bulbiferum.json",
+      "id": 359,
+      "name": "Asplenium bulbiferum",
+      "scientific": "Asplenium bulbiferum",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\ferns\\asplenium-bulbiferum.json",
+      "suggestion": "Use common name instead of scientific name"
+    },
+    {
+      "file": "pilea-involucrata.json",
+      "id": 3,
+      "name": "Pilea involucrata",
+      "scientific": "Known as the",
+      "path": "C:\\Users\\Jassim\\Desktop\\Terrarium_index\\data\\plants\\tropical\\pilea-involucrata.json",
+      "suggestion": "Use common name instead of scientific name"
+    }
+  ],
+  "needsVerification": []
+}

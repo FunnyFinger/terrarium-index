@@ -1,0 +1,88 @@
+{
+  "id": 383,
+  "name": "Ray's Arrowhead Plant",
+  "scientificName": "Syngonium rayi",
+  "commonNames": [
+    "Ray's Syngonium"
+  ],
+  "category": [
+    "vining",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "Trailing or climbing, 30-60 cm",
+  "growthRate": "Moderate to fast",
+  "description": "Syngonium rayi is a vining plant in the Araceae family, related to the more common Syngonium podophyllum. It features arrowhead-shaped leaves that can vary in color and pattern. Like other Syngonium species, it displays a climbing or trailing growth habit and can be trained to climb or allowed to trail. The plant thrives in high humidity and filtered light, making it suitable for terrarium environments. It adds vertical interest when climbing or cascading beauty when trailing.",
+  "careTips": [
+    "Provide bright, indirect light",
+    "Maintain high humidity (70-85%)",
+    "Keep soil evenly moist but not waterlogged",
+    "Well-draining soil mix",
+    "Temperature: 18-27°C (65-80°F)",
+    "Can climb with support or trail",
+    "Propagates easily by stem cuttings",
+    "Toxic to pets if ingested",
+    "Fertilize monthly during growing season",
+    "Prune to control size and shape"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Syngonium",
+    "species": "Syngonium rayi"
+  },
+  "growthPattern": "vining-trailing",
+  "hazard": "toxic-if-ingested",
+  "rarity": "uncommon",
+  "growthHabit": "tree-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "does-not-flower-in-cultivation",
+  "propagation": "Stem Cuttings",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 70,
+    "max": 85,
+    "ideal": 77
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 40,
+    "max": 70,
+    "ideal": 55
+  },
+  "waterNeedsRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 18,
+    "max": 27,
+    "ideal": 22
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 6,
+    "max": 7,
+    "ideal": 6.5
+  },
+  "growthRateRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  }
+}

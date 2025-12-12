@@ -1,0 +1,88 @@
+{
+  "id": 10324,
+  "name": "Peltatum Fern",
+  "scientificName": "Elaphoglossum peltatum",
+  "commonNames": [
+    "Peltate Tongue Fern",
+    "Shield Fern"
+  ],
+  "category": [
+    "fern",
+    "leafy",
+    "tropical",
+    "epiphytic"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "5-30 cm",
+  "growthRate": "Moderate",
+  "description": "Elaphoglossum peltatum (alternate form) is an epiphytic fern native to tropical regions of Central and South America, particularly Costa Rica, Panama, and Colombia. It belongs to the Dryopteridaceae family and features upright fronds (15-30 cm tall) with medium-sized, dramatic, peltate (shield-shaped), dark green to black fronds with distinctive metallic sheen. The plant displays an upright rosette growth habit. Native to specialized scales and cuticle layers that reflect light beautifully. Known for their tongue-shaped fronds and epiphytic growth habit. In its native habitat, it grows on tree branches in tropical forests. In terrariums or indoor settings, this plant brings unique metallic shimmer with its dark, glossy fronds. It's popular among fern enthusiasts for its unique peltate shape and metallic appearance.",
+  "careTips": [
+    "High humidity is essential",
+    "Keep soil consistently moist but not waterlogged",
+    "Avoid direct sunlight - prefers bright indirect light",
+    "Brown edges indicate low humidity or underwatering",
+    "High humidity preferred",
+    "Keep soil consistently moist",
+    "Bright indirect light preferred",
+    "Regular fertilization during growing season"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Polypodiopsida",
+    "order": "Polypodiales",
+    "family": "Dryopteridaceae",
+    "genus": "Elaphoglossum",
+    "species": "Elaphoglossum peltatum"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "tree-dwelling",
+  "plantType": "fern",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Spores, Division",
+  "colors": "Green, Dark Green, Black",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "epiphytic",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

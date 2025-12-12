@@ -1,0 +1,90 @@
+{
+  "id": 393,
+  "name": "Kacip Fatimah",
+  "scientificName": "Labisia pumila",
+  "commonNames": [
+    "Selusuh Fatimah",
+    "Mata Pelanduk"
+  ],
+  "category": [
+    "herbaceous",
+    "medicinal",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "15-30 cm",
+  "growthRate": "Slow to moderate",
+  "description": "Labisia pumila, commonly known as Kacip Fatimah, is a small herbaceous plant native to Malaysia and Indonesia. It features attractive, leathery leaves that are often variegated with pink or white along the veins, creating a striking appearance. The plant displays a compact, rosette-like growth habit and produces small pink or white flowers. In its native region, it's traditionally used for medicinal purposes. The plant thrives in high humidity and filtered light, making it suitable for terrarium environments. It's a slow-growing plant that adds interesting foliage and cultural significance to terrarium collections.",
+  "careTips": [
+    "Provide bright, indirect light",
+    "Maintain high humidity (70-85%)",
+    "Keep soil consistently moist but well-draining",
+    "Organic-rich, well-draining substrate",
+    "Temperature: 20-28°C (68-82°F)",
+    "Slow-growing - be patient",
+    "Variegated forms available with pink/white veins",
+    "Propagates by division or seeds",
+    "Non-toxic to pets and humans",
+    "Fertilize monthly during growing season",
+    "Traditional medicinal plant in Southeast Asia"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Ericales",
+    "family": "Primulaceae",
+    "genus": "Labisia",
+    "species": "Labisia pumila"
+  },
+  "growthPattern": "rosette",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "year-round",
+  "propagation": "Division, Seed",
+  "colors": "Green, Pink, White",
+  "humidityRange": {
+    "min": 70,
+    "max": 85,
+    "ideal": 77
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "waterNeedsRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 20,
+    "max": 28,
+    "ideal": 24
+  },
+  "difficultyRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "soilPhRange": {
+    "min": 5.5,
+    "max": 6.5,
+    "ideal": 6
+  },
+  "growthRateRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  }
+}

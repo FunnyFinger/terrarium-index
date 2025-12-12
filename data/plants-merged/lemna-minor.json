@@ -1,0 +1,112 @@
+{
+  "id": 70,
+  "name": "Duckweed",
+  "scientificName": "Lemna minor",
+  "commonNames": [],
+  "category": [
+    "aquatic"
+  ],
+  "substrate": "No Substrate Needed",
+  "size": "0.1-0.8 cm",
+  "growthRate": "Very Fast",
+  "description": "Lemna minor, commonly known as common duckweed, is one of the smallest flowering plants in the world. It is a free-floating aquatic perennial with small, bright green, oval-shaped fronds measuring 1-8 mm in length. Each frond has a single root (1-2 cm long) that dangles beneath the water surface, helping to stabilize the plant and absorb nutrients. The plant forms dense mats on the surface of still or slow-moving freshwater bodies such as ponds, lakes, and marshes. Native to most regions of Africa, Asia, Europe, and North America, it thrives in nutrient-rich, quiet waters. In aquariums and paludariums, duckweed provides excellent surface cover, helps reduce algae growth by shading the water, and serves as a natural food source for fish and waterfowl. However, its extremely rapid growth requires regular maintenance to prevent complete surface coverage.",
+  "careTips": [
+    "Very fast growing - can double in size every 2-3 days under optimal conditions",
+    "Excellent nutrient export - removes nitrogen and phosphorus from water",
+    "Provides shade and cover for fish and aquatic animals",
+    "Requires regular thinning to prevent complete surface coverage",
+    "Thrives in nutrient-rich water but can grow in various conditions",
+    "Can reduce algae growth by limiting light penetration",
+    "Produces turions (dormant buds) in cold temperatures that sink and resurface in spring",
+    "May require netting or manual removal to control population"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Lemna",
+    "species": "Lemna minor"
+  },
+  "growthPattern": "carpeting",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "fully-aquatic",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "does-not-flower-in-cultivation",
+  "propagation": "Division",
+  "colors": "Bright Green",
+  "geographicOrigin": "Subcosmopolitan - native to Africa, Asia, Europe, and North America (except arctic/subarctic regions)",
+  "additionalInfo": {
+    "propagation": "Primarily reproduces vegetatively by division. Each frond can produce daughter fronds that separate and form new plants. Flowers are extremely rare and measure about 1 mm in diameter.",
+    "specialNotes": "Used in wastewater treatment and bioremediation due to ability to remove heavy metals and excess nutrients. High protein content (20-40%) makes it valuable as livestock feed. Can be used for biofuel production. In temperate regions, produces starch-filled turions for overwintering when temperatures drop below 6-7°C."
+  },
+  "humidityRange": {
+    "min": 100,
+    "max": 100,
+    "ideal": 100
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "substrateType": "aquatic",
+  "specialNeeds": "aquatic",
+  "waterCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "temperatureRange": {
+    "min": 12,
+    "max": 66,
+    "ideal": 39
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "waterTemperatureRange": {
+    "min": 12,
+    "max": 66,
+    "ideal": 39
+  },
+  "waterPhRange": {
+    "min": 50,
+    "max": 57.1,
+    "ideal": 53.6
+  },
+  "waterHardnessRange": {
+    "min": 6.67,
+    "max": 40,
+    "ideal": 23.33
+  },
+  "salinityRange": {
+    "min": 0,
+    "max": 5,
+    "ideal": 2.5
+  },
+  "growthRateRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  }
+}

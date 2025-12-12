@@ -1,0 +1,89 @@
+{
+  "id": 630,
+  "name": "Shattered Glass",
+  "scientificName": "Alocasia boyceana",
+  "commonNames": [
+    "Camouflage",
+    "Philippine Alocasia"
+  ],
+  "category": [
+    "alocasia",
+    "leafy",
+    "mini",
+    "tropical"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "15-35 cm",
+  "growthRate": "Moderate",
+  "description": "Alocasia boyceana is an evergreen perennial plant endemic to the Philippines, particularly found in Cebu and nearby islands. It thrives in moist, shady forests and meadows at elevations ranging from 500 to 3,000 meters. This terrestrial aroid features upright stems with 1-3 narrowly sagittate (arrow-shaped) to hasto-sagittate leaves per individual. The leaf blades can reach up to 35 cm in length, with the anterior lobe measuring up to 24 cm long and 11 cm wide at the base, featuring 4-5 primary lateral veins on each side. The posterior lobes are slender, about half the length of the anterior lobe. The leaves are dark green with distinctive venation and slightly undulate to entire margins. The plant produces solitary or paired inflorescences on peduncles up to 20 cm long, with spathes approximately 7.5 cm long. In terrariums or indoor settings, this compact Alocasia adds sculptural beauty with its deeply lobed, arrow-shaped foliage and is highly prized among aroid collectors.",
+  "careTips": [
+    "Provide high humidity (60-80%) - use pebble trays, misting, or humidifiers",
+    "Water when top 2-3 cm of soil dries out - keep consistently moist but not waterlogged",
+    "Bright, indirect light preferred - avoid direct afternoon sun to prevent leaf scorch",
+    "Use well-draining, slightly acidic soil (pH 5.5-6.5) with peat, perlite, or orchid bark",
+    "Maintain temperature between 18-27°C (65-85°F)",
+    "Fertilize during growing season with balanced 10-10-10 or half-strength liquid NPK",
+    "Watch for spider mites, aphids, and mealybugs - treat with neem oil or insecticidal soap",
+    "Ensure good air circulation to prevent fungal issues",
+    "Toxic if ingested - contains calcium oxalate crystals - keep away from pets and children"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Alocasia",
+    "species": "Alocasia boyceana"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "toxic-if-ingested",
+  "rarity": "very-rare",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "does-not-flower-in-cultivation",
+  "propagation": "Division, Runners, Seed",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 70,
+    "ideal": 50
+  },
+  "waterNeedsRange": {
+    "min": 55,
+    "max": 75,
+    "ideal": 65
+  },
+  "substrateType": "moist",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 54,
+    "ideal": 45
+  },
+  "difficultyRange": {
+    "min": 70,
+    "max": 100,
+    "ideal": 85
+  },
+  "soilPhRange": {
+    "min": 39,
+    "max": 46,
+    "ideal": 43
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}

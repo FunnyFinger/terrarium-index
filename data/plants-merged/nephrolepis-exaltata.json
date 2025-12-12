@@ -1,0 +1,85 @@
+{
+  "id": 10313,
+  "name": "Variegated Boston Fern",
+  "scientificName": "Nephrolepis exaltata",
+  "commonNames": [],
+  "category": [
+    "fern",
+    "leafy",
+    "tropical",
+    "terrestrial"
+  ],
+  "substrate": "Well Draining Mix",
+  "size": "15-120 cm",
+  "growthRate": "Moderate",
+  "description": "Nephrolepis exaltata 'Tiger', commonly known as Variegated Boston Fern, is a terrestrial fern native to tropical regions of Central and South America, particularly Florida, Mexico, and the Caribbean. It belongs to the Nephrolepidaceae family and features arching fronds (60-120 cm long) with large, dramatic, finely divided, dark green fronds with distinctive yellow to cream variegation patterns. The plant displays an arching growth habit. The variegation patterns are caused by genetic mutations that reduce chlorophyll in certain areas, creating unique color variations. Thrives in the humid, shaded understory of tropical forests where it receives consistent moisture and protection from direct sunlight. In its native habitat, it grows in moist, shaded areas. In terrariums or indoor settings, this plant adds vibrant colors and visual interest to any environment. It's popular among fern enthusiasts for its attractive variegation.",
+  "careTips": [
+    "High humidity is essential",
+    "Keep soil consistently moist but not waterlogged",
+    "Avoid direct sunlight - prefers bright indirect light",
+    "Brown edges indicate low humidity or underwatering",
+    "Requires high humidity",
+    "Can dry out quickly - mist regularly",
+    "Fertilize monthly during growing season",
+    "Remove dead fronds to encourage new growth"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Polypodiopsida",
+    "order": "Polypodiales",
+    "family": "Nephrolepidaceae",
+    "genus": "Nephrolepis",
+    "species": "Nephrolepis exaltata"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "fern",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Spores, Division",
+  "colors": "Green, Yellow, Cream, Variegated",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  }
+}
