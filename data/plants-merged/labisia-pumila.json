@@ -1,7 +1,42 @@
 {
   "id": 393,
   "name": "Kacip Fatimah",
-  "scientificName": "Labisia pumila",
+  "scientificName": {
+    "created": "2025-11-18T16:31:29.774163",
+    "createdBy": 102,
+    "modified": "2025-11-18T16:31:29.774163",
+    "modifiedBy": 102,
+    "datasetKey": 3,
+    "id": "KxII57lJTlN90dmq5aDco2",
+    "sectorKey": 63469,
+    "verbatimSourceKey": 297957019,
+    "scientificName": "Labisia pumila",
+    "authorship": "(Blume) Mez",
+    "rank": "species",
+    "genus": "Labisia",
+    "specificEpithet": "pumila",
+    "combinationAuthorship": {
+      "authors": [
+        "Mez"
+      ]
+    },
+    "basionymAuthorship": {
+      "authors": [
+        "Blume"
+      ]
+    },
+    "code": "botanical",
+    "publishedInId": "54887f3a-190f-4a68-8783-71b32f01a4d1",
+    "origin": "source",
+    "type": "scientific",
+    "merged": false,
+    "parsed": true,
+    "basionymOrCombinationAuthorship": {
+      "authors": [
+        "Blume"
+      ]
+    }
+  },
   "commonNames": [
     "Selusuh Fatimah",
     "Mata Pelanduk"

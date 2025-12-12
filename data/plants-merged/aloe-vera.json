@@ -1,7 +1,43 @@
 {
   "id": 101,
   "name": "Aloe Vera",
-  "scientificName": "Aloe vera",
+  "scientificName": {
+    "created": "2025-12-12T14:48:49.947683",
+    "createdBy": 102,
+    "modified": "2025-12-12T14:48:49.947683",
+    "modifiedBy": 102,
+    "datasetKey": 3,
+    "id": "V5prkVTxmnPiBxAWdXE-k2",
+    "sectorKey": 1302,
+    "verbatimSourceKey": 301725101,
+    "namesIndexId": 1770896,
+    "namesIndexType": "exact",
+    "scientificName": "Andoniinae",
+    "authorship": "Vera-Peláez, 2002",
+    "rank": "subfamily",
+    "uninomial": "Andoniinae",
+    "combinationAuthorship": {
+      "authors": [
+        "Vera-Peláez"
+      ],
+      "year": "2002"
+    },
+    "code": "zoological",
+    "publishedInId": "3b2a64c0-ded0-4871-abf8-709b66c9304c",
+    "publishedInPage": "236",
+    "origin": "source",
+    "type": "scientific",
+    "link": "https://www.molluscabase.org/aphia.php?p=taxdetails&id=1055765",
+    "remarks": "unaccepted",
+    "merged": false,
+    "parsed": true,
+    "basionymOrCombinationAuthorship": {
+      "authors": [
+        "Vera-Peláez"
+      ],
+      "year": "2002"
+    }
+  },
   "commonNames": [
     "Burn Plant",
     "First Aid Plant",

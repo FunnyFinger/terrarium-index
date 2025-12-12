@@ -1,7 +1,38 @@
 {
   "id": 10304,
   "name": "Brazilian Tree Fern",
-  "scientificName": "Blechnum brasiliense",
+  "scientificName": {
+    "created": "2025-11-18T15:29:59.236504",
+    "createdBy": 102,
+    "modified": "2025-11-18T15:29:59.236504",
+    "modifiedBy": 102,
+    "datasetKey": 3,
+    "id": "z37e_NEkAS746lh0jLUnG1",
+    "sectorKey": 1108,
+    "verbatimSourceKey": 297452644,
+    "scientificName": "Blechnum brasiliense",
+    "authorship": "Desv.",
+    "rank": "species",
+    "genus": "Blechnum",
+    "specificEpithet": "brasiliense",
+    "combinationAuthorship": {
+      "authors": [
+        "Desv."
+      ]
+    },
+    "code": "botanical",
+    "publishedInId": "0edd09ee-1113-4a4d-937f-44cfab89a8f7",
+    "publishedInPage": "330",
+    "origin": "source",
+    "type": "scientific",
+    "merged": false,
+    "parsed": true,
+    "basionymOrCombinationAuthorship": {
+      "authors": [
+        "Desv."
+      ]
+    }
+  },
   "commonNames": [
     "Red Brazilian Tree Fern"
   ],

@@ -1,7 +1,44 @@
 {
   "id": 37,
   "name": "Water Wisteria",
-  "scientificName": "Hygrophila difformis",
+  "scientificName": {
+    "created": "2025-11-18T18:03:35.410938",
+    "createdBy": 102,
+    "modified": "2025-11-18T18:03:35.410938",
+    "modifiedBy": 102,
+    "datasetKey": 3,
+    "id": "HGTSFL0UNVvx1hft6DerW0",
+    "sectorKey": 919,
+    "verbatimSourceKey": 298877969,
+    "scientificName": "Hygrophila difformis",
+    "authorship": "(L.fil.) Sreem. & Bennet",
+    "rank": "species",
+    "genus": "Hygrophila",
+    "specificEpithet": "difformis",
+    "combinationAuthorship": {
+      "authors": [
+        "Sreem.",
+        "Bennet"
+      ]
+    },
+    "basionymAuthorship": {
+      "authors": [
+        "L.fil."
+      ]
+    },
+    "code": "botanical",
+    "publishedInId": "8e4b710a-1def-42d8-a2b9-8fd1d2f3784f",
+    "publishedInPage": "222",
+    "origin": "source",
+    "type": "scientific",
+    "merged": false,
+    "parsed": true,
+    "basionymOrCombinationAuthorship": {
+      "authors": [
+        "L.fil."
+      ]
+    }
+  },
   "commonNames": [],
   "category": [
     "aquatic"

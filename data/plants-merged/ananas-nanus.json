@@ -1,7 +1,46 @@
 {
   "id": 207,
   "name": "Dwarf Pineapple",
-  "scientificName": "Ananas nanus",
+  "scientificName": {
+    "created": "2025-09-17T15:12:21.36593",
+    "createdBy": 102,
+    "modified": "2025-09-17T15:12:21.36593",
+    "modifiedBy": 102,
+    "datasetKey": 3,
+    "id": "iio-pN-6kp7p24QrDeRqS1",
+    "sectorKey": 63560,
+    "verbatimSourceKey": 285407462,
+    "identifier": [
+      "ipni:12349-2"
+    ],
+    "scientificName": "Ananas nanus",
+    "authorship": "(L.B.Sm.) L.B.Sm.",
+    "rank": "species",
+    "genus": "Ananas",
+    "specificEpithet": "nanus",
+    "combinationAuthorship": {
+      "authors": [
+        "L.B.Sm."
+      ]
+    },
+    "basionymAuthorship": {
+      "authors": [
+        "L.B.Sm."
+      ]
+    },
+    "code": "botanical",
+    "publishedInId": "7d7327b7-bd53-4f9c-a744-c1ab49711199",
+    "origin": "source",
+    "type": "scientific",
+    "link": "https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:12349-2",
+    "merged": false,
+    "parsed": true,
+    "basionymOrCombinationAuthorship": {
+      "authors": [
+        "L.B.Sm."
+      ]
+    }
+  },
   "commonNames": [
     "Pineapple",
     "Pineapple Plant"

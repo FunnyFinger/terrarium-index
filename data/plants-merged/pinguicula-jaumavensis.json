@@ -1,7 +1,38 @@
 {
   "id": 458,
   "name": "Jaumavensis Butterwort",
-  "scientificName": "Pinguicula jaumavensis",
+  "scientificName": {
+    "created": "2025-11-18T17:53:42.213526",
+    "createdBy": 102,
+    "modified": "2025-11-18T17:53:42.213526",
+    "modifiedBy": 102,
+    "datasetKey": 3,
+    "id": "yg1-6bKoH1PG6xToiIrcG",
+    "sectorKey": 919,
+    "verbatimSourceKey": 298779275,
+    "scientificName": "Pinguicula jaumavensis",
+    "authorship": "Debbert",
+    "rank": "species",
+    "genus": "Pinguicula",
+    "specificEpithet": "jaumavensis",
+    "combinationAuthorship": {
+      "authors": [
+        "Debbert"
+      ]
+    },
+    "code": "botanical",
+    "publishedInId": "97fecc8a-4a2e-40ee-b3f0-582029428381",
+    "publishedInPage": "379",
+    "origin": "source",
+    "type": "scientific",
+    "merged": false,
+    "parsed": true,
+    "basionymOrCombinationAuthorship": {
+      "authors": [
+        "Debbert"
+      ]
+    }
+  },
   "commonNames": [
     "Butterwort Plant"
   ],

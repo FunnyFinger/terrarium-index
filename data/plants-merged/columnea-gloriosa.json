@@ -1,7 +1,38 @@
 {
   "id": 386,
   "name": "Goldfish Plant",
-  "scientificName": "Columnea gloriosa",
+  "scientificName": {
+    "created": "2025-11-18T18:02:15.331624",
+    "createdBy": 102,
+    "modified": "2025-11-18T18:02:15.331624",
+    "modifiedBy": 102,
+    "datasetKey": 3,
+    "id": "6WY3zc0tQqeG64LEUfvC32",
+    "sectorKey": 919,
+    "verbatimSourceKey": 298869193,
+    "scientificName": "Columnea gloriosa",
+    "authorship": "Sprague",
+    "rank": "species",
+    "genus": "Columnea",
+    "specificEpithet": "gloriosa",
+    "combinationAuthorship": {
+      "authors": [
+        "Sprague"
+      ]
+    },
+    "code": "botanical",
+    "publishedInId": "a80fc1f4-f3ca-42f8-93cf-9f95129829d6",
+    "publishedInPage": "t. 8378",
+    "origin": "source",
+    "type": "scientific",
+    "merged": false,
+    "parsed": true,
+    "basionymOrCombinationAuthorship": {
+      "authors": [
+        "Sprague"
+      ]
+    }
+  },
   "commonNames": [
     "Flying Goldfish Plant"
   ],

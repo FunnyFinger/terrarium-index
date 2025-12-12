@@ -1,7 +1,38 @@
 {
   "id": 10428,
   "name": "Adenium variegated (grafted)",
-  "scientificName": "Adenium arabicum",
+  "scientificName": {
+    "created": "2025-11-18T16:25:44.866477",
+    "createdBy": 102,
+    "modified": "2025-11-18T16:25:44.866477",
+    "modifiedBy": 102,
+    "datasetKey": 3,
+    "id": "_xtrWgfLwHAp3KEriZcN6",
+    "sectorKey": 1062,
+    "verbatimSourceKey": 297896516,
+    "scientificName": "Adenium arabicum",
+    "authorship": "Balf.fil.",
+    "rank": "species",
+    "genus": "Adenium",
+    "specificEpithet": "arabicum",
+    "combinationAuthorship": {
+      "authors": [
+        "Balf.fil."
+      ]
+    },
+    "code": "botanical",
+    "publishedInId": "b8ee8acc-faf3-4a3e-9be6-2eb49dab59e6",
+    "publishedInPage": "161",
+    "origin": "source",
+    "type": "scientific",
+    "merged": false,
+    "parsed": true,
+    "basionymOrCombinationAuthorship": {
+      "authors": [
+        "Balf.fil."
+      ]
+    }
+  },
   "commonNames": [
     "Baobab"
   ],

@@ -1,7 +1,49 @@
 {
   "id": 10294,
   "name": "Snake Leaf Fern",
-  "scientificName": "Aglaomorpha coronans",
+  "scientificName": {
+    "created": "2025-11-18T15:29:51.126792",
+    "createdBy": 102,
+    "modified": "2025-11-18T15:29:51.126792",
+    "modifiedBy": 102,
+    "datasetKey": 3,
+    "id": "kKS1FaP-CVvGBOsPzpuFG1",
+    "sectorKey": 1108,
+    "verbatimSourceKey": 297450539,
+    "scientificName": "Aglaomorpha coronans",
+    "authorship": "(Wall. ex Mett.) Copel.",
+    "rank": "species",
+    "genus": "Aglaomorpha",
+    "specificEpithet": "coronans",
+    "combinationAuthorship": {
+      "authors": [
+        "Copel."
+      ]
+    },
+    "basionymAuthorship": {
+      "authors": [
+        "Mett."
+      ],
+      "exAuthors": [
+        "Wall."
+      ]
+    },
+    "code": "botanical",
+    "publishedInId": "68425e3f-5417-4e51-9c1b-9a31e998a905",
+    "publishedInPage": "117",
+    "origin": "source",
+    "type": "scientific",
+    "merged": false,
+    "parsed": true,
+    "basionymOrCombinationAuthorship": {
+      "authors": [
+        "Mett."
+      ],
+      "exAuthors": [
+        "Wall."
+      ]
+    }
+  },
   "commonNames": [
     "Crown Fern"
   ],

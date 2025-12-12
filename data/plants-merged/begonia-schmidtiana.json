@@ -1,7 +1,38 @@
 {
   "id": 10166,
   "name": "Begonia schmidtiana",
-  "scientificName": "Begonia schmidtiana",
+  "scientificName": {
+    "created": "2025-11-18T16:53:00.571806",
+    "createdBy": 102,
+    "modified": "2025-11-18T16:53:00.571806",
+    "modifiedBy": 102,
+    "datasetKey": 3,
+    "id": "2XlNWy887f9g2lZqc0ng_1",
+    "sectorKey": 906,
+    "verbatimSourceKey": 298130156,
+    "scientificName": "Begonia schmidtiana",
+    "authorship": "Regel",
+    "rank": "species",
+    "genus": "Begonia",
+    "specificEpithet": "schmidtiana",
+    "combinationAuthorship": {
+      "authors": [
+        "Regel"
+      ]
+    },
+    "code": "botanical",
+    "publishedInId": "4e8f2c9f-1238-4949-b376-5ba2dfe0cda5",
+    "publishedInPage": "321",
+    "origin": "source",
+    "type": "scientific",
+    "merged": false,
+    "parsed": true,
+    "basionymOrCombinationAuthorship": {
+      "authors": [
+        "Regel"
+      ]
+    }
+  },
   "commonNames": [],
   "category": [
     "begonia",

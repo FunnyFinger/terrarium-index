@@ -1,7 +1,44 @@
 {
   "id": 87,
   "name": "Ant Plant",
-  "scientificName": "Myrmecodia tuberosa",
+  "scientificName": {
+    "created": "2025-11-18T16:22:17.056973",
+    "createdBy": 102,
+    "modified": "2025-11-18T16:22:17.056973",
+    "modifiedBy": 102,
+    "datasetKey": 3,
+    "id": "al0Kv2W-r7uR24QrvhC7G1",
+    "sectorKey": 1062,
+    "verbatimSourceKey": 297855884,
+    "scientificName": "Myrmecodia tuberosa",
+    "authorship": "Becc. ex Treub",
+    "rank": "species",
+    "genus": "Myrmecodia",
+    "specificEpithet": "tuberosa",
+    "combinationAuthorship": {
+      "authors": [
+        "Treub"
+      ],
+      "exAuthors": [
+        "Becc."
+      ]
+    },
+    "code": "botanical",
+    "publishedInId": "55b0876f-56bc-4571-adeb-0e11c1e6d1de",
+    "publishedInPage": "192",
+    "origin": "source",
+    "type": "scientific",
+    "merged": false,
+    "parsed": true,
+    "basionymOrCombinationAuthorship": {
+      "authors": [
+        "Treub"
+      ],
+      "exAuthors": [
+        "Becc."
+      ]
+    }
+  },
   "commonNames": [
     "Ant-house Plant"
   ],

@@ -1,7 +1,43 @@
 {
   "id": 10286,
   "name": "Philodendron polypodioides",
-  "scientificName": "Philodendron polypodioides",
+  "scientificName": {
+    "created": "2025-09-17T15:33:22.434157",
+    "createdBy": 102,
+    "modified": "2025-09-17T15:33:22.434157",
+    "modifiedBy": 102,
+    "datasetKey": 3,
+    "id": "v4_9SXo9gcuU8h7GKLXky",
+    "sectorKey": 63501,
+    "verbatimSourceKey": 285490466,
+    "identifier": [
+      "ipni:193152-2"
+    ],
+    "scientificName": "Philodendron polypodioides",
+    "authorship": "A.M.E.Jonker & Jonker",
+    "rank": "species",
+    "genus": "Philodendron",
+    "specificEpithet": "polypodioides",
+    "combinationAuthorship": {
+      "authors": [
+        "A.M.E.Jonker",
+        "Jonker"
+      ]
+    },
+    "code": "botanical",
+    "publishedInId": "da4fc659-09ed-48a0-ac34-8b716c2a7f23",
+    "origin": "source",
+    "type": "scientific",
+    "link": "https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:193152-2",
+    "merged": false,
+    "parsed": true,
+    "basionymOrCombinationAuthorship": {
+      "authors": [
+        "A.M.E.Jonker",
+        "Jonker"
+      ]
+    }
+  },
   "commonNames": [],
   "category": [
     "philodendron",

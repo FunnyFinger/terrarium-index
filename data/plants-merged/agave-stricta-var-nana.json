@@ -1,7 +1,36 @@
 {
   "id": 589,
   "name": "Agave stricta",
-  "scientificName": "Agave stricta var. nana",
+  "scientificName": {
+    "created": "2025-07-18T13:57:30.837144",
+    "createdBy": 102,
+    "modified": "2025-07-18T13:57:30.837144",
+    "modifiedBy": 102,
+    "datasetKey": 3,
+    "id": "HdSF0-48AHOvAty1nb8qg2",
+    "sectorKey": 60401,
+    "verbatimSourceKey": 108922424,
+    "scientificName": "Sphenoptera libani",
+    "authorship": "(Théry var. of pharaon; , 1929)",
+    "rank": "species",
+    "genus": "Sphenoptera",
+    "specificEpithet": "libani",
+    "combinationAuthorship": {
+      "authors": [
+        "(Théry var. of pharaon;, 1929)"
+      ]
+    },
+    "code": "zoological",
+    "origin": "source",
+    "type": "scientific",
+    "merged": false,
+    "parsed": true,
+    "basionymOrCombinationAuthorship": {
+      "authors": [
+        "(Théry var. of pharaon;, 1929)"
+      ]
+    }
+  },
   "commonNames": [],
   "category": [
     "flowering",

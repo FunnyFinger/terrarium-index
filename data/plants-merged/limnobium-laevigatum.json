@@ -1,7 +1,54 @@
 {
   "id": 49,
   "name": "Frogbit",
-  "scientificName": "Limnobium laevigatum",
+  "scientificName": {
+    "created": "2025-09-17T15:37:13.621818",
+    "createdBy": 102,
+    "modified": "2025-09-17T15:37:13.621818",
+    "modifiedBy": 102,
+    "datasetKey": 3,
+    "id": "DKT_1PU96aPjBKKeXoU3b0",
+    "sectorKey": 63504,
+    "verbatimSourceKey": 285509580,
+    "identifier": [
+      "ipni:431836-1"
+    ],
+    "scientificName": "Limnobium laevigatum",
+    "authorship": "(Humb. & Bonpl. ex Willd.) Heine",
+    "rank": "species",
+    "genus": "Limnobium",
+    "specificEpithet": "laevigatum",
+    "combinationAuthorship": {
+      "authors": [
+        "Heine"
+      ]
+    },
+    "basionymAuthorship": {
+      "authors": [
+        "Willd."
+      ],
+      "exAuthors": [
+        "Humb.",
+        "Bonpl."
+      ]
+    },
+    "code": "botanical",
+    "publishedInId": "6c0b3458-04df-4bcd-a23f-a8d2c9e8482f",
+    "origin": "source",
+    "type": "scientific",
+    "link": "https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:431836-1",
+    "merged": false,
+    "parsed": true,
+    "basionymOrCombinationAuthorship": {
+      "authors": [
+        "Willd."
+      ],
+      "exAuthors": [
+        "Humb.",
+        "Bonpl."
+      ]
+    }
+  },
   "commonNames": [],
   "category": [
     "aquatic"

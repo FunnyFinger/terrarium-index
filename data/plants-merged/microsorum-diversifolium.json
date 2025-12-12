@@ -1,7 +1,43 @@
 {
   "id": 10301,
   "name": "Kangaroo Paw Fern",
-  "scientificName": "Microsorum diversifolium",
+  "scientificName": {
+    "created": "2025-11-18T15:31:12.214186",
+    "createdBy": 102,
+    "modified": "2025-11-18T15:31:12.214186",
+    "modifiedBy": 102,
+    "datasetKey": 3,
+    "id": "krByyYwFn3dE0lopVtcj62",
+    "sectorKey": 1108,
+    "verbatimSourceKey": 297460190,
+    "scientificName": "Microsorum diversifolium",
+    "authorship": "(Willd.) Copel.",
+    "rank": "species",
+    "genus": "Microsorum",
+    "specificEpithet": "diversifolium",
+    "combinationAuthorship": {
+      "authors": [
+        "Copel."
+      ]
+    },
+    "basionymAuthorship": {
+      "authors": [
+        "Willd."
+      ]
+    },
+    "code": "botanical",
+    "publishedInId": "35b4d10c-93d0-4c10-bc91-cd17075598ec",
+    "publishedInPage": "111-116",
+    "origin": "source",
+    "type": "scientific",
+    "merged": false,
+    "parsed": true,
+    "basionymOrCombinationAuthorship": {
+      "authors": [
+        "Willd."
+      ]
+    }
+  },
   "commonNames": [],
   "category": [
     "fern",

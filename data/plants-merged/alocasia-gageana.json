@@ -1,7 +1,43 @@
 {
   "id": 10019,
   "name": "California Alocasia",
-  "scientificName": "Alocasia gageana",
+  "scientificName": {
+    "created": "2025-09-17T15:33:09.841852",
+    "createdBy": 102,
+    "modified": "2025-09-17T15:33:09.841852",
+    "modifiedBy": 102,
+    "datasetKey": 3,
+    "id": "qidr7BGT1sNh-thLGQoa12",
+    "sectorKey": 63501,
+    "verbatimSourceKey": 285485729,
+    "identifier": [
+      "ipni:84169-1"
+    ],
+    "scientificName": "Alocasia gageana",
+    "authorship": "Engl. & K.Krause",
+    "rank": "species",
+    "genus": "Alocasia",
+    "specificEpithet": "gageana",
+    "combinationAuthorship": {
+      "authors": [
+        "Engl.",
+        "K.Krause"
+      ]
+    },
+    "code": "botanical",
+    "publishedInId": "1d392f87-de5e-4099-ab3c-09c5137b4433",
+    "origin": "source",
+    "type": "scientific",
+    "link": "https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:84169-1",
+    "merged": false,
+    "parsed": true,
+    "basionymOrCombinationAuthorship": {
+      "authors": [
+        "Engl.",
+        "K.Krause"
+      ]
+    }
+  },
   "commonNames": [],
   "category": [
     "alocasia",

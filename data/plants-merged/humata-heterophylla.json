@@ -1,7 +1,43 @@
 {
   "id": 10318,
   "name": "Humata heterophylla",
-  "scientificName": "Humata heterophylla",
+  "scientificName": {
+    "created": "2025-11-18T15:27:06.015874",
+    "createdBy": 102,
+    "modified": "2025-11-18T15:27:06.015874",
+    "modifiedBy": 102,
+    "datasetKey": 3,
+    "id": "wtoXQfeDOCA_-WhFfDlfu1",
+    "sectorKey": 1108,
+    "verbatimSourceKey": 297410501,
+    "scientificName": "Humata heterophylla",
+    "authorship": "(Sm.) Desv.",
+    "rank": "species",
+    "genus": "Humata",
+    "specificEpithet": "heterophylla",
+    "combinationAuthorship": {
+      "authors": [
+        "Desv."
+      ]
+    },
+    "basionymAuthorship": {
+      "authors": [
+        "Sm."
+      ]
+    },
+    "code": "botanical",
+    "publishedInId": "3d4636bb-cc7b-4ddc-ac47-72b20d110250",
+    "publishedInPage": "323",
+    "origin": "source",
+    "type": "scientific",
+    "merged": false,
+    "parsed": true,
+    "basionymOrCombinationAuthorship": {
+      "authors": [
+        "Sm."
+      ]
+    }
+  },
   "commonNames": [
     "Variable Humata Fern"
   ],

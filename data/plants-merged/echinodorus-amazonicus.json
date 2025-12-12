@@ -1,7 +1,41 @@
 {
   "id": 11,
   "name": "Amazon Sword",
-  "scientificName": "Echinodorus amazonicus",
+  "scientificName": {
+    "created": "2025-09-17T15:27:24.277327",
+    "createdBy": 102,
+    "modified": "2025-09-17T15:27:24.277327",
+    "modifiedBy": 102,
+    "datasetKey": 3,
+    "id": "Y7P3BGaxLFuW2h1IN6dmc0",
+    "sectorKey": 63499,
+    "verbatimSourceKey": 285474051,
+    "identifier": [
+      "ipni:88140-2"
+    ],
+    "scientificName": "Echinodorus amazonicus",
+    "authorship": "Rataj",
+    "rank": "species",
+    "genus": "Echinodorus",
+    "specificEpithet": "amazonicus",
+    "combinationAuthorship": {
+      "authors": [
+        "Rataj"
+      ]
+    },
+    "code": "botanical",
+    "publishedInId": "a7c57ec1-7667-4f35-acbd-aa5ab064e4f4",
+    "origin": "source",
+    "type": "scientific",
+    "link": "https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:88140-2",
+    "merged": false,
+    "parsed": true,
+    "basionymOrCombinationAuthorship": {
+      "authors": [
+        "Rataj"
+      ]
+    }
+  },
   "commonNames": [],
   "category": [
     "aquatic",

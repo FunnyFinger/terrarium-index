@@ -1,7 +1,43 @@
 {
   "id": 18,
   "name": "Trailing Watermelon Begonia",
-  "scientificName": "Pellionia repens",
+  "scientificName": {
+    "created": "2025-11-18T16:59:37.660666",
+    "createdBy": 102,
+    "modified": "2025-11-18T16:59:37.660666",
+    "modifiedBy": 102,
+    "datasetKey": 3,
+    "id": "OSameoiSsPP304dSix6HI1",
+    "sectorKey": 63497,
+    "verbatimSourceKey": 298216302,
+    "scientificName": "Pellionia repens",
+    "authorship": "(Lour.) Merr.",
+    "rank": "species",
+    "genus": "Pellionia",
+    "specificEpithet": "repens",
+    "combinationAuthorship": {
+      "authors": [
+        "Merr."
+      ]
+    },
+    "basionymAuthorship": {
+      "authors": [
+        "Lour."
+      ]
+    },
+    "code": "botanical",
+    "publishedInId": "37ec254b-dd02-4442-b667-1f3fe84b521f",
+    "publishedInPage": "326",
+    "origin": "source",
+    "type": "scientific",
+    "merged": false,
+    "parsed": true,
+    "basionymOrCombinationAuthorship": {
+      "authors": [
+        "Lour."
+      ]
+    }
+  },
   "category": [
     "creeper",
     "colorful",

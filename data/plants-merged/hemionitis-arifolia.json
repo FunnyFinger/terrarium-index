@@ -1,7 +1,42 @@
 {
   "id": 1762082843768,
   "name": "Digit Fern",
-  "scientificName": "Hemionitis arifolia",
+  "scientificName": {
+    "created": "2025-11-18T15:27:56.550574",
+    "createdBy": 102,
+    "modified": "2025-11-18T15:27:56.550574",
+    "modifiedBy": 102,
+    "datasetKey": 3,
+    "id": "X4sDcgw0bjdb8OKbxsWwe2",
+    "sectorKey": 1108,
+    "verbatimSourceKey": 297426320,
+    "scientificName": "Hemionitis arifolia",
+    "authorship": "(Burm.fil.) T.Moore",
+    "rank": "species",
+    "genus": "Hemionitis",
+    "specificEpithet": "arifolia",
+    "combinationAuthorship": {
+      "authors": [
+        "T.Moore"
+      ]
+    },
+    "basionymAuthorship": {
+      "authors": [
+        "Burm.fil."
+      ]
+    },
+    "code": "botanical",
+    "publishedInId": "d9a7beaf-16b8-4136-841f-73fe74666f71",
+    "origin": "source",
+    "type": "scientific",
+    "merged": false,
+    "parsed": true,
+    "basionymOrCombinationAuthorship": {
+      "authors": [
+        "Burm.fil."
+      ]
+    }
+  },
   "commonNames": [
     "Heart Fern"
   ],

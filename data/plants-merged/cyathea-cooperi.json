@@ -1,7 +1,49 @@
 {
   "id": 10322,
   "name": "Australian Tree Fern",
-  "scientificName": "Cyathea cooperi",
+  "scientificName": {
+    "created": "2025-11-18T15:22:05.621358",
+    "createdBy": 102,
+    "modified": "2025-11-18T15:22:05.621358",
+    "modifiedBy": 102,
+    "datasetKey": 3,
+    "id": "uBv7QJrcMAN-9h3zybp7l1",
+    "sectorKey": 1103,
+    "verbatimSourceKey": 297367564,
+    "scientificName": "Cyathea cooperi",
+    "authorship": "(Hook. ex F.Muell.) Domin",
+    "rank": "species",
+    "genus": "Cyathea",
+    "specificEpithet": "cooperi",
+    "combinationAuthorship": {
+      "authors": [
+        "Domin"
+      ]
+    },
+    "basionymAuthorship": {
+      "authors": [
+        "F.Muell."
+      ],
+      "exAuthors": [
+        "Hook."
+      ]
+    },
+    "code": "botanical",
+    "publishedInId": "4a9c3e19-1294-4db4-a722-e5b7d34a4df5",
+    "publishedInPage": "88-174",
+    "origin": "source",
+    "type": "scientific",
+    "merged": false,
+    "parsed": true,
+    "basionymOrCombinationAuthorship": {
+      "authors": [
+        "F.Muell."
+      ],
+      "exAuthors": [
+        "Hook."
+      ]
+    }
+  },
   "commonNames": [
     "Cooper's Tree Fern",
     "Lacy Tree Fern"

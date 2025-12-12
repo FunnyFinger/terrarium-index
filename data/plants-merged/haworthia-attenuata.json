@@ -1,7 +1,46 @@
 {
   "id": 10468,
   "name": "Zebra Plant",
-  "scientificName": "Haworthia attenuata",
+  "scientificName": {
+    "created": "2025-09-17T16:02:51.583018",
+    "createdBy": 102,
+    "modified": "2025-09-17T16:02:51.583018",
+    "modifiedBy": 102,
+    "datasetKey": 3,
+    "id": "Wz_cCOHnOmOqEdotN0QAc2",
+    "sectorKey": 63517,
+    "verbatimSourceKey": 285691888,
+    "identifier": [
+      "ipni:535997-1"
+    ],
+    "scientificName": "Haworthia attenuata",
+    "authorship": "(Haw.) Haw.",
+    "rank": "species",
+    "genus": "Haworthia",
+    "specificEpithet": "attenuata",
+    "combinationAuthorship": {
+      "authors": [
+        "Haw."
+      ]
+    },
+    "basionymAuthorship": {
+      "authors": [
+        "Haw."
+      ]
+    },
+    "code": "botanical",
+    "publishedInId": "d022a8ea-1e07-4ea0-b7ab-c191b2453475",
+    "origin": "source",
+    "type": "scientific",
+    "link": "https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:535997-1",
+    "merged": false,
+    "parsed": true,
+    "basionymOrCombinationAuthorship": {
+      "authors": [
+        "Haw."
+      ]
+    }
+  },
   "commonNames": [
     "Zebra Haworthia",
     "Zebra Cactus"

@@ -1,7 +1,40 @@
 {
   "id": 10160,
   "name": "Begonia foliosa",
-  "scientificName": "Begonia foliosa",
+  "scientificName": {
+    "created": "2025-12-11T17:06:00.727534",
+    "createdBy": 304,
+    "modified": "2025-12-11T17:06:00.727534",
+    "modifiedBy": 304,
+    "datasetKey": 3,
+    "id": "ktWcUHrS74uC2GnHR3aw30",
+    "sectorKey": 331,
+    "verbatimSourceKey": 300679646,
+    "namesIndexId": 2122803,
+    "namesIndexType": "exact",
+    "scientificName": "Aonis foliacea",
+    "authorship": "[Auctt. misspelling for foliosa]",
+    "rank": "species",
+    "genus": "Aonis",
+    "specificEpithet": "foliacea",
+    "combinationAuthorship": {
+      "authors": [
+        "[Auctt. misspelling for foliosa]"
+      ]
+    },
+    "code": "zoological",
+    "origin": "source",
+    "type": "scientific",
+    "link": "https://www.marinespecies.org/polychaeta/aphia.php?p=taxdetails&id=338448",
+    "remarks": "misspelling of foliosa",
+    "merged": false,
+    "parsed": true,
+    "basionymOrCombinationAuthorship": {
+      "authors": [
+        "[Auctt. misspelling for foliosa]"
+      ]
+    }
+  },
   "commonNames": [],
   "category": [
     "begonia",

@@ -1,7 +1,43 @@
 {
   "id": 9,
   "name": "Java Fern",
-  "scientificName": "Microsorum pteropus",
+  "scientificName": {
+    "created": "2025-11-18T15:30:44.361605",
+    "createdBy": 102,
+    "modified": "2025-11-18T15:30:44.361605",
+    "modifiedBy": 102,
+    "datasetKey": 3,
+    "id": "luoNJhE2bw748KFHS1_wM1",
+    "sectorKey": 1108,
+    "verbatimSourceKey": 297460089,
+    "scientificName": "Microsorum pteropus",
+    "authorship": "(Blume) Copel.",
+    "rank": "species",
+    "genus": "Microsorum",
+    "specificEpithet": "pteropus",
+    "combinationAuthorship": {
+      "authors": [
+        "Copel."
+      ]
+    },
+    "basionymAuthorship": {
+      "authors": [
+        "Blume"
+      ]
+    },
+    "code": "botanical",
+    "publishedInId": "35b4d10c-93d0-4c10-bc91-cd17075598ec",
+    "publishedInPage": "111-116",
+    "origin": "source",
+    "type": "scientific",
+    "merged": false,
+    "parsed": true,
+    "basionymOrCombinationAuthorship": {
+      "authors": [
+        "Blume"
+      ]
+    }
+  },
   "commonNames": [],
   "category": [
     "aquatic",

@@ -1,7 +1,40 @@
 {
   "id": 10423,
   "name": "Opuntia 'Jamaican Ghost'",
-  "scientificName": "Opuntia jamaicensis",
+  "scientificName": {
+    "created": "2025-11-18T17:14:45.780116",
+    "createdBy": 102,
+    "modified": "2025-11-18T17:14:45.780116",
+    "modifiedBy": 102,
+    "datasetKey": 3,
+    "id": "V9Q1OmBg0VseD_w7cyKxe0",
+    "sectorKey": 890,
+    "verbatimSourceKey": 298381738,
+    "scientificName": "Opuntia jamaicensis",
+    "authorship": "Britton & Harris",
+    "rank": "species",
+    "genus": "Opuntia",
+    "specificEpithet": "jamaicensis",
+    "combinationAuthorship": {
+      "authors": [
+        "Britton",
+        "Harris"
+      ]
+    },
+    "code": "botanical",
+    "publishedInId": "515993da-514f-4e5e-a46a-484089404048",
+    "publishedInPage": "130",
+    "origin": "source",
+    "type": "scientific",
+    "merged": false,
+    "parsed": true,
+    "basionymOrCombinationAuthorship": {
+      "authors": [
+        "Britton",
+        "Harris"
+      ]
+    }
+  },
   "commonNames": [
     "Nopal",
     "Paddle Cactus",

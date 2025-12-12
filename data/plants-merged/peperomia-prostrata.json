@@ -1,7 +1,38 @@
 {
   "id": 10464,
   "name": "String of Turtles",
-  "scientificName": "Peperomia prostrata",
+  "scientificName": {
+    "created": "2025-11-18T17:21:53.985995",
+    "createdBy": 102,
+    "modified": "2025-11-18T17:21:53.985995",
+    "modifiedBy": 102,
+    "datasetKey": 3,
+    "id": "6VmIyuqbStP48GmTGlskN1",
+    "sectorKey": 1080,
+    "verbatimSourceKey": 298436844,
+    "scientificName": "Peperomia prostrata",
+    "authorship": "Hort.Williams",
+    "rank": "species",
+    "genus": "Peperomia",
+    "specificEpithet": "prostrata",
+    "combinationAuthorship": {
+      "authors": [
+        "Hort.Williams"
+      ]
+    },
+    "code": "botanical",
+    "publishedInId": "1416f9bf-b0de-4f05-b0e6-0b9f7094d219",
+    "publishedInPage": "716",
+    "origin": "source",
+    "type": "scientific",
+    "merged": false,
+    "parsed": true,
+    "basionymOrCombinationAuthorship": {
+      "authors": [
+        "Hort.Williams"
+      ]
+    }
+  },
   "commonNames": [
     "Turtle Vine"
   ],

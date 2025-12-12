@@ -1,7 +1,48 @@
 {
   "id": 10356,
   "name": "Grass Orchid",
-  "scientificName": "Dendrochilum tenellum",
+  "scientificName": {
+    "created": "2025-09-17T16:13:52.529051",
+    "createdBy": 102,
+    "modified": "2025-09-17T16:13:52.529051",
+    "modifiedBy": 102,
+    "datasetKey": 3,
+    "id": "J-CLKynQXatW1lU_5AvAr",
+    "sectorKey": 63526,
+    "verbatimSourceKey": 285816245,
+    "identifier": [
+      "ipni:629244-1"
+    ],
+    "scientificName": "Dendrochilum tenellum",
+    "authorship": "(Nees & Meyen) Ames",
+    "rank": "species",
+    "genus": "Dendrochilum",
+    "specificEpithet": "tenellum",
+    "combinationAuthorship": {
+      "authors": [
+        "Ames"
+      ]
+    },
+    "basionymAuthorship": {
+      "authors": [
+        "Nees",
+        "Meyen"
+      ]
+    },
+    "code": "botanical",
+    "publishedInId": "3507bab0-73b0-42dc-81c5-de47f4e7bdd7",
+    "origin": "source",
+    "type": "scientific",
+    "link": "https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:629244-1",
+    "merged": false,
+    "parsed": true,
+    "basionymOrCombinationAuthorship": {
+      "authors": [
+        "Nees",
+        "Meyen"
+      ]
+    }
+  },
   "commonNames": [
     "Slender Dendrochilum"
   ],

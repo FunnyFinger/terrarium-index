@@ -1,7 +1,46 @@
 {
   "id": 10336,
   "name": "Aspidogyne argentea",
-  "scientificName": "Aspidogyne argentea",
+  "scientificName": {
+    "created": "2025-09-17T16:11:55.544686",
+    "createdBy": 102,
+    "modified": "2025-09-17T16:11:55.544686",
+    "modifiedBy": 102,
+    "datasetKey": 3,
+    "id": "R9SHR610p7ctCOaiuay5F2",
+    "sectorKey": 63526,
+    "verbatimSourceKey": 285787764,
+    "identifier": [
+      "ipni:21895-2"
+    ],
+    "scientificName": "Aspidogyne argentea",
+    "authorship": "(Vell.) Garay",
+    "rank": "species",
+    "genus": "Aspidogyne",
+    "specificEpithet": "argentea",
+    "combinationAuthorship": {
+      "authors": [
+        "Garay"
+      ]
+    },
+    "basionymAuthorship": {
+      "authors": [
+        "Vell."
+      ]
+    },
+    "code": "botanical",
+    "publishedInId": "28f18601-a347-41a5-b753-2e639a315a14",
+    "origin": "source",
+    "type": "scientific",
+    "link": "https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:21895-2",
+    "merged": false,
+    "parsed": true,
+    "basionymOrCombinationAuthorship": {
+      "authors": [
+        "Vell."
+      ]
+    }
+  },
   "commonNames": [],
   "category": [
     "orchid",

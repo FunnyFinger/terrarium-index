@@ -1,7 +1,42 @@
 {
   "id": 338,
   "name": "Autumn Fern",
-  "scientificName": "Dryopteris erythrosora",
+  "scientificName": {
+    "created": "2025-11-18T15:28:20.940832",
+    "createdBy": 102,
+    "modified": "2025-11-18T15:28:20.940832",
+    "modifiedBy": 102,
+    "datasetKey": 3,
+    "id": "FCHUfEKEsg890pQFicqH_",
+    "sectorKey": 1108,
+    "verbatimSourceKey": 297431459,
+    "scientificName": "Dryopteris erythrosora",
+    "authorship": "(D.C.Eaton) C.Chr.",
+    "rank": "species",
+    "genus": "Dryopteris",
+    "specificEpithet": "erythrosora",
+    "combinationAuthorship": {
+      "authors": [
+        "C.Chr."
+      ]
+    },
+    "basionymAuthorship": {
+      "authors": [
+        "D.C.Eaton"
+      ]
+    },
+    "code": "botanical",
+    "publishedInId": "c4829e5e-303a-4240-8783-50290ce69520",
+    "origin": "source",
+    "type": "scientific",
+    "merged": false,
+    "parsed": true,
+    "basionymOrCombinationAuthorship": {
+      "authors": [
+        "D.C.Eaton"
+      ]
+    }
+  },
   "commonNames": [
     "Japanese Shield Fern"
   ],

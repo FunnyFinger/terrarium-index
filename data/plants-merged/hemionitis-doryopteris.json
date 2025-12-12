@@ -1,7 +1,38 @@
 {
   "id": 10314,
   "name": "Digit Fern",
-  "scientificName": "Hemionitis doryopteris",
+  "scientificName": {
+    "created": "2025-11-18T15:27:51.114648",
+    "createdBy": 102,
+    "modified": "2025-11-18T15:27:51.114648",
+    "modifiedBy": 102,
+    "datasetKey": 3,
+    "id": "uPmkb6Cqs6927KwSl-RYC2",
+    "sectorKey": 1108,
+    "verbatimSourceKey": 297424606,
+    "scientificName": "Hemionitis doryopteris",
+    "authorship": "Christenh.",
+    "rank": "species",
+    "genus": "Hemionitis",
+    "specificEpithet": "doryopteris",
+    "combinationAuthorship": {
+      "authors": [
+        "Christenh."
+      ]
+    },
+    "code": "botanical",
+    "publishedInId": "a629c2eb-881b-495e-8ed7-e432bcfc3507",
+    "publishedInPage": "13",
+    "origin": "source",
+    "type": "scientific",
+    "merged": false,
+    "parsed": true,
+    "basionymOrCombinationAuthorship": {
+      "authors": [
+        "Christenh."
+      ]
+    }
+  },
   "commonNames": [
     "Heart Fern"
   ],
