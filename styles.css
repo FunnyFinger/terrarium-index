@@ -2720,6 +2720,42 @@ main {
     right: auto;
 }
 
+/* Carnivorous plant icon overlay */
+.carnivorous-icon {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 10;
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, rgba(239, 215, 0, 0.95), rgba(255, 128, 1, 0.95), rgba(255, 55, 0, 0.95));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 0 2px rgba(255, 255, 255, 0.8);
+    pointer-events: none;
+    animation: carnivorous-pulse 2s ease-in-out infinite;
+}
+
+.carnivorous-icon svg {
+    width: 20px;
+    height: 20px;
+    color: #fff;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+@keyframes carnivorous-pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 0 2px rgba(255, 255, 255, 0.8);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 3px 12px rgba(255, 55, 0, 0.6), 0 0 0 3px rgba(255, 255, 255, 0.9);
+    }
+}
+
 .variety-badge {
     position: absolute;
     top: 6px;
