@@ -2443,11 +2443,6 @@ function createPlantCard(plant) {
         card.classList.add('aquatic-plant');
     }
     
-    // Add variety class if it's a variety/cultivar
-    if (isVariety) {
-        card.classList.add('variety-plant');
-    }
-    
     card.innerHTML = `
         <div class="plant-image-container" data-plant-id="${plant.id}">
             ${displayImageUrl ? 
