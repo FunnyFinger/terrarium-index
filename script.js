@@ -2376,10 +2376,28 @@ function createPlantCard(plant) {
                       substrate.includes('aquatic') ||
                       specialNeeds === 'aquatic';
     
-    // Detect variety/cultivar - check scientific name for var., cv., 'variety name', etc.
-    const scientificLower = scientific.toLowerCase();
-    const isVariety = /\b(var\.|variety|cv\.|cultivar|'|")\b/i.test(scientific) ||
-                      /\b(var\s+[a-z]+|cv\s+[a-z]+)\b/i.test(scientific);
+    // Detect variety/cultivar - check scientific name, description, and name for var., cv., 'variety name', etc.
+    const description = plant.description || '';
+    const name = plant.name || '';
+    
+    // Check scientific name for variety indicators
+    const hasVarietyInScientific = /\b(var\.|variety|cv\.|cultivar)\b/i.test(scientific) ||
+                                    /\bvar\s+[a-z]+/i.test(scientific) ||
+                                    /\bcv\s+[a-z]+/i.test(scientific) ||
+                                    /'[A-Za-z][^']*'/i.test(scientific) ||  // Quoted cultivar names like 'Batik'
+                                    /"[A-Za-z][^"]*"/i.test(scientific);     // Double-quoted cultivar names
+    
+    // Check description for variety mentions (e.g., "var. miniata", "'Batik'")
+    const hasVarietyInDescription = /\b(var\.|variety|cv\.|cultivar)\s+[a-z]+/i.test(description) ||
+                                    /'[A-Za-z][^']*'/i.test(description) ||
+                                    /"[A-Za-z][^"]*"/i.test(description);
+    
+    // Check if name contains variety indicators
+    const hasVarietyInName = /\b(var\.|variety|cv\.|cultivar)\b/i.test(name) ||
+                             /'[A-Za-z][^']*'/i.test(name) ||
+                             /"[A-Za-z][^"]*"/i.test(name);
+    
+    const isVariety = hasVarietyInScientific || hasVarietyInDescription || hasVarietyInName;
     
     // Calculate vivarium types using mathematical logic instead of stored AI-based types
     // OPTIMIZED: Cache vivarium types calculation (called multiple times per plant)
@@ -2454,10 +2472,6 @@ function createPlantCard(plant) {
     
     card.innerHTML = `
         <div class="plant-image-container" data-plant-id="${plant.id}">
-            ${isHybrid ? `<div class="hybrid-badge" title="Hybrid">Hybrid</div>` : ''}
-            ${isCarnivorous ? `<div class="carnivorous-badge" title="Carnivorous">Carnivorous</div>` : ''}
-            ${isAquatic ? `<div class="aquatic-badge" title="Aquatic">Aquatic</div>` : ''}
-            ${isVariety ? `<div class="variety-badge" title="Variety/Cultivar">Variety</div>` : ''}
             ${displayImageUrl ? 
                 `<img src="${displayImageUrl}" alt="${plant.name}" class="plant-image" loading="lazy" onerror="this.onerror=null; handleImageError(this, ${plant.id})" data-plant-id="${plant.id}">` :
                 `<div class="image-placeholder">🌿</div>`
