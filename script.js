@@ -2447,16 +2447,7 @@ function createPlantCard(plant) {
         <div class="plant-image-container" data-plant-id="${plant.id}">
             ${isCarnivorous ? `
                 <div class="carnivorous-icon" title="Carnivorous Plant">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <!-- Venus flytrap trap with teeth -->
-                        <path d="M12 3C9 3 7 5 7 9c0 1.5 0.5 2.5 1.5 3.5L12 18l3.5-5.5c1-1 1.5-2 1.5-3.5 0-4-2-6-5-6z" fill="currentColor" opacity="0.3"/>
-                        <path d="M12 3C9 3 7 5 7 9c0 1.5 0.5 2.5 1.5 3.5L12 18l3.5-5.5c1-1 1.5-2 1.5-3.5 0-4-2-6-5-6z"/>
-                        <!-- Teeth on the trap -->
-                        <path d="M9 8l-1 1M10 9l-1 1M11 10l-1 1M13 10l1 1M14 9l1 1M15 8l1 1"/>
-                        <!-- Bug/fly being caught -->
-                        <circle cx="12" cy="9" r="1.5" fill="currentColor"/>
-                        <path d="M10.5 9l-1-1M13.5 9l1-1M12 7.5v-1"/>
-                    </svg>
+                    <img src="images/carnivorous-icon.png" alt="Carnivorous" />
                 </div>
             ` : ''}
             ${displayImageUrl ? 
