@@ -2376,28 +2376,6 @@ function createPlantCard(plant) {
                       substrate.includes('aquatic') ||
                       specialNeeds === 'aquatic';
     
-    // Detect variety/cultivar - check scientific name, description, and name for var., cv., 'variety name', etc.
-    const description = plant.description || '';
-    const name = plant.name || '';
-    
-    // Check scientific name for variety indicators
-    const hasVarietyInScientific = /\b(var\.|variety|cv\.|cultivar)\b/i.test(scientific) ||
-                                    /\bvar\s+[a-z]+/i.test(scientific) ||
-                                    /\bcv\s+[a-z]+/i.test(scientific) ||
-                                    /'[A-Za-z][^']*'/i.test(scientific) ||  // Quoted cultivar names like 'Batik'
-                                    /"[A-Za-z][^"]*"/i.test(scientific);     // Double-quoted cultivar names
-    
-    // Check description for variety mentions (e.g., "var. miniata", "'Batik'")
-    const hasVarietyInDescription = /\b(var\.|variety|cv\.|cultivar)\s+[a-z]+/i.test(description) ||
-                                    /'[A-Za-z][^']*'/i.test(description) ||
-                                    /"[A-Za-z][^"]*"/i.test(description);
-    
-    // Check if name contains variety indicators
-    const hasVarietyInName = /\b(var\.|variety|cv\.|cultivar)\b/i.test(name) ||
-                             /'[A-Za-z][^']*'/i.test(name) ||
-                             /"[A-Za-z][^"]*"/i.test(name);
-    
-    const isVariety = hasVarietyInScientific || hasVarietyInDescription || hasVarietyInName;
     
     // Calculate vivarium types using mathematical logic instead of stored AI-based types
     // OPTIMIZED: Cache vivarium types calculation (called multiple times per plant)
@@ -2418,15 +2396,15 @@ function createPlantCard(plant) {
         badgeArray.push(`<span class="badge ${cls}">${displayName}</span>`);
     });
     
-    // Add special badges (carnivorous, aquatic, variety) to the badges div
+    // Add special badges (hybrid, carnivorous, aquatic) to the badges div
+    if (isHybrid) {
+        badgeArray.push(`<span class="badge hybrid">Hybrid</span>`);
+    }
     if (isCarnivorous) {
         badgeArray.push(`<span class="badge carnivorous">Carnivorous</span>`);
     }
     if (isAquatic) {
         badgeArray.push(`<span class="badge aquatic">Aquatic</span>`);
-    }
-    if (isVariety) {
-        badgeArray.push(`<span class="badge variety">Variety</span>`);
     }
     
     const badges = badgeArray.join('');

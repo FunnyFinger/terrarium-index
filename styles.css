@@ -1307,6 +1307,11 @@ main {
     color: #0c5460 !important;
 }
 
+.badge.hybrid {
+    background: linear-gradient(135deg, #9370DB, #6A5ACD, #8B7EC8) !important;
+    color: #fff !important;
+}
+
 .badge.carnivorous {
     background: linear-gradient(135deg, #efd700, #ff8001, #ff3700) !important;
     color: #fff !important;
@@ -1314,11 +1319,6 @@ main {
 
 .badge.aquatic {
     background: linear-gradient(135deg, #87CEEB, #5F9EA0, #16439d) !important;
-    color: #fff !important;
-}
-
-.badge.variety {
-    background: linear-gradient(135deg, #ffd700, #ffb347, #ff8c00) !important;
     color: #fff !important;
 }
 
