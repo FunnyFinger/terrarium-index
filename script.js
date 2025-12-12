@@ -215,29 +215,49 @@ async function initializeUI() {
         console.log(`🌳 Taxonomy filter applied: ${taxonomyRank} = ${taxonomyName}`);
     }
     
-    // First: Load and validate images from localStorage if available (fast, synchronous)
-    // OPTIMIZED: Don't await - let it run in background, render UI immediately
-    loadImagesFromLocalStorage(allPlants).then(() => {
-        console.log('📦 Image validation from localStorage complete');
-    }).catch(err => {
-        console.warn('⚠️ Image validation error:', err);
-    });
-    
     console.log(`📊 Plants ready: ${allPlants.length} plants`);
     
-    // Second: Apply filters and render IMMEDIATELY (don't wait for images)
+    // First: Apply filters and render IMMEDIATELY (don't wait for anything)
+    // This ensures users see content as fast as possible
     applyAllFilters();
+    
+    // Second: Load and validate images from localStorage (deferred, non-blocking)
+    // OPTIMIZED: Start after initial render to not block UI
+    setTimeout(() => {
+        loadImagesFromLocalStorage(allPlants).then(() => {
+            console.log('📦 Image validation from localStorage complete');
+            // Update plant cards with validated images
+            filteredPlants.forEach(plant => {
+                if (plant.imageUrl) {
+                    updatePlantCardImage(plant.id, plant.imageUrl);
+                }
+            });
+        }).catch(err => {
+            console.warn('⚠️ Image validation error:', err);
+        });
+    }, 100); // Small delay to let UI render first
     
     // Third: Discover images for plants without saved images (deferred, low priority)
     // This runs AFTER initial render so users see content immediately
+    // OPTIMIZED: Wait longer and only discover for plants truly missing images
     setTimeout(async () => {
-        console.log('🔍 Discovering images for plants without saved images (deferred background)...');
+        // Wait for localStorage validation to complete first
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
         const plantsNeedingImages = allPlants.filter(plant => {
             if (!plant.images) {
                 plant.images = [];
             }
+            // Skip if already has valid images
             return !plant.images || plant.images.length === 0;
         });
+        
+        if (plantsNeedingImages.length === 0) {
+            console.log('✅ All plants already have images - skipping discovery');
+            return;
+        }
+        
+        console.log(`🔍 Discovering images for ${plantsNeedingImages.length} plants without saved images (deferred background)...`);
         
         // Process in smaller batches to avoid blocking
         const BATCH_SIZE = 10;
@@ -297,7 +317,7 @@ async function initializeUI() {
         }
         
         console.log('✅ Image discovery complete for all plants');
-    }, 500); // Wait 500ms after initial render
+    }, 2000); // Wait 2 seconds after initial render to ensure UI is fully loaded
     
     // Note: Image scanning is now disabled on page load to prevent console flooding
     // Images will be checked only when:

@@ -200,9 +200,10 @@ async function discoverPlantImages(plant, knownImageCount = null) {
                             const key = `plant_${plantId}_maxImage`;
                             const currentMax = localStorage.getItem(key);
                             localStorage.setItem(key, highestFoundSoFar.toString());
-                            if (currentMax && currentMax !== highestFoundSoFar.toString()) {
-                                console.log(`💾 Corrected maxImage from ${currentMax} to ${highestFoundSoFar} for plant ${plantId} (${plant.scientificName}) - consecutive sequence detected`);
-                            }
+                            // Silent correction - don't log to reduce console noise
+                            // if (currentMax && currentMax !== highestFoundSoFar.toString()) {
+                            //     console.log(`💾 Corrected maxImage from ${currentMax} to ${highestFoundSoFar} for plant ${plantId} (${plant.scientificName}) - consecutive sequence detected`);
+                            // }
                         } catch (e) {
                             // silent
                         }
@@ -249,9 +250,10 @@ async function discoverPlantImages(plant, knownImageCount = null) {
                         // Always save the correct value (highest found), even if it's the same
                         // This ensures maxImage is always correct
                         localStorage.setItem(key, highestFound.toString());
-                        if (currentMax && currentMax !== highestFound.toString()) {
-                            console.log(`💾 Corrected maxImage from ${currentMax} to ${highestFound} for plant ${plantId} (${plant.scientificName})`);
-                        }
+                        // Silent correction - don't log to reduce console noise
+                        // if (currentMax && currentMax !== highestFound.toString()) {
+                        //     console.log(`💾 Corrected maxImage from ${currentMax} to ${highestFound} for plant ${plantId} (${plant.scientificName})`);
+                        // }
                     } catch (e) {
                         // silent
                     }
