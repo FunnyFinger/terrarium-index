@@ -11,7 +11,11 @@ function init(deps = {}) {
 
 function slugify(scientificName) {
     if (!scientificName) return null;
-    return scientificName
+    const nameStr = typeof scientificName === 'string'
+        ? scientificName
+        : (scientificName.scientificName || scientificName.name || String(scientificName));
+    if (!nameStr) return null;
+    return nameStr
         .toLowerCase()
         .trim()
         .replace(/\s+/g, '-')
@@ -132,12 +136,7 @@ async function discoverPlantImages(plant, knownImageCount = null) {
     let consecutiveFailures = 0;
     const maxConsecutiveFailures = 1;
 
-    // Check thumb.jpg first (common for card thumbnails)
-    const thumbPath = `images/${folderName}/thumb.jpg`;
-    if (await checkImageExists(thumbPath)) {
-        discoveredImages.push(thumbPath);
-    }
-
+    // Discover numbered images first (slug-1.jpg, slug-2.jpg, ...) so the primary image is full-size, not thumb
     let startCheck = 1;
     let limitCheck = maxCheck;
     // If we know the max image count from cache validation, use it as the limit
@@ -280,6 +279,12 @@ async function discoverPlantImages(plant, knownImageCount = null) {
         if (i > 1 && i % 5 === 0) {
             await new Promise(r => setTimeout(r, 10));
         }
+    }
+
+    // Add thumb.jpg at the end if it exists (for gallery); primary image stays first full-size (slug-1)
+    const thumbPath = `images/${folderName}/thumb.jpg`;
+    if (await checkImageExists(thumbPath)) {
+        discoveredImages.push(thumbPath);
     }
 
     const imageUrl = discoveredImages.length > 0 ? discoveredImages[0] : null;

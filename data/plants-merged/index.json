@@ -1,5 +1,5 @@
 {
-  "count": 403,
+  "count": 404,
   "plants": [
     "acalypha-hispida.json",
     "acanthostachys-pitcairnioides.json",
@@ -197,6 +197,7 @@
     "euphorbia-trigona.json",
     "ficus-microcarpa.json",
     "ficus-pumila.json",
+    "ficus-pumila-quercifolia.json",
     "fissidens-fontanus.json",
     "fittonia-albivenis.json",
     "genlisea-violacea.json",

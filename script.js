@@ -253,13 +253,22 @@ async function initializeUI() {
             if (savedImages) {
                 const parsedImages = JSON.parse(savedImages);
                 if (Array.isArray(parsedImages) && parsedImages.length > 0) {
-                    plant.images = parsedImages;
-                    if (savedImageUrl && parsedImages.includes(savedImageUrl)) {
-                        plant.imageUrl = savedImageUrl;
+                    const expectedSlug = scientificNameToSlug(plant.scientificName);
+                    const prefix = expectedSlug ? `images/${expectedSlug}/` : null;
+                    const validImages = prefix
+                        ? parsedImages.filter(p => typeof p === 'string' && p.startsWith(prefix))
+                        : [];
+                    if (validImages.length > 0) {
+                        plant.images = validImages;
+                        if (savedImageUrl && validImages.includes(savedImageUrl)) {
+                            plant.imageUrl = savedImageUrl;
+                        } else {
+                            plant.imageUrl = validImages[0];
+                        }
+                        imagesLoadedCount++;
                     } else {
-                        plant.imageUrl = parsedImages[0];
+                        if (!plant.images) plant.images = [];
                     }
-                    imagesLoadedCount++;
                 } else {
                     if (!plant.images) plant.images = [];
                 }
