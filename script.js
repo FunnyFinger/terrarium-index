@@ -915,6 +915,7 @@ const {
     loadImageFromUrl,
     saveImage,
     saveSingleImage,
+    savePlantImageFilesToFolder,
     fileToDataUrl,
     blobToDataUrl
 } = uploadUtils;
@@ -3683,6 +3684,59 @@ function savePlantImages() {
     var id = currentPlantForImages.id;
     var urls = currentPlantImageUrls.slice();
     var files = currentPlantImageFiles;
+
+    var plantImageSaveBtn = document.getElementById('plantImageSaveBtn');
+
+    if (files.length > 0 && typeof savePlantImageFilesToFolder === 'function') {
+        plantImageSaveBtn.textContent = '⏳ Saving to folder...';
+        plantImageSaveBtn.disabled = true;
+        savePlantImageFilesToFolder(currentPlantForImages, files).then(function(result) {
+            plantImageSaveBtn.textContent = '💾 Save';
+            plantImageSaveBtn.disabled = false;
+            var all;
+            if (result.success && result.savedPaths && result.savedPaths.length > 0) {
+                all = result.savedPaths;
+                currentPlantForImages.images = all;
+                currentPlantForImages.imageUrl = all[0];
+                localStorage.setItem('plant_' + id + '_images', JSON.stringify(all));
+                localStorage.setItem('plant_' + id + '_imageUrl', all[0]);
+                closePlantImageModal();
+                if (typeof applyAllFilters === 'function') applyAllFilters();
+                if (typeof updatePlantCardImage === 'function') updatePlantCardImage(id, currentPlantForImages.imageUrl);
+            } else {
+                var toDataUrl = (window.uploadUtils && window.uploadUtils.fileToDataUrl) || function(file) {
+                    return new Promise(function(resolve, reject) {
+                        var reader = new FileReader();
+                        reader.onload = function(e) { resolve(e.target.result); };
+                        reader.onerror = reject;
+                        reader.readAsDataURL(file);
+                    });
+                };
+                Promise.all(files.map(toDataUrl)).then(function(dataUrls) {
+                    all = urls.concat(dataUrls);
+                    if (all.length === 0) {
+                        localStorage.removeItem('plant_' + id + '_images');
+                        localStorage.removeItem('plant_' + id + '_imageUrl');
+                        currentPlantForImages.images = [];
+                        currentPlantForImages.imageUrl = '';
+                    } else {
+                        localStorage.setItem('plant_' + id + '_images', JSON.stringify(all));
+                        localStorage.setItem('plant_' + id + '_imageUrl', all[0]);
+                        currentPlantForImages.images = all;
+                        currentPlantForImages.imageUrl = all[0];
+                    }
+                    closePlantImageModal();
+                    if (typeof applyAllFilters === 'function') applyAllFilters();
+                });
+            }
+        }).catch(function() {
+            plantImageSaveBtn.textContent = '💾 Save';
+            plantImageSaveBtn.disabled = false;
+            closePlantImageModal();
+        });
+        return;
+    }
+
     var toDataUrl = (window.uploadUtils && window.uploadUtils.fileToDataUrl) || function(file) {
         return new Promise(function(resolve, reject) {
             var reader = new FileReader();

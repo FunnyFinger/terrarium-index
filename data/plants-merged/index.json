@@ -1,5 +1,5 @@
 {
-  "count": 401,
+  "count": 403,
   "plants": [
     "acalypha-hispida.json",
     "acanthostachys-pitcairnioides.json",
@@ -15,6 +15,7 @@
     "adenium-arabicum.json",
     "adenium-glaucum.json",
     "adiantum-hispidulum.json",
+    "adiantum-pedatum.json",
     "adiantum-raddianum.json",
     "adiantum-reniforme.json",
     "adromischus-marianiae.json",
@@ -349,6 +350,7 @@
     "sphagnum-palustre.json",
     "syngonium-erythrophyllum.json",
     "syngonium-podophyllum.json",
+    "syngonium-podophyllum-pixie.json",
     "syngonium-steyermarkii.json",
     "syntrichia-ruralis.json",
     "taxiphyllum-barbieri.json",

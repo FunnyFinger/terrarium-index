@@ -942,6 +942,53 @@ function findNextAvailableNumber(existingNumbers, maxCheck = 100) {
     return 1;
 }
 
+/**
+ * Save an array of image File objects to the plant's folder on disk (images/{slug}/).
+ * Used by the plant-image-only modal so that "Add or edit images" creates the folder and persists files.
+ * Prompts for folder access if not already granted.
+ */
+async function savePlantImageFilesToFolder(plant, imageFiles) {
+    if (!plant || !imageFiles || imageFiles.length === 0) return { success: false, savedPaths: [] };
+    currentUploadPlant = plant;
+    const snStr = getScientificNameString(plant);
+    let plantFolderName = null;
+    let folderPath = null;
+    if (snStr) {
+        plantFolderName = scientificNameToSlug(snStr);
+        if (plantFolderName) folderPath = 'images/' + plantFolderName;
+    }
+    if (!plantFolderName && plant.name) {
+        plantFolderName = String(plant.name).toLowerCase()
+            .replace(/\s+/g, '-')
+            .replace(/'/g, '')
+            .replace(/[^a-z0-9-]/g, '');
+        folderPath = 'images/' + plantFolderName;
+    }
+    if (!plantFolderName) return { success: false, savedPaths: [] };
+
+    const { existingImages, existingNumbers } = await scanExistingImages(plantFolderName, plant);
+    if (existingImages.length > 0) {
+        currentUploadPlant.images = [...new Set([...(currentUploadPlant.images || []), ...existingImages])];
+    } else if (!currentUploadPlant.images) {
+        currentUploadPlant.images = [];
+    }
+    let currentNumber = findNextAvailableNumber(existingNumbers);
+    const totalImages = imageFiles.length;
+    let savedCount = 0;
+
+    for (let imgIndex = 0; imgIndex < imageFiles.length; imgIndex++) {
+        const result = await saveSingleImage(imageFiles[imgIndex], false, imgIndex, totalImages, plantFolderName, folderPath, currentNumber);
+        if (result && result.success) {
+            savedCount++;
+            currentNumber = result.nextNumber;
+        } else {
+            currentNumber = result ? result.nextNumber : currentNumber + 1;
+        }
+    }
+
+    return { success: savedCount > 0, savedPaths: (currentUploadPlant && currentUploadPlant.images) ? currentUploadPlant.images.slice() : [] };
+}
+
 async function saveImage() {
     const { saveImageBtn, folderStatus, uploadPlantDescription } = elements;
     const allPlants = getAllPlants();
@@ -1272,6 +1319,7 @@ window.uploadUtils = {
     loadImageFromUrl,
     saveImage,
     saveSingleImage,
+    savePlantImageFilesToFolder,
     fileToDataUrl,
     blobToDataUrl
 };
