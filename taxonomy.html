@@ -307,17 +307,195 @@
             100% { transform: rotate(360deg); }
         }
         
-        .tree-legend {
+        .tree-legend-wrapper {
             position: fixed;
             top: 5rem;
-            right: 2rem;
+            right: 1.5rem;
+            z-index: 100;
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+        }
+        
+        .tree-legend-wrapper .control-panel-collapse-btn {
+            border-radius: 8px 0 0 8px;
+            flex-shrink: 0;
+        }
+        
+        .tree-legend {
             background: var(--card-bg);
             padding: 1rem;
-            border-radius: 8px;
-            box-shadow: var(--shadow);
+            border-radius: 0 8px 8px 0;
+            border: 1px solid var(--border-color);
+            border-left: none;
             font-size: 0.85rem;
-            z-index: 100;
             max-width: 250px;
+            box-shadow: var(--shadow);
+        }
+        
+        .tree-legend-wrapper.tree-legend-hidden {
+            display: none;
+        }
+        
+        /* Reopen button on taxonomy: right edge (mirrors index left-edge reopen) */
+        .taxonomy-reopen-btn {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 32px;
+            height: 48px;
+            padding: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 8px 0 0 8px;
+            cursor: pointer;
+            box-shadow: -2px 0 8px rgba(0,0,0,0.15);
+            z-index: 100;
+            transition: background-color 0.2s;
+        }
+        
+        .taxonomy-reopen-btn:hover {
+            background: var(--secondary-color);
+        }
+        
+        .taxonomy-reopen-btn.visible {
+            display: flex;
+        }
+        
+        .taxonomy-reopen-btn.hidden {
+            display: none !important;
+        }
+        
+        .taxonomy-reopen-btn svg {
+            width: 1rem;
+            height: 1rem;
+            color: currentColor;
+        }
+        
+        .tree-legend-header {
+            margin-bottom: 0.25rem;
+        }
+        
+        .tree-legend-header h3 {
+            margin: 0;
+        }
+        
+        .tree-legend-search-wrap {
+            position: relative;
+            margin-bottom: 0.75rem;
+        }
+        
+        .tree-legend-search-input {
+            width: 100%;
+            padding: 0.4rem 0.5rem;
+            font-size: 0.85rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background: var(--bg-color);
+            color: var(--text-color);
+            box-sizing: border-box;
+        }
+        
+        .tree-legend-search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .tree-legend-search-results {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 100%;
+            margin-top: 2px;
+            max-height: 220px;
+            overflow-y: auto;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            box-shadow: var(--shadow);
+            z-index: 200;
+        }
+        
+        .tree-legend-search-results.hidden {
+            display: none !important;
+        }
+        
+        .tree-legend-search-result-item {
+            padding: 0.4rem 0.5rem;
+            font-size: 0.8rem;
+            cursor: default;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-color);
+        }
+        
+        .tree-legend-search-result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .tree-legend-search-result-item:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .tree-legend-search-result-item .result-scientific {
+            font-style: italic;
+            color: var(--text-light);
+        }
+        
+        .tree-legend-search-result-item:hover .result-scientific {
+            color: rgba(255,255,255,0.9);
+        }
+        
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            border: 0;
+        }
+        
+        .tree-node.tree-node-highlight circle:first-of-type {
+            filter: brightness(1.15);
+        }
+        
+        .tree-node.tree-node-highlight .tree-label {
+            font-weight: 700;
+            fill: var(--accent-color);
+        }
+        
+        .tree-node-pulse {
+            fill: none;
+            stroke: var(--accent-color);
+            stroke-width: 2px;
+            pointer-events: none;
+            animation: taxonomy-pulse-ring 1.2s ease-in-out infinite;
+        }
+        
+        @keyframes taxonomy-pulse-ring {
+            0%, 100% { opacity: 0.7; stroke-width: 2; }
+            50% { opacity: 0.25; stroke-width: 1; }
+        }
+        
+        /* Trail highlight: path from node/link up to root */
+        .tree-link.tree-link-trail {
+            stroke: var(--accent-color);
+            stroke-width: 2px;
+            opacity: 0.95;
+        }
+        .tree-node.tree-node-trail circle:first-of-type {
+            filter: brightness(1.1);
+        }
+        .tree-node.tree-node-trail .tree-label {
+            fill: var(--accent-color);
+            font-weight: 600;
         }
         
         .tree-legend h3 {
@@ -433,9 +611,23 @@
             <div class="context-menu-item" id="isolateMenuItem">Isolate Selected Name</div>
         </div>
         
-        <div class="tree-legend">
-            <h3>Taxonomic Ranks</h3>
-            <div class="tree-legend-item">
+        <button type="button" class="taxonomy-reopen-btn hidden" id="treeLegendReopen" title="Show legend &amp; controls" aria-label="Show legend and controls">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2"/><line x1="12" y1="6" x2="20" y2="6"/><circle cx="6" cy="12" r="2"/><line x1="12" y1="12" x2="20" y2="12"/><circle cx="6" cy="18" r="2"/><line x1="12" y1="18" x2="20" y2="18"/></svg>
+        </button>
+        <div class="tree-legend-wrapper" id="treeLegendWrapper">
+            <button type="button" class="control-panel-collapse-btn" id="treeLegendCollapse" title="Hide legend &amp; controls" aria-label="Hide legend and controls">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2"/><line x1="12" y1="6" x2="20" y2="6"/><circle cx="6" cy="12" r="2"/><line x1="12" y1="12" x2="20" y2="12"/><circle cx="6" cy="18" r="2"/><line x1="12" y1="18" x2="20" y2="18"/></svg>
+            </button>
+            <div class="tree-legend" id="treeLegendPanel">
+                <div class="tree-legend-header">
+                    <h3>Taxonomic Ranks</h3>
+                </div>
+                <div class="tree-legend-search-wrap">
+                    <label for="taxonomySearchInput" class="visually-hidden">Search taxonomy</label>
+                    <input type="text" id="taxonomySearchInput" class="tree-legend-search-input" placeholder="Search..." autocomplete="off">
+                    <div id="taxonomySearchResults" class="tree-legend-search-results hidden"></div>
+                </div>
+                <div class="tree-legend-item">
                 <div class="tree-legend-circle" style="background: #1a3009; border-color: #0d1805;"></div>
                 <span>Domain (Life)</span>
             </div>
@@ -471,15 +663,18 @@
                 <button id="btnResetView">Reset view</button>
                 <button id="btnExpand">Expand one level</button>
                 <button id="btnCollapse">Collapse one level</button>
+                <button id="btnClearHighlight" type="button">Clear highlight</button>
+                <button id="btnIsolateHighlighted" type="button">Isolate highlighted</button>
             </div>
             <div class="tree-legend-controls tree-zoom-controls">
                 <label for="zoomLevel" style="display:block;margin-bottom:0.25rem;">Zoom</label>
                 <div style="display:flex;align-items:center;gap:0.5rem;">
                     <button type="button" id="btnZoomOut" aria-label="Zoom out">−</button>
-                    <input type="range" id="zoomLevel" min="50" max="500" value="100" step="5" style="flex:1;">
+                    <input type="range" id="zoomLevel" min="50" max="200" value="100" step="10" style="flex:1;">
                     <button type="button" id="btnZoomIn" aria-label="Zoom in">+</button>
                 </div>
                 <span id="zoomIndicator" style="font-size:0.85rem;color:var(--text-light);">100%</span>
+            </div>
             </div>
         </div>
     </main>

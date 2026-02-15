@@ -11,9 +11,13 @@ let zoom = null;
 let allPlants = [];
 let isolatedNodes = null; // Store which nodes should be visible during isolation
 let nodePositions = new Map(); // Store fixed positions for nodes by their unique identifier
+let fullTreeNodePositions = new Map(); // path -> { x, y } from full tree; used to keep positions when isolated
 let savedZoomTransform = null; // Store zoom transform to preserve pan/zoom state
 let fixedRadiusByDepth = null; // Fixed radius (ring) per depth - set once from full tree, never changed
 let fixedRadiiLocked = false;
+let highlightedNodePathForTrail = null; // Path of node currently highlighted (for trail when not hovering a link)
+let hoveredLinkPath = null; // Path of last hovered link; trail stays until another link is hovered or highlight is cleared
+let lockedLinkPath = null; // When set, this link's trail is locked; only clicking empty space releases it
 
 // Local vernacular names cache (loaded from JSON file)
 let localVernacularNames = null;
@@ -329,7 +333,7 @@ function updateTreeLayout() {
         .attr('width', width)
         .attr('height', height);
     
-    // Create zoom behavior with higher max zoom for better thumbnail visibility
+    // Create zoom behavior (50% to 2000%); slider displays 50–200%
     zoom = d3.zoom()
         .scaleExtent([0.5, 20])
         .on('zoom', (event) => {
@@ -339,11 +343,18 @@ function updateTreeLayout() {
         });
     
     treeSvg.call(zoom);
-    
+    treeSvg.on('click', function(event) {
+        if (event.target === treeSvg.node()) clearTreeHighlight();
+    });
+
     // Create main group
     treeG = treeSvg.append('g');
     
-    // Radial layout - dynamic: adapts to visible node count
+    // Unique path for each node (for search highlight)
+    function getNodePath(d) {
+        const path = (d.ancestors() || []).map(a => (a.data && a.data.name) || '').reverse().join('|');
+        return path ? path.trim() : '';
+    }
     const visibleCount = root.descendants().length;
     const maxRadius = Math.min(width, height) / 1.5;
     // When fewer nodes visible, increase separation so they spread across available space
@@ -391,88 +402,126 @@ function updateTreeLayout() {
             if (r !== undefined) d.y = r;
         });
     }
-    
+
+    // When full tree: save (x,y) per path so isolated view can reuse them. When isolated: restore from saved.
+    if (isolatedNodes === null) {
+        treeData.descendants().forEach(d => {
+            const path = getNodePath(d);
+            if (path) fullTreeNodePositions.set(path, { x: d.x, y: d.y });
+        });
+    } else {
+        treeData.descendants().forEach(d => {
+            const path = getNodePath(d);
+            const stored = path ? fullTreeNodePositions.get(path) : null;
+            if (stored) {
+                d.x = stored.x;
+                d.y = stored.y;
+            }
+        });
+    }
+
     // Center the tree
     const centerX = width / 2;
     const centerY = height / 2;
     
     // Draw links (radial layout) - organic branch-like curves
-    const links = treeG.selectAll('.tree-link')
+    function linkPathD(d) {
+        const source = d.source;
+        const target = d.target;
+        const sourceAngle = source.x;
+        const sourceRadius = source.y;
+        const targetAngle = target.x;
+        const targetRadius = target.y;
+        const x1 = centerX + sourceRadius * Math.cos(sourceAngle - Math.PI / 2);
+        const y1 = centerY + sourceRadius * Math.sin(sourceAngle - Math.PI / 2);
+        const x2 = centerX + targetRadius * Math.cos(targetAngle - Math.PI / 2);
+        const y2 = centerY + targetRadius * Math.sin(targetAngle - Math.PI / 2);
+        const dx = x2 - x1;
+        const dy = y2 - y1;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        const sourceRadialX = Math.cos(sourceAngle - Math.PI / 2);
+        const sourceRadialY = Math.sin(sourceAngle - Math.PI / 2);
+        const cp1x = x1 + sourceRadialX * distance * 0.3;
+        const cp1y = y1 + sourceRadialY * distance * 0.3;
+        const targetRadialX = Math.cos(targetAngle - Math.PI / 2);
+        const targetRadialY = Math.sin(targetAngle - Math.PI / 2);
+        const cp2x = x2 - targetRadialX * distance * 0.3;
+        const cp2y = y2 - targetRadialY * distance * 0.3;
+        const variation = (target.depth % 3) * 0.1 - 0.1;
+        const cp1xVaried = cp1x + variation * distance * 0.2;
+        const cp1yVaried = cp1y + variation * distance * 0.2;
+        return `M ${x1} ${y1} C ${cp1xVaried} ${cp1yVaried}, ${cp2x} ${cp2y}, ${x2} ${y2}`;
+    }
+    const linkGroups = treeG.selectAll('.tree-link-group')
         .data(treeData.links())
         .enter()
-        .append('path')
-        .attr('class', 'tree-link')
-        .attr('d', d => {
-            // Manually create radial path with organic curves
-            const source = d.source;
-            const target = d.target;
-            const sourceAngle = source.x;
-            const sourceRadius = source.y;
-            const targetAngle = target.x;
-            const targetRadius = target.y;
-            
-            const x1 = centerX + sourceRadius * Math.cos(sourceAngle - Math.PI / 2);
-            const y1 = centerY + sourceRadius * Math.sin(sourceAngle - Math.PI / 2);
-            const x2 = centerX + targetRadius * Math.cos(targetAngle - Math.PI / 2);
-            const y2 = centerY + targetRadius * Math.sin(targetAngle - Math.PI / 2);
-            
-            // Create organic branch-like curve using cubic bezier
-            // Control points create a natural branch appearance
-            const dx = x2 - x1;
-            const dy = y2 - y1;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            
-            // Control points positioned to create organic branch curve
-            // First control point: slightly offset toward source's radial direction
-            const sourceRadialX = Math.cos(sourceAngle - Math.PI / 2);
-            const sourceRadialY = Math.sin(sourceAngle - Math.PI / 2);
-            const cp1x = x1 + sourceRadialX * distance * 0.3;
-            const cp1y = y1 + sourceRadialY * distance * 0.3;
-            
-            // Second control point: slightly offset toward target's radial direction
-            const targetRadialX = Math.cos(targetAngle - Math.PI / 2);
-            const targetRadialY = Math.sin(targetAngle - Math.PI / 2);
-            const cp2x = x2 - targetRadialX * distance * 0.3;
-            const cp2y = y2 - targetRadialY * distance * 0.3;
-            
-            // Add slight organic variation based on depth
-            const variation = (target.depth % 3) * 0.1 - 0.1; // -0.1 to 0.1
-            const cp1xVaried = cp1x + variation * distance * 0.2;
-            const cp1yVaried = cp1y + variation * distance * 0.2;
-            
-            return `M ${x1} ${y1} C ${cp1xVaried} ${cp1yVaried}, ${cp2x} ${cp2y}, ${x2} ${y2}`;
+        .append('g')
+        .attr('class', 'tree-link-group');
+
+    // Invisible wide hit area (same path) so thin lines are easy to hover/click; no visual change
+    linkGroups.append('path')
+        .attr('class', 'tree-link-hit')
+        .attr('d', linkPathD)
+        .attr('fill', 'none')
+        .attr('stroke', 'transparent')
+        .attr('stroke-width', 24)
+        .style('pointer-events', 'stroke')
+        .attr('data-target-path', d => getNodePath(d.target))
+        .on('mouseenter', function() {
+            if (lockedLinkPath) return;
+            const path = (d3.select(this).attr('data-target-path') || '').trim();
+            if (path) {
+                hoveredLinkPath = path;
+                highlightTrailToRoot(path);
+            }
         })
+        .on('mouseleave', function() {})
+        .on('click', function(event) {
+            event.stopPropagation();
+            const path = (d3.select(this).attr('data-target-path') || '').trim();
+            if (path) {
+                lockedLinkPath = path;
+                hoveredLinkPath = path;
+                highlightTrailToRoot(path);
+            }
+        });
+
+    // Visible path (appearance unchanged; pointer-events none so hit area receives events)
+    linkGroups.append('path')
+        .attr('class', 'tree-link')
+        .attr('d', linkPathD)
         .attr('stroke-width', d => {
-            // Vary thickness based on hierarchy - heavy at root, lighter at deeper levels
             const depth = d.target.depth;
-            
-            // Start with heavy lines (4px) at root, decrease to thin (0.8px) at deepest level
             if (maxDepth === 0) return 4;
             const normalizedDepth = depth / maxDepth;
-            // Exponential decrease: heavy to light
             const thickness = 4 * Math.pow(0.6, normalizedDepth * 2);
             return Math.max(0.8, thickness);
         })
         .attr('opacity', d => {
-            // Also make lines lighter (more transparent) as depth increases
             const depth = d.target.depth;
-            
             if (maxDepth === 0) return 1;
             const normalizedDepth = depth / maxDepth;
-            // Start at 1.0 (fully opaque) at root, decrease to 0.75 at deepest level (less transparent)
             return 1 - (normalizedDepth * 0.25);
-        });
-    
+        })
+        .attr('data-target-path', d => getNodePath(d.target))
+        .style('pointer-events', 'none');
+
     // Draw nodes at exact tree positions (no position variation to maintain tree structure)
     const nodes = treeG.selectAll('.tree-node')
         .data(treeData.descendants())
         .enter()
         .append('g')
         .attr('class', 'tree-node')
+        .attr('data-tree-path', d => getNodePath(d))
         .attr('transform', d => {
             const x = centerX + d.y * Math.cos(d.x - Math.PI / 2);
             const y = centerY + d.y * Math.sin(d.x - Math.PI / 2);
             return `translate(${x},${y})`;
+        })
+        .each(function(d) {
+            const x = centerX + d.y * Math.cos(d.x - Math.PI / 2);
+            const y = centerY + d.y * Math.sin(d.x - Math.PI / 2);
+            d3.select(this).attr('data-node-x', x).attr('data-node-y', y);
         });
     
     // Add circles for nodes with organic size variation
@@ -776,6 +825,8 @@ function updateTreeLayout() {
     // Add right-click handlers for context menu (skip "Life" domain node)
     nodes.filter(d => !(d.data.rank === 'domain' && d.data.name === 'Life'))
         .on('contextmenu', function(event, d) {
+            event.preventDefault();
+            event.stopPropagation();
             showContextMenu(event, d);
         });
     
@@ -941,17 +992,108 @@ function getNodeRadius(d) {
     return byRank[rank] !== undefined ? byRank[rank] : 3;
 }
 
+// Map scale k (0.5–20) to slider display (50–200%)
+function scaleToSliderDisplay(k) {
+    return 50 + (k - 0.5) * (150 / 19.5);
+}
+// Map slider value (50–200) to scale (0.5–20)
+function sliderDisplayToScale(displayPct) {
+    return 0.5 + (displayPct - 50) * (19.5 / 150);
+}
+
 // Update zoom level indicator and slider to match current transform
 function updateZoomIndicator() {
     const indicator = document.getElementById('zoomIndicator');
     const slider = document.getElementById('zoomLevel');
     if (!indicator || !savedZoomTransform) return;
-    const pct = Math.round(savedZoomTransform.k * 100);
-    indicator.textContent = pct + '%';
-    if (slider) {
-        const val = Math.min(500, Math.max(50, pct));
-        if (parseInt(slider.value, 10) !== val) slider.value = val;
+    const displayPct = Math.round(scaleToSliderDisplay(savedZoomTransform.k));
+    const clamped = Math.min(200, Math.max(50, displayPct));
+    indicator.textContent = clamped + '%';
+    if (slider && parseInt(slider.value, 10) !== clamped) slider.value = clamped;
+}
+
+// Ancestor paths for trail (path and all prefixes, e.g. "A|B|C" -> ["A", "A|B", "A|B|C"])
+function getAncestorPaths(path) {
+    if (!path || typeof path !== 'string') return [];
+    const parts = path.trim().split('|').filter(Boolean);
+    return parts.map((_, i) => parts.slice(0, i + 1).join('|'));
+}
+
+// Highlight the path from the given node path up to the root (links + nodes)
+function highlightTrailToRoot(nodePath) {
+    if (!treeG || !nodePath) return;
+    const ancestorPaths = getAncestorPaths(nodePath);
+    if (ancestorPaths.length === 0) return;
+    const set = new Set(ancestorPaths);
+    treeG.selectAll('.tree-link').classed('tree-link-trail', function() {
+        return set.has((d3.select(this).attr('data-target-path') || '').trim());
+    });
+    treeG.selectAll('.tree-node').classed('tree-node-trail', function() {
+        return set.has((d3.select(this).attr('data-tree-path') || '').trim());
+    });
+}
+
+// Clear trail highlight only (links and nodes)
+function clearTrailHighlight() {
+    if (treeG) {
+        treeG.selectAll('.tree-link').classed('tree-link-trail', false);
+        treeG.selectAll('.tree-node').classed('tree-node-trail', false);
     }
+}
+
+// Remove search highlight, pulse ring, and trail from the tree
+function clearTreeHighlight() {
+    if (treeG) {
+        treeG.selectAll('.tree-node').classed('tree-node-highlight', false);
+        treeG.selectAll('.tree-node-pulse').remove();
+    }
+    highlightedNodePathForTrail = null;
+    hoveredLinkPath = null;
+    lockedLinkPath = null;
+    clearTrailHighlight();
+}
+
+// Duration for smooth zoom/pan transitions (ms)
+const TAXONOMY_ZOOM_TRANSITION_DURATION = 500;
+
+// Center the view on a tree node (by its data-node-x, data-node-y)
+function centerViewOnNode(nodeElement) {
+    if (!nodeElement || !treeSvg || !treeSvg.node() || !zoom) return;
+    const x = parseFloat(nodeElement.getAttribute('data-node-x'), 10);
+    const y = parseFloat(nodeElement.getAttribute('data-node-y'), 10);
+    if (isNaN(x) || isNaN(y)) return;
+    const container = document.getElementById('taxonomyTree');
+    const width = container ? container.clientWidth : window.innerWidth;
+    const height = container ? container.clientHeight : window.innerHeight - 200;
+    const t = savedZoomTransform || d3.zoomIdentity;
+    const newTx = width / 2 - x * t.k;
+    const newTy = height / 2 - y * t.k;
+    const newTransform = d3.zoomIdentity.translate(newTx, newTy).scale(t.k);
+    treeSvg.transition().duration(TAXONOMY_ZOOM_TRANSITION_DURATION).ease(d3.easeCubicInOut).call(zoom.transform, newTransform);
+    savedZoomTransform = newTransform;
+    updateZoomIndicator();
+}
+
+// Center and zoom in on a tree node (e.g. on click from search results).
+// If zoomToAbsolute is true, scaleMultiplier is the target scale (e.g. 20 = 2000%); else it multiplies current scale.
+function centerViewOnNodeWithZoom(nodeElement, scaleMultiplier, zoomToAbsolute) {
+    if (!nodeElement || !treeSvg || !treeSvg.node() || !zoom) return;
+    const x = parseFloat(nodeElement.getAttribute('data-node-x'), 10);
+    const y = parseFloat(nodeElement.getAttribute('data-node-y'), 10);
+    if (isNaN(x) || isNaN(y)) return;
+    const container = document.getElementById('taxonomyTree');
+    const width = container ? container.clientWidth : window.innerWidth;
+    const height = container ? container.clientHeight : window.innerHeight - 200;
+    const t = savedZoomTransform || d3.zoomIdentity;
+    const k = zoomToAbsolute
+        ? Math.min(20, Math.max(0.5, scaleMultiplier))
+        : Math.min(20, Math.max(0.5, t.k * (scaleMultiplier || 2)));
+    const newTx = width / 2 - x * k;
+    const newTy = height / 2 - y * k;
+    const newTransform = d3.zoomIdentity.translate(newTx, newTy).scale(k);
+    treeSvg.transition().duration(TAXONOMY_ZOOM_TRANSITION_DURATION).ease(d3.easeCubicInOut).call(zoom.transform, newTransform);
+    savedZoomTransform = newTransform;
+    updateZoomIndicator();
 }
 
 // Set zoom by scale factor (1 = 100%), keeping viewport center fixed
@@ -967,7 +1109,7 @@ function setZoomLevel(scaleFactor) {
     const x = cx - (cx - t.x) * (k / t.k);
     const y = cy - (cy - t.y) * (k / t.k);
     const newTransform = d3.zoomIdentity.translate(x, y).scale(k);
-    treeSvg.call(zoom.transform, newTransform);
+    treeSvg.transition().duration(TAXONOMY_ZOOM_TRANSITION_DURATION).ease(d3.easeCubicInOut).call(zoom.transform, newTransform);
     savedZoomTransform = newTransform;
     updateZoomIndicator();
 }
@@ -1865,8 +2007,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (zoomLevelInput) {
         zoomLevelInput.addEventListener('input', () => {
-            const pct = parseInt(zoomLevelInput.value, 10);
-            if (!isNaN(pct)) setZoomLevel(pct / 100);
+            const displayPct = parseInt(zoomLevelInput.value, 10);
+            if (!isNaN(displayPct)) setZoomLevel(sliderDisplayToScale(displayPct));
         });
     }
     document.getElementById('btnCollapse').addEventListener('click', () => {
@@ -1883,6 +2025,197 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             expandOneLevel();
+        }
+    });
+    const btnClearHighlight = document.getElementById('btnClearHighlight');
+    if (btnClearHighlight) btnClearHighlight.addEventListener('click', clearTreeHighlight);
+    const btnIsolateHighlighted = document.getElementById('btnIsolateHighlighted');
+    if (btnIsolateHighlighted) {
+        btnIsolateHighlighted.addEventListener('click', () => {
+            const path = lockedLinkPath || hoveredLinkPath || highlightedNodePathForTrail;
+            if (path) isolateNodeByPath(path);
+        });
+    }
+
+    // Hideable control panel – same behavior as cards page: collapse btn on panel, reopen btn when hidden
+    const treeLegendWrapper = document.getElementById('treeLegendWrapper');
+    const treeLegendCollapse = document.getElementById('treeLegendCollapse');
+    const treeLegendReopen = document.getElementById('treeLegendReopen');
+    const TAXONOMY_LEGEND_HIDDEN_KEY = 'taxonomyLegendHidden';
+    function setLegendPanelVisible(visible) {
+        if (!treeLegendWrapper || !treeLegendReopen) return;
+        if (visible) {
+            treeLegendWrapper.classList.remove('tree-legend-hidden');
+            treeLegendWrapper.style.display = '';
+            treeLegendReopen.classList.remove('visible');
+            treeLegendReopen.classList.add('hidden');
+        } else {
+            treeLegendWrapper.classList.add('tree-legend-hidden');
+            treeLegendWrapper.style.display = 'none';
+            treeLegendReopen.classList.add('visible');
+            treeLegendReopen.classList.remove('hidden');
+        }
+        try { localStorage.setItem(TAXONOMY_LEGEND_HIDDEN_KEY, visible ? '0' : '1'); } catch (e) { }
+    }
+    if (treeLegendCollapse) {
+        treeLegendCollapse.addEventListener('click', () => setLegendPanelVisible(false));
+    }
+    if (treeLegendReopen) {
+        treeLegendReopen.addEventListener('click', () => setLegendPanelVisible(true));
+    }
+    try {
+        const hidden = localStorage.getItem(TAXONOMY_LEGEND_HIDDEN_KEY) === '1';
+        if (hidden) setLegendPanelVisible(false);
+    } catch (e) { }
+    
+    // Taxonomy search: list results while typing, highlight in tree on hover
+    const taxonomySearchInput = document.getElementById('taxonomySearchInput');
+    const taxonomySearchResults = document.getElementById('taxonomySearchResults');
+    const MAX_SEARCH_RESULTS = 50;
+    let searchDebounceTimer = null;
+    function escapeHtmlTax(s) {
+        if (s == null) return '';
+        const t = String(s);
+        return t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+    
+    function getNodePathFromNode(d) {
+        const path = (d.ancestors() || []).map(a => (a.data && a.data.name) || '').reverse().join('|');
+        return path ? path.trim() : '';
+    }
+    
+    function renderSearchResults(matches) {
+        if (!taxonomySearchResults) return;
+        taxonomySearchResults.innerHTML = '';
+        if (!matches || matches.length === 0) {
+            taxonomySearchResults.classList.add('hidden');
+            return;
+        }
+        taxonomySearchResults.classList.remove('hidden');
+        matches.forEach(m => {
+            const item = document.createElement('div');
+            item.className = 'tree-legend-search-result-item';
+            item.dataset.path = (m.path || '').trim();
+            if (m.scientific) {
+                item.innerHTML = `<span class="result-scientific">${escapeHtmlTax(m.scientific)}</span>${m.label ? ' — ' + escapeHtmlTax(m.label) : ''}`;
+            } else {
+                item.textContent = m.label || m.scientific || '';
+            }
+            item.addEventListener('mouseenter', () => {
+                if (!treeG || !treeSvg) return;
+                const path = (item.dataset.path || '').trim();
+                if (!path) return;
+                // Clear previous highlight and pulse circles
+                treeG.selectAll('.tree-node').classed('tree-node-highlight', false);
+                treeG.selectAll('.tree-node-pulse').remove();
+                const selected = treeG.selectAll('.tree-node').filter(function() {
+                    return (d3.select(this).attr('data-tree-path') || '').trim() === path;
+                });
+                if (selected.empty()) return;
+                selected.classed('tree-node-highlight', true);
+                highlightedNodePathForTrail = path;
+                hoveredLinkPath = null;
+                lockedLinkPath = null;
+                highlightTrailToRoot(path);
+                // Add pulsing circle (r slightly larger than node circle)
+                selected.each(function() {
+                    const g = d3.select(this);
+                    const nodeCircle = g.select('circle');
+                    const r = (nodeCircle.size() && !isNaN(parseFloat(nodeCircle.attr('r'), 10)))
+                        ? parseFloat(nodeCircle.attr('r'), 10) + 10
+                        : 14;
+                    g.insert('circle', ':first-child')
+                        .attr('class', 'tree-node-pulse')
+                        .attr('r', r);
+                });
+                centerViewOnNode(selected.node());
+            });
+            item.addEventListener('mouseleave', () => {
+                if (treeG) {
+                    treeG.selectAll('.tree-node').classed('tree-node-highlight', false);
+                    treeG.selectAll('.tree-node-pulse').remove();
+                }
+                highlightedNodePathForTrail = null;
+                clearTrailHighlight();
+            });
+            item.addEventListener('click', () => {
+                if (!treeG || !treeSvg) return;
+                const path = (item.dataset.path || '').trim();
+                if (!path) return;
+                treeG.selectAll('.tree-node').classed('tree-node-highlight', false);
+                treeG.selectAll('.tree-node-pulse').remove();
+                const selected = treeG.selectAll('.tree-node').filter(function() {
+                    return (d3.select(this).attr('data-tree-path') || '').trim() === path;
+                });
+                if (selected.empty()) return;
+                selected.classed('tree-node-highlight', true);
+                highlightedNodePathForTrail = path;
+                hoveredLinkPath = null;
+                lockedLinkPath = null;
+                highlightTrailToRoot(path);
+                selected.each(function() {
+                    const g = d3.select(this);
+                    const nodeCircle = g.select('circle');
+                    const r = (nodeCircle.size() && !isNaN(parseFloat(nodeCircle.attr('r'), 10)))
+                        ? parseFloat(nodeCircle.attr('r'), 10) + 10
+                        : 14;
+                    g.insert('circle', ':first-child')
+                        .attr('class', 'tree-node-pulse')
+                        .attr('r', r);
+                });
+                centerViewOnNodeWithZoom(selected.node(), 20, true);
+                if (taxonomySearchInput) taxonomySearchInput.value = '';
+                renderSearchResults([]);
+            });
+            taxonomySearchResults.appendChild(item);
+        });
+    }
+    
+    function runTaxonomySearch() {
+        const q = (taxonomySearchInput && taxonomySearchInput.value.trim()) || '';
+        if (!q || !root) {
+            renderSearchResults([]);
+            return;
+        }
+        const lower = q.toLowerCase();
+        const matches = [];
+        root.descendants().forEach(d => {
+            const path = getNodePathFromNode(d);
+            const name = (d.data.name || '').toLowerCase();
+            if (name.includes(lower)) {
+                const label = d.data.rank === 'species' && d.data.plants && d.data.plants.length > 0
+                    ? (d.data.plants.length > 1 ? `${d.data.name} (${d.data.plants.length})` : d.data.name)
+                    : d.data.name;
+                matches.push({ path, label, scientific: d.data.rank === 'species' ? d.data.name : null });
+            } else if (d.data.rank === 'species' && d.data.plants && d.data.plants.length > 0) {
+                for (const p of d.data.plants) {
+                    const pName = (p.name || '').toLowerCase();
+                    const pSci = (p.scientificName || '').toLowerCase();
+                    if (pName.includes(lower) || pSci.includes(lower)) {
+                        matches.push({
+                            path,
+                            label: p.name || p.scientificName,
+                            scientific: p.scientificName || d.data.name
+                        });
+                        break;
+                    }
+                }
+            }
+        });
+        renderSearchResults(matches.slice(0, MAX_SEARCH_RESULTS));
+    }
+    
+    if (taxonomySearchInput) {
+        taxonomySearchInput.addEventListener('input', () => {
+            clearTimeout(searchDebounceTimer);
+            searchDebounceTimer = setTimeout(runTaxonomySearch, 150);
+        });
+        taxonomySearchInput.addEventListener('focus', () => { if (taxonomySearchInput.value.trim()) runTaxonomySearch(); });
+    }
+    document.addEventListener('click', (e) => {
+        if (taxonomySearchResults && !taxonomySearchResults.classList.contains('hidden') &&
+            !taxonomySearchResults.contains(e.target) && e.target !== taxonomySearchInput) {
+            taxonomySearchResults.classList.add('hidden');
         }
     });
     
@@ -2288,6 +2621,32 @@ function restoreOriginalTree() {
             d._children = null;
         }
     });
+}
+
+// Find a node in the tree by its path string (e.g. "Life|Eukaryota|Plantae|...")
+function findNodeByPathString(fromRoot, pathString) {
+    if (!fromRoot || !pathString || typeof pathString !== 'string') return null;
+    const parts = pathString.trim().split('|').filter(Boolean);
+    if (parts.length === 0) return null;
+    let node = fromRoot;
+    const name = (node.data && node.data.name) || node.name || '';
+    if (name !== parts[0]) return null;
+    for (let i = 1; i < parts.length; i++) {
+        const want = parts[i];
+        if (!node.children) return null;
+        const child = node.children.find(c => ((c.data && c.data.name) || c.name || '') === want);
+        if (!child) return null;
+        node = child;
+    }
+    return node;
+}
+
+// Isolate the branch for the node at the given path (from highlighted/locked link or search highlight)
+function isolateNodeByPath(pathString) {
+    if (!pathString || !taxonomyData) return;
+    restoreOriginalTree();
+    const node = findNodeByPathString(root, pathString);
+    if (node) isolateNode(node);
 }
 
 // Isolate selected node - show only direct parents up to Life and all children down to species
