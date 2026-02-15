@@ -165,15 +165,26 @@ function mapPlantToInputs(plant) {
     if (plant.substrateType && typeof plant.substrateType === 'string') {
         inputs.substrate = plant.substrateType;
     } else {
-        // Fallback: parse from text
-    const substrateStr = (plant.substrate || '').toLowerCase();
+        // Fallback: parse from text (or use standardized substrate categories)
+    const substrateStr = (plant.substrate || '').toLowerCase().trim();
     const growthHabit = (plant.growthHabit || '').toLowerCase();
     const category = Array.isArray(plant.category) ? plant.category.map(c => String(c).toLowerCase()) : [];
     const nameStr = (plant.name || '').toLowerCase();
     const descriptionStr = (plant.description || '').toLowerCase();
     const scientificNameStr = (plant.scientificName || '').toLowerCase();
         const humidityStr = (plant.humidity || '').toLowerCase();
-    
+
+    // Map standardized substrate values (Well Draining, Moist, Epiphytic, Attached, None) to internal scale
+    if (substrateStr === 'well draining') {
+        inputs.substrate = 'dry';
+    } else if (substrateStr === 'moist') {
+        inputs.substrate = 'moist';
+    } else if (substrateStr === 'epiphytic') {
+        inputs.substrate = 'epiphytic';
+    } else if (substrateStr === 'attached') {
+        inputs.substrate = 'epiphytic';
+    } else {
+        // For 'none' or legacy text values, use existing logic
     const isAquatic = substrateStr.includes('aquatic') || 
                      growthHabit === 'aquatic' || 
                      category.includes('aquatic') || 
@@ -197,6 +208,7 @@ function mapPlantToInputs(plant) {
     } else {
             inputs.substrate = 'moist';
         }
+    }
     }
     
     // Water needs mapping - use standardized range if available, otherwise parse from text

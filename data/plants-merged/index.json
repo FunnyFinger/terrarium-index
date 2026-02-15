@@ -1,5 +1,5 @@
 {
-  "count": 399,
+  "count": 401,
   "plants": [
     "acalypha-hispida.json",
     "acanthostachys-pitcairnioides.json",
@@ -281,6 +281,7 @@
     "opuntia-jamaicensis.json",
     "opuntia-microdasys.json",
     "oxalis-triangularis.json",
+    "oxalis-vulcanicola.json",
     "pellaea-rotundifolia.json",
     "pellionia-repens.json",
     "peperomia-argyreia.json",
@@ -305,6 +306,7 @@
     "philodendron-sodiroi.json",
     "philodendron-squamiferum.json",
     "phlebodium-aureum.json",
+    "phlebodium-pseudoaureum.json",
     "phyllanthus-fluitans.json",
     "pilea-cadierei.json",
     "pilea-depressa.json",

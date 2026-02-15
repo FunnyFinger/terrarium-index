@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plant Information Definitions - Vivarium Plant Index</title>
+    <title>Plant Information Definitions - Vivarium Store</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="shortcut icon" href="favicon.ico">
@@ -278,6 +278,13 @@
             transform: scale(1.1);
         }
 
+        .mobile-nav-toggle-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            display: block;
+            color: currentColor;
+        }
+
         @media (max-width: 1024px) {
             .definitions-wrapper {
                 flex-direction: column;
@@ -323,33 +330,8 @@
 <body>
     <header>
         <div class="banner">
-            <img src="images/banner.jpg" alt="Vivarium Plant Index banner" class="banner-image">
-            <!-- Navigation Bar -->
-            <nav class="main-nav">
-                <div class="nav-container">
-                    <div class="nav-logo">
-                        <a href="index.html" class="logo-link">
-                            <span class="logo-text">Vivarium Plant Index</span>
-                        </a>
-                    </div>
-                    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </button>
-                    <ul class="nav-menu" id="navMenu">
-                        <li class="nav-item">
-                            <a href="index.html" class="nav-link">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="definitions.html" class="nav-link active">Definitions</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="taxonomy.html" class="nav-link">Taxonomy</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+            <img src="images/banner.jpg" alt="Vivarium Store banner" class="banner-image">
+            <div id="main-nav-container"></div>
             <div class="banner-overlay">
                 <h1>Plant Information Definitions</h1>
                 <p class="subtitle">Comprehensive guide to understanding plant data fields and terminology</p>
@@ -358,7 +340,7 @@
     </header>
 
     <main class="container">
-        <a href="index.html" class="back-link" style="display: inline-block; margin: 2rem 2rem 1rem; color: var(--primary-color); text-decoration: none; font-weight: 600; transition: color 0.3s;">← Back to Plant Index</a>
+        <a href="index.html" class="back-link" style="display: inline-block; margin: 2rem 2rem 1rem; color: var(--primary-color); text-decoration: none; font-weight: 600; transition: color 0.3s;">← Back to Store</a>
         
         <div class="definitions-wrapper">
             <!-- Side Navigation -->
@@ -381,15 +363,18 @@
                             </div>
     </main>
 
-    <!-- Mobile Navigation Toggle -->
-    <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle navigation">☰</button>
+    <!-- Definitions sidebar toggle (mobile) -->
+    <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle definitions sidebar">
+            <svg class="mobile-nav-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
 
     <footer>
         <div class="container">
-            <p>&copy; 2024 Vivarium Plant Index | Comprehensive plant database for all enclosed ecosystems</p>
+            <p>&copy; 2024 Vivarium Store | Comprehensive plant database for all enclosed ecosystems</p>
                         </div>
     </footer>
 
+    <script src="js/nav.js"></script>
     <script>
         // Navigation data structure
         const navigationData = {
@@ -1203,34 +1188,6 @@
             renderVivariumScales();
         }
 
-        // Navigation functionality
-        function initNavigation() {
-            const navToggle = document.getElementById('navToggle');
-            const navMenu = document.getElementById('navMenu');
-            
-            if (navToggle && navMenu) {
-                navToggle.addEventListener('click', () => {
-                    navToggle.classList.toggle('active');
-                    navMenu.classList.toggle('active');
-                });
-                
-                const navLinks = navMenu.querySelectorAll('.nav-link');
-                navLinks.forEach(link => {
-                    link.addEventListener('click', () => {
-                        navToggle.classList.remove('active');
-                        navMenu.classList.remove('active');
-                    });
-                });
-                
-                document.addEventListener('click', (e) => {
-                    if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
-                        navToggle.classList.remove('active');
-                        navMenu.classList.remove('active');
-                    }
-                });
-            }
-        }
-
         // Mobile sidebar toggle
         function initMobileNav() {
             const mobileToggle = document.getElementById('mobileNavToggle');
@@ -1438,7 +1395,6 @@
 
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', () => {
-            initNavigation();
             initMobileNav();
             generateNavigation();
             

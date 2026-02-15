@@ -15,11 +15,199 @@ let getImagesFolderHandle = () => null;
 let setImagesFolderHandle = () => {};
 let getPlantsMergedFolderHandle = () => null;
 let setPlantsMergedFolderHandle = () => {};
+let getScientificNameString = (plant) => (plant && (typeof plant.scientificName === 'string' ? plant.scientificName : (plant.scientificName && (plant.scientificName.scientificName || plant.scientificName.name || plant.scientificName.uninomial)) || plant.name)) || '';
+let savePlantToJsonFile = () => {};
+let getColTaxonId = async () => null;
+let getCalculatedVivariumTypes = () => [];
 
 let currentUploadPlant = null;
 let currentImageFile = null;
 let currentImageFiles = [];
 let currentImageUrl = null;
+
+// Plant detail fields: element key in elements object -> plant object field name (size is handled separately with min/max)
+var GROWTH_RATE_OPTIONS = ['Slow', 'Moderate', 'Fast'];
+
+var SUBSTRATE_OPTIONS = ['Well Draining', 'Moist', 'Epiphytic', 'Attached', 'None'];
+
+var PLANT_DETAIL_FIELDS = [
+    { el: 'uploadPlantType', field: 'plantType' },
+    { el: 'uploadSubstrate', field: 'substrate', fixedOptions: SUBSTRATE_OPTIONS },
+    { el: 'uploadGrowthRate', field: 'growthRate', fixedOptions: GROWTH_RATE_OPTIONS },
+    { el: 'uploadRarity', field: 'rarity' },
+    { el: 'uploadGrowthPattern', field: 'growthPattern' },
+    { el: 'uploadGrowthHabit', field: 'growthHabit' },
+    { el: 'uploadHazard', field: 'hazard' },
+    { el: 'uploadFloweringPeriod', field: 'floweringPeriod' }
+];
+
+var REQUIREMENT_RANGE_FIELDS = [
+    { key: 'humidityRange', minEl: 'uploadHumidityMin', maxEl: 'uploadHumidityMax' },
+    { key: 'lightRange', minEl: 'uploadLightMin', maxEl: 'uploadLightMax' },
+    { key: 'temperatureRange', minEl: 'uploadTempMin', maxEl: 'uploadTempMax' },
+    { key: 'airCirculationRange', minEl: 'uploadAirCircMin', maxEl: 'uploadAirCircMax' },
+    { key: 'waterNeedsRange', minEl: 'uploadWaterNeedsMin', maxEl: 'uploadWaterNeedsMax' },
+    { key: 'difficultyRange', minEl: 'uploadDifficultyMin', maxEl: 'uploadDifficultyMax' },
+    { key: 'growthRateRange', minEl: 'uploadGrowthRateMin', maxEl: 'uploadGrowthRateMax' },
+    { key: 'soilPhRange', minEl: 'uploadSoilPhMin', maxEl: 'uploadSoilPhMax' }
+];
+
+var SUITABLE_FOR_OPTIONS = [
+    { value: 'open-terrarium', label: 'Open Terrarium' },
+    { value: 'closed-terrarium', label: 'Closed Terrarium' },
+    { value: 'paludarium', label: 'Paludarium' },
+    { value: 'riparium', label: 'Riparium' },
+    { value: 'aquarium', label: 'Aquarium' },
+    { value: 'aerarium', label: 'Aerarium' },
+    { value: 'deserterium', label: 'Deserterium' },
+    { value: 'indoor', label: 'Indoor' },
+    { value: 'outdoor', label: 'Outdoor' }
+];
+
+var SUITABLE_FOR_LABEL_TO_VALUE = {};
+SUITABLE_FOR_OPTIONS.forEach(function (o) { SUITABLE_FOR_LABEL_TO_VALUE[o.label] = o.value; });
+
+function renderSuitableForTags(selectedValues) {
+    var container = elements.uploadSuitableForTags;
+    if (!container) return;
+    var set = new Set(Array.isArray(selectedValues) ? selectedValues.map(String) : []);
+    container.innerHTML = '';
+    SUITABLE_FOR_OPTIONS.forEach(function (opt) {
+        var selected = set.has(opt.value);
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'edit-plant-tag' + (selected ? ' edit-plant-tag-selected ' + opt.value : '');
+        btn.setAttribute('data-value', opt.value);
+        btn.textContent = opt.label;
+        btn.addEventListener('click', function () {
+            btn.classList.toggle('edit-plant-tag-selected');
+            btn.classList.toggle(opt.value);
+        });
+        container.appendChild(btn);
+    });
+}
+
+function getUniqueValuesForField(plants, fieldName) {
+    var set = new Set();
+    if (!plants || !plants.length) return [];
+    plants.forEach(function (p) {
+        var v = p[fieldName];
+        if (v == null) return;
+        if (typeof v === 'string' && v.trim()) set.add(v.trim());
+        if (Array.isArray(v)) v.forEach(function (x) { if (x && String(x).trim()) set.add(String(x).trim()); });
+    });
+    return Array.from(set).sort();
+}
+
+function populatePlantDetailSelects(plants) {
+    PLANT_DETAIL_FIELDS.forEach(function (_) {
+        var select = elements[_.el];
+        if (!select) return;
+        var options = _.fixedOptions ? _.fixedOptions : getUniqueValuesForField(plants, _.field);
+        var current = currentUploadPlant && currentUploadPlant[_.field];
+        var currentStr = (current != null && current !== '') ? String(current).trim() : '';
+        select.innerHTML = '<option value="">—</option>' + options.map(function (o) {
+            return '<option value="' + escapeHtml(o) + '">' + escapeHtml(o) + '</option>';
+        }).join('');
+        select.value = (options.indexOf(currentStr) !== -1) ? currentStr : '';
+    });
+}
+function escapeHtml(s) {
+    var div = document.createElement('div');
+    div.textContent = s;
+    return div.innerHTML;
+}
+function parseSizeToMinMax(sizeStr) {
+    if (!sizeStr || typeof sizeStr !== 'string') return { min: '', max: '' };
+    var m = sizeStr.trim().match(/(\d+(?:\.\d+)?)\s*[-–]\s*(\d+(?:\.\d+)?)/);
+    if (m) return { min: m[1], max: m[2] };
+    var single = sizeStr.trim().match(/(\d+(?:\.\d+)?)/);
+    if (single) return { min: single[1], max: single[1] };
+    return { min: '', max: '' };
+}
+function sizeMinMaxToString(min, max) {
+    var a = (min != null && String(min).trim() !== '') ? String(min).trim() : '';
+    var b = (max != null && String(max).trim() !== '') ? String(max).trim() : '';
+    if (!a && !b) return '';
+    if (a && b) return a + '-' + b + ' cm';
+    return (a || b) + ' cm';
+}
+function readPlantDetailsFromForm() {
+    if (!currentUploadPlant) return;
+    PLANT_DETAIL_FIELDS.forEach(function (_) {
+        var select = elements[_.el];
+        if (!select) return;
+        var v = select.value ? select.value.trim() : '';
+        currentUploadPlant[_.field] = v || '';
+    });
+    var minEl = elements.uploadSizeMin;
+    var maxEl = elements.uploadSizeMax;
+    if (minEl && maxEl) {
+        currentUploadPlant.size = sizeMinMaxToString(minEl.value, maxEl.value);
+    }
+    var priceEl = elements.uploadPrice;
+    var costEl = elements.uploadCost;
+    var invEl = elements.uploadInventory;
+    var reorderEl = elements.uploadReorder;
+    if (priceEl) {
+        var p = priceEl.value.trim();
+        currentUploadPlant.price = p === '' ? undefined : (parseFloat(p) || undefined);
+    }
+    if (costEl) {
+        var c = costEl.value.trim();
+        currentUploadPlant.costPrice = c === '' ? undefined : (parseFloat(c) || undefined);
+    }
+    if (invEl) {
+        var q = invEl.value.trim();
+        currentUploadPlant.stockQuantity = q === '' ? 0 : (parseInt(q, 10) || 0);
+    }
+    if (reorderEl) {
+        var r = reorderEl.value.trim();
+        currentUploadPlant.reorderLevel = r === '' ? undefined : (parseInt(r, 10));
+        if (currentUploadPlant.reorderLevel !== undefined && isNaN(currentUploadPlant.reorderLevel)) currentUploadPlant.reorderLevel = undefined;
+    }
+    var sciNameEl = elements.uploadScientificName;
+    var commonNamesEl = elements.uploadCommonNames;
+    if (sciNameEl) {
+        currentUploadPlant.scientificName = sciNameEl.value ? sciNameEl.value.trim() : '';
+    }
+    if (commonNamesEl) {
+        var raw = commonNamesEl.value || '';
+        currentUploadPlant.commonNames = raw.split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+    }
+    var colUrlEl = elements.uploadCatalogueOfLifeUrl;
+    if (colUrlEl) {
+        currentUploadPlant.catalogueOfLifeUrl = colUrlEl.value ? colUrlEl.value.trim() : '';
+    }
+    var suitableContainer = elements.uploadSuitableForTags;
+    if (suitableContainer) {
+        var selected = [];
+        suitableContainer.querySelectorAll('.edit-plant-tag-selected').forEach(function (el) {
+            var v = el.getAttribute('data-value');
+            if (v) selected.push(v);
+        });
+        currentUploadPlant.suitableFor = selected;
+    }
+    REQUIREMENT_RANGE_FIELDS.forEach(function (_) {
+        var minEl = elements[_.minEl];
+        var maxEl = elements[_.maxEl];
+        if (!minEl || !maxEl) return;
+        var minVal = minEl.value.trim();
+        var maxVal = maxEl.value.trim();
+        var minNum = minVal === '' ? null : parseFloat(minVal);
+        var maxNum = maxVal === '' ? null : parseFloat(maxVal);
+        if (minNum == null && maxNum == null) {
+            currentUploadPlant[_.key] = undefined;
+            return;
+        }
+        var ideal = (minNum != null && maxNum != null) ? (minNum + maxNum) / 2 : (minNum != null ? minNum : maxNum);
+        currentUploadPlant[_.key] = {
+            min: minNum != null ? minNum : ideal,
+            max: maxNum != null ? maxNum : ideal,
+            ideal: ideal
+        };
+    });
+}
 
 function init(options = {}) {
     elements = options.elements || {};
@@ -36,6 +224,10 @@ function init(options = {}) {
     setImagesFolderHandle = options.setImagesFolderHandle || setImagesFolderHandle;
     getPlantsMergedFolderHandle = options.getPlantsMergedFolderHandle || getPlantsMergedFolderHandle;
     setPlantsMergedFolderHandle = options.setPlantsMergedFolderHandle || setPlantsMergedFolderHandle;
+    getScientificNameString = options.getScientificNameString || getScientificNameString;
+    savePlantToJsonFile = options.savePlantToJsonFile || savePlantToJsonFile;
+    getColTaxonId = options.getColTaxonId || getColTaxonId;
+    getCalculatedVivariumTypes = options.getCalculatedVivariumTypes || getCalculatedVivariumTypes;
 }
 
 function setupUploadListeners() {
@@ -256,6 +448,7 @@ async function openImageUpload(plantId) {
     const {
         uploadModal,
         uploadPlantName,
+        uploadPlantDescription,
         saveImageBtn,
         folderStatus,
         selectFolderBtn,
@@ -263,17 +456,93 @@ async function openImageUpload(plantId) {
         imageUrlInput
     } = elements;
 
+    if (!uploadModal) return;
+
     const allPlants = getAllPlants();
-    currentUploadPlant = allPlants.find(p => p.id === plantId);
+    if (plantId != null) {
+        currentUploadPlant = allPlants.find(p => p.id === plantId) || null;
+    } else {
+        currentUploadPlant = { id: null, name: 'New Plant', scientificName: '', description: '', images: [] };
+    }
     if (!currentUploadPlant) return;
 
-    const scientificName = currentUploadPlant.scientificName || currentUploadPlant.name;
-    const escapedName = scientificName.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-    uploadPlantName.innerHTML = `Uploading image for: <span class="scientific-name-tag" onclick="copyScientificNameToClipboard('${escapedName}', this)" title="Click to copy scientific name" style="cursor: pointer; color: var(--primary-color); text-decoration: underline; font-weight: 600; padding: 2px 6px; border-radius: 4px; background: rgba(74, 144, 226, 0.1); transition: all 0.2s; display: inline-block;">${scientificName}</span>`;
+    if (uploadPlantName) {
+        if (currentUploadPlant.id != null) {
+            var scientificName = getScientificNameString(currentUploadPlant) || currentUploadPlant.name || '';
+            var escapedName = String(scientificName).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+            uploadPlantName.innerHTML = 'Plant: <span class="scientific-name-tag" onclick="typeof copyScientificNameToClipboard===\'function\'&&copyScientificNameToClipboard(\'' + escapedName + '\', this)" title="Click to copy" style="cursor: pointer; color: var(--primary-color); text-decoration: underline; font-weight: 600; padding: 2px 6px; border-radius: 4px; background: rgba(74, 144, 226, 0.1); transition: all 0.2s; display: inline-block;">' + escapeHtml(scientificName) + '</span>';
+            uploadPlantName.style.display = '';
+        } else {
+            uploadPlantName.innerHTML = '';
+            uploadPlantName.style.display = 'none';
+        }
+    }
+
+    if (uploadPlantDescription) {
+        uploadPlantDescription.value = currentUploadPlant.description || '';
+    }
+    var careTipsEl = elements.uploadCareTips;
+    if (careTipsEl) {
+        var tips = currentUploadPlant.careTips;
+        careTipsEl.value = Array.isArray(tips) ? tips.filter(Boolean).map(String).join('\n') : (tips ? String(tips) : '');
+    }
+    var sciNameEl = elements.uploadScientificName;
+    var commonNamesEl = elements.uploadCommonNames;
+    if (sciNameEl) sciNameEl.value = getScientificNameString(currentUploadPlant) || '';
+    if (commonNamesEl) {
+        var arr = currentUploadPlant.commonNames;
+        commonNamesEl.value = Array.isArray(arr) ? arr.filter(Boolean).map(String).join(', ') : (arr ? String(arr) : '');
+    }
+    var colUrlEl = elements.uploadCatalogueOfLifeUrl;
+    if (colUrlEl) {
+        var colUrl = currentUploadPlant.catalogueOfLifeUrl || (currentUploadPlant.taxonomy && currentUploadPlant.taxonomy.catalogueOfLifeUrl) || '';
+        colUrlEl.value = typeof colUrl === 'string' ? colUrl.trim() : '';
+        if (!colUrlEl.value) {
+            var snStr = getScientificNameString(currentUploadPlant);
+            if (snStr) {
+                try {
+                    var taxonId = await getColTaxonId(snStr, 'species');
+                    if (taxonId) colUrlEl.value = 'https://www.catalogueoflife.org/data/taxon/' + taxonId;
+                } catch (e) { /* ignore */ }
+            }
+        }
+    }
+    populatePlantDetailSelects(allPlants);
+    var sizeParsed = parseSizeToMinMax(currentUploadPlant.size);
+    var sizeMinEl = elements.uploadSizeMin;
+    var sizeMaxEl = elements.uploadSizeMax;
+    if (sizeMinEl) sizeMinEl.value = sizeParsed.min;
+    if (sizeMaxEl) sizeMaxEl.value = sizeParsed.max;
+
+    var priceEl = elements.uploadPrice;
+    var costEl = elements.uploadCost;
+    var invEl = elements.uploadInventory;
+    var reorderEl = elements.uploadReorder;
+    if (priceEl) priceEl.value = (currentUploadPlant.price != null && currentUploadPlant.price !== '') ? currentUploadPlant.price : '';
+    if (costEl) costEl.value = (currentUploadPlant.costPrice != null && currentUploadPlant.costPrice !== '') ? currentUploadPlant.costPrice : '';
+    if (invEl) invEl.value = (currentUploadPlant.stockQuantity != null && currentUploadPlant.stockQuantity !== '') ? currentUploadPlant.stockQuantity : '';
+    if (reorderEl) reorderEl.value = (currentUploadPlant.reorderLevel != null && currentUploadPlant.reorderLevel !== '') ? currentUploadPlant.reorderLevel : '';
+
+    var suitableSelected = currentUploadPlant.suitableFor;
+    if ((currentUploadPlant.id != null) && (!suitableSelected || !suitableSelected.length)) {
+        var calculatedNames = getCalculatedVivariumTypes(currentUploadPlant) || [];
+        suitableSelected = calculatedNames.map(function (name) {
+            return SUITABLE_FOR_LABEL_TO_VALUE[String(name)] || String(name).toLowerCase().replace(/\s+/g, '-');
+        }).filter(Boolean);
+    }
+    renderSuitableForTags(suitableSelected);
+
+    REQUIREMENT_RANGE_FIELDS.forEach(function (_) {
+        var range = currentUploadPlant[_.key];
+        var minEl = elements[_.minEl];
+        var maxEl = elements[_.maxEl];
+        if (minEl) minEl.value = (range && typeof range.min === 'number') ? range.min : '';
+        if (maxEl) maxEl.value = (range && typeof range.max === 'number') ? range.max : '';
+    });
 
     uploadModal.classList.remove('hidden');
     uploadModal.classList.add('show');
-    saveImageBtn.textContent = '💾 Save Image';
+    saveImageBtn.textContent = '💾 Save';
     saveImageBtn.disabled = false;
 
     document.addEventListener('paste', handlePaste);
@@ -330,8 +599,8 @@ async function openImageUpload(plantId) {
     currentImageFile = null;
     currentImageFiles = [];
     currentImageUrl = null;
-    fileInput.value = '';
-    imageUrlInput.value = '';
+    if (fileInput) fileInput.value = '';
+    if (imageUrlInput) imageUrlInput.value = '';
     updateDragDropGallery();
 }
 
@@ -479,13 +748,14 @@ function clearDragDropGallery() {
 }
 
 function closeUploadModalFunc() {
-    const { uploadModal, saveImageBtn } = elements;
+    const { uploadModal, saveImageBtn, uploadPlantDescription } = elements;
     if (!uploadModal) return;
 
     uploadModal.classList.remove('show');
     uploadModal.classList.add('hidden');
-    saveImageBtn.textContent = '💾 Save Image';
+    saveImageBtn.textContent = '💾 Save';
     saveImageBtn.disabled = false;
+    if (uploadPlantDescription) uploadPlantDescription.value = '';
     document.removeEventListener('paste', handlePaste);
 
     setTimeout(() => {
@@ -673,14 +943,24 @@ function findNextAvailableNumber(existingNumbers, maxCheck = 100) {
 }
 
 async function saveImage() {
-    const { saveImageBtn, folderStatus } = elements;
+    const { saveImageBtn, folderStatus, uploadPlantDescription } = elements;
     const allPlants = getAllPlants();
     const plantModal = elements.plantModal;
 
     if (!currentUploadPlant) {
-        console.error('❌ No plant selected. Please close and reopen the upload modal.');
+        console.error('❌ No plant selected. Please close and reopen the edit modal.');
         return;
     }
+
+    // Always persist description and plant details from form
+    if (uploadPlantDescription) {
+        currentUploadPlant.description = uploadPlantDescription.value.trim() || '';
+    }
+    var careTipsEl = elements.uploadCareTips;
+    if (careTipsEl) {
+        currentUploadPlant.careTips = (careTipsEl.value || '').split('\n').map(function (s) { return s.trim(); }).filter(Boolean);
+    }
+    readPlantDetailsFromForm();
 
     const imagesToSave = [];
     if (currentImageFiles.length > 0) {
@@ -692,7 +972,41 @@ async function saveImage() {
     }
 
     if (imagesToSave.length === 0) {
-        console.warn('⚠️ Please select an image file, provide a URL, or drag and drop an image first.');
+        if (currentUploadPlant.id != null) {
+            saveImageBtn.disabled = true;
+            saveImageBtn.textContent = '💾 Saving...';
+            try {
+                if (window.inventoryDb && window.inventoryDb.setItem) {
+                    window.inventoryDb.setItem(currentUploadPlant.id, {
+                        name: currentUploadPlant.name,
+                        scientificName: getScientificNameString(currentUploadPlant) || '',
+                        price: currentUploadPlant.price,
+                        costPrice: currentUploadPlant.costPrice,
+                        quantityInStock: currentUploadPlant.stockQuantity != null ? currentUploadPlant.stockQuantity : 0,
+                        reorderLevel: currentUploadPlant.reorderLevel
+                    });
+                }
+                var didSave = await savePlantToJsonFile(currentUploadPlant);
+                saveImageBtn.textContent = didSave ? '✅ Details saved' : '✅ Details updated';
+                if (folderStatus) {
+                    if (didSave) {
+                        folderStatus.textContent = '✅ Plant details saved to file. Changes will persist after reload.';
+                        folderStatus.style.color = 'var(--accent-color)';
+                    } else {
+                        folderStatus.textContent = '✅ Details updated in memory. To keep after reload: click "Select Folder" and choose your Terrarium_index project folder.';
+                        folderStatus.style.color = 'var(--text-color)';
+                    }
+                }
+            } catch (e) {
+                saveImageBtn.textContent = '💾 Save';
+                if (folderStatus) folderStatus.textContent = 'Could not save to file.';
+            }
+            renderPlants(getFilteredPlants());
+            setTimeout(() => closeUploadModalFunc(), 1200);
+            saveImageBtn.disabled = false;
+        } else {
+            console.warn('⚠️ Add a plant image or select an existing plant to edit.');
+        }
         return;
     }
 
@@ -705,15 +1019,16 @@ async function saveImage() {
     let plantFolderName;
     let folderPath;
 
-    if (currentUploadPlant.scientificName) {
-        plantFolderName = scientificNameToSlug(currentUploadPlant.scientificName);
+    const snStr = getScientificNameString(currentUploadPlant);
+    if (snStr) {
+        plantFolderName = scientificNameToSlug(snStr);
         if (plantFolderName) {
             folderPath = `images/${plantFolderName}`;
         }
     }
 
-    if (!plantFolderName) {
-        plantFolderName = currentUploadPlant.name.toLowerCase()
+    if (!plantFolderName && currentUploadPlant.name) {
+        plantFolderName = String(currentUploadPlant.name).toLowerCase()
             .replace(/\s+/g, '-')
             .replace(/'/g, '')
             .replace(/[^a-z0-9-]/g, '');
@@ -765,7 +1080,19 @@ async function saveImage() {
             folderStatus.textContent = `✅ ${savedCount} image(s) saved successfully${failedCount > 0 ? `, ${failedCount} failed` : ''}`;
             folderStatus.style.color = 'var(--accent-color)';
         }
-
+        if (currentUploadPlant.id != null) {
+            if (window.inventoryDb && window.inventoryDb.setItem) {
+                window.inventoryDb.setItem(currentUploadPlant.id, {
+                    name: currentUploadPlant.name,
+                    scientificName: getScientificNameString(currentUploadPlant) || '',
+                    price: currentUploadPlant.price,
+                    costPrice: currentUploadPlant.costPrice,
+                    quantityInStock: currentUploadPlant.stockQuantity != null ? currentUploadPlant.stockQuantity : 0,
+                    reorderLevel: currentUploadPlant.reorderLevel
+                });
+            }
+            savePlantToJsonFile(currentUploadPlant).catch(() => {});
+        }
         renderPlants(getFilteredPlants());
         if (plantModal?.classList.contains('show')) {
             showPlantModal(currentUploadPlant);
@@ -775,7 +1102,7 @@ async function saveImage() {
             closeUploadModalFunc();
         }, 1500);
     } else {
-        saveImageBtn.textContent = '💾 Save Image';
+        saveImageBtn.textContent = '💾 Save';
         if (folderStatus) {
             folderStatus.textContent = `❌ Failed to save ${totalImages} image(s)`;
             folderStatus.style.color = 'var(--text-light)';

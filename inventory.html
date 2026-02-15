@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory – Vivarium Store</title>
+    <link rel="stylesheet" href="styles.css?v=3">
+    <style>
+        body.inventory-page { overflow-x: auto; }
+        .inv-page { max-width: 1400px; margin: 0 auto; padding: 1rem; box-sizing: border-box; }
+        .inv-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; }
+        .inv-panel#invPanelInventory { overflow: visible; }
+        .inv-table-wrap { width: 100%; min-width: 0; max-width: 100%; box-sizing: border-box; overflow-x: scroll; overflow-y: visible; background: var(--card-bg); border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border-color); -webkit-overflow-scrolling: touch; }
+        .inv-table { width: max-content; min-width: 100%; border-collapse: collapse; }
+        .inv-table th, .inv-table td { padding: 0.6rem 0.75rem; text-align: left; border-bottom: 1px solid var(--border-color); }
+        .inv-table th { background: var(--bg-color); font-weight: 600; color: var(--primary-color); }
+        .inv-table tr:hover { background: rgba(0,0,0,0.02); }
+        .inv-status { font-size: 0.85rem; font-weight: 600; }
+        .inv-status.ok { color: var(--secondary-color); }
+        .inv-status.low { color: #d97706; }
+        .inv-status.out { color: #b91c1c; }
+        .inv-edit-btn { padding: 0.35rem 0.6rem; font-size: 0.85rem; background: var(--primary-color); color: white; border: none; border-radius: 6px; cursor: pointer; }
+        .inv-edit-btn:hover { background: var(--secondary-color); }
+        .inv-editor { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 10000; padding: 1rem; }
+        .inv-editor-box { background: var(--card-bg); padding: 1.5rem; border-radius: 12px; max-width: 400px; width: 100%; box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
+        .inv-editor-box h3 { margin: 0 0 1rem 0; color: var(--primary-color); }
+        .inv-editor-box label { display: block; margin-top: 0.75rem; font-weight: 600; }
+        .inv-editor-box input { width: 100%; padding: 0.5rem; margin-top: 0.25rem; border: 1px solid var(--border-color); border-radius: 6px; box-sizing: border-box; }
+        .inv-editor-actions { margin-top: 1.25rem; display: flex; gap: 0.75rem; }
+        .inv-editor-actions button { padding: 0.5rem 1rem; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; }
+        .inv-editor-actions .save { background: var(--primary-color); color: white; }
+        .inv-editor-actions .cancel { background: var(--border-color); color: var(--text-color); }
+        .inv-order-detail-box { max-width: 520px; }
+        .inv-order-detail-box .inv-order-meta { margin-bottom: 1rem; padding: 0.75rem; background: var(--bg-color); border-radius: 8px; font-size: 0.9rem; }
+        .inv-order-detail-box .inv-order-meta p { margin: 0.25rem 0; }
+        .inv-order-detail-box .inv-order-items { margin-top: 1rem; }
+        .inv-order-detail-box .inv-order-items table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        .inv-order-detail-box .inv-order-items th, .inv-order-detail-box .inv-order-items td { padding: 0.4rem 0.5rem; text-align: left; border-bottom: 1px solid var(--border-color); }
+        .inv-order-detail-box .inv-order-total { margin-top: 0.75rem; font-weight: 700; color: var(--primary-color); }
+        .inv-order-detail-box #invOrderDetailClose { font-size: 1.5rem; line-height: 1; padding: 0.25rem 0.5rem; }
+        .inv-orders-body tr { cursor: pointer; }
+        .inv-orders-body tr:hover { background: rgba(0,0,0,0.04); }
+        .inv-sales { margin-top: 0; }
+        .inv-sales h2 { color: var(--primary-color); margin-bottom: 0.75rem; }
+        .inv-loading { text-align: center; padding: 2rem; color: var(--text-light); }
+        .inv-empty { padding: 1rem; color: var(--text-light); }
+        .inv-tabs { display: flex; gap: 0; border-bottom: 2px solid var(--border-color); margin-bottom: 1rem; }
+        .inv-tab { padding: 0.75rem 1.25rem; background: var(--bg-color); border: none; border-bottom: 3px solid transparent; font-size: 1rem; font-weight: 600; color: var(--text-light); cursor: pointer; margin-bottom: -2px; border-radius: 8px 8px 0 0; }
+        .inv-tab:hover { color: var(--text-color); }
+        .inv-tab.active { background: var(--card-bg); color: var(--primary-color); border-bottom-color: var(--primary-color); }
+        .inv-panel { display: none; }
+        .inv-panel.active { display: block; }
+        .inv-filters { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+        .inv-filters input[type="search"], .inv-filters select { padding: 0.5rem 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; font-size: 0.95rem; }
+        .inv-filters input[type="search"] { min-width: 200px; }
+        .inv-filters label { font-weight: 600; margin-right: 0.25rem; }
+        .inv-batch-bar { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; padding: 0.5rem 0; margin-bottom: 0.5rem; }
+        .inv-batch-bar.hidden { display: none; }
+        .inv-edit-size-row.hidden { display: none; }
+        .inv-th-sort { cursor: pointer; user-select: none; white-space: nowrap; padding-right: 1.25rem !important; position: relative; }
+        .inv-th-sort:hover { background: rgba(0,0,0,0.05); }
+        .inv-th-sort .sort-arrow { position: absolute; right: 0.25rem; opacity: 0.6; font-size: 0.75rem; }
+        .inv-th-sort.asc .sort-arrow::after { content: '▲'; }
+        .inv-th-sort.desc .sort-arrow::after { content: '▼'; }
+        .inv-th-sort .sort-arrow:empty::after { content: '⇅'; opacity: 0.3; }
+        .inv-table .inv-checkbox { width: 1.25rem; height: 1.25rem; cursor: pointer; }
+        .inv-batch-hint { font-size: 0.9rem; color: var(--text-light); margin: 0 0 0.75rem 0; }
+        .inv-category-tabs { display: flex; gap: 0.25rem; }
+        .inv-category-tab { font-size: 0.9rem; padding: 0.4rem 0.75rem; }
+    </style>
+</head>
+<body class="inventory-page">
+    <header>
+        <div class="banner">
+            <div id="main-nav-container"></div>
+            <div class="banner-overlay">
+                <h1>Inventory</h1>
+                <p class="subtitle">Stock, prices &amp; sales</p>
+            </div>
+        </div>
+    </header>
+    <main class="inv-page">
+        <div class="inv-tabs" role="tablist">
+            <button type="button" class="inv-tab active" role="tab" id="invTabInventory" aria-selected="true" aria-controls="invPanelInventory">Inventory &amp; prices</button>
+            <button type="button" class="inv-tab" role="tab" id="invTabSales" aria-selected="false" aria-controls="invPanelSales">Sales tracking</button>
+            <button type="button" class="inv-tab" role="tab" id="invTabOrders" aria-selected="false" aria-controls="invPanelOrders">Orders</button>
+        </div>
+        <div id="invPanelInventory" class="inv-panel active" role="tabpanel">
+            <div class="inv-category-tabs" role="tablist" style="margin-bottom: 0.75rem;">
+                <button type="button" class="inv-tab inv-category-tab active" role="tab" id="invCategoryPlants" data-category="plants" aria-selected="true">Plants</button>
+                <button type="button" class="inv-tab inv-category-tab" role="tab" id="invCategoryEquipment" data-category="equipment" aria-selected="false">Equipment</button>
+            </div>
+            <div class="inv-toolbar">
+                <p id="invSummary" class="inv-summary">Loading…</p>
+            </div>
+            <div class="inv-filters">
+                <label for="invSearch">Search</label>
+                <input type="search" id="invSearch" placeholder="Name or scientific name…" aria-label="Filter by name">
+                <label for="invStatusFilter">Status</label>
+                <select id="invStatusFilter" aria-label="Filter by status">
+                    <option value="all">All</option>
+                    <option value="ok">In stock</option>
+                    <option value="low">Low stock</option>
+                    <option value="out">Out of stock</option>
+                </select>
+            </div>
+            <div id="invBatchBar" class="inv-batch-bar hidden">
+                <span id="invBatchCount">0 selected</span>
+                <button type="button" class="inv-edit-btn" id="invBatchSelectAll">Select all</button>
+                <button type="button" class="inv-edit-btn" id="invBatchClear">Clear selection</button>
+                <button type="button" class="inv-edit-btn" id="invBatchEdit">Batch edit</button>
+            </div>
+            <div id="invTableWrap" class="inv-table-wrap">
+                <div id="invLoading" class="inv-loading">Loading plants and inventory…</div>
+                <table id="invTable" class="inv-table hidden">
+                    <thead>
+                        <tr>
+                            <th style="width: 2.5rem;"><input type="checkbox" id="invSelectAll" class="inv-checkbox" aria-label="Select all rows"></th>
+                            <th class="inv-th-sort" data-sort="name">Name <span class="sort-arrow"></span></th>
+                            <th class="inv-th-sort" data-sort="scientific">Scientific name <span class="sort-arrow"></span></th>
+                            <th class="inv-th-sort" data-sort="size">Size <span class="sort-arrow"></span></th>
+                            <th class="inv-th-sort" data-sort="cost">Cost (KD) <span class="sort-arrow"></span></th>
+                            <th class="inv-th-sort" data-sort="price">Sell price (KD) <span class="sort-arrow"></span></th>
+                            <th class="inv-th-sort" data-sort="margin">Margin (KD) <span class="sort-arrow"></span></th>
+                            <th class="inv-th-sort" data-sort="marginPct">Margin % <span class="sort-arrow"></span></th>
+                            <th class="inv-th-sort" data-sort="stock">Stock <span class="sort-arrow"></span></th>
+                            <th class="inv-th-sort" data-sort="reorder">Reorder at <span class="sort-arrow"></span></th>
+                            <th class="inv-th-sort" data-sort="status">Status <span class="sort-arrow"></span></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="invTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+        <div id="invPanelSales" class="inv-panel" role="tabpanel">
+            <section class="inv-sales">
+                <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.75rem;">
+                    <h2 style="margin: 0;">Sales tracking</h2>
+                    <button type="button" class="inv-edit-btn" id="invClearSalesBtn" style="background: #b91c1c;">Clear history</button>
+                </div>
+                <p id="invSalesSummary" class="inv-summary" style="margin-bottom: 0.75rem;"></p>
+                <div id="invSalesWrap" class="inv-table-wrap">
+                <table class="inv-table">
+                    <thead>
+                        <tr>
+                            <th>Scientific name</th>
+                            <th>Qty</th>
+                            <th>Amount (KD)</th>
+                            <th>Profit (KD)</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="invSalesBody"></tbody>
+                </table>
+                    <p id="invSalesEmpty" class="inv-empty hidden">No sales recorded yet.</p>
+                </div>
+            </section>
+        </div>
+        <div id="invPanelOrders" class="inv-panel" role="tabpanel">
+            <section class="inv-sales">
+                <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.75rem;">
+                    <h2 style="margin: 0;">Orders</h2>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button type="button" class="inv-edit-btn" id="invExportOrdersBtn">Export orders (CSV)</button>
+                        <button type="button" class="inv-edit-btn" id="invClearOrdersBtn" style="background: #b91c1c;">Clear history</button>
+                    </div>
+                </div>
+                <p id="invOrdersSummary" class="inv-summary" style="margin-bottom: 0.75rem;"></p>
+                <div class="inv-table-wrap">
+                    <table class="inv-table">
+                        <thead>
+                            <tr>
+                                <th>Order #</th>
+                                <th>Date</th>
+                                <th>Customer</th>
+                                <th>Contact</th>
+                                <th>Total (KD)</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="invOrdersBody" class="inv-orders-body"></tbody>
+                    </table>
+                    <p id="invOrdersEmpty" class="inv-empty hidden">No orders yet.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+    <div id="invEditor" class="inv-editor hidden">
+        <div class="inv-editor-box">
+            <h3 id="invEditorTitle">Edit inventory</h3>
+            <div id="invEditSizeRow" class="inv-edit-size-row hidden">
+                <label for="invEditSize">Size</label>
+                <input type="text" id="invEditSize" placeholder="e.g. Small, 10cm">
+            </div>
+            <label for="invEditCost">Cost (KD)</label>
+            <input type="number" id="invEditCost" min="0" step="0.01" placeholder="Cost per unit">
+            <label for="invEditPrice">Sell price (KD)</label>
+            <input type="number" id="invEditPrice" min="0" step="0.01" placeholder="2 (default)">
+            <label for="invEditStock">Quantity in stock</label>
+            <input type="number" id="invEditStock" min="0" step="1" placeholder="0">
+            <label for="invEditReorder">Reorder when below</label>
+            <input type="number" id="invEditReorder" min="0" step="1" placeholder="e.g. 5">
+            <div class="inv-editor-actions">
+                <button type="button" class="save" id="invEditorSave">Save</button>
+                <button type="button" class="cancel" id="invEditorCancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <div id="invBatchEditor" class="inv-editor hidden">
+        <div class="inv-editor-box">
+            <h3>Batch edit</h3>
+            <p class="inv-batch-hint">Leave a field empty to keep current value for each item.</p>
+            <label for="invBatchCost">Cost (KD)</label>
+            <input type="number" id="invBatchCost" min="0" step="0.01" placeholder="Leave empty to keep">
+            <label for="invBatchPrice">Sell price (KD)</label>
+            <input type="number" id="invBatchPrice" min="0" step="0.01" placeholder="Leave empty to keep">
+            <label for="invBatchStock">Quantity in stock</label>
+            <input type="number" id="invBatchStock" min="0" step="1" placeholder="Leave empty to keep">
+            <label for="invBatchReorder">Reorder when below</label>
+            <input type="number" id="invBatchReorder" min="0" step="1" placeholder="Leave empty to keep">
+            <div class="inv-editor-actions">
+                <button type="button" class="save" id="invBatchApply">Apply to selected</button>
+                <button type="button" class="cancel" id="invBatchCancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <div id="invOrderDetail" class="inv-editor inv-order-detail hidden">
+        <div class="inv-editor-box inv-order-detail-box">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h3 id="invOrderDetailTitle" style="margin: 0; color: var(--primary-color);">Order #0</h3>
+                <div style="display: flex; gap: 0.5rem; align-items: center;">
+                    <button type="button" class="inv-edit-btn" id="invOrderDetailPrint" style="margin: 0;">Print</button>
+                    <button type="button" class="cancel" id="invOrderDetailClose" aria-label="Close">×</button>
+                </div>
+            </div>
+            <div id="invOrderDetailBody"></div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/dexie@3/dist/dexie.min.js"></script>
+    <script src="js/nav.js"></script>
+    <script src="js/inventory-db.js"></script>
+    <script src="data.js?v=4"></script>
+    <script src="data/plant-loader.js?v=4"></script>
+    <script src="data/equipment-loader.js"></script>
+    <script>
+        (function() {
+            function switchTab(panelId) {
+                ['invPanelInventory', 'invPanelSales', 'invPanelOrders'].forEach(function(id) {
+                    document.getElementById(id).classList.toggle('active', id === panelId);
+                });
+                ['invTabInventory', 'invTabSales', 'invTabOrders'].forEach(function(id) {
+                    var el = document.getElementById(id);
+                    var controls = el.getAttribute('aria-controls');
+                    el.classList.toggle('active', controls === panelId);
+                    el.setAttribute('aria-selected', controls === panelId ? 'true' : 'false');
+                });
+            }
+            document.getElementById('invTabInventory').addEventListener('click', function() { switchTab('invPanelInventory'); });
+            function setCategoryTabActive(category) {
+                var plantsTab = document.getElementById('invCategoryPlants');
+                var equipTab = document.getElementById('invCategoryEquipment');
+                if (plantsTab && equipTab) {
+                    plantsTab.classList.toggle('active', category === 'plants');
+                    plantsTab.setAttribute('aria-selected', category === 'plants' ? 'true' : 'false');
+                    equipTab.classList.toggle('active', category === 'equipment');
+                    equipTab.setAttribute('aria-selected', category === 'equipment' ? 'true' : 'false');
+                }
+            }
+            document.getElementById('invCategoryPlants').addEventListener('click', function() {
+                invCurrentCategory = 'plants';
+                setCategoryTabActive('plants');
+                if (invCachedById) renderTable(window.plantsDatabase || [], invCachedById);
+            });
+            document.getElementById('invCategoryEquipment').addEventListener('click', function() {
+                invCurrentCategory = 'equipment';
+                setCategoryTabActive('equipment');
+                if (invCachedById) renderTable(invEquipmentList, invCachedById);
+            });
+            document.getElementById('invTabSales').addEventListener('click', function() {
+                switchTab('invPanelSales');
+                renderSales();
+            });
+            document.getElementById('invClearSalesBtn').addEventListener('click', function() {
+                if (!confirm('Clear all sales history? This cannot be undone.')) return;
+                var inv = window.inventoryDb;
+                if (inv && inv.clearSales) inv.clearSales().then(function() { renderSales(); });
+            });
+            document.getElementById('invTabOrders').addEventListener('click', function() { switchTab('invPanelOrders'); });
+            document.getElementById('invOrderDetailClose').addEventListener('click', closeOrderDetail);
+            document.getElementById('invOrderDetail').addEventListener('click', function(e) { if (e.target === document.getElementById('invOrderDetail')) closeOrderDetail(); });
+            document.getElementById('invOrderDetailPrint').addEventListener('click', function() {
+                var title = document.getElementById('invOrderDetailTitle').textContent;
+                var body = document.getElementById('invOrderDetailBody').innerHTML;
+                var w = window.open('', '_blank');
+                if (!w) return;
+                w.document.write('<!DOCTYPE html><html><head><title>' + title.replace(/</g, '&lt;') + '</title><style>body{font-family:sans-serif;padding:1.5rem;max-width:600px;margin:0 auto;} table{width:100%;border-collapse:collapse;} th,td{padding:0.4rem 0.5rem;text-align:left;border-bottom:1px solid #ddd;} .inv-order-meta{background:#f5f5f5;padding:0.75rem;border-radius:8px;margin-bottom:1rem;font-size:0.9rem;} .inv-order-meta p{margin:0.25rem 0;} .inv-order-total{font-weight:700;margin-top:0.75rem;}</style></head><body><h2>' + title.replace(/</g, '&lt;') + '</h2>' + body + '</body></html>');
+                w.document.close();
+                w.focus();
+                setTimeout(function() { w.print(); w.close(); }, 250);
+            });
+            document.getElementById('invExportOrdersBtn').addEventListener('click', function() {
+                if (!window.inventoryDb.getOrders) return;
+                window.inventoryDb.getOrders(500).then(function(orders) {
+                    if (!orders || orders.length === 0) { alert('No orders to export.'); return; }
+                    var escapeCsv = function(s) {
+                        if (s == null) return '';
+                        s = String(s);
+                        if (/[",\n\r]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
+                        return s;
+                    };
+                    var rows = ['Order ID,Date,Customer Name,Email,Phone,Address,Total (KD),Status'];
+                    orders.forEach(function(o) {
+                        var d = new Date(o.createdAt);
+                        var c = o.customer || {};
+                        rows.push([o.id, d.toISOString(), c.name || '', c.email || '', c.phone || '', (c.address || '').replace(/\r?\n/g, ' '), o.totalAmount != null ? Number(o.totalAmount).toFixed(2) : '', o.status || ''].map(escapeCsv).join(','));
+                    });
+                    var blob = new Blob([rows.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+                    var a = document.createElement('a');
+                    a.href = URL.createObjectURL(blob);
+                    a.download = 'orders-' + new Date().toISOString().slice(0, 10) + '.csv';
+                    a.click();
+                    URL.revokeObjectURL(a.href);
+                });
+            });
+            document.getElementById('invClearOrdersBtn').addEventListener('click', function() {
+                if (!confirm('Clear all orders? This cannot be undone.')) return;
+                var inv = window.inventoryDb;
+                if (inv && inv.clearOrders) inv.clearOrders().then(function() {
+                    document.getElementById('invOrderDetail').classList.add('hidden');
+                    renderOrders();
+                });
+            });
+
+            var getScientific = function(p) {
+                if (!p) return '';
+                var s = p.scientificName;
+                if (typeof s === 'string') return s;
+                if (s && s.genus) return [s.genus, s.species].filter(Boolean).join(' ');
+                return '';
+            };
+            var formatPrice = function(n) {
+                if (n == null || isNaN(n)) return '—';
+                return 'KD ' + Number(n).toFixed(2);
+            };
+            var statusClass = function(inv) {
+                var q = inv != null && inv.quantityInStock != null ? inv.quantityInStock : null;
+                var reorder = inv && inv.reorderLevel != null ? inv.reorderLevel : 0;
+                if (q === null) return 'ok';
+                if (q <= 0) return 'out';
+                if (q <= reorder) return 'low';
+                return 'ok';
+            };
+            var statusText = function(inv) {
+                var c = statusClass(inv);
+                if (c === 'out') return 'Out of stock';
+                if (c === 'low') return 'Low stock';
+                return 'In stock';
+            };
+            var DEFAULT_PRICE = 2;
+            function marginInfo(sellPrice, cost) {
+                var sell = sellPrice != null && !isNaN(sellPrice) ? Number(sellPrice) : DEFAULT_PRICE;
+                var c = cost != null && !isNaN(cost) ? Number(cost) : null;
+                if (c == null) return { margin: null, marginPct: null, sell: sell, cost: null };
+                var margin = sell - c;
+                var marginPct = sell > 0 ? (margin / sell * 100) : null;
+                return { margin: margin, marginPct: marginPct, sell: sell, cost: c };
+            }
+            var invFilterQuery = '';
+            var invFilterStatus = 'all';
+            var invSortKey = 'name';
+            var invSortDir = 1;
+            var invSelectedIds = {};
+            var invCachedPlants = null;
+            var invCachedById = null;
+            var invCurrentCategory = 'plants';
+            var invEquipmentList = [];
+            function getRowMeta(p, invByPlantId) {
+                var inv = invByPlantId[p.id] || {};
+                var sellPrice = inv.price != null ? inv.price : (p.price != null ? p.price : DEFAULT_PRICE);
+                var cost = inv.costPrice != null ? inv.costPrice : null;
+                var m = marginInfo(sellPrice, cost);
+                var stock = inv.quantityInStock != null ? inv.quantityInStock : (p.stockQuantity != null ? p.stockQuantity : 0);
+                var reorder = inv.reorderLevel != null ? inv.reorderLevel : (p.reorderLevel != null ? p.reorderLevel : 0);
+                var status = statusClass({ quantityInStock: stock, reorderLevel: reorder });
+                var size = inv.size != null ? String(inv.size) : (p.size != null ? String(p.size) : '');
+                return { inv: inv, m: m, stock: stock, reorder: reorder, status: status, size: size };
+            }
+            function filterAndSortPlants(plants, invByPlantId) {
+                var q = (invFilterQuery || '').trim().toLowerCase();
+                var list = (plants || []).filter(function(p) {
+                    if (q) {
+                        var name = (p.name || '').toLowerCase();
+                        var sci = getScientific(p).toLowerCase();
+                        if (name.indexOf(q) === -1 && sci.indexOf(q) === -1) return false;
+                    }
+                    if (invFilterStatus !== 'all') {
+                        var meta = getRowMeta(p, invByPlantId);
+                        if (meta.status !== invFilterStatus) return false;
+                    }
+                    return true;
+                });
+                var dir = invSortDir;
+                var key = invSortKey;
+                list.sort(function(a, b) {
+                    var ma = getRowMeta(a, invByPlantId);
+                    var mb = getRowMeta(b, invByPlantId);
+                    var va, vb;
+                    switch (key) {
+                        case 'name': va = (a.name || ''); vb = (b.name || ''); return dir * (va.localeCompare(vb)); 
+                        case 'scientific': va = getScientific(a); vb = getScientific(b); return dir * (va.localeCompare(vb));
+                        case 'cost': va = ma.m.cost != null ? ma.m.cost : -1; vb = mb.m.cost != null ? mb.m.cost : -1; return dir * (va - vb);
+                        case 'price': return dir * (ma.m.sell - mb.m.sell);
+                        case 'margin': va = ma.m.margin != null ? ma.m.margin : -1e9; vb = mb.m.margin != null ? mb.m.margin : -1e9; return dir * (va - vb);
+                        case 'marginPct': va = ma.m.marginPct != null ? ma.m.marginPct : -1; vb = mb.m.marginPct != null ? mb.m.marginPct : -1; return dir * (va - vb);
+                        case 'stock': return dir * (ma.stock - mb.stock);
+                        case 'reorder': va = ma.reorder != null ? ma.reorder : -1; vb = mb.reorder != null ? mb.reorder : -1; return dir * (va - vb);
+                        case 'status': va = { out: 0, low: 1, ok: 2 }[ma.status] || 0; vb = { out: 0, low: 1, ok: 2 }[mb.status] || 0; return dir * (va - vb);
+                        case 'size': va = ma.size || ''; vb = mb.size || ''; return dir * (va.localeCompare(vb));
+                        default: return 0;
+                    }
+                });
+                return list;
+            }
+            function updateSortHeaders() {
+                document.querySelectorAll('.inv-th-sort').forEach(function(th) {
+                    var k = th.getAttribute('data-sort');
+                    th.classList.remove('asc', 'desc');
+                    if (k === invSortKey) {
+                        th.classList.add(invSortDir === 1 ? 'asc' : 'desc');
+                    }
+                });
+            }
+            function updateBatchBar() {
+                var n = Object.keys(invSelectedIds).filter(function(id) { return invSelectedIds[id]; }).length;
+                var bar = document.getElementById('invBatchBar');
+                var countEl = document.getElementById('invBatchCount');
+                if (countEl) countEl.textContent = n + ' selected';
+                if (bar) bar.classList.toggle('hidden', n === 0);
+                var selectAll = document.getElementById('invSelectAll');
+                if (selectAll) {
+                    var rowCbs = document.querySelectorAll('#invTableBody .inv-row-select');
+                    selectAll.checked = rowCbs.length > 0 && Array.prototype.every.call(rowCbs, function(cb) { return cb.checked; });
+                }
+            }
+            var renderTable = function(plants, invByPlantId) {
+                invCachedPlants = plants;
+                invCachedById = invByPlantId;
+                var tbody = document.getElementById('invTableBody');
+                var loading = document.getElementById('invLoading');
+                var table = document.getElementById('invTable');
+                if (!tbody) return;
+                tbody.innerHTML = '';
+                var isEquipment = invCurrentCategory === 'equipment';
+                if (!plants || plants.length === 0) {
+                    loading.textContent = isEquipment ? 'No equipment items.' : 'No plants loaded. Load the site from a server (e.g. index.html) so plant data is available.';
+                    loading.classList.remove('hidden');
+                    table.classList.add('hidden');
+                    return;
+                }
+                var filtered = filterAndSortPlants(plants, invByPlantId);
+                loading.classList.add('hidden');
+                table.classList.remove('hidden');
+                updateSortHeaders();
+                filtered.forEach(function(p) {
+                    var inv = invByPlantId[p.id] || {};
+                    var sellPrice = inv.price != null ? inv.price : (p.price != null ? p.price : DEFAULT_PRICE);
+                    var cost = inv.costPrice != null ? inv.costPrice : null;
+                    var m = marginInfo(sellPrice, cost);
+                    var stock = inv.quantityInStock != null ? inv.quantityInStock : (p.stockQuantity != null ? p.stockQuantity : 0);
+                    var reorder = inv.reorderLevel != null ? inv.reorderLevel : (p.reorderLevel != null ? p.reorderLevel : 0);
+                    var status = statusClass({ quantityInStock: stock, reorderLevel: reorder });
+                    var sizeVal = (inv.size != null ? String(inv.size) : (p.size != null ? String(p.size) : ''));
+                    var checked = invSelectedIds[p.id] ? ' checked' : '';
+                    var tr = document.createElement('tr');
+                    tr.innerHTML =
+                        '<td><input type="checkbox" class="inv-checkbox inv-row-select" data-plant-id="' + p.id + '" aria-label="Select row"' + checked + '></td>' +
+                        '<td>' + (p.name || '—') + '</td>' +
+                        '<td><em>' + getScientific(p) + '</em></td>' +
+                        '<td>' + (sizeVal || '—') + '</td>' +
+                        '<td>' + (m.cost != null ? formatPrice(m.cost) : '—') + '</td>' +
+                        '<td>' + formatPrice(m.sell) + '</td>' +
+                        '<td>' + (m.margin != null ? formatPrice(m.margin) : '—') + '</td>' +
+                        '<td>' + (m.marginPct != null ? m.marginPct.toFixed(1) + '%' : '—') + '</td>' +
+                        '<td>' + stock + '</td>' +
+                        '<td>' + (reorder != null ? reorder : '—') + '</td>' +
+                        '<td><span class="inv-status ' + status + '">' + statusText({ quantityInStock: stock, reorderLevel: reorder }) + '</span></td>' +
+                        '<td><button type="button" class="inv-edit-btn" data-plant-id="' + p.id + '">Edit</button></td>';
+                    tbody.appendChild(tr);
+                });
+                var label = isEquipment ? ' equipment items' : ' plants';
+                var summary = plants.length + label;
+                if (filtered.length !== plants.length) summary = filtered.length + ' of ' + summary;
+                document.getElementById('invSummary').textContent = summary + ' · Default sell price ' + formatPrice(DEFAULT_PRICE) + '. Sort by column; use Batch edit for multiple items.';
+                tbody.querySelectorAll('.inv-edit-btn').forEach(function(btn) {
+                    btn.addEventListener('click', function() {
+                        openEditor(Number(btn.getAttribute('data-plant-id')), plants);
+                    });
+                });
+                tbody.querySelectorAll('.inv-row-select').forEach(function(cb) {
+                    cb.addEventListener('change', function() {
+                        var id = Number(cb.getAttribute('data-plant-id'));
+                        invSelectedIds[id] = cb.checked;
+                        updateBatchBar();
+                    });
+                });
+                updateBatchBar();
+            };
+            var openEditor = function(plantId, plants) {
+                var plant = plants && plants.find(function(p) { return p.id === plantId; });
+                var name = plant ? (plant.name || 'Plant #' + plantId) : ('Plant #' + plantId);
+                document.getElementById('invEditorTitle').textContent = 'Edit: ' + name;
+                var sizeRow = document.getElementById('invEditSizeRow');
+                var sizeInput = document.getElementById('invEditSize');
+                if (sizeRow && sizeInput) {
+                    sizeRow.classList.toggle('hidden', invCurrentCategory !== 'equipment');
+                    sizeInput.value = '';
+                }
+                window.inventoryDb.getItem(plantId).then(function(inv) {
+                    document.getElementById('invEditCost').value = (inv && inv.costPrice != null) ? inv.costPrice : '';
+                    document.getElementById('invEditPrice').value = (inv && inv.price != null) ? inv.price : (plant && plant.price != null ? plant.price : DEFAULT_PRICE);
+                    document.getElementById('invEditStock').value = (inv && inv.quantityInStock != null) ? inv.quantityInStock : (plant && plant.stockQuantity != null ? plant.stockQuantity : 0);
+                    document.getElementById('invEditReorder').value = (inv && inv.reorderLevel != null) ? inv.reorderLevel : (plant && plant.reorderLevel != null ? plant.reorderLevel : '');
+                    if (sizeInput) sizeInput.value = (inv && inv.size != null) ? inv.size : (plant && plant.size != null ? plant.size : '');
+                });
+                document.getElementById('invEditor').classList.remove('hidden');
+                window.invEditingPlantId = plantId;
+                window.invEditingPlants = plants;
+            };
+            var closeEditor = function() {
+                document.getElementById('invEditor').classList.add('hidden');
+                window.invEditingPlantId = null;
+            };
+            var saveEditor = function() {
+                var plantId = window.invEditingPlantId;
+                var plants = window.invEditingPlants;
+                if (plantId == null) return;
+                var plant = plants && plants.find(function(p) { return p.id === plantId; });
+                var costEl = document.getElementById('invEditCost');
+                var priceEl = document.getElementById('invEditPrice');
+                var stockEl = document.getElementById('invEditStock');
+                var reorderEl = document.getElementById('invEditReorder');
+                var sizeEl = document.getElementById('invEditSize');
+                var cost = costEl.value.trim() === '' ? undefined : parseFloat(costEl.value);
+                var price = priceEl.value.trim() === '' ? undefined : parseFloat(priceEl.value);
+                var stock = stockEl.value.trim() === '' ? 0 : parseInt(stockEl.value, 10);
+                var reorder = reorderEl.value.trim() === '' ? undefined : parseInt(reorderEl.value, 10);
+                var sizeVal = (sizeEl && invCurrentCategory === 'equipment') ? sizeEl.value.trim() : undefined;
+                if (sizeVal === '') sizeVal = undefined;
+                if (isNaN(cost)) cost = undefined;
+                if (isNaN(price)) price = undefined;
+                if (isNaN(stock)) stock = 0;
+                if (isNaN(reorder)) reorder = undefined;
+                if (price === undefined) price = DEFAULT_PRICE;
+                var setData = {
+                    name: plant && plant.name,
+                    scientificName: plant && getScientific(plant),
+                    costPrice: cost,
+                    price: price,
+                    quantityInStock: stock,
+                    reorderLevel: reorder
+                };
+                if (sizeVal !== undefined) setData.size = sizeVal;
+                window.inventoryDb.setItem(plantId, setData).then(function() {
+                    closeEditor();
+                    loadAndRender();
+                });
+            };
+            var loadAndRender = function() {
+                var plants = window.plantsDatabase || [];
+                var loadEquipment = window.loadEquipment;
+                if (!plants.length && (!loadEquipment || typeof loadEquipment !== 'function')) {
+                    document.getElementById('invLoading').textContent = 'No plant data. Ensure data.js and plant-loader.js run (e.g. open from a web server).';
+                    return;
+                }
+                function doRender(equipmentList) {
+                    invEquipmentList = equipmentList || [];
+                    window.inventoryDb.getAll().then(function(rows) {
+                        var byId = {};
+                        rows.forEach(function(r) { byId[r.plantId] = r; });
+                        var list = invCurrentCategory === 'equipment' ? invEquipmentList : plants;
+                        renderTable(list, byId);
+                        renderSales();
+                    });
+                }
+                if (loadEquipment && typeof loadEquipment === 'function') {
+                    loadEquipment().then(function(equipmentList) {
+                        if (equipmentList && equipmentList.length && window.inventoryDb && window.inventoryDb.mergeInventoryIntoPlants) {
+                            return window.inventoryDb.mergeInventoryIntoPlants(equipmentList).then(function() { return equipmentList; });
+                        }
+                        return equipmentList || [];
+                    }).then(function(equipmentList) {
+                        doRender(equipmentList || []);
+                    }).catch(function() {
+                        doRender([]);
+                    });
+                } else {
+                    doRender([]);
+                }
+            };
+            document.getElementById('invEditorSave').addEventListener('click', saveEditor);
+            document.getElementById('invEditorCancel').addEventListener('click', closeEditor);
+            document.getElementById('invEditor').addEventListener('click', function(e) {
+                if (e.target === document.getElementById('invEditor')) closeEditor();
+            });
+            document.getElementById('invSearch').addEventListener('input', function() {
+                invFilterQuery = this.value;
+                if (invCachedPlants && invCachedById) renderTable(invCachedPlants, invCachedById);
+            });
+            document.getElementById('invStatusFilter').addEventListener('change', function() {
+                invFilterStatus = this.value;
+                if (invCachedPlants && invCachedById) renderTable(invCachedPlants, invCachedById);
+            });
+            document.querySelectorAll('.inv-th-sort').forEach(function(th) {
+                th.addEventListener('click', function() {
+                    var k = th.getAttribute('data-sort');
+                    if (k === invSortKey) invSortDir = -invSortDir; else { invSortKey = k; invSortDir = 1; }
+                    if (invCachedPlants && invCachedById) renderTable(invCachedPlants, invCachedById);
+                });
+            });
+            document.getElementById('invSelectAll').addEventListener('change', function() {
+                var checked = this.checked;
+                document.querySelectorAll('#invTableBody .inv-row-select').forEach(function(cb) {
+                    cb.checked = checked;
+                    var id = Number(cb.getAttribute('data-plant-id'));
+                    invSelectedIds[id] = checked;
+                });
+                updateBatchBar();
+            });
+            document.getElementById('invBatchSelectAll').addEventListener('click', function() {
+                document.querySelectorAll('#invTableBody .inv-row-select').forEach(function(cb) {
+                    cb.checked = true;
+                    invSelectedIds[Number(cb.getAttribute('data-plant-id'))] = true;
+                });
+                document.getElementById('invSelectAll').checked = invCachedPlants && document.querySelectorAll('#invTableBody .inv-row-select').length === invCachedPlants.length;
+                updateBatchBar();
+            });
+            document.getElementById('invBatchClear').addEventListener('click', function() {
+                invSelectedIds = {};
+                document.querySelectorAll('.inv-row-select, #invSelectAll').forEach(function(cb) { cb.checked = false; });
+                updateBatchBar();
+            });
+            document.getElementById('invBatchEdit').addEventListener('click', function() {
+                document.getElementById('invBatchCost').value = '';
+                document.getElementById('invBatchPrice').value = '';
+                document.getElementById('invBatchStock').value = '';
+                document.getElementById('invBatchReorder').value = '';
+                document.getElementById('invBatchEditor').classList.remove('hidden');
+            });
+            document.getElementById('invBatchCancel').addEventListener('click', function() {
+                document.getElementById('invBatchEditor').classList.add('hidden');
+            });
+            document.getElementById('invBatchEditor').addEventListener('click', function(e) {
+                if (e.target === document.getElementById('invBatchEditor')) document.getElementById('invBatchEditor').classList.add('hidden');
+            });
+            document.getElementById('invBatchApply').addEventListener('click', function() {
+                var costRaw = document.getElementById('invBatchCost').value.trim();
+                var priceRaw = document.getElementById('invBatchPrice').value.trim();
+                var stockRaw = document.getElementById('invBatchStock').value.trim();
+                var reorderRaw = document.getElementById('invBatchReorder').value.trim();
+                var cost = costRaw === '' ? undefined : parseFloat(costRaw);
+                var price = priceRaw === '' ? undefined : parseFloat(priceRaw);
+                var stock = stockRaw === '' ? undefined : parseInt(stockRaw, 10);
+                var reorder = reorderRaw === '' ? undefined : parseInt(reorderRaw, 10);
+                if (costRaw !== '' && isNaN(cost)) cost = undefined;
+                if (priceRaw !== '' && isNaN(price)) price = undefined;
+                if (stockRaw !== '' && isNaN(stock)) stock = 0;
+                if (reorderRaw !== '' && isNaN(reorder)) reorder = undefined;
+                var ids = Object.keys(invSelectedIds).filter(function(id) { return invSelectedIds[id]; }).map(Number);
+                if (ids.length === 0) { document.getElementById('invBatchEditor').classList.add('hidden'); return; }
+                var plants = invCachedPlants || [];
+                var inv = window.inventoryDb;
+                if (!inv || !inv.setItem || !inv.getItem) return;
+                var done = 0;
+                ids.forEach(function(plantId) {
+                    var plant = plants.find(function(p) { return p.id === plantId; });
+                    inv.getItem(plantId).then(function(current) {
+                        var payload = {
+                            name: plant && plant.name,
+                            scientificName: plant && getScientific(plant),
+                            costPrice: current && current.costPrice != null ? current.costPrice : undefined,
+                            price: current && current.price != null ? current.price : DEFAULT_PRICE,
+                            quantityInStock: current && current.quantityInStock != null ? current.quantityInStock : 0,
+                            reorderLevel: current && current.reorderLevel != null ? current.reorderLevel : undefined
+                        };
+                        if (cost !== undefined) payload.costPrice = cost;
+                        if (price !== undefined) payload.price = price;
+                        if (stock !== undefined) payload.quantityInStock = stock;
+                        if (reorder !== undefined) payload.reorderLevel = reorder;
+                        return inv.setItem(plantId, payload);
+                    }).then(function() {
+                        done++;
+                        if (done === ids.length) {
+                            document.getElementById('invBatchEditor').classList.add('hidden');
+                            invSelectedIds = {};
+                            updateBatchBar();
+                            loadAndRender();
+                        }
+                    });
+                });
+            });
+            function renderSales() {
+                Promise.all([
+                    window.inventoryDb.getRecentSales(100),
+                    window.inventoryDb.getAll()
+                ]).then(function(results) {
+                    var sales = results[0];
+                    var invRows = results[1] || [];
+                    var costByPlantId = {};
+                    invRows.forEach(function(r) {
+                        if (r.costPrice != null) costByPlantId[r.plantId] = r.costPrice;
+                    });
+                    var scientificByPlantId = {};
+                    var plants = window.plantsDatabase;
+                    if (plants && plants.length) {
+                        plants.forEach(function(p) {
+                            scientificByPlantId[p.id] = getScientific(p) || (p.name || '');
+                        });
+                    }
+                    invRows.forEach(function(r) {
+                        if (r.scientificName && !scientificByPlantId[r.plantId]) scientificByPlantId[r.plantId] = r.scientificName;
+                    });
+                    var tbody = document.getElementById('invSalesBody');
+                    var empty = document.getElementById('invSalesEmpty');
+                    var summary = document.getElementById('invSalesSummary');
+                    if (!sales || sales.length === 0) {
+                        empty.classList.remove('hidden');
+                        if (summary) summary.textContent = '';
+                        return;
+                    }
+                    empty.classList.add('hidden');
+                    var totalAmount = sales.reduce(function(s, r) { return s + (r.amount != null ? r.amount : 0); }, 0);
+                    var totalProfit = 0;
+                    var rows = sales.map(function(s) {
+                        var cost = costByPlantId[s.plantId];
+                        var costTotal = cost != null ? cost * (s.quantity || 0) : null;
+                        var profit = (s.amount != null && costTotal != null) ? (s.amount - costTotal) : null;
+                        if (profit != null) totalProfit += profit;
+                        var d = new Date(s.createdAt);
+                        var scientificName = (s.scientificName && s.scientificName.trim()) || scientificByPlantId[s.plantId] || ('ID ' + s.plantId);
+                        return '<tr><td><em>' + scientificName + '</em></td><td>' + s.quantity + '</td><td>KD ' + (s.amount != null ? Number(s.amount).toFixed(2) : '—') + '</td><td>' + (profit != null ? 'KD ' + profit.toFixed(2) : '—') + '</td><td>' + d.toLocaleString() + '</td></tr>';
+                    });
+                    tbody.innerHTML = rows.join('');
+                    if (summary) summary.textContent = 'Last ' + sales.length + ' sales · Total: KD ' + totalAmount.toFixed(2) + (totalProfit !== 0 ? ' · Profit: KD ' + totalProfit.toFixed(2) : '');
+                });
+            }
+            renderSales();
+            function openOrderDetail(orderId) {
+                if (!window.inventoryDb.getOrder) return;
+                window.inventoryDb.getOrder(orderId).then(function(o) {
+                    if (!o) return;
+                    document.getElementById('invOrderDetailTitle').textContent = 'Order #' + o.id;
+                    var d = new Date(o.createdAt);
+                    var cust = o.customer || {};
+                    var meta = '<div class="inv-order-meta">' +
+                        '<p><strong>Date:</strong> ' + d.toLocaleString() + '</p>' +
+                        '<p><strong>Name:</strong> ' + (cust.name || '—') + '</p>' +
+                        '<p><strong>Email:</strong> ' + (cust.email || '—') + '</p>' +
+                        '<p><strong>Phone:</strong> ' + (cust.phone || '—') + '</p>' +
+                        (cust.address ? '<p><strong>Address:</strong> ' + cust.address + '</p>' : '') +
+                        '<p><strong>Status:</strong> ' + (o.status || 'confirmed') + '</p>' +
+                        '</div>';
+                    var items = (o.items || []);
+                    var rows = items.map(function(i) {
+                        var scientificName = (i.scientificName || i.name || '—').trim() || '—';
+                        return '<tr><td><em>' + scientificName + '</em></td><td>' + (i.quantity || 0) + '</td><td>KD ' + (i.price != null ? Number(i.price).toFixed(2) : '—') + '</td><td>KD ' + (i.lineTotal != null ? Number(i.lineTotal).toFixed(2) : '—') + '</td></tr>';
+                    }).join('');
+                    var itemsTable = '<div class="inv-order-items"><table><thead><tr><th>Scientific name</th><th>Qty</th><th>Unit (KD)</th><th>Line (KD)</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
+                    var total = '<p class="inv-order-total">Total: KD ' + (o.totalAmount != null ? Number(o.totalAmount).toFixed(2) : '0.00') + '</p>';
+                    document.getElementById('invOrderDetailBody').innerHTML = meta + itemsTable + total;
+                    document.getElementById('invOrderDetail').classList.remove('hidden');
+                });
+            }
+            function closeOrderDetail() {
+                document.getElementById('invOrderDetail').classList.add('hidden');
+            }
+            function renderOrders() {
+                if (!window.inventoryDb.getOrders) return;
+                window.inventoryDb.getOrders(100).then(function(orders) {
+                    var tbody = document.getElementById('invOrdersBody');
+                    var empty = document.getElementById('invOrdersEmpty');
+                    var summary = document.getElementById('invOrdersSummary');
+                    if (!tbody) return;
+                    if (!orders || orders.length === 0) {
+                        empty.classList.remove('hidden');
+                        if (summary) summary.textContent = '';
+                        tbody.innerHTML = '';
+                        return;
+                    }
+                    empty.classList.add('hidden');
+                    if (summary) summary.textContent = orders.length + ' order(s) · Click a row to view details';
+                    tbody.innerHTML = orders.map(function(o) {
+                        var d = new Date(o.createdAt);
+                        var cust = o.customer || {};
+                        var name = (cust.name || '—').trim() || '—';
+                        var contact = [cust.email, cust.phone].filter(Boolean).join(' · ') || '—';
+                        var total = o.totalAmount != null ? 'KD ' + Number(o.totalAmount).toFixed(2) : '—';
+                        return '<tr data-order-id="' + o.id + '" role="button" tabindex="0"><td>' + o.id + '</td><td>' + d.toLocaleString() + '</td><td>' + name + '</td><td>' + contact + '</td><td>' + total + '</td><td>' + (o.status || 'confirmed') + '</td></tr>';
+                    }).join('');
+                    tbody.querySelectorAll('tr[data-order-id]').forEach(function(tr) {
+                        tr.addEventListener('click', function() { openOrderDetail(Number(tr.getAttribute('data-order-id'))); });
+                        tr.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openOrderDetail(Number(tr.getAttribute('data-order-id'))); } });
+                    });
+                });
+            }
+            renderOrders();
+            function waitForPlants() {
+                if (window.plantsDatabase && window.plantsDatabase.length > 0) {
+                    loadAndRender();
+                    return;
+                }
+                window.addEventListener('plantsLoaded', function onLoaded() {
+                    window.removeEventListener('plantsLoaded', onLoaded);
+                    loadAndRender();
+                });
+                setTimeout(function() {
+                    if (document.getElementById('invLoading').textContent.indexOf('Loading') !== -1 && window.plantsDatabase)
+                        loadAndRender();
+                }, 3000);
+            }
+            waitForPlants();
+        })();
+    </script>
+</body>
+</html>

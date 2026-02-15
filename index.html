@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vivarium Plant Index</title>
+    <title>Vivarium Store</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -15,87 +15,41 @@
 <body>
     <header>
         <div class="banner">
-            <img src="images/banner.jpg" alt="Vivarium Plant Index banner" class="banner-image">
-            <!-- Navigation Bar -->
-            <nav class="main-nav">
-                <div class="nav-container">
-                    <div class="nav-logo">
-                        <a href="index.html" class="logo-link">
-                            <span class="logo-text">Vivarium Plant Index</span>
-                        </a>
-                    </div>
-                    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </button>
-                    <ul class="nav-menu" id="navMenu">
-                        <li class="nav-item">
-                            <a href="index.html" class="nav-link active">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="definitions.html" class="nav-link">Definitions</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="taxonomy.html" class="nav-link">Taxonomy</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+            <img src="images/banner.jpg" alt="Vivarium Store banner" class="banner-image">
+            <div id="main-nav-container"></div>
             <div class="banner-overlay">
-                <h1>Vivarium Plant Index</h1>
+                <h1>Vivarium Store</h1>
                 <p class="subtitle">Comprehensive database of plants for all enclosed ecosystems</p>
             </div>
         </div>
     </header>
 
     <main class="container">
-        <!-- Control Panel: Search, Sort, and View -->
-        <div class="control-panel">
-            <div class="control-panel-content">
-                <!-- Search -->
-                <div class="control-group search-group">
-                <input type="text" id="searchInput" placeholder="Search plants by name, scientific name, or characteristics...">
-                <button id="searchBtn">Search</button>
-            </div>
-            
-                <!-- Sort Controls -->
-                <div class="control-group sort-group">
-                    <label for="sortSelect">Sort by:</label>
-                    <select id="sortSelect" class="sort-select">
-                        <option value="name">Name</option>
-                        <option value="scientific" selected>Scientific Name</option>
-                        <option value="rarity">Rarity</option>
-                        <option value="difficulty">Difficulty</option>
-                        <option value="temperature">Temperature</option>
-                        <option value="humidity">Humidity</option>
-                        <option value="light">Light Requirements</option>
-                        <option value="growthRate">Growth Rate</option>
-                    </select>
-                    <button id="sortDirectionBtn" class="sort-direction-btn" title="Toggle sort direction">
-                        <span class="sort-icon">↑</span>
-                    </button>
-                </div>
-                
-                <!-- Filter Toggle -->
-                <div class="control-group filter-group">
-                    <button id="filterToggle" class="filter-toggle-btn" title="Toggle filters">
-                        <span class="filter-icon">🔍</span>
-                        <span>Filters</span>
-                    </button>
-                </div>
-            </div>
-            </div>
-            
         <div class="main-layout">
-            <!-- Left Sidebar Filters -->
-            <aside class="filters-sidebar" id="filtersSidebar">
-                <div class="filters-header">
-                    <h3>Filters</h3>
-                    <button class="btn-reset-filters" id="resetFiltersBtn">Reset All</button>
+            <!-- Control panel sidebar: visible by default, collapse via icon on right edge -->
+            <aside class="filters-sidebar control-panel-sidebar" id="filtersSidebar">
+                <div class="control-panel-collapse-wrap">
+                    <div class="control-panel-edge-actions" id="controlPanelEdgeActions">
+                        <button type="button" class="control-panel-collapse-btn" id="controlPanelCollapse" title="Hide control panel" aria-label="Hide control panel">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+                        </button>
+                        <button type="button" class="control-panel-reset-btn" id="controlPanelReset" title="Reset all filters" aria-label="Reset all filters">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                        </button>
+                    </div>
                 </div>
-                
+
                 <div class="filters-content">
+                    <!-- Compact search -->
+                    <div class="control-panel-search">
+                        <label for="searchInput" class="visually-hidden">Search plants</label>
+                        <input type="text" id="searchInput" class="control-panel-search-input" placeholder="Search plants...">
+                        <button id="searchBtn" class="control-panel-search-btn" type="button" aria-label="Search">
+                            <svg class="search-btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        </button>
+                    </div>
+
+                    <h4 class="control-panel-filters-title">Filters</h4>
                     <!-- Vivarium Type -->
                     <div class="filter-group">
                         <label class="filter-group-label">Vivarium Type</label>
@@ -1024,91 +978,436 @@
                     </div>
                         </div>
             </aside>
+
+            <!-- Reopen control panel when collapsed (shown on left edge when sidebar is hidden) -->
+            <button type="button" class="control-panel-reopen-btn hidden" id="controlPanelReopen" title="Show control panel" aria-label="Show control panel">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+            </button>
             
             <!-- Main Content Area -->
             <div class="main-content">
-        <div class="stats">
-            <span id="plantCount">0 plants found</span>
-        </div>
+                <!-- List view: stats + grid (hidden when plant panel is open) -->
+                <div id="listView" class="list-view">
+                    <div class="shop-tabs" role="tablist" aria-label="Shop categories">
+                        <button type="button" id="tabPlants" class="shop-tab active" role="tab" aria-selected="true" data-view="plants">Plants</button>
+                        <button type="button" id="tabEquipment" class="shop-tab" role="tab" aria-selected="false" data-view="equipment">Equipment</button>
+                    </div>
+                    <div class="stats stats-row">
+                        <span id="plantCount">0 plants found</span>
+                        <div class="stats-card-size" role="group" aria-label="Card size">
+                            <button type="button" class="card-size-btn" data-size="small" title="Small cards">S</button>
+                            <button type="button" class="card-size-btn" data-size="medium" title="Medium cards">M</button>
+                            <button type="button" class="card-size-btn active" data-size="large" title="Large cards">L</button>
+                        </div>
+                        <div class="stats-sort">
+                            <label for="sortSelect" class="stats-sort-label">Sort by</label>
+                            <select id="sortSelect" class="sort-select stats-sort-select" aria-label="Sort by">
+                                <!-- Options filled by JS per tab: plants vs equipment -->
+                                <option value="name">Name</option>
+                                <option value="scientific" selected>Scientific Name</option>
+                                <option value="rarity">Rarity</option>
+                                <option value="difficulty">Difficulty</option>
+                                <option value="temperature">Temperature</option>
+                                <option value="humidity">Humidity</option>
+                                <option value="light">Light Requirements</option>
+                                <option value="growthRate">Growth Rate</option>
+                                <option value="price">Price</option>
+                                <option value="topSeller">Top Seller</option>
+                                <option value="userRatings">User Ratings</option>
+                            </select>
+                            <button id="sortDirectionBtn" class="sort-direction-btn stats-sort-direction" title="Toggle sort direction">
+                                <span class="sort-icon sort-icon-up" aria-hidden="true"><svg class="sort-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></span>
+                                <span class="sort-icon sort-icon-down hidden" aria-hidden="true"><svg class="sort-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="plantsGrid" class="plants-grid card-size-large">
+                        <!-- Plant cards will be dynamically inserted here -->
+                    </div>
+                    <div id="plantsPagination" class="plants-pagination hidden" aria-label="Pagination"></div>
+                    <div id="loading" class="loading hidden">
+                        <div class="spinner"></div>
+                        <p>Loading plant images...</p>
+                    </div>
+                </div>
 
-        <div id="plantsGrid" class="plants-grid">
-            <!-- Plant cards will be dynamically inserted here -->
-        </div>
-
-        <div id="loading" class="loading hidden">
-            <div class="spinner"></div>
-            <p>Loading plant images...</p>
+                <!-- Plant detail panel (replaces list when a plant is selected) -->
+                <div id="plantDetailPanel" class="plant-detail-panel hidden" aria-hidden="true">
+                    <header class="plant-panel-header">
+                        <button type="button" id="plantPanelBack" class="plant-panel-back" aria-label="Back to plant list">← Back to list</button>
+                    </header>
+                    <div id="modalBody" class="plant-panel-body">
+                        <!-- Plant detail content rendered here -->
+                    </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <div id="plantModal" class="modal hidden">
+    <!-- Legacy modal kept for any non-panel use; plant detail now uses panel above -->
+    <div id="plantModal" class="modal hidden" aria-hidden="true">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <div id="modalBody">
-                <!-- Detailed plant information will be displayed here -->
-            </div>
         </div>
     </div>
 
-    <!-- Image Upload Modal -->
+    <!-- Toast bubble for quick-add messages (e.g. Max stock reached) -->
+    <div id="quickAddToast" class="quick-add-toast" aria-live="polite" role="status"></div>
+
+    <!-- Cart drawer -->
+    <div id="cartOverlay" class="cart-overlay hidden" aria-hidden="true"></div>
+    <aside id="cartDrawer" class="cart-drawer" aria-label="Shopping cart">
+        <div class="cart-drawer-header">
+            <h2 class="cart-drawer-title">Cart</h2>
+            <button type="button" id="cartClose" class="cart-close" aria-label="Close cart">&times;</button>
+        </div>
+        <div id="cartItems" class="cart-items">
+            <!-- Cart items rendered by JS -->
+        </div>
+        <div class="cart-drawer-footer">
+            <p id="cartEmptyMsg" class="cart-empty-msg">Your cart is empty.</p>
+            <p id="cartTotal" class="cart-total hidden"></p>
+            <div class="cart-drawer-actions">
+                <button type="button" id="cartClearBtn" class="cart-clear-btn hidden" aria-label="Clear cart">Clear cart</button>
+                <a href="checkout.html" id="cartCheckoutBtn" class="cart-checkout-btn hidden">Proceed to checkout</a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Edit Plant Details Modal (images + description, renames/saves to plant JSON) -->
     <div id="uploadModal" class="upload-modal hidden">
         <div class="upload-modal-content">
             <span class="close" id="closeUploadModal">&times;</span>
-            <h2 style="margin-bottom: 1rem; color: var(--primary-color);">Upload Plant Image</h2>
-            <p id="uploadPlantName" style="margin-bottom: 1.5rem; color: var(--text-light);"></p>
-            
-            <!-- Hidden file input for click functionality on drag-drop area -->
-            <input type="file" id="fileInput" accept="image/*" multiple style="display: none;">
+            <h2 style="margin-bottom: 1rem; color: var(--primary-color);">Edit Plant Details</h2>
+            <p id="uploadPlantName" style="margin-bottom: 1rem; color: var(--text-light);"></p>
 
-            <!-- Drag & Drop Section -->
-            <div class="drag-drop-section">
-                <div class="drag-drop-area" id="dragDropArea">
-                    <div id="dragDropEmpty" class="drag-drop-empty">
-                        <p style="font-size: 3rem; margin: 0;">📤</p>
-                        <p><strong>Drag and drop image here</strong></p>
-                        <p>or click to browse</p>
-                        <p style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-light);">or press Ctrl+V to paste</p>
-                    </div>
-                    <div id="dragDropGallery" class="drag-drop-gallery" style="display: none;">
-                        <div class="drag-drop-gallery-header">
-                            <span>Dropped Images (<span id="dragDropCount">0</span>)</span>
-                            <button class="btn-clear-gallery" onclick="clearDragDropGallery()" title="Clear all images">Clear All</button>
-                        </div>
-                        <div id="dragDropGalleryGrid" class="drag-drop-gallery-grid"></div>
-                    </div>
+            <!-- Scientific name & Common names -->
+            <div class="edit-plant-section" style="margin-bottom: 1.25rem;">
+                <div class="edit-plant-name-row" style="margin-bottom: 0.75rem;">
+                    <label for="uploadScientificName" class="edit-plant-detail-label">Scientific name</label>
+                    <input type="text" id="uploadScientificName" class="edit-plant-input edit-plant-text" placeholder="e.g. Genus species">
                 </div>
-                
-                <!-- URL Input Section -->
-                <div class="url-input-section" style="margin-top: 1.5rem;">
-                    <div style="display: flex; gap: 0.5rem;">
-                        <input type="url" id="imageUrlInput" class="url-input" placeholder="Paste image URL here..." style="flex: 1;">
-                        <button class="btn btn-primary" id="loadUrlBtn">Load</button>
+                <div class="edit-plant-name-row">
+                    <label for="uploadCommonNames" class="edit-plant-detail-label">Common names</label>
+                    <input type="text" id="uploadCommonNames" class="edit-plant-input edit-plant-text" placeholder="Comma-separated, e.g. Name One, Name Two">
+                </div>
+                <div class="edit-plant-name-row">
+                    <label for="uploadCatalogueOfLifeUrl" class="edit-plant-detail-label">Catalogue of Life (taxon link)</label>
+                    <input type="url" id="uploadCatalogueOfLifeUrl" class="edit-plant-input edit-plant-text" placeholder="https://www.catalogueoflife.org/data/taxon/...">
+                </div>
+            </div>
+
+            <!-- Description -->
+            <div class="edit-plant-section" style="margin-bottom: 1.5rem;">
+                <label for="uploadPlantDescription" class="edit-plant-detail-label">Description</label>
+                <textarea id="uploadPlantDescription" class="upload-plant-description" rows="6" placeholder="Enter or edit the plant description..."></textarea>
+            </div>
+
+            <!-- Care tips (one per line) -->
+            <div class="edit-plant-section" style="margin-bottom: 1.5rem;">
+                <label for="uploadCareTips" class="edit-plant-detail-label">Care tips</label>
+                <p class="edit-plant-field-hint">One tip per line. Add or remove lines as needed.</p>
+                <textarea id="uploadCareTips" class="edit-plant-textarea-lines" rows="5" placeholder="e.g.&#10;Water when the top inch of soil is dry&#10;Bright indirect light&#10;Fertilize monthly in growing season"></textarea>
+            </div>
+
+            <!-- Suitable for (clickable tags) -->
+            <div class="edit-plant-section edit-plant-suitable-section" style="margin-bottom: 1.5rem;">
+                <h3 class="edit-plant-details-title">Suitable for</h3>
+                <p class="edit-plant-field-hint">Click to select or deselect enclosure types.</p>
+                <div id="uploadSuitableForTags" class="edit-plant-suitable-tags"></div>
+            </div>
+
+            <!-- Plant details (list selections from existing data) -->
+            <div class="edit-plant-section edit-plant-details-section" style="margin-bottom: 1.5rem;">
+                <h3 class="edit-plant-details-title">Plant details</h3>
+                <div class="edit-plant-details-grid">
+                    <div class="edit-plant-detail-row">
+                        <label for="uploadPlantType" class="edit-plant-detail-label">Plant type</label>
+                        <select id="uploadPlantType" class="edit-plant-select" data-plant-field="plantType"></select>
+                    </div>
+                    <div class="edit-plant-detail-row edit-plant-size-row">
+                        <label class="edit-plant-detail-label">Size (cm)</label>
+                        <div class="edit-plant-size-inputs">
+                            <input type="number" id="uploadSizeMin" class="edit-plant-input edit-plant-size-min" placeholder="Min" min="0" step="0.1" inputmode="decimal">
+                            <span class="edit-plant-size-sep">–</span>
+                            <input type="number" id="uploadSizeMax" class="edit-plant-input edit-plant-size-max" placeholder="Max" min="0" step="0.1" inputmode="decimal">
+                        </div>
+                    </div>
+                    <div class="edit-plant-detail-row">
+                        <label for="uploadSubstrate" class="edit-plant-detail-label">Substrate</label>
+                        <select id="uploadSubstrate" class="edit-plant-select" data-plant-field="substrate"></select>
+                    </div>
+                    <div class="edit-plant-detail-row">
+                        <label for="uploadGrowthRate" class="edit-plant-detail-label">Growth rate</label>
+                        <select id="uploadGrowthRate" class="edit-plant-select" data-plant-field="growthRate"></select>
+                    </div>
+                    <div class="edit-plant-detail-row">
+                        <label for="uploadRarity" class="edit-plant-detail-label">Rarity</label>
+                        <select id="uploadRarity" class="edit-plant-select" data-plant-field="rarity"></select>
+                    </div>
+                    <div class="edit-plant-detail-row">
+                        <label for="uploadGrowthPattern" class="edit-plant-detail-label">Growth pattern</label>
+                        <select id="uploadGrowthPattern" class="edit-plant-select" data-plant-field="growthPattern"></select>
+                    </div>
+                    <div class="edit-plant-detail-row">
+                        <label for="uploadGrowthHabit" class="edit-plant-detail-label">Growth habit</label>
+                        <select id="uploadGrowthHabit" class="edit-plant-select" data-plant-field="growthHabit"></select>
+                    </div>
+                    <div class="edit-plant-detail-row">
+                        <label for="uploadHazard" class="edit-plant-detail-label">Hazard</label>
+                        <select id="uploadHazard" class="edit-plant-select" data-plant-field="hazard"></select>
+                    </div>
+                    <div class="edit-plant-detail-row">
+                        <label for="uploadFloweringPeriod" class="edit-plant-detail-label">Flowering period</label>
+                        <select id="uploadFloweringPeriod" class="edit-plant-select" data-plant-field="floweringPeriod"></select>
                     </div>
                 </div>
             </div>
 
+            <!-- Shopping / inventory (price, stock; updates inventory tables) -->
+            <div class="edit-plant-section edit-plant-shopping-section" style="margin-bottom: 1.5rem;">
+                <h3 class="edit-plant-details-title">Shopping / inventory</h3>
+                <p class="edit-plant-field-hint">Price, cost, stock and reorder level used in the store and inventory tables.</p>
+                <div class="edit-plant-details-grid">
+                    <div class="edit-plant-detail-row">
+                        <label for="uploadPrice" class="edit-plant-detail-label">Sell price</label>
+                        <input type="number" id="uploadPrice" class="edit-plant-input" placeholder="e.g. 12.99" min="0" step="0.01" inputmode="decimal">
+                    </div>
+                    <div class="edit-plant-detail-row">
+                        <label for="uploadCost" class="edit-plant-detail-label">Cost</label>
+                        <input type="number" id="uploadCost" class="edit-plant-input" placeholder="Cost per unit" min="0" step="0.01" inputmode="decimal">
+                    </div>
+                    <div class="edit-plant-detail-row">
+                        <label for="uploadInventory" class="edit-plant-detail-label">Quantity in stock</label>
+                        <input type="number" id="uploadInventory" class="edit-plant-input" placeholder="0" min="0" step="1" inputmode="numeric">
+                    </div>
+                    <div class="edit-plant-detail-row">
+                        <label for="uploadReorder" class="edit-plant-detail-label">Reorder when below</label>
+                        <input type="number" id="uploadReorder" class="edit-plant-input" placeholder="e.g. 5" min="0" step="1" inputmode="numeric">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Requirement details (min–max, same pattern as Size) -->
+            <div class="edit-plant-section edit-plant-requirements-section" style="margin-bottom: 1.5rem;">
+                <h3 class="edit-plant-details-title">Requirement details</h3>
+                <p class="edit-plant-field-hint">Min and max values (0–100 scale where applicable).</p>
+                <div class="edit-plant-requirements-grid">
+                    <div class="edit-plant-range-row">
+                        <label class="edit-plant-detail-label">Humidity %</label>
+                        <div class="edit-plant-size-inputs">
+                            <input type="number" id="uploadHumidityMin" class="edit-plant-input edit-plant-range-inp" placeholder="Min" min="0" max="100" step="1" inputmode="numeric">
+                            <span class="edit-plant-size-sep">–</span>
+                            <input type="number" id="uploadHumidityMax" class="edit-plant-input edit-plant-range-inp" placeholder="Max" min="0" max="100" step="1" inputmode="numeric">
+                        </div>
+                    </div>
+                    <div class="edit-plant-range-row">
+                        <label class="edit-plant-detail-label">Light %</label>
+                        <div class="edit-plant-size-inputs">
+                            <input type="number" id="uploadLightMin" class="edit-plant-input edit-plant-range-inp" placeholder="Min" min="0" max="100" step="1" inputmode="numeric">
+                            <span class="edit-plant-size-sep">–</span>
+                            <input type="number" id="uploadLightMax" class="edit-plant-input edit-plant-range-inp" placeholder="Max" min="0" max="100" step="1" inputmode="numeric">
+                        </div>
+                    </div>
+                    <div class="edit-plant-range-row">
+                        <label class="edit-plant-detail-label">Temperature (°C)</label>
+                        <div class="edit-plant-size-inputs">
+                            <input type="number" id="uploadTempMin" class="edit-plant-input edit-plant-range-inp" placeholder="Min" step="1" inputmode="numeric">
+                            <span class="edit-plant-size-sep">–</span>
+                            <input type="number" id="uploadTempMax" class="edit-plant-input edit-plant-range-inp" placeholder="Max" step="1" inputmode="numeric">
+                        </div>
+                    </div>
+                    <div class="edit-plant-range-row">
+                        <label class="edit-plant-detail-label">Air circulation %</label>
+                        <div class="edit-plant-size-inputs">
+                            <input type="number" id="uploadAirCircMin" class="edit-plant-input edit-plant-range-inp" placeholder="Min" min="0" max="100" step="1" inputmode="numeric">
+                            <span class="edit-plant-size-sep">–</span>
+                            <input type="number" id="uploadAirCircMax" class="edit-plant-input edit-plant-range-inp" placeholder="Max" min="0" max="100" step="1" inputmode="numeric">
+                        </div>
+                    </div>
+                    <div class="edit-plant-range-row">
+                        <label class="edit-plant-detail-label">Water needs %</label>
+                        <div class="edit-plant-size-inputs">
+                            <input type="number" id="uploadWaterNeedsMin" class="edit-plant-input edit-plant-range-inp" placeholder="Min" min="0" max="100" step="1" inputmode="numeric">
+                            <span class="edit-plant-size-sep">–</span>
+                            <input type="number" id="uploadWaterNeedsMax" class="edit-plant-input edit-plant-range-inp" placeholder="Max" min="0" max="100" step="1" inputmode="numeric">
+                        </div>
+                    </div>
+                    <div class="edit-plant-range-row">
+                        <label class="edit-plant-detail-label">Difficulty %</label>
+                        <div class="edit-plant-size-inputs">
+                            <input type="number" id="uploadDifficultyMin" class="edit-plant-input edit-plant-range-inp" placeholder="Min" min="0" max="100" step="1" inputmode="numeric">
+                            <span class="edit-plant-size-sep">–</span>
+                            <input type="number" id="uploadDifficultyMax" class="edit-plant-input edit-plant-range-inp" placeholder="Max" min="0" max="100" step="1" inputmode="numeric">
+                        </div>
+                    </div>
+                    <div class="edit-plant-range-row">
+                        <label class="edit-plant-detail-label">Growth rate %</label>
+                        <div class="edit-plant-size-inputs">
+                            <input type="number" id="uploadGrowthRateMin" class="edit-plant-input edit-plant-range-inp" placeholder="Min" min="0" max="100" step="1" inputmode="numeric">
+                            <span class="edit-plant-size-sep">–</span>
+                            <input type="number" id="uploadGrowthRateMax" class="edit-plant-input edit-plant-range-inp" placeholder="Max" min="0" max="100" step="1" inputmode="numeric">
+                        </div>
+                    </div>
+                    <div class="edit-plant-range-row">
+                        <label class="edit-plant-detail-label">Soil pH (×10)</label>
+                        <div class="edit-plant-size-inputs">
+                            <input type="number" id="uploadSoilPhMin" class="edit-plant-input edit-plant-range-inp" placeholder="Min" min="0" max="140" step="0.1" inputmode="decimal">
+                            <span class="edit-plant-size-sep">–</span>
+                            <input type="number" id="uploadSoilPhMax" class="edit-plant-input edit-plant-range-inp" placeholder="Max" min="0" max="140" step="0.1" inputmode="decimal">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <div class="upload-buttons">
                 <button class="btn btn-secondary" id="selectFolderBtn" style="display: none;">📁 Select Images Folder</button>
-                <button class="btn btn-primary" id="saveImageBtn">💾 Save Image</button>
+                <button class="btn btn-primary" id="saveImageBtn">💾 Save</button>
                 <button class="btn btn-secondary" id="cancelUploadBtn">Cancel</button>
             </div>
             <div id="folderStatus" style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);"></div>
         </div>
     </div>
 
+    <!-- Plant images modal (add/edit images and gallery, like equipment) -->
+    <div id="plantImageModal" class="upload-modal hidden">
+        <div class="upload-modal-content equipment-edit-modal-content">
+            <span class="close" id="closePlantImageModal" aria-label="Close">&times;</span>
+            <h2 style="margin-bottom: 1rem; color: var(--primary-color);">Plant images</h2>
+            <p id="plantImageModalName" style="margin-bottom: 1rem; color: var(--text-light);"></p>
+            <div class="edit-plant-section" style="margin-bottom: 1rem;">
+                <label class="edit-plant-detail-label">Images</label>
+            </div>
+            <div class="drag-drop-section">
+                <div class="drag-drop-area" id="plantDragDropArea">
+                    <div id="plantDragDropEmpty" class="drag-drop-empty">
+                        <p style="font-size: 3rem; margin: 0;">📤</p>
+                        <p><strong>Drag and drop images here</strong></p>
+                        <p>or click to browse</p>
+                        <p style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-light);">or press Ctrl+V to paste</p>
+                    </div>
+                    <div id="plantDragDropGallery" class="drag-drop-gallery" style="display: none;">
+                        <div class="drag-drop-gallery-header">
+                            <span>Images (<span id="plantDragDropCount">0</span>)</span>
+                            <button type="button" class="btn-clear-gallery" id="plantClearGalleryBtn" title="Clear all">Clear All</button>
+                        </div>
+                        <div id="plantDragDropGalleryGrid" class="drag-drop-gallery-grid"></div>
+                    </div>
+                </div>
+                <div class="url-input-section" style="margin-top: 1rem;">
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input type="url" id="plantImageUrlInput" class="url-input" placeholder="Paste image URL..." style="flex: 1;">
+                        <button type="button" class="btn btn-primary" id="plantImageLoadUrlBtn">Load</button>
+                    </div>
+                </div>
+            </div>
+            <div class="upload-buttons" style="margin-top: 1rem;">
+                <button type="button" class="btn btn-primary" id="plantImageSaveBtn">💾 Save</button>
+                <button type="button" class="btn btn-secondary" id="plantImageCancelBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <input type="file" id="plantFileInput" accept="image/*" multiple style="display: none;">
+
+    <!-- Edit Equipment Modal (inventory: size, price, cost, stock, reorder) -->
+    <div id="equipmentEditModal" class="upload-modal hidden">
+        <div class="upload-modal-content equipment-edit-modal-content">
+            <span class="close" id="closeEquipmentEditModal" aria-label="Close">&times;</span>
+            <h2 style="margin-bottom: 1rem; color: var(--primary-color);">Edit equipment</h2>
+            <p id="equipmentEditName" style="margin-bottom: 1rem; color: var(--text-light);"></p>
+            <div class="edit-plant-section edit-plant-shopping-section" style="margin-bottom: 1rem;">
+                <div class="edit-plant-details-grid">
+                    <div class="edit-plant-detail-row">
+                        <label for="equipmentEditSize" class="edit-plant-detail-label">Size</label>
+                        <input type="text" id="equipmentEditSize" class="edit-plant-input" placeholder="e.g. Small, 10cm">
+                    </div>
+                    <div class="edit-plant-detail-row">
+                        <label for="equipmentEditPrice" class="edit-plant-detail-label">Sell price (KD)</label>
+                        <input type="number" id="equipmentEditPrice" class="edit-plant-input" min="0" step="0.01" placeholder="Price">
+                    </div>
+                    <div class="edit-plant-detail-row">
+                        <label for="equipmentEditCost" class="edit-plant-detail-label">Cost (KD)</label>
+                        <input type="number" id="equipmentEditCost" class="edit-plant-input" min="0" step="0.01" placeholder="Cost">
+                    </div>
+                    <div class="edit-plant-detail-row">
+                        <label for="equipmentEditStock" class="edit-plant-detail-label">Quantity in stock</label>
+                        <input type="number" id="equipmentEditStock" class="edit-plant-input" min="0" step="1" placeholder="0">
+                    </div>
+                    <div class="edit-plant-detail-row">
+                        <label for="equipmentEditReorder" class="edit-plant-detail-label">Reorder when below</label>
+                        <input type="number" id="equipmentEditReorder" class="edit-plant-input" min="0" step="1" placeholder="e.g. 5">
+                    </div>
+                </div>
+            </div>
+            <div class="upload-buttons">
+                <button class="btn btn-primary" id="equipmentEditSaveBtn">Save</button>
+                <button class="btn btn-secondary" id="equipmentEditCancelBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Equipment images modal (add/edit images and gallery, like plants) -->
+    <div id="equipmentImageModal" class="upload-modal hidden">
+        <div class="upload-modal-content equipment-edit-modal-content">
+            <span class="close" id="closeEquipmentImageModal" aria-label="Close">&times;</span>
+            <h2 style="margin-bottom: 1rem; color: var(--primary-color);">Equipment images</h2>
+            <p id="equipmentImageModalName" style="margin-bottom: 1rem; color: var(--text-light);"></p>
+            <div class="edit-plant-section" style="margin-bottom: 1rem;">
+                <label class="edit-plant-detail-label">Images</label>
+            </div>
+            <div class="drag-drop-section">
+                <div class="drag-drop-area" id="equipmentDragDropArea">
+                    <div id="equipmentDragDropEmpty" class="drag-drop-empty">
+                        <p style="font-size: 3rem; margin: 0;">📤</p>
+                        <p><strong>Drag and drop images here</strong></p>
+                        <p>or click to browse</p>
+                        <p style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-light);">or press Ctrl+V to paste</p>
+                    </div>
+                    <div id="equipmentDragDropGallery" class="drag-drop-gallery" style="display: none;">
+                        <div class="drag-drop-gallery-header">
+                            <span>Images (<span id="equipmentDragDropCount">0</span>)</span>
+                            <button type="button" class="btn-clear-gallery" id="equipmentClearGalleryBtn" title="Clear all">Clear All</button>
+                        </div>
+                        <div id="equipmentDragDropGalleryGrid" class="drag-drop-gallery-grid"></div>
+                    </div>
+                </div>
+                <div class="url-input-section" style="margin-top: 1rem;">
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input type="url" id="equipmentImageUrlInput" class="url-input" placeholder="Paste image URL..." style="flex: 1;">
+                        <button type="button" class="btn btn-primary" id="equipmentImageLoadUrlBtn">Load</button>
+                    </div>
+                </div>
+            </div>
+            <div class="upload-buttons" style="margin-top: 1rem;">
+                <button type="button" class="btn btn-primary" id="equipmentImageSaveBtn">💾 Save</button>
+                <button type="button" class="btn btn-secondary" id="equipmentImageCancelBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <input type="file" id="equipmentFileInput" accept="image/*" multiple style="display: none;">
+
+    <!-- Add New Plant - fixed bottom-right -->
+    <button type="button" class="btn-add-plant" id="addNewPlantBtn" aria-label="Add new plant" title="Add new plant">
+        <span class="btn-add-plant-text">Add New Plant</span>
+        <span class="btn-add-plant-icon">+</span>
+    </button>
+
     <footer>
         <div class="container">
-            <p>&copy; 2024 Vivarium Plant Index | Data sourced from various plant databases</p>
+            <p>&copy; 2024 Vivarium Store | Data sourced from various plant databases</p>
         </div>
     </footer>
 
+    <!-- Inventory DB (IndexedDB via Dexie) – stock, prices, sales -->
+    <script src="https://cdn.jsdelivr.net/npm/dexie@3/dist/dexie.min.js"></script>
+    <script src="js/nav.js"></script>
+    <script src="js/inventory-db.js"></script>
     <!-- Plant data - modular structure -->
     <!-- Load image search terms first (also declares empty plantsDatabase) -->
     <script src="data.js?v=4"></script>
     <!-- Then load plants from JSON files into the existing plantsDatabase -->
     <script src="data/plant-loader.js?v=4"></script>
+    <script src="data/equipment-loader.js"></script>
     <!-- Filters helpers must load before the main script -->
     <script src="filters.js?v=1"></script>
     <!-- Image discovery/localStorage helpers -->

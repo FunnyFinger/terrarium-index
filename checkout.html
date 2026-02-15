@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout – Vivarium Store</title>
+    <link rel="stylesheet" href="styles.css?v=3">
+    <style>
+        .checkout-page { max-width: 600px; margin: 2rem auto; padding: 0 1rem; }
+        .checkout-page h1, .checkout-page h2 { color: var(--primary-color); margin-bottom: 0.75rem; }
+        .checkout-cart-list { list-style: none; padding: 0; }
+        .checkout-cart-list li { padding: 0.5rem 0; border-bottom: 1px solid var(--border-color); }
+        .checkout-note { margin-top: 1.5rem; padding: 1rem; background: var(--bg-color); border-radius: 8px; color: var(--text-light); font-size: 0.9rem; }
+        .checkout-total { margin-top: 1rem; font-size: 1.1rem; color: var(--primary-color); }
+        .checkout-form { margin-top: 1.5rem; padding: 1rem 0; border-top: 1px solid var(--border-color); }
+        .checkout-form label { display: block; font-weight: 600; margin-top: 0.75rem; }
+        .checkout-form input, .checkout-form textarea { width: 100%; padding: 0.5rem; margin-top: 0.25rem; border: 1px solid var(--border-color); border-radius: 6px; box-sizing: border-box; }
+        .checkout-form textarea { min-height: 60px; resize: vertical; }
+        .checkout-error { color: #b91c1c; font-size: 0.9rem; margin-top: 0.5rem; }
+        .checkout-payment { margin-top: 1rem; padding: 1rem; background: var(--bg-color); border-radius: 8px; }
+        .checkout-payment label { display: flex; align-items: center; gap: 0.5rem; margin: 0.5rem 0; cursor: pointer; }
+        .checkout-payment input[type="radio"] { width: auto; }
+        .checkout-payment-detail { margin: 0.5rem 0 0 1.5rem; font-size: 0.9rem; color: var(--text-light); }
+        .checkout-btn-wrap { margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.75rem; }
+        .checkout-btn-wrap button { padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; }
+        .checkout-btn-primary { background: var(--primary-color); color: white; }
+        .checkout-btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="banner">
+            <div id="main-nav-container"></div>
+            <div class="banner-overlay">
+                <h1>Checkout</h1>
+                <p class="subtitle">Complete your order</p>
+            </div>
+        </div>
+    </header>
+    <main class="checkout-page">
+        <div id="checkoutCartSummary">
+            <p class="checkout-note">Loading cart…</p>
+        </div>
+        <div id="checkoutFormWrap" class="checkout-form" style="display: none;">
+            <h2>Customer details</h2>
+            <label for="checkoutName">Name</label>
+            <input type="text" id="checkoutName" placeholder="Your name">
+            <label for="checkoutEmail">Email</label>
+            <input type="email" id="checkoutEmail" placeholder="email@example.com">
+            <label for="checkoutPhone">Phone</label>
+            <input type="tel" id="checkoutPhone" placeholder="e.g. +965 1234 5678">
+            <label for="checkoutAddress">Address / delivery notes</label>
+            <textarea id="checkoutAddress" placeholder="Delivery address or notes"></textarea>
+            <div class="checkout-payment">
+                <h3 style="margin: 0 0 0.5rem 0; font-size: 1rem;">Payment method</h3>
+                <label><input type="radio" name="paymentMethod" value="cod" checked> Cash on delivery</label>
+                <label><input type="radio" name="paymentMethod" value="bank"> Bank transfer</label>
+                <label><input type="radio" name="paymentMethod" value="card"> Pay by card (Stripe)</label>
+                <p class="checkout-payment-detail" id="paymentDetailCod">Pay when your order is delivered.</p>
+                <p class="checkout-payment-detail" id="paymentDetailBank" style="display: none;">Transfer to Account XXX / IBAN XXX. Reference: your order number after confirmation.</p>
+                <p class="checkout-payment-detail" id="paymentDetailCard" style="display: none;">You will be redirected to our secure payment page.</p>
+            </div>
+            <p id="checkoutFormError" class="checkout-error" style="display: none;"></p>
+        </div>
+        <p id="checkoutConfirmWrap" class="checkout-note" style="margin-top: 1rem;"></p>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/dexie@3/dist/dexie.min.js"></script>
+    <script src="js/nav.js"></script>
+    <script src="js/inventory-db.js"></script>
+    <script>
+        if (typeof window.CHECKOUT_API_BASE === 'undefined' || window.CHECKOUT_API_BASE === '') {
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+                window.CHECKOUT_API_BASE = 'http://localhost:3000';
+            else window.CHECKOUT_API_BASE = '';
+        }
+        (function() {
+            var key = 'terrarium_cart';
+            var el = document.getElementById('checkoutCartSummary');
+            var confirmWrap = document.getElementById('checkoutConfirmWrap');
+            var formWrap = document.getElementById('checkoutFormWrap');
+            var formError = document.getElementById('checkoutFormError');
+            function formatPrice(amount) {
+                if (amount == null || isNaN(Number(amount))) return '—';
+                return 'KD ' + Number(amount).toFixed(2);
+            }
+            function getPaymentMethod() {
+                var r = document.querySelector('input[name="paymentMethod"]:checked');
+                return r ? r.value : 'cod';
+            }
+            function bindPaymentDetails() {
+                var cod = document.getElementById('paymentDetailCod');
+                var bank = document.getElementById('paymentDetailBank');
+                var card = document.getElementById('paymentDetailCard');
+                document.querySelectorAll('input[name="paymentMethod"]').forEach(function(radio) {
+                    radio.addEventListener('change', function() {
+                        if (cod) cod.style.display = getPaymentMethod() === 'cod' ? 'block' : 'none';
+                        if (bank) bank.style.display = getPaymentMethod() === 'bank' ? 'block' : 'none';
+                        if (card) card.style.display = getPaymentMethod() === 'card' ? 'block' : 'none';
+                    });
+                });
+            }
+            function renderCart() {
+                try {
+                    var cart = JSON.parse(localStorage.getItem(key) || '[]');
+                    if (cart.length === 0) {
+                        el.innerHTML = '<p class="checkout-note">Your cart is empty. <a href="index.html">Browse plants</a>.</p>';
+                        confirmWrap.innerHTML = '';
+                        formWrap.style.display = 'none';
+                        return;
+                    }
+                    var totalQty = cart.reduce(function(s, i) { return s + i.quantity; }, 0);
+                    var totalPrice = cart.reduce(function(s, i) { return s + (i.price != null ? i.price * i.quantity : 0); }, 0);
+                    var hasPrice = cart.some(function(i) { return i.price != null; });
+                    var lines = cart.map(function(i) {
+                        var lineTotal = i.price != null ? i.price * i.quantity : null;
+                        var priceStr = i.price != null ? formatPrice(i.price) + ' each' : 'Price on request';
+                        var lineStr = lineTotal != null ? formatPrice(lineTotal) : '—';
+                        return '<li><strong>' + (i.name || 'Plant') + '</strong> <em>' + (i.scientificName || '') + '</em> × ' + i.quantity + ' · ' + priceStr + ' · ' + lineStr + '</li>';
+                    });
+                    el.innerHTML = '<h2>Order summary</h2><ul class="checkout-cart-list">' + lines.join('') + '</ul><p><strong>Total items: ' + totalQty + '</strong></p>' +
+                        (hasPrice ? '<p class="checkout-total"><strong>Order total: ' + formatPrice(totalPrice) + '</strong></p>' : '');
+                    formWrap.style.display = 'block';
+                    confirmWrap.innerHTML = '<div class="checkout-btn-wrap"><button type="button" id="checkoutConfirmBtn" class="checkout-btn-primary">Confirm order</button></div>';
+                    document.getElementById('checkoutConfirmBtn').onclick = confirmOrder;
+                    bindPaymentDetails();
+                } catch (e) {
+                    el.innerHTML = '<p class="checkout-note">Could not load cart.</p>';
+                }
+            }
+            function confirmOrder() {
+                formError.style.display = 'none';
+                formError.textContent = '';
+                var cart = JSON.parse(localStorage.getItem(key) || '[]');
+                if (cart.length === 0) {
+                    renderCart();
+                    return;
+                }
+                var name = (document.getElementById('checkoutName').value || '').trim();
+                var email = (document.getElementById('checkoutEmail').value || '').trim();
+                var phone = (document.getElementById('checkoutPhone').value || '').trim();
+                var address = (document.getElementById('checkoutAddress').value || '').trim();
+                if (!name && !email) {
+                    formError.textContent = 'Please enter at least your name or email.';
+                    formError.style.display = 'block';
+                    return;
+                }
+                var totalPrice = cart.reduce(function(s, i) { return s + (i.price != null ? i.price * i.quantity : 0); }, 0);
+                var paymentMethod = getPaymentMethod();
+                if (paymentMethod === 'card' && (!totalPrice || totalPrice <= 0)) {
+                    formError.textContent = 'Cart total must be greater than zero to pay by card.';
+                    formError.style.display = 'block';
+                    return;
+                }
+                var orderItems = cart.map(function(i) {
+                    var lineTotal = i.price != null ? i.price * i.quantity : 0;
+                    return { plantId: i.plantId, name: i.name, scientificName: i.scientificName, quantity: i.quantity, price: i.price, lineTotal: lineTotal };
+                });
+                var inv = window.inventoryDb;
+                var order = {
+                    customer: { name: name, email: email, phone: phone, address: address },
+                    items: orderItems,
+                    totalAmount: totalPrice,
+                    paymentMethod: paymentMethod
+                };
+                if (paymentMethod === 'card') {
+                    var apiBase = (window.CHECKOUT_API_BASE || '').replace(/\/$/, '');
+                    if (!apiBase) {
+                        formError.textContent = 'Card payments are not configured. Use Cash on delivery or Bank transfer, or set up the payment server.';
+                        formError.style.display = 'block';
+                        return;
+                    }
+                    order.status = 'pending_payment';
+                    inv.saveOrder(order).then(function(orderId) {
+                        var btn = document.getElementById('checkoutConfirmBtn');
+                        if (btn) { btn.disabled = true; btn.textContent = 'Redirecting…'; }
+                        return fetch(apiBase + '/api/create-checkout-session', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                orderId: orderId,
+                                amount: totalPrice,
+                                currency: 'kwd',
+                                customerEmail: email || undefined,
+                                successUrl: window.location.origin + window.location.pathname.replace(/[^/]+$/, '') + 'checkout-success.html?session_id={CHECKOUT_SESSION_ID}&order_id=' + orderId,
+                                cancelUrl: window.location.href
+                            })
+                        });
+                    }).then(function(res) {
+                        if (!res.ok) throw new Error('Payment server error');
+                        return res.json();
+                    }).then(function(data) {
+                        if (data.url) {
+                            localStorage.setItem(key, '[]');
+                            window.location.href = data.url;
+                        } else throw new Error('No redirect URL');
+                    }).catch(function(err) {
+                        formError.textContent = err.message || 'Could not start payment. Try another method or try again later.';
+                        formError.style.display = 'block';
+                        var btn = document.getElementById('checkoutConfirmBtn');
+                        if (btn) { btn.disabled = false; btn.textContent = 'Confirm order'; }
+                    });
+                    return;
+                }
+                order.status = 'confirmed';
+                if (inv && inv.saveOrder) {
+                    inv.saveOrder(order).then(function(orderId) {
+                        var done = 0;
+                        var total = cart.length;
+                        function onAllDone() {
+                            localStorage.setItem(key, '[]');
+                            var msg = '<strong style="color: var(--primary-color);">Order #' + orderId + ' confirmed. Thank you!</strong><br><br>';
+                            if (paymentMethod === 'cod') msg += 'Pay when your order is delivered. We will contact you at ' + (email || phone || 'the details provided') + '.';
+                            else if (paymentMethod === 'bank') msg += 'Please transfer <strong>' + formatPrice(totalPrice) + '</strong> to our bank account. Reference: Order #' + orderId + '. We will contact you at ' + (email || phone || '') + ' with account details.';
+                            else msg += 'We will contact you at ' + (email || phone || 'the details provided') + '.';
+                            confirmWrap.innerHTML = msg + '<br><br><a href="index.html">Continue shopping</a>';
+                            formWrap.style.display = 'none';
+                            el.innerHTML = '<p class="checkout-note"><a href="index.html">Continue shopping</a></p>';
+                        }
+                        if (total === 0) {
+                            onAllDone();
+                            return;
+                        }
+                        cart.forEach(function(item) {
+                            var amount = item.price != null ? item.price * item.quantity : 0;
+                            (inv.recordSale(item.plantId, item.quantity, amount, item.scientificName) || Promise.resolve())
+                                .then(function() { return inv.decrementStock ? inv.decrementStock(item.plantId, item.quantity) : Promise.resolve(); })
+                                .then(function() {
+                                    done++;
+                                    if (done === total) onAllDone();
+                                });
+                        });
+                    });
+                } else {
+                    localStorage.setItem(key, '[]');
+                    confirmWrap.innerHTML = '<strong style="color: var(--primary-color);">Order confirmed. Thank you!</strong>';
+                    formWrap.style.display = 'none';
+                    el.innerHTML = '<p class="checkout-note">Your cart has been cleared. <a href="index.html">Continue shopping</a>.</p>';
+                }
+            }
+            renderCart();
+        })();
+    </script>
+</body>
+</html>

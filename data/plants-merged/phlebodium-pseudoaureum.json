@@ -1,0 +1,112 @@
+{
+  "id": 10448,
+  "name": "False Golden Polypody",
+  "scientificName": "Phlebodium pseudoaureum",
+  "commonNames": [
+    "Blue Star Fern (syn.)",
+    "Polypodium pseudoaureum"
+  ],
+  "category": [
+    "fern",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining",
+  "size": "15-45 cm",
+  "growthRate": "Moderate",
+  "description": "Phlebodium pseudoaureum (Cav.) Lellinger is a rhizomatous fern native to tropical and subtropical America, from Florida and the Caribbean through Mexico and Central America to South America (including the Amazon region, Paraguay, and Argentina). It belongs to the family Polypodiaceae and was first published as an accepted species in Amer. Fern J. in 1987; it was formerly treated as Polypodium aureum subsp. pseudoaureum. The plant grows primarily in wet tropical biomes and features creeping, scaly rhizomes with broad, pinnatifid to pinnate fronds that can show blue-green to golden tones. It is used medicinally in some regions. In terrariums or as a houseplant it prefers high humidity, moderate light, and well-draining or epiphytic mix, similar to the closely related Phlebodium aureum.",
+  "careTips": [
+    "High humidity (60–80%)",
+    "Bright indirect light; can tolerate some shade",
+    "Well-draining or epiphytic mix; do not bury rhizomes",
+    "Water when surface begins to dry; avoid waterlogging",
+    "Divide rhizomes for propagation"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Polypodiopsida",
+    "order": "Polypodiales",
+    "family": "Polypodiaceae",
+    "genus": "Phlebodium",
+    "species": "Phlebodium pseudoaureum"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "tree-dwelling",
+  "plantType": "fern",
+  "floweringPeriod": "does-not-flower",
+  "propagation": "Spores, Division",
+  "colors": "Green, Blue",
+  "humidityRange": {
+    "min": 60,
+    "max": 85,
+    "ideal": 72
+  },
+  "lightRange": {
+    "min": 50,
+    "max": 90,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 20,
+    "max": 50,
+    "ideal": 35
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 65,
+    "ideal": 52
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 52,
+    "ideal": 44
+  },
+  "difficultyRange": {
+    "min": 40,
+    "max": 65,
+    "ideal": 52
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "carnivorous": false,
+  "waterCirculationRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "waterTemperatureRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "waterPhRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "waterHardnessRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "salinityRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "geographicOrigin": null,
+  "additionalInfo": null
+}

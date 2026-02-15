@@ -4,6 +4,22 @@
 
 // Note: plantsDatabase is declared in data.js, we'll just use it here
 
+function applyPlantEditOverlays(plantsArray) {
+    if (!plantsArray || typeof localStorage === 'undefined') return;
+    for (let i = 0; i < plantsArray.length; i++) {
+        const key = 'plant_edit_' + plantsArray[i].id;
+        try {
+            const saved = localStorage.getItem(key);
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                if (parsed && typeof parsed === 'object') {
+                    plantsArray[i] = parsed;
+                }
+            }
+        } catch (e) { /* ignore */ }
+    }
+}
+
 /**
  * Load all plant data from modular structure
  * This function tries to load from JSON files first, then falls back to data.js
@@ -22,8 +38,9 @@ async function loadAllPlants() {
         console.log('🌱 Attempting to load plants from JSON files...');
         // Check if we have a merged index first (flat folder), else fallback to category index
         const cacheBuster = '?v=' + Date.now();
+        const fetchOpts = { cache: 'no-store' };
         const mergedIndexUrl = 'data/plants-merged/index.json' + cacheBuster;
-        const mergedIndexResp = await fetch(mergedIndexUrl);
+        const mergedIndexResp = await fetch(mergedIndexUrl, fetchOpts);
         if (mergedIndexResp.ok) {
             const mergedIndex = await mergedIndexResp.json();
             const files = mergedIndex.plants || [];
@@ -32,7 +49,7 @@ async function loadAllPlants() {
             // Test fetch first file to verify connectivity
             if (files.length > 0) {
                 const testUrl = `data/plants-merged/${files[0]}${cacheBuster}`;
-                const testResp = await fetch(testUrl);
+                const testResp = await fetch(testUrl, fetchOpts);
                 console.log(`🔍 Test fetch: ${files[0]} - Status: ${testResp.status} ${testResp.ok ? 'OK' : 'FAILED'}`);
                 if (!testResp.ok) {
                     console.error(`❌ Cannot access plant files! First file returned: ${testResp.status} ${testResp.statusText}`);
@@ -53,7 +70,7 @@ async function loadAllPlants() {
                 const batchPromises = batch.map(async (file) => {
                     try {
                         const plantUrl = `data/plants-merged/${file}${cacheBuster}`;
-                        const plantResp = await fetch(plantUrl);
+                        const plantResp = await fetch(plantUrl, fetchOpts);
                         if (plantResp.ok) {
                             const plant = await plantResp.json();
                             return { success: true, plant };
@@ -93,6 +110,7 @@ async function loadAllPlants() {
                 const sortedPlants = loadedPlants.sort((a, b) => a.id - b.id);
                 plantsDatabase.length = 0;
                 plantsDatabase.push(...sortedPlants);
+                applyPlantEditOverlays(plantsDatabase);
                 if (typeof window !== 'undefined') {
                     window.plantsDatabase = plantsDatabase;
                 }
@@ -147,16 +165,11 @@ async function loadAllPlants() {
             console.log(`📊 Total plants loaded: ${loadedPlants.length}`);
             
             if (loadedPlants.length > 0) {
-                // Sort by ID and update the global plantsDatabase
                 const sortedPlants = loadedPlants.sort((a, b) => a.id - b.id);
-                
-                // Clear and populate the existing plantsDatabase array
                 plantsDatabase.length = 0;
                 plantsDatabase.push(...sortedPlants);
-                
+                applyPlantEditOverlays(plantsDatabase);
                 console.log(`✅ Successfully loaded ${plantsDatabase.length} plants from modular files`);
-                
-                // Make available globally
                 if (typeof window !== 'undefined') {
                     window.plantsDatabase = plantsDatabase;
                 }
@@ -178,9 +191,9 @@ async function loadAllPlants() {
                         (typeof plantsDatabase !== 'undefined' ? plantsDatabase : null);
     
     if (globalPlants && Array.isArray(globalPlants) && globalPlants.length > 0) {
-        // Update the existing plantsDatabase array
         plantsDatabase.length = 0;
         plantsDatabase.push(...globalPlants);
+        applyPlantEditOverlays(plantsDatabase);
         if (typeof window !== 'undefined') {
             window.plantsDatabase = plantsDatabase;
         }
@@ -196,16 +209,16 @@ async function loadAllPlants() {
             
             if (globalPlants && Array.isArray(globalPlants) && globalPlants.length > 0) {
                 clearInterval(checkInterval);
-                // Update the existing array (plantsDatabase is const in data.js)
                 if (typeof plantsDatabase !== 'undefined') {
                     plantsDatabase.length = 0;
                     plantsDatabase.push(...globalPlants);
+                    applyPlantEditOverlays(plantsDatabase);
                 }
                 if (typeof window !== 'undefined') {
-                    window.plantsDatabase = globalPlants;
+                    window.plantsDatabase = plantsDatabase || globalPlants;
                 }
                 console.log(`✅ Loaded ${globalPlants.length} plants from data.js`);
-                resolve(globalPlants);
+                resolve(plantsDatabase || globalPlants);
             }
         }, 100);
         
@@ -216,10 +229,10 @@ async function loadAllPlants() {
                                 (typeof plantsDatabase !== 'undefined' ? plantsDatabase : []);
             const finalPlants = Array.isArray(globalPlants) ? globalPlants : [];
             
-            // Update existing plantsDatabase if it exists
             if (typeof plantsDatabase !== 'undefined' && finalPlants.length > 0) {
                 plantsDatabase.length = 0;
                 plantsDatabase.push(...finalPlants);
+                applyPlantEditOverlays(plantsDatabase);
             }
             
             if (finalPlants.length === 0) {

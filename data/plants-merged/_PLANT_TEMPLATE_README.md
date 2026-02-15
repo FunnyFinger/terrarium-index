@@ -13,12 +13,12 @@ This file (`_PLANT_TEMPLATE.json`) serves as the **master reference** for all pl
 
 ### Categorization
 - **category**: Array of category strings (e.g., `["carnivorous", "flowering", "aquatic"]`)
-- **substrate**: Substrate type description (e.g., `"Well Draining Mix"`, `"Carnivorous Mix"`)
+- **substrate**: One of `"Well Draining"`, `"Moist"`, `"Epiphytic"`, `"Attached"`, or `"None"`
 - **substrateType**: Substrate type classification (e.g., `"wet"`, `"dry"`, `"moist"`, `"epiphytic"`, `"aquatic"`)
 
 ### Physical Characteristics
 - **size**: Size range string (e.g., `"5-15 cm"`, `"23-30 cm"`)
-- **growthRate**: Growth rate description (e.g., `"Moderate"`, `"Fast"`, `"Slow"`)
+- **growthRate**: One of `"Slow"`, `"Moderate"`, or `"Fast"`
 - **growthPattern**: Growth pattern (e.g., `"rosette"`, `"upright-bushy"`, `"clumping"`, `"carpeting"`)
 - **growthHabit**: Growth habit (e.g., `"ground-dwelling"`, `"tree-dwelling"`, `"fully-aquatic"`, `"semi-aquatic"`)
 - **plantType**: Plant type (e.g., `"flowering-plant"`, `"moss"`, `"fern"`)

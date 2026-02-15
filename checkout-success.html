@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment successful – Vivarium Store</title>
+    <link rel="stylesheet" href="styles.css?v=3">
+    <style>
+        .success-page { max-width: 500px; margin: 3rem auto; padding: 1rem; text-align: center; }
+        .success-page h1 { color: var(--primary-color); margin-bottom: 0.5rem; }
+        .success-page p { color: var(--text-color); margin: 0.75rem 0; }
+        .success-page a { color: var(--accent-color); font-weight: 600; }
+        .success-page .success-icon { font-size: 3rem; margin-bottom: 0.5rem; }
+        .success-page .error { color: #b91c1c; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="banner">
+            <div id="main-nav-container"></div>
+            <div class="banner-overlay">
+                <h1>Payment</h1>
+            </div>
+        </div>
+    </header>
+    <main class="success-page">
+        <div id="successContent">
+            <p>Verifying payment…</p>
+        </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/dexie@3/dist/dexie.min.js"></script>
+    <script src="js/nav.js"></script>
+    <script src="js/inventory-db.js"></script>
+    <script>
+        (function() {
+            var params = new URLSearchParams(window.location.search);
+            var sessionId = params.get('session_id');
+            var orderId = params.get('order_id');
+            var content = document.getElementById('successContent');
+            if (!sessionId || !orderId) {
+                content.innerHTML = '<p class="error">Missing session or order. <a href="index.html">Return home</a>.</p>';
+                return;
+            }
+            var apiBase = (window.CHECKOUT_API_BASE || '').replace(/\/$/, '');
+            if (!apiBase && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'))
+                apiBase = 'http://localhost:3000';
+            if (!apiBase) {
+                content.innerHTML = '<p>Payment completed. Order #' + orderId + '.</p><p><a href="index.html">Continue shopping</a></p>';
+                return;
+            }
+            fetch(apiBase + '/api/verify-session?session_id=' + encodeURIComponent(sessionId) + '&order_id=' + encodeURIComponent(orderId), { method: 'GET' })
+                .then(function(r) { return r.ok ? r.json() : Promise.reject(new Error('Verify failed')); })
+                .then(function(data) {
+                    if (!data.verified || !window.inventoryDb) return data;
+                    var inv = window.inventoryDb;
+                    return inv.updateOrderStatus(parseInt(orderId, 10), 'paid').then(function() {
+                        return inv.getOrder(parseInt(orderId, 10));
+                    }).then(function(order) {
+                        if (!order || !order.items || order.items.length === 0) return data;
+                        var chain = Promise.resolve();
+                        order.items.forEach(function(item) {
+                            chain = chain.then(function() {
+                                var amount = item.lineTotal != null ? item.lineTotal : 0;
+                                return (inv.recordSale(item.plantId, item.quantity, amount, item.scientificName) || Promise.resolve())
+                                    .then(function() { return inv.decrementStock ? inv.decrementStock(item.plantId, item.quantity) : Promise.resolve(); });
+                            });
+                        });
+                        return chain.then(function() { return data; });
+                    }).then(function() { return data; });
+                })
+                .then(function() {
+                    content.innerHTML = '<div class="success-icon">✓</div><h1>Thank you</h1><p>Your payment was successful. Order #' + orderId + ' is confirmed.</p><p><a href="index.html">Continue shopping</a> · <a href="dashboard.html">Dashboard</a></p>';
+                })
+                .catch(function() {
+                    content.innerHTML = '<p class="error">We could not verify the payment. Your card may have been charged. Please contact us with order #' + orderId + '.</p><p><a href="index.html">Return home</a></p>';
+                });
+        })();
+    </script>
+</body>
+</html>

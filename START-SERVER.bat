@@ -3,7 +3,7 @@ cd /d "%~dp0"
 
 echo.
 echo ========================================
-echo   Terrarium Plant Index - Web Server
+echo   Vivarium Store - Web Server
 echo ========================================
 echo.
 

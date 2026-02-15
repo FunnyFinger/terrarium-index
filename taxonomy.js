@@ -12,15 +12,46 @@ let allPlants = [];
 let isolatedNodes = null; // Store which nodes should be visible during isolation
 let nodePositions = new Map(); // Store fixed positions for nodes by their unique identifier
 let savedZoomTransform = null; // Store zoom transform to preserve pan/zoom state
+let fixedRadiusByDepth = null; // Fixed radius (ring) per depth - set once from full tree, never changed
+let fixedRadiiLocked = false;
 
 // Local vernacular names cache (loaded from JSON file)
 let localVernacularNames = null;
 let vernacularNamesLoaded = false;
 
+// Normalize scientific name to string (handles object from API: .scientificName, .name, .uninomial)
+function getScientificNameString(plantOrName) {
+    if (plantOrName == null) return '';
+    if (typeof plantOrName === 'string') return plantOrName.trim();
+    if (typeof plantOrName === 'object') {
+        let sn = plantOrName.scientificName ?? plantOrName.name ?? plantOrName.uninomial;
+        // Handle nested object (e.g. scientificName: { scientificName: "Genus species", genus: "Genus", specificEpithet: "species" })
+        if (typeof sn === 'object' && sn !== null) {
+            const nested = sn.scientificName ?? sn.name ?? sn.uninomial;
+            if (typeof nested === 'string') return nested.trim();
+            if (sn.genus != null || sn.specificEpithet != null) {
+                const g = (typeof sn.genus === 'string' ? sn.genus : '') || '';
+                const s = (typeof sn.specificEpithet === 'string' ? sn.specificEpithet : '') || (typeof sn.species === 'string' ? sn.species : '');
+                return [g, s].filter(Boolean).join(' ').trim();
+            }
+        }
+        if (typeof sn === 'string') return sn.trim();
+        if (plantOrName.taxonomy?.genus != null || plantOrName.taxonomy?.species != null) {
+            const g = (typeof plantOrName.taxonomy.genus === 'string' ? plantOrName.taxonomy.genus : '') || '';
+            const s = (typeof plantOrName.taxonomy.species === 'string' ? plantOrName.taxonomy.species : '') || '';
+            return [g, s].filter(Boolean).join(' ').trim();
+        }
+        return '';
+    }
+    return String(plantOrName).trim();
+}
+
 // Convert scientific name to slug (matching folder naming convention)
 function scientificNameToSlug(scientificName) {
-    if (!scientificName) return null;
-    return scientificName
+    const str = getScientificNameString(scientificName);
+    if (!str) return null;
+    const strVal = typeof str === 'string' ? str : String(str);
+    return strVal
         .toLowerCase()
         .trim()
         .replace(/\s+/g, '-')
@@ -29,13 +60,31 @@ function scientificNameToSlug(scientificName) {
         .replace(/^-|-$/g, '');
 }
 
+// Get folder slug for image path - prefers taxonomy (correct plant data) over scientificName (can be wrong from API)
+function getPlantFolderSlug(plant) {
+    if (!plant) return null;
+    const tax = plant.taxonomy;
+    if (tax?.species && typeof tax.species === 'string') {
+        const slug = scientificNameToSlug(tax.species);
+        if (slug) return slug;
+    }
+    if (tax?.genus && typeof tax.genus === 'string') {
+        const epithet = tax.species && typeof tax.species === 'string' && !tax.species.includes(' ') ? tax.species : null;
+        const combined = epithet ? `${tax.genus} ${epithet}` : tax.genus;
+        const slug = scientificNameToSlug(combined);
+        if (slug) return slug;
+    }
+    return scientificNameToSlug(plant);
+}
+
 // Get plant image path - optimized for tree view (small thumbnails) or full size
 function getPlantImagePath(plant, preferThumb = true) {
     if (!plant) return null;
-    
+    const snStr = getScientificNameString(plant);
+
     // First, try to find a small thumbnail specifically for tree view
-    if (preferThumb && plant.scientificName) {
-        const folderName = scientificNameToSlug(plant.scientificName);
+    if (preferThumb && snStr) {
+        const folderName = getPlantFolderSlug(plant);
         if (folderName) {
             // Try tree-specific thumbnail first (smaller, optimized for tree)
             // This should be a 40x40 or 60x60 thumbnail saved as thumb.jpg
@@ -69,8 +118,8 @@ function getPlantImagePath(plant, preferThumb = true) {
     }
     
     // Last resort: try to construct path from scientific name
-    if (!preferThumb && plant.scientificName) {
-        const folderName = scientificNameToSlug(plant.scientificName);
+    if (!preferThumb && snStr) {
+        const folderName = getPlantFolderSlug(plant);
         if (folderName) {
             // Use the actual naming convention: images/folderName/folderName-1.jpg
             return `images/${folderName}/${folderName}-1.jpg`;
@@ -137,7 +186,7 @@ function buildTaxonomyTree(plants) {
             taxonomy.order || 'Unknown',
             taxonomy.family || 'Unknown',
             taxonomy.genus || 'Unknown',
-            taxonomy.species || plant.scientificName || 'Unknown'
+            taxonomy.species || getScientificNameString(plant) || 'Unknown'
         ];
         
         let current = kingdoms[kingdom];
@@ -156,28 +205,16 @@ function buildTaxonomyTree(plants) {
             current = current.children[name];
         });
         
-        // Add plant to the species node
-        // Store the full plant object so we can access imageUrl/images later
+        // Add plant to the species node (scientificName stored as string for safe .toLowerCase() etc.)
+        const scientificNameStr = getScientificNameString(plant);
         const plantData = {
             id: plant.id,
-            scientificName: plant.scientificName,
+            scientificName: scientificNameStr,
             name: plant.name,
             imagePath: getPlantImagePath(plant),
             plant: plant // Store full plant object for image access
         };
         current.plants.push(plantData);
-        
-        // Debug: log for Peperomia ferreyrae to verify data is stored correctly
-        if (plant.scientificName === 'Peperomia ferreyrae') {
-            console.log('Stored plant data for Peperomia ferreyrae:', {
-                id: plantData.id,
-                scientificName: plantData.scientificName,
-                imagePath: plantData.imagePath,
-                hasPlantObject: !!plantData.plant,
-                plantImageUrl: plantData.plant?.imageUrl,
-                plantImages: plantData.plant?.images
-            });
-        }
     });
     
     // Convert to D3 hierarchy format
@@ -218,12 +255,17 @@ async function initializeTaxonomy() {
         console.warn('Failed to preload vernacular names:', err);
     });
     
-    // Wait for plants to load
+    // Wait for plants to load (with 10s timeout)
     if (typeof plantsDatabase === 'undefined' || plantsDatabase.length === 0) {
         console.log('⏳ Waiting for plants to load...');
         await new Promise(resolve => {
+            const TIMEOUT_MS = 10000;
+            const start = Date.now();
             const checkInterval = setInterval(() => {
                 if (typeof plantsDatabase !== 'undefined' && plantsDatabase.length > 0) {
+                    clearInterval(checkInterval);
+                    resolve();
+                } else if (Date.now() - start > TIMEOUT_MS) {
                     clearInterval(checkInterval);
                     resolve();
                 }
@@ -237,7 +279,11 @@ async function initializeTaxonomy() {
     console.log(`📊 Loaded ${allPlants.length} plants for taxonomy tree`);
     
     if (allPlants.length === 0) {
-        document.getElementById('taxonomyTree').innerHTML = '<p>No plants found. Please ensure plant data is loaded.</p>';
+        const container = document.getElementById('taxonomyTree');
+        const isFileProtocol = typeof window !== 'undefined' && window.location.protocol === 'file:';
+        container.innerHTML = isFileProtocol
+            ? '<div class="loading-taxonomy"><p><strong>Cannot load plant data when opening from file.</strong></p><p>Please run a local web server from the project folder:</p><code style="display:block;margin:1rem 0;padding:0.5rem;background:var(--card-bg);border-radius:4px;">python -m http.server 8000</code><p>Then open <a href="http://localhost:8000/taxonomy.html" style="color:var(--accent-color);">http://localhost:8000/taxonomy.html</a></p></div>'
+            : '<div class="loading-taxonomy"><p>No plants found. Please ensure plant data is loaded.</p></div>';
         return;
     }
     
@@ -285,11 +331,11 @@ function updateTreeLayout() {
     
     // Create zoom behavior with higher max zoom for better thumbnail visibility
     zoom = d3.zoom()
-        .scaleExtent([0.5, 20]) // Increased min zoom to 0.5 to reduce zooming out, max zoom to 20
+        .scaleExtent([0.5, 20])
         .on('zoom', (event) => {
             treeG.attr('transform', event.transform);
-            // Save the current transform so it persists across updates
             savedZoomTransform = event.transform;
+            updateZoomIndicator();
         });
     
     treeSvg.call(zoom);
@@ -297,26 +343,24 @@ function updateTreeLayout() {
     // Create main group
     treeG = treeSvg.append('g');
     
-    // Radial layout
-    // Significantly increase the radius to spread nodes out more
-    const maxRadius = Math.min(width, height) / 1.5; // Use more of the available space
+    // Radial layout - dynamic: adapts to visible node count
+    const visibleCount = root.descendants().length;
+    const maxRadius = Math.min(width, height) / 1.5;
+    // When fewer nodes visible, increase separation so they spread across available space
+    const separationFactor = Math.max(15, 50 / Math.log10(visibleCount + 1));
     
     tree = d3.tree()
         .size([2 * Math.PI, maxRadius])
         .separation((a, b) => {
-            // For radial trees, separation controls angular spacing
-            // Return a larger value to spread nodes further apart
-            // The default is (a.parent === b.parent ? 1 : 2) / a.depth
-            // We'll multiply this significantly more
             const baseSeparation = (a.parent === b.parent ? 1 : 2) / Math.max(a.depth, 1);
-            // Multiply by an even larger factor to spread nodes more
-            return baseSeparation * 15;
+            return baseSeparation * separationFactor;
         });
     
     const treeData = tree(root);
     
-    // Check if we have stored positions
-    const hasStoredPositions = nodePositions.size > 0;
+    // Dynamic layout: always recalculate positions from current visible structure
+    // (no fixed position storage - layout adapts to collapsed/expanded state)
+    nodePositions.clear();
     
     // Transform radius to increase spacing between levels as depth increases
     // Find max depth first
@@ -325,37 +369,27 @@ function updateTreeLayout() {
         if (d.depth > maxDepth) maxDepth = d.depth;
     });
     
-    // Transform radius values to create increasing spacing with depth
-    // Use a quadratic function: newRadius = baseRadius * (1 + depth^2 * spacingFactor)
+    // Transform radius values to create increasing spacing with depth (quadratic)
     treeData.descendants().forEach(d => {
         const originalRadius = d.y;
         const depth = d.depth;
-        // Normalize depth to 0-1 range
         const normalizedDepth = maxDepth > 0 ? depth / maxDepth : 0;
-        // Apply quadratic scaling: deeper levels get exponentially more spacing
-        // Factor of 0.5 means depth 1 gets 1.5x, depth 2 gets 2x, depth 3 gets 2.5x, etc.
         const spacingFactor = 1 + (normalizedDepth * normalizedDepth) * 1.2;
         d.y = originalRadius * spacingFactor;
     });
     
-    if (hasStoredPositions) {
-        // Restore positions from stored values for existing nodes
-        restoreNodePositions(treeData);
-        
-        // Store positions for any new nodes that don't have stored positions yet
+    // Lock ring radius per depth from full tree; on later layouts reuse fixed radii so collapse/expand only respreads angles
+    if (!fixedRadiiLocked) {
+        fixedRadiusByDepth = [];
         treeData.descendants().forEach(d => {
-            const nodeId = getNodeId(d);
-            if (nodeId && !nodePositions.has(nodeId)) {
-                // This is a newly expanded node - store its position
-                nodePositions.set(nodeId, {
-                    x: d.x,
-                    y: d.y
-                });
-            }
+            fixedRadiusByDepth[d.depth] = d.y;
         });
+        fixedRadiiLocked = true;
     } else {
-        // First time - store all calculated positions
-        storeNodePositions(treeData);
+        treeData.descendants().forEach(d => {
+            const r = fixedRadiusByDepth[d.depth];
+            if (r !== undefined) d.y = r;
+        });
     }
     
     // Center the tree
@@ -473,8 +507,8 @@ function updateTreeLayout() {
             if (d.data.name === 'Life' && d.data.rank === 'domain') {
                 textElement.attr('text-anchor', 'middle');
                 textElement.attr('dx', 0);
-                textElement.attr('dy', 20); // Position below the node
-                textElement.attr('transform', 'rotate(0)'); // No rotation, horizontal
+                textElement.attr('dy', 20);
+                textElement.attr('transform', 'rotate(0)');
                 return;
             }
             
@@ -497,20 +531,17 @@ function updateTreeLayout() {
             
             // Calculate text width for left side positioning
             let textWidth = 0;
+            const fontSizePx = d.data.rank === 'domain' ? '16px' : d.data.rank === 'kingdom' ? '14px' :
+                d.data.rank === 'phylum' ? '13px' : d.data.rank === 'class' ? '12px' :
+                d.data.rank === 'order' ? '11px' : d.data.rank === 'family' ? '10px' :
+                d.data.rank === 'genus' ? '9px' : '8px';
+            textElement.attr('font-size', fontSizePx);
             if (isLeftSide) {
-                // Create a temporary text element to measure width
-                // Use the same styling as the actual text element
                 const tempText = treeSvg.append('text')
                     .attr('class', `tree-label ${d.data.rank || ''}`)
                     .attr('visibility', 'hidden')
                     .attr('font-family', 'Lato, sans-serif')
-                    .attr('font-size', d.data.rank === 'domain' ? '16px' : 
-                          d.data.rank === 'kingdom' ? '14px' :
-                          d.data.rank === 'phylum' ? '13px' :
-                          d.data.rank === 'class' ? '12px' :
-                          d.data.rank === 'order' ? '11px' :
-                          d.data.rank === 'family' ? '10px' :
-                          d.data.rank === 'genus' ? '9px' : '8px')
+                    .attr('font-size', fontSizePx)
                     .text(text);
                 const bbox = tempText.node().getBBox();
                 textWidth = bbox.width;
@@ -523,15 +554,11 @@ function updateTreeLayout() {
             
             // Set text anchor and positioning
             if (isRightSide) {
-                // Right side: text anchor at start, simple offset
                 textElement.attr('text-anchor', 'start');
                 textElement.attr('dx', 8);
                 textElement.attr('transform', `rotate(${degrees})`);
             } else if (isLeftSide) {
-                // Left side: text anchor at end
-                // Position anchor point: move it radially outward by (text width + offset)
-                // This ensures the end of the word is at the same distance as right side start
-                const offset = 8; // Same as right side
+                const offset = 8;
                 const radialOffset = textWidth + offset;
                 
                 // Calculate radial direction vector (outward from center)
@@ -627,8 +654,8 @@ function updateTreeLayout() {
                             
                             // Match by scientific name first (most reliable, avoids duplicate ID issues)
                             let freshPlant = currentPlants.find(p => 
-                                p.scientificName === plantData.scientificName || 
-                                p.scientificName.toLowerCase() === plantData.scientificName.toLowerCase()
+                                getScientificNameString(p) === plantData.scientificName ||
+                                getScientificNameString(p).toLowerCase() === (plantData.scientificName || '').toLowerCase()
                             );
                             
                             // If not found by scientific name, try by ID (but check for duplicates)
@@ -640,15 +667,15 @@ function updateTreeLayout() {
                                 } else if (plantsById.length > 1) {
                                     // Multiple plants with same ID - use scientific name match
                                     freshPlant = plantsById.find(p => 
-                                        p.scientificName === plantData.scientificName || 
-                                        p.scientificName.toLowerCase() === plantData.scientificName.toLowerCase()
+                                        getScientificNameString(p) === plantData.scientificName ||
+                                        getScientificNameString(p).toLowerCase() === (plantData.scientificName || '').toLowerCase()
                                     ) || null;
                                 }
                             }
                             
                             // Use fresh plant if found, otherwise fall back to stored plant
                             const plantToUse = freshPlant || plantData.plant;
-                            const scientificNameToUse = freshPlant ? freshPlant.scientificName : plantData.scientificName;
+                            const scientificNameToUse = freshPlant ? getScientificNameString(freshPlant) : plantData.scientificName;
                             
                             // Get full image path (not thumbnail) for hover preview
                             const fullImagePath = getPlantImagePath(plantToUse, false);
@@ -714,13 +741,13 @@ function updateTreeLayout() {
             // Save it for future updates
             savedZoomTransform = initialTransform;
         } else {
-            // Fallback if bounds are invalid
             const initialTransform = d3.zoomIdentity;
             treeG.attr('transform', initialTransform);
             treeSvg.call(zoom.transform, initialTransform);
             savedZoomTransform = initialTransform;
         }
     }
+    updateZoomIndicator();
     
     // Add click handlers for node expansion/collapse (for nodes with children)
     // Use double-click for expand/collapse to avoid conflict with navigation
@@ -800,8 +827,8 @@ function updateTreeLayout() {
                     // For species nodes, the name should match the scientific name
                     // Find the plant that matches the species name, or use the first one
                     const matchingPlant = d.data.plants.find(p => 
-                        p.scientificName === d.data.name || 
-                        p.scientificName.toLowerCase() === d.data.name.toLowerCase()
+                        (p.scientificName || '') === (d.data.name || '') ||
+                        (p.scientificName || '').toLowerCase() === (d.data.name || '').toLowerCase()
                     ) || d.data.plants[0];
                     
                     label
@@ -817,16 +844,16 @@ function updateTreeLayout() {
                             if (d.data.name) {
                                 // First priority: exact match with species node name (most reliable, avoids duplicate ID issues)
                                 freshPlant = currentPlants.find(p => 
-                                    p.scientificName === d.data.name || 
-                                    p.scientificName.toLowerCase() === d.data.name.toLowerCase()
+                                    getScientificNameString(p) === d.data.name ||
+                                    getScientificNameString(p).toLowerCase() === (d.data.name || '').toLowerCase()
                                 );
                             }
                             
                             // Second priority: match by stored plant's scientific name (if species name didn't match)
                             if (!freshPlant && matchingPlant.scientificName) {
                                 freshPlant = currentPlants.find(p => 
-                                    p.scientificName === matchingPlant.scientificName || 
-                                    p.scientificName.toLowerCase() === matchingPlant.scientificName.toLowerCase()
+                                    getScientificNameString(p) === matchingPlant.scientificName ||
+                                    getScientificNameString(p).toLowerCase() === (matchingPlant.scientificName || '').toLowerCase()
                                 );
                             }
                             
@@ -841,8 +868,8 @@ function updateTreeLayout() {
                                     // Multiple plants with same ID - try to find by scientific name match
                                     freshPlant = plantsById.find(p => 
                                         d.data.name && (
-                                            p.scientificName === d.data.name || 
-                                            p.scientificName.toLowerCase() === d.data.name.toLowerCase()
+                                            getScientificNameString(p) === d.data.name ||
+                                            getScientificNameString(p).toLowerCase() === (d.data.name || '').toLowerCase()
                                         )
                                     ) || null;
                                 }
@@ -850,7 +877,7 @@ function updateTreeLayout() {
                             
                             // Use fresh plant if found, otherwise fall back to stored plant
                             const plantToUse = freshPlant || matchingPlant.plant;
-                            const scientificNameToUse = freshPlant ? freshPlant.scientificName : matchingPlant.scientificName;
+                            const scientificNameToUse = freshPlant ? getScientificNameString(freshPlant) : matchingPlant.scientificName;
                             
                             // Get full image path (not thumbnail) for hover preview
                             const fullImagePath = getPlantImagePath(plantToUse, false);
@@ -907,10 +934,42 @@ function updateTreeLayout() {
     nodes.style('cursor', 'pointer');
 }
 
-// Get node radius based on rank - all ranks use same size as species
+// Get node radius (dot size) - fixed per rank, unchanged by collapse/expand
 function getNodeRadius(d) {
-    // All ranks use the same size as species (3)
-    return 3;
+    const rank = d.data && d.data.rank;
+    const byRank = { domain: 8, kingdom: 6, phylum: 5, class: 4, order: 3.5, family: 3, genus: 3, species: 3 };
+    return byRank[rank] !== undefined ? byRank[rank] : 3;
+}
+
+// Update zoom level indicator and slider to match current transform
+function updateZoomIndicator() {
+    const indicator = document.getElementById('zoomIndicator');
+    const slider = document.getElementById('zoomLevel');
+    if (!indicator || !savedZoomTransform) return;
+    const pct = Math.round(savedZoomTransform.k * 100);
+    indicator.textContent = pct + '%';
+    if (slider) {
+        const val = Math.min(500, Math.max(50, pct));
+        if (parseInt(slider.value, 10) !== val) slider.value = val;
+    }
+}
+
+// Set zoom by scale factor (1 = 100%), keeping viewport center fixed
+function setZoomLevel(scaleFactor) {
+    if (!treeSvg || !treeSvg.node() || !zoom) return;
+    const container = document.getElementById('taxonomyTree');
+    const width = container.clientWidth || 800;
+    const height = container.clientHeight || 600;
+    const cx = width / 2;
+    const cy = height / 2;
+    const t = savedZoomTransform || d3.zoomIdentity;
+    const k = Math.max(0.5, Math.min(20, scaleFactor));
+    const x = cx - (cx - t.x) * (k / t.k);
+    const y = cy - (cy - t.y) * (k / t.k);
+    const newTransform = d3.zoomIdentity.translate(x, y).scale(k);
+    treeSvg.call(zoom.transform, newTransform);
+    savedZoomTransform = newTransform;
+    updateZoomIndicator();
 }
 
 // Get unique identifier for a node (based on path from root)
@@ -1394,8 +1453,6 @@ async function fetchTaxonomicChildrenCount(rank, name) {
             console.warn(`No count found for ${rank} ${name}, taxonKey: ${taxonKey}`);
         } else if (count === 0) {
             console.warn(`Found 0 children for ${rank} ${name}, taxonKey: ${taxonKey} - this might indicate a synonym or incorrect taxon key`);
-        } else {
-            console.log(`Found ${count} children for ${rank} ${name}`);
         }
         
         taxonomicCountCache.set(cacheKey, count);
@@ -1747,29 +1804,85 @@ function hideTooltip() {
     }
 }
 
+// Collapse one level: collapse only the deepest nodes that have visible children
+function collapseOneLevel() {
+    if (!root) return;
+    const descendants = root.descendants();
+    const nodesWithChildren = descendants.filter(d => d.children && d.children.length > 0);
+    if (nodesWithChildren.length === 0) return;
+    const maxDepth = Math.max(...nodesWithChildren.map(d => d.depth));
+    const toCollapse = nodesWithChildren.filter(d => d.depth === maxDepth);
+    toCollapse.forEach(d => {
+        d._children = d.children;
+        d.children = null;
+    });
+    updateTreeLayout();
+}
+
+// Expand one level: expand only the shallowest nodes that have collapsed children
+function expandOneLevel() {
+    if (!root) return;
+    const descendants = root.descendants();
+    const nodesWithCollapsed = descendants.filter(d => d._children && d._children.length > 0);
+    if (nodesWithCollapsed.length === 0) return;
+    const minDepth = Math.min(...nodesWithCollapsed.map(d => d.depth));
+    const toExpand = nodesWithCollapsed.filter(d => d.depth === minDepth);
+    toExpand.forEach(d => {
+        d.children = d._children;
+        d._children = null;
+    });
+    updateTreeLayout();
+}
+
+// Reset isolation and show full tree
+function resetView() {
+    if (!taxonomyData) return;
+    isolatedNodes = null;
+    restoreOriginalTree();
+    updateTreeLayout();
+}
+
 // Event listeners
 document.addEventListener('DOMContentLoaded', () => {
+    const btnResetView = document.getElementById('btnResetView');
+    if (btnResetView) {
+        btnResetView.addEventListener('click', resetView);
+    }
+    const btnZoomIn = document.getElementById('btnZoomIn');
+    const btnZoomOut = document.getElementById('btnZoomOut');
+    const zoomLevelInput = document.getElementById('zoomLevel');
+    if (btnZoomIn) {
+        btnZoomIn.addEventListener('click', () => {
+            const t = savedZoomTransform || d3.zoomIdentity;
+            setZoomLevel(t.k * 1.25);
+        });
+    }
+    if (btnZoomOut) {
+        btnZoomOut.addEventListener('click', () => {
+            const t = savedZoomTransform || d3.zoomIdentity;
+            setZoomLevel(t.k * 0.8);
+        });
+    }
+    if (zoomLevelInput) {
+        zoomLevelInput.addEventListener('input', () => {
+            const pct = parseInt(zoomLevelInput.value, 10);
+            if (!isNaN(pct)) setZoomLevel(pct / 100);
+        });
+    }
     document.getElementById('btnCollapse').addEventListener('click', () => {
         if (root) {
-            root.descendants().forEach(d => {
-                if (d.children && d.depth > 1) {
-                    d._children = d.children;
-                    d.children = null;
-                }
-            });
-            updateTreeLayout();
+            collapseOneLevel();
         }
     });
     
     document.getElementById('btnExpand').addEventListener('click', () => {
         if (root) {
-            root.descendants().forEach(d => {
-                if (d._children) {
-                    d.children = d._children;
-                    d._children = null;
-                }
-            });
-            updateTreeLayout();
+            // If isolated, reset to full tree first
+            if (isolatedNodes !== null) {
+                resetView();
+                return;
+            }
+            expandOneLevel();
         }
     });
     

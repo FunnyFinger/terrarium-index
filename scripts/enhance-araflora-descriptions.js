@@ -23,7 +23,7 @@ async function searchWikipedia(scientificName) {
         
         return new Promise((resolve, reject) => {
             https.get(url, {
-                headers: { 'User-Agent': 'Terrarium Plant Index Bot/1.0' }
+                headers: { 'User-Agent': 'Vivarium Store Bot/1.0' }
             }, (res) => {
                 let data = '';
                 res.on('data', chunk => data += chunk);

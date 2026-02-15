@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plant Taxonomy Tree - Vivarium Plant Index</title>
+    <title>Plant Taxonomy Tree - Vivarium Store</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,7 +31,7 @@
         main {
             padding: 0 !important;
             margin: 0 !important;
-            margin-top: 65px !important; /* Start below the navigation bar (nav-container height) */
+            margin-top: 65px !important; /* Start below the main nav bar */
             width: 100vw !important;
             height: calc(100vh - 65px) !important; /* Fill viewport minus header height */
             overflow: hidden;
@@ -367,6 +367,18 @@
             border-color: var(--primary-color);
         }
         
+        .tree-zoom-controls button {
+            width: auto;
+            min-width: 2rem;
+            padding: 0.35rem 0.5rem;
+            font-size: 1.1rem;
+            line-height: 1;
+        }
+        
+        .tree-zoom-controls #zoomLevel {
+            min-width: 0;
+        }
+        
         /* Context menu styles */
         .context-menu {
             position: fixed;
@@ -404,31 +416,7 @@
 </head>
 <body>
     <header>
-        <nav class="main-nav">
-            <div class="nav-container">
-                <div class="nav-logo">
-                    <a href="index.html" class="logo-link">
-                        <span class="logo-text">Vivarium Plant Index</span>
-                    </a>
-                </div>
-                <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-                <ul class="nav-menu" id="navMenu">
-                    <li class="nav-item">
-                        <a href="index.html" class="nav-link">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="definitions.html" class="nav-link">Definitions</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="taxonomy.html" class="nav-link active">Taxonomy</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+        <div id="main-nav-container"></div>
     </header>
 
     <main>
@@ -480,13 +468,24 @@
                 <span>Species</span>
             </div>
             <div class="tree-legend-controls">
-                <button id="btnExpand">Expand All</button>
-                <button id="btnCollapse">Collapse All</button>
+                <button id="btnResetView">Reset view</button>
+                <button id="btnExpand">Expand one level</button>
+                <button id="btnCollapse">Collapse one level</button>
+            </div>
+            <div class="tree-legend-controls tree-zoom-controls">
+                <label for="zoomLevel" style="display:block;margin-bottom:0.25rem;">Zoom</label>
+                <div style="display:flex;align-items:center;gap:0.5rem;">
+                    <button type="button" id="btnZoomOut" aria-label="Zoom out">−</button>
+                    <input type="range" id="zoomLevel" min="50" max="500" value="100" step="5" style="flex:1;">
+                    <button type="button" id="btnZoomIn" aria-label="Zoom in">+</button>
+                </div>
+                <span id="zoomIndicator" style="font-size:0.85rem;color:var(--text-light);">100%</span>
             </div>
         </div>
     </main>
 
     <!-- Plant data - modular structure -->
+    <script src="js/nav.js"></script>
     <script src="data.js?v=3"></script>
     <script src="data/plant-loader.js?v=3"></script>
     <script src="taxonomy.js?v=1"></script>

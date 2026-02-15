@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard – Vivarium Store</title>
+    <link rel="stylesheet" href="styles.css?v=3">
+    <style>
+        .dashboard-page { max-width: 1200px; margin: 0 auto; padding: 1.5rem 1rem; }
+        .dashboard-page h1 { color: var(--primary-color); margin-bottom: 1rem; }
+        .dashboard-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .dashboard-kpi { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .dashboard-kpi-label { font-size: 0.85rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem; }
+        .dashboard-kpi-value { font-size: 1.75rem; font-weight: 700; color: var(--primary-color); }
+        .dashboard-section { margin-bottom: 2rem; }
+        .dashboard-section h2 { color: var(--primary-color); font-size: 1.2rem; margin-bottom: 0.75rem; }
+        .dashboard-table-wrap { overflow-x: auto; background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border-color); }
+        .dashboard-table { width: 100%; border-collapse: collapse; }
+        .dashboard-table th, .dashboard-table td { padding: 0.65rem 1rem; text-align: left; border-bottom: 1px solid var(--border-color); }
+        .dashboard-table th { background: var(--bg-color); font-weight: 600; color: var(--primary-color); font-size: 0.9rem; }
+        .dashboard-table tr:last-child td { border-bottom: none; }
+        .dashboard-table tr:hover { background: rgba(0,0,0,0.02); }
+        .dashboard-status { display: inline-block; padding: 0.2rem 0.5rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600; }
+        .dashboard-status.paid { background: #dcfce7; color: #166534; }
+        .dashboard-status.confirmed { background: #fef3c7; color: #92400e; }
+        .dashboard-status.pending_payment { background: #fee2e2; color: #991b1b; }
+        .dashboard-chart { display: flex; align-items: flex-end; gap: 4px; height: 200px; padding: 1rem; background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 0.5rem; }
+        .dashboard-chart-bar { flex: 1; min-width: 12px; background: var(--primary-color); border-radius: 4px 4px 0 0; opacity: 0.85; transition: opacity 0.2s; }
+        .dashboard-chart-bar:hover { opacity: 1; }
+        .dashboard-chart-labels { display: flex; gap: 4px; padding: 0 1rem; font-size: 0.7rem; color: var(--text-light); }
+        .dashboard-chart-labels span { flex: 1; min-width: 12px; text-align: center; }
+        .dashboard-loading { text-align: center; padding: 2rem; color: var(--text-light); }
+        .dashboard-empty { padding: 1rem; color: var(--text-light); font-size: 0.95rem; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="banner">
+            <div id="main-nav-container"></div>
+            <div class="banner-overlay">
+                <h1>Sales Dashboard</h1>
+                <p class="subtitle">Orders, revenue & metrics</p>
+            </div>
+        </div>
+    </header>
+    <main class="dashboard-page">
+        <div id="dashboardLoading" class="dashboard-loading">Loading…</div>
+        <div id="dashboardContent" style="display: none;">
+            <div class="dashboard-kpis">
+                <div class="dashboard-kpi">
+                    <div class="dashboard-kpi-label">Total revenue</div>
+                    <div class="dashboard-kpi-value" id="kpiRevenue">KD 0.00</div>
+                </div>
+                <div class="dashboard-kpi">
+                    <div class="dashboard-kpi-label">Orders</div>
+                    <div class="dashboard-kpi-value" id="kpiOrders">0</div>
+                </div>
+                <div class="dashboard-kpi">
+                    <div class="dashboard-kpi-label">Avg order value</div>
+                    <div class="dashboard-kpi-value" id="kpiAvgOrder">KD 0.00</div>
+                </div>
+                <div class="dashboard-kpi">
+                    <div class="dashboard-kpi-label">Paid orders</div>
+                    <div class="dashboard-kpi-value" id="kpiPaid">0</div>
+                </div>
+            </div>
+
+            <div class="dashboard-section">
+                <h2>Revenue last 30 days</h2>
+                <div id="dashboardChart" class="dashboard-chart"></div>
+                <div id="dashboardChartLabels" class="dashboard-chart-labels"></div>
+            </div>
+
+            <div class="dashboard-section">
+                <h2>Recent orders</h2>
+                <div class="dashboard-table-wrap">
+                    <table class="dashboard-table">
+                        <thead>
+                            <tr>
+                                <th>Order #</th>
+                                <th>Date</th>
+                                <th>Customer</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dashboardOrdersBody"></tbody>
+                    </table>
+                </div>
+                <p id="dashboardOrdersEmpty" class="dashboard-empty" style="display: none;">No orders yet.</p>
+            </div>
+
+            <div class="dashboard-section">
+                <h2>Top products (by quantity sold)</h2>
+                <div class="dashboard-table-wrap">
+                    <table class="dashboard-table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Quantity sold</th>
+                                <th>Revenue</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dashboardTopBody"></tbody>
+                    </table>
+                </div>
+                <p id="dashboardTopEmpty" class="dashboard-empty" style="display: none;">No sales data yet.</p>
+            </div>
+        </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/dexie@3/dist/dexie.min.js"></script>
+    <script src="js/nav.js"></script>
+    <script src="js/inventory-db.js"></script>
+    <script>
+        (function() {
+            function formatPrice(amount) {
+                if (amount == null || isNaN(Number(amount))) return '—';
+                return 'KD ' + Number(amount).toFixed(2);
+            }
+            function formatDate(ts) {
+                if (!ts) return '—';
+                var d = new Date(ts);
+                return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            }
+            function statusClass(s) {
+                if (s === 'paid') return 'paid';
+                if (s === 'pending_payment') return 'pending_payment';
+                return 'confirmed';
+            }
+            function statusLabel(s) {
+                if (s === 'paid') return 'Paid';
+                if (s === 'pending_payment') return 'Pending payment';
+                return 'Confirmed';
+            }
+
+            function buildChart(orders) {
+                var now = Date.now();
+                var dayMs = 24 * 60 * 60 * 1000;
+                var days = [];
+                for (var i = 29; i >= 0; i--) {
+                    var t = now - i * dayMs;
+                    var d = new Date(t);
+                    days.push({ date: d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }), ts: t, revenue: 0 });
+                }
+                var firstTs = days[0] && days[0].ts;
+                orders.forEach(function(o) {
+                    var total = o.totalAmount != null ? o.totalAmount : 0;
+                    if ((o.status === 'paid' || o.status === 'confirmed') && firstTs != null) {
+                        var idx = Math.floor((o.createdAt - firstTs) / dayMs);
+                        if (idx >= 0 && idx < days.length) days[idx].revenue += total;
+                    }
+                });
+                var maxRev = Math.max.apply(null, days.map(function(d) { return d.revenue; }).concat([1]));
+                var chartEl = document.getElementById('dashboardChart');
+                var labelsEl = document.getElementById('dashboardChartLabels');
+                if (!chartEl) return;
+                chartEl.innerHTML = '';
+                labelsEl.innerHTML = '';
+                days.forEach(function(d, i) {
+                    var bar = document.createElement('div');
+                    bar.className = 'dashboard-chart-bar';
+                    bar.style.height = (maxRev > 0 ? (d.revenue / maxRev) * 100 : 0) + '%';
+                    bar.title = d.date + ': ' + formatPrice(d.revenue);
+                    chartEl.appendChild(bar);
+                    var lbl = document.createElement('span');
+                    lbl.textContent = (i % 5 === 0) ? d.date : '';
+                    labelsEl.appendChild(lbl);
+                });
+            }
+
+            function aggregateTopProducts(orders) {
+                var byName = {};
+                orders.forEach(function(o) {
+                    (o.items || []).forEach(function(it) {
+                        var key = (it.name || 'Unknown') + (it.scientificName ? ' (' + it.scientificName + ')' : '');
+                        if (!byName[key]) byName[key] = { quantity: 0, revenue: 0 };
+                        byName[key].quantity += it.quantity || 0;
+                        byName[key].revenue += it.lineTotal != null ? it.lineTotal : 0;
+                    });
+                });
+                return Object.keys(byName).map(function(name) {
+                    return { name: name, quantity: byName[name].quantity, revenue: byName[name].revenue };
+                }).sort(function(a, b) { return b.quantity - a.quantity; }).slice(0, 15);
+            }
+
+            function render() {
+                var inv = window.inventoryDb;
+                if (!inv) {
+                    document.getElementById('dashboardLoading').textContent = 'Inventory DB not available.';
+                    return;
+                }
+                inv.getOrders(500).then(function(orders) {
+                    var totalRevenue = orders.reduce(function(s, o) {
+                        if (o.status === 'paid' || o.status === 'confirmed') return s + (o.totalAmount || 0);
+                        return s;
+                    }, 0);
+                    var paidCount = orders.filter(function(o) { return o.status === 'paid'; }).length;
+                    var avgOrder = orders.length > 0 ? totalRevenue / orders.length : 0;
+
+                    document.getElementById('kpiRevenue').textContent = formatPrice(totalRevenue);
+                    document.getElementById('kpiOrders').textContent = orders.length;
+                    document.getElementById('kpiAvgOrder').textContent = formatPrice(avgOrder);
+                    document.getElementById('kpiPaid').textContent = paidCount;
+
+                    buildChart(orders);
+
+                    var tbody = document.getElementById('dashboardOrdersBody');
+                    var emptyOrders = document.getElementById('dashboardOrdersEmpty');
+                    if (orders.length === 0) {
+                        tbody.innerHTML = '';
+                        emptyOrders.style.display = 'block';
+                    } else {
+                        emptyOrders.style.display = 'none';
+                        tbody.innerHTML = orders.slice(0, 30).map(function(o) {
+                            var cust = o.customer || {};
+                            var name = (cust.name || cust.email || '—').trim() || '—';
+                            var itemCount = (o.items || []).reduce(function(s, i) { return s + (i.quantity || 0); }, 0);
+                            return '<tr><td>#' + o.id + '</td><td>' + formatDate(o.createdAt) + '</td><td>' + escapeHtml(name) + '</td><td>' + itemCount + '</td><td>' + formatPrice(o.totalAmount) + '</td><td><span class="dashboard-status ' + statusClass(o.status) + '">' + statusLabel(o.status) + '</span></td></tr>';
+                        }).join('');
+                    }
+
+                    var top = aggregateTopProducts(orders);
+                    var topBody = document.getElementById('dashboardTopBody');
+                    var emptyTop = document.getElementById('dashboardTopEmpty');
+                    if (top.length === 0) {
+                        topBody.innerHTML = '';
+                        emptyTop.style.display = 'block';
+                    } else {
+                        emptyTop.style.display = 'none';
+                        topBody.innerHTML = top.map(function(t) {
+                            return '<tr><td>' + escapeHtml(t.name) + '</td><td>' + t.quantity + '</td><td>' + formatPrice(t.revenue) + '</td></tr>';
+                        }).join('');
+                    }
+
+                    document.getElementById('dashboardLoading').style.display = 'none';
+                    document.getElementById('dashboardContent').style.display = 'block';
+                });
+            }
+
+            function escapeHtml(s) {
+                if (!s) return '';
+                var div = document.createElement('div');
+                div.textContent = s;
+                return div.innerHTML;
+            }
+
+            render();
+        })();
+    </script>
+</body>
+</html>
