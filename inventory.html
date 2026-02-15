@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventory – Vivarium Store</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css?v=3">
     <style>
         body.inventory-page { overflow-x: auto; }
@@ -72,6 +75,7 @@
 <body class="inventory-page">
     <header>
         <div class="banner">
+            <img src="images/banner.jpg" alt="Vivarium Store banner" class="banner-image">
             <div id="main-nav-container"></div>
             <div class="banner-overlay">
                 <h1>Inventory</h1>
@@ -491,7 +495,7 @@
                 var label = isEquipment ? ' equipment items' : ' plants';
                 var summary = plants.length + label;
                 if (filtered.length !== plants.length) summary = filtered.length + ' of ' + summary;
-                document.getElementById('invSummary').textContent = summary + ' · Default sell price ' + formatPrice(DEFAULT_PRICE) + '. Sort by column; use Batch edit for multiple items.';
+                document.getElementById('invSummary').textContent = summary + '. Sort by column; use Batch edit for multiple items.';
                 tbody.querySelectorAll('.inv-edit-btn').forEach(function(btn) {
                     btn.addEventListener('click', function() {
                         openEditor(Number(btn.getAttribute('data-plant-id')), plants);

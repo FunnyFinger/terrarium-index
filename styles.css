@@ -425,7 +425,7 @@ html {
     color: var(--primary-color);
     font-weight: 700;
     font-size: 1.2rem;
-    font-family: 'Playfair Display', serif;
+    font-family: 'DM Serif Display', serif;
     transition: color 0.2s ease;
     opacity: 1;
 }
@@ -540,22 +540,24 @@ html {
     transform: rotate(-45deg) translate(8px, -8px);
 }
 
-/* Cart in nav */
+/* Cart in nav – solid background so icon stands out on light and dark headers */
 .cart-toggle {
     display: flex;
     align-items: center;
     gap: 0.35rem;
-    background: rgba(255,255,255,0.2);
-    border: 1px solid rgba(255,255,255,0.4);
+    background: var(--primary-color);
+    border: 1px solid rgba(0,0,0,0.08);
     color: white;
     padding: 0.5rem 0.75rem;
     border-radius: 8px;
     cursor: pointer;
     font-size: 1rem;
-    transition: background 0.2s, transform 0.2s;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
 }
 .cart-toggle:hover {
-    background: rgba(255,255,255,0.35);
+    background: var(--secondary-color);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
 .cart-icon-svg {
@@ -776,6 +778,7 @@ header .container {
 }
 
 header h1 {
+    font-family: 'DM Serif Display', serif;
     font-size: 2.5rem;
     margin-bottom: 0.5rem;
 }
@@ -823,7 +826,7 @@ header h1 {
 }
 
 .banner-overlay h1 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'DM Serif Display', serif;
     font-size: 3rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
