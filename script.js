@@ -3833,6 +3833,13 @@ function createPlantCard(plant) {
         displayImageUrl = plant.images[0];
         plant.imageUrl = displayImageUrl;
     }
+    // If still no image, use conventional path so images load by default without waiting for discovery
+    if (!displayImageUrl) {
+        const slug = scientificNameToSlug(plant.scientificName);
+        if (slug) {
+            displayImageUrl = `images/${slug}/${slug}-1.jpg`;
+        }
+    }
     
     // Create a unique identifier for this card to help with updates
     card.dataset.plantId = plant.id;
@@ -5167,6 +5174,22 @@ function handleImageError(imgElement, plantId) {
         }
     } catch (e) {
         // Silent - localStorage check failed
+    }
+    
+    // Try conventional fallback: if failed src was slug-1.jpg, try thumb.jpg in same folder
+    const slugMatch = fullPath.match(/^images\/([^/]+)\/[^/]+-1\.(jpg|jpeg|png|webp)$/i);
+    if (slugMatch) {
+        const fallbackPath = `images/${slugMatch[1]}/thumb.jpg`;
+        if (!failedImageCache.has(fallbackPath)) {
+            imgElement.onerror = () => handleImageError(imgElement, plantId);
+            imgElement.src = fallbackPath;
+            if (plant) {
+                plant.imageUrl = fallbackPath;
+                if (!plant.images) plant.images = [];
+                if (!plant.images.includes(fallbackPath)) plant.images.unshift(fallbackPath);
+            }
+            return;
+        }
     }
     
     // No more images to try, show placeholder silently

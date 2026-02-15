@@ -132,6 +132,12 @@ async function discoverPlantImages(plant, knownImageCount = null) {
     let consecutiveFailures = 0;
     const maxConsecutiveFailures = 1;
 
+    // Check thumb.jpg first (common for card thumbnails)
+    const thumbPath = `images/${folderName}/thumb.jpg`;
+    if (await checkImageExists(thumbPath)) {
+        discoveredImages.push(thumbPath);
+    }
+
     let startCheck = 1;
     let limitCheck = maxCheck;
     // If we know the max image count from cache validation, use it as the limit
