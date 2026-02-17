@@ -286,116 +286,21 @@ async function initializeUI() {
     applyAllFilters();
     
     // Third: Validate images from localStorage in background (update if needed)
-    // OPTIMIZED: Start after initial render to not block UI
+    // Then discover images for current page's plants that have none (so cards show images without opening gallery)
     setTimeout(() => {
         loadImagesFromLocalStorage(allPlants).then(() => {
             console.log('📦 Image validation from localStorage complete');
-            // Update plant cards with validated images (only if changed)
             filteredPlants.forEach(plant => {
                 if (plant.imageUrl) {
                     updatePlantCardImage(plant.id, plant.imageUrl);
                 }
             });
+            discoverImagesForCurrentPage();
         }).catch(err => {
             console.warn('⚠️ Image validation error:', err);
+            discoverImagesForCurrentPage();
         });
-    }, 200); // Small delay to let UI render first
-    
-    // Third: Discover images for plants without saved images (deferred, low priority)
-    // This runs AFTER initial render so users see content immediately
-    // OPTIMIZED: Wait longer and only discover for plants truly missing images
-    setTimeout(async () => {
-        // Wait for localStorage validation to complete first
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        const plantsNeedingImages = allPlants.filter(plant => {
-            if (!plant.images) {
-                plant.images = [];
-            }
-            // Skip if already has valid images
-            return !plant.images || plant.images.length === 0;
-        });
-        
-        if (plantsNeedingImages.length === 0) {
-            console.log('✅ All plants already have images - skipping discovery');
-            return;
-        }
-        
-        console.log(`🔍 Discovering images for ${plantsNeedingImages.length} plants without saved images (deferred background)...`);
-        
-        // Process in larger batches with better parallelization
-        const BATCH_SIZE = 20; // Increased from 10
-        for (let i = 0; i < plantsNeedingImages.length; i += BATCH_SIZE) {
-            const batch = plantsNeedingImages.slice(i, i + BATCH_SIZE);
-            const batchPromises = batch.map(async (plant) => {
-                try {
-                    // Skip if we already know this plant has no images (maxImage = 0 or null)
-                    const maxImageKey = `plant_${plant.id}_maxImage`;
-                    const savedMaxImage = localStorage.getItem(maxImageKey);
-                    if (savedMaxImage === '0' || savedMaxImage === null) {
-                        return; // Skip plants we know have no images
-                    }
-                    
-                    const discovered = await getPlantImages(plant, null, { skipHeadRequests: true });
-                    
-                    if (discovered.images.length > 0) {
-                        // Use discovered order
-                        plant.images = discovered.images;
-                        plant.imageUrl = discovered.imageUrl;
-                        
-                        // Find highest image number to store as maxImage limit
-                        let highestNumber = 0;
-                        for (const imgPath of discovered.images) {
-                            const match = imgPath.match(/-(\d+)\./);
-                            if (match) {
-                                const num = parseInt(match[1], 10);
-                                if (num > highestNumber) {
-                                    highestNumber = num;
-                                }
-                            }
-                        }
-                        
-                        // Save to localStorage for future use
-                        try {
-                            localStorage.setItem(`plant_${plant.id}_images`, JSON.stringify(plant.images));
-                            if (plant.imageUrl) {
-                                localStorage.setItem(`plant_${plant.id}_imageUrl`, plant.imageUrl);
-                            }
-                            // Store maxImage to prevent checking beyond it next time
-                            if (highestNumber > 0) {
-                                localStorage.setItem(`plant_${plant.id}_maxImage`, highestNumber.toString());
-                            }
-                        } catch (e) {
-                            // Silent - localStorage update failed
-                        }
-                        
-                        // Update only the specific plant card (more efficient than full re-render)
-                        if (plant.imageUrl) {
-                            updatePlantCardImage(plant.id, plant.imageUrl);
-                        }
-                    } else {
-                        // Mark as having no images to skip future checks
-                        try {
-                            localStorage.setItem(maxImageKey, '0');
-                        } catch (e) {
-                            // Silent
-                        }
-                    }
-                } catch (err) {
-                    // Silent - individual plant discovery failures
-                }
-            });
-            
-            await Promise.all(batchPromises);
-            
-            // Smaller delay between batches
-            if (i + BATCH_SIZE < plantsNeedingImages.length) {
-                await new Promise(resolve => setTimeout(resolve, 50)); // Reduced from 100ms
-            }
-        }
-        
-        console.log('✅ Image discovery complete for all plants');
-    }, 2000); // Wait 2 seconds after initial render to ensure UI is fully loaded
+    }, 200);
     
     // Note: Image scanning is now disabled on page load to prevent console flooding
     // Images will be checked only when:
@@ -3054,6 +2959,9 @@ function renderPlantsPage() {
             });
         }
     }
+    if (total > 0 && typeof discoverImagesForCurrentPage === 'function') {
+        discoverImagesForCurrentPage();
+    }
 }
 
 const EQUIPMENT_PER_PAGE = 24;
@@ -4977,6 +4885,53 @@ async function loadPlantImages() {
 }
 
 // Update individual plant card image
+// Discover images for the current page's plants that have none (real HEAD checks so cards show images without opening gallery)
+function discoverImagesForCurrentPage() {
+    if (!filteredPlants || filteredPlants.length === 0) return;
+    const total = filteredPlants.length;
+    const totalPages = Math.max(1, Math.ceil(total / PLANTS_PER_PAGE));
+    const page = Math.max(1, Math.min(currentPlantsPage, totalPages));
+    const start = (page - 1) * PLANTS_PER_PAGE;
+    const pagePlants = filteredPlants.slice(start, start + PLANTS_PER_PAGE);
+    const needing = pagePlants.filter(plant => {
+        if (!plant.images || plant.images.length === 0) {
+            const savedMax = localStorage.getItem(`plant_${plant.id}_maxImage`);
+            if (savedMax === '0') return false;
+            return true;
+        }
+        return false;
+    });
+    if (needing.length === 0) return;
+    const CONCURRENCY = 5;
+    (async () => {
+        for (let i = 0; i < needing.length; i += CONCURRENCY) {
+            const batch = needing.slice(i, i + CONCURRENCY);
+            await Promise.all(batch.map(async (plant) => {
+                try {
+                    const discovered = await getPlantImages(plant);
+                    if (discovered.images.length > 0) {
+                        plant.images = discovered.images;
+                        plant.imageUrl = discovered.imageUrl;
+                        let highest = 0;
+                        for (const p of discovered.images) {
+                            const m = p.match(/-(\d+)\./);
+                            if (m) highest = Math.max(highest, parseInt(m[1], 10));
+                        }
+                        try {
+                            localStorage.setItem(`plant_${plant.id}_images`, JSON.stringify(plant.images));
+                            if (plant.imageUrl) localStorage.setItem(`plant_${plant.id}_imageUrl`, plant.imageUrl);
+                            if (highest > 0) localStorage.setItem(`plant_${plant.id}_maxImage`, String(highest));
+                        } catch (e) {}
+                        updatePlantCardImage(plant.id, plant.imageUrl);
+                    } else {
+                        try { localStorage.setItem(`plant_${plant.id}_maxImage`, '0'); } catch (e) {}
+                    }
+                } catch (e) {}
+            }));
+        }
+    })();
+}
+
 function updatePlantCardImage(plantId, imageUrl) {
     const plant = allPlants.find(p => p.id === plantId);
     if (!plant || !imageUrl) {
