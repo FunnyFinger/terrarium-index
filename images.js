@@ -132,7 +132,7 @@ async function discoverPlantImages(plant, knownImageCount = null) {
     }
 
     const discoveredImages = [];
-    const maxCheck = 5; // Reduced from 10 - check fewer images initially
+    const maxCheck = 100; // Check up to 100 numbered images; loop stops on first missing (e.g. 1,2,3,4 then 5 404)
     let consecutiveFailures = 0;
     const maxConsecutiveFailures = 1;
 
@@ -230,6 +230,10 @@ async function discoverPlantImages(plant, knownImageCount = null) {
             discoveredImages.push(imagePath);
         } else {
             consecutiveFailures++;
+            // Stop after first 404 when we have no images (avoids extra HEAD 404s for slug-2, thumb)
+            if (discoveredImages.length === 0 && i === 1) {
+                break;
+            }
             // Stop immediately if we've found images and hit a failure
             // This prevents checking image 5 after image 4 fails
             if (discoveredImages.length > 0 && consecutiveFailures >= maxConsecutiveFailures) {
@@ -281,38 +285,35 @@ async function discoverPlantImages(plant, knownImageCount = null) {
         }
     }
 
-    // Add thumb.jpg at the end if it exists (for gallery); primary image stays first full-size (slug-1)
-    const thumbPath = `images/${folderName}/thumb.jpg`;
-    if (await checkImageExists(thumbPath)) {
-        discoveredImages.push(thumbPath);
-    }
+    // Do not add thumb.jpg to the gallery when we have numbered images - it's a duplicate of the main image and clutters the gallery
 
     const imageUrl = discoveredImages.length > 0 ? discoveredImages[0] : null;
     return { images: discoveredImages, imageUrl };
 }
 
-async function getPlantImages(plant, knownImageCount = null) {
+async function getPlantImages(plant, knownImageCount = null, options = {}) {
     if (!plant) {
         return { images: [], imageUrl: null };
     }
-            // Check localStorage for maxImage limit first
-            let maxImage = plant._knownMaxImage || knownImageCount;
-            if (!maxImage || maxImage === 0) {
-                try {
-                    const key = `plant_${plant.id}_maxImage`;
-                    const savedMaxImage = localStorage.getItem(key);
-                    if (savedMaxImage) {
-                        maxImage = parseInt(savedMaxImage, 10);
-                        // Ensure it's a valid number
-                        if (isNaN(maxImage) || maxImage <= 0) {
-                            maxImage = null;
-                        }
-                    }
-                } catch (e) {
-                    // silent
-                }
+    // Skip HEAD requests when doing batch discovery for plants with no cached images (avoids console 404s)
+    if (options.skipHeadRequests) {
+        return { images: [], imageUrl: null };
+    }
+    // When opening plant modal we use forceFullDiscovery so we find all images (ignore stale maxImage)
+    let maxImage = plant._knownMaxImage || knownImageCount;
+    if (!options.forceFullDiscovery && (!maxImage || maxImage === 0)) {
+        try {
+            const key = `plant_${plant.id}_maxImage`;
+            const savedMaxImage = localStorage.getItem(key);
+            if (savedMaxImage) {
+                maxImage = parseInt(savedMaxImage, 10);
+                if (isNaN(maxImage) || maxImage <= 0) maxImage = null;
             }
-    // Pass maxImage as knownImageCount to prevent checking beyond it
+        } catch (e) { /* silent */ }
+    } else if (options.forceFullDiscovery) {
+        maxImage = null; // check 1..maxCheck so we find all images in folder
+    }
+    // Pass maxImage as knownImageCount to prevent checking beyond it (null = check up to maxCheck)
     // CRITICAL: maxImage should be the highest VALID image number, so we check up to maxImage (inclusive)
     // If maxImage=3, we check images 1, 2, 3, but NOT 4
     return discoverPlantImages(plant, maxImage);
@@ -344,22 +345,16 @@ async function loadImagesFromLocalStorage(allPlants) {
                         let highestValidNumber = 0;
                         let highestCheckedNumber = 0;
                         for (const imgPath of validImages) {
-                            // Extract image number to track highest checked (even if invalid)
                             const match = imgPath.match(/-(\d+)\./);
                             if (match) {
                                 const num = parseInt(match[1], 10);
-                                if (num > highestCheckedNumber) {
-                                    highestCheckedNumber = num;
-                                }
+                                if (num > highestCheckedNumber) highestCheckedNumber = num;
                             }
                             if (await checkImageExists(imgPath)) {
                                 verifiedImages.push(imgPath);
-                                // Track highest valid number
                                 if (match) {
                                     const num = parseInt(match[1], 10);
-                                    if (num > highestValidNumber) {
-                                        highestValidNumber = num;
-                                    }
+                                    if (num > highestValidNumber) highestValidNumber = num;
                                 }
                             }
                         }

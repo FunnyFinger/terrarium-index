@@ -81,30 +81,18 @@ function getPlantFolderSlug(plant) {
     return scientificNameToSlug(plant);
 }
 
-// Get plant image path - optimized for tree view (small thumbnails) or full size
+// Get plant image path - only use known paths to avoid 404s (no guessed thumb.jpg/slug-1)
 function getPlantImagePath(plant, preferThumb = true) {
     if (!plant) return null;
-    const snStr = getScientificNameString(plant);
 
-    // First, try to find a small thumbnail specifically for tree view
-    if (preferThumb && snStr) {
-        const folderName = getPlantFolderSlug(plant);
-        if (folderName) {
-            // Try tree-specific thumbnail first (smaller, optimized for tree)
-            // This should be a 40x40 or 60x60 thumbnail saved as thumb.jpg
-            return `images/${folderName}/thumb.jpg`;
-        }
-    }
-    
-    // For full-sized images, prioritize imageUrl, then images array, then localStorage
+    // Use only known-good paths: imageUrl, images array, or localStorage (never guess thumb.jpg)
     if (plant.imageUrl) {
         return plant.imageUrl;
     }
     if (plant.images && Array.isArray(plant.images) && plant.images.length > 0) {
         return plant.images[0];
     }
-    
-    // Check localStorage for saved images
+
     try {
         const savedImageUrl = localStorage.getItem(`plant_${plant.id}_imageUrl`);
         if (savedImageUrl) {
@@ -120,16 +108,7 @@ function getPlantImagePath(plant, preferThumb = true) {
     } catch (e) {
         // Silent - localStorage parsing failed
     }
-    
-    // Last resort: try to construct path from scientific name
-    if (!preferThumb && snStr) {
-        const folderName = getPlantFolderSlug(plant);
-        if (folderName) {
-            // Use the actual naming convention: images/folderName/folderName-1.jpg
-            return `images/${folderName}/${folderName}-1.jpg`;
-        }
-    }
-    
+
     return null;
 }
 

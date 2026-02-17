@@ -336,7 +336,7 @@ async function initializeUI() {
                         return; // Skip plants we know have no images
                     }
                     
-                    const discovered = await getPlantImages(plant);
+                    const discovered = await getPlantImages(plant, null, { skipHeadRequests: true });
                     
                     if (discovered.images.length > 0) {
                         // Use discovered order
@@ -3891,18 +3891,11 @@ function createPlantCard(plant) {
     }
     
     // If no imageUrl but images array exists, use first image (if any)
-    // Note: We're not checking if file exists - browser will handle that with onerror
     if (!displayImageUrl && plant.images && plant.images.length > 0) {
         displayImageUrl = plant.images[0];
         plant.imageUrl = displayImageUrl;
     }
-    // If still no image, use conventional path so images load by default without waiting for discovery
-    if (!displayImageUrl) {
-        const slug = scientificNameToSlug(plant.scientificName);
-        if (slug) {
-            displayImageUrl = `images/${slug}/${slug}-1.jpg`;
-        }
-    }
+    // If still no image, show placeholder; discovery will update the card if images are found (avoids 404s from guessed paths)
     
     // Create a unique identifier for this card to help with updates
     card.dataset.plantId = plant.id;
@@ -4092,34 +4085,32 @@ async function showPlantModal(plant) {
         // Silent - localStorage parsing failed
     }
     
-    // Discover images from folder to get complete list
-    // Skip discovery if we have localStorage data to avoid 404 errors for known missing images
-    let discovered = { images: [], imageUrl: null };
-    if (!savedImages || !Array.isArray(savedImages) || savedImages.length === 0) {
-        // Only discover if we don't have localStorage data (avoids unnecessary 404s)
-        discovered = await getPlantImages(plant);
-    }
+    // Full discovery when opening modal (ignore stored maxImage so we find all images in folder)
+    let discovered = await getPlantImages(plant, null, { forceFullDiscovery: true });
     
     if (savedImages && Array.isArray(savedImages) && savedImages.length > 0) {
-        // Validate that saved images match the expected folder structure
         const folderName = scientificNameToSlug(getScientificNameString(plant));
         const allPathsValid = savedImages.every(img => {
             if (!img || typeof img !== 'string') return false;
-            // Check if path matches expected format: images/folderName/folderName-number.jpg
             const expectedPattern = new RegExp(`^images/${folderName}/${folderName}-\\d+\\.(jpg|jpeg|png|gif|webp)$`, 'i');
             return expectedPattern.test(img);
         });
         
-        if (allPathsValid) {
-            // Use saved order (user's preference) - this preserves the order when user sets main image
+        if (allPathsValid && discovered.images.length <= savedImages.length) {
+            // Use saved order (user's preference) when we have no new images from folder
             plant.images = savedImages;
             plant.imageUrl = savedImageUrl || (savedImages.length > 0 ? savedImages[0] : null);
-            
-            // Skip discovery merge when we have localStorage - trust the saved data
-            // This prevents 404 errors from checking images we already know don't exist
-            // New images will be discovered on next page load if localStorage is cleared
-            
-            console.log(`[Modal] Using saved image order from localStorage (${plant.images.length} images)`);
+        } else if (discovered.images.length > 0) {
+            // Folder has more images than cache (or saved paths invalid) - use full discovered list
+            plant.images = discovered.images;
+            plant.imageUrl = discovered.imageUrl || discovered.images[0];
+            try {
+                localStorage.setItem(`plant_${plant.id}_images`, JSON.stringify(plant.images));
+                if (plant.imageUrl) localStorage.setItem(`plant_${plant.id}_imageUrl`, plant.imageUrl);
+            } catch (e) { /* silent */ }
+        } else if (allPathsValid) {
+            plant.images = savedImages;
+            plant.imageUrl = savedImageUrl || (savedImages.length > 0 ? savedImages[0] : null);
         } else {
             // Invalid paths detected - clear cache and use discovered images
             console.warn(`⚠️ [Modal] Invalid image paths detected for ${plant.scientificName}, clearing cache and using discovered images...`);
@@ -4160,7 +4151,7 @@ async function showPlantModal(plant) {
             // Silent - localStorage update failed
         }
         
-        console.log(`[Modal] Using discovered image order from folder (${plant.images.length} images)`);
+        // Using discovered image order from folder
     } else {
         // No images found - ensure arrays are initialized
         if (!plant.images) {
@@ -4177,12 +4168,6 @@ async function showPlantModal(plant) {
     let displayImageUrl = plant.imageUrl || (plant.images && plant.images.length > 0 ? plant.images[0] : null);
     
     // Debug: Log plant images
-    console.log(`[Modal] Plant: ${plant.name} (ID: ${plant.id})`);
-    console.log(`[Modal] Scientific name: ${getScientificNameString(plant)}`);
-    console.log(`[Modal] Discovered ${discovered.images.length} images from folder`);
-    console.log(`[Modal] imageUrl: ${displayImageUrl}`);
-    console.log(`[Modal] images array:`, plant.images);
-    console.log(`[Modal] images count: ${plant.images ? plant.images.length : 0}`);
     
     // Helper function to create enclosure size scale visualization
     function createEnclosureSizeScale(plant) {
@@ -4646,12 +4631,16 @@ async function showPlantModal(plant) {
 
         <!-- Page 2: Gallery View (hidden by default) -->
         <div id="modal-page-2" class="modal-page" style="display: none;">
-            ${plant.images && plant.images.length > 0 && plant.images.some(img => img && img.trim()) ? `
+            ${(function() {
+                const valid = (plant.images || []).filter(img => img && img.trim());
+                const hasNumbered = valid.some(path => /-\d+\.(jpg|jpeg|png|webp)$/i.test(path));
+                const galleryImages = hasNumbered ? valid.filter(path => !/\/thumb\.(jpg|jpeg|png|webp)$/i.test(path)) : valid;
+                return galleryImages.length > 0 ? `
                 <!-- Gallery Grid - Left side -->
                 <div class="modal-section modal-widget widget-span-2 widget-row-4" id="gallery-page-${plant.id}">
-                    <h3 style="margin: 0 0 1rem 0;">Photo Gallery (${plant.images.filter(img => img && img.trim()).length} images)</h3>
+                    <h3 style="margin: 0 0 1rem 0;">Photo Gallery (${galleryImages.length} images)</h3>
                     <div class="plant-gallery">
-                        ${plant.images.filter(img => img && img.trim()).map((img, idx) => {
+                        ${galleryImages.map((img, idx) => {
                             const escapedPath = img.replace(/'/g, "\\'").replace(/"/g, '&quot;');
                             // Main image is always at index 0
                             const isMain = idx === 0;
@@ -4686,7 +4675,8 @@ async function showPlantModal(plant) {
                     <h3>Photo Gallery</h3>
                     <p style="color: #888; font-style: italic;">No images available. Use the upload button above to add images.</p>
                 </div>
-            `}
+            `;
+            })()}
         </div>
     `;
     
@@ -4910,7 +4900,6 @@ async function loadColTaxonomyLinks(plantId) {
 
 // Switch between modal pages
 function switchModalPage(pageNum, plantId) {
-    console.log(`[Modal] Switching to page ${pageNum}`);
     
     // Hide all pages
     document.querySelectorAll('.modal-page').forEach(page => {
@@ -4928,7 +4917,6 @@ function switchModalPage(pageNum, plantId) {
 
 // Select gallery image to display in large preview
 function selectGalleryImage(imagePath, plantId, imageIndex, event) {
-    console.log(`[Gallery] Selected image: ${imagePath}, index: ${imageIndex}`);
     
     const previewImg = document.getElementById('gallery-preview-img');
     if (previewImg) {

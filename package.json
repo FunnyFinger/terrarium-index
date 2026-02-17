@@ -21,6 +21,7 @@
     "generate-thumbnails": "node scripts/generate-thumbnails.js",
     "convert-heif": "node scripts/convert-heif-to-jpeg.js",
     "normalize-kingdom": "node scripts/normalize-kingdom-names.js",
+    "build-plants": "node scripts/build-plants-bundle.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
