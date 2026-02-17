@@ -59,7 +59,7 @@ async function checkImageExists(imagePath) {
                 resolved = true;
                 resolve(false);
             }
-        }, 800); // Reduced from 1500ms to 800ms for faster failure detection
+        }, 400);
 
         const originalError = console.error;
         const originalWarn = console.warn;

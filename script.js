@@ -285,21 +285,16 @@ async function initializeUI() {
     // Second: Apply filters and render IMMEDIATELY (images are now available)
     applyAllFilters();
     
-    // Third: Validate images from localStorage in background (update if needed)
-    // Then discover images for current page's plants that have none (so cards show images without opening gallery)
+    // Third: Validate only current page's cached images (fast), then discover for current page
     setTimeout(() => {
-        loadImagesFromLocalStorage(allPlants).then(() => {
-            console.log('📦 Image validation from localStorage complete');
-            filteredPlants.forEach(plant => {
-                if (plant.imageUrl) {
-                    updatePlantCardImage(plant.id, plant.imageUrl);
-                }
+        const start = (currentPlantsPage - 1) * PLANTS_PER_PAGE;
+        const pagePlants = (filteredPlants || []).slice(start, start + PLANTS_PER_PAGE);
+        loadImagesFromLocalStorage(pagePlants.length ? pagePlants : []).then(() => {
+            (pagePlants.length ? pagePlants : []).forEach(plant => {
+                if (plant && plant.imageUrl) updatePlantCardImage(plant.id, plant.imageUrl);
             });
             discoverImagesForCurrentPage();
-        }).catch(err => {
-            console.warn('⚠️ Image validation error:', err);
-            discoverImagesForCurrentPage();
-        });
+        }).catch(() => { discoverImagesForCurrentPage(); });
     }, 200);
     
     // Note: Image scanning is now disabled on page load to prevent console flooding
@@ -3803,7 +3798,11 @@ function createPlantCard(plant) {
         displayImageUrl = plant.images[0];
         plant.imageUrl = displayImageUrl;
     }
-    // If still no image, show placeholder; discovery will update the card if images are found (avoids 404s from guessed paths)
+    // Optimistic: try expected path so cards show images immediately without waiting for discovery (onerror shows placeholder)
+    if (!displayImageUrl) {
+        const slug = scientificNameToSlug(getScientificNameString(plant));
+        if (slug) displayImageUrl = `images/${slug}/${slug}-1.jpg`;
+    }
     
     // Create a unique identifier for this card to help with updates
     card.dataset.plantId = plant.id;
@@ -3830,7 +3829,7 @@ function createPlantCard(plant) {
                     <img src="images/carnivorous-icon.png" alt="Carnivorous" />
                 </div>
             ` : ''}
-            ${displayImageUrl ? 
+            ${displayImageUrl ?
                 `<img src="${displayImageUrl}" alt="${plant.name}" class="plant-image" loading="lazy" onerror="this.onerror=null; handleImageError(this, ${plant.id})" data-plant-id="${plant.id}">` :
                 `<div class="image-placeholder">${PLACEHOLDER_PLANT_SVG}</div>`
             }
@@ -4902,7 +4901,7 @@ function discoverImagesForCurrentPage() {
         return false;
     });
     if (needing.length === 0) return;
-    const CONCURRENCY = 5;
+    const CONCURRENCY = 10;
     (async () => {
         for (let i = 0; i < needing.length; i += CONCURRENCY) {
             const batch = needing.slice(i, i + CONCURRENCY);
