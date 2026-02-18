@@ -1089,7 +1089,7 @@
                 <div id="listView" class="list-view">
                     <div class="shop-tabs" role="tablist" aria-label="Shop categories">
                         <button type="button" id="tabPlants" class="shop-tab active" role="tab" aria-selected="true" data-view="plants">Plants</button>
-                        <button type="button" id="tabEquipment" class="shop-tab" role="tab" aria-selected="false" data-view="equipment">Equipment</button>
+                        <button type="button" id="tabEquipment" class="shop-tab" role="tab" aria-selected="false" data-view="equipment">Supplies</button>
                         <button type="button" id="tabVivariums" class="shop-tab" role="tab" aria-selected="false" data-view="vivariums">Vivariums</button>
                     </div>
                     <div class="stats stats-row">
@@ -1102,7 +1102,7 @@
                         <div class="stats-sort">
                             <label for="sortSelect" class="stats-sort-label">Sort by</label>
                             <select id="sortSelect" class="sort-select stats-sort-select" aria-label="Sort by">
-                                <!-- Options filled by JS per tab: plants vs equipment -->
+                                <!-- Options filled by JS per tab: plants vs supplies -->
                                 <option value="name">Name</option>
                                 <option value="scientific" selected>Scientific Name</option>
                                 <option value="rarity">Rarity</option>
@@ -1369,7 +1369,7 @@
         </div>
     </div>
 
-    <!-- Plant images modal (add/edit images and gallery, like equipment) -->
+    <!-- Plant images modal (add/edit images and gallery, like supplies) -->
     <div id="plantImageModal" class="upload-modal hidden">
         <div class="upload-modal-content equipment-edit-modal-content">
             <span class="close" id="closePlantImageModal" aria-label="Close">&times;</span>
@@ -1409,19 +1409,19 @@
     </div>
     <input type="file" id="plantFileInput" accept="image/*" multiple style="display: none;">
 
-    <!-- Edit / Add Equipment Modal (inventory: size, price, cost, stock, reorder) -->
+    <!-- Edit / Add Supply Modal (inventory: size, price, cost, stock, reorder) -->
     <div id="equipmentEditModal" class="upload-modal hidden">
         <div class="upload-modal-content equipment-edit-modal-content">
             <span class="close" id="closeEquipmentEditModal" aria-label="Close">&times;</span>
-            <h2 id="equipmentEditModalTitle" style="margin-bottom: 1rem; color: var(--primary-color);">Edit equipment</h2>
+            <h2 id="equipmentEditModalTitle" style="margin-bottom: 1rem; color: var(--primary-color);">Edit supply</h2>
             <p id="equipmentEditName" style="margin-bottom: 1rem; color: var(--text-light);"></p>
             <div class="edit-plant-section" id="equipmentEditNameRow" style="margin-bottom: 1rem; display: none;">
                 <label for="equipmentEditNameInput" class="edit-plant-detail-label">Name</label>
-                <input type="text" id="equipmentEditNameInput" class="edit-plant-input" placeholder="Equipment name">
+                <input type="text" id="equipmentEditNameInput" class="edit-plant-input" placeholder="Supply name (e.g. soil, gravel, LED light)">
             </div>
             <div class="edit-plant-section" style="margin-bottom: 1rem;">
                 <label for="equipmentEditDescription" class="edit-plant-detail-label">Description</label>
-                <textarea id="equipmentEditDescription" class="upload-plant-description" rows="4" placeholder="Short description of this equipment..."></textarea>
+                <textarea id="equipmentEditDescription" class="upload-plant-description" rows="4" placeholder="Short description of this item..."></textarea>
             </div>
             <div class="edit-plant-section edit-plant-shopping-section" style="margin-bottom: 1rem;">
                 <div class="edit-plant-details-grid">
@@ -1454,11 +1454,11 @@
         </div>
     </div>
 
-    <!-- Equipment images modal (add/edit images and gallery, like plants) -->
+    <!-- Supply images modal (add/edit images and gallery, like plants) -->
     <div id="equipmentImageModal" class="upload-modal hidden">
         <div class="upload-modal-content equipment-edit-modal-content">
             <span class="close" id="closeEquipmentImageModal" aria-label="Close">&times;</span>
-            <h2 id="equipmentImageModalTitle" style="margin-bottom: 1rem; color: var(--primary-color);">Equipment images</h2>
+            <h2 id="equipmentImageModalTitle" style="margin-bottom: 1rem; color: var(--primary-color);">Supply images</h2>
             <p id="equipmentImageModalName" style="margin-bottom: 1rem; color: var(--text-light);"></p>
             <div class="edit-plant-section" style="margin-bottom: 1rem;">
                 <label class="edit-plant-detail-label">Images</label>
@@ -1547,8 +1547,8 @@
         <span class="btn-add-plant-text">Add New Plant</span>
         <span class="btn-add-plant-icon">+</span>
     </button>
-    <button type="button" class="btn-add-plant" id="addNewEquipmentBtn" aria-label="Add new equipment" title="Add new equipment" style="display: none;">
-        <span class="btn-add-plant-text">Add New Equipment</span>
+    <button type="button" class="btn-add-plant" id="addNewEquipmentBtn" aria-label="Add new supply" title="Add new supply" style="display: none;">
+        <span class="btn-add-plant-text">Add New Supply</span>
         <span class="btn-add-plant-icon">+</span>
     </button>
     <button type="button" class="btn-add-plant" id="addNewVivariumBtn" aria-label="Add new vivarium" title="Add new vivarium" style="display: none;">

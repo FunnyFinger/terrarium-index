@@ -10,7 +10,8 @@
         taxonomy: '<svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v4"/><path d="M12 18v4"/><path d="M4.93 4.93l2.83 2.83"/><path d="M16.24 16.24l2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="M4.93 19.07l2.83-2.83"/><path d="M16.24 7.76l2.83-2.83"/><circle cx="12" cy="12" r="3"/></svg>',
         inventory: '<svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>',
         dashboard: '<svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>',
-        access: '<svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>'
+        access: '<svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>',
+        account: '<svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>'
     };
     var NAV_LINKS = [
         { href: 'index.html', label: 'Home', icon: 'home' },
@@ -64,7 +65,7 @@
                 '</div>';
         }
         var authMenuItems = user
-            ? '<li class="nav-item"><a href="account.html" class="nav-link"><span class="nav-link-inner"><span class="nav-link-text">My account</span></span></a></li><li class="nav-item"><button type="button" id="navLogoutMenu" class="nav-link nav-link-btn" style="background:none;border:none;cursor:pointer;font:inherit;color:inherit;padding:0;width:100%;text-align:left;"><span class="nav-link-inner"><span class="nav-link-text">Logout</span></span></button></li>'
+            ? '<li class="nav-item"><a href="account.html" class="nav-link"><span class="nav-link-inner">' + (NAV_ICONS.account || '') + '<span class="nav-link-text">My account</span></span></a></li><li class="nav-item"><button type="button" id="navLogoutMenu" class="nav-link nav-link-btn" style="background:none;border:none;cursor:pointer;font:inherit;color:inherit;padding:0;width:100%;text-align:left;"><span class="nav-link-inner"><span class="nav-link-text">Logout</span></span></button></li>'
             : '<li class="nav-item"><a href="auth.html" class="nav-link"><span class="nav-link-inner"><span class="nav-link-text">Login</span></span></a></li><li class="nav-item"><a href="auth.html?mode=register" class="nav-link"><span class="nav-link-inner"><span class="nav-link-text">Register</span></span></a></li>';
         return '<nav class="main-nav">' +
             '<button class="nav-toggle" id="navToggle" aria-label="Open menu">' +

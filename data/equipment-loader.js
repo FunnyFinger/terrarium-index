@@ -1,6 +1,6 @@
 /**
- * Load equipment (containers, tools) for the shop.
- * Equipment items use ids 50001+ to avoid clash with plant ids.
+ * Load supplies (containers, tools, soil, hardscape, etc.) for the shop.
+ * Supply items use ids 50001+ to avoid clash with plant ids.
  * Same cart and inventory as plants; no plant-specific fields.
  */
 (function () {
@@ -17,7 +17,7 @@
             window.equipmentData = list;
             return list;
         } catch (e) {
-            console.warn('Equipment load failed:', e.message);
+            console.warn('Supplies load failed:', e.message);
             window.equipmentData = [];
             return [];
         }

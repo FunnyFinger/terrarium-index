@@ -1,6 +1,6 @@
 /**
  * Load ready-made vivariums (open/closed terrariums, aerariums, deserteriums, etc.)
- * Vivarium ids use 60001+ to avoid clash with plants and equipment.
+ * Vivarium ids use 60001+ to avoid clash with plants and supplies.
  */
 (function () {
     'use strict';

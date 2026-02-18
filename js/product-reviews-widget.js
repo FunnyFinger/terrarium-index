@@ -1,5 +1,5 @@
 /**
- * Product reviews & ratings widget for plant/equipment/vivarium detail views.
+ * Product reviews & ratings widget for plant/supply/vivarium detail views.
  * Renders existing reviews and (if logged in) a form to add a review.
  * Requires: profileDb, auth (optional for form).
  */

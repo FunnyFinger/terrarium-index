@@ -237,7 +237,7 @@ async function initializeUI() {
         }
         filteredEquipment = allEquipment ? allEquipment.filter(function(eq) { return canSeeHidden ? true : !eq.hidden; }) : [];
         mergeEquipmentImagesFromStorage();
-        console.log('📦 Equipment loaded:', allEquipment.length, 'items');
+        console.log('📦 Supplies loaded:', allEquipment.length, 'items');
     }
     if (typeof window.loadVivariums === 'function') {
         allVivariums = await window.loadVivariums();
@@ -1381,7 +1381,7 @@ function setupEventListeners() {
         });
     }
 
-    // Edit equipment modal
+    // Edit supply modal
     const closeEquipmentEditModalBtn = document.getElementById('closeEquipmentEditModal');
     const equipmentEditCancelBtn = document.getElementById('equipmentEditCancelBtn');
     const equipmentEditSaveBtn = document.getElementById('equipmentEditSaveBtn');
@@ -1526,7 +1526,7 @@ function setupEventListeners() {
     var closePlantImageModalBtn = document.getElementById('closePlantImageModal');
     if (closePlantImageModalBtn) closePlantImageModalBtn.addEventListener('click', closePlantImageModal);
 
-    // Equipment edit: capture phase on document so pencil icon click is always handled first
+    // Supply edit: capture phase on document so pencil icon click is always handled first
     document.addEventListener('click', function equipmentEditCapture(e) {
         var btn = e.target.closest('.equipment-edit-icon');
         if (!btn) return;
@@ -1539,7 +1539,7 @@ function setupEventListeners() {
         var equip = (typeof allEquipment !== 'undefined' && allEquipment) ? allEquipment.find(function(ev) { return ev.id === id; }) : null;
         if (equip) openEquipmentEdit(equip);
     }, true);
-    // Equipment images: same for image icon
+    // Supply images: same for image icon
     document.addEventListener('click', function equipmentImageCapture(e) {
         var btn = e.target.closest('.equipment-image-icon');
         if (!btn) return;
@@ -1590,7 +1590,7 @@ function setSortSelectOptions(view) {
     sortSelect.innerHTML = opts.map(o => `<option value="${o.value}"${o.value === currentVal ? ' selected' : ''}>${o.label}</option>`).join('');
 }
 
-// Sort functionality: plants vs equipment vs vivariums use separate options and state
+// Sort functionality: plants vs supplies vs vivariums use separate options and state
 function handleSort() {
     if (!sortSelect) return;
     if (currentView === 'plants') {
@@ -3372,7 +3372,7 @@ function setupShopTabs() {
         if (filtersContentEquipment) { filtersContentEquipment.classList.remove('hidden'); filtersContentEquipment.setAttribute('aria-hidden', 'false'); }
         if (filtersContentPlants) { filtersContentPlants.classList.add('hidden'); filtersContentPlants.setAttribute('aria-hidden', 'true'); }
         if (filtersContentVivariums) { filtersContentVivariums.classList.add('hidden'); filtersContentVivariums.setAttribute('aria-hidden', 'true'); }
-        if (searchInput) searchInput.placeholder = 'Search equipment...';
+        if (searchInput) searchInput.placeholder = 'Search supplies...';
         document.querySelectorAll('#filtersContentEquipment .filter-group').forEach(function(g) { g.classList.add('collapsed'); });
     }
     function showVivariumFilters() {
@@ -3687,8 +3687,8 @@ function renderEquipmentPage() {
 
     plantsGrid.innerHTML = '';
     if (total === 0) {
-        plantsGrid.innerHTML = '<div class="no-results"><p>No equipment matching your filters.</p></div>';
-        if (plantCount) plantCount.textContent = 'No equipment found';
+        plantsGrid.innerHTML = '<div class="no-results"><p>No supplies matching your filters.</p></div>';
+        if (plantCount) plantCount.textContent = 'No supplies found';
         if (plantsPagination) { plantsPagination.classList.add('hidden'); plantsPagination.innerHTML = ''; }
         return;
     }
@@ -3700,7 +3700,7 @@ function renderEquipmentPage() {
 
     if (plantCount) {
         const end = start + pageItems.length;
-        plantCount.textContent = `Showing ${start + 1}–${end} of ${total} equipment items`;
+        plantCount.textContent = `Showing ${start + 1}–${end} of ${total} supplies`;
     }
 
     if (plantsPagination) {
@@ -4251,8 +4251,8 @@ function showEquipmentDetail(equipment) {
         const equipHideBtn = document.createElement('button');
         equipHideBtn.type = 'button';
         equipHideBtn.className = 'detail-btn detail-hide equipment-detail-hide';
-        equipHideBtn.title = equipment.hidden ? 'Show this equipment in the shop' : 'Hide this equipment from shoppers';
-        equipHideBtn.setAttribute('aria-label', equipment.hidden ? 'Show equipment in shop' : 'Hide equipment from shoppers');
+        equipHideBtn.title = equipment.hidden ? 'Show this supply in the shop' : 'Hide this supply from shoppers';
+        equipHideBtn.setAttribute('aria-label', equipment.hidden ? 'Show supply in shop' : 'Hide supply from shoppers');
         equipHideBtn.innerHTML = '<span>' + (equipment.hidden ? 'Show in shop' : 'Hide from shoppers') + '</span>';
         equipmentDetailActions.appendChild(equipHideBtn);
         equipHideBtn.addEventListener('click', function () {
@@ -4267,8 +4267,8 @@ function showEquipmentDetail(equipment) {
                 if (typeof applyEquipmentFilters === 'function') applyEquipmentFilters();
                 if (typeof updateQuickAddButtonsState === 'function') updateQuickAddButtonsState();
             }
-            equipHideBtn.title = nextHidden ? 'Show this equipment in the shop' : 'Hide this equipment from shoppers';
-            equipHideBtn.setAttribute('aria-label', nextHidden ? 'Show equipment in shop' : 'Hide equipment from shoppers');
+            equipHideBtn.title = nextHidden ? 'Show this supply in the shop' : 'Hide this supply from shoppers';
+            equipHideBtn.setAttribute('aria-label', nextHidden ? 'Show supply in shop' : 'Hide supply from shoppers');
             equipHideBtn.innerHTML = '<span>' + (nextHidden ? 'Show in shop' : 'Hide from shoppers') + '</span>';
         });
     }
@@ -4321,7 +4321,7 @@ function openEquipmentEdit(equipment) {
     var nameRow = document.getElementById('equipmentEditNameRow');
     var nameInput = document.getElementById('equipmentEditNameInput');
     var titleEl = document.getElementById('equipmentEditModalTitle');
-    if (titleEl) titleEl.textContent = isNew ? 'Add equipment' : 'Edit equipment';
+    if (titleEl) titleEl.textContent = isNew ? 'Add supply' : 'Edit supply';
     if (nameEl) { nameEl.style.display = isNew ? 'none' : ''; nameEl.textContent = (equipmentEditing.name || 'Equipment'); }
     if (nameRow) nameRow.style.display = isNew ? '' : 'none';
     if (nameInput) { nameInput.value = equipmentEditing.name || ''; nameInput.style.display = isNew ? '' : 'none'; }

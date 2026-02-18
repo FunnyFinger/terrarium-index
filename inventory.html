@@ -117,7 +117,7 @@
         <div id="invPanelInventory" class="inv-panel active" role="tabpanel">
             <div class="inv-category-tabs" role="tablist" style="margin-bottom: 0.75rem;">
                 <button type="button" class="inv-tab inv-category-tab active" role="tab" id="invCategoryPlants" data-category="plants" aria-selected="true">Plants</button>
-                <button type="button" class="inv-tab inv-category-tab" role="tab" id="invCategoryEquipment" data-category="equipment" aria-selected="false">Equipment</button>
+                <button type="button" class="inv-tab inv-category-tab" role="tab" id="invCategoryEquipment" data-category="equipment" aria-selected="false">Supplies</button>
                 <button type="button" class="inv-tab inv-category-tab" role="tab" id="invCategoryVivariums" data-category="vivariums" aria-selected="false">Vivariums</button>
             </div>
             <div class="inv-toolbar">
@@ -366,7 +366,7 @@
                 var addLink = document.getElementById('invAddNewLink');
                 if (addLink) {
                     addLink.href = category === 'plants' ? 'index.html?add=plant' : (category === 'equipment' ? 'index.html?add=equipment' : 'index.html?add=vivarium');
-                    addLink.textContent = category === 'plants' ? 'Add new plant' : (category === 'equipment' ? 'Add new equipment' : 'Add new vivarium');
+                    addLink.textContent = category === 'plants' ? 'Add new plant' : (category === 'equipment' ? 'Add new supply' : 'Add new vivarium');
                 }
                 updateInvSecondColumnHeader();
             }
@@ -602,7 +602,7 @@
                 var isVivarium = invCurrentCategory === 'vivariums';
                 if (!plants || plants.length === 0) {
                     if (isVivarium) loading.textContent = 'No vivariums loaded.';
-                    else if (isEquipment) loading.textContent = 'No equipment items.';
+                    else if (isEquipment) loading.textContent = 'No supply items.';
                     else loading.textContent = 'No plants loaded. Load the site from a server (e.g. index.html) so plant data is available.';
                     loading.classList.remove('hidden');
                     table.classList.add('hidden');
@@ -650,7 +650,7 @@
                         editTd;
                     tbody.appendChild(tr);
                 });
-                var label = isVivarium ? ' vivariums' : (isEquipment ? ' equipment items' : ' plants');
+                var label = isVivarium ? ' vivariums' : (isEquipment ? ' supplies' : ' plants');
                 var summary = totalFiltered + label;
                 if (filtered.length !== plants.length) summary = totalFiltered + ' of ' + plants.length + label;
                 document.getElementById('invSummary').textContent = summary + (invCanEdit ? '. Sort by column; use Batch edit for multiple items.' : '. Sort by column.');

@@ -137,7 +137,7 @@
         });
     }
 
-    /** Get all reviews for a product (e.g. plant, equipment, vivarium). */
+    /** Get all reviews for a product (e.g. plant, supply, vivarium). */
     function getReviewsByProduct(productType, productId) {
         var database = getDb();
         if (!database) return Promise.resolve([]);
