@@ -15,6 +15,8 @@
     --border-color: #e1e8e3;
     --shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
     --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.15);
+    --main-nav-height: 65px;
+    --filters-footer-padding: 24px;
 }
 
 body {
@@ -63,20 +65,52 @@ html {
     align-items: stretch;
 }
 
-/* Filters Sidebar (control panel) - visible by default, full height */
+.filters-sidebar-wrapper {
+    --filters-sidebar-width: 320px;
+    width: var(--filters-sidebar-width);
+    min-width: var(--filters-sidebar-width);
+    flex-shrink: 0;
+    align-self: flex-start;
+    transition: width 0.2s, min-width 0.2s;
+}
+
+.filters-sidebar-wrapper.filters-sidebar-wrapper-collapsed {
+    width: 0;
+    min-width: 0;
+    overflow: hidden;
+}
+
+/* Hide filter panel when detail/modal view is shown (plant, equipment, vivarium) */
+.main-layout.detail-view-active .filters-sidebar-wrapper {
+    display: none !important;
+    width: 0 !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+}
+
+/* Filters Sidebar (control panel) - visible by default, fixed when scrolling (via JS), scrollable */
 .filters-sidebar {
     --filters-sidebar-width: 320px;
     width: var(--filters-sidebar-width);
     min-width: var(--filters-sidebar-width);
+    max-height: calc(100vh - 140px);
+    min-height: 0;
     background: var(--card-bg);
     border-radius: 12px;
     box-shadow: var(--shadow);
     border: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
-    overflow: visible;
-    align-self: stretch;
-    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+}
+
+.filters-sidebar.is-sticky {
+    position: fixed;
+    top: var(--filters-sticky-top, calc(2 * var(--main-nav-height)));
+    left: var(--filters-sticky-left, 20px);
+    z-index: 15;
+    box-shadow: var(--shadow-hover);
 }
 
 .filters-sidebar.control-panel-collapsed {
@@ -177,7 +211,28 @@ html {
 .filters-content {
     padding: 1.5rem;
     overflow-y: auto;
+    overflow-x: hidden;
     flex: 1;
+    min-height: 0;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.filters-content-tab {
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.filters-content-tab.hidden {
+    display: none !important;
+}
+
+.filters-content input,
+.filters-content select,
+.filters-content textarea {
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .filters-content::-webkit-scrollbar {
@@ -336,11 +391,24 @@ html {
         flex-direction: column;
     }
     
+    .filters-sidebar-wrapper {
+        width: 100%;
+        min-width: auto;
+    }
+    .filters-sidebar-wrapper.filters-sidebar-wrapper-collapsed {
+        width: 0;
+        min-width: 0;
+    }
+    
     .filters-sidebar {
         width: 100%;
         min-width: auto;
         position: static;
         max-height: none;
+    }
+    
+    .filters-sidebar.is-sticky {
+        position: static;
     }
     
     .filters-sidebar.visible {
@@ -357,7 +425,7 @@ html {
     z-index: 1000;
     display: flex;
     align-items: center;
-    height: 65px;
+    height: var(--main-nav-height);
     padding: 0 1rem 0 0;
     gap: 0.75rem;
     background: rgba(255, 255, 255, 0.1);
@@ -910,6 +978,8 @@ main {
     align-items: center;
     gap: 0.35rem;
     margin-bottom: 1rem;
+    min-width: 0;
+    max-width: 100%;
 }
 
 .control-panel-search-input {
@@ -1246,6 +1316,8 @@ main {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
+    min-width: 0;
+    max-width: 100%;
 }
 
 .filter-group-label {
@@ -1253,12 +1325,43 @@ main {
     color: var(--text-color);
     font-size: 0.95rem;
     margin-bottom: 0.25rem;
+    cursor: pointer;
+    user-select: none;
+    padding-right: 1.25rem;
+    position: relative;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    min-width: 0;
 }
 
 .checkbox-group {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.filter-group-label::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    margin-top: -2px;
+    border: solid currentColor;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: translateY(-50%) rotate(45deg);
+    transition: transform 0.2s;
+}
+
+.filter-group.collapsed .filter-group-label::after {
+    transform: translateY(-50%) rotate(-135deg);
+}
+
+.filter-group.collapsed .filter-group-label ~ * {
+    display: none;
 }
 
 .classification-search {
@@ -1315,6 +1418,14 @@ main {
     color: var(--text-color);
     padding: 4px 0;
     transition: color 0.2s;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.checkbox-label span {
+    overflow-wrap: break-word;
+    word-break: break-word;
+    min-width: 0;
 }
 
 .checkbox-label:hover {
@@ -1332,10 +1443,15 @@ main {
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    min-width: 0;
+    max-width: 100%;
 }
 
 .range-input {
     flex: 1;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
     padding: 8px 12px;
     border: 2px solid var(--border-color);
     border-radius: 6px;
@@ -1500,21 +1616,49 @@ main {
     color: var(--primary-color);
     font-weight: 600;
 }
+
+/* When modal shows equipment/vivarium detail, use flow layout instead of grid */
+.plant-detail-panel #modalBody:has(.equipment-detail-layout) {
+    display: block !important;
+    grid-template-columns: unset !important;
+    grid-template-rows: unset !important;
+    height: auto !important;
+    max-height: none !important;
+    padding: 1rem 0;
+    overflow-y: auto;
+}
+
 .equipment-detail-layout {
     display: grid;
-    grid-template-columns: minmax(200px, 1fr) 1fr;
+    grid-template-columns: minmax(220px, 380px) 1fr;
     gap: 2rem;
     align-items: start;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 0.5rem;
 }
 .equipment-detail-image {
     position: sticky;
     top: 1rem;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
 }
 .equipment-detail-image img.equipment-main-image {
     width: 100%;
+    display: block;
     border-radius: 12px;
     object-fit: contain;
-    max-height: 400px;
+    max-height: 380px;
+    background: var(--bg-color);
+}
+.equipment-detail-content {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
 }
 .equipment-placeholder {
     aspect-ratio: 1;
@@ -1525,22 +1669,92 @@ main {
     background: var(--bg-color);
     border-radius: 12px;
 }
+.detail-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+/* Edit details / Image buttons at bottom right of detail panel (all tabs) */
+.plant-detail-panel .plant-panel-body {
+    position: relative;
+}
+.detail-actions-fixed {
+    position: absolute !important;
+    bottom: 1rem;
+    right: 1rem;
+    margin: 0 !important;
+    z-index: 25;
+    flex-wrap: nowrap;
+}
+.detail-actions .detail-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid var(--accent-color);
+    border-radius: 8px;
+    font: inherit;
+    font-size: 0.9rem;
+    color: var(--accent-color);
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+.detail-actions .detail-btn:hover {
+    background: var(--accent-color);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+.detail-actions .detail-btn svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+.detail-actions .detail-btn span {
+    white-space: nowrap;
+}
+
 .equipment-detail-name {
-    margin: 0 0 1rem 0;
+    margin: 0;
     font-size: 1.5rem;
+    font-weight: 700;
     color: var(--text-color);
+    line-height: 1.3;
 }
 .equipment-detail-description {
-    margin-bottom: 1.5rem;
-    line-height: 1.6;
+    margin: 0;
+    line-height: 1.65;
+    color: var(--text-light);
+    font-size: 0.95rem;
+}
+.equipment-detail-content .equipment-shop-widget {
+    margin-top: 0.5rem;
+    padding: 1.25rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+.equipment-detail-content .equipment-shop-widget h3 {
+    margin: 0 0 0.75rem 0;
+    font-size: 1rem;
+    font-weight: 600;
     color: var(--text-color);
 }
-.equipment-shop-widget {
-    margin-top: 0;
+.equipment-detail-content .equipment-shop-widget .shop-widget-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
 }
 @media (max-width: 767px) {
     .equipment-detail-layout {
         grid-template-columns: 1fr;
+        padding: 0;
     }
     .equipment-detail-image { position: static; }
 }
@@ -1711,20 +1925,25 @@ main {
     padding: 3px 8px;
     font-size: 0.65rem;
 }
-.plants-grid.card-size-medium .plant-card-icons {
+.plants-grid.card-size-medium .plant-card-icons,
+.plants-grid.card-size-medium .card-icons {
     top: 10px;
     right: 10px;
     gap: 6px;
 }
 .plants-grid.card-size-medium .image-edit-icon,
-.plants-grid.card-size-medium .plant-image-icon {
+.plants-grid.card-size-medium .plant-image-icon,
+.plants-grid.card-size-medium .card-edit-icon,
+.plants-grid.card-size-medium .card-image-icon {
     width: 34px;
     height: 34px;
     min-width: 34px;
     min-height: 34px;
 }
 .plants-grid.card-size-medium .image-edit-icon svg,
-.plants-grid.card-size-medium .plant-image-icon svg {
+.plants-grid.card-size-medium .plant-image-icon svg,
+.plants-grid.card-size-medium .card-edit-icon svg,
+.plants-grid.card-size-medium .card-image-icon svg {
     width: 16px;
     height: 16px;
 }
@@ -1757,20 +1976,25 @@ main {
     padding: 2px 6px;
     font-size: 0.6rem;
 }
-.plants-grid.card-size-small .plant-card-icons {
+.plants-grid.card-size-small .plant-card-icons,
+.plants-grid.card-size-small .card-icons {
     top: 6px;
     right: 6px;
     gap: 4px;
 }
 .plants-grid.card-size-small .image-edit-icon,
-.plants-grid.card-size-small .plant-image-icon {
+.plants-grid.card-size-small .plant-image-icon,
+.plants-grid.card-size-small .card-edit-icon,
+.plants-grid.card-size-small .card-image-icon {
     width: 28px;
     height: 28px;
     min-width: 28px;
     min-height: 28px;
 }
 .plants-grid.card-size-small .image-edit-icon svg,
-.plants-grid.card-size-small .plant-image-icon svg {
+.plants-grid.card-size-small .plant-image-icon svg,
+.plants-grid.card-size-small .card-edit-icon svg,
+.plants-grid.card-size-small .card-image-icon svg {
     width: 14px;
     height: 14px;
 }
@@ -1788,10 +2012,38 @@ main {
 .plants-pagination {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     gap: 1rem;
     flex-wrap: wrap;
     padding: 1rem 0 2rem;
+}
+.plants-pagination .pagination-nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.plants-pagination .pagination-per-page {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.pagination-per-page-label {
+    font-size: 0.95rem;
+    color: var(--text-light);
+}
+.pagination-per-page-select {
+    padding: 0.5rem 0.75rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--card-bg);
+    color: var(--text-color);
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+.pagination-per-page-select:hover,
+.pagination-per-page-select:focus {
+    border-color: var(--accent-color);
+    outline: none;
 }
 .plants-pagination.hidden {
     display: none;
@@ -2241,6 +2493,77 @@ main {
     transform: translateX(-50%) translateY(0);
 }
 
+/* Shared Edit / Image buttons across Plants, Equipment, Vivariums */
+.card-icons {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 15;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.card-icons .card-edit-icon,
+.card-icons .card-image-icon {
+    position: static;
+    top: auto;
+    right: auto;
+    padding: 0;
+    margin: 0;
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    min-height: 42px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid var(--accent-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font: inherit;
+    appearance: none;
+    -webkit-appearance: none;
+    transition: opacity 0.3s ease, transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+.card-icons .card-edit-icon svg,
+.card-icons .card-image-icon svg {
+    width: 20px;
+    height: 20px;
+    color: var(--accent-color);
+    pointer-events: none;
+}
+.plant-card .card-icons .card-edit-icon,
+.plant-card .card-icons .card-image-icon,
+.equipment-card .card-icons .card-edit-icon,
+.equipment-card .card-icons .card-image-icon,
+.vivarium-card .card-icons .card-edit-icon,
+.vivarium-card .card-icons .card-image-icon {
+    opacity: 0;
+}
+.plant-card:hover .card-icons .card-edit-icon,
+.plant-card:hover .card-icons .card-image-icon,
+.plant-image-container:hover .card-icons .card-edit-icon,
+.plant-image-container:hover .card-icons .card-image-icon,
+.equipment-card:hover .card-icons .card-edit-icon,
+.equipment-card:hover .card-icons .card-image-icon,
+.equipment-card .plant-image-container:hover .card-icons .card-edit-icon,
+.equipment-card .plant-image-container:hover .card-icons .card-image-icon,
+.vivarium-card:hover .card-icons .card-edit-icon,
+.vivarium-card:hover .card-icons .card-image-icon,
+.vivarium-card .plant-image-container:hover .card-icons .card-edit-icon,
+.vivarium-card .plant-image-container:hover .card-icons .card-image-icon {
+    opacity: 0.9;
+}
+.card-edit-icon:hover,
+.card-image-icon:hover {
+    opacity: 1 !important;
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
 .plant-card-icons {
     position: absolute;
     top: 15px;
@@ -2256,7 +2579,8 @@ main {
     top: auto;
     right: auto;
 }
-.image-edit-icon {
+.image-edit-icon,
+.plant-image-icon {
     background: rgba(255, 255, 255, 0.95);
     border: 2px solid var(--accent-color);
     border-radius: 50%;
@@ -2275,66 +2599,33 @@ main {
     pointer-events: auto;
 }
 
-/* Hide edit icon on plant cards by default, show on hover */
-.plant-card .image-edit-icon {
+.plant-card .image-edit-icon,
+.plant-card .plant-image-icon {
     opacity: 0;
     pointer-events: none;
 }
 
 .plant-card:hover .image-edit-icon,
-.plant-image-container:hover .image-edit-icon {
-    opacity: 0.9;
-    pointer-events: auto;
-}
-
-.image-edit-icon:hover {
-    opacity: 1 !important;
-    background: rgba(255, 255, 255, 1);
-    transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-}
-
-.image-edit-icon svg {
-    width: 20px;
-    height: 20px;
-    color: var(--accent-color);
-}
-
-.plant-image-icon {
-    width: 42px;
-    height: 42px;
-    min-width: 42px;
-    min-height: 42px;
-    background: rgba(255, 255, 255, 0.95);
-    border: 2px solid var(--accent-color);
-    border-radius: 50%;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: opacity 0.3s ease, transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
-    z-index: 100;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-.plant-image-icon svg {
-    width: 20px;
-    height: 20px;
-    color: var(--accent-color);
-}
-.plant-card .plant-image-icon {
-    opacity: 0;
-    pointer-events: none;
-}
+.plant-image-container:hover .image-edit-icon,
 .plant-card:hover .plant-image-icon,
 .plant-image-container:hover .plant-image-icon {
     opacity: 0.9;
     pointer-events: auto;
 }
+
+.image-edit-icon:hover,
 .plant-image-icon:hover {
     opacity: 1 !important;
     background: rgba(255, 255, 255, 1);
     transform: scale(1.1);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.image-edit-icon svg,
+.plant-image-icon svg {
+    width: 20px;
+    height: 20px;
+    color: var(--accent-color);
 }
 .care-card-icon {
     position: absolute;
@@ -2378,51 +2669,9 @@ main {
     color: var(--accent-color);
 }
 
-/* Equipment card edit button (same position/style as plant image edit) */
-.equipment-edit-icon {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    z-index: 15;
-    padding: 0;
-    margin: 0;
-    background: rgba(255, 255, 255, 0.95);
-    border: 2px solid var(--accent-color);
-    border-radius: 50%;
-    width: 42px;
-    height: 42px;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    pointer-events: auto;
-    font: inherit;
-    appearance: none;
-    -webkit-appearance: none;
-    transition: opacity 0.3s ease, transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-.equipment-card .equipment-edit-icon {
-    opacity: 0;
-}
-.equipment-card:hover .equipment-edit-icon,
-.equipment-card .plant-image-container:hover .equipment-edit-icon {
-    opacity: 0.9;
-}
-.equipment-edit-icon:hover {
-    opacity: 1 !important;
-    background: rgba(255, 255, 255, 1);
-    transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-}
-.equipment-edit-icon svg {
-    width: 20px;
-    height: 20px;
-    color: var(--accent-color);
-    pointer-events: none;
-}
-
-.equipment-card-icons {
+/* Equipment/Vivarium use shared .card-icons .card-edit-icon .card-image-icon; keep legacy class names for JS */
+.equipment-card-icons,
+.equipment-card .card-icons {
     position: absolute;
     top: 15px;
     right: 15px;
@@ -2431,13 +2680,9 @@ main {
     flex-direction: column;
     gap: 8px;
 }
-.equipment-card-icons .equipment-edit-icon,
-.equipment-card-icons .equipment-image-icon {
-    position: static;
-    top: auto;
-    right: auto;
-}
-.equipment-card .equipment-image-icon {
+.equipment-edit-icon,
+.equipment-image-icon {
+    /* Legacy: same as .card-edit-icon / .card-image-icon when used without .card-icons */
     padding: 0;
     margin: 0;
     width: 42px;
@@ -2456,17 +2701,8 @@ main {
     -webkit-appearance: none;
     transition: opacity 0.3s ease, transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    opacity: 0;
 }
-.equipment-card:hover .equipment-image-icon {
-    opacity: 0.9;
-}
-.equipment-image-icon:hover {
-    opacity: 1 !important;
-    background: rgba(255, 255, 255, 1);
-    transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-}
+.equipment-edit-icon svg,
 .equipment-image-icon svg {
     width: 20px;
     height: 20px;

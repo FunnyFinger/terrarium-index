@@ -649,6 +649,7 @@ function createDefaultAdvancedFilters() {
         classification: [],
         vivariumType: [],
         enclosureSize: [],
+        availability: [],
         taxonomy: { rank: null, name: null }
     };
 }

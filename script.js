@@ -31,7 +31,7 @@ const {
 } = imageUtils;
 
 const PLANT_RENDER_BATCH_SIZE = 60; // Increased for faster initial render
-const PLANTS_PER_PAGE = 24;
+let plantsPerPage = 24;
 let currentPlantsPage = 1;
 let currentRenderToken = 0;
 
@@ -221,11 +221,20 @@ async function initializeUI() {
     if (typeof window.loadEquipment === 'function') {
         allEquipment = await window.loadEquipment();
         window.allEquipment = allEquipment;
+        filteredEquipment = allEquipment ? allEquipment.slice() : [];
         if (allEquipment.length && window.inventoryDb && window.inventoryDb.mergeInventoryIntoPlants) {
             await window.inventoryDb.mergeInventoryIntoPlants(allEquipment);
         }
         mergeEquipmentImagesFromStorage();
         console.log('📦 Equipment loaded:', allEquipment.length, 'items');
+    }
+    if (typeof window.loadVivariums === 'function') {
+        allVivariums = await window.loadVivariums();
+        window.allVivariums = allVivariums;
+        filteredVivariums = allVivariums ? allVivariums.slice() : [];
+        mergeVivariumImagesFromStorage();
+        mergeVivariumEditsFromStorage();
+        console.log('📦 Vivariums loaded:', allVivariums.length, 'items');
     }
     setupShopTabs();
     
@@ -287,8 +296,8 @@ async function initializeUI() {
     
     // Third: Validate only current page's cached images (fast), then discover for current page
     setTimeout(() => {
-        const start = (currentPlantsPage - 1) * PLANTS_PER_PAGE;
-        const pagePlants = (filteredPlants || []).slice(start, start + PLANTS_PER_PAGE);
+        const start = (currentPlantsPage - 1) * plantsPerPage;
+        const pagePlants = (filteredPlants || []).slice(start, start + plantsPerPage);
         loadImagesFromLocalStorage(pagePlants.length ? pagePlants : []).then(() => {
             (pagePlants.length ? pagePlants : []).forEach(plant => {
                 if (plant && plant.imageUrl) updatePlantCardImage(plant.id, plant.imageUrl);
@@ -328,6 +337,12 @@ const EQUIPMENT_SORT_OPTIONS = [
     { value: 'userRatings', label: 'User Ratings' }
 ];
 
+const VIVARIUM_SORT_OPTIONS = [
+    { value: 'name', label: 'Name' },
+    { value: 'price', label: 'Price' },
+    { value: 'type', label: 'Type' }
+];
+
 // DOM Elements
 const plantsGrid = document.getElementById('plantsGrid');
 const searchInput = document.getElementById('searchInput');
@@ -336,6 +351,7 @@ const sortSelect = document.getElementById('sortSelect');
 const sortDirectionBtn = document.getElementById('sortDirectionBtn');
 const filterToggle = document.getElementById('filterToggle');
 const filtersSidebar = document.getElementById('filtersSidebar');
+const filtersSidebarWrapper = document.getElementById('filtersSidebarWrapper');
 const plantCount = document.getElementById('plantCount');
 const plantsPagination = document.getElementById('plantsPagination');
 const loading = document.getElementById('loading');
@@ -344,6 +360,7 @@ const modalBody = document.getElementById('modalBody');
 const closeModal = document.querySelector('.close');
 const listView = document.getElementById('listView');
 const mainContent = document.querySelector('.main-content');
+const mainLayout = document.querySelector('.main-layout');
 const plantDetailPanel = document.getElementById('plantDetailPanel');
 const plantPanelBack = document.getElementById('plantPanelBack');
 
@@ -638,6 +655,14 @@ function closePlantPanel() {
     document.removeEventListener('keydown', handlePlantPanelEscape);
     const navBackWrap = document.getElementById('navBackToListWrap');
     if (navBackWrap) navBackWrap.classList.add('hidden');
+    if (mainLayout) mainLayout.classList.remove('detail-view-active');
+    if (filtersSidebarWrapper) {
+        filtersSidebarWrapper.style.display = '';
+        requestAnimationFrame(function() {
+            window.dispatchEvent(new Event('resize'));
+            window.dispatchEvent(new Event('scroll'));
+        });
+    }
     if (mainContent && plantDetailPanel) {
         mainContent.classList.remove('list-view-hidden');
         plantDetailPanel.classList.add('hidden');
@@ -904,6 +929,7 @@ function setupEventListeners() {
     const controlPanelReopen = document.getElementById('controlPanelReopen');
     const controlPanelEdgeActions = document.getElementById('controlPanelEdgeActions');
     const controlPanelReset = document.getElementById('controlPanelReset');
+    const filtersSidebarWrapper = document.getElementById('filtersSidebarWrapper');
     const EDGE_ACTIONS_MIN_TOP = 72;
 
     function updateEdgeActionsPosition() {
@@ -923,13 +949,15 @@ function setupEventListeners() {
         controlPanelEdgeActions.style.transform = 'translateY(-50%)';
     }
 
-    if (controlPanelCollapse && filtersSidebar && controlPanelReopen) {
+    if (controlPanelCollapse && filtersSidebar && controlPanelReopen && filtersSidebarWrapper) {
         controlPanelCollapse.addEventListener('click', () => {
             filtersSidebar.classList.add('control-panel-collapsed');
+            if (filtersSidebarWrapper) filtersSidebarWrapper.classList.add('filters-sidebar-wrapper-collapsed');
             controlPanelReopen.classList.remove('hidden');
         });
         controlPanelReopen.addEventListener('click', () => {
             filtersSidebar.classList.remove('control-panel-collapsed');
+            if (filtersSidebarWrapper) filtersSidebarWrapper.classList.remove('filters-sidebar-wrapper-collapsed');
             filtersSidebar.style.display = '';
             controlPanelReopen.classList.add('hidden');
             updateEdgeActionsPosition();
@@ -941,8 +969,99 @@ function setupEventListeners() {
 
     if (controlPanelReset) {
         controlPanelReset.addEventListener('click', () => {
-            if (typeof resetAllFilters === 'function') resetAllFilters();
+            if (currentView === 'equipment') {
+                if (searchInput) searchInput.value = '';
+                document.querySelectorAll('.equipment-filter-checkbox').forEach(function(cb) { cb.checked = false; });
+                var pm = document.getElementById('equipmentPriceMin');
+                var px = document.getElementById('equipmentPriceMax');
+                if (pm) pm.value = '';
+                if (px) px.value = '';
+                applyEquipmentFilters();
+            } else if (currentView === 'vivariums') {
+                if (searchInput) searchInput.value = '';
+                document.querySelectorAll('.vivarium-filter-checkbox').forEach(function(cb) { cb.checked = false; });
+                var vpm = document.getElementById('vivariumPriceMin');
+                var vpx = document.getElementById('vivariumPriceMax');
+                if (vpm) vpm.value = '';
+                if (vpx) vpx.value = '';
+                applyVivariumFilters();
+            } else if (typeof resetAllFilters === 'function') {
+                resetAllFilters();
+            }
         });
+    }
+
+    var equipmentPriceMin = document.getElementById('equipmentPriceMin');
+    var equipmentPriceMax = document.getElementById('equipmentPriceMax');
+    function onEquipmentFilterChange() {
+        if (currentView === 'equipment') applyEquipmentFilters();
+    }
+    document.querySelectorAll('.equipment-filter-checkbox').forEach(function(cb) {
+        cb.addEventListener('change', onEquipmentFilterChange);
+    });
+    if (equipmentPriceMin) equipmentPriceMin.addEventListener('input', debounce(onEquipmentFilterChange, 300));
+    if (equipmentPriceMax) equipmentPriceMax.addEventListener('input', debounce(onEquipmentFilterChange, 300));
+
+    function onVivariumFilterChange() {
+        if (currentView === 'vivariums') applyVivariumFilters();
+    }
+    document.querySelectorAll('.vivarium-filter-checkbox').forEach(function(cb) {
+        cb.addEventListener('change', onVivariumFilterChange);
+    });
+    var vivariumPriceMin = document.getElementById('vivariumPriceMin');
+    var vivariumPriceMax = document.getElementById('vivariumPriceMax');
+    if (vivariumPriceMin) vivariumPriceMin.addEventListener('input', debounce(onVivariumFilterChange, 300));
+    if (vivariumPriceMax) vivariumPriceMax.addEventListener('input', debounce(onVivariumFilterChange, 300));
+
+    if (filtersSidebar) {
+        document.querySelectorAll('.filter-group').forEach(g => g.classList.add('collapsed'));
+        filtersSidebar.addEventListener('click', (e) => {
+            const label = e.target.closest('.filter-group-label');
+            if (label) {
+                const group = label.closest('.filter-group');
+                if (group) group.classList.toggle('collapsed');
+            }
+        });
+    }
+
+    var footerEl = document.querySelector('footer');
+    if (filtersSidebar && filtersSidebarWrapper) {
+        function updateFiltersSticky() {
+            if (filtersSidebar.classList.contains('control-panel-collapsed') || filtersSidebar.style.display === 'none') {
+                filtersSidebar.classList.remove('is-sticky');
+                filtersSidebar.style.removeProperty('--filters-sticky-left');
+                filtersSidebar.style.removeProperty('--filters-sticky-top');
+                return;
+            }
+            var rect = filtersSidebarWrapper.getBoundingClientRect();
+            var navHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--main-nav-height'), 10) || 65;
+            var footerPadding = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--filters-footer-padding'), 10) || 24;
+            var stickyTop = 2 * navHeight;
+            if (rect.top <= stickyTop) {
+                filtersSidebar.classList.add('is-sticky');
+                filtersSidebar.style.setProperty('--filters-sticky-left', rect.left + 'px');
+                var panelHeight = filtersSidebar.offsetHeight;
+                var defaultTop = stickyTop + 'px';
+                if (footerEl) {
+                    var footerRect = footerEl.getBoundingClientRect();
+                    if (footerRect.top < stickyTop + panelHeight + footerPadding) {
+                        var top = footerRect.top - footerPadding - panelHeight;
+                        filtersSidebar.style.setProperty('--filters-sticky-top', Math.max(0, Math.min(stickyTop, top)) + 'px');
+                    } else {
+                        filtersSidebar.style.setProperty('--filters-sticky-top', defaultTop);
+                    }
+                } else {
+                    filtersSidebar.style.setProperty('--filters-sticky-top', defaultTop);
+                }
+            } else {
+                filtersSidebar.classList.remove('is-sticky');
+                filtersSidebar.style.removeProperty('--filters-sticky-left');
+                filtersSidebar.style.removeProperty('--filters-sticky-top');
+            }
+        }
+        window.addEventListener('scroll', updateFiltersSticky, { passive: true });
+        window.addEventListener('resize', updateFiltersSticky);
+        updateFiltersSticky();
     }
 
     // Card size: large (default), medium, small – persist in localStorage
@@ -1153,6 +1272,19 @@ function setupEventListeners() {
         });
     }
 
+    var closeVivariumEditModalBtn = document.getElementById('closeVivariumEditModal');
+    var vivariumEditCancelBtn = document.getElementById('vivariumEditCancelBtn');
+    var vivariumEditSaveBtn = document.getElementById('vivariumEditSaveBtn');
+    var vivariumEditModal = document.getElementById('vivariumEditModal');
+    if (closeVivariumEditModalBtn) closeVivariumEditModalBtn.addEventListener('click', closeVivariumEditModal);
+    if (vivariumEditCancelBtn) vivariumEditCancelBtn.addEventListener('click', closeVivariumEditModal);
+    if (vivariumEditSaveBtn) vivariumEditSaveBtn.addEventListener('click', saveVivariumEdit);
+    if (vivariumEditModal) {
+        vivariumEditModal.addEventListener('click', (e) => {
+            if (e.target === vivariumEditModal) closeVivariumEditModal();
+        });
+    }
+
     var equipmentImageModal = document.getElementById('equipmentImageModal');
     if (equipmentImageModal) {
         equipmentImageModal.addEventListener('click', (e) => {
@@ -1302,8 +1434,15 @@ function setupEventListeners() {
 // Search functionality
 function handleSearch() {
     if (!searchInput) return;
+    if (currentView === 'equipment') {
+        applyEquipmentFilters();
+        return;
+    }
+    if (currentView === 'vivariums') {
+        applyVivariumFilters();
+        return;
+    }
     const searchTerm = searchInput.value.toLowerCase().trim();
-    
     if (!searchTerm) {
         filteredPlants = [...allPlants];
     } else {
@@ -1312,25 +1451,23 @@ function handleSearch() {
             const scientificMatch = getScientificNameString(plant).toLowerCase().includes(searchTerm);
             const descriptionMatch = plant.description?.toLowerCase().includes(searchTerm) || false;
             const typeMatch = plant.type?.some(t => t.toLowerCase().includes(searchTerm)) || false;
-            const commonNamesMatch = plant.commonNames?.some(name => 
+            const commonNamesMatch = plant.commonNames?.some(name =>
                 name.toLowerCase().includes(searchTerm)
             ) || false;
-            
             return nameMatch || scientificMatch || descriptionMatch || typeMatch || commonNamesMatch;
         });
     }
-    
     applyAllFilters();
 }
 
 function setSortSelectOptions(view) {
     if (!sortSelect) return;
-    const opts = view === 'equipment' ? EQUIPMENT_SORT_OPTIONS : PLANT_SORT_OPTIONS;
-    const currentVal = view === 'equipment' ? equipmentSortField : sortField;
+    const opts = view === 'equipment' ? EQUIPMENT_SORT_OPTIONS : (view === 'vivariums' ? VIVARIUM_SORT_OPTIONS : PLANT_SORT_OPTIONS);
+    const currentVal = view === 'equipment' ? equipmentSortField : (view === 'vivariums' ? vivariumSortField : sortField);
     sortSelect.innerHTML = opts.map(o => `<option value="${o.value}"${o.value === currentVal ? ' selected' : ''}>${o.label}</option>`).join('');
 }
 
-// Sort functionality: plants vs equipment use separate options and state
+// Sort functionality: plants vs equipment vs vivariums use separate options and state
 function handleSort() {
     if (!sortSelect) return;
     if (currentView === 'plants') {
@@ -1339,6 +1476,9 @@ function handleSort() {
     } else if (currentView === 'equipment') {
         equipmentSortField = sortSelect.value;
         renderEquipmentPage();
+    } else if (currentView === 'vivariums') {
+        vivariumSortField = sortSelect.value;
+        renderVivariumsPage();
     }
 }
 
@@ -1351,12 +1491,16 @@ function handleSortDirection() {
         equipmentSortDirection = equipmentSortDirection === 'asc' ? 'desc' : 'asc';
         updateSortDirectionButton();
         renderEquipmentPage();
+    } else if (currentView === 'vivariums') {
+        vivariumSortDirection = vivariumSortDirection === 'asc' ? 'desc' : 'asc';
+        updateSortDirectionButton();
+        renderVivariumsPage();
     }
 }
 
 function updateSortDirectionButton() {
     if (!sortDirectionBtn) return;
-    const dir = currentView === 'equipment' ? equipmentSortDirection : sortDirection;
+    const dir = currentView === 'equipment' ? equipmentSortDirection : (currentView === 'vivariums' ? vivariumSortDirection : sortDirection);
     const upEl = sortDirectionBtn.querySelector('.sort-icon-up');
     const downEl = sortDirectionBtn.querySelector('.sort-icon-down');
     if (dir === 'asc') {
@@ -2315,6 +2459,7 @@ function applyAdvancedFilters() {
     advancedFilters.classification = Array.from(checkboxes).filter(cb => cb.dataset.filter === 'classification' && cb.checked).map(cb => cb.value);
     advancedFilters.vivariumType = Array.from(checkboxes).filter(cb => cb.dataset.filter === 'vivariumType' && cb.checked).map(cb => cb.value);
     advancedFilters.enclosureSize = Array.from(checkboxes).filter(cb => cb.dataset.filter === 'enclosureSize' && cb.checked).map(cb => cb.value);
+    advancedFilters.availability = Array.from(checkboxes).filter(cb => cb.dataset.filter === 'availability' && cb.checked).map(cb => cb.value);
     
     // Collect numeric range values
     const rangeInputs = [
@@ -2722,6 +2867,18 @@ function applyAllFilters() {
             const matchesEnclosureSize = advancedFilters.enclosureSize.includes(enclosureRange.size);
             if (!matchesEnclosureSize) return false;
         }
+        if (advancedFilters.availability.length > 0) {
+            const isInStock = typeof plant.stockQuantity !== 'number' || plant.stockQuantity > 0;
+            const isOutOfStock = typeof plant.stockQuantity === 'number' && plant.stockQuantity <= 0;
+            const isPreOrder = plant.availability === 'pre-order';
+            const matchesAvailability = advancedFilters.availability.some(function(v) {
+                if (v === 'in-stock') return isInStock;
+                if (v === 'out-of-stock') return isOutOfStock;
+                if (v === 'pre-order') return isPreOrder;
+                return false;
+            });
+            if (!matchesAvailability) return false;
+        }
         
         // Special characteristics filter
         if (advancedFilters.special.length > 0) {
@@ -2906,10 +3063,10 @@ function renderPlants(plants) {
 
 function renderPlantsPage() {
     const total = filteredPlants.length;
-    const totalPages = Math.max(1, Math.ceil(total / PLANTS_PER_PAGE));
+    const totalPages = Math.max(1, Math.ceil(total / plantsPerPage));
     currentPlantsPage = Math.max(1, Math.min(currentPlantsPage, totalPages));
-    const start = (currentPlantsPage - 1) * PLANTS_PER_PAGE;
-    const pagePlants = filteredPlants.slice(start, start + PLANTS_PER_PAGE);
+    const start = (currentPlantsPage - 1) * plantsPerPage;
+    const pagePlants = filteredPlants.slice(start, start + plantsPerPage);
 
     renderPlants(pagePlants);
 
@@ -2929,9 +3086,20 @@ function renderPlantsPage() {
     if (plantsPagination) {
         plantsPagination.classList.remove('hidden');
         plantsPagination.innerHTML = `
-            <button type="button" class="pagination-btn pagination-prev" ${currentPlantsPage <= 1 ? 'disabled' : ''} aria-label="Previous page">Previous</button>
-            <span class="pagination-info">Page ${currentPlantsPage} of ${totalPages}</span>
-            <button type="button" class="pagination-btn pagination-next" ${currentPlantsPage >= totalPages ? 'disabled' : ''} aria-label="Next page">Next</button>
+            <div class="pagination-nav">
+                <button type="button" class="pagination-btn pagination-prev" ${currentPlantsPage <= 1 ? 'disabled' : ''} aria-label="Previous page">Previous</button>
+                <span class="pagination-info">Page ${currentPlantsPage} of ${totalPages}</span>
+                <button type="button" class="pagination-btn pagination-next" ${currentPlantsPage >= totalPages ? 'disabled' : ''} aria-label="Next page">Next</button>
+            </div>
+            <div class="pagination-per-page">
+                <label for="plantsPerPageSelect" class="pagination-per-page-label">Show</label>
+                <select id="plantsPerPageSelect" class="pagination-per-page-select" aria-label="Cards per page">
+                    <option value="12" ${plantsPerPage === 12 ? 'selected' : ''}>12</option>
+                    <option value="24" ${plantsPerPage === 24 ? 'selected' : ''}>24</option>
+                    <option value="48" ${plantsPerPage === 48 ? 'selected' : ''}>48</option>
+                    <option value="96" ${plantsPerPage === 96 ? 'selected' : ''}>96</option>
+                </select>
+            </div>
         `;
         const prevBtn = plantsPagination.querySelector('.pagination-prev');
         const nextBtn = plantsPagination.querySelector('.pagination-next');
@@ -2953,28 +3121,73 @@ function renderPlantsPage() {
                 }
             });
         }
+        const perPageSelect = plantsPagination.querySelector('#plantsPerPageSelect');
+        if (perPageSelect) {
+            perPageSelect.addEventListener('change', () => {
+                plantsPerPage = parseInt(perPageSelect.value, 10);
+                currentPlantsPage = 1;
+                renderPlantsPage();
+            });
+        }
     }
     if (total > 0 && typeof discoverImagesForCurrentPage === 'function') {
         discoverImagesForCurrentPage();
     }
 }
 
-const EQUIPMENT_PER_PAGE = 24;
+let equipmentPerPage = 24;
 let currentEquipmentPage = 1;
+let filteredEquipment = [];
+
+let allVivariums = [];
+let filteredVivariums = [];
+let vivariumPerPage = 24;
+let currentVivariumPage = 1;
+let vivariumSortField = 'name';
+let vivariumSortDirection = 'asc';
 
 function setupShopTabs() {
     const tabPlants = document.getElementById('tabPlants');
     const tabEquipment = document.getElementById('tabEquipment');
+    const tabVivariums = document.getElementById('tabVivariums');
     const filtersSidebarEl = document.getElementById('filtersSidebar');
+    const filtersContentPlants = document.getElementById('filtersContentPlants');
+    const filtersContentEquipment = document.getElementById('filtersContentEquipment');
+    const filtersContentVivariums = document.getElementById('filtersContentVivariums');
     const controlPanelReopenEl = document.getElementById('controlPanelReopen');
     if (!tabPlants || !tabEquipment) return;
+
+    function setActiveTab(activeTab, inactive1, inactive2) {
+        if (activeTab) { activeTab.classList.add('active'); activeTab.setAttribute('aria-selected', 'true'); }
+        if (inactive1) { inactive1.classList.remove('active'); inactive1.setAttribute('aria-selected', 'false'); }
+        if (inactive2) { inactive2.classList.remove('active'); inactive2.setAttribute('aria-selected', 'false'); }
+    }
+    function showPlantsFilters() {
+        if (filtersContentPlants) { filtersContentPlants.classList.remove('hidden'); filtersContentPlants.setAttribute('aria-hidden', 'false'); }
+        if (filtersContentEquipment) { filtersContentEquipment.classList.add('hidden'); filtersContentEquipment.setAttribute('aria-hidden', 'true'); }
+        if (filtersContentVivariums) { filtersContentVivariums.classList.add('hidden'); filtersContentVivariums.setAttribute('aria-hidden', 'true'); }
+        if (searchInput) searchInput.placeholder = 'Search plants...';
+    }
+    function showEquipmentFilters() {
+        if (filtersContentEquipment) { filtersContentEquipment.classList.remove('hidden'); filtersContentEquipment.setAttribute('aria-hidden', 'false'); }
+        if (filtersContentPlants) { filtersContentPlants.classList.add('hidden'); filtersContentPlants.setAttribute('aria-hidden', 'true'); }
+        if (filtersContentVivariums) { filtersContentVivariums.classList.add('hidden'); filtersContentVivariums.setAttribute('aria-hidden', 'true'); }
+        if (searchInput) searchInput.placeholder = 'Search equipment...';
+        document.querySelectorAll('#filtersContentEquipment .filter-group').forEach(function(g) { g.classList.add('collapsed'); });
+    }
+    function showVivariumFilters() {
+        if (filtersContentVivariums) { filtersContentVivariums.classList.remove('hidden'); filtersContentVivariums.setAttribute('aria-hidden', 'false'); }
+        if (filtersContentPlants) { filtersContentPlants.classList.add('hidden'); filtersContentPlants.setAttribute('aria-hidden', 'true'); }
+        if (filtersContentEquipment) { filtersContentEquipment.classList.add('hidden'); filtersContentEquipment.setAttribute('aria-hidden', 'true'); }
+        if (searchInput) searchInput.placeholder = 'Search vivariums...';
+        document.querySelectorAll('#filtersContentVivariums .filter-group').forEach(function(g) { g.classList.add('collapsed'); });
+    }
+
     tabPlants.addEventListener('click', () => {
         currentView = 'plants';
-        tabPlants.classList.add('active');
-        tabPlants.setAttribute('aria-selected', 'true');
-        tabEquipment.classList.remove('active');
-        tabEquipment.setAttribute('aria-selected', 'false');
+        setActiveTab(tabPlants, tabEquipment, tabVivariums);
         if (filtersSidebarEl) filtersSidebarEl.style.display = '';
+        showPlantsFilters();
         if (controlPanelReopenEl) {
             if (filtersSidebarEl && filtersSidebarEl.classList.contains('control-panel-collapsed'))
                 controlPanelReopenEl.classList.remove('hidden');
@@ -2990,19 +3203,42 @@ function setupShopTabs() {
     });
     tabEquipment.addEventListener('click', () => {
         currentView = 'equipment';
-        tabEquipment.classList.add('active');
-        tabEquipment.setAttribute('aria-selected', 'true');
-        tabPlants.classList.remove('active');
-        tabPlants.setAttribute('aria-selected', 'false');
-        if (filtersSidebarEl) filtersSidebarEl.style.display = 'none';
-        if (controlPanelReopenEl) controlPanelReopenEl.classList.add('hidden');
+        setActiveTab(tabEquipment, tabPlants, tabVivariums);
+        if (filtersSidebarEl) filtersSidebarEl.style.display = '';
+        showEquipmentFilters();
+        if (controlPanelReopenEl) {
+            if (filtersSidebarEl && filtersSidebarEl.classList.contains('control-panel-collapsed'))
+                controlPanelReopenEl.classList.remove('hidden');
+            else
+                controlPanelReopenEl.classList.add('hidden');
+        }
         setSortSelectOptions('equipment');
         updateSortDirectionButton();
         currentEquipmentPage = 1;
-        renderEquipmentPage();
+        applyEquipmentFilters();
         const addPlantBtn = document.getElementById('addNewPlantBtn');
         if (addPlantBtn) addPlantBtn.style.display = 'none';
     });
+    if (tabVivariums) {
+        tabVivariums.addEventListener('click', () => {
+            currentView = 'vivariums';
+            setActiveTab(tabVivariums, tabPlants, tabEquipment);
+            if (filtersSidebarEl) filtersSidebarEl.style.display = '';
+            showVivariumFilters();
+            if (controlPanelReopenEl) {
+                if (filtersSidebarEl && filtersSidebarEl.classList.contains('control-panel-collapsed'))
+                    controlPanelReopenEl.classList.remove('hidden');
+                else
+                    controlPanelReopenEl.classList.add('hidden');
+            }
+            setSortSelectOptions('vivariums');
+            updateSortDirectionButton();
+            currentVivariumPage = 1;
+            applyVivariumFilters();
+            const addPlantBtn = document.getElementById('addNewPlantBtn');
+            if (addPlantBtn) addPlantBtn.style.display = 'none';
+        });
+    }
 }
 
 function mergeEquipmentImagesFromStorage() {
@@ -3020,6 +3256,24 @@ function mergeEquipmentImagesFromStorage() {
             } catch (e) { /* ignore */ }
         }
         if (eq.images && eq.images.length && !eq.imageUrl) eq.imageUrl = eq.images[0];
+    });
+}
+
+function mergeVivariumImagesFromStorage() {
+    if (!allVivariums || !allVivariums.length) return;
+    allVivariums.forEach(function(v) {
+        var id = v.id;
+        if (id == null) return;
+        var savedUrl = localStorage.getItem('vivarium_' + id + '_imageUrl');
+        var savedImages = localStorage.getItem('vivarium_' + id + '_images');
+        if (savedUrl) v.imageUrl = savedUrl;
+        if (savedImages) {
+            try {
+                var arr = JSON.parse(savedImages);
+                if (Array.isArray(arr) && arr.length) v.images = arr;
+            } catch (e) { /* ignore */ }
+        }
+        if (v.images && v.images.length && !v.imageUrl) v.imageUrl = v.images[0];
     });
 }
 
@@ -3053,11 +3307,11 @@ function createEquipmentCard(equipment) {
                 `<img src="${displayImageUrl}" alt="${escapeHtml(equipment.name)}" class="plant-image" loading="lazy" data-plant-id="${equipment.id}">` :
                 '<div class="image-placeholder">' + PLACEHOLDER_EQUIPMENT_SVG + '</div>'
             }
-            <div class="equipment-card-icons">
-                <button type="button" class="equipment-edit-icon" data-equipment-id="${equipment.id}" title="Edit equipment" aria-label="Edit equipment">
+            <div class="card-icons equipment-card-icons">
+                <button type="button" class="card-edit-icon equipment-edit-icon" data-equipment-id="${equipment.id}" title="Edit details" aria-label="Edit details">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                 </button>
-                <button type="button" class="equipment-image-icon" data-equipment-id="${equipment.id}" title="Add or edit images" aria-label="Add or edit images">
+                <button type="button" class="card-image-icon equipment-image-icon" data-equipment-id="${equipment.id}" title="Add or edit images" aria-label="Add or edit images">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
                 </button>
             </div>
@@ -3130,19 +3384,70 @@ function sortEquipment(items) {
     });
 }
 
+function applyEquipmentFilters() {
+    if (!allEquipment || !allEquipment.length) {
+        filteredEquipment = [];
+        renderEquipmentPage();
+        return;
+    }
+    var q = (searchInput && searchInput.value) ? searchInput.value.trim().toLowerCase() : '';
+    var categoryChecks = document.querySelectorAll('.equipment-filter-checkbox[data-filter="equipmentCategory"]:checked');
+    var categories = Array.from(categoryChecks).map(function(c) { return c.value; });
+    var availabilityChecks = document.querySelectorAll('.equipment-filter-checkbox[data-filter="equipmentAvailability"]:checked');
+    var availabilityValues = Array.from(availabilityChecks).map(function(c) { return c.value; });
+    var priceMinEl = document.getElementById('equipmentPriceMin');
+    var priceMaxEl = document.getElementById('equipmentPriceMax');
+    var priceMin = priceMinEl && priceMinEl.value !== '' ? parseFloat(priceMinEl.value) : null;
+    var priceMax = priceMaxEl && priceMaxEl.value !== '' ? parseFloat(priceMaxEl.value) : null;
+
+    filteredEquipment = allEquipment.filter(function(eq) {
+        if (q) {
+            var name = (eq.name || '').toLowerCase();
+            var desc = (eq.description || '').toLowerCase();
+            if (name.indexOf(q) === -1 && desc.indexOf(q) === -1) return false;
+        }
+        if (categories.length > 0) {
+            var cat = (eq.category || '').toLowerCase();
+            if (!categories.some(function(c) { return c.toLowerCase() === cat; })) return false;
+        }
+        if (availabilityValues.length > 0) {
+            var eqInStock = typeof eq.stockQuantity !== 'number' || eq.stockQuantity > 0;
+            var eqOutOfStock = typeof eq.stockQuantity === 'number' && eq.stockQuantity <= 0;
+            var eqPreOrder = eq.availability === 'pre-order';
+            var matchesAvail = availabilityValues.some(function(v) {
+                if (v === 'in-stock') return eqInStock;
+                if (v === 'out-of-stock') return eqOutOfStock;
+                if (v === 'pre-order') return eqPreOrder;
+                return false;
+            });
+            if (!matchesAvail) return false;
+        }
+        if (priceMin != null || priceMax != null) {
+            var p = eq.price != null && eq.price !== '' ? parseFloat(eq.price) : null;
+            if (p == null) return false;
+            if (priceMin != null && p < priceMin) return false;
+            if (priceMax != null && p > priceMax) return false;
+        }
+        return true;
+    });
+    currentEquipmentPage = 1;
+    renderEquipmentPage();
+}
+
 function renderEquipmentPage() {
     if (!plantsGrid) return;
-    const sorted = sortEquipment(allEquipment);
+    const list = filteredEquipment && filteredEquipment.length ? filteredEquipment : (allEquipment || []);
+    const sorted = sortEquipment(list);
     const total = sorted.length;
-    const totalPages = Math.max(1, Math.ceil(total / EQUIPMENT_PER_PAGE));
+    const totalPages = Math.max(1, Math.ceil(total / equipmentPerPage));
     currentEquipmentPage = Math.max(1, Math.min(currentEquipmentPage, totalPages));
-    const start = (currentEquipmentPage - 1) * EQUIPMENT_PER_PAGE;
-    const pageItems = sorted.slice(start, start + EQUIPMENT_PER_PAGE);
+    const start = (currentEquipmentPage - 1) * equipmentPerPage;
+    const pageItems = sorted.slice(start, start + equipmentPerPage);
 
     plantsGrid.innerHTML = '';
     if (total === 0) {
-        plantsGrid.innerHTML = '<div class="no-results"><p>No equipment items.</p></div>';
-        if (plantCount) plantCount.textContent = 'No equipment items';
+        plantsGrid.innerHTML = '<div class="no-results"><p>No equipment matching your filters.</p></div>';
+        if (plantCount) plantCount.textContent = 'No equipment found';
         if (plantsPagination) { plantsPagination.classList.add('hidden'); plantsPagination.innerHTML = ''; }
         return;
     }
@@ -3159,9 +3464,20 @@ function renderEquipmentPage() {
     if (plantsPagination) {
         plantsPagination.classList.remove('hidden');
         plantsPagination.innerHTML = `
-            <button type="button" class="pagination-btn pagination-prev" ${currentEquipmentPage <= 1 ? 'disabled' : ''} aria-label="Previous page">Previous</button>
-            <span class="pagination-info">Page ${currentEquipmentPage} of ${totalPages}</span>
-            <button type="button" class="pagination-btn pagination-next" ${currentEquipmentPage >= totalPages ? 'disabled' : ''} aria-label="Next page">Next</button>
+            <div class="pagination-nav">
+                <button type="button" class="pagination-btn pagination-prev" ${currentEquipmentPage <= 1 ? 'disabled' : ''} aria-label="Previous page">Previous</button>
+                <span class="pagination-info">Page ${currentEquipmentPage} of ${totalPages}</span>
+                <button type="button" class="pagination-btn pagination-next" ${currentEquipmentPage >= totalPages ? 'disabled' : ''} aria-label="Next page">Next</button>
+            </div>
+            <div class="pagination-per-page">
+                <label for="equipmentPerPageSelect" class="pagination-per-page-label">Show</label>
+                <select id="equipmentPerPageSelect" class="pagination-per-page-select" aria-label="Cards per page">
+                    <option value="12" ${equipmentPerPage === 12 ? 'selected' : ''}>12</option>
+                    <option value="24" ${equipmentPerPage === 24 ? 'selected' : ''}>24</option>
+                    <option value="48" ${equipmentPerPage === 48 ? 'selected' : ''}>48</option>
+                    <option value="96" ${equipmentPerPage === 96 ? 'selected' : ''}>96</option>
+                </select>
+            </div>
         `;
         const prevBtn = plantsPagination.querySelector('.pagination-prev');
         const nextBtn = plantsPagination.querySelector('.pagination-next');
@@ -3171,8 +3487,215 @@ function renderEquipmentPage() {
         if (nextBtn) nextBtn.addEventListener('click', () => {
             if (currentEquipmentPage < totalPages) { currentEquipmentPage++; renderEquipmentPage(); listView && listView.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
         });
+        const perPageSelect = plantsPagination.querySelector('#equipmentPerPageSelect');
+        if (perPageSelect) perPageSelect.addEventListener('change', function() {
+            equipmentPerPage = parseInt(perPageSelect.value, 10);
+            currentEquipmentPage = 1;
+            renderEquipmentPage();
+        });
     }
     updateQuickAddButtonsState();
+}
+
+function applyVivariumFilters() {
+    if (!allVivariums || !allVivariums.length) {
+        filteredVivariums = [];
+        renderVivariumsPage();
+        return;
+    }
+    var q = (searchInput && searchInput.value) ? searchInput.value.trim().toLowerCase() : '';
+    var typeChecks = document.querySelectorAll('.vivarium-filter-checkbox[data-filter="vivariumType"]:checked');
+    var types = Array.from(typeChecks).map(function(c) { return c.value; });
+    var availabilityChecks = document.querySelectorAll('.vivarium-filter-checkbox[data-filter="vivariumAvailability"]:checked');
+    var availabilities = Array.from(availabilityChecks).map(function(c) { return c.value; });
+    var priceMinEl = document.getElementById('vivariumPriceMin');
+    var priceMaxEl = document.getElementById('vivariumPriceMax');
+    var priceMin = priceMinEl && priceMinEl.value !== '' ? parseFloat(priceMinEl.value) : null;
+    var priceMax = priceMaxEl && priceMaxEl.value !== '' ? parseFloat(priceMaxEl.value) : null;
+
+    filteredVivariums = allVivariums.filter(function(v) {
+        if (q) {
+            var name = (v.name || '').toLowerCase();
+            var desc = (v.description || '').toLowerCase();
+            if (name.indexOf(q) === -1 && desc.indexOf(q) === -1) return false;
+        }
+        if (types.length > 0) {
+            var t = (v.type || '').toLowerCase();
+            if (!types.some(function(c) { return c.toLowerCase() === t; })) return false;
+        }
+        if (availabilities.length > 0) {
+            var av = (v.availability || 'in-stock').toLowerCase();
+            if (!availabilities.some(function(c) { return c.toLowerCase() === av; })) return false;
+        }
+        if (priceMin != null || priceMax != null) {
+            var p = v.price != null && v.price !== '' ? parseFloat(v.price) : null;
+            if (p == null) return false;
+            if (priceMin != null && p < priceMin) return false;
+            if (priceMax != null && p > priceMax) return false;
+        }
+        return true;
+    });
+    currentVivariumPage = 1;
+    renderVivariumsPage();
+}
+
+function sortVivariums(items) {
+    if (!items || items.length === 0) return items;
+    var asc = vivariumSortDirection === 'asc';
+    return items.slice().sort(function(a, b) {
+        var aVal, bVal;
+        switch (vivariumSortField) {
+            case 'name':
+                aVal = (a.name || '').toLowerCase();
+                bVal = (b.name || '').toLowerCase();
+                return asc ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+            case 'price':
+                aVal = a.price != null && a.price !== '' ? Number(a.price) : -Infinity;
+                bVal = b.price != null && b.price !== '' ? Number(b.price) : -Infinity;
+                return asc ? aVal - bVal : bVal - aVal;
+            case 'type':
+                aVal = (a.type || '').toLowerCase();
+                bVal = (b.type || '').toLowerCase();
+                return asc ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+            default:
+                return 0;
+        }
+    });
+}
+
+function createVivariumCard(vivarium) {
+    var card = document.createElement('div');
+    card.className = 'plant-card vivarium-card';
+    card.dataset.plantId = vivarium.id;
+    card.addEventListener('click', function(e) {
+        if (e.target.closest('.quick-add-wrap')) return;
+        showVivariumDetail(vivarium);
+    });
+    var displayImageUrl = vivarium.imageUrl || (vivarium.images && vivarium.images[0]) || null;
+    var priceStr = vivarium.price != null ? formatPrice(vivarium.price) : 'Price on request';
+    var typeLabel = (vivarium.type || '').replace(/-/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); });
+    var editSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
+    var imageSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>';
+    card.innerHTML = '<div class="plant-image-container" data-plant-id="' + vivarium.id + '">' +
+        (displayImageUrl ? '<img src="' + escapeHtml(displayImageUrl) + '" alt="' + escapeHtml(vivarium.name) + '" class="plant-image" loading="lazy" data-plant-id="' + vivarium.id + '">' : '<div class="image-placeholder">' + PLACEHOLDER_EQUIPMENT_SVG + '</div>') +
+        '<div class="card-icons">' +
+        '<button type="button" class="card-edit-icon" title="Edit details" aria-label="Edit details">' + editSvg + '</button>' +
+        '<button type="button" class="card-image-icon" title="Add or edit images" aria-label="Add or edit images">' + imageSvg + '</button>' +
+        '</div>' +
+        '<div class="card-price">' + priceStr + '</div>' +
+        '</div>' +
+        '<div class="plant-info">' +
+        '<div class="plant-name">' + escapeHtml(vivarium.name) + '</div>' +
+        (typeLabel ? '<div class="plant-scientific">' + escapeHtml(typeLabel) + '</div>' : '') +
+        '</div>';
+    var vivariumEditBtn = card.querySelector('.card-edit-icon');
+    var vivariumImageBtn = card.querySelector('.card-image-icon');
+    if (vivariumEditBtn) vivariumEditBtn.addEventListener('click', function(e) { e.stopPropagation(); e.preventDefault(); if (window.openVivariumEdit) openVivariumEdit(vivarium); });
+    if (vivariumImageBtn) vivariumImageBtn.addEventListener('click', function(e) { e.stopPropagation(); e.preventDefault(); openVivariumImageUpload(vivarium); });
+    return card;
+}
+
+function renderVivariumsPage() {
+    if (!plantsGrid) return;
+    var list = filteredVivariums && filteredVivariums.length ? filteredVivariums : (allVivariums || []);
+    var sorted = sortVivariums(list);
+    var total = sorted.length;
+    var totalPages = Math.max(1, Math.ceil(total / vivariumPerPage));
+    currentVivariumPage = Math.max(1, Math.min(currentVivariumPage, totalPages));
+    var start = (currentVivariumPage - 1) * vivariumPerPage;
+    var pageItems = sorted.slice(start, start + vivariumPerPage);
+
+    plantsGrid.innerHTML = '';
+    if (total === 0) {
+        plantsGrid.innerHTML = '<div class="no-results"><p>No vivariums matching your filters.</p></div>';
+        if (plantCount) plantCount.textContent = 'No vivariums found';
+        if (plantsPagination) { plantsPagination.classList.add('hidden'); plantsPagination.innerHTML = ''; }
+        return;
+    }
+
+    var fragment = document.createDocumentFragment();
+    pageItems.forEach(function(item) { fragment.appendChild(createVivariumCard(item)); });
+    plantsGrid.appendChild(fragment);
+
+    if (plantCount) {
+        var end = start + pageItems.length;
+        plantCount.textContent = 'Showing ' + (start + 1) + '\u2013' + end + ' of ' + total + ' vivariums';
+    }
+
+    if (plantsPagination) {
+        plantsPagination.classList.remove('hidden');
+        plantsPagination.innerHTML = '<div class="pagination-nav">' +
+            '<button type="button" class="pagination-btn pagination-prev" ' + (currentVivariumPage <= 1 ? 'disabled' : '') + ' aria-label="Previous page">Previous</button>' +
+            '<span class="pagination-info">Page ' + currentVivariumPage + ' of ' + totalPages + '</span>' +
+            '<button type="button" class="pagination-btn pagination-next" ' + (currentVivariumPage >= totalPages ? 'disabled' : '') + ' aria-label="Next page">Next</button>' +
+            '</div>' +
+            '<div class="pagination-per-page">' +
+            '<label for="vivariumPerPageSelect" class="pagination-per-page-label">Show</label>' +
+            '<select id="vivariumPerPageSelect" class="pagination-per-page-select" aria-label="Cards per page">' +
+            '<option value="12"' + (vivariumPerPage === 12 ? ' selected' : '') + '>12</option>' +
+            '<option value="24"' + (vivariumPerPage === 24 ? ' selected' : '') + '>24</option>' +
+            '<option value="48"' + (vivariumPerPage === 48 ? ' selected' : '') + '>48</option>' +
+            '<option value="96"' + (vivariumPerPage === 96 ? ' selected' : '') + '>96</option>' +
+            '</select></div>';
+        var prevBtn = plantsPagination.querySelector('.pagination-prev');
+        var nextBtn = plantsPagination.querySelector('.pagination-next');
+        if (prevBtn) prevBtn.addEventListener('click', function() {
+            if (currentVivariumPage > 1) { currentVivariumPage--; renderVivariumsPage(); if (listView) listView.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+        });
+        if (nextBtn) nextBtn.addEventListener('click', function() {
+            if (currentVivariumPage < totalPages) { currentVivariumPage++; renderVivariumsPage(); if (listView) listView.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+        });
+        var perPageSelect = plantsPagination.querySelector('#vivariumPerPageSelect');
+        if (perPageSelect) perPageSelect.addEventListener('change', function() {
+            vivariumPerPage = parseInt(perPageSelect.value, 10);
+            currentVivariumPage = 1;
+            renderVivariumsPage();
+        });
+    }
+    updateQuickAddButtonsState();
+}
+
+function showVivariumDetail(vivarium) {
+    var displayImageUrl = vivarium.imageUrl || (vivarium.images && vivarium.images[0]) || null;
+    var priceStr = vivarium.price != null ? formatPrice(vivarium.price) : 'Price on request';
+    var typeLabel = (vivarium.type || '').replace(/-/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); });
+    var av = vivarium.availability || 'in-stock';
+    var availabilityLabel = av === 'in-stock' ? 'In Stock' : (av === 'out-of-stock' ? 'Out of Stock' : 'Pre-order');
+    var detailEditSvgV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
+    var detailImageSvgV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>';
+    modalBody.innerHTML = '<div class="equipment-detail-layout">' +
+        '<div class="equipment-detail-image">' +
+        (displayImageUrl ? '<img src="' + escapeHtml(displayImageUrl) + '" alt="' + escapeHtml(vivarium.name) + '" class="equipment-main-image">' : '<div class="image-placeholder equipment-placeholder">' + PLACEHOLDER_EQUIPMENT_SVG + '</div>') +
+        '</div>' +
+        '<div class="equipment-detail-content">' +
+        '<h2 class="equipment-detail-name">' + escapeHtml(vivarium.name) + '</h2>' +
+        (typeLabel ? '<p class="vivarium-type-badge">' + escapeHtml(typeLabel) + '</p>' : '') +
+        (vivarium.description ? '<div class="equipment-detail-description">' + escapeHtml(vivarium.description) + '</div>' : '') +
+        '<div class="modal-section shop-widget equipment-shop-widget"><h3>Shop</h3><div class="shop-widget-content"><div class="shop-widget-price">' + priceStr + '</div><div class="shop-widget-availability">' + escapeHtml(availabilityLabel) + '</div>' +
+        '<button type="button" class="btn-add-to-cart" data-plant-id="' + vivarium.id + '">Add to cart</button></div></div>' +
+        '</div></div>' +
+        '<div class="detail-actions detail-actions-fixed">' +
+        '<button type="button" class="detail-btn card-edit-icon vivarium-detail-edit" title="Edit details" aria-label="Edit details">' + detailEditSvgV + '<span>Edit details</span></button>' +
+        '<button type="button" class="detail-btn card-image-icon vivarium-detail-image" title="Add or edit images" aria-label="Add or edit images">' + detailImageSvgV + '<span>Image</span></button>' +
+        '</div>';
+    var addBtn = modalBody.querySelector('.btn-add-to-cart');
+    if (addBtn) addBtn.addEventListener('click', function() { addToCart(vivarium, 1); });
+    var vivariumDetailEditBtn = modalBody.querySelector('.vivarium-detail-edit');
+    var vivariumDetailImageBtn = modalBody.querySelector('.vivarium-detail-image');
+    if (vivariumDetailEditBtn) vivariumDetailEditBtn.addEventListener('click', function() { if (window.openVivariumEdit) openVivariumEdit(vivarium); });
+    if (vivariumDetailImageBtn) vivariumDetailImageBtn.addEventListener('click', function() { openVivariumImageUpload(vivarium); });
+    var navBackWrap = document.getElementById('navBackToListWrap');
+    if (navBackWrap) navBackWrap.classList.remove('hidden');
+    if (mainLayout) mainLayout.classList.add('detail-view-active');
+    if (filtersSidebarWrapper) filtersSidebarWrapper.style.display = 'none';
+    if (mainContent && plantDetailPanel) {
+        mainContent.classList.add('list-view-hidden');
+        plantDetailPanel.classList.remove('hidden');
+        plantDetailPanel.setAttribute('aria-hidden', 'false');
+    }
+    if (plantModal) plantModal.classList.add('hidden');
+    if (history.replaceState) try { history.replaceState(null, '', '#' + vivarium.id); } catch (e) {}
+    document.addEventListener('keydown', handlePlantPanelEscape);
 }
 
 function showEquipmentDetail(equipment) {
@@ -3182,6 +3705,8 @@ function showEquipmentDetail(equipment) {
     const stockHtml = typeof stock === 'number' ? (stock <= 0 ? '<div class="shop-widget-stock shop-widget-stock-out">Out of stock</div>' : '<div class="shop-widget-stock shop-widget-stock-ok">In stock: ' + stock + '</div>') : '<div class="shop-widget-stock shop-widget-stock-untracked">Stock not tracked</div>';
     const maxQty = (typeof stock === 'number' && stock >= 0) ? Math.min(9, stock) : 9;
     const optionsHtml = Array.from({ length: maxQty }, (_, i) => i + 1).map(n => `<option value="${n}">${n}</option>`).join('') || '<option value="1">1</option>';
+    const detailEditSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
+    const detailImageSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>';
     modalBody.innerHTML = `
         <div class="equipment-detail-layout">
             <div class="equipment-detail-image">
@@ -3202,7 +3727,15 @@ function showEquipmentDetail(equipment) {
                 </div>
             </div>
         </div>
+        <div class="detail-actions detail-actions-fixed">
+            <button type="button" class="detail-btn card-edit-icon" title="Edit details" aria-label="Edit details">${detailEditSvg}<span>Edit details</span></button>
+            <button type="button" class="detail-btn card-image-icon" title="Add or edit images" aria-label="Add or edit images">${detailImageSvg}<span>Image</span></button>
+        </div>
     `;
+    const equipmentDetailEditBtn = modalBody.querySelector('.detail-actions-fixed .card-edit-icon');
+    const equipmentDetailImageBtn = modalBody.querySelector('.detail-actions-fixed .card-image-icon');
+    if (equipmentDetailEditBtn) equipmentDetailEditBtn.addEventListener('click', function() { openEquipmentEdit(equipment); });
+    if (equipmentDetailImageBtn) equipmentDetailImageBtn.addEventListener('click', function() { openEquipmentImageUpload(equipment); });
     const addBtn = modalBody.querySelector('.btn-add-to-cart');
     const qtySelect = modalBody.querySelector('#equipmentCartQty');
     if (addBtn && qtySelect) {
@@ -3213,6 +3746,8 @@ function showEquipmentDetail(equipment) {
     }
     const navBackWrap = document.getElementById('navBackToListWrap');
     if (navBackWrap) navBackWrap.classList.remove('hidden');
+    if (mainLayout) mainLayout.classList.add('detail-view-active');
+    if (filtersSidebarWrapper) filtersSidebarWrapper.style.display = 'none';
     if (mainContent && plantDetailPanel) {
         mainContent.classList.add('list-view-hidden');
         plantDetailPanel.classList.remove('hidden');
@@ -3240,11 +3775,13 @@ function openEquipmentEdit(equipment) {
     const nameEl = document.getElementById('equipmentEditName');
     if (nameEl) nameEl.textContent = equipment.name || 'Equipment';
     function fillFields(inv) {
+        const descEl = document.getElementById('equipmentEditDescription');
         const sizeEl = document.getElementById('equipmentEditSize');
         const priceEl = document.getElementById('equipmentEditPrice');
         const costEl = document.getElementById('equipmentEditCost');
         const stockEl = document.getElementById('equipmentEditStock');
         const reorderEl = document.getElementById('equipmentEditReorder');
+        if (descEl) descEl.value = (inv && inv.description != null) ? inv.description : (equipment.description != null ? equipment.description : '');
         if (sizeEl) sizeEl.value = (inv && inv.size != null) ? inv.size : (equipment.size != null ? equipment.size : '');
         if (priceEl) priceEl.value = (inv && inv.price != null) ? inv.price : (equipment.price != null ? equipment.price : '');
         if (costEl) costEl.value = (inv && inv.costPrice != null) ? inv.costPrice : (equipment.costPrice != null ? equipment.costPrice : '');
@@ -3272,13 +3809,91 @@ function closeEquipmentEditModal() {
     }
 }
 
-// --- Equipment images modal (add/edit images and gallery) ---
+var vivariumEditing = null;
+
+function openVivariumEdit(vivarium) {
+    if (!vivarium) return;
+    vivariumEditing = vivarium;
+    var nameEl = document.getElementById('vivariumEditName');
+    var descEl = document.getElementById('vivariumEditDescription');
+    var priceEl = document.getElementById('vivariumEditPrice');
+    var typeEl = document.getElementById('vivariumEditType');
+    var availabilityEl = document.getElementById('vivariumEditAvailability');
+    if (nameEl) nameEl.value = vivarium.name || '';
+    if (descEl) descEl.value = vivarium.description || '';
+    if (priceEl) priceEl.value = vivarium.price != null ? vivarium.price : '';
+    if (typeEl) typeEl.value = vivarium.type || 'open-terrarium';
+    if (availabilityEl) availabilityEl.value = vivarium.availability || 'in-stock';
+    var modal = document.getElementById('vivariumEditModal');
+    if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('show');
+    }
+}
+window.openVivariumEdit = openVivariumEdit;
+
+function closeVivariumEditModal() {
+    vivariumEditing = null;
+    var modal = document.getElementById('vivariumEditModal');
+    if (modal) {
+        modal.classList.remove('show');
+        modal.classList.add('hidden');
+    }
+}
+
+function saveVivariumEdit() {
+    if (!vivariumEditing) return;
+    var id = vivariumEditing.id;
+    var nameEl = document.getElementById('vivariumEditName');
+    var descEl = document.getElementById('vivariumEditDescription');
+    var priceEl = document.getElementById('vivariumEditPrice');
+    var typeEl = document.getElementById('vivariumEditType');
+    var availabilityEl = document.getElementById('vivariumEditAvailability');
+    var name = nameEl && nameEl.value.trim() !== '' ? nameEl.value.trim() : vivariumEditing.name;
+    var description = descEl ? descEl.value.trim() : '';
+    var priceNum = priceEl && priceEl.value.trim() !== '' ? parseFloat(priceEl.value) : null;
+    var price = priceNum != null && !isNaN(priceNum) ? priceNum : vivariumEditing.price;
+    var type = typeEl && typeEl.value ? typeEl.value : vivariumEditing.type;
+    var availability = availabilityEl && availabilityEl.value ? availabilityEl.value : 'in-stock';
+    vivariumEditing.name = name;
+    vivariumEditing.description = description || undefined;
+    vivariumEditing.price = price;
+    vivariumEditing.type = type;
+    vivariumEditing.availability = availability;
+    try {
+        localStorage.setItem('vivarium_' + id + '_edit', JSON.stringify({ name: name, description: description || undefined, price: price, type: type, availability: availability }));
+    } catch (e) { /* ignore */ }
+    closeVivariumEditModal();
+    if (typeof renderVivariumsPage === 'function') renderVivariumsPage();
+}
+
+function mergeVivariumEditsFromStorage() {
+    if (!allVivariums || !allVivariums.length) return;
+    allVivariums.forEach(function(v) {
+        var id = v.id;
+        if (id == null) return;
+        try {
+            var raw = localStorage.getItem('vivarium_' + id + '_edit');
+            if (!raw) return;
+            var edit = JSON.parse(raw);
+            if (edit.name != null) v.name = edit.name;
+            if (edit.description != null) v.description = edit.description;
+            if (edit.price != null) v.price = edit.price;
+            if (edit.type != null) v.type = edit.type;
+            if (edit.availability != null) v.availability = edit.availability;
+        } catch (e) { /* ignore */ }
+    });
+}
+
+// --- Equipment / Vivarium images modal (add/edit images and gallery) ---
 var currentEquipmentForImages = null;
 var currentEquipmentImageFiles = [];
 var currentEquipmentImageUrls = [];
+var currentImageModalPrefix = 'equipment_';
 
 function openEquipmentImageUpload(equipment) {
     if (!equipment) return;
+    currentImageModalPrefix = 'equipment_';
     currentEquipmentForImages = equipment;
     currentEquipmentImageFiles = [];
     currentEquipmentImageUrls = [];
@@ -3297,6 +3912,44 @@ function openEquipmentImageUpload(equipment) {
     }
     var nameEl = document.getElementById('equipmentImageModalName');
     if (nameEl) nameEl.textContent = equipment.name || 'Equipment';
+    var titleEl = document.getElementById('equipmentImageModalTitle');
+    if (titleEl) titleEl.textContent = 'Equipment images';
+    var modal = document.getElementById('equipmentImageModal');
+    if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('show');
+    }
+    var fileInput = document.getElementById('equipmentFileInput');
+    if (fileInput) fileInput.value = '';
+    var urlInput = document.getElementById('equipmentImageUrlInput');
+    if (urlInput) urlInput.value = '';
+    updateEquipmentImageGallery();
+    document.addEventListener('paste', handleEquipmentImagePaste);
+}
+
+function openVivariumImageUpload(vivarium) {
+    if (!vivarium) return;
+    currentImageModalPrefix = 'vivarium_';
+    currentEquipmentForImages = vivarium;
+    currentEquipmentImageFiles = [];
+    currentEquipmentImageUrls = [];
+    var savedImages = localStorage.getItem('vivarium_' + vivarium.id + '_images');
+    if (savedImages) {
+        try {
+            var arr = JSON.parse(savedImages);
+            if (Array.isArray(arr)) currentEquipmentImageUrls = arr.slice();
+        } catch (e) { /* ignore */ }
+    }
+    if (currentEquipmentImageUrls.length === 0 && (vivarium.images && vivarium.images.length)) {
+        currentEquipmentImageUrls = vivarium.images.slice();
+    }
+    if (currentEquipmentImageUrls.length === 0 && vivarium.imageUrl) {
+        currentEquipmentImageUrls = [vivarium.imageUrl];
+    }
+    var nameEl = document.getElementById('equipmentImageModalName');
+    if (nameEl) nameEl.textContent = vivarium.name || 'Vivarium';
+    var titleEl = document.getElementById('equipmentImageModalTitle');
+    if (titleEl) titleEl.textContent = 'Vivarium images';
     var modal = document.getElementById('equipmentImageModal');
     if (modal) {
         modal.classList.remove('hidden');
@@ -3423,21 +4076,26 @@ function saveEquipmentImages() {
             reader.readAsDataURL(file);
         });
     };
+    var prefix = currentImageModalPrefix || 'equipment_';
     Promise.all(files.map(toDataUrl)).then(function(dataUrls) {
         var all = urls.concat(dataUrls);
         if (all.length === 0) {
-            localStorage.removeItem('equipment_' + id + '_images');
-            localStorage.removeItem('equipment_' + id + '_imageUrl');
+            localStorage.removeItem(prefix + id + '_images');
+            localStorage.removeItem(prefix + id + '_imageUrl');
             currentEquipmentForImages.images = [];
             currentEquipmentForImages.imageUrl = '';
         } else {
-            localStorage.setItem('equipment_' + id + '_images', JSON.stringify(all));
-            localStorage.setItem('equipment_' + id + '_imageUrl', all[0]);
+            localStorage.setItem(prefix + id + '_images', JSON.stringify(all));
+            localStorage.setItem(prefix + id + '_imageUrl', all[0]);
             currentEquipmentForImages.images = all;
             currentEquipmentForImages.imageUrl = all[0];
         }
         closeEquipmentImageModal();
-        if (typeof renderEquipmentPage === 'function') renderEquipmentPage();
+        if (prefix === 'vivarium_') {
+            if (typeof renderVivariumsPage === 'function') renderVivariumsPage();
+        } else if (typeof renderEquipmentPage === 'function') {
+            renderEquipmentPage();
+        }
     }).catch(function() {
         closeEquipmentImageModal();
     });
@@ -3447,6 +4105,7 @@ function closeEquipmentImageModal() {
     currentEquipmentForImages = null;
     currentEquipmentImageFiles = [];
     currentEquipmentImageUrls = [];
+    currentImageModalPrefix = 'equipment_';
     document.removeEventListener('paste', handleEquipmentImagePaste);
     var modal = document.getElementById('equipmentImageModal');
     if (modal) {
@@ -3692,19 +4351,23 @@ function closePlantImageModal() {
 function saveEquipmentEdit() {
     if (!equipmentEditing || !window.inventoryDb) return;
     const id = equipmentEditing.id;
+    const descEl = document.getElementById('equipmentEditDescription');
     const sizeEl = document.getElementById('equipmentEditSize');
     const priceEl = document.getElementById('equipmentEditPrice');
     const costEl = document.getElementById('equipmentEditCost');
     const stockEl = document.getElementById('equipmentEditStock');
     const reorderEl = document.getElementById('equipmentEditReorder');
+    const descVal = descEl && descEl.value.trim() !== '' ? descEl.value.trim() : undefined;
     const sizeVal = sizeEl && sizeEl.value.trim() !== '' ? sizeEl.value.trim() : undefined;
     const priceNum = priceEl && priceEl.value.trim() !== '' ? parseFloat(priceEl.value) : NaN;
     const price = !isNaN(priceNum) ? priceNum : (equipmentEditing.price != null ? equipmentEditing.price : undefined);
     const cost = costEl && costEl.value.trim() !== '' ? parseFloat(costEl.value) : undefined;
     const stock = stockEl && stockEl.value.trim() !== '' ? parseInt(stockEl.value, 10) : 0;
     const reorder = reorderEl && reorderEl.value.trim() !== '' ? parseInt(reorderEl.value, 10) : undefined;
+    equipmentEditing.description = descVal;
     window.inventoryDb.setItem(id, {
         name: equipmentEditing.name,
+        description: descVal,
         size: sizeVal,
         price: price,
         costPrice: isNaN(cost) ? undefined : cost,
@@ -3725,7 +4388,7 @@ function createPlantCard(plant) {
     card.className = 'plant-card';
     card.addEventListener('click', (e) => {
         if (e.target.closest('.quick-add-wrap')) return;
-        if (e.target.closest('.plant-card-icons') || e.target.closest('.image-edit-icon') || e.target.closest('.plant-image-icon')) return;
+        if (e.target.closest('.plant-card-icons') || e.target.closest('.card-icons') || e.target.closest('.image-edit-icon') || e.target.closest('.plant-image-icon') || e.target.closest('.card-edit-icon') || e.target.closest('.card-image-icon')) return;
         showPlantModal(plant);
     });
     
@@ -3833,13 +4496,13 @@ function createPlantCard(plant) {
                 `<img src="${displayImageUrl}" alt="${plant.name}" class="plant-image" loading="lazy" onerror="this.onerror=null; handleImageError(this, ${plant.id})" data-plant-id="${plant.id}">` :
                 `<div class="image-placeholder">${PLACEHOLDER_PLANT_SVG}</div>`
             }
-            <div class="plant-card-icons">
-                <div class="image-edit-icon" onclick="event.stopPropagation(); openImageUpload(${plant.id})" title="Edit plant details">
+            <div class="card-icons plant-card-icons">
+                <button type="button" class="card-edit-icon image-edit-icon" title="Edit details" aria-label="Edit details">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                </div>
-                <div class="plant-image-icon" title="Add or edit images">
+                </button>
+                <button type="button" class="card-image-icon plant-image-icon" title="Add or edit images" aria-label="Add or edit images">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-                </div>
+                </button>
             </div>
             <div class="care-card-icon" onclick="event.stopPropagation(); generateCareCard(${plant.id})" title="Generate printable care card">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -3872,7 +4535,15 @@ function createPlantCard(plant) {
             <div class="plant-badges">${badges}</div>
         </div>
     `;
-    const plantImageBtn = card.querySelector('.plant-image-icon');
+    const editBtn = card.querySelector('.card-edit-icon, .image-edit-icon');
+    if (editBtn) {
+        editBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            openImageUpload(plant.id);
+        });
+    }
+    const plantImageBtn = card.querySelector('.card-image-icon, .plant-image-icon');
     if (plantImageBtn) {
         plantImageBtn.addEventListener('click', function(e) {
             e.stopPropagation();
@@ -4595,10 +5266,20 @@ async function showPlantModal(plant) {
             addToCart(plant, qty);
         });
     }
+    const plantDetailActions = document.createElement('div');
+    plantDetailActions.className = 'detail-actions detail-actions-fixed';
+    plantDetailActions.innerHTML = '<button type="button" class="detail-btn card-edit-icon plant-detail-edit" title="Edit details" aria-label="Edit details"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg><span>Edit details</span></button><button type="button" class="detail-btn card-image-icon plant-detail-image" title="Add or edit images" aria-label="Add or edit images"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Image</span></button>';
+    modalBody.appendChild(plantDetailActions);
+    const plantDetailEditBtn = modalBody.querySelector('.plant-detail-edit');
+    const plantDetailImageBtn = modalBody.querySelector('.plant-detail-image');
+    if (plantDetailEditBtn) plantDetailEditBtn.addEventListener('click', () => { openImageUpload(plant.id); });
+    if (plantDetailImageBtn) plantDetailImageBtn.addEventListener('click', () => { openPlantImageUpload(plant); });
     
     // Show plant detail panel (replaces list view); no modal overlay
     const navBackWrap = document.getElementById('navBackToListWrap');
     if (navBackWrap) navBackWrap.classList.remove('hidden');
+    if (mainLayout) mainLayout.classList.add('detail-view-active');
+    if (filtersSidebarWrapper) filtersSidebarWrapper.style.display = 'none';
     if (mainContent && plantDetailPanel) {
         mainContent.classList.add('list-view-hidden');
         plantDetailPanel.classList.remove('hidden');
@@ -4888,10 +5569,10 @@ async function loadPlantImages() {
 function discoverImagesForCurrentPage() {
     if (!filteredPlants || filteredPlants.length === 0) return;
     const total = filteredPlants.length;
-    const totalPages = Math.max(1, Math.ceil(total / PLANTS_PER_PAGE));
+    const totalPages = Math.max(1, Math.ceil(total / plantsPerPage));
     const page = Math.max(1, Math.min(currentPlantsPage, totalPages));
-    const start = (page - 1) * PLANTS_PER_PAGE;
-    const pagePlants = filteredPlants.slice(start, start + PLANTS_PER_PAGE);
+    const start = (page - 1) * plantsPerPage;
+    const pagePlants = filteredPlants.slice(start, start + plantsPerPage);
     const needing = pagePlants.filter(plant => {
         if (!plant.images || plant.images.length === 0) {
             const savedMax = localStorage.getItem(`plant_${plant.id}_maxImage`);
@@ -4970,13 +5651,13 @@ function updatePlantCardImage(plantId, imageUrl) {
                 const quickAddMaxed = getAvailableToAdd(plantId) === 0 ? ' quick-add-btn-maxed' : '';
                 imgContainer.innerHTML = `${carnivorousHtml}
             <img src="${imageUrl}" alt="${plant.name}" class="plant-image" loading="lazy" onerror="this.onerror=null; handleImageError(this, ${plantId})" data-plant-id="${plantId}">
-            <div class="plant-card-icons">
-                <div class="image-edit-icon" onclick="event.stopPropagation(); openImageUpload(${plantId})" title="Edit plant details">
+            <div class="card-icons plant-card-icons">
+                <button type="button" class="card-edit-icon image-edit-icon" title="Edit details" aria-label="Edit details">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                </div>
-                <div class="plant-image-icon" title="Add or edit images">
+                </button>
+                <button type="button" class="card-image-icon plant-image-icon" title="Add or edit images" aria-label="Add or edit images">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-                </div>
+                </button>
             </div>
             <div class="care-card-icon" onclick="event.stopPropagation(); generateCareCard(${plantId})" title="Generate printable care card">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -5002,7 +5683,15 @@ function updatePlantCardImage(plantId, imageUrl) {
                 </div>
             </div>
             <div class="card-price">${formatPlantPrice(plant)}</div>`;
-                var plantImageBtn = imgContainer.querySelector('.plant-image-icon');
+                var editBtn = imgContainer.querySelector('.card-edit-icon, .image-edit-icon');
+                if (editBtn) {
+                    editBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        openImageUpload(plantId);
+                    });
+                }
+                var plantImageBtn = imgContainer.querySelector('.card-image-icon, .plant-image-icon');
                 if (plantImageBtn) {
                     plantImageBtn.addEventListener('click', function(e) {
                         e.stopPropagation();

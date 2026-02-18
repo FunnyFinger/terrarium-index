@@ -9,14 +9,25 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css?v=3">
     <style>
-        body.inventory-page { overflow-x: auto; }
-        .inv-page { max-width: 1400px; margin: 0 auto; padding: 1rem; box-sizing: border-box; }
+        body.inventory-page { overflow-x: hidden; box-sizing: border-box; }
+        body.inventory-page * { box-sizing: border-box; }
+        .inv-page { width: 100%; max-width: 100vw; margin: 0 auto; padding: clamp(0.5rem, 2vw, 1rem); }
         .inv-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; }
         .inv-panel#invPanelInventory { overflow: visible; }
-        .inv-table-wrap { width: 100%; min-width: 0; max-width: 100%; box-sizing: border-box; overflow-x: scroll; overflow-y: visible; background: var(--card-bg); border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border-color); -webkit-overflow-scrolling: touch; }
-        .inv-table { width: max-content; min-width: 100%; border-collapse: collapse; }
-        .inv-table th, .inv-table td { padding: 0.6rem 0.75rem; text-align: left; border-bottom: 1px solid var(--border-color); }
-        .inv-table th { background: var(--bg-color); font-weight: 600; color: var(--primary-color); }
+        .inv-table-wrap { width: 100%; overflow: auto; background: var(--card-bg); border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border-color); -webkit-overflow-scrolling: touch; }
+        .inv-table { width: max-content; min-width: 100%; border-collapse: collapse; table-layout: auto; }
+        .inv-table th, .inv-table td { padding: 0.6rem 0.75rem; text-align: left; border-bottom: 1px solid var(--border-color); vertical-align: top; }
+        .inv-table th { background: var(--bg-color); font-weight: 600; color: var(--primary-color); white-space: nowrap; }
+        .inv-table th:nth-child(1), .inv-table td:nth-child(1) { width: 2.5rem; min-width: 2.5rem; }
+        .inv-table th:nth-child(2), .inv-table td:nth-child(2) { min-width: 10rem; max-width: 20rem; word-break: break-word; }
+        .inv-table th:nth-child(3), .inv-table td:nth-child(3) { min-width: 8rem; max-width: 16rem; word-break: break-word; }
+        .inv-table th:nth-child(4), .inv-table td:nth-child(4) { min-width: 4rem; white-space: nowrap; }
+        .inv-table th:nth-child(5), .inv-table td:nth-child(5), .inv-table th:nth-child(6), .inv-table td:nth-child(6), .inv-table th:nth-child(7), .inv-table td:nth-child(7) { min-width: 5.5rem; white-space: nowrap; }
+        .inv-table th:nth-child(8), .inv-table td:nth-child(8) { min-width: 4.5rem; white-space: nowrap; }
+        .inv-table th:nth-child(9), .inv-table td:nth-child(9), .inv-table th:nth-child(10), .inv-table td:nth-child(10) { min-width: 4rem; white-space: nowrap; text-align: right; }
+        .inv-table td:nth-child(5), .inv-table td:nth-child(6), .inv-table td:nth-child(7), .inv-table td:nth-child(8) { text-align: right; }
+        .inv-table th:nth-child(11), .inv-table td:nth-child(11) { min-width: 6.5rem; white-space: nowrap; }
+        .inv-table th:nth-child(12), .inv-table td:nth-child(12) { min-width: 4rem; width: 4rem; }
         .inv-table tr:hover { background: rgba(0,0,0,0.02); }
         .inv-status { font-size: 0.85rem; font-weight: 600; }
         .inv-status.ok { color: var(--secondary-color); }
@@ -55,7 +66,7 @@
         .inv-panel.active { display: block; }
         .inv-filters { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
         .inv-filters input[type="search"], .inv-filters select { padding: 0.5rem 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; font-size: 0.95rem; }
-        .inv-filters input[type="search"] { min-width: 200px; }
+        .inv-filters input[type="search"] { min-width: 0; width: 100%; max-width: 220px; }
         .inv-filters label { font-weight: 600; margin-right: 0.25rem; }
         .inv-batch-bar { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; padding: 0.5rem 0; margin-bottom: 0.5rem; }
         .inv-batch-bar.hidden { display: none; }
@@ -70,6 +81,20 @@
         .inv-batch-hint { font-size: 0.9rem; color: var(--text-light); margin: 0 0 0.75rem 0; }
         .inv-category-tabs { display: flex; gap: 0.25rem; }
         .inv-category-tab { font-size: 0.9rem; padding: 0.4rem 0.75rem; }
+        .inv-pagination { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; margin-top: 0.75rem; padding: 0.5rem 0; border-top: 1px solid var(--border-color); }
+        .inv-pagination-info { font-size: 0.9rem; color: var(--text-light); }
+        .inv-pagination-controls { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+        .inv-pagination-controls label { font-size: 0.9rem; margin-right: 0.25rem; }
+        .inv-pagination-controls select { padding: 0.35rem 0.5rem; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.9rem; }
+        .inv-pagination-controls button { padding: 0.35rem 0.6rem; font-size: 0.9rem; background: var(--bg-color); border: 1px solid var(--border-color); border-radius: 6px; cursor: pointer; color: var(--text-color); }
+        .inv-pagination-controls button:hover:not(:disabled) { background: var(--primary-color); color: white; border-color: var(--primary-color); }
+        .inv-pagination-controls button:disabled { opacity: 0.5; cursor: not-allowed; }
+        .inv-name-btn { background: none; border: none; padding: 0; font: inherit; color: var(--primary-color); cursor: pointer; text-decoration: underline; text-align: left; }
+        .inv-name-btn:hover { color: var(--secondary-color); }
+        #invNameTooltip { position: fixed; z-index: 10001; pointer-events: none; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); padding: 4px; max-width: 200px; }
+        #invNameTooltip img { display: block; width: 160px; height: 160px; object-fit: cover; border-radius: 4px; }
+        #invNameTooltip .inv-tooltip-placeholder { width: 160px; height: 160px; background: var(--bg-color); border-radius: 4px; display: flex; align-items: center; justify-content: center; color: var(--text-light); font-size: 0.85rem; }
+        #invNameTooltip.hidden { display: none !important; }
     </style>
 </head>
 <body class="inventory-page">
@@ -93,6 +118,7 @@
             <div class="inv-category-tabs" role="tablist" style="margin-bottom: 0.75rem;">
                 <button type="button" class="inv-tab inv-category-tab active" role="tab" id="invCategoryPlants" data-category="plants" aria-selected="true">Plants</button>
                 <button type="button" class="inv-tab inv-category-tab" role="tab" id="invCategoryEquipment" data-category="equipment" aria-selected="false">Equipment</button>
+                <button type="button" class="inv-tab inv-category-tab" role="tab" id="invCategoryVivariums" data-category="vivariums" aria-selected="false">Vivariums</button>
             </div>
             <div class="inv-toolbar">
                 <p id="invSummary" class="inv-summary">Loading…</p>
@@ -121,7 +147,7 @@
                         <tr>
                             <th style="width: 2.5rem;"><input type="checkbox" id="invSelectAll" class="inv-checkbox" aria-label="Select all rows"></th>
                             <th class="inv-th-sort" data-sort="name">Name <span class="sort-arrow"></span></th>
-                            <th class="inv-th-sort" data-sort="scientific">Scientific name <span class="sort-arrow"></span></th>
+                            <th class="inv-th-sort" data-sort="scientific"><span id="invThSecondColLabel">Scientific name</span> <span class="sort-arrow"></span></th>
                             <th class="inv-th-sort" data-sort="size">Size <span class="sort-arrow"></span></th>
                             <th class="inv-th-sort" data-sort="cost">Cost (KD) <span class="sort-arrow"></span></th>
                             <th class="inv-th-sort" data-sort="price">Sell price (KD) <span class="sort-arrow"></span></th>
@@ -135,6 +161,20 @@
                     </thead>
                     <tbody id="invTableBody"></tbody>
                 </table>
+            </div>
+            <div id="invPagination" class="inv-pagination hidden">
+                <span id="invPaginationInfo" class="inv-pagination-info"></span>
+                <div class="inv-pagination-controls">
+                    <label for="invPerPage">Show</label>
+                    <select id="invPerPage" aria-label="Rows per page">
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                    <button type="button" id="invPagePrev" aria-label="Previous page">Prev</button>
+                    <span id="invPageNum" class="inv-pagination-info"></span>
+                    <button type="button" id="invPageNext" aria-label="Next page">Next</button>
+                </div>
             </div>
         </div>
         <div id="invPanelSales" class="inv-panel" role="tabpanel">
@@ -190,6 +230,20 @@
             </section>
         </div>
     </main>
+    <div id="invNameTooltip" class="hidden" aria-hidden="true"></div>
+    <div id="invDetailModal" class="inv-editor hidden">
+        <div class="inv-editor-box inv-order-detail-box">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h3 id="invDetailTitle" style="margin: 0; color: var(--primary-color);"></h3>
+                <button type="button" class="cancel" id="invDetailClose" aria-label="Close">×</button>
+            </div>
+            <div id="invDetailBody" style="font-size: 0.95rem; line-height: 1.5;"></div>
+            <div class="inv-editor-actions" style="margin-top: 1rem;">
+                <button type="button" class="save" id="invDetailEdit">Edit</button>
+                <button type="button" class="cancel" id="invDetailCloseBtn">Close</button>
+            </div>
+        </div>
+    </div>
     <div id="invEditor" class="inv-editor hidden">
         <div class="inv-editor-box">
             <h3 id="invEditorTitle">Edit inventory</h3>
@@ -247,6 +301,7 @@
     <script src="data.js?v=4"></script>
     <script src="data/plant-loader.js?v=4"></script>
     <script src="data/equipment-loader.js"></script>
+    <script src="data/vivarium-loader.js"></script>
     <script>
         (function() {
             function switchTab(panelId) {
@@ -261,25 +316,46 @@
                 });
             }
             document.getElementById('invTabInventory').addEventListener('click', function() { switchTab('invPanelInventory'); });
+            function updateInvSecondColumnHeader() {
+                var el = document.getElementById('invThSecondColLabel');
+                if (!el) return;
+                if (invCurrentCategory === 'equipment') el.textContent = 'Category';
+                else if (invCurrentCategory === 'vivariums') el.textContent = 'Type';
+                else el.textContent = 'Scientific name';
+            }
             function setCategoryTabActive(category) {
                 var plantsTab = document.getElementById('invCategoryPlants');
                 var equipTab = document.getElementById('invCategoryEquipment');
+                var vivariumTab = document.getElementById('invCategoryVivariums');
                 if (plantsTab && equipTab) {
                     plantsTab.classList.toggle('active', category === 'plants');
                     plantsTab.setAttribute('aria-selected', category === 'plants' ? 'true' : 'false');
                     equipTab.classList.toggle('active', category === 'equipment');
                     equipTab.setAttribute('aria-selected', category === 'equipment' ? 'true' : 'false');
                 }
+                if (vivariumTab) {
+                    vivariumTab.classList.toggle('active', category === 'vivariums');
+                    vivariumTab.setAttribute('aria-selected', category === 'vivariums' ? 'true' : 'false');
+                }
+                updateInvSecondColumnHeader();
             }
             document.getElementById('invCategoryPlants').addEventListener('click', function() {
                 invCurrentCategory = 'plants';
+                invCurrentPage = 1;
                 setCategoryTabActive('plants');
                 if (invCachedById) renderTable(window.plantsDatabase || [], invCachedById);
             });
             document.getElementById('invCategoryEquipment').addEventListener('click', function() {
                 invCurrentCategory = 'equipment';
+                invCurrentPage = 1;
                 setCategoryTabActive('equipment');
                 if (invCachedById) renderTable(invEquipmentList, invCachedById);
+            });
+            document.getElementById('invCategoryVivariums').addEventListener('click', function() {
+                invCurrentCategory = 'vivariums';
+                invCurrentPage = 1;
+                setCategoryTabActive('vivariums');
+                if (invCachedById) renderTable(invVivariumList, invCachedById);
             });
             document.getElementById('invTabSales').addEventListener('click', function() {
                 switchTab('invPanelSales');
@@ -338,11 +414,35 @@
 
             var getScientific = function(p) {
                 if (!p) return '';
+                if (invCurrentCategory === 'equipment' && p.category) return (p.category || '');
+                if (invCurrentCategory === 'vivariums' && p.type) return (p.type || '').replace(/-/g, ' ');
                 var s = p.scientificName;
                 if (typeof s === 'string') return s;
                 if (s && s.genus) return [s.genus, s.species].filter(Boolean).join(' ');
                 return '';
             };
+            function slugifyForImage(nameStr) {
+                if (!nameStr) return '';
+                var s = (typeof nameStr === 'string' ? nameStr : (nameStr.scientificName || nameStr.name || '')).toLowerCase().trim();
+                return s.replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-').replace(/^-|-$/g, '');
+            }
+            function getItemImageUrl(p) {
+                if (!p) return '';
+                if (invCurrentCategory === 'equipment') {
+                    var eqUrl = (typeof localStorage !== 'undefined' && localStorage.getItem('equipment_' + p.id + '_imageUrl')) || p.imageUrl || (p.images && p.images[0]);
+                    return eqUrl || '';
+                }
+                if (invCurrentCategory === 'vivariums') {
+                    var vUrl = (typeof localStorage !== 'undefined' && localStorage.getItem('vivarium_' + p.id + '_imageUrl')) || p.imageUrl || (p.images && p.images[0]);
+                    return vUrl || '';
+                }
+                var saved = typeof localStorage !== 'undefined' ? localStorage.getItem('plant_' + p.id + '_imageUrl') : null;
+                if (saved) return saved;
+                if (p.imageUrl) return p.imageUrl;
+                if (p.images && p.images[0]) return p.images[0];
+                var slug = slugifyForImage(getScientific(p) || p.name);
+                return slug ? 'images/' + slug + '/' + slug + '-1.jpg' : '';
+            }
             var formatPrice = function(n) {
                 if (n == null || isNaN(n)) return '—';
                 return 'KD ' + Number(n).toFixed(2);
@@ -379,6 +479,9 @@
             var invCachedById = null;
             var invCurrentCategory = 'plants';
             var invEquipmentList = [];
+            var invVivariumList = [];
+            var invPerPage = 25;
+            var invCurrentPage = 1;
             function getRowMeta(p, invByPlantId) {
                 var inv = invByPlantId[p.id] || {};
                 var sellPrice = inv.price != null ? inv.price : (p.price != null ? p.price : DEFAULT_PRICE);
@@ -455,18 +558,27 @@
                 var table = document.getElementById('invTable');
                 if (!tbody) return;
                 tbody.innerHTML = '';
+                updateInvSecondColumnHeader();
                 var isEquipment = invCurrentCategory === 'equipment';
+                var isVivarium = invCurrentCategory === 'vivariums';
                 if (!plants || plants.length === 0) {
-                    loading.textContent = isEquipment ? 'No equipment items.' : 'No plants loaded. Load the site from a server (e.g. index.html) so plant data is available.';
+                    if (isVivarium) loading.textContent = 'No vivariums loaded.';
+                    else if (isEquipment) loading.textContent = 'No equipment items.';
+                    else loading.textContent = 'No plants loaded. Load the site from a server (e.g. index.html) so plant data is available.';
                     loading.classList.remove('hidden');
                     table.classList.add('hidden');
                     return;
                 }
                 var filtered = filterAndSortPlants(plants, invByPlantId);
+                var totalFiltered = filtered.length;
+                var totalPages = Math.max(1, Math.ceil(totalFiltered / invPerPage));
+                invCurrentPage = Math.max(1, Math.min(invCurrentPage, totalPages));
+                var start = (invCurrentPage - 1) * invPerPage;
+                var pageItems = filtered.slice(start, start + invPerPage);
                 loading.classList.add('hidden');
                 table.classList.remove('hidden');
                 updateSortHeaders();
-                filtered.forEach(function(p) {
+                pageItems.forEach(function(p) {
                     var inv = invByPlantId[p.id] || {};
                     var sellPrice = inv.price != null ? inv.price : (p.price != null ? p.price : DEFAULT_PRICE);
                     var cost = inv.costPrice != null ? inv.costPrice : null;
@@ -477,9 +589,12 @@
                     var sizeVal = (inv.size != null ? String(inv.size) : (p.size != null ? String(p.size) : ''));
                     var checked = invSelectedIds[p.id] ? ' checked' : '';
                     var tr = document.createElement('tr');
+                    var nameEsc = (p.name || '—').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+                    var imgUrl = getItemImageUrl(p);
+                    var imgAttr = imgUrl ? (' data-image-url="' + imgUrl.replace(/"/g, '&quot;') + '"') : '';
                     tr.innerHTML =
                         '<td><input type="checkbox" class="inv-checkbox inv-row-select" data-plant-id="' + p.id + '" aria-label="Select row"' + checked + '></td>' +
-                        '<td>' + (p.name || '—') + '</td>' +
+                        '<td><button type="button" class="inv-name-btn" data-plant-id="' + p.id + '"' + imgAttr + '>' + nameEsc + '</button></td>' +
                         '<td><em>' + getScientific(p) + '</em></td>' +
                         '<td>' + (sizeVal || '—') + '</td>' +
                         '<td>' + (m.cost != null ? formatPrice(m.cost) : '—') + '</td>' +
@@ -492,14 +607,64 @@
                         '<td><button type="button" class="inv-edit-btn" data-plant-id="' + p.id + '">Edit</button></td>';
                     tbody.appendChild(tr);
                 });
-                var label = isEquipment ? ' equipment items' : ' plants';
-                var summary = plants.length + label;
-                if (filtered.length !== plants.length) summary = filtered.length + ' of ' + summary;
+                var label = isVivarium ? ' vivariums' : (isEquipment ? ' equipment items' : ' plants');
+                var summary = totalFiltered + label;
+                if (filtered.length !== plants.length) summary = totalFiltered + ' of ' + plants.length + label;
                 document.getElementById('invSummary').textContent = summary + '. Sort by column; use Batch edit for multiple items.';
+                var paginationEl = document.getElementById('invPagination');
+                var paginationInfo = document.getElementById('invPaginationInfo');
+                var pageNumEl = document.getElementById('invPageNum');
+                var pagePrevBtn = document.getElementById('invPagePrev');
+                var pageNextBtn = document.getElementById('invPageNext');
+                var perPageSelect = document.getElementById('invPerPage');
+                if (paginationEl && totalFiltered > 0) {
+                    paginationEl.classList.remove('hidden');
+                    var end = Math.min(start + invPerPage, totalFiltered);
+                    if (paginationInfo) paginationInfo.textContent = 'Showing ' + (start + 1) + '–' + end + ' of ' + totalFiltered;
+                    if (pageNumEl) pageNumEl.textContent = 'Page ' + invCurrentPage + ' of ' + totalPages;
+                    if (pagePrevBtn) { pagePrevBtn.disabled = invCurrentPage <= 1; pagePrevBtn.style.visibility = pagePrevBtn.disabled ? 'hidden' : 'visible'; }
+                    if (pageNextBtn) { pageNextBtn.disabled = invCurrentPage >= totalPages; pageNextBtn.style.visibility = pageNextBtn.disabled ? 'hidden' : 'visible'; }
+                    if (perPageSelect) perPageSelect.value = String(invPerPage);
+                } else if (paginationEl) {
+                    paginationEl.classList.add('hidden');
+                }
                 tbody.querySelectorAll('.inv-edit-btn').forEach(function(btn) {
                     btn.addEventListener('click', function() {
                         openEditor(Number(btn.getAttribute('data-plant-id')), plants);
                     });
+                });
+                var tooltipEl = document.getElementById('invNameTooltip');
+                function showNameTooltip(btn, e) {
+                    var url = btn.getAttribute('data-image-url');
+                    if (!tooltipEl) return;
+                    if (url) {
+                        tooltipEl.innerHTML = '<img src="' + url.replace(/"/g, '&quot;') + '" alt="">';
+                        var img = tooltipEl.querySelector('img');
+                        if (img) img.onerror = function() { tooltipEl.innerHTML = '<div class="inv-tooltip-placeholder">No image</div>'; };
+                    } else {
+                        tooltipEl.innerHTML = '<div class="inv-tooltip-placeholder">No image</div>';
+                    }
+                    tooltipEl.classList.remove('hidden');
+                    var rect = btn.getBoundingClientRect();
+                    var tipW = 168;
+                    var tipH = 180;
+                    var x = rect.right + 8;
+                    var y = rect.top;
+                    if (x + tipW > window.innerWidth) x = rect.left - tipW - 8;
+                    if (y + tipH > window.innerHeight) y = window.innerHeight - tipH - 8;
+                    if (y < 8) y = 8;
+                    tooltipEl.style.left = x + 'px';
+                    tooltipEl.style.top = y + 'px';
+                }
+                function hideNameTooltip() {
+                    if (tooltipEl) tooltipEl.classList.add('hidden');
+                }
+                tbody.querySelectorAll('.inv-name-btn').forEach(function(btn) {
+                    btn.addEventListener('click', function() {
+                        openDetailModal(Number(btn.getAttribute('data-plant-id')));
+                    });
+                    btn.addEventListener('mouseenter', function(e) { showNameTooltip(btn, e); });
+                    btn.addEventListener('mouseleave', hideNameTooltip);
                 });
                 tbody.querySelectorAll('.inv-row-select').forEach(function(cb) {
                     cb.addEventListener('change', function() {
@@ -534,6 +699,37 @@
             var closeEditor = function() {
                 document.getElementById('invEditor').classList.add('hidden');
                 window.invEditingPlantId = null;
+            };
+            var openDetailModal = function(plantId) {
+                var plant = invCachedPlants && invCachedPlants.find(function(p) { return p.id === plantId; });
+                if (!plant) return;
+                var inv = (invCachedById && invCachedById[plantId]) || {};
+                var sellPrice = inv.price != null ? inv.price : (plant.price != null ? plant.price : DEFAULT_PRICE);
+                var cost = inv.costPrice != null ? inv.costPrice : null;
+                var m = marginInfo(sellPrice, cost);
+                var stock = inv.quantityInStock != null ? inv.quantityInStock : (plant.stockQuantity != null ? plant.stockQuantity : 0);
+                var reorder = inv.reorderLevel != null ? inv.reorderLevel : (plant.reorderLevel != null ? plant.reorderLevel : 0);
+                var status = statusText({ quantityInStock: stock, reorderLevel: reorder });
+                var sizeVal = (inv.size != null ? String(inv.size) : (plant.size != null ? String(plant.size) : ''));
+                document.getElementById('invDetailTitle').textContent = plant.name || ('Item #' + plantId);
+                var secondLabel = document.getElementById('invThSecondColLabel');
+                var secondLabelText = secondLabel ? secondLabel.textContent : 'Scientific name';
+                document.getElementById('invDetailBody').innerHTML =
+                    '<p style="margin: 0.25rem 0;"><strong>' + secondLabelText + ':</strong> <em>' + (getScientific(plant) || '—') + '</em></p>' +
+                    '<p style="margin: 0.25rem 0;"><strong>Size:</strong> ' + (sizeVal || '—') + '</p>' +
+                    '<p style="margin: 0.25rem 0;"><strong>Cost (KD):</strong> ' + (m.cost != null ? formatPrice(m.cost) : '—') + '</p>' +
+                    '<p style="margin: 0.25rem 0;"><strong>Sell price (KD):</strong> ' + formatPrice(m.sell) + '</p>' +
+                    '<p style="margin: 0.25rem 0;"><strong>Margin (KD):</strong> ' + (m.margin != null ? formatPrice(m.margin) : '—') + '</p>' +
+                    '<p style="margin: 0.25rem 0;"><strong>Margin %:</strong> ' + (m.marginPct != null ? m.marginPct.toFixed(1) + '%' : '—') + '</p>' +
+                    '<p style="margin: 0.25rem 0;"><strong>Stock:</strong> ' + stock + '</p>' +
+                    '<p style="margin: 0.25rem 0;"><strong>Reorder at:</strong> ' + (reorder != null ? reorder : '—') + '</p>' +
+                    '<p style="margin: 0.25rem 0;"><strong>Status:</strong> <span class="inv-status ' + statusClass({ quantityInStock: stock, reorderLevel: reorder }) + '">' + status + '</span></p>';
+                document.getElementById('invDetailModal').classList.remove('hidden');
+                window.invDetailPlantId = plantId;
+            };
+            var closeDetailModal = function() {
+                document.getElementById('invDetailModal').classList.add('hidden');
+                window.invDetailPlantId = null;
             };
             var saveEditor = function() {
                 var plantId = window.invEditingPlantId;
@@ -573,54 +769,85 @@
             var loadAndRender = function() {
                 var plants = window.plantsDatabase || [];
                 var loadEquipment = window.loadEquipment;
-                if (!plants.length && (!loadEquipment || typeof loadEquipment !== 'function')) {
+                var loadVivariums = window.loadVivariums;
+                if (!plants.length && (!loadEquipment || typeof loadEquipment !== 'function') && (!loadVivariums || typeof loadVivariums !== 'function')) {
                     document.getElementById('invLoading').textContent = 'No plant data. Ensure data.js and plant-loader.js run (e.g. open from a web server).';
                     return;
                 }
-                function doRender(equipmentList) {
+                function doRender(equipmentList, vivariumList) {
                     invEquipmentList = equipmentList || [];
+                    invVivariumList = vivariumList || [];
                     window.inventoryDb.getAll().then(function(rows) {
                         var byId = {};
                         rows.forEach(function(r) { byId[r.plantId] = r; });
-                        var list = invCurrentCategory === 'equipment' ? invEquipmentList : plants;
+                        var list = invCurrentCategory === 'equipment' ? invEquipmentList : (invCurrentCategory === 'vivariums' ? invVivariumList : plants);
                         renderTable(list, byId);
                         renderSales();
                     });
                 }
-                if (loadEquipment && typeof loadEquipment === 'function') {
-                    loadEquipment().then(function(equipmentList) {
+                var equipmentPromise = (loadEquipment && typeof loadEquipment === 'function')
+                    ? loadEquipment().then(function(equipmentList) {
                         if (equipmentList && equipmentList.length && window.inventoryDb && window.inventoryDb.mergeInventoryIntoPlants) {
                             return window.inventoryDb.mergeInventoryIntoPlants(equipmentList).then(function() { return equipmentList; });
                         }
                         return equipmentList || [];
-                    }).then(function(equipmentList) {
-                        doRender(equipmentList || []);
-                    }).catch(function() {
-                        doRender([]);
-                    });
-                } else {
-                    doRender([]);
-                }
+                    }).catch(function() { return []; })
+                    : Promise.resolve([]);
+                var vivariumPromise = (loadVivariums && typeof loadVivariums === 'function')
+                    ? loadVivariums().then(function(vlist) { return vlist || []; }).catch(function() { return []; })
+                    : Promise.resolve([]);
+                Promise.all([equipmentPromise, vivariumPromise]).then(function(results) {
+                    doRender(results[0], results[1]);
+                });
             };
             document.getElementById('invEditorSave').addEventListener('click', saveEditor);
             document.getElementById('invEditorCancel').addEventListener('click', closeEditor);
             document.getElementById('invEditor').addEventListener('click', function(e) {
                 if (e.target === document.getElementById('invEditor')) closeEditor();
             });
+            document.getElementById('invDetailClose').addEventListener('click', closeDetailModal);
+            document.getElementById('invDetailCloseBtn').addEventListener('click', closeDetailModal);
+            document.getElementById('invDetailModal').addEventListener('click', function(e) {
+                if (e.target === document.getElementById('invDetailModal')) closeDetailModal();
+            });
+            document.getElementById('invDetailEdit').addEventListener('click', function() {
+                var id = window.invDetailPlantId;
+                if (id != null && invCachedPlants) {
+                    closeDetailModal();
+                    openEditor(id, invCachedPlants);
+                }
+            });
             document.getElementById('invSearch').addEventListener('input', function() {
                 invFilterQuery = this.value;
+                invCurrentPage = 1;
                 if (invCachedPlants && invCachedById) renderTable(invCachedPlants, invCachedById);
             });
             document.getElementById('invStatusFilter').addEventListener('change', function() {
                 invFilterStatus = this.value;
+                invCurrentPage = 1;
                 if (invCachedPlants && invCachedById) renderTable(invCachedPlants, invCachedById);
             });
             document.querySelectorAll('.inv-th-sort').forEach(function(th) {
                 th.addEventListener('click', function() {
                     var k = th.getAttribute('data-sort');
                     if (k === invSortKey) invSortDir = -invSortDir; else { invSortKey = k; invSortDir = 1; }
+                    invCurrentPage = 1;
                     if (invCachedPlants && invCachedById) renderTable(invCachedPlants, invCachedById);
                 });
+            });
+            document.getElementById('invPerPage').addEventListener('change', function() {
+                invPerPage = parseInt(this.value, 10) || 25;
+                invCurrentPage = 1;
+                if (invCachedPlants && invCachedById) renderTable(invCachedPlants, invCachedById);
+            });
+            document.getElementById('invPagePrev').addEventListener('click', function() {
+                if (invCurrentPage <= 1) return;
+                invCurrentPage--;
+                if (invCachedPlants && invCachedById) renderTable(invCachedPlants, invCachedById);
+            });
+            document.getElementById('invPageNext').addEventListener('click', function() {
+                invCurrentPage++;
+                if (invCachedPlants && invCachedById) renderTable(invCachedPlants, invCachedById);
             });
             document.getElementById('invSelectAll').addEventListener('change', function() {
                 var checked = this.checked;

@@ -73,6 +73,7 @@
             updatedAt: now
         };
         if (data.size !== undefined) row.size = data.size;
+        row.description = data.description;
         return database.inventory.put(row);
     }
 
@@ -206,6 +207,7 @@
                     p.stockQuantity = inv.quantityInStock != null ? inv.quantityInStock : 0;
                     if (inv.reorderLevel != null) p.reorderLevel = inv.reorderLevel;
                     if (inv.size !== undefined && inv.size !== null) p.size = inv.size;
+                    if ('description' in inv) p.description = inv.description;
                 } else {
                     p.stockQuantity = 0;
                 }
