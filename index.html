@@ -93,14 +93,6 @@
                                 <input type="checkbox" class="filter-checkbox" data-filter="vivariumType" value="Deserterium">
                                 <span>Deserterium</span>
                             </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" class="filter-checkbox" data-filter="vivariumType" value="Indoor">
-                                <span>Indoor</span>
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" class="filter-checkbox" data-filter="vivariumType" value="Outdoor">
-                                <span>Outdoor</span>
-                            </label>
                         </div>
                     </div>
                     <!-- Availability -->
@@ -111,6 +103,18 @@
                             <label class="checkbox-label"><input type="checkbox" class="filter-checkbox" data-filter="availability" value="out-of-stock"><span>Out of Stock</span></label>
                             <label class="checkbox-label"><input type="checkbox" class="filter-checkbox" data-filter="availability" value="pre-order"><span>Pre-order</span></label>
                         </div>
+                    </div>
+                    <!-- Minimum rating -->
+                    <div class="filter-group">
+                        <label class="filter-group-label" for="minRatingPlants">Minimum rating</label>
+                        <select id="minRatingPlants" class="filter-select" aria-label="Minimum user rating">
+                            <option value="">Any</option>
+                            <option value="1">1+ star</option>
+                            <option value="2">2+ stars</option>
+                            <option value="3">3+ stars</option>
+                            <option value="4">4+ stars</option>
+                            <option value="5">5 stars only</option>
+                        </select>
                     </div>
                     <!-- Enclosure Height -->
                     <div class="filter-group">
@@ -1009,6 +1013,17 @@
                             </div>
                         </div>
                         <div class="filter-group">
+                            <label class="filter-group-label" for="minRatingEquipment">Minimum rating</label>
+                            <select id="minRatingEquipment" class="filter-select" aria-label="Minimum user rating">
+                                <option value="">Any</option>
+                                <option value="1">1+ star</option>
+                                <option value="2">2+ stars</option>
+                                <option value="3">3+ stars</option>
+                                <option value="4">4+ stars</option>
+                                <option value="5">5 stars only</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
                             <label class="filter-group-label">Price range (KD)</label>
                             <div class="range-input-group">
                                 <input type="number" id="equipmentPriceMin" class="range-input" placeholder="Min" min="0" step="0.01">
@@ -1029,8 +1044,6 @@
                                 <label class="checkbox-label"><input type="checkbox" class="vivarium-filter-checkbox" data-filter="vivariumType" value="paludarium"><span>Paludarium</span></label>
                                 <label class="checkbox-label"><input type="checkbox" class="vivarium-filter-checkbox" data-filter="vivariumType" value="riparium"><span>Riparium</span></label>
                                 <label class="checkbox-label"><input type="checkbox" class="vivarium-filter-checkbox" data-filter="vivariumType" value="aquarium"><span>Aquarium</span></label>
-                                <label class="checkbox-label"><input type="checkbox" class="vivarium-filter-checkbox" data-filter="vivariumType" value="indoor"><span>Indoor</span></label>
-                                <label class="checkbox-label"><input type="checkbox" class="vivarium-filter-checkbox" data-filter="vivariumType" value="outdoor"><span>Outdoor</span></label>
                             </div>
                         </div>
                         <div class="filter-group">
@@ -1040,6 +1053,17 @@
                                 <label class="checkbox-label"><input type="checkbox" class="vivarium-filter-checkbox" data-filter="vivariumAvailability" value="out-of-stock"><span>Out of Stock</span></label>
                                 <label class="checkbox-label"><input type="checkbox" class="vivarium-filter-checkbox" data-filter="vivariumAvailability" value="pre-order"><span>Pre-order</span></label>
                             </div>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-group-label" for="minRatingVivariums">Minimum rating</label>
+                            <select id="minRatingVivariums" class="filter-select" aria-label="Minimum user rating">
+                                <option value="">Any</option>
+                                <option value="1">1+ star</option>
+                                <option value="2">2+ stars</option>
+                                <option value="3">3+ stars</option>
+                                <option value="4">4+ stars</option>
+                                <option value="5">5 stars only</option>
+                            </select>
                         </div>
                         <div class="filter-group">
                             <label class="filter-group-label">Price range (KD)</label>
@@ -1385,12 +1409,16 @@
     </div>
     <input type="file" id="plantFileInput" accept="image/*" multiple style="display: none;">
 
-    <!-- Edit Equipment Modal (inventory: size, price, cost, stock, reorder) -->
+    <!-- Edit / Add Equipment Modal (inventory: size, price, cost, stock, reorder) -->
     <div id="equipmentEditModal" class="upload-modal hidden">
         <div class="upload-modal-content equipment-edit-modal-content">
             <span class="close" id="closeEquipmentEditModal" aria-label="Close">&times;</span>
-            <h2 style="margin-bottom: 1rem; color: var(--primary-color);">Edit equipment</h2>
+            <h2 id="equipmentEditModalTitle" style="margin-bottom: 1rem; color: var(--primary-color);">Edit equipment</h2>
             <p id="equipmentEditName" style="margin-bottom: 1rem; color: var(--text-light);"></p>
+            <div class="edit-plant-section" id="equipmentEditNameRow" style="margin-bottom: 1rem; display: none;">
+                <label for="equipmentEditNameInput" class="edit-plant-detail-label">Name</label>
+                <input type="text" id="equipmentEditNameInput" class="edit-plant-input" placeholder="Equipment name">
+            </div>
             <div class="edit-plant-section" style="margin-bottom: 1rem;">
                 <label for="equipmentEditDescription" class="edit-plant-detail-label">Description</label>
                 <textarea id="equipmentEditDescription" class="upload-plant-description" rows="4" placeholder="Short description of this equipment..."></textarea>
@@ -1466,11 +1494,11 @@
     </div>
     <input type="file" id="equipmentFileInput" accept="image/*" multiple style="display: none;">
 
-    <!-- Edit Vivarium Modal -->
+    <!-- Edit / Add Vivarium Modal -->
     <div id="vivariumEditModal" class="upload-modal hidden">
         <div class="upload-modal-content equipment-edit-modal-content">
             <span class="close" id="closeVivariumEditModal" aria-label="Close">&times;</span>
-            <h2 style="margin-bottom: 1rem; color: var(--primary-color);">Edit vivarium</h2>
+            <h2 id="vivariumEditModalTitle" style="margin-bottom: 1rem; color: var(--primary-color);">Edit vivarium</h2>
             <div class="edit-plant-section" style="margin-bottom: 1rem;">
                 <label for="vivariumEditName" class="edit-plant-detail-label">Name</label>
                 <input type="text" id="vivariumEditName" class="edit-plant-input" placeholder="Vivarium name">
@@ -1495,8 +1523,6 @@
                             <option value="paludarium">Paludarium</option>
                             <option value="riparium">Riparium</option>
                             <option value="aquarium">Aquarium</option>
-                            <option value="indoor">Indoor</option>
-                            <option value="outdoor">Outdoor</option>
                         </select>
                     </div>
                     <div class="edit-plant-detail-row">
@@ -1516,9 +1542,17 @@
         </div>
     </div>
 
-    <!-- Add New Plant - fixed bottom-right -->
+    <!-- Add New - fixed bottom-right (one visible per tab) -->
     <button type="button" class="btn-add-plant" id="addNewPlantBtn" aria-label="Add new plant" title="Add new plant">
         <span class="btn-add-plant-text">Add New Plant</span>
+        <span class="btn-add-plant-icon">+</span>
+    </button>
+    <button type="button" class="btn-add-plant" id="addNewEquipmentBtn" aria-label="Add new equipment" title="Add new equipment" style="display: none;">
+        <span class="btn-add-plant-text">Add New Equipment</span>
+        <span class="btn-add-plant-icon">+</span>
+    </button>
+    <button type="button" class="btn-add-plant" id="addNewVivariumBtn" aria-label="Add new vivarium" title="Add new vivarium" style="display: none;">
+        <span class="btn-add-plant-text">Add New Vivarium</span>
         <span class="btn-add-plant-icon">+</span>
     </button>
 

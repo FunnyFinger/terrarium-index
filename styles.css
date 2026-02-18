@@ -1644,6 +1644,21 @@ main {
     border-color: var(--accent-color);
 }
 
+.filter-select {
+    width: 100%;
+    max-width: 100%;
+    padding: 0.5rem 0.6rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+.filter-select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
 .range-input-group span {
     color: var(--text-light);
     font-size: 0.9rem;

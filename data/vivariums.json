@@ -9,7 +9,5 @@
   {"id": 60008, "name": "Large Deserterium", "description": "Spacious desert terrarium for multiple cacti and succulents. Sand and rock substrate included.", "imageUrl": "", "images": [], "price": 69.99, "type": "deserterium"},
   {"id": 60009, "name": "Starter Paludarium", "description": "Half-water, half-land enclosure for amphibians and aquatic plants. Includes water pump and land area.", "imageUrl": "", "images": [], "price": 89.99, "type": "paludarium"},
   {"id": 60010, "name": "Riparium Planter", "description": "Shoreline-style setup for marginal and semi-aquatic plants. Ideal for riverbank plant species.", "imageUrl": "", "images": [], "price": 54.99, "type": "riparium"},
-  {"id": 60011, "name": "Nano Aquarium Terrarium Combo", "description": "Small aquarium with emergent planting area. Suitable for aquatic plants and small fish or shrimp.", "imageUrl": "", "images": [], "price": 74.99, "type": "aquarium"},
-  {"id": 60012, "name": "Indoor Display Vivarium", "description": "All-purpose indoor vivarium with LED lighting. Suitable for tropical plants in low-light rooms.", "imageUrl": "", "images": [], "price": 49.99, "type": "indoor"},
-  {"id": 60013, "name": "Outdoor Terrarium Planter", "description": "Weather-resistant outdoor terrarium for patios and gardens. Drainage and ventilation for outdoor use.", "imageUrl": "", "images": [], "price": 64.99, "type": "outdoor"}
+  {"id": 60011, "name": "Nano Aquarium Terrarium Combo", "description": "Small aquarium with emergent planting area. Suitable for aquatic plants and small fish or shrimp.", "imageUrl": "", "images": [], "price": 74.99, "type": "aquarium"}
 ]

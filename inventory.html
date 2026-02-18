@@ -122,6 +122,7 @@
             </div>
             <div class="inv-toolbar">
                 <p id="invSummary" class="inv-summary">Loading…</p>
+                <a href="index.html?add=plant" id="invAddNewLink" class="inv-edit-btn">Add new plant</a>
             </div>
             <div class="inv-filters">
                 <label for="invSearch">Search</label>
@@ -350,6 +351,11 @@
                 if (vivariumTab) {
                     vivariumTab.classList.toggle('active', category === 'vivariums');
                     vivariumTab.setAttribute('aria-selected', category === 'vivariums' ? 'true' : 'false');
+                }
+                var addLink = document.getElementById('invAddNewLink');
+                if (addLink) {
+                    addLink.href = category === 'plants' ? 'index.html?add=plant' : (category === 'equipment' ? 'index.html?add=equipment' : 'index.html?add=vivarium');
+                    addLink.textContent = category === 'plants' ? 'Add new plant' : (category === 'equipment' ? 'Add new equipment' : 'Add new vivarium');
                 }
                 updateInvSecondColumnHeader();
             }
@@ -610,7 +616,7 @@
                     var editTd = invCanEdit ? ('<td><button type="button" class="inv-edit-btn" data-plant-id="' + p.id + '">Edit</button></td>') : '';
                     tr.innerHTML =
                         selectTd +
-                        '<td><button type="button" class="inv-name-btn" data-plant-id="' + p.id + '"' + imgAttr + '>' + nameEsc + '</button></td>' +
+                        '<td><a href="index.html?tab=' + invCurrentCategory + '&id=' + p.id + '" class="inv-name-btn" data-plant-id="' + p.id + '"' + imgAttr + '>' + nameEsc + '</a></td>' +
                         '<td><em>' + getScientific(p) + '</em></td>' +
                         '<td>' + (sizeVal || '—') + '</td>' +
                         '<td>' + (m.cost != null ? formatPrice(m.cost) : '—') + '</td>' +
@@ -676,9 +682,6 @@
                     if (tooltipEl) tooltipEl.classList.add('hidden');
                 }
                 tbody.querySelectorAll('.inv-name-btn').forEach(function(btn) {
-                    btn.addEventListener('click', function() {
-                        openDetailModal(Number(btn.getAttribute('data-plant-id')));
-                    });
                     btn.addEventListener('mouseenter', function(e) { showNameTooltip(btn, e); });
                     btn.addEventListener('mouseleave', hideNameTooltip);
                 });
