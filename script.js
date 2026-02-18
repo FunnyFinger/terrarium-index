@@ -5342,6 +5342,16 @@ async function showPlantModal(plant) {
         if (!plant.images) {
             plant.images = [];
         }
+        // Fallback: use conventional path (images/slug/slug-1.jpg) so gallery shows when discovery
+        // missed (e.g. HEAD returns 404 but GET works, or folder naming differs)
+        if (plant.images.length === 0) {
+            const slug = scientificNameToSlug(getScientificNameString(plant));
+            if (slug) {
+                const fallbackPath = `images/${slug}/${slug}-1.jpg`;
+                plant.images = [fallbackPath];
+                plant.imageUrl = fallbackPath;
+            }
+        }
     }
     
     // Ensure no duplicates

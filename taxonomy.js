@@ -689,8 +689,11 @@ function updateTreeLayout() {
                         .attr('loading', 'lazy')
                         .on('error', function() {
                             // If thumbnail failed and we have full image path, try full image (e.g. before thumbnails generated)
-                            if (isThumb && fullPathForFallback && this.getAttribute('href') !== fullPathForFallback) {
-                                d3.select(this).attr('href', fullPathForFallback);
+                            const currentHref = this.getAttribute('href') || this.getAttributeNS('http://www.w3.org/1999/xlink', 'href');
+                            if (isThumb && fullPathForFallback && currentHref !== fullPathForFallback) {
+                                const el = d3.select(this);
+                                el.attr('href', fullPathForFallback);
+                                try { el.attr('xlink:href', fullPathForFallback); } catch (e) { /* SVG2 uses href */ }
                             } else {
                                 d3.select(this).remove();
                             }
