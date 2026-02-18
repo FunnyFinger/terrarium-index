@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile – Vivarium Store</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=3">
+    <style>
+        .profile-page { max-width: 640px; margin: 0 auto; padding: 2rem 1rem 3rem; }
+        .profile-tabs { display: flex; flex-wrap: wrap; gap: 0.25rem; margin-bottom: 1.5rem; border-bottom: 2px solid var(--border-color); }
+        .profile-tab { padding: 0.6rem 1rem; background: none; border: none; border-bottom: 3px solid transparent; margin-bottom: -2px; font-weight: 600; color: var(--text-light); cursor: pointer; font-size: 0.95rem; }
+        .profile-tab:hover { color: var(--text-color); }
+        .profile-tab.active { color: var(--primary-color); border-bottom-color: var(--primary-color); }
+        .profile-panel { display: none; }
+        .profile-panel.active { display: block; }
+        .profile-hero { text-align: center; margin-bottom: 1.5rem; padding: 1.5rem; background: linear-gradient(135deg, rgba(34,139,34,0.06) 0%, rgba(255,255,255,0.98) 100%); border-radius: 16px; border: 1px solid var(--border-color); box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+        .profile-avatar { width: 72px; height: 72px; margin: 0 auto 0.75rem; background: var(--primary-color); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'DM Serif Display', serif; font-size: 1.5rem; line-height: 1; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .profile-name { font-family: 'DM Serif Display', serif; font-size: 1.35rem; color: var(--primary-color); margin: 0 0 0.25rem 0; }
+        .profile-role-badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+        .profile-role-badge.owner { background: #fef3c7; color: #b45309; }
+        .profile-role-badge.admin { background: #ccfbf1; color: #0d9488; }
+        .profile-role-badge.stock { background: #e0f2fe; color: #0369a1; }
+        .profile-role-badge.user { background: var(--bg-color); color: var(--text-light); }
+        .profile-section { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        .profile-section-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-light); margin: 0 0 0.75rem 0; }
+        .profile-detail { display: flex; align-items: baseline; gap: 0.75rem; padding: 0.4rem 0; border-bottom: 1px solid var(--border-color); }
+        .profile-detail:last-child { border-bottom: none; }
+        .profile-detail-label { min-width: 100px; font-size: 0.9rem; color: var(--text-light); }
+        .profile-detail-value { font-weight: 600; color: var(--text-color); }
+        .profile-links { list-style: none; margin: 0; padding: 0; }
+        .profile-links li { border-bottom: 1px solid var(--border-color); }
+        .profile-links li:last-child { border-bottom: none; }
+        .profile-link { display: flex; align-items: center; justify-content: space-between; padding: 0.65rem 0; color: var(--primary-color); text-decoration: none; font-weight: 600; transition: color 0.2s; }
+        .profile-link:hover { color: var(--secondary-color); }
+        .profile-link svg { width: 18px; height: 18px; opacity: 0.7; }
+        .profile-actions { margin-top: 1.25rem; display: flex; flex-wrap: wrap; gap: 0.75rem; }
+        .profile-btn { padding: 0.55rem 1.1rem; border-radius: 8px; font-weight: 600; font-size: 0.9rem; cursor: pointer; border: none; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem; transition: background 0.2s, color 0.2s; }
+        .profile-btn-primary { background: var(--primary-color); color: white; }
+        .profile-btn-primary:hover { background: var(--secondary-color); color: white; }
+        .profile-btn-outline { background: transparent; color: var(--primary-color); border: 2px solid var(--primary-color); }
+        .profile-btn-outline:hover { background: var(--primary-color); color: white; }
+        .profile-btn-danger { background: #b91c1c; color: white; }
+        .profile-btn-danger:hover { background: #991b1b; color: white; }
+        .profile-btn-small { padding: 0.35rem 0.65rem; font-size: 0.85rem; }
+        .profile-guest { text-align: center; padding: 2rem 1.5rem; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        .profile-guest p { margin: 0 0 1rem 0; color: var(--text-color); }
+        .profile-guest a { color: var(--primary-color); font-weight: 600; text-decoration: none; }
+        .addr-card { background: var(--bg-color); border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem; border: 1px solid var(--border-color); }
+        .addr-card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+        .addr-card-label { font-weight: 700; color: var(--primary-color); }
+        .addr-card-default { font-size: 0.75rem; color: var(--text-light); }
+        .addr-card-actions { margin-top: 0.5rem; }
+        .order-row { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0; border-bottom: 1px solid var(--border-color); cursor: pointer; }
+        .order-row:hover { background: rgba(0,0,0,0.02); }
+        .order-row-expand { display: none; padding: 0.75rem 1rem; background: var(--bg-color); font-size: 0.9rem; border-bottom: 1px solid var(--border-color); }
+        .order-row-expand.open { display: block; }
+        .review-card { background: var(--bg-color); border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem; border: 1px solid var(--border-color); }
+        .review-card-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.35rem; }
+        .review-card-product { font-weight: 600; color: var(--primary-color); }
+        .review-stars { color: #eab308; font-size: 0.95rem; letter-spacing: 0.1em; }
+        .profile-form label { display: block; margin-top: 0.75rem; font-weight: 600; font-size: 0.9rem; }
+        .profile-form input, .profile-form textarea { width: 100%; padding: 0.5rem 0.6rem; margin-top: 0.25rem; border: 1px solid var(--border-color); border-radius: 6px; box-sizing: border-box; font-size: 0.95rem; }
+        .profile-form textarea { min-height: 80px; resize: vertical; }
+        .profile-form-actions { margin-top: 1rem; display: flex; gap: 0.5rem; }
+        .profile-empty { color: var(--text-light); font-size: 0.95rem; padding: 1rem 0; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="banner">
+            <img src="images/banner.jpg" alt="" class="banner-image">
+            <div id="main-nav-container"></div>
+            <div class="banner-overlay">
+                <h1>Profile</h1>
+                <p class="subtitle">Your account</p>
+            </div>
+        </div>
+    </header>
+    <main class="profile-page">
+        <div id="accountContent"></div>
+    </main>
+    <div id="profileAddressModal" class="profile-section" style="display: none; position: fixed; inset: 0; z-index: 10000; align-items: center; justify-content: center; background: rgba(0,0,0,0.4); padding: 1rem;">
+        <div style="background: var(--card-bg); border-radius: 12px; padding: 1.5rem; max-width: 420px; width: 100%; max-height: 90vh; overflow-y: auto;">
+            <h3 style="margin: 0 0 1rem 0; color: var(--primary-color);" id="profileAddressModalTitle">Add address</h3>
+            <form id="profileAddressForm" class="profile-form">
+                <input type="hidden" id="addrId">
+                <label>Label <input type="text" id="addrLabel" placeholder="e.g. Home, Office"></label>
+                <label>Full name <input type="text" id="addrName" placeholder="Name"></label>
+                <label>Address line 1 <input type="text" id="addrLine1" placeholder="Street, number"></label>
+                <label>Address line 2 <input type="text" id="addrLine2" placeholder="Apt, suite (optional)"></label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                    <label>City <input type="text" id="addrCity" placeholder="City"></label>
+                    <label>State/Region <input type="text" id="addrState" placeholder="State"></label>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                    <label>Postal code <input type="text" id="addrPostal" placeholder="Postal code"></label>
+                    <label>Country <input type="text" id="addrCountry" placeholder="Country"></label>
+                </div>
+                <label>Phone <input type="tel" id="addrPhone" placeholder="Phone"></label>
+                <label style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.75rem;"><input type="checkbox" id="addrIsDefault"> Set as default shipping address</label>
+                <div class="profile-form-actions">
+                    <button type="submit" class="profile-btn profile-btn-primary">Save</button>
+                    <button type="button" id="profileAddressCancel" class="profile-btn profile-btn-outline">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="profileBillingModal" class="profile-section" style="display: none; position: fixed; inset: 0; z-index: 10000; align-items: center; justify-content: center; background: rgba(0,0,0,0.4); padding: 1rem;">
+        <div style="background: var(--card-bg); border-radius: 12px; padding: 1.5rem; max-width: 420px; width: 100%; max-height: 90vh; overflow-y: auto;">
+            <h3 style="margin: 0 0 1rem 0; color: var(--primary-color);">Billing address</h3>
+            <form id="profileBillingForm" class="profile-form">
+                <label>Full name <input type="text" id="billName" placeholder="Name"></label>
+                <label>Address line 1 <input type="text" id="billLine1" placeholder="Street"></label>
+                <label>Address line 2 <input type="text" id="billLine2" placeholder="Apt (optional)"></label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                    <label>City <input type="text" id="billCity"></label>
+                    <label>State <input type="text" id="billState"></label>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                    <label>Postal code <input type="text" id="billPostal"></label>
+                    <label>Country <input type="text" id="billCountry"></label>
+                </div>
+                <label>Phone <input type="tel" id="billPhone"></label>
+                <div class="profile-form-actions">
+                    <button type="submit" class="profile-btn profile-btn-primary">Save</button>
+                    <button type="button" id="profileBillingCancel" class="profile-btn profile-btn-outline">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/dexie@3/dist/dexie.min.js"></script>
+    <script src="js/auth-db.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/profile-db.js"></script>
+    <script src="js/inventory-db.js"></script>
+    <script src="js/nav.js"></script>
+    <script src="js/account-profile.js"></script>
+</body>
+</html>

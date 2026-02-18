@@ -9,14 +9,16 @@
         definitions: '<svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="16" y2="11"/></svg>',
         taxonomy: '<svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v4"/><path d="M12 18v4"/><path d="M4.93 4.93l2.83 2.83"/><path d="M16.24 16.24l2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="M4.93 19.07l2.83-2.83"/><path d="M16.24 7.76l2.83-2.83"/><circle cx="12" cy="12" r="3"/></svg>',
         inventory: '<svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>',
-        dashboard: '<svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>'
+        dashboard: '<svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>',
+        access: '<svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>'
     };
     var NAV_LINKS = [
         { href: 'index.html', label: 'Home', icon: 'home' },
         { href: 'definitions.html', label: 'Definitions', icon: 'definitions' },
         { href: 'taxonomy.html', label: 'Taxonomy', icon: 'taxonomy' },
         { href: 'inventory.html', label: 'Inventory', icon: 'inventory' },
-        { href: 'dashboard.html', label: 'Dashboard', icon: 'dashboard' }
+        { href: 'dashboard.html', label: 'Dashboard', icon: 'dashboard' },
+        { href: 'access-control.html', label: 'Access control', icon: 'access', ownerOnly: true }
     ];
 
     function getCurrentPage() {
@@ -28,17 +30,42 @@
     function buildNav() {
         var current = getCurrentPage();
         var isIndex = (current === 'index.html' || current === '' || current === 'index');
-        var menuItems = NAV_LINKS.map(function(link) {
+        var canManage = (typeof window.auth !== 'undefined' && window.auth.canManageInventory) ? window.auth.canManageInventory() : false;
+        var canStock = (typeof window.auth !== 'undefined' && window.auth.canManageStock) ? window.auth.canManageStock() : false;
+        var isOwner = (typeof window.auth !== 'undefined' && window.auth.isOwner) ? window.auth.isOwner() : false;
+        var links = NAV_LINKS.filter(function(link) {
+            if (link.ownerOnly) return isOwner;
+            if (link.href === 'dashboard.html') return canManage;
+            if (link.href === 'inventory.html') return canStock;
+            return true;
+        });
+        var menuItems = links.map(function(link) {
             var active = (link.href === current || (current === '' && link.href === 'index.html')) ? ' active' : '';
             var icon = (link.icon && NAV_ICONS[link.icon]) ? NAV_ICONS[link.icon] : '';
             return '<li class="nav-item"><a href="' + link.href + '" class="nav-link' + active + '"><span class="nav-link-inner">' + icon + '<span class="nav-link-text">' + link.label + '</span></span></a></li>';
         }).join('');
 
         var backBtnHtml = isIndex
-            ? '<div class="nav-back-wrap hidden" id="navBackToListWrap"><button type="button" id="navBackToList" class="nav-back-btn" aria-label="Back to list" title="Back to list">' +
-              '<svg class="nav-back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><polyline points="12 19 5 12 12 5"/></svg><span class="nav-back-text">Back</span></button></div>'
+            ? '<div class="nav-back-wrap nav-back-disabled" id="navBackToListWrap"><button type="button" id="navBackToList" class="nav-back-btn" aria-label="Back" title="Back" disabled><svg class="nav-back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><polyline points="12 19 5 12 12 5"/></svg><span class="nav-back-text">Back</span></button></div>'
             : '';
 
+        var authHtml = '';
+        var user = (typeof window.auth !== 'undefined' && window.auth.getCurrentUser) ? window.auth.getCurrentUser() : null;
+        if (user) {
+            var name = (user.name || user.email || 'Account').replace(/</g, '&lt;');
+            authHtml = '<div class="nav-auth-wrap">' +
+                '<a href="account.html" class="nav-auth-link">' + name + '</a>' +
+                '<button type="button" id="navLogout" class="nav-auth-btn" aria-label="Log out">Logout</button>' +
+                '</div>';
+        } else {
+            authHtml = '<div class="nav-auth-wrap">' +
+                '<a href="auth.html" class="nav-auth-link">Login</a>' +
+                '<a href="auth.html?mode=register" class="nav-auth-link">Register</a>' +
+                '</div>';
+        }
+        var authMenuItems = user
+            ? '<li class="nav-item"><a href="account.html" class="nav-link"><span class="nav-link-inner"><span class="nav-link-text">My account</span></span></a></li><li class="nav-item"><button type="button" id="navLogoutMenu" class="nav-link nav-link-btn" style="background:none;border:none;cursor:pointer;font:inherit;color:inherit;padding:0;width:100%;text-align:left;"><span class="nav-link-inner"><span class="nav-link-text">Logout</span></span></button></li>'
+            : '<li class="nav-item"><a href="auth.html" class="nav-link"><span class="nav-link-inner"><span class="nav-link-text">Login</span></span></a></li><li class="nav-item"><a href="auth.html?mode=register" class="nav-link"><span class="nav-link-inner"><span class="nav-link-text">Register</span></span></a></li>';
         return '<nav class="main-nav">' +
             '<button class="nav-toggle" id="navToggle" aria-label="Open menu">' +
             '<span></span><span></span><span></span>' +
@@ -55,7 +82,8 @@
             '<span id="cartCount" class="cart-count">0</span>' +
             '</button>' +
             '</div>' +
-            '<ul class="nav-menu" id="navMenu">' + menuItems + '</ul>' +
+            authHtml +
+            '<ul class="nav-menu" id="navMenu">' + menuItems + authMenuItems + '</ul>' +
             '</nav>';
     }
 
@@ -97,11 +125,23 @@
         });
     }
 
+    function initAuth() {
+        function doLogout() {
+            if (typeof window.auth !== 'undefined') window.auth.logout();
+            window.location.reload();
+        }
+        var logoutBtn = document.getElementById('navLogout');
+        if (logoutBtn) logoutBtn.addEventListener('click', doLogout);
+        var logoutMenu = document.getElementById('navLogoutMenu');
+        if (logoutMenu) logoutMenu.addEventListener('click', doLogout);
+    }
+
     var container = document.getElementById('main-nav-container');
     if (container) {
         container.innerHTML = buildNav();
         setCartCount();
         initToggle();
         initCartRedirect();
+        initAuth();
     }
 })();

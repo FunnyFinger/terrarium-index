@@ -445,6 +445,16 @@ html {
 .nav-back-wrap.hidden {
     display: none !important;
 }
+.nav-back-wrap.nav-back-disabled .nav-back-btn,
+.nav-back-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: var(--text-light);
+}
+.nav-back-wrap.nav-back-disabled .nav-back-btn:hover,
+.nav-back-btn:disabled:hover {
+    background: var(--text-light);
+}
 .nav-back-btn {
     display: inline-flex;
     align-items: center;
@@ -483,6 +493,33 @@ html {
 .nav-cart-wrap {
     margin-left: auto;
     flex-shrink: 0;
+}
+
+.nav-auth-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+    margin-left: 0.5rem;
+}
+.nav-auth-link,
+.nav-auth-btn {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.35rem 0.5rem;
+}
+.nav-auth-link:hover,
+.nav-auth-btn:hover {
+    color: var(--secondary-color);
+    text-decoration: underline;
+}
+.nav-auth-btn {
+    font-family: inherit;
 }
 
 .logo-link {
@@ -826,6 +863,149 @@ html {
     max-width: 12rem;
 }
 .btn-add-to-cart:hover { background: var(--secondary-color); }
+
+/* Product reviews & ratings widget (same card as other modal widgets: .modal-section.modal-widget) */
+.product-reviews-list {
+    margin-bottom: 1rem;
+}
+.product-reviews-average {
+    margin: 0 0 0.75rem 0;
+    font-size: 0.95rem;
+    color: var(--text-light);
+}
+.product-reviews-average-visible .product-reviews-average-value {
+    color: #eab308;
+    font-weight: 600;
+}
+.product-reviews-average-count {
+    color: var(--text-color);
+}
+.product-reviews-empty {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    margin: 0;
+    font-style: italic;
+}
+.product-review-by {
+    font-weight: 600;
+    color: var(--primary-color);
+    margin: 0 0 0.25rem 0 !important;
+}
+.product-review-date {
+    margin: 0.25rem 0 0 0 !important;
+}
+.product-review-item {
+    position: relative;
+    background: var(--bg-color);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid var(--border-color);
+}
+.product-review-item-actions {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+}
+.product-review-delete {
+    background: none;
+    border: none;
+    padding: 0.2rem 0.5rem;
+    font-size: 1.25rem;
+    line-height: 1;
+    color: var(--text-light);
+    cursor: pointer;
+    border-radius: 4px;
+    transition: color 0.15s, background 0.15s;
+}
+.product-review-delete:hover {
+    color: #c0392b;
+    background: rgba(192, 57, 43, 0.1);
+}
+.product-review-item .product-review-stars {
+    margin-bottom: 0.15rem;
+}
+.product-review-comment-text {
+    margin: 0.35rem 0 0 0;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+.product-review-meta {
+    margin: 0.25rem 0 0 0;
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+.product-reviews-form label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-top: 0.75rem;
+}
+/* Star rating: horizontal, grey by default, colored when filled */
+.product-review-stars,
+.product-review-stars-display,
+.product-review-stars-input {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    flex-wrap: nowrap;
+}
+.product-review-stars .star {
+    color: #cbd5e1;
+    font-size: 1.25rem;
+    line-height: 1;
+    transition: color 0.15s ease;
+}
+.product-review-stars .star.filled {
+    color: #eab308;
+}
+.product-review-stars-input .star {
+    background: none;
+    border: none;
+    padding: 0.2rem;
+    cursor: pointer;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: #cbd5e1;
+    transition: color 0.15s ease, transform 0.1s ease;
+}
+.product-review-stars-input .star:hover {
+    transform: scale(1.1);
+}
+.product-review-stars-input .star.filled {
+    color: #eab308;
+}
+.product-reviews-form .product-review-comment {
+    width: 100%;
+    padding: 0.5rem 0.6rem;
+    margin-top: 0.25rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    box-sizing: border-box;
+}
+.product-reviews-form .product-review-comment {
+    min-height: 72px;
+    resize: vertical;
+}
+.product-review-submit {
+    margin-top: 0.75rem;
+    padding: 0.5rem 1rem;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+.product-review-submit:hover { background: var(--secondary-color); }
+.product-reviews-login {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    margin: 0;
+}
+.product-reviews-login a { color: var(--primary-color); font-weight: 600; }
 
 @media (max-width: 768px) {
     .logo-text {
@@ -1510,6 +1690,7 @@ main {
     display: flex;
     flex-direction: column;
     min-height: 0;
+    background: linear-gradient(180deg, rgba(245, 247, 243, 0.5) 0%, var(--bg-color) 12%);
 }
 .plant-detail-panel.hidden {
     display: none !important;
@@ -1545,18 +1726,19 @@ main {
 .plant-panel-body {
     flex: 1;
     width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
     min-height: 0;
-    /* Override modal-style fixed height: flow layout, page scroll only */
     height: auto !important;
     max-height: none !important;
     display: grid !important;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     grid-template-rows: none !important;
     grid-auto-rows: minmax(min-content, auto);
     grid-auto-flow: dense;
     gap: 1rem;
     align-items: start;
-    padding-bottom: 3rem;
+    padding: 0.75rem 1rem 3.5rem 1rem;
     box-sizing: border-box;
 }
 .plant-detail-panel #modalBody {
@@ -1564,32 +1746,150 @@ main {
     max-height: none !important;
     grid-template-rows: none !important;
 }
-/* No internal scrolling in panel sections – content flows */
+/* In 2-column grid, span-2/3/4 = full row */
+.plant-detail-panel .widget-span-2,
+.plant-detail-panel .widget-span-3,
+.plant-detail-panel .widget-span-4 {
+    grid-column: span 2;
+}
+/* Widget cards: clean, compact cards for 2-col grid */
 .plant-detail-panel .modal-section.modal-widget {
     height: auto;
-    min-height: 120px;
+    min-height: 88px;
     overflow: visible;
     overflow-y: visible;
+    background: var(--card-bg);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 12px;
+    padding: 1.15rem 1.25rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 4px 12px rgba(0, 0, 0, 0.04);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.plant-detail-panel .modal-section.modal-widget:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.07), 0 8px 20px rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.08);
 }
 .plant-detail-panel .modal-section.modal-widget:has(.plant-gallery) {
     overflow: visible;
     min-height: 200px;
 }
+/* Widget headings: section titles only (not plant name/scientific) */
+.plant-detail-panel .modal-section.modal-widget > h3:not(.modal-plant-scientific) {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin: 0 0 0.65rem 0;
+    padding: 0 0 0.4rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+.plant-detail-panel .modal-plant-name {
+    font-size: 1.65rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    color: var(--primary-color);
+}
+.plant-detail-panel .modal-plant-scientific {
+    font-size: 1rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--text-light);
+    margin-top: 0.35rem;
+}
+.plant-detail-panel .plant-detail-description .description {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--text-color);
+}
+.plant-detail-panel .info-group-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: var(--secondary-color);
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid var(--border-color);
+}
+.plant-detail-panel .info-item {
+    background: rgba(245, 247, 243, 0.8);
+    border-radius: 8px;
+    padding: 0.5rem 0.65rem;
+    border: 1px solid transparent;
+}
+.plant-detail-panel .info-item-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--text-light);
+}
+.plant-detail-panel .plant-badges .badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.35rem 0.65rem;
+    border-radius: 999px;
+    background: rgba(45, 80, 22, 0.08);
+    color: var(--primary-color);
+    border: 1px solid rgba(45, 80, 22, 0.12);
+}
+.plant-detail-panel .requirements-list li {
+    padding: 0.45rem 0;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.9rem;
+    line-height: 1.45;
+}
+.plant-detail-panel .requirements-list li:last-child {
+    border-bottom: none;
+}
+/* Image widget: rounded image area */
+.plant-detail-panel .modal-image-widget {
+    padding: 0;
+    overflow: hidden;
+    border-radius: 12px;
+}
+.plant-detail-panel .modal-image-widget .modal-plant-image,
+.plant-detail-panel .modal-image-widget .image-placeholder {
+    border-radius: 12px;
+}
+/* Shop widget: clearer price and CTA */
+.plant-detail-panel .shop-widget .shop-widget-price {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+.plant-detail-panel .shop-widget .btn-add-to-cart {
+    border-radius: 10px;
+    padding: 0.6rem 1.1rem;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(45, 80, 22, 0.2);
+    transition: box-shadow 0.2s ease, transform 0.05s ease;
+}
+.plant-detail-panel .shop-widget .btn-add-to-cart:hover {
+    box-shadow: 0 4px 12px rgba(45, 80, 22, 0.25);
+}
+/* Requirement scales: cleaner track in plant panel */
+.plant-detail-panel .requirement-scale-track {
+    border-radius: 6px;
+    overflow: hidden;
+}
+.plant-detail-panel .requirement-scale-range {
+    border-radius: 6px;
+}
 
-/* Shop widget: force bottom-right (override .modal-section / .widget-span-1) */
+/* Shop widget: bottom-right in 2-col grid */
 .plant-detail-panel .shop-widget {
-    grid-column: 4 !important;
+    grid-column: 2 !important;
     grid-row: -1 !important;
     align-self: end;
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
     .plant-panel-body {
+        max-width: 100%;
         grid-template-columns: repeat(2, 1fr) !important;
-    }
-    .plant-detail-panel .widget-span-3,
-    .plant-detail-panel .widget-span-4 {
-        grid-column: span 2;
     }
     .plant-detail-panel .shop-widget {
         grid-column: 2 !important;
@@ -1598,7 +1898,10 @@ main {
 }
 @media (max-width: 767px) {
     .plant-panel-body {
+        max-width: 100%;
         grid-template-columns: 1fr !important;
+        padding: 0.5rem 0.75rem 3.5rem 0.75rem;
+        gap: 0.875rem;
     }
     .plant-detail-panel .widget-span-1,
     .plant-detail-panel .widget-span-2,
@@ -1609,6 +1912,9 @@ main {
     .plant-detail-panel .shop-widget {
         grid-column: 1 !important;
         grid-row: -1 !important;
+    }
+    .plant-detail-panel .modal-section.modal-widget {
+        padding: 1.1rem 1.2rem;
     }
 }
 
@@ -1626,6 +1932,227 @@ main {
     max-height: none !important;
     padding: 1rem 0;
     overflow-y: auto;
+}
+
+/* Plant product page: normal product layout (no widget grid) */
+.plant-detail-panel #modalBody:has(.plant-product-page) {
+    display: block !important;
+    grid-template-columns: unset !important;
+    grid-template-rows: unset !important;
+    max-width: 100% !important;
+    padding: 0 1rem 2rem 1rem;
+    overflow-y: visible;
+}
+.plant-product-page {
+    max-width: 820px;
+    margin: 0 auto;
+}
+.plant-product-hero {
+    display: grid;
+    grid-template-columns: minmax(200px, 380px) 1fr;
+    gap: 2rem;
+    align-items: start;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+}
+.plant-product-gallery {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--bg-color);
+    cursor: pointer;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.plant-product-gallery:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+.plant-product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.plant-product-image-placeholder {
+    width: 100%;
+    height: 100%;
+    min-height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    color: var(--text-light);
+}
+.plant-product-gallery-hint {
+    position: absolute;
+    bottom: 0.75rem;
+    right: 0.75rem;
+    background: rgba(0,0,0,0.75);
+    color: #fff;
+    padding: 0.35rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    pointer-events: none;
+}
+.plant-product-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+.plant-product-name {
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    color: var(--primary-color);
+    margin: 0;
+}
+.plant-product-scientific {
+    font-size: 1.05rem;
+    font-style: italic;
+    color: var(--text-light);
+    margin: 0;
+}
+.plant-product-common {
+    font-size: 0.9rem;
+    color: var(--text-color);
+    margin: 0;
+}
+.plant-product-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+.plant-product-badges .badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.35rem 0.65rem;
+    border-radius: 999px;
+    background: rgba(45, 80, 22, 0.08);
+    color: var(--primary-color);
+    border: 1px solid rgba(45, 80, 22, 0.12);
+}
+.plant-product-enclosure {
+    margin-top: 0.25rem;
+}
+.plant-product-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-light);
+    margin-bottom: 0.35rem;
+}
+.plant-product-shop {
+    margin-top: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.plant-product-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+.plant-product-stock { font-size: 0.9rem; }
+.plant-product-stock-ok { color: var(--secondary-color); }
+.plant-product-stock-low { color: #b8860b; }
+.plant-product-stock-out { color: #c0392b; }
+.plant-product-stock-untracked { color: var(--text-light); }
+.plant-product-qty {
+    width: 100%;
+    max-width: 100px;
+    padding: 0.5rem 0.6rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+}
+.plant-product-add-cart {
+    padding: 0.65rem 1.25rem;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(45, 80, 22, 0.2);
+}
+.plant-product-add-cart:hover:not(:disabled) {
+    background: var(--secondary-color);
+    box-shadow: 0 4px 12px rgba(45, 80, 22, 0.25);
+}
+.plant-product-add-cart:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+.plant-product-definitions-link {
+    font-size: 0.85rem;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+.plant-product-definitions-link:hover {
+    text-decoration: underline;
+}
+.plant-product-section {
+    margin-bottom: 1.75rem;
+}
+.plant-product-section-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin: 0 0 0.75rem 0;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border-color);
+}
+.plant-product-section .plant-detail-description .description {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--text-color);
+    margin: 0;
+}
+.plant-product-care-list {
+    margin: 0;
+    padding-left: 1.25rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+.plant-product-care-list li {
+    margin-bottom: 0.35rem;
+}
+.plant-product-section-info .info-group {
+    margin-bottom: 1rem;
+}
+.plant-product-section-info .info-group:last-of-type {
+    margin-bottom: 0;
+}
+.plant-product-reviews-section .product-reviews-widget {
+    margin-top: 0.25rem;
+}
+@media (max-width: 767px) {
+    .plant-product-hero {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.5rem;
+    }
+    .plant-product-gallery {
+        max-width: 320px;
+        margin: 0 auto;
+        width: 100%;
+    }
+    .plant-product-page {
+        max-width: 100%;
+    }
 }
 
 .equipment-detail-layout {
@@ -2669,6 +3196,22 @@ main {
     color: var(--accent-color);
 }
 
+/* Shoppers: hide all edit buttons and image management (owner/admin only) */
+body.shopper-mode .card-edit-icon,
+body.shopper-mode .image-edit-icon,
+body.shopper-mode .plant-image-icon,
+body.shopper-mode .equipment-edit-icon,
+body.shopper-mode .equipment-image-icon,
+body.shopper-mode .card-image-icon,
+body.shopper-mode .plant-detail-edit,
+body.shopper-mode .plant-detail-image,
+body.shopper-mode .vivarium-detail-edit,
+body.shopper-mode .detail-actions-fixed .card-edit-icon,
+body.shopper-mode .delete-image-btn,
+body.shopper-mode .gallery-set-main-btn {
+    display: none !important;
+}
+
 /* Equipment/Vivarium use shared .card-icons .card-edit-icon .card-image-icon; keep legacy class names for JS */
 .equipment-card-icons,
 .equipment-card .card-icons {
@@ -2760,6 +3303,16 @@ main {
     color: var(--text-light);
     font-style: italic;
     margin-bottom: 0.5rem;
+}
+
+.card-rating {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-bottom: 0.35rem;
+}
+.card-rating.card-rating-visible {
+    color: #eab308;
+    font-weight: 600;
 }
 
 .plant-badges {
@@ -3044,6 +3597,11 @@ main {
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
 }
 
+/* Equipment/vivarium gallery: no "Set as main" */
+.gallery-no-set-main .gallery-set-main-btn {
+    display: none;
+}
+
 /* Modal Pages */
 .modal-page {
     display: contents;
@@ -3051,6 +3609,324 @@ main {
 
 .modal-page[style*="display: none"] {
     display: none !important;
+}
+.plant-detail-panel #modal-page-2.active {
+    display: block !important;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Modern gallery */
+.plant-gallery-modern {
+    background: var(--card-bg);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border: 1px solid var(--border-color);
+}
+.plant-gallery-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.85rem 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--bg-color);
+}
+.plant-gallery-back {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.plant-gallery-back:hover {
+    background: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+.plant-gallery-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-color);
+}
+.plant-gallery-count {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-left: auto;
+}
+.plant-gallery-stage {
+    position: relative;
+    background: #1a1a1a;
+    min-height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.plant-gallery-stage-inner {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    min-height: 320px;
+}
+.plant-gallery-stage .gallery-preview-image {
+    max-width: 100%;
+    max-height: 420px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+.plant-gallery-placeholder {
+    font-size: 5rem;
+    color: rgba(255,255,255,0.3);
+}
+.plant-gallery-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.9);
+    color: #1a1a1a;
+    font-size: 1.75rem;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+}
+.plant-gallery-arrow:hover {
+    background: #fff;
+    transform: translateY(-50%) scale(1.05);
+}
+.plant-gallery-prev { left: 1rem; }
+.plant-gallery-next { right: 1rem; }
+.plant-gallery-counter {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+.plant-gallery-set-main {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    margin: 0;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    border-radius: 8px;
+}
+.plant-gallery-thumbnails-wrap {
+    padding: 1rem 1.25rem;
+    border-top: 1px solid var(--border-color);
+    overflow-x: auto;
+}
+.plant-gallery-thumbnails {
+    display: flex;
+    gap: 0.6rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    min-height: 72px;
+}
+.plant-gallery-thumb {
+    flex-shrink: 0;
+    width: 64px;
+    height: 64px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid transparent;
+    background: var(--bg-color);
+    cursor: pointer;
+    padding: 0;
+    position: relative;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.plant-gallery-thumb:hover {
+    border-color: var(--border-color);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.plant-gallery-thumb.selected {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 1px var(--primary-color);
+}
+.plant-gallery-thumb-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+}
+.plant-gallery-thumb-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.plant-gallery-thumb-badge {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    font-size: 0.65rem;
+    z-index: 2;
+}
+.plant-gallery-thumb-delete {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(211, 47, 47, 0.95);
+    color: #fff;
+    border: none;
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+.plant-gallery-thumb:hover .plant-gallery-thumb-delete {
+    opacity: 1;
+}
+.plant-gallery-empty-message {
+    padding: 3rem 2rem;
+    text-align: center;
+    color: var(--text-light);
+}
+.plant-gallery-empty-message p { margin: 0.5rem 0; }
+
+/* Fullscreen button on stage */
+.plant-gallery-fullscreen-btn {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    padding: 0.45rem 0.85rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.95);
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 5;
+    transition: background 0.2s, color 0.2s;
+}
+.plant-gallery-fullscreen-btn:hover {
+    background: rgba(255,255,255,0.95);
+    color: #1a1a1a;
+}
+
+/* Fullscreen overlay */
+.gallery-fullscreen-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+.gallery-fullscreen-overlay.gallery-fullscreen-open {
+    opacity: 1;
+    visibility: visible;
+}
+.gallery-fullscreen-overlay .gallery-fullscreen-image {
+    max-width: 95vw;
+    max-height: 95vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    pointer-events: none;
+    user-select: none;
+}
+.gallery-fullscreen-close {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 48px;
+    height: 48px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    font-size: 1.75rem;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 10002;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+.gallery-fullscreen-close:hover {
+    background: rgba(255,255,255,0.25);
+}
+.gallery-fullscreen-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 56px;
+    height: 56px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    font-size: 2.25rem;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 10002;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+.gallery-fullscreen-arrow:hover {
+    background: rgba(255,255,255,0.3);
+}
+.gallery-fullscreen-prev { left: 1.5rem; }
+.gallery-fullscreen-next { right: 1.5rem; }
+.gallery-fullscreen-counter {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+@media (max-width: 767px) {
+    .plant-gallery-stage-inner { min-height: 260px; }
+    .plant-gallery-arrow { width: 40px; height: 40px; font-size: 1.5rem; }
+    .plant-gallery-prev { left: 0.5rem; }
+    .plant-gallery-next { right: 0.5rem; }
+    .plant-gallery-thumb { width: 56px; height: 56px; }
 }
 
 /* Responsive widget grid layout */
@@ -3726,6 +4602,39 @@ main {
     line-height: 1.8;
     color: var(--text-color);
     text-align: justify;
+}
+
+/* Plant detail: ensure description widget is visible and in a fixed grid position */
+.plant-detail-panel .plant-description-widget {
+    min-height: 80px;
+    grid-column: 1;
+    grid-row: 2;
+}
+.plant-detail-panel .plant-detail-description,
+.plant-detail-panel .plant-detail-description .description {
+    display: block;
+    visibility: visible;
+    margin: 0;
+}
+.plant-detail-panel .description-empty {
+    color: var(--text-light);
+    font-style: italic;
+    font-size: 0.9rem;
+}
+.plant-detail-panel .product-reviews-widget .product-review-item {
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    background: rgba(245, 247, 243, 0.8);
+    border: 1px solid var(--border-color);
+}
+.plant-detail-panel .taxonomy-link {
+    border-radius: 4px;
+    padding: 0.1rem 0.2rem;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+.plant-detail-panel .taxonomy-link:hover {
+    background: rgba(45, 80, 22, 0.08);
+    color: var(--secondary-color);
 }
 
 .requirements-list {

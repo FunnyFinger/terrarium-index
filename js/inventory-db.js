@@ -150,6 +150,23 @@
     }
 
     /**
+     * Get orders for a customer email (e.g. for "My orders" on profile). Matches customer.email (case-insensitive).
+     */
+    function getOrdersByCustomerEmail(email, limit) {
+        if (!email || !String(email).trim()) return Promise.resolve([]);
+        var database = getDb();
+        if (!database) return Promise.resolve([]);
+        var emailLo = String(email).toLowerCase().trim();
+        return database.orders.orderBy('createdAt').reverse().limit(limit || 200).toArray().then(function (orders) {
+            return orders.filter(function (o) {
+                var c = o.customer || {};
+                var em = (c.email || '').toLowerCase().trim();
+                return em === emailLo;
+            });
+        });
+    }
+
+    /**
      * Clear all sales history. Does not affect inventory stock.
      */
     function clearSales() {
@@ -226,6 +243,7 @@
         clearSales: clearSales,
         saveOrder: saveOrder,
         getOrders: getOrders,
+        getOrdersByCustomerEmail: getOrdersByCustomerEmail,
         getOrder: getOrder,
         updateOrderStatus: updateOrderStatus,
         clearOrders: clearOrders,

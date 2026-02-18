@@ -1,4 +1,7 @@
 // Main application logic
+if (typeof window !== 'undefined' && window.auth && !window.auth.canManageInventory()) {
+    document.body.classList.add('shopper-mode');
+}
 let allPlants = [];
 let filteredPlants = [];
 let allEquipment = [];
@@ -654,7 +657,12 @@ function initQuickAddOnCards() {
 function closePlantPanel() {
     document.removeEventListener('keydown', handlePlantPanelEscape);
     const navBackWrap = document.getElementById('navBackToListWrap');
-    if (navBackWrap) navBackWrap.classList.add('hidden');
+    const navBackBtn = document.getElementById('navBackToList');
+    if (navBackWrap) {
+        navBackWrap.classList.remove('hidden');
+        navBackWrap.classList.add('nav-back-disabled');
+    }
+    if (navBackBtn) navBackBtn.disabled = true;
     if (mainLayout) mainLayout.classList.remove('detail-view-active');
     if (filtersSidebarWrapper) {
         filtersSidebarWrapper.style.display = '';
@@ -673,7 +681,17 @@ function closePlantPanel() {
     }
 }
 function handlePlantPanelEscape(e) {
-    if (e.key === 'Escape' && plantDetailPanel && !plantDetailPanel.classList.contains('hidden')) {
+    if (e.key !== 'Escape' || !plantDetailPanel || plantDetailPanel.classList.contains('hidden')) return;
+    const page2 = document.getElementById('modal-page-2');
+    if (page2 && page2.classList.contains('active')) {
+        const plantId = page2.getAttribute('data-plant-id');
+        if (plantId) {
+            closeGalleryFullscreen();
+            switchModalPage(1, plantId);
+        } else {
+            closePlantPanel();
+        }
+    } else {
         closePlantPanel();
     }
 }
@@ -1245,7 +1263,21 @@ function setupEventListeners() {
     }
     const navBackToList = document.getElementById('navBackToList');
     if (navBackToList) {
-        navBackToList.addEventListener('click', closePlantPanel);
+        navBackToList.addEventListener('click', function() {
+            if (navBackToList.disabled) return;
+            const page2 = document.getElementById('modal-page-2');
+            if (page2 && page2.classList.contains('active')) {
+                const plantId = page2.getAttribute('data-plant-id');
+                if (plantId) {
+                    closeGalleryFullscreen();
+                    switchModalPage(1, plantId);
+                } else {
+                    closePlantPanel();
+                }
+            } else {
+                closePlantPanel();
+            }
+        });
     }
 
     // Add New Plant - opens Edit Plant Details modal (new plant mode)
@@ -3007,6 +3039,27 @@ function debounce(func, wait) {
     };
 }
 
+/** Fill average rating on all visible cards. Uses profileDb.getAverageRating. */
+function fillCardRatings() {
+    if (typeof window.profileDb === 'undefined' || !window.profileDb.getAverageRating) return;
+    var grid = document.getElementById('plantsGrid');
+    if (!grid) return;
+    var els = grid.querySelectorAll('.card-rating');
+    els.forEach(function (el) {
+        var type = el.getAttribute('data-product-type');
+        var id = el.getAttribute('data-product-id');
+        if (!type || !id) return;
+        window.profileDb.getAverageRating(type, id).then(function (res) {
+            if (res.count > 0) {
+                el.textContent = res.average + ' \u2605 (' + res.count + ')';
+                el.classList.add('card-rating-visible');
+            } else {
+                el.textContent = '\u2014';
+            }
+        }).catch(function () { el.textContent = '\u2014'; });
+    });
+}
+
 // Render plants grid (used for current page slice only when pagination is active)
 function renderPlants(plants) {
     if (!plantsGrid) return;
@@ -3043,6 +3096,7 @@ function renderPlants(plants) {
                 loadingEl.classList.add('hidden');
             }
             updateQuickAddButtonsState();
+            fillCardRatings();
         }
     };
 
@@ -3335,6 +3389,7 @@ function createEquipmentCard(equipment) {
         </div>
         <div class="plant-info">
             <div class="plant-name">${escapeHtml(equipment.name)}</div>
+            <div class="card-rating" data-product-type="equipment" data-product-id="${equipment.id}" aria-label="Average rating">—</div>
         </div>
     `;
     const editBtn = card.querySelector('.equipment-edit-icon');
@@ -3455,6 +3510,7 @@ function renderEquipmentPage() {
     const fragment = document.createDocumentFragment();
     pageItems.forEach(item => fragment.appendChild(createEquipmentCard(item)));
     plantsGrid.appendChild(fragment);
+    fillCardRatings();
 
     if (plantCount) {
         const end = start + pageItems.length;
@@ -3586,7 +3642,8 @@ function createVivariumCard(vivarium) {
         '</div>' +
         '<div class="plant-info">' +
         '<div class="plant-name">' + escapeHtml(vivarium.name) + '</div>' +
-        (typeLabel ? '<div class="plant-scientific">' + escapeHtml(typeLabel) + '</div>' : '') +
+        '<div class="card-rating" data-product-type="vivarium" data-product-id="' + vivarium.id + '" aria-label="Average rating">—</div>' +
+        (typeLabel ? '<div class="plant-product-badges plant-badges"><span class="badge ' + (vivarium.type ? String(vivarium.type).toLowerCase().replace(/\s+/g, '-') : '') + '">' + escapeHtml(typeLabel) + '</span></div>' : '') +
         '</div>';
     var vivariumEditBtn = card.querySelector('.card-edit-icon');
     var vivariumImageBtn = card.querySelector('.card-image-icon');
@@ -3616,6 +3673,7 @@ function renderVivariumsPage() {
     var fragment = document.createDocumentFragment();
     pageItems.forEach(function(item) { fragment.appendChild(createVivariumCard(item)); });
     plantsGrid.appendChild(fragment);
+    fillCardRatings();
 
     if (plantCount) {
         var end = start + pageItems.length;
@@ -3655,6 +3713,112 @@ function renderVivariumsPage() {
     updateQuickAddButtonsState();
 }
 
+// Maintenance tips per vivarium type (for ready-made vivariums—what to do after purchase)
+var VIVARIUM_TYPE_CARE_TIPS = {
+    'open-terrarium': [
+        'Keep the unit in a spot with good air flow; avoid enclosing it in a cabinet or tight corner to prevent mold.',
+        'Water only when the top of the substrate feels dry. Use distilled or rainwater if your tap water is hard; avoid overwatering.',
+        'Place in bright indirect light. Rotate the unit every couple of weeks so all sides get even light.',
+        'Wipe the glass inside and out occasionally with a soft, damp cloth to remove dust and mineral spots.',
+        'Remove dead or yellow leaves and any decaying matter as soon as you notice them to keep the environment clean.',
+        'If you add fertilizer, use a diluted solution sparingly and only during active growth periods.',
+        'Check that no water is pooling at the base; the substrate should drain and not sit in standing water.'
+    ],
+    'closed-terrarium': [
+        'Condensation on the glass is normal. If the glass stays fogged or very wet, lift the lid for an hour or two to let excess moisture out.',
+        'Water only when the substrate looks dry and there is little or no condensation—closed units recycle moisture and need very little.',
+        'Open the lid briefly every 2–3 weeks to refresh the air and reduce the chance of mold.',
+        'Remove any mold, dead leaves, or rotting material as soon as you see it; wipe affected glass with a clean cloth.',
+        'Keep the unit out of direct sun to avoid overheating; bright indirect light is ideal.',
+        'If the glass is constantly wet, leave the lid off for a few hours until the balance feels right, then close again.'
+    ],
+    'terrarium': [
+        'Check the substrate weekly: water only when the top layer is dry, and never leave standing water in the base.',
+        'Wipe the glass periodically to keep it clear and remove any algae or mineral buildup.',
+        'Remove dead leaves and debris regularly to keep the environment tidy and reduce pest or mold risk.',
+        'Rotate the unit every few weeks for even light and growth.',
+        'If the unit has a lid, open it briefly every few weeks to allow fresh air in.'
+    ],
+    'paludarium': [
+        'Run the filter as recommended and perform partial water changes (e.g. 10–20% weekly) to keep water quality good.',
+        'Top up evaporated water with dechlorinated water as needed; keep the water level stable.',
+        'Wipe the glass above and below the waterline regularly to remove algae and mineral deposits.',
+        'Trim overgrown plants so the land and water zones stay clear and plants do not block the view or light.',
+        'Check that the land area is not waterlogged; drainage should keep soil above the waterline reasonably dry.',
+        'If you have fish or other animals, avoid overfeeding; remove uneaten food and excess waste promptly.',
+        'Test water parameters (pH, hardness, ammonia/nitrite if applicable) periodically and adjust as needed.'
+    ],
+    'riparium': [
+        'Top up the water section with dechlorinated water as it evaporates to keep the level stable.',
+        'Perform small partial water changes regularly and remove debris from the water to keep it clean.',
+        'Wipe the glass and any above-water surfaces to remove dust and mineral buildup.',
+        'Trim overgrown marginal plants so they do not block light or topple into the water.',
+        'Check that the pump or circulation (if fitted) is running; clear the intake if it gets clogged.',
+        'Mist or ensure humidity above the waterline stays adequate so foliage does not dry out.'
+    ],
+    'aquarium': [
+        'Perform partial water changes (e.g. 10–25% weekly) and siphon debris from the substrate to maintain water quality.',
+        'Top up evaporated water with dechlorinated water; avoid large swings in temperature or chemistry.',
+        'Clean the glass inside regularly to remove algae and keep the view clear.',
+        'Trim and remove dead or dying plant material so it does not decay in the water.',
+        'Check the filter and pump; clean or replace media as recommended by the manufacturer.',
+        'Test water parameters (temperature, pH, ammonia, nitrite, nitrate) on a schedule and correct any issues.',
+        'If you have fish, feed in small amounts and remove uneaten food to limit waste and algae.'
+    ],
+    'desertarium': [
+        'Water only when the substrate is fully dry; avoid misting or adding humidity—keep the environment dry.',
+        'Wipe the glass occasionally to remove dust and any mineral or salt buildup.',
+        'Remove dead leaves or decaying plant matter promptly to prevent rot and pests.',
+        'Keep the unit in a well-ventilated spot with strong light; avoid enclosing it in a humid or dark area.',
+        'Ensure no water sits in the base or in saucers; let the substrate drain completely after watering.',
+        'Rotate the unit periodically so all sides receive light and growth stays even.'
+    ],
+    'deserterium': [
+        'Water only when the substrate is completely dry; keep the environment dry and well lit.',
+        'Wipe the glass and remove dead plant material regularly; ensure good air circulation around the unit.'
+    ],
+    'aerarium': [
+        'Mist or soak the mounts 1–2 times per week so the plants do not dry out; let excess water drain away afterward.',
+        'Wipe the glass and any mounting surfaces to remove dust and mineral spots.',
+        'Remove dead leaves or flowers and check leaf bases and mounts for pests (e.g. scale, mealybugs) periodically.',
+        'Keep the unit in a spot with good air circulation and bright indirect light; rotate occasionally for even growth.',
+        'If you fertilize, use a diluted foliar or orchid formula sparingly during active growth.'
+    ],
+    'aererium': [
+        'Mist or soak the mounts regularly and let them drain; wipe the glass and check for pests. Keep in bright indirect light with good airflow.'
+    ],
+    'indoor': [
+        'Water when the top of the substrate feels dry; reduce frequency in winter or in low light.',
+        'Wipe the glass or leaves as needed to remove dust and keep the unit looking clean.',
+        'Rotate the unit every few weeks for even light exposure.',
+        'Remove dead leaves and debris; ensure the base or saucer never holds standing water.'
+    ],
+    'house-plant': [
+        'Water when the substrate is partly dry; adjust by season—less in winter, more in summer if the room is warm and bright.',
+        'Dust leaves and wipe the container periodically to keep the unit clean.',
+        'Remove dead or yellow leaves and avoid leaving the pot sitting in water.',
+        'Rotate the unit occasionally so growth stays even on all sides.'
+    ],
+    'outdoor': [
+        'Check water needs regularly; water more in hot or dry spells and less when it is cool or rainy.',
+        'Remove dead leaves and debris; protect the unit from strong frost or wind as needed.',
+        'Wipe the glass or surfaces to remove dirt, pollen, or mineral buildup.',
+        'Move or shade the unit if direct sun is too harsh for the plants inside.'
+    ],
+    'vivarium': [
+        'Check humidity and temperature regularly; top up water sources and adjust ventilation or heating as needed.',
+        'Remove waste, uneaten food, and dead plant matter promptly to keep the environment clean.',
+        'Wipe the glass and clean any decor or bowls according to the needs of the inhabitants.',
+        'Trim overgrown plants and ensure hiding spots and perches remain accessible and clean.'
+    ]
+};
+
+function getVivariumCareTips(typeKey) {
+    if (!typeKey) return VIVARIUM_TYPE_CARE_TIPS['open-terrarium'] || VIVARIUM_TYPE_CARE_TIPS['vivarium'];
+    var key = String(typeKey).toLowerCase().replace(/\s+/g, '-');
+    return VIVARIUM_TYPE_CARE_TIPS[key] || VIVARIUM_TYPE_CARE_TIPS['open-terrarium'] || VIVARIUM_TYPE_CARE_TIPS['vivarium'];
+}
+
 function showVivariumDetail(vivarium) {
     var displayImageUrl = vivarium.imageUrl || (vivarium.images && vivarium.images[0]) || null;
     var priceStr = vivarium.price != null ? formatPrice(vivarium.price) : 'Price on request';
@@ -3663,29 +3827,93 @@ function showVivariumDetail(vivarium) {
     var availabilityLabel = av === 'in-stock' ? 'In Stock' : (av === 'out-of-stock' ? 'Out of Stock' : 'Pre-order');
     var detailEditSvgV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
     var detailImageSvgV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>';
-    modalBody.innerHTML = '<div class="equipment-detail-layout">' +
-        '<div class="equipment-detail-image">' +
-        (displayImageUrl ? '<img src="' + escapeHtml(displayImageUrl) + '" alt="' + escapeHtml(vivarium.name) + '" class="equipment-main-image">' : '<div class="image-placeholder equipment-placeholder">' + PLACEHOLDER_EQUIPMENT_SVG + '</div>') +
+    var vivariumGalleryImages = (vivarium.images || []).filter(function(img) { return img && img.trim(); });
+    var hasGallery = vivariumGalleryImages.length > 0;
+    var descriptionHtml = vivarium.description ? '<p class="description">' + escapeHtml(vivarium.description) + '</p>' : '<p class="description description-empty">No description available.</p>';
+    var careTips = getVivariumCareTips(vivarium.type);
+    var careTipsListHtml = careTips.map(function(tip) { return '<li style="margin-bottom: 0.3rem;">' + escapeHtml(tip) + '</li>'; }).join('');
+    var galleryPage2Html = (function() {
+        if (vivariumGalleryImages.length === 0) {
+            return '<div class="plant-gallery-modern plant-gallery-empty gallery-no-set-main">' +
+                '<header class="plant-gallery-header"><span class="plant-gallery-title">Gallery</span></header>' +
+                '<div class="plant-gallery-empty-message"><p>No photos yet.</p><p>Use the Image button above to add photos.</p></div>' +
+                '</div>';
+        }
+        var imgs = vivariumGalleryImages;
+        var mainUrl = displayImageUrl || imgs[0];
+        var thumbHtml = imgs.map(function(img, idx) {
+            var escapedPath = img.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+            return '<button type="button" class="plant-gallery-thumb gallery-thumbnail ' + (idx === 0 ? 'selected' : '') + '" data-img-index="' + idx + '" data-img-path="' + escapedPath + '" onclick="selectGalleryImage(\'' + escapedPath + '\', ' + vivarium.id + ', ' + idx + ', event)" aria-label="Image ' + (idx + 1) + '">' +
+                '<span class="plant-gallery-thumb-img"><img src="' + img + '" alt="" loading="lazy" onerror="this.style.display=\'none\'" onload="this.style.display=\'block\'"></span>' +
+                '</button>';
+        }).join('');
+        return '<div class="plant-gallery-modern gallery-no-set-main" id="gallery-page-' + vivarium.id + '">' +
+            '<header class="plant-gallery-header">' +
+            '<span class="plant-gallery-title">Gallery</span>' +
+            '<span class="plant-gallery-count">' + imgs.length + ' photo' + (imgs.length !== 1 ? 's' : '') + '</span>' +
+            '</header>' +
+            '<div class="plant-gallery-stage" id="gallery-preview-' + vivarium.id + '">' +
+            '<button type="button" class="plant-gallery-arrow plant-gallery-prev" onclick="galleryPrevNext(' + vivarium.id + ', -1)" aria-label="Previous image">‹</button>' +
+            '<div class="plant-gallery-stage-inner">' +
+            '<img id="gallery-preview-img" data-current-index="0" src="' + mainUrl + '" alt="' + escapeHtml(vivarium.name) + '" class="gallery-preview-image">' +
+            '</div>' +
+            '<button type="button" class="plant-gallery-arrow plant-gallery-next" onclick="galleryPrevNext(' + vivarium.id + ', 1)" aria-label="Next image">›</button>' +
+            '<div class="plant-gallery-counter"><span id="gallery-current-num">1</span> / ' + imgs.length + '</div>' +
+            '<button type="button" class="plant-gallery-fullscreen-btn" onclick="openGalleryFullscreen(' + vivarium.id + ')" aria-label="View fullscreen">⛶ Fullscreen</button>' +
+            '</div>' +
+            '<div class="gallery-fullscreen-overlay" id="gallery-fullscreen-overlay" role="dialog" aria-modal="true" aria-label="Fullscreen image view" onclick="if(event.target === this) closeGalleryFullscreen()">' +
+            '<button type="button" class="gallery-fullscreen-close" onclick="closeGalleryFullscreen()" aria-label="Close">×</button>' +
+            '<button type="button" class="gallery-fullscreen-arrow gallery-fullscreen-prev" onclick="galleryFullscreenPrevNext(' + vivarium.id + ', -1)" aria-label="Previous">‹</button>' +
+            '<img id="gallery-fullscreen-img" src="' + mainUrl + '" alt="' + escapeHtml(vivarium.name) + '" class="gallery-fullscreen-image">' +
+            '<button type="button" class="gallery-fullscreen-arrow gallery-fullscreen-next" onclick="galleryFullscreenPrevNext(' + vivarium.id + ', 1)" aria-label="Next">›</button>' +
+            '<div class="gallery-fullscreen-counter"><span id="gallery-fullscreen-num">1</span> / ' + imgs.length + '</div>' +
+            '</div>' +
+            '<div class="plant-gallery-thumbnails-wrap"><div class="plant-gallery-thumbnails">' + thumbHtml + '</div></div>' +
+            '</div>';
+    })();
+    modalBody.innerHTML = '' +
+        '<div id="modal-page-1" class="modal-page active plant-product-page">' +
+        '<div class="plant-product-hero">' +
+        '<div class="plant-product-gallery" onclick="' + (hasGallery ? 'switchModalPage(2, ' + vivarium.id + ')' : '') + '" role="button" tabindex="0">' +
+        (displayImageUrl ? '<img src="' + displayImageUrl + '" alt="' + escapeHtml(vivarium.name) + '" class="plant-product-image" onerror="this.style.display=\'none\'">' : '<div class="plant-product-image-placeholder">🪴</div>') +
+        (hasGallery ? '<span class="plant-product-gallery-hint">View gallery</span>' : '') +
         '</div>' +
-        '<div class="equipment-detail-content">' +
-        '<h2 class="equipment-detail-name">' + escapeHtml(vivarium.name) + '</h2>' +
-        (typeLabel ? '<p class="vivarium-type-badge">' + escapeHtml(typeLabel) + '</p>' : '') +
-        (vivarium.description ? '<div class="equipment-detail-description">' + escapeHtml(vivarium.description) + '</div>' : '') +
-        '<div class="modal-section shop-widget equipment-shop-widget"><h3>Shop</h3><div class="shop-widget-content"><div class="shop-widget-price">' + priceStr + '</div><div class="shop-widget-availability">' + escapeHtml(availabilityLabel) + '</div>' +
-        '<button type="button" class="btn-add-to-cart" data-plant-id="' + vivarium.id + '">Add to cart</button></div></div>' +
-        '</div></div>' +
-        '<div class="detail-actions detail-actions-fixed">' +
-        '<button type="button" class="detail-btn card-edit-icon vivarium-detail-edit" title="Edit details" aria-label="Edit details">' + detailEditSvgV + '<span>Edit details</span></button>' +
-        '<button type="button" class="detail-btn card-image-icon vivarium-detail-image" title="Add or edit images" aria-label="Add or edit images">' + detailImageSvgV + '<span>Image</span></button>' +
-        '</div>';
+        '<div class="plant-product-meta">' +
+        '<h1 class="plant-product-name">' + escapeHtml(vivarium.name) + '</h1>' +
+        (typeLabel ? '<div class="plant-product-badges"><span class="badge ' + (vivarium.type ? String(vivarium.type).toLowerCase().replace(/\s+/g, '-') : '') + '">' + escapeHtml(typeLabel) + '</span></div>' : '') +
+        '<div class="plant-product-shop">' +
+        '<div class="plant-product-price">' + priceStr + '</div>' +
+        '<div class="plant-product-stock plant-product-stock-ok">' + escapeHtml(availabilityLabel) + '</div>' +
+        '<button type="button" class="plant-product-add-cart btn-add-to-cart" data-plant-id="' + vivarium.id + '">Add to cart</button>' +
+        '</div></div></div>' +
+        '<section class="plant-product-section">' +
+        '<h2 class="plant-product-section-title">Description</h2>' +
+        '<div class="plant-detail-description">' + descriptionHtml + '</div>' +
+        '</section>' +
+        '<section class="plant-product-section">' +
+        '<h2 class="plant-product-section-title">Maintenance</h2>' +
+        '<ul class="plant-product-care-list">' + careTipsListHtml + '</ul>' +
+        '</section>' +
+        '<section class="plant-product-section plant-product-reviews-section">' +
+        '<div class="product-reviews-widget" data-product-type="vivarium" data-product-id="' + vivarium.id + '" data-product-name="' + escapeHtml(vivarium.name) + '"></div>' +
+        '</section></div>' +
+        '<div id="modal-page-2" class="modal-page" style="display: none;" data-plant-id="' + vivarium.id + '">' + galleryPage2Html + '</div>';
+    var vivariumDetailActions = document.createElement('div');
+    vivariumDetailActions.className = 'detail-actions detail-actions-fixed';
+    vivariumDetailActions.innerHTML = '<button type="button" class="detail-btn card-edit-icon vivarium-detail-edit" title="Edit details" aria-label="Edit details">' + detailEditSvgV + '<span>Edit details</span></button><button type="button" class="detail-btn card-image-icon vivarium-detail-image" title="Add or edit images" aria-label="Add or edit images">' + detailImageSvgV + '<span>Image</span></button>';
+    modalBody.appendChild(vivariumDetailActions);
     var addBtn = modalBody.querySelector('.btn-add-to-cart');
     if (addBtn) addBtn.addEventListener('click', function() { addToCart(vivarium, 1); });
     var vivariumDetailEditBtn = modalBody.querySelector('.vivarium-detail-edit');
     var vivariumDetailImageBtn = modalBody.querySelector('.vivarium-detail-image');
     if (vivariumDetailEditBtn) vivariumDetailEditBtn.addEventListener('click', function() { if (window.openVivariumEdit) openVivariumEdit(vivarium); });
     if (vivariumDetailImageBtn) vivariumDetailImageBtn.addEventListener('click', function() { openVivariumImageUpload(vivarium); });
+    var vivariumReviewsWidget = modalBody.querySelector('.product-reviews-widget');
+    if (vivariumReviewsWidget && typeof window.initProductReviewsWidget === 'function') window.initProductReviewsWidget(vivariumReviewsWidget);
     var navBackWrap = document.getElementById('navBackToListWrap');
-    if (navBackWrap) navBackWrap.classList.remove('hidden');
+    var navBackBtn = document.getElementById('navBackToList');
+    if (navBackWrap) { navBackWrap.classList.remove('hidden'); navBackWrap.classList.remove('nav-back-disabled'); }
+    if (navBackBtn) navBackBtn.disabled = false;
     if (mainLayout) mainLayout.classList.add('detail-view-active');
     if (filtersSidebarWrapper) filtersSidebarWrapper.style.display = 'none';
     if (mainContent && plantDetailPanel) {
@@ -3702,36 +3930,90 @@ function showEquipmentDetail(equipment) {
     const displayImageUrl = equipment.imageUrl || (equipment.images && equipment.images[0]) || null;
     const priceStr = equipment.price != null ? formatPrice(equipment.price) : 'Price on request';
     const stock = equipment.stockQuantity;
-    const stockHtml = typeof stock === 'number' ? (stock <= 0 ? '<div class="shop-widget-stock shop-widget-stock-out">Out of stock</div>' : '<div class="shop-widget-stock shop-widget-stock-ok">In stock: ' + stock + '</div>') : '<div class="shop-widget-stock shop-widget-stock-untracked">Stock not tracked</div>';
+    const stockHtml = typeof stock === 'number' ? (stock <= 0 ? '<div class="plant-product-stock plant-product-stock-out">Out of stock</div>' : '<div class="plant-product-stock plant-product-stock-ok">In stock: ' + stock + '</div>') : '<div class="plant-product-stock plant-product-stock-untracked">Stock not tracked</div>';
     const maxQty = (typeof stock === 'number' && stock >= 0) ? Math.min(9, stock) : 9;
     const optionsHtml = Array.from({ length: maxQty }, (_, i) => i + 1).map(n => `<option value="${n}">${n}</option>`).join('') || '<option value="1">1</option>';
     const detailEditSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
     const detailImageSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>';
-    modalBody.innerHTML = `
-        <div class="equipment-detail-layout">
-            <div class="equipment-detail-image">
-                ${displayImageUrl ? `<img src="${displayImageUrl}" alt="${escapeHtml(equipment.name)}" class="equipment-main-image">` : '<div class="image-placeholder equipment-placeholder">' + PLACEHOLDER_EQUIPMENT_SVG + '</div>'}
+    const equipmentGalleryImages = (equipment.images || []).filter(img => img && img.trim());
+    const hasGallery = equipmentGalleryImages.length > 0;
+    const descriptionHtml = equipment.description ? '<p class="description">' + escapeHtml(equipment.description) + '</p>' : '<p class="description description-empty">No description available.</p>';
+    const galleryPage2Html = (() => {
+        if (equipmentGalleryImages.length === 0) {
+            return `<div class="plant-gallery-modern plant-gallery-empty gallery-no-set-main">
+                <header class="plant-gallery-header"><span class="plant-gallery-title">Gallery</span></header>
+                <div class="plant-gallery-empty-message"><p>No photos yet.</p><p>Use the Image button above to add photos.</p></div>
+            </div>`;
+        }
+        const imgs = equipmentGalleryImages;
+        const mainUrl = displayImageUrl || imgs[0];
+        return `<div class="plant-gallery-modern gallery-no-set-main" id="gallery-page-${equipment.id}">
+            <header class="plant-gallery-header">
+                <span class="plant-gallery-title">Gallery</span>
+                <span class="plant-gallery-count">${imgs.length} photo${imgs.length !== 1 ? 's' : ''}</span>
+            </header>
+            <div class="plant-gallery-stage" id="gallery-preview-${equipment.id}">
+                <button type="button" class="plant-gallery-arrow plant-gallery-prev" onclick="galleryPrevNext(${equipment.id}, -1)" aria-label="Previous image">‹</button>
+                <div class="plant-gallery-stage-inner">
+                    <img id="gallery-preview-img" data-current-index="0" src="${mainUrl}" alt="${escapeHtml(equipment.name)}" class="gallery-preview-image">
+                </div>
+                <button type="button" class="plant-gallery-arrow plant-gallery-next" onclick="galleryPrevNext(${equipment.id}, 1)" aria-label="Next image">›</button>
+                <div class="plant-gallery-counter"><span id="gallery-current-num">1</span> / ${imgs.length}</div>
+                <button type="button" class="plant-gallery-fullscreen-btn" onclick="openGalleryFullscreen(${equipment.id})" aria-label="View fullscreen">⛶ Fullscreen</button>
             </div>
-            <div class="equipment-detail-content">
-                <h2 class="equipment-detail-name">${escapeHtml(equipment.name)}</h2>
-                ${equipment.description ? `<div class="equipment-detail-description">${escapeHtml(equipment.description)}</div>` : ''}
-                <div class="modal-section shop-widget equipment-shop-widget">
-                    <h3>Shop</h3>
-                    <div class="shop-widget-content">
-                        <div class="shop-widget-price">${priceStr}</div>
+            <div class="gallery-fullscreen-overlay" id="gallery-fullscreen-overlay" role="dialog" aria-modal="true" aria-label="Fullscreen image view" onclick="if(event.target === this) closeGalleryFullscreen()">
+                <button type="button" class="gallery-fullscreen-close" onclick="closeGalleryFullscreen()" aria-label="Close">×</button>
+                <button type="button" class="gallery-fullscreen-arrow gallery-fullscreen-prev" onclick="galleryFullscreenPrevNext(${equipment.id}, -1)" aria-label="Previous">‹</button>
+                <img id="gallery-fullscreen-img" src="${mainUrl}" alt="${escapeHtml(equipment.name)}" class="gallery-fullscreen-image">
+                <button type="button" class="gallery-fullscreen-arrow gallery-fullscreen-next" onclick="galleryFullscreenPrevNext(${equipment.id}, 1)" aria-label="Next">›</button>
+                <div class="gallery-fullscreen-counter"><span id="gallery-fullscreen-num">1</span> / ${imgs.length}</div>
+            </div>
+            <div class="plant-gallery-thumbnails-wrap">
+                <div class="plant-gallery-thumbnails">
+                    ${imgs.map((img, idx) => {
+                        const escapedPath = img.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                        return `<button type="button" class="plant-gallery-thumb gallery-thumbnail ${idx === 0 ? 'selected' : ''}" data-img-index="${idx}" data-img-path="${escapedPath}" onclick="selectGalleryImage('${escapedPath}', ${equipment.id}, ${idx}, event)" aria-label="Image ${idx + 1}">
+                        <span class="plant-gallery-thumb-img"><img src="${img}" alt="" loading="lazy" onerror="this.style.display='none'" onload="this.style.display='block'"></span>
+                    </button>`;
+                    }).join('')}
+                </div>
+            </div>
+        </div>`;
+    })();
+    modalBody.innerHTML = `
+        <div id="modal-page-1" class="modal-page active plant-product-page">
+            <div class="plant-product-hero">
+                <div class="plant-product-gallery" onclick="${hasGallery ? 'switchModalPage(2, ' + equipment.id + ')' : ''}" role="button" tabindex="0">
+                    ${displayImageUrl ? `<img src="${displayImageUrl}" alt="${escapeHtml(equipment.name)}" class="plant-product-image" onerror="this.style.display='none'">` : '<div class="plant-product-image-placeholder">🔧</div>'}
+                    ${hasGallery ? '<span class="plant-product-gallery-hint">View gallery</span>' : ''}
+                </div>
+                <div class="plant-product-meta">
+                    <h1 class="plant-product-name">${escapeHtml(equipment.name)}</h1>
+                    <div class="plant-product-shop">
+                        <div class="plant-product-price">${priceStr}</div>
                         ${stockHtml}
-                        <label for="equipmentCartQty" class="info-item-label">Quantity</label>
-                        <select id="equipmentCartQty" class="shop-qty-select" aria-label="Quantity">${optionsHtml}</select>
-                        <button type="button" class="btn-add-to-cart" data-plant-id="${equipment.id}" ${typeof stock === 'number' && stock <= 0 ? 'disabled' : ''}>Add to cart</button>
+                        <label for="equipmentCartQty" class="plant-product-label">Quantity</label>
+                        <select id="equipmentCartQty" class="plant-product-qty" aria-label="Quantity">${optionsHtml}</select>
+                        <button type="button" class="plant-product-add-cart btn-add-to-cart" data-plant-id="${equipment.id}" ${typeof stock === 'number' && stock <= 0 ? 'disabled' : ''}>Add to cart</button>
                     </div>
                 </div>
             </div>
+            <section class="plant-product-section">
+                <h2 class="plant-product-section-title">Description</h2>
+                <div class="plant-detail-description">${descriptionHtml}</div>
+            </section>
+            <section class="plant-product-section plant-product-reviews-section">
+                <div class="product-reviews-widget" data-product-type="equipment" data-product-id="${equipment.id}" data-product-name="${escapeHtml(equipment.name)}"></div>
+            </section>
         </div>
-        <div class="detail-actions detail-actions-fixed">
-            <button type="button" class="detail-btn card-edit-icon" title="Edit details" aria-label="Edit details">${detailEditSvg}<span>Edit details</span></button>
-            <button type="button" class="detail-btn card-image-icon" title="Add or edit images" aria-label="Add or edit images">${detailImageSvg}<span>Image</span></button>
+        <div id="modal-page-2" class="modal-page" style="display: none;" data-plant-id="${equipment.id}">
+            ${galleryPage2Html}
         </div>
     `;
+    const equipmentDetailActions = document.createElement('div');
+    equipmentDetailActions.className = 'detail-actions detail-actions-fixed';
+    equipmentDetailActions.innerHTML = '<button type="button" class="detail-btn card-edit-icon" title="Edit details" aria-label="Edit details">' + detailEditSvg + '<span>Edit details</span></button><button type="button" class="detail-btn card-image-icon" title="Add or edit images" aria-label="Add or edit images">' + detailImageSvg + '<span>Image</span></button>';
+    modalBody.appendChild(equipmentDetailActions);
     const equipmentDetailEditBtn = modalBody.querySelector('.detail-actions-fixed .card-edit-icon');
     const equipmentDetailImageBtn = modalBody.querySelector('.detail-actions-fixed .card-image-icon');
     if (equipmentDetailEditBtn) equipmentDetailEditBtn.addEventListener('click', function() { openEquipmentEdit(equipment); });
@@ -3744,8 +4026,12 @@ function showEquipmentDetail(equipment) {
             addToCart(equipment, qty);
         });
     }
+    const equipmentReviewsWidget = modalBody.querySelector('.product-reviews-widget');
+    if (equipmentReviewsWidget && typeof window.initProductReviewsWidget === 'function') window.initProductReviewsWidget(equipmentReviewsWidget);
     const navBackWrap = document.getElementById('navBackToListWrap');
-    if (navBackWrap) navBackWrap.classList.remove('hidden');
+    const navBackBtn = document.getElementById('navBackToList');
+    if (navBackWrap) { navBackWrap.classList.remove('hidden'); navBackWrap.classList.remove('nav-back-disabled'); }
+    if (navBackBtn) navBackBtn.disabled = false;
     if (mainLayout) mainLayout.classList.add('detail-view-active');
     if (filtersSidebarWrapper) filtersSidebarWrapper.style.display = 'none';
     if (mainContent && plantDetailPanel) {
@@ -4532,6 +4818,7 @@ function createPlantCard(plant) {
         <div class="plant-info">
             <div class="plant-name">${plant.name}</div>
             <div class="plant-scientific">${getScientificNameString(plant)}</div>
+            <div class="card-rating" data-product-type="plant" data-product-id="${plant.id}" aria-label="Average rating">—</div>
             <div class="plant-badges">${badges}</div>
         </div>
     `;
@@ -4886,86 +5173,97 @@ async function showPlantModal(plant) {
     
     // Get plant inputs for scales
     const plantInputs = mapPlantToInputs(plant);
+    // Use canonical plant from DB for text fields so description/careTips are never missing
+    const plantForText = (typeof window !== 'undefined' && window.plantsDatabase) ? (window.plantsDatabase.find(p => p.id === plant.id) || plant) : plant;
+    const descRaw = plantForText && (plantForText.description != null) ? String(plantForText.description).trim() : '';
+    const descriptionHtml = descRaw ? '<p class="description">' + escapeHtml(descRaw) + '</p>' : '<p class="description description-empty">No description available.</p>';
+    const careTipsListHtml = (plantForText && Array.isArray(plantForText.careTips) ? plantForText.careTips : [])
+        .map(tip => '<li style="margin-bottom: 0.3rem;">' + escapeHtml(tip) + '</li>').join('');
     
     modalBody.innerHTML = `
-        <!-- Page 1: Information View -->
-        <div id="modal-page-1" class="modal-page active">
-            <!-- Column 1, Row 1: Name -->
-            <div class="modal-section modal-widget widget-span-1 widget-row-1">
-                <h2 class="modal-plant-name" style="margin: 0; font-size: 1.6rem; color: var(--primary-color); line-height: 1.2;">${plant.name}</h2>
-                <h3 class="modal-plant-scientific" style="margin: 0.3rem 0 0 0; font-size: 1rem; color: var(--text-light); font-style: italic; font-weight: normal; line-height: 1.2;">${getScientificNameString(plant)}</h3>
-                ${(() => {
-                    if (!plant.commonNames || !Array.isArray(plant.commonNames) || plant.commonNames.length === 0) {
-                        return '';
+        <!-- Page 1: Product information layout -->
+        <div id="modal-page-1" class="modal-page active plant-product-page">
+            <div class="plant-product-hero">
+                <div class="plant-product-gallery" onclick="switchModalPage(2, ${plant.id})" role="button" tabindex="0">
+                    ${displayImageUrl ? 
+                        `<img src="${displayImageUrl}" alt="${plant.name}" class="plant-product-image" onerror="this.style.display='none'">` :
+                        `<div class="plant-product-image-placeholder">🌿</div>`
                     }
-                    
-                    // Process common names: remove duplicates (case-insensitive), split on "or", and clean up
-                    const processedNames = [];
-                    const seen = new Set();
-                    
-                    for (const name of plant.commonNames) {
-                        if (!name || typeof name !== 'string') continue;
-                        
-                        // Split on " or " (with spaces) to separate multiple names
-                        const parts = name.split(/\s+or\s+/i);
-                        
-                        for (let part of parts) {
-                            part = part.trim();
-                            if (!part) continue;
-                            
-                            // Remove duplicates (case-insensitive)
-                            const lowerPart = part.toLowerCase();
-                            if (!seen.has(lowerPart)) {
-                                seen.add(lowerPart);
-                                processedNames.push(part);
+                    <span class="plant-product-gallery-hint">View gallery</span>
+                </div>
+                <div class="plant-product-meta">
+                    <h1 class="plant-product-name">${escapeHtml(plant.name)}</h1>
+                    <p class="plant-product-scientific">${escapeHtml(getScientificNameString(plant))}</p>
+                    ${(() => {
+                        if (!plant.commonNames || !Array.isArray(plant.commonNames) || plant.commonNames.length === 0) return '';
+                        const processedNames = []; const seen = new Set();
+                        for (const name of plant.commonNames) {
+                            if (!name || typeof name !== 'string') continue;
+                            const parts = name.split(/\s+or\s+/i);
+                            for (let part of parts) {
+                                part = part.trim();
+                                if (!part) continue;
+                                const lowerPart = part.toLowerCase();
+                                if (!seen.has(lowerPart)) { seen.add(lowerPart); processedNames.push(part); }
                             }
                         }
-                    }
-                    
-                    // Remove the main plant name if it's in common names (avoid duplication)
-                    const filteredNames = processedNames.filter(n => 
-                        n.toLowerCase() !== plant.name.toLowerCase() && 
-                        n.toLowerCase() !== getScientificNameString(plant).toLowerCase()
-                    );
-                    
-                    return filteredNames.length > 0 
-                        ? `<p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: var(--text-light); line-height: 1.4;">${filteredNames.join(', ')}</p>`
-                        : '';
-                })()}
-            </div>
-            
-            <!-- Column 2, Row 1: Suitable For -->
-            <div class="modal-section modal-widget widget-span-1 widget-row-1">
-                <h3>Suitable For</h3>
-                <div class="plant-badges">
-                    ${(() => {
-                        const calculatedTypes = calculatePlantVivariumTypes(plant);
-                        return calculatedTypes
-                        .map(v => {
-                            const displayName = String(v).split('-').map(word => 
-                                word.charAt(0).toUpperCase() + word.slice(1)
-                            ).join(' ');
-                            return `<span class="badge ${String(v).toLowerCase().replace(/\s+/g,'-')}">${displayName}</span>`;
-                        })
-                        .join('');
+                        const filteredNames = processedNames.filter(n => 
+                            n.toLowerCase() !== plant.name.toLowerCase() && n.toLowerCase() !== getScientificNameString(plant).toLowerCase()
+                        );
+                        return filteredNames.length > 0 ? `<p class="plant-product-common">${filteredNames.map(n => escapeHtml(n)).join(', ')}</p>` : '';
                     })()}
-                </div>
-                <div style="margin-top: 1rem;">
-                    <div class="info-item-label" style="margin-bottom: 0.5rem;">Minimum Enclosure Height</div>
-                    ${createEnclosureSizeScale(plant)}
+                    <div class="plant-product-badges">
+                        ${(() => {
+                            const calculatedTypes = calculatePlantVivariumTypes(plant);
+                            return calculatedTypes.map(v => {
+                                const displayName = String(v).split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+                                return `<span class="badge ${String(v).toLowerCase().replace(/\s+/g,'-')}">${displayName}</span>`;
+                            }).join('');
+                        })()}
+                    </div>
+                    <div class="plant-product-enclosure">
+                        <span class="plant-product-label">Minimum enclosure height</span>
+                        ${createEnclosureSizeScale(plant)}
+                    </div>
+                    <div class="plant-product-shop">
+                        <div class="plant-product-price">${formatPlantPrice(plant)}</div>
+                        ${(() => {
+                            const stock = plant.stockQuantity;
+                            if (typeof stock !== 'number') return '<div class="plant-product-stock plant-product-stock-untracked">Stock not tracked</div>';
+                            const reorder = plant.reorderLevel != null ? plant.reorderLevel : 0;
+                            let status = 'ok', label = 'In stock: ' + stock;
+                            if (stock <= 0) { status = 'out'; label = 'Out of stock'; }
+                            else if (stock <= reorder) { status = 'low'; label = 'Low stock: ' + stock; }
+                            return '<div class="plant-product-stock plant-product-stock-' + status + '">' + label + '</div>';
+                        })()}
+                        <label for="modalCartQty" class="plant-product-label">Quantity</label>
+                        <select id="modalCartQty" class="plant-product-qty" aria-label="Quantity">
+                            ${(() => {
+                                const stock = plant.stockQuantity;
+                                const max = (typeof stock === 'number' && stock >= 0) ? Math.min(9, stock) : 9;
+                                return Array.from({ length: max }, (_, i) => i + 1).map(n => `<option value="${n}">${n}</option>`).join('') || '<option value="1">1</option>';
+                            })()}
+                        </select>
+                        <button type="button" class="plant-product-add-cart btn-add-to-cart" data-plant-id="${plant.id}" ${typeof plant.stockQuantity === 'number' && plant.stockQuantity <= 0 ? 'disabled' : ''}>Add to cart</button>
+                    </div>
                 </div>
             </div>
-            
-            <!-- Column 3, Rows 1-4: Plant Information (full height) -->
-            <div class="modal-section modal-widget widget-span-1 widget-row-4">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                    <h3 style="margin: 0; font-size: 1.05rem; padding-bottom: 0.25rem; border-bottom: 2px solid var(--border-color);">Plant Information</h3>
-                    <a href="definitions.html" style="font-size: 0.8rem; color: var(--primary-color); text-decoration: none; font-weight: 600;">ℹ️</a>
+            <section class="plant-product-section">
+                <h2 class="plant-product-section-title">Description</h2>
+                <div class="plant-detail-description">${descriptionHtml}</div>
+            </section>
+            <section class="plant-product-section">
+                <h2 class="plant-product-section-title">Care tips</h2>
+                <ul class="plant-product-care-list">${careTipsListHtml}</ul>
+            </section>
+            <section class="plant-product-section plant-product-section-info">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                    <h2 class="plant-product-section-title" style="margin: 0;">Plant information</h2>
+                    <a href="definitions.html" class="plant-product-definitions-link">Definitions</a>
                 </div>
-                
                 <!-- Group 1: Plant Details -->
                 <div class="info-group">
-                    <h4 class="info-group-title">Plant Details</h4>
+                    <h4 class="info-group-title">Plant details</h4>
                     <div class="info-grid">
                         ${(() => {
                             const rows = [];
@@ -4995,7 +5293,7 @@ async function showPlantModal(plant) {
                 
                 <!-- Group 3: Requirements Details -->
                 <div class="info-group">
-                    <h4 class="info-group-title">Requirements Details</h4>
+                    <h4 class="info-group-title">Requirements</h4>
                     <div class="info-grid">
                         ${createRequirementScale(
                             'Difficulty Level',
@@ -5082,43 +5380,15 @@ async function showPlantModal(plant) {
                     return `
                     <div class="info-item" style="grid-column: 1 / -1; background: #fff3cd; border-left: 4px solid #ffc107; margin-top: 1rem;">
                         <div class="info-item-label">⚠️ Safety</div>
-                        <div class="info-item-value" style="color: #856404;">${concerns.join(' • ')}</div>
+                        <div class="info-item-value" style="color: #856404;">${concerns.map(c => escapeHtml(c)).join(' • ')}</div>
                     </div>
                     `;
                 })()}
-            </div>
-            
-            <!-- Column 4, Rows 1-2: Image (top right) -->
-            <div class="modal-section modal-widget widget-span-1 widget-row-2 modal-image-widget" style="position: relative; padding: 0; overflow: hidden; cursor: pointer;" onclick="switchModalPage(2, ${plant.id})">
-                <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: stretch;">
-                ${displayImageUrl ? 
-                    `<img src="${displayImageUrl}" alt="${plant.name}" class="modal-plant-image" onerror="this.style.display='none'">` :
-                        `<div class="image-placeholder" style="width: 100%; height: 100%; min-height: 300px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 4rem; background: var(--bg-color);">🌿</div>`
-                }
-                <div class="image-gallery-hint" style="position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.7); color: white; padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.85rem; pointer-events: none;">
-                    🖼️ Click to view gallery
-                </div>
-            </div>
-            </div>
-            
-            <!-- Column 1, Rows 2-4: Description -->
-            <div class="modal-section modal-widget widget-span-1 widget-row-3">
-                <h3>Description</h3>
-                <p class="description">${plant.description}</p>
-            </div>
-            
-            <!-- Column 2, Rows 2-4: Care Tips -->
-            <div class="modal-section modal-widget widget-span-1 widget-row-3">
-                <h3>Care Tips</h3>
-                <ul class="requirements-list" style="margin: 0; padding-left: 1.25rem; font-size: 0.85rem; line-height: 1.4;">
-                    ${plant.careTips.map(tip => `<li style="margin-bottom: 0.3rem;">${tip}</li>`).join('')}
-                </ul>
-            </div>
+            </section>
 
             ${plant.taxonomy ? `
-            <!-- Column 4, Rows 3-4: Scientific Classification -->
-            <div class="modal-section modal-widget widget-span-1 widget-row-2">
-                <h3>Scientific Classification</h3>
+            <section class="plant-product-section">
+                <h2 class="plant-product-section-title">Scientific classification</h2>
                 ${plant.taxonomyLink ? `
                     <p style="margin-bottom: 0.75rem; font-size: 0.9rem;">
                         <a href="${plant.taxonomyLink}" target="_blank" rel="noopener noreferrer" style="color: var(--accent-color); text-decoration: none;">
@@ -5177,81 +5447,69 @@ async function showPlantModal(plant) {
                         return html;
                     })()}
                 </div>
-            </div>
+            </section>
         ` : ''}
-            <!-- Shop widget: bottom right -->
-            <div class="modal-section modal-widget widget-span-1 widget-row-1 shop-widget">
-                <h3>Shop</h3>
-                <div class="shop-widget-content">
-                    <div class="shop-widget-price">${formatPlantPrice(plant)}</div>
-                    ${(() => {
-                        const stock = plant.stockQuantity;
-                        if (typeof stock !== 'number') return '<div class="shop-widget-stock shop-widget-stock-untracked">Stock not tracked</div>';
-                        const reorder = plant.reorderLevel != null ? plant.reorderLevel : 0;
-                        let status = 'ok';
-                        let label = 'In stock: ' + stock;
-                        if (stock <= 0) { status = 'out'; label = 'Out of stock'; }
-                        else if (stock <= reorder) { status = 'low'; label = 'Low stock: ' + stock; }
-                        return '<div class="shop-widget-stock shop-widget-stock-' + status + '">' + label + '</div>';
-                    })()}
-                    <label for="modalCartQty" class="info-item-label">Quantity</label>
-                    <select id="modalCartQty" class="shop-qty-select" aria-label="Quantity">
-                        ${(() => {
-                            const stock = plant.stockQuantity;
-                            const max = (typeof stock === 'number' && stock >= 0) ? Math.min(9, stock) : 9;
-                            return Array.from({ length: max }, (_, i) => i + 1).map(n => `<option value="${n}">${n}</option>`).join('') || '<option value="1">1</option>';
-                        })()}
-                    </select>
-                    <button type="button" class="btn-add-to-cart" data-plant-id="${plant.id}" ${typeof plant.stockQuantity === 'number' && plant.stockQuantity <= 0 ? 'disabled' : ''}>Add to cart</button>
-                </div>
-            </div>
+            <section class="plant-product-section plant-product-reviews-section">
+                <div class="product-reviews-widget" data-product-type="plant" data-product-id="${plant.id}" data-product-name="${escapeHtml(plant.name)}"></div>
+            </section>
         </div>
 
         <!-- Page 2: Gallery View (hidden by default) -->
-        <div id="modal-page-2" class="modal-page" style="display: none;">
+        <div id="modal-page-2" class="modal-page" style="display: none;" data-plant-id="${plant.id}">
             ${(function() {
                 const valid = (plant.images || []).filter(img => img && img.trim());
                 const hasNumbered = valid.some(path => /-\d+\.(jpg|jpeg|png|webp)$/i.test(path));
                 const galleryImages = hasNumbered ? valid.filter(path => !/\/thumb\.(jpg|jpeg|png|webp)$/i.test(path)) : valid;
                 return galleryImages.length > 0 ? `
-                <!-- Gallery Grid - Left side -->
-                <div class="modal-section modal-widget widget-span-2 widget-row-4" id="gallery-page-${plant.id}">
-                    <h3 style="margin: 0 0 1rem 0;">Photo Gallery (${galleryImages.length} images)</h3>
-                    <div class="plant-gallery">
-                        ${galleryImages.map((img, idx) => {
-                            const escapedPath = img.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-                            // Main image is always at index 0
-                            const isMain = idx === 0;
-                            return `
-                            <div class="gallery-item gallery-thumbnail ${idx === 0 ? 'selected' : ''}" data-img-index="${idx}" data-img-path="${escapedPath}" onclick="selectGalleryImage('${escapedPath}', ${plant.id}, ${idx}, event)" style="cursor: pointer; position: relative;">
-                                ${isMain ? '<div class="main-image-badge" title="Main image">⭐</div>' : ''}
-                                <button class="delete-image-btn" onclick="event.stopPropagation(); deleteImageFromGallery(${plant.id}, ${idx}, '${escapedPath}');" title="Delete this image" style="position: absolute; top: 6px; right: 6px; background: rgba(211, 47, 47, 0.9); color: white; border: none; border-radius: 50%; width: 24px; height: 24px; cursor: pointer; font-size: 16px; line-height: 1; z-index: 3; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">×</button>
-                                <img src="${img}" alt="${plant.name} - Image ${idx + 1}" loading="lazy" 
-                                     onerror="this.style.display='none';" 
-                                     onload="this.style.display='block';"
-                                     style="display: block;">
-                            </div>
-                        `;
-                        }).join('')}
+                <div class="plant-gallery-modern" id="gallery-page-${plant.id}">
+                    <header class="plant-gallery-header">
+                        <span class="plant-gallery-title">Gallery</span>
+                        <span class="plant-gallery-count">${galleryImages.length} photo${galleryImages.length !== 1 ? 's' : ''}</span>
+                    </header>
+                    <div class="plant-gallery-stage" id="gallery-preview-${plant.id}">
+                        <button type="button" class="plant-gallery-arrow plant-gallery-prev" onclick="galleryPrevNext(${plant.id}, -1)" aria-label="Previous image">‹</button>
+                        <div class="plant-gallery-stage-inner">
+                            ${displayImageUrl ? 
+                                `<img id="gallery-preview-img" data-current-index="0" src="${displayImageUrl}" alt="${plant.name}" class="gallery-preview-image">` :
+                                `<div class="plant-gallery-placeholder">🌿</div>`
+                            }
+                        </div>
+                        <button type="button" class="plant-gallery-arrow plant-gallery-next" onclick="galleryPrevNext(${plant.id}, 1)" aria-label="Next image">›</button>
+                        <div class="plant-gallery-counter"><span id="gallery-current-num">1</span> / ${galleryImages.length}</div>
+                        <button type="button" class="plant-gallery-set-main gallery-set-main-btn" onclick="event.preventDefault(); event.stopPropagation(); setAsMainImageFromPreview(${plant.id})" aria-label="Set as main image">⭐ Set as main</button>
+                        <button type="button" class="plant-gallery-fullscreen-btn" onclick="openGalleryFullscreen(${plant.id})" aria-label="View fullscreen">⛶ Fullscreen</button>
+                    </div>
+                    <div class="gallery-fullscreen-overlay" id="gallery-fullscreen-overlay" role="dialog" aria-modal="true" aria-label="Fullscreen image view" onclick="if(event.target === this) closeGalleryFullscreen()">
+                        <button type="button" class="gallery-fullscreen-close" onclick="closeGalleryFullscreen()" aria-label="Close">×</button>
+                        <button type="button" class="gallery-fullscreen-arrow gallery-fullscreen-prev" onclick="galleryFullscreenPrevNext(${plant.id}, -1)" aria-label="Previous">‹</button>
+                        <img id="gallery-fullscreen-img" src="${displayImageUrl || ''}" alt="${escapeHtml(plant.name)}" class="gallery-fullscreen-image">
+                        <button type="button" class="gallery-fullscreen-arrow gallery-fullscreen-next" onclick="galleryFullscreenPrevNext(${plant.id}, 1)" aria-label="Next">›</button>
+                        <div class="gallery-fullscreen-counter"><span id="gallery-fullscreen-num">1</span> / ${galleryImages.length}</div>
+                    </div>
+                    <div class="plant-gallery-thumbnails-wrap">
+                        <div class="plant-gallery-thumbnails">
+                            ${galleryImages.map((img, idx) => {
+                                const escapedPath = img.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                                const isMain = idx === 0;
+                                return `
+                                <button type="button" class="plant-gallery-thumb gallery-thumbnail ${idx === 0 ? 'selected' : ''}" data-img-index="${idx}" data-img-path="${escapedPath}" onclick="selectGalleryImage('${escapedPath}', ${plant.id}, ${idx}, event)" aria-label="Image ${idx + 1}">
+                                    <span class="plant-gallery-thumb-img"><img src="${img}" alt="" loading="lazy" onerror="this.style.display='none'" onload="this.style.display='block'"></span>
+                                    ${isMain ? '<span class="plant-gallery-thumb-badge" title="Main image">⭐</span>' : ''}
+                                    <button type="button" class="delete-image-btn plant-gallery-thumb-delete" onclick="event.stopPropagation(); event.preventDefault(); deleteImageFromGallery(${plant.id}, ${idx}, '${escapedPath}');" title="Remove image" aria-label="Remove image">×</button>
+                                </button>`;
+                            }).join('')}
+                        </div>
                     </div>
                 </div>
-                
-                <!-- Large Image Preview - Right side -->
-                <div class="modal-section modal-widget widget-span-2 widget-row-4 modal-image-widget" id="gallery-preview-${plant.id}" style="position: relative; padding: 0; overflow: hidden; background: #000;">
-                    <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-                    ${displayImageUrl ? 
-                        `<img id="gallery-preview-img" data-current-index="0" src="${displayImageUrl}" alt="${plant.name}" class="gallery-preview-image" style="max-width: 100%; max-height: 100%; object-fit: contain;">` :
-                            `<div class="image-placeholder" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 6rem; background: var(--bg-color);">🌿</div>`
-                    }
-                    <button type="button" class="gallery-set-main-btn" onclick="event.preventDefault(); event.stopPropagation(); setAsMainImageFromPreview(${plant.id})" aria-label="Set current preview image as main">
-                        ⭐ Set as Main
-                    </button>
-                </div>
-                </div>
             ` : `
-                <div class="modal-section modal-widget widget-span-4 widget-row-1">
-                    <h3>Photo Gallery</h3>
-                    <p style="color: #888; font-style: italic;">No images available. Use the upload button above to add images.</p>
+                <div class="plant-gallery-modern plant-gallery-empty">
+                    <header class="plant-gallery-header">
+                        <span class="plant-gallery-title">Gallery</span>
+                    </header>
+                    <div class="plant-gallery-empty-message">
+                        <p>No photos yet.</p>
+                        <p>Use the Image button above to add photos.</p>
+                    </div>
                 </div>
             `;
             })()}
@@ -5274,10 +5532,32 @@ async function showPlantModal(plant) {
     const plantDetailImageBtn = modalBody.querySelector('.plant-detail-image');
     if (plantDetailEditBtn) plantDetailEditBtn.addEventListener('click', () => { openImageUpload(plant.id); });
     if (plantDetailImageBtn) plantDetailImageBtn.addEventListener('click', () => { openPlantImageUpload(plant); });
+    const plantReviewsWidget = modalBody.querySelector('.product-reviews-widget');
+    if (plantReviewsWidget && typeof window.initProductReviewsWidget === 'function') window.initProductReviewsWidget(plantReviewsWidget);
+    
+    // If description was missing from in-memory data (e.g. old bundle cache), fetch from JSON file
+    if (!descRaw && plant.scientificName) {
+        const slug = scientificNameToSlug(getScientificNameString(plant));
+        fetch('data/plants-merged/' + slug + '.json')
+            .then(function(r) { return r.ok ? r.json() : null; })
+            .then(function(filePlant) {
+                if (!filePlant || !filePlant.description) return;
+                var el = document.getElementById('modalBody');
+                if (!el || !el.querySelector) return;
+                var descEl = el.querySelector('.plant-detail-description');
+                if (descEl) descEl.innerHTML = '<p class="description">' + escapeHtml(String(filePlant.description).trim()) + '</p>';
+            })
+            .catch(function() {});
+    }
     
     // Show plant detail panel (replaces list view); no modal overlay
     const navBackWrap = document.getElementById('navBackToListWrap');
-    if (navBackWrap) navBackWrap.classList.remove('hidden');
+    const navBackBtn = document.getElementById('navBackToList');
+    if (navBackWrap) {
+        navBackWrap.classList.remove('hidden');
+        navBackWrap.classList.remove('nav-back-disabled');
+    }
+    if (navBackBtn) navBackBtn.disabled = false;
     if (mainLayout) mainLayout.classList.add('detail-view-active');
     if (filtersSidebarWrapper) filtersSidebarWrapper.style.display = 'none';
     if (mainContent && plantDetailPanel) {
@@ -5488,17 +5768,14 @@ async function loadColTaxonomyLinks(plantId) {
 
 // Switch between modal pages
 function switchModalPage(pageNum, plantId) {
-    
-    // Hide all pages
+    if (pageNum !== 2) closeGalleryFullscreen();
     document.querySelectorAll('.modal-page').forEach(page => {
         page.style.display = 'none';
         page.classList.remove('active');
     });
-    
-    // Show selected page
     const targetPage = document.getElementById(`modal-page-${pageNum}`);
     if (targetPage) {
-        targetPage.style.display = 'contents'; // Use 'contents' to maintain grid flow
+        targetPage.style.display = pageNum === 2 ? 'block' : 'contents';
         targetPage.classList.add('active');
     }
 }
@@ -5512,21 +5789,81 @@ function selectGalleryImage(imagePath, plantId, imageIndex, event) {
         previewImg.setAttribute('data-current-index', imageIndex);
     }
     
-    // Highlight selected thumbnail
+    const counterEl = document.getElementById('gallery-current-num');
+    if (counterEl) counterEl.textContent = String(imageIndex + 1);
+    
+    syncGalleryFullscreenImage();
+    
     document.querySelectorAll('.gallery-thumbnail').forEach(thumb => {
         thumb.classList.remove('selected');
+        if (thumb.getAttribute('data-img-index') === String(imageIndex)) thumb.classList.add('selected');
     });
-    if (event && event.currentTarget) {
-    event.currentTarget.classList.add('selected');
-    } else {
-        // Fallback: find the thumbnail by data attribute
-        const thumbnails = document.querySelectorAll('.gallery-thumbnail');
-        thumbnails.forEach(thumb => {
-            if (thumb.getAttribute('data-img-index') === String(imageIndex)) {
-                thumb.classList.add('selected');
-            }
-        });
+    if (event && event.currentTarget) event.currentTarget.classList.add('selected');
+}
+
+// Previous/next image in gallery
+function galleryPrevNext(plantId, delta) {
+    const previewImg = document.getElementById('gallery-preview-img');
+    if (!previewImg) return;
+    const thumbnails = document.querySelectorAll('.plant-gallery-thumb[data-img-path]');
+    if (thumbnails.length === 0) return;
+    const current = parseInt(previewImg.getAttribute('data-current-index') || '0', 10);
+    let next = current + delta;
+    if (next < 0) next = thumbnails.length - 1;
+    if (next >= thumbnails.length) next = 0;
+    const path = thumbnails[next].getAttribute('data-img-path');
+    if (path) selectGalleryImage(path.replace(/&quot;/g, '"'), plantId, next, null);
+    syncGalleryFullscreenImage();
+}
+
+function openGalleryFullscreen(plantId) {
+    const previewImg = document.getElementById('gallery-preview-img');
+    const overlay = document.getElementById('gallery-fullscreen-overlay');
+    const fsImg = document.getElementById('gallery-fullscreen-img');
+    const fsNum = document.getElementById('gallery-fullscreen-num');
+    if (!overlay || !fsImg) return;
+    if (previewImg && previewImg.src) {
+        fsImg.src = previewImg.src;
+        fsImg.alt = previewImg.alt || '';
     }
+    if (fsNum) {
+        const curr = document.getElementById('gallery-current-num');
+        fsNum.textContent = curr ? curr.textContent : '1';
+    }
+    overlay.classList.add('gallery-fullscreen-open');
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', galleryFullscreenKeydown);
+}
+
+function closeGalleryFullscreen() {
+    const overlay = document.getElementById('gallery-fullscreen-overlay');
+    if (!overlay) return;
+    overlay.classList.remove('gallery-fullscreen-open');
+    document.body.style.overflow = '';
+    document.removeEventListener('keydown', galleryFullscreenKeydown);
+}
+
+function galleryFullscreenKeydown(e) {
+    if (e.key === 'Escape') {
+        closeGalleryFullscreen();
+        e.preventDefault();
+    }
+}
+
+function galleryFullscreenPrevNext(plantId, delta) {
+    galleryPrevNext(plantId, delta);
+    syncGalleryFullscreenImage();
+}
+
+function syncGalleryFullscreenImage() {
+    const overlay = document.getElementById('gallery-fullscreen-overlay');
+    if (!overlay || !overlay.classList.contains('gallery-fullscreen-open')) return;
+    const previewImg = document.getElementById('gallery-preview-img');
+    const fsImg = document.getElementById('gallery-fullscreen-img');
+    const fsNum = document.getElementById('gallery-fullscreen-num');
+    const currNum = document.getElementById('gallery-current-num');
+    if (previewImg && fsImg) fsImg.src = previewImg.src;
+    if (fsNum && currNum) fsNum.textContent = currNum.textContent;
 }
 
 // Set the currently displayed preview image as main

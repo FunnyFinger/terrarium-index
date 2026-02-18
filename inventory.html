@@ -111,8 +111,8 @@
     <main class="inv-page">
         <div class="inv-tabs" role="tablist">
             <button type="button" class="inv-tab active" role="tab" id="invTabInventory" aria-selected="true" aria-controls="invPanelInventory">Inventory &amp; prices</button>
-            <button type="button" class="inv-tab" role="tab" id="invTabSales" aria-selected="false" aria-controls="invPanelSales">Sales tracking</button>
-            <button type="button" class="inv-tab" role="tab" id="invTabOrders" aria-selected="false" aria-controls="invPanelOrders">Orders</button>
+            <button type="button" class="inv-tab inv-staff-only inv-full-only" role="tab" id="invTabSales" aria-selected="false" aria-controls="invPanelSales">Sales tracking</button>
+            <button type="button" class="inv-tab inv-staff-only inv-full-only" role="tab" id="invTabOrders" aria-selected="false" aria-controls="invPanelOrders">Orders</button>
         </div>
         <div id="invPanelInventory" class="inv-panel active" role="tabpanel">
             <div class="inv-category-tabs" role="tablist" style="margin-bottom: 0.75rem;">
@@ -134,7 +134,7 @@
                     <option value="out">Out of stock</option>
                 </select>
             </div>
-            <div id="invBatchBar" class="inv-batch-bar hidden">
+            <div id="invBatchBar" class="inv-batch-bar inv-staff-only hidden">
                 <span id="invBatchCount">0 selected</span>
                 <button type="button" class="inv-edit-btn" id="invBatchSelectAll">Select all</button>
                 <button type="button" class="inv-edit-btn" id="invBatchClear">Clear selection</button>
@@ -145,7 +145,7 @@
                 <table id="invTable" class="inv-table hidden">
                     <thead>
                         <tr>
-                            <th style="width: 2.5rem;"><input type="checkbox" id="invSelectAll" class="inv-checkbox" aria-label="Select all rows"></th>
+                            <th class="inv-staff-only" style="width: 2.5rem;"><input type="checkbox" id="invSelectAll" class="inv-checkbox" aria-label="Select all rows"></th>
                             <th class="inv-th-sort" data-sort="name">Name <span class="sort-arrow"></span></th>
                             <th class="inv-th-sort" data-sort="scientific"><span id="invThSecondColLabel">Scientific name</span> <span class="sort-arrow"></span></th>
                             <th class="inv-th-sort" data-sort="size">Size <span class="sort-arrow"></span></th>
@@ -156,7 +156,7 @@
                             <th class="inv-th-sort" data-sort="stock">Stock <span class="sort-arrow"></span></th>
                             <th class="inv-th-sort" data-sort="reorder">Reorder at <span class="sort-arrow"></span></th>
                             <th class="inv-th-sort" data-sort="status">Status <span class="sort-arrow"></span></th>
-                            <th></th>
+                            <th class="inv-staff-only"></th>
                         </tr>
                     </thead>
                     <tbody id="invTableBody"></tbody>
@@ -238,7 +238,7 @@
                 <button type="button" class="cancel" id="invDetailClose" aria-label="Close">×</button>
             </div>
             <div id="invDetailBody" style="font-size: 0.95rem; line-height: 1.5;"></div>
-            <div class="inv-editor-actions" style="margin-top: 1rem;">
+            <div class="inv-editor-actions inv-staff-only" style="margin-top: 1rem;">
                 <button type="button" class="save" id="invDetailEdit">Edit</button>
                 <button type="button" class="cancel" id="invDetailCloseBtn">Close</button>
             </div>
@@ -296,6 +296,8 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/dexie@3/dist/dexie.min.js"></script>
+    <script src="js/auth-db.js"></script>
+    <script src="js/auth.js"></script>
     <script src="js/nav.js"></script>
     <script src="js/inventory-db.js"></script>
     <script src="data.js?v=4"></script>
@@ -304,6 +306,18 @@
     <script src="data/vivarium-loader.js"></script>
     <script>
         (function() {
+            if (!window.auth || !window.auth.canManageStock()) {
+                window.location.replace('index.html?msg=access_denied');
+                return;
+            }
+            var invCanEdit = window.auth.canManageStock();
+            var invCanSeeSalesOrders = window.auth.canManageInventory();
+            document.querySelectorAll('.inv-staff-only').forEach(function(el) {
+                el.style.display = invCanEdit ? '' : 'none';
+            });
+            document.querySelectorAll('.inv-full-only').forEach(function(el) {
+                el.style.display = invCanSeeSalesOrders ? '' : 'none';
+            });
             function switchTab(panelId) {
                 ['invPanelInventory', 'invPanelSales', 'invPanelOrders'].forEach(function(id) {
                     document.getElementById(id).classList.toggle('active', id === panelId);
@@ -592,8 +606,10 @@
                     var nameEsc = (p.name || '—').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
                     var imgUrl = getItemImageUrl(p);
                     var imgAttr = imgUrl ? (' data-image-url="' + imgUrl.replace(/"/g, '&quot;') + '"') : '';
+                    var selectTd = invCanEdit ? ('<td><input type="checkbox" class="inv-checkbox inv-row-select" data-plant-id="' + p.id + '" aria-label="Select row"' + checked + '></td>') : '';
+                    var editTd = invCanEdit ? ('<td><button type="button" class="inv-edit-btn" data-plant-id="' + p.id + '">Edit</button></td>') : '';
                     tr.innerHTML =
-                        '<td><input type="checkbox" class="inv-checkbox inv-row-select" data-plant-id="' + p.id + '" aria-label="Select row"' + checked + '></td>' +
+                        selectTd +
                         '<td><button type="button" class="inv-name-btn" data-plant-id="' + p.id + '"' + imgAttr + '>' + nameEsc + '</button></td>' +
                         '<td><em>' + getScientific(p) + '</em></td>' +
                         '<td>' + (sizeVal || '—') + '</td>' +
@@ -604,13 +620,13 @@
                         '<td>' + stock + '</td>' +
                         '<td>' + (reorder != null ? reorder : '—') + '</td>' +
                         '<td><span class="inv-status ' + status + '">' + statusText({ quantityInStock: stock, reorderLevel: reorder }) + '</span></td>' +
-                        '<td><button type="button" class="inv-edit-btn" data-plant-id="' + p.id + '">Edit</button></td>';
+                        editTd;
                     tbody.appendChild(tr);
                 });
                 var label = isVivarium ? ' vivariums' : (isEquipment ? ' equipment items' : ' plants');
                 var summary = totalFiltered + label;
                 if (filtered.length !== plants.length) summary = totalFiltered + ' of ' + plants.length + label;
-                document.getElementById('invSummary').textContent = summary + '. Sort by column; use Batch edit for multiple items.';
+                document.getElementById('invSummary').textContent = summary + (invCanEdit ? '. Sort by column; use Batch edit for multiple items.' : '. Sort by column.');
                 var paginationEl = document.getElementById('invPagination');
                 var paginationInfo = document.getElementById('invPaginationInfo');
                 var pageNumEl = document.getElementById('invPageNum');

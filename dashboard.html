@@ -114,10 +114,16 @@
         </div>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/dexie@3/dist/dexie.min.js"></script>
+    <script src="js/auth-db.js"></script>
+    <script src="js/auth.js"></script>
     <script src="js/nav.js"></script>
     <script src="js/inventory-db.js"></script>
     <script>
         (function() {
+            if (!window.auth || !window.auth.canManageInventory()) {
+                window.location.replace('index.html?msg=access_denied');
+                return;
+            }
             function formatPrice(amount) {
                 if (amount == null || isNaN(Number(amount))) return '—';
                 return 'KD ' + Number(amount).toFixed(2);

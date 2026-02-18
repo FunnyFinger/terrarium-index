@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login / Register – Vivarium Store</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=3">
+    <style>
+        .auth-page { max-width: 420px; margin: 2rem auto; padding: 0 1rem; }
+        .auth-page h1 { color: var(--primary-color); margin-bottom: 0.5rem; font-size: 1.75rem; }
+        .auth-page .subtitle { color: var(--text-light); margin-bottom: 1.5rem; }
+        .auth-tabs { display: flex; gap: 0; border-bottom: 2px solid var(--border-color); margin-bottom: 1.25rem; }
+        .auth-tab { flex: 1; padding: 0.75rem; background: var(--bg-color); border: none; border-bottom: 3px solid transparent; font-size: 1rem; font-weight: 600; color: var(--text-light); cursor: pointer; margin-bottom: -2px; }
+        .auth-tab:hover { color: var(--text-color); }
+        .auth-tab.active { background: var(--card-bg); color: var(--primary-color); border-bottom-color: var(--primary-color); }
+        .auth-panel { display: none; }
+        .auth-panel.active { display: block; }
+        .auth-form label { display: block; font-weight: 600; margin-top: 0.75rem; }
+        .auth-form input { width: 100%; padding: 0.6rem; margin-top: 0.25rem; border: 1px solid var(--border-color); border-radius: 8px; box-sizing: border-box; font-size: 1rem; }
+        .auth-form .auth-error { color: #b91c1c; font-size: 0.9rem; margin-top: 0.5rem; }
+        .auth-form .auth-success { color: var(--secondary-color); font-size: 0.9rem; margin-top: 0.5rem; }
+        .auth-form button[type="submit"] { width: 100%; margin-top: 1.25rem; padding: 0.75rem; font-size: 1rem; font-weight: 600; border: none; border-radius: 8px; background: var(--primary-color); color: white; cursor: pointer; }
+        .auth-form button[type="submit"]:hover { background: var(--secondary-color); }
+        .auth-form button[type="submit"]:disabled { opacity: 0.6; cursor: not-allowed; }
+        .auth-back { margin-top: 1.5rem; text-align: center; }
+        .auth-back a { color: var(--primary-color); text-decoration: none; font-weight: 600; }
+        .auth-back a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="banner">
+            <img src="images/banner.jpg" alt="" class="banner-image">
+            <div id="main-nav-container"></div>
+            <div class="banner-overlay">
+                <h1>Account</h1>
+                <p class="subtitle">Login or create an account</p>
+            </div>
+        </div>
+    </header>
+    <main class="auth-page">
+        <div class="auth-tabs" role="tablist">
+            <button type="button" class="auth-tab active" role="tab" id="authTabLogin" aria-selected="true">Login</button>
+            <button type="button" class="auth-tab" role="tab" id="authTabRegister" aria-selected="false">Register</button>
+        </div>
+        <div id="authPanelLogin" class="auth-panel active" role="tabpanel">
+            <form id="authLoginForm" class="auth-form" novalidate>
+                <label for="loginEmail">Email</label>
+                <input type="email" id="loginEmail" required placeholder="you@example.com" autocomplete="email">
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" required placeholder="••••••••" autocomplete="current-password">
+                <p id="loginError" class="auth-error" style="display: none;"></p>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+        <div id="authPanelRegister" class="auth-panel" role="tabpanel">
+            <form id="authRegisterForm" class="auth-form" novalidate>
+                <label for="registerName">Name</label>
+                <input type="text" id="registerName" placeholder="Your name" autocomplete="name">
+                <label for="registerEmail">Email</label>
+                <input type="email" id="registerEmail" required placeholder="you@example.com" autocomplete="email">
+                <label for="registerPassword">Password</label>
+                <input type="password" id="registerPassword" required placeholder="At least 6 characters" autocomplete="new-password" minlength="6">
+                <label for="registerPassword2">Confirm password</label>
+                <input type="password" id="registerPassword2" required placeholder="Repeat password" autocomplete="new-password">
+                <p id="registerError" class="auth-error" style="display: none;"></p>
+                <p id="registerSuccess" class="auth-success" style="display: none;"></p>
+                <button type="submit">Create account</button>
+            </form>
+        </div>
+        <p class="auth-back"><a href="index.html">← Back to store</a></p>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/dexie@3/dist/dexie.min.js"></script>
+    <script src="js/auth-db.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/nav.js"></script>
+    <script>
+        (function() {
+            function getRedirect() {
+                var p = new URLSearchParams(window.location.search);
+                return p.get('redirect') || 'index.html';
+            }
+            function switchTab(tab) {
+                var isLogin = tab === 'login';
+                document.getElementById('authTabLogin').classList.toggle('active', isLogin);
+                document.getElementById('authTabLogin').setAttribute('aria-selected', isLogin ? 'true' : 'false');
+                document.getElementById('authTabRegister').classList.toggle('active', !isLogin);
+                document.getElementById('authTabRegister').setAttribute('aria-selected', !isLogin ? 'true' : 'false');
+                document.getElementById('authPanelLogin').classList.toggle('active', isLogin);
+                document.getElementById('authPanelRegister').classList.toggle('active', !isLogin);
+                document.getElementById('loginError').style.display = 'none';
+                document.getElementById('registerError').style.display = 'none';
+                document.getElementById('registerSuccess').style.display = 'none';
+            }
+            document.getElementById('authTabLogin').addEventListener('click', function() { switchTab('login'); });
+            document.getElementById('authTabRegister').addEventListener('click', function() { switchTab('register'); });
+
+            document.getElementById('authLoginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                var email = document.getElementById('loginEmail').value.trim();
+                var password = document.getElementById('loginPassword').value;
+                var errEl = document.getElementById('loginError');
+                errEl.style.display = 'none';
+                errEl.textContent = '';
+                if (!window.auth) { errEl.textContent = 'Auth not loaded.'; errEl.style.display = 'block'; return; }
+                var btn = this.querySelector('button[type="submit"]');
+                btn.disabled = true;
+                window.auth.login(email, password).then(function() {
+                    window.location.href = getRedirect();
+                }).catch(function(err) {
+                    errEl.textContent = err.message || 'Login failed';
+                    errEl.style.display = 'block';
+                    btn.disabled = false;
+                });
+            });
+
+            document.getElementById('authRegisterForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                var name = document.getElementById('registerName').value.trim();
+                var email = document.getElementById('registerEmail').value.trim();
+                var password = document.getElementById('registerPassword').value;
+                var password2 = document.getElementById('registerPassword2').value;
+                var errEl = document.getElementById('registerError');
+                var okEl = document.getElementById('registerSuccess');
+                errEl.style.display = 'none';
+                okEl.style.display = 'none';
+                errEl.textContent = '';
+                if (password !== password2) {
+                    errEl.textContent = 'Passwords do not match';
+                    errEl.style.display = 'block';
+                    return;
+                }
+                if (password.length < 6) {
+                    errEl.textContent = 'Password must be at least 6 characters';
+                    errEl.style.display = 'block';
+                    return;
+                }
+                if (!window.auth) { errEl.textContent = 'Auth not loaded.'; errEl.style.display = 'block'; return; }
+                var btn = this.querySelector('button[type="submit"]');
+                btn.disabled = true;
+                window.auth.register(email, password, name).then(function() {
+                    okEl.textContent = 'Account created. Redirecting…';
+                    okEl.style.display = 'block';
+                    setTimeout(function() { window.location.href = getRedirect(); }, 500);
+                }).catch(function(err) {
+                    errEl.textContent = err.message || 'Registration failed';
+                    errEl.style.display = 'block';
+                    btn.disabled = false;
+                });
+            });
+
+            var redirect = new URLSearchParams(window.location.search).get('redirect');
+            var mode = new URLSearchParams(window.location.search).get('mode');
+            if (mode === 'register') switchTab('register');
+        })();
+    </script>
+</body>
+</html>

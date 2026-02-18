@@ -13,7 +13,17 @@ function applyPlantEditOverlays(plantsArray) {
             if (saved) {
                 const parsed = JSON.parse(saved);
                 if (parsed && typeof parsed === 'object') {
-                    plantsArray[i] = parsed;
+                    // Merge overlay onto original; never overwrite with undefined or empty for description/careTips
+                    const base = plantsArray[i];
+                    const merged = { ...base };
+                    for (const k of Object.keys(parsed)) {
+                        const v = parsed[k];
+                        if (v === undefined || v === null) continue;
+                        if (k === 'description' && (v === '' || (typeof v === 'string' && !v.trim()))) continue;
+                        if (k === 'careTips' && (!Array.isArray(v) || v.length === 0)) continue;
+                        merged[k] = v;
+                    }
+                    plantsArray[i] = merged;
                 }
             }
         } catch (e) { /* ignore */ }

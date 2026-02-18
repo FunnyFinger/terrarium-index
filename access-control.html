@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access control – Vivarium Store</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=3">
+    <style>
+        .access-page { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+        .access-page h1 { color: var(--primary-color); margin-bottom: 0.5rem; }
+        .access-page p.sub { color: var(--text-light); margin-bottom: 1.5rem; }
+        .access-table-wrap { overflow-x: auto; background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow); }
+        .access-table { width: 100%; border-collapse: collapse; }
+        .access-table th, .access-table td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border-color); }
+        .access-table th { background: var(--bg-color); font-weight: 600; color: var(--primary-color); }
+        .access-table tr:last-child td { border-bottom: none; }
+        .access-table tr:hover { background: rgba(0,0,0,0.02); }
+        .access-table select { padding: 0.4rem 0.6rem; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.95rem; min-width: 100px; }
+        .access-table .role-owner { color: #b45309; font-weight: 600; }
+        .access-table .role-admin { color: #0d9488; font-weight: 600; }
+        .access-table .role-stock { color: #0369a1; font-weight: 600; }
+        .access-table .role-user { color: var(--text-light); }
+        .access-save { margin-top: 1rem; padding: 0.5rem 1rem; background: var(--primary-color); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        .access-save:hover { background: var(--secondary-color); }
+        .access-save:disabled { opacity: 0.6; cursor: not-allowed; }
+        .access-msg { margin-top: 0.75rem; padding: 0.5rem 0.75rem; border-radius: 8px; font-size: 0.9rem; }
+        .access-msg.success { background: #dcfce7; color: #166534; }
+        .access-msg.error { background: #fee2e2; color: #991b1b; }
+        .access-loading { text-align: center; padding: 2rem; color: var(--text-light); }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="banner">
+            <img src="images/banner.jpg" alt="" class="banner-image">
+            <div id="main-nav-container"></div>
+            <div class="banner-overlay">
+                <h1>Access control</h1>
+                <p class="subtitle">Manage user roles</p>
+            </div>
+        </div>
+    </header>
+    <main class="access-page">
+        <p class="sub">Change roles for admins and users. Only the owner can access this page.</p>
+        <div id="accessLoading" class="access-loading">Loading users…</div>
+        <div id="accessContent" style="display: none;">
+            <div class="access-table-wrap">
+                <table class="access-table">
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Change to</th>
+                        </tr>
+                    </thead>
+                    <tbody id="accessTableBody"></tbody>
+                </table>
+            </div>
+            <button type="button" id="accessSave" class="access-save" disabled>Save changes</button>
+            <div id="accessMsg"></div>
+        </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/dexie@3/dist/dexie.min.js"></script>
+    <script src="js/auth-db.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/nav.js"></script>
+    <script>
+        (function() {
+            if (!window.auth || !window.auth.isOwner()) {
+                window.location.replace('account.html?msg=access_denied');
+                return;
+            }
+            var tableBody = document.getElementById('accessTableBody');
+            var saveBtn = document.getElementById('accessSave');
+            var msgEl = document.getElementById('accessMsg');
+            var loadingEl = document.getElementById('accessLoading');
+            var contentEl = document.getElementById('accessContent');
+            var pendingRoles = {}; // id -> role
+
+            function showMsg(text, isError) {
+                msgEl.innerHTML = '<span class="access-msg ' + (isError ? 'error' : 'success') + '">' + (text || '').replace(/</g, '&lt;') + '</span>';
+            }
+            function clearMsg() {
+                msgEl.innerHTML = '';
+            }
+
+            function render(users) {
+                tableBody.innerHTML = '';
+                users.forEach(function(u) {
+                    var tr = document.createElement('tr');
+                    var emailEsc = (u.email || '').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+                    var nameEsc = (u.name || '').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+                    var roleClass = 'role-' + (u.role || 'user');
+                    var currentRole = u.role || 'user';
+                    var select = '<select data-user-id="' + u.id + '" data-original-role="' + (currentRole || 'user') + '" class="access-role-select" aria-label="Role for ' + emailEsc + '">' +
+                        '<option value="owner"' + (currentRole === 'owner' ? ' selected' : '') + '>Owner</option>' +
+                        '<option value="admin"' + (currentRole === 'admin' ? ' selected' : '') + '>Admin</option>' +
+                        '<option value="stock"' + (currentRole === 'stock' ? ' selected' : '') + '>Stock</option>' +
+                        '<option value="user"' + (currentRole === 'user' ? ' selected' : '') + '>User</option>' +
+                        '</select>';
+                    tr.innerHTML =
+                        '<td>' + emailEsc + '</td>' +
+                        '<td>' + nameEsc + '</td>' +
+                        '<td><span class="' + roleClass + '">' + (currentRole === 'owner' ? 'Owner' : currentRole === 'admin' ? 'Admin' : currentRole === 'stock' ? 'Stock' : 'User') + '</span></td>' +
+                        '<td>' + select + '</td>';
+                    tableBody.appendChild(tr);
+                });
+                tableBody.querySelectorAll('.access-role-select').forEach(function(sel) {
+                    sel.addEventListener('change', function() {
+                        var id = Number(sel.getAttribute('data-user-id'));
+                        var val = sel.value;
+                        var orig = sel.getAttribute('data-original-role') || 'user';
+                        if (val === orig) delete pendingRoles[id];
+                        else pendingRoles[id] = val;
+                        saveBtn.disabled = Object.keys(pendingRoles).length === 0;
+                        clearMsg();
+                    });
+                });
+            }
+
+            saveBtn.addEventListener('click', function() {
+                var ids = Object.keys(pendingRoles);
+                if (ids.length === 0) return;
+                saveBtn.disabled = true;
+                clearMsg();
+                var currentUserId = window.auth.getCurrentUser() && window.auth.getCurrentUser().id;
+                var promises = ids.map(function(id) {
+                    var newRole = pendingRoles[id];
+                    return window.authDb.setUserRole(id, newRole);
+                });
+                Promise.all(promises).then(function() {
+                    pendingRoles = {};
+                    showMsg('Roles updated. Users may need to log out and log in again for changes to apply.', false);
+                    load();
+                }).catch(function(err) {
+                    showMsg(err && err.message ? err.message : 'Failed to save', true);
+                    saveBtn.disabled = false;
+                });
+            });
+
+            function load() {
+                loadingEl.style.display = 'block';
+                contentEl.style.display = 'none';
+                window.authDb.getAllUsers().then(function(users) {
+                    users.sort(function(a, b) {
+                        var order = { owner: 0, admin: 1, user: 2 };
+                        return (order[a.role] || 2) - (order[b.role] || 2) || (a.email || '').localeCompare(b.email || '');
+                    });
+                    render(users);
+                    loadingEl.style.display = 'none';
+                    contentEl.style.display = 'block';
+                }).catch(function() {
+                    loadingEl.textContent = 'Failed to load users.';
+                });
+            }
+
+            load();
+        })();
+    </script>
+</body>
+</html>

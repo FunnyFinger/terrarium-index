@@ -1530,13 +1530,17 @@
 
     <!-- Inventory DB (IndexedDB via Dexie) – stock, prices, sales -->
     <script src="https://cdn.jsdelivr.net/npm/dexie@3/dist/dexie.min.js"></script>
+    <script src="js/auth-db.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/profile-db.js"></script>
     <script src="js/nav.js"></script>
     <script src="js/inventory-db.js"></script>
+    <script src="js/product-reviews-widget.js"></script>
     <!-- Plant data - modular structure -->
     <!-- Load image search terms first (also declares empty plantsDatabase) -->
     <script src="data.js?v=4"></script>
     <!-- Then load plants from JSON files into the existing plantsDatabase -->
-    <script src="data/plant-loader.js?v=4"></script>
+    <script src="data/plant-loader.js?v=5"></script>
     <script src="data/equipment-loader.js"></script>
     <script src="data/vivarium-loader.js"></script>
     <!-- Filters helpers must load before the main script -->
@@ -1546,7 +1550,7 @@
     <!-- Upload/gallery helpers -->
     <script src="upload.js?v=1"></script>
     <!-- Finally initialize the application -->
-    <script src="script.js?v=4"></script>
+    <script src="script.js?v=5"></script>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function () {
