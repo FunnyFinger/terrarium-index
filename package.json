@@ -19,6 +19,7 @@
     "enrich-taxonomy": "node scripts/enrich-taxonomy-gbif.js",
     "update-rarity": "node scripts/update-rarity.js",
     "generate-thumbnails": "node scripts/generate-thumbnails.js",
+    "normalize-image-naming": "node scripts/normalize-image-naming.js",
     "convert-heif": "node scripts/convert-heif-to-jpeg.js",
     "normalize-kingdom": "node scripts/normalize-kingdom-names.js",
     "build-plants": "node scripts/build-plants-bundle.js",
