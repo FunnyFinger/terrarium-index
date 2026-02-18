@@ -50,6 +50,15 @@ function scientificNameToSlug(scientificName) {
 function getPlantFolderSlug(plant) {
     if (!plant) return null;
     const tax = plant.taxonomy;
+    // Cultivars/infraspecifics: use full scientific name folder (e.g. syngonium-podophyllum-pixie)
+    if (tax && typeof tax.species === 'string') {
+        const base = tax.species.trim();
+        const full = (typeof plant.scientificName === 'string' ? plant.scientificName : '').trim();
+        if (full && base && full !== base) {
+            const slug = scientificNameToSlug(full);
+            if (slug) return slug;
+        }
+    }
     if (tax && tax.species && typeof tax.species === 'string') {
         const slug = scientificNameToSlug(tax.species);
         if (slug) return slug;

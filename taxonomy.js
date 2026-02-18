@@ -68,6 +68,16 @@ function scientificNameToSlug(scientificName) {
 function getPlantFolderSlug(plant) {
     if (!plant) return null;
     const tax = plant.taxonomy;
+    // Cultivars/infraspecifics: use full scientific name folder (e.g. syngonium-podophyllum-pixie)
+    // so thumbnails and images don't collide with the base species folder.
+    if (tax?.species && typeof tax.species === 'string') {
+        const base = tax.species.trim();
+        const full = getScientificNameString(plant).trim();
+        if (full && base && full !== base) {
+            const cultivarSlug = scientificNameToSlug(full);
+            if (cultivarSlug) return cultivarSlug;
+        }
+    }
     if (tax?.species && typeof tax.species === 'string') {
         const slug = scientificNameToSlug(tax.species);
         if (slug) return slug;
@@ -124,6 +134,20 @@ function getPlantThumbnailPath(plant) {
     return `images/${slug}/thumb.jpg`;
 }
 
+// Species-level key for tree and filter: cultivars get their own node (full scientific name), else taxonomy.species.
+function getSpeciesNodeKey(plant) {
+    if (!plant || !plant.taxonomy) return null;
+    const taxonomy = plant.taxonomy;
+    const speciesBase = (taxonomy.species || '').trim();
+    const scientificStr = getScientificNameString(plant).trim();
+    if (!speciesBase && !scientificStr) return 'Unknown';
+    // Cultivar or infraspecific: scientific name differs from base species (e.g. "Syngonium podophyllum 'Pixie'" vs "Syngonium podophyllum")
+    if (scientificStr && scientificStr !== speciesBase) {
+        return scientificStr;
+    }
+    return speciesBase || scientificStr || 'Unknown';
+}
+
 // Build hierarchical taxonomy structure
 function buildTaxonomyTree(plants) {
     // Start with Life (LUCA) as root
@@ -175,13 +199,15 @@ function buildTaxonomyTree(plants) {
             tree.children[kingdom] = kingdoms[kingdom];
         }
         
+        // Species level: use cultivar-aware key so "Syngonium podophyllum" and "Syngonium podophyllum 'Pixie'" are separate nodes
+        const speciesKey = getSpeciesNodeKey(plant);
         const path = [
             taxonomy.phylum || 'Unknown',
             taxonomy.class || 'Unknown',
             taxonomy.order || 'Unknown',
             taxonomy.family || 'Unknown',
             taxonomy.genus || 'Unknown',
-            taxonomy.species || getScientificNameString(plant) || 'Unknown'
+            speciesKey
         ];
         
         let current = kingdoms[kingdom];

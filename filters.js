@@ -597,6 +597,21 @@ function mapPlantToInputs(plant) {
     return inputs;
 }
 
+// Species-level key for filter: must match taxonomy tree (cultivars use full scientific name)
+function getSpeciesNodeKeyForFilter(plant) {
+    if (!plant || !plant.taxonomy) return null;
+    const taxonomy = plant.taxonomy;
+    const speciesBase = (taxonomy.species || '').trim();
+    const scientificStr = (plant.scientificName && typeof plant.scientificName === 'string')
+        ? plant.scientificName.trim()
+        : (plant.scientificName && typeof plant.scientificName === 'object' && plant.scientificName.scientificName)
+            ? String(plant.scientificName.scientificName).trim()
+            : '';
+    if (!speciesBase && !scientificStr) return null;
+    if (scientificStr && scientificStr !== speciesBase) return scientificStr;
+    return speciesBase || scientificStr || null;
+}
+
 // Check if a plant belongs to a specific taxonomic node
 function plantBelongsToTaxonomy(plant, rank, name) {
     if (!plant.taxonomy) return false;
@@ -609,7 +624,7 @@ function plantBelongsToTaxonomy(plant, rank, name) {
         'order': taxonomy.order,
         'family': taxonomy.family,
         'genus': taxonomy.genus,
-        'species': taxonomy.species || plant.scientificName
+        'species': getSpeciesNodeKeyForFilter(plant) || taxonomy.species || plant.scientificName
     };
     
     // Check if the plant matches the exact rank and name

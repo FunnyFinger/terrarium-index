@@ -230,8 +230,8 @@ async function discoverPlantImages(plant, knownImageCount = null) {
             discoveredImages.push(imagePath);
         } else {
             consecutiveFailures++;
-            // Stop after first 404 when we have no images (avoids extra HEAD 404s for slug-2, thumb)
-            if (discoveredImages.length === 0 && i === 1) {
+            // When we have no images yet, try at least up to image 5 (some plants have -2.jpg, -3.jpg but no -1.jpg)
+            if (discoveredImages.length === 0 && i >= 5) {
                 break;
             }
             // Stop immediately if we've found images and hit a failure
