@@ -1,7 +1,11 @@
 /**
- * Generate 60x60 thumbnails (thumb.jpg) for all plants
- * Uses the main image (first image in gallery) from each plant
- * Thumbnails are saved as images/[plant-folder]/thumb.jpg
+ * Generate 60x60 thumbnails (thumb.jpg) for all plants.
+ * Uses the main image (first image in gallery) from each plant.
+ * Thumbnails are saved as images/[plant-folder]/thumb.jpg (same folder as the plant's images).
+ *
+ * The taxonomy tree page loads these thumbnails in nodes for performance; full-size images
+ * load only when the user hovers a node (tooltip). Run before deploy so the hosted site has
+ * thumbnails: npm run generate-thumbnails
  */
 
 const fs = require('fs').promises;
@@ -32,7 +36,8 @@ const THUMB_SIZE = 60;
 // Convert scientific name to slug (matching folder naming convention)
 function scientificNameToSlug(scientificName) {
     if (!scientificName) return null;
-    return scientificName
+    const str = typeof scientificName === 'string' ? scientificName : String(scientificName);
+    return str
         .toLowerCase()
         .trim()
         .replace(/\s+/g, '-')
@@ -41,10 +46,27 @@ function scientificNameToSlug(scientificName) {
         .replace(/^-|-$/g, '');
 }
 
+// Folder slug matching taxonomy.js getPlantFolderSlug (prefer taxonomy.species so thumb.jpg path matches)
+function getPlantFolderSlug(plant) {
+    if (!plant) return null;
+    const tax = plant.taxonomy;
+    if (tax && tax.species && typeof tax.species === 'string') {
+        const slug = scientificNameToSlug(tax.species);
+        if (slug) return slug;
+    }
+    if (tax && tax.genus && typeof tax.genus === 'string') {
+        const epithet = tax.species && typeof tax.species === 'string' && !tax.species.includes(' ') ? tax.species : null;
+        const combined = epithet ? `${tax.genus} ${epithet}` : tax.genus;
+        const slug = scientificNameToSlug(combined);
+        if (slug) return slug;
+    }
+    return scientificNameToSlug(plant.scientificName);
+}
+
 // Get main image path for a plant
 // The main image is the first image in the images array (set by user in gallery)
 async function getMainImagePath(plant) {
-    const folderName = scientificNameToSlug(plant.scientificName);
+    const folderName = getPlantFolderSlug(plant);
     if (!folderName) return null;
     
     const plantImageDir = path.join(IMAGES_DIR, folderName);
@@ -166,9 +188,9 @@ async function generateThumbnailJimp(sourcePath, outputPath) {
     }
 }
 
-// Generate thumbnail for a plant
+// Generate thumbnail for a plant (saved as images/<folder>/thumb.jpg for taxonomy tree nodes)
 async function generateThumbnailForPlant(plant) {
-    const folderName = scientificNameToSlug(plant.scientificName);
+    const folderName = getPlantFolderSlug(plant);
     if (!folderName) {
         console.log(`  ⚠️  No valid scientific name for ${plant.name}`);
         return { success: false, reason: 'no-scientific-name' };
@@ -198,17 +220,17 @@ async function generateThumbnailForPlant(plant) {
     try {
         const sourceStats = await fs.stat(sourcePath);
         const thumbStats = await fs.stat(thumbPath);
-        
-        // Check thumbnail dimensions to ensure it matches current size requirement
-        const thumbMetadata = await sharp(thumbPath).metadata();
-        const isCorrectSize = thumbMetadata.width === THUMB_SIZE && thumbMetadata.height === THUMB_SIZE;
-        
-        // If thumbnail is newer than source AND correct size, skip regeneration
+        let isCorrectSize = true;
+        if (sharp) {
+            const thumbMetadata = await sharp(thumbPath).metadata();
+            isCorrectSize = thumbMetadata.width === THUMB_SIZE && thumbMetadata.height === THUMB_SIZE;
+            if (!isCorrectSize) {
+                console.log(`  🔄 Regenerating thumbnail (size mismatch: ${thumbMetadata.width}x${thumbMetadata.height} → ${THUMB_SIZE}x${THUMB_SIZE})`);
+            }
+        }
         if (thumbStats.mtime >= sourceStats.mtime && isCorrectSize) {
             console.log(`  ✓ Thumbnail already up to date for ${plant.name}`);
             return { success: true, reason: 'already-up-to-date' };
-        } else if (!isCorrectSize) {
-            console.log(`  🔄 Regenerating thumbnail (size mismatch: ${thumbMetadata.width}x${thumbMetadata.height} → ${THUMB_SIZE}x${THUMB_SIZE})`);
         }
     } catch (error) {
         // Thumbnail doesn't exist or can't be accessed - will create it
