@@ -81,11 +81,11 @@ function getPlantFolderSlug(plant) {
     return scientificNameToSlug(plant);
 }
 
-// Get plant image path - only use known paths to avoid 404s (no guessed thumb.jpg/slug-1)
+// Get plant image path - use imageUrl/images/localStorage first; then conventional path so taxonomy
+// shows images on hosted site even when the main page (which runs discovery and fills localStorage) hasn't been visited.
 function getPlantImagePath(plant, preferThumb = true) {
     if (!plant) return null;
 
-    // Use only known-good paths: imageUrl, images array, or localStorage (never guess thumb.jpg)
     if (plant.imageUrl) {
         return plant.imageUrl;
     }
@@ -109,6 +109,12 @@ function getPlantImagePath(plant, preferThumb = true) {
         // Silent - localStorage parsing failed
     }
 
+    // Fallback: same conventional path as main page (images/slug/slug-1.jpg) so hosted taxonomy
+    // shows thumbnails without requiring a prior visit to the main page.
+    const slug = getPlantFolderSlug(plant);
+    if (slug) {
+        return `images/${slug}/${slug}-1.jpg`;
+    }
     return null;
 }
 
