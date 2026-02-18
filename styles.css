@@ -483,11 +483,22 @@ html {
     white-space: nowrap;
 }
 
-.nav-logo {
+/* Spacer keeps right-side items in place; logo is centered in viewport so it never shifts */
+.nav-logo-spacer {
     flex: 1;
+    min-width: 0;
+}
+.nav-logo {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    height: var(--main-nav-height);
     display: flex;
     align-items: center;
     justify-content: center;
+    pointer-events: auto;
+    z-index: 1001;
 }
 
 .nav-cart-wrap {
@@ -2625,6 +2636,32 @@ main {
     transition: transform 0.3s, box-shadow 0.3s, z-index 0s;
     cursor: pointer;
     border: 2px solid transparent;
+}
+
+/* Hidden products (for staff view only) */
+.plant-card.product-hidden {
+    opacity: 0.45;
+    filter: grayscale(0.6);
+    box-shadow: none;
+    border-style: dashed;
+}
+.plant-card.product-hidden .card-price,
+.plant-card.product-hidden .plant-name {
+    text-decoration: line-through;
+}
+.plant-card.product-hidden::after {
+    content: 'Hidden';
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: rgba(15, 23, 42, 0.85);
+    color: #f9fafb;
 }
 
 /* Price badge: bottom-left of image container, scales with card size */

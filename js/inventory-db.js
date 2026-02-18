@@ -53,28 +53,31 @@
     }
 
     /**
-     * Set or update inventory for a plant.
+     * Set or update inventory for a plant or product.
+     * Performs a partial merge with any existing row so callers can update
+     * individual fields (e.g. visibility) without wiping others.
      * @param {number} plantId
-     * @param {{ name?: string, scientificName?: string, price?: number, costPrice?: number, quantityInStock?: number, reorderLevel?: number }} data
+     * @param {{ name?: string, scientificName?: string, price?: number, costPrice?: number, quantityInStock?: number, reorderLevel?: number, size?: string|number, description?: string, hidden?: boolean }} data
      */
     function setItem(plantId, data) {
         var database = getDb();
         if (!database) return Promise.resolve();
         var id = Number(plantId);
         var now = Date.now();
-        var row = {
-            plantId: id,
-            name: data.name,
-            scientificName: data.scientificName,
-            price: data.price,
-            costPrice: data.costPrice,
-            quantityInStock: data.quantityInStock,
-            reorderLevel: data.reorderLevel,
-            updatedAt: now
-        };
-        if (data.size !== undefined) row.size = data.size;
-        row.description = data.description;
-        return database.inventory.put(row);
+        return database.inventory.get(id).then(function (existing) {
+            var row = existing || { plantId: id };
+            if ('name' in data) row.name = data.name;
+            if ('scientificName' in data) row.scientificName = data.scientificName;
+            if ('price' in data) row.price = data.price;
+            if ('costPrice' in data) row.costPrice = data.costPrice;
+            if ('quantityInStock' in data) row.quantityInStock = data.quantityInStock;
+            if ('reorderLevel' in data) row.reorderLevel = data.reorderLevel;
+            if ('size' in data) row.size = data.size;
+            if ('description' in data) row.description = data.description;
+            if ('hidden' in data) row.hidden = data.hidden;
+            row.updatedAt = now;
+            return database.inventory.put(row);
+        });
     }
 
     /**
@@ -203,7 +206,8 @@
     }
 
     /**
-     * Merge inventory into an array of plants (mutates each plant with price/quantityInStock/reorderLevel when present).
+     * Merge inventory into an array of plants or products.
+     * Mutates each item with price/quantityInStock/reorderLevel/size/description/hidden when present.
      * @param {Array<{ id: number, name?: string, scientificName?: string }>} plants
      * @returns {Promise<void>}
      */
@@ -225,6 +229,7 @@
                     if (inv.reorderLevel != null) p.reorderLevel = inv.reorderLevel;
                     if (inv.size !== undefined && inv.size !== null) p.size = inv.size;
                     if ('description' in inv) p.description = inv.description;
+                    if (typeof inv.hidden === 'boolean') p.hidden = inv.hidden;
                 } else {
                     p.stockQuantity = 0;
                 }

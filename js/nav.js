@@ -71,6 +71,7 @@
             '<span></span><span></span><span></span>' +
             '</button>' +
             backBtnHtml +
+            '<div class="nav-logo-spacer"></div>' +
             '<div class="nav-logo">' +
             '<a href="index.html" class="logo-link"><img src="assets/vivarium-store-logo.svg" alt="" class="logo-img" width="32" height="32"><span class="logo-text">Vivarium Store</span></a>' +
             '</div>' +

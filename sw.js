@@ -2,7 +2,7 @@
  * Service Worker: caches static assets and plant bundle for faster repeat loads.
  * Stale-while-revalidate for same-origin GET (js, css, html, json, images).
  */
-const CACHE_NAME = 'vivarium-v1';
+const CACHE_NAME = 'vivarium-v2';
 
 self.addEventListener('install', (event) => {
   event.waitUntil(self.skipWaiting());

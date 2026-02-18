@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=3">
+    <link rel="stylesheet" href="styles.css?v=4">
     <style>
         body.inventory-page { overflow-x: hidden; box-sizing: border-box; }
         body.inventory-page * { box-sizing: border-box; }
@@ -122,7 +122,7 @@
             </div>
             <div class="inv-toolbar">
                 <p id="invSummary" class="inv-summary">Loading…</p>
-                <a href="index.html?add=plant" id="invAddNewLink" class="inv-edit-btn">Add new plant</a>
+                <a href="index.html?add=plant" id="invAddNewLink" class="inv-edit-btn inv-add-only" style="display: none;">Add new plant</a>
             </div>
             <div class="inv-filters">
                 <label for="invSearch">Search</label>
@@ -133,6 +133,12 @@
                     <option value="ok">In stock</option>
                     <option value="low">Low stock</option>
                     <option value="out">Out of stock</option>
+                </select>
+                <label for="invVisibilityFilter">Visibility</label>
+                <select id="invVisibilityFilter" aria-label="Filter by visibility">
+                    <option value="all">All</option>
+                    <option value="visible">Visible only</option>
+                    <option value="hidden">Hidden only</option>
                 </select>
             </div>
             <div id="invBatchBar" class="inv-batch-bar inv-staff-only hidden">
@@ -157,6 +163,7 @@
                             <th class="inv-th-sort" data-sort="stock">Stock <span class="sort-arrow"></span></th>
                             <th class="inv-th-sort" data-sort="reorder">Reorder at <span class="sort-arrow"></span></th>
                             <th class="inv-th-sort" data-sort="status">Status <span class="sort-arrow"></span></th>
+                            <th class="inv-th-sort" data-sort="visibility">Visibility <span class="sort-arrow"></span></th>
                             <th class="inv-staff-only"></th>
                         </tr>
                     </thead>
@@ -313,11 +320,15 @@
             }
             var invCanEdit = window.auth.canManageStock();
             var invCanSeeSalesOrders = window.auth.canManageInventory();
+            var invCanAddItems = window.auth.canManageInventory();
             document.querySelectorAll('.inv-staff-only').forEach(function(el) {
                 el.style.display = invCanEdit ? '' : 'none';
             });
             document.querySelectorAll('.inv-full-only').forEach(function(el) {
                 el.style.display = invCanSeeSalesOrders ? '' : 'none';
+            });
+            document.querySelectorAll('.inv-add-only').forEach(function(el) {
+                el.style.display = invCanAddItems ? '' : 'none';
             });
             function switchTab(panelId) {
                 ['invPanelInventory', 'invPanelSales', 'invPanelOrders'].forEach(function(id) {
@@ -492,6 +503,7 @@
             }
             var invFilterQuery = '';
             var invFilterStatus = 'all';
+            var invFilterVisibility = 'all';
             var invSortKey = 'name';
             var invSortDir = 1;
             var invSelectedIds = {};
@@ -511,19 +523,25 @@
                 var reorder = inv.reorderLevel != null ? inv.reorderLevel : (p.reorderLevel != null ? p.reorderLevel : 0);
                 var status = statusClass({ quantityInStock: stock, reorderLevel: reorder });
                 var size = inv.size != null ? String(inv.size) : (p.size != null ? String(p.size) : '');
-                return { inv: inv, m: m, stock: stock, reorder: reorder, status: status, size: size };
+                var hidden = !!inv.hidden;
+                return { inv: inv, m: m, stock: stock, reorder: reorder, status: status, size: size, hidden: hidden };
             }
             function filterAndSortPlants(plants, invByPlantId) {
                 var q = (invFilterQuery || '').trim().toLowerCase();
                 var list = (plants || []).filter(function(p) {
+                    var meta = getRowMeta(p, invByPlantId);
                     if (q) {
                         var name = (p.name || '').toLowerCase();
                         var sci = getScientific(p).toLowerCase();
                         if (name.indexOf(q) === -1 && sci.indexOf(q) === -1) return false;
                     }
                     if (invFilterStatus !== 'all') {
-                        var meta = getRowMeta(p, invByPlantId);
                         if (meta.status !== invFilterStatus) return false;
+                    }
+                    if (invFilterVisibility !== 'all') {
+                        var isHidden = meta.hidden;
+                        if (invFilterVisibility === 'visible' && isHidden) return false;
+                        if (invFilterVisibility === 'hidden' && !isHidden) return false;
                     }
                     return true;
                 });
@@ -543,6 +561,7 @@
                         case 'stock': return dir * (ma.stock - mb.stock);
                         case 'reorder': va = ma.reorder != null ? ma.reorder : -1; vb = mb.reorder != null ? mb.reorder : -1; return dir * (va - vb);
                         case 'status': va = { out: 0, low: 1, ok: 2 }[ma.status] || 0; vb = { out: 0, low: 1, ok: 2 }[mb.status] || 0; return dir * (va - vb);
+                        case 'visibility': va = ma.hidden ? 0 : 1; vb = mb.hidden ? 0 : 1; return dir * (va - vb);
                         case 'size': va = ma.size || ''; vb = mb.size || ''; return dir * (va.localeCompare(vb));
                         default: return 0;
                     }
@@ -608,6 +627,7 @@
                     var status = statusClass({ quantityInStock: stock, reorderLevel: reorder });
                     var sizeVal = (inv.size != null ? String(inv.size) : (p.size != null ? String(p.size) : ''));
                     var checked = invSelectedIds[p.id] ? ' checked' : '';
+                    var visibilityText = inv.hidden ? 'Hidden' : 'Visible';
                     var tr = document.createElement('tr');
                     var nameEsc = (p.name || '—').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
                     var imgUrl = getItemImageUrl(p);
@@ -626,6 +646,7 @@
                         '<td>' + stock + '</td>' +
                         '<td>' + (reorder != null ? reorder : '—') + '</td>' +
                         '<td><span class="inv-status ' + status + '">' + statusText({ quantityInStock: stock, reorderLevel: reorder }) + '</span></td>' +
+                        '<td>' + visibilityText + '</td>' +
                         editTd;
                     tbody.appendChild(tr);
                 });
@@ -843,6 +864,11 @@
             });
             document.getElementById('invStatusFilter').addEventListener('change', function() {
                 invFilterStatus = this.value;
+                invCurrentPage = 1;
+                if (invCachedPlants && invCachedById) renderTable(invCachedPlants, invCachedById);
+            });
+            document.getElementById('invVisibilityFilter').addEventListener('change', function() {
+                invFilterVisibility = this.value;
                 invCurrentPage = 1;
                 if (invCachedPlants && invCachedById) renderTable(invCachedPlants, invCachedById);
             });

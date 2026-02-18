@@ -221,6 +221,10 @@ async function initializePlants() {
 async function initializeUI() {
     console.log('🎨 Initializing UI...');
     
+    const canSeeHidden = typeof auth !== 'undefined' && auth && (
+        (auth.isOwner && auth.isOwner()) ||
+        (auth.isAdmin && auth.isAdmin())
+    );
     if (typeof window.loadEquipment === 'function') {
         allEquipment = await window.loadEquipment();
         try {
@@ -228,10 +232,10 @@ async function initializeUI() {
             if (Array.isArray(customEq) && customEq.length) allEquipment = (allEquipment || []).concat(customEq);
         } catch (e) { /* ignore */ }
         window.allEquipment = allEquipment;
-        filteredEquipment = allEquipment ? allEquipment.slice() : [];
         if (allEquipment.length && window.inventoryDb && window.inventoryDb.mergeInventoryIntoPlants) {
             await window.inventoryDb.mergeInventoryIntoPlants(allEquipment);
         }
+        filteredEquipment = allEquipment ? allEquipment.filter(function(eq) { return canSeeHidden ? true : !eq.hidden; }) : [];
         mergeEquipmentImagesFromStorage();
         console.log('📦 Equipment loaded:', allEquipment.length, 'items');
     }
@@ -242,7 +246,13 @@ async function initializeUI() {
             if (Array.isArray(customViv) && customViv.length) allVivariums = (allVivariums || []).concat(customViv);
         } catch (e) { /* ignore */ }
         window.allVivariums = allVivariums;
-        filteredVivariums = allVivariums ? allVivariums.filter(function(v) { var t = (v.type || '').toLowerCase(); return t !== 'indoor' && t !== 'outdoor'; }) : [];
+        if (allVivariums.length && window.inventoryDb && window.inventoryDb.mergeInventoryIntoPlants) {
+            await window.inventoryDb.mergeInventoryIntoPlants(allVivariums);
+        }
+        filteredVivariums = allVivariums ? allVivariums.filter(function(v) {
+            var t = (v.type || '').toLowerCase();
+            return (canSeeHidden ? true : !v.hidden) && t !== 'indoor' && t !== 'outdoor';
+        }) : [];
         mergeVivariumImagesFromStorage();
         mergeVivariumEditsFromStorage();
         console.log('📦 Vivariums loaded:', allVivariums.length, 'items');
@@ -351,17 +361,20 @@ async function initializeUI() {
             }
         }
     } else if (addParam === 'plant' || addParam === 'equipment' || addParam === 'vivarium') {
-        var tabPlantsEl = document.getElementById('tabPlants');
-        var tabEquipmentEl = document.getElementById('tabEquipment');
-        var tabVivariumsEl = document.getElementById('tabVivariums');
-        var tabEl = addParam === 'plant' ? tabPlantsEl : (addParam === 'equipment' ? tabEquipmentEl : tabVivariumsEl);
-        if (tabEl) {
-            tabEl.click();
-            setTimeout(function() {
-                if (addParam === 'plant' && typeof window.openImageUpload === 'function') window.openImageUpload(null);
-                else if (addParam === 'equipment' && typeof openEquipmentEdit === 'function') openEquipmentEdit(null);
-                else if (addParam === 'vivarium' && typeof openVivariumEdit === 'function') openVivariumEdit(null);
-            }, 0);
+        var canAddItems = typeof auth !== 'undefined' && auth && ((auth.isOwner && auth.isOwner()) || (auth.isAdmin && auth.isAdmin()));
+        if (canAddItems) {
+            var tabPlantsEl = document.getElementById('tabPlants');
+            var tabEquipmentEl = document.getElementById('tabEquipment');
+            var tabVivariumsEl = document.getElementById('tabVivariums');
+            var tabEl = addParam === 'plant' ? tabPlantsEl : (addParam === 'equipment' ? tabEquipmentEl : tabVivariumsEl);
+            if (tabEl) {
+                tabEl.click();
+                setTimeout(function() {
+                    if (addParam === 'plant' && typeof window.openImageUpload === 'function') window.openImageUpload(null);
+                    else if (addParam === 'equipment' && typeof openEquipmentEdit === 'function') openEquipmentEdit(null);
+                    else if (addParam === 'vivarium' && typeof openVivariumEdit === 'function') openVivariumEdit(null);
+                }, 0);
+            }
         }
     }
 }
@@ -2602,8 +2615,14 @@ function applyAdvancedFilters() {
 }
 
 function applyAllFilters() {
-    // Start with all plants
-    filteredPlants = [...allPlants];
+    const canSeeHidden = typeof auth !== 'undefined' && auth && (
+        (auth.isOwner && auth.isOwner()) ||
+        (auth.isAdmin && auth.isAdmin())
+    );
+    // Start with all plants, but hide hidden ones for shoppers
+    filteredPlants = allPlants ? allPlants.filter(function(p) {
+        return canSeeHidden ? true : !p.hidden;
+    }) : [];
     
     // Apply search filter first
     if (searchInput) {
@@ -3382,7 +3401,8 @@ function setupShopTabs() {
         var addPlantBtn = document.getElementById('addNewPlantBtn');
         var addEquipBtn = document.getElementById('addNewEquipmentBtn');
         var addVivBtn = document.getElementById('addNewVivariumBtn');
-        if (addPlantBtn) addPlantBtn.style.display = '';
+        var canAddItems = typeof auth !== 'undefined' && auth && ((auth.isOwner && auth.isOwner()) || (auth.isAdmin && auth.isAdmin()));
+        if (addPlantBtn) addPlantBtn.style.display = canAddItems ? '' : 'none';
         if (addEquipBtn) addEquipBtn.style.display = 'none';
         if (addVivBtn) addVivBtn.style.display = 'none';
     });
@@ -3404,8 +3424,9 @@ function setupShopTabs() {
         var addPlantBtn = document.getElementById('addNewPlantBtn');
         var addEquipBtn = document.getElementById('addNewEquipmentBtn');
         var addVivBtn = document.getElementById('addNewVivariumBtn');
+        var canAddItems = typeof auth !== 'undefined' && auth && ((auth.isOwner && auth.isOwner()) || (auth.isAdmin && auth.isAdmin()));
         if (addPlantBtn) addPlantBtn.style.display = 'none';
-        if (addEquipBtn) addEquipBtn.style.display = '';
+        if (addEquipBtn) addEquipBtn.style.display = canAddItems ? '' : 'none';
         if (addVivBtn) addVivBtn.style.display = 'none';
     });
     if (tabVivariums) {
@@ -3427,10 +3448,20 @@ function setupShopTabs() {
             var addPlantBtn = document.getElementById('addNewPlantBtn');
             var addEquipBtn = document.getElementById('addNewEquipmentBtn');
             var addVivBtn = document.getElementById('addNewVivariumBtn');
+            var canAddItems = typeof auth !== 'undefined' && auth && ((auth.isOwner && auth.isOwner()) || (auth.isAdmin && auth.isAdmin()));
             if (addPlantBtn) addPlantBtn.style.display = 'none';
             if (addEquipBtn) addEquipBtn.style.display = 'none';
-            if (addVivBtn) addVivBtn.style.display = '';
+            if (addVivBtn) addVivBtn.style.display = canAddItems ? '' : 'none';
         });
+    }
+    var addPlantBtnInit = document.getElementById('addNewPlantBtn');
+    var addEquipBtnInit = document.getElementById('addNewEquipmentBtn');
+    var addVivBtnInit = document.getElementById('addNewVivariumBtn');
+    var canAddItemsInit = typeof auth !== 'undefined' && auth && ((auth.isOwner && auth.isOwner()) || (auth.isAdmin && auth.isAdmin()));
+    if (!canAddItemsInit) {
+        if (addPlantBtnInit) addPlantBtnInit.style.display = 'none';
+        if (addEquipBtnInit) addEquipBtnInit.style.display = 'none';
+        if (addVivBtnInit) addVivBtnInit.style.display = 'none';
     }
 }
 
@@ -3472,7 +3503,7 @@ function mergeVivariumImagesFromStorage() {
 
 function createEquipmentCard(equipment) {
     const card = document.createElement('div');
-    card.className = 'plant-card equipment-card';
+    card.className = 'plant-card equipment-card' + (equipment.hidden ? ' product-hidden' : '');
     card.dataset.plantId = equipment.id;
     card.addEventListener('click', (e) => {
         if (e.target.closest('.quick-add-wrap')) return;
@@ -3584,6 +3615,10 @@ function applyEquipmentFilters() {
         renderEquipmentPage();
         return;
     }
+    var canSeeHidden = typeof auth !== 'undefined' && auth && (
+        (auth.isOwner && auth.isOwner()) ||
+        (auth.isAdmin && auth.isAdmin())
+    );
     var q = (searchInput && searchInput.value) ? searchInput.value.trim().toLowerCase() : '';
     var categoryChecks = document.querySelectorAll('.equipment-filter-checkbox[data-filter="equipmentCategory"]:checked');
     var categories = Array.from(categoryChecks).map(function(c) { return c.value; });
@@ -3595,6 +3630,7 @@ function applyEquipmentFilters() {
     var priceMax = priceMaxEl && priceMaxEl.value !== '' ? parseFloat(priceMaxEl.value) : null;
 
     filteredEquipment = allEquipment.filter(function(eq) {
+        if (!canSeeHidden && eq.hidden) return false;
         if (q) {
             var name = (eq.name || '').toLowerCase();
             var desc = (eq.description || '').toLowerCase();
@@ -3709,9 +3745,13 @@ function applyVivariumFilters() {
         renderVivariumsPage();
         return;
     }
+    var canSeeHidden = typeof auth !== 'undefined' && auth && (
+        (auth.isOwner && auth.isOwner()) ||
+        (auth.isAdmin && auth.isAdmin())
+    );
     var baseList = allVivariums.filter(function(v) {
         var t = (v.type || '').toLowerCase();
-        return t !== 'indoor' && t !== 'outdoor';
+        return (canSeeHidden ? true : !v.hidden) && t !== 'indoor' && t !== 'outdoor';
     });
     var q = (searchInput && searchInput.value) ? searchInput.value.trim().toLowerCase() : '';
     var typeChecks = document.querySelectorAll('.vivarium-filter-checkbox[data-filter="vivariumType"]:checked');
@@ -3790,7 +3830,7 @@ function sortVivariums(items) {
 
 function createVivariumCard(vivarium) {
     var card = document.createElement('div');
-    card.className = 'plant-card vivarium-card';
+    card.className = 'plant-card vivarium-card' + (vivarium.hidden ? ' product-hidden' : '');
     card.dataset.plantId = vivarium.id;
     card.addEventListener('click', function(e) {
         if (e.target.closest('.quick-add-wrap')) return;
@@ -4070,6 +4110,30 @@ function showVivariumDetail(vivarium) {
     var vivariumDetailActions = document.createElement('div');
     vivariumDetailActions.className = 'detail-actions detail-actions-fixed';
     vivariumDetailActions.innerHTML = '<button type="button" class="detail-btn card-edit-icon vivarium-detail-edit" title="Edit details" aria-label="Edit details">' + detailEditSvgV + '<span>Edit details</span></button><button type="button" class="detail-btn card-image-icon vivarium-detail-image" title="Add or edit images" aria-label="Add or edit images">' + detailImageSvgV + '<span>Image</span></button>';
+    var canManageVisibility = typeof auth !== 'undefined' && auth && ((auth.isOwner && auth.isOwner()) || (auth.isAdmin && auth.isAdmin()));
+    if (canManageVisibility) {
+        var vivHideBtn = document.createElement('button');
+        vivHideBtn.type = 'button';
+        vivHideBtn.className = 'detail-btn detail-hide vivarium-detail-hide';
+        vivHideBtn.title = vivarium.hidden ? 'Show this vivarium in the shop' : 'Hide this vivarium from shoppers';
+        vivHideBtn.setAttribute('aria-label', vivarium.hidden ? 'Show vivarium in shop' : 'Hide vivarium from shoppers');
+        vivHideBtn.innerHTML = '<span>' + (vivarium.hidden ? 'Show in shop' : 'Hide from shoppers') + '</span>';
+        vivariumDetailActions.appendChild(vivHideBtn);
+        vivHideBtn.addEventListener('click', function () {
+            var nextHidden = !vivarium.hidden;
+            vivarium.hidden = nextHidden;
+            if (window.inventoryDb && window.inventoryDb.setItem) {
+                window.inventoryDb.setItem(vivarium.id, { hidden: nextHidden }).then(function () {
+                    if (typeof applyVivariumFilters === 'function') applyVivariumFilters();
+                });
+            } else if (typeof applyVivariumFilters === 'function') {
+                applyVivariumFilters();
+            }
+            vivHideBtn.title = nextHidden ? 'Show this vivarium in the shop' : 'Hide this vivarium from shoppers';
+            vivHideBtn.setAttribute('aria-label', nextHidden ? 'Show vivarium in shop' : 'Hide vivarium from shoppers');
+            vivHideBtn.innerHTML = '<span>' + (nextHidden ? 'Show in shop' : 'Hide from shoppers') + '</span>';
+        });
+    }
     modalBody.appendChild(vivariumDetailActions);
     var addBtn = modalBody.querySelector('.btn-add-to-cart');
     if (addBtn) addBtn.addEventListener('click', function() { addToCart(vivarium, 1); });
@@ -4182,6 +4246,32 @@ function showEquipmentDetail(equipment) {
     const equipmentDetailActions = document.createElement('div');
     equipmentDetailActions.className = 'detail-actions detail-actions-fixed';
     equipmentDetailActions.innerHTML = '<button type="button" class="detail-btn card-edit-icon" title="Edit details" aria-label="Edit details">' + detailEditSvg + '<span>Edit details</span></button><button type="button" class="detail-btn card-image-icon" title="Add or edit images" aria-label="Add or edit images">' + detailImageSvg + '<span>Image</span></button>';
+    var canManageVisibilityEq = typeof auth !== 'undefined' && auth && ((auth.isOwner && auth.isOwner()) || (auth.isAdmin && auth.isAdmin()));
+    if (canManageVisibilityEq) {
+        const equipHideBtn = document.createElement('button');
+        equipHideBtn.type = 'button';
+        equipHideBtn.className = 'detail-btn detail-hide equipment-detail-hide';
+        equipHideBtn.title = equipment.hidden ? 'Show this equipment in the shop' : 'Hide this equipment from shoppers';
+        equipHideBtn.setAttribute('aria-label', equipment.hidden ? 'Show equipment in shop' : 'Hide equipment from shoppers');
+        equipHideBtn.innerHTML = '<span>' + (equipment.hidden ? 'Show in shop' : 'Hide from shoppers') + '</span>';
+        equipmentDetailActions.appendChild(equipHideBtn);
+        equipHideBtn.addEventListener('click', function () {
+            var nextHidden = !equipment.hidden;
+            equipment.hidden = nextHidden;
+            if (window.inventoryDb && window.inventoryDb.setItem) {
+                window.inventoryDb.setItem(equipment.id, { hidden: nextHidden }).then(function () {
+                    if (typeof applyEquipmentFilters === 'function') applyEquipmentFilters();
+                    if (typeof updateQuickAddButtonsState === 'function') updateQuickAddButtonsState();
+                });
+            } else {
+                if (typeof applyEquipmentFilters === 'function') applyEquipmentFilters();
+                if (typeof updateQuickAddButtonsState === 'function') updateQuickAddButtonsState();
+            }
+            equipHideBtn.title = nextHidden ? 'Show this equipment in the shop' : 'Hide this equipment from shoppers';
+            equipHideBtn.setAttribute('aria-label', nextHidden ? 'Show equipment in shop' : 'Hide equipment from shoppers');
+            equipHideBtn.innerHTML = '<span>' + (nextHidden ? 'Show in shop' : 'Hide from shoppers') + '</span>';
+        });
+    }
     modalBody.appendChild(equipmentDetailActions);
     const equipmentDetailEditBtn = modalBody.querySelector('.detail-actions-fixed .card-edit-icon');
     const equipmentDetailImageBtn = modalBody.querySelector('.detail-actions-fixed .card-image-icon');
@@ -4901,7 +4991,7 @@ function saveEquipmentEdit() {
 // Create plant card element
 function createPlantCard(plant) {
     const card = document.createElement('div');
-    card.className = 'plant-card';
+    card.className = 'plant-card' + (plant.hidden ? ' product-hidden' : '');
     card.addEventListener('click', (e) => {
         if (e.target.closest('.quick-add-wrap')) return;
         if (e.target.closest('.plant-card-icons') || e.target.closest('.card-icons') || e.target.closest('.image-edit-icon') || e.target.closest('.plant-image-icon') || e.target.closest('.card-edit-icon') || e.target.closest('.card-image-icon')) return;
@@ -5757,6 +5847,30 @@ async function showPlantModal(plant) {
     const plantDetailActions = document.createElement('div');
     plantDetailActions.className = 'detail-actions detail-actions-fixed';
     plantDetailActions.innerHTML = '<button type="button" class="detail-btn card-edit-icon plant-detail-edit" title="Edit details" aria-label="Edit details"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg><span>Edit details</span></button><button type="button" class="detail-btn card-image-icon plant-detail-image" title="Add or edit images" aria-label="Add or edit images"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Image</span></button>';
+    const canManageVisibilityPlant = typeof auth !== 'undefined' && auth && ((auth.isOwner && auth.isOwner()) || (auth.isAdmin && auth.isAdmin()));
+    if (canManageVisibilityPlant) {
+        const plantHideBtn = document.createElement('button');
+        plantHideBtn.type = 'button';
+        plantHideBtn.className = 'detail-btn detail-hide plant-detail-hide';
+        plantHideBtn.title = plant.hidden ? 'Show this plant in the shop' : 'Hide this plant from shoppers';
+        plantHideBtn.setAttribute('aria-label', plant.hidden ? 'Show plant in shop' : 'Hide plant from shoppers');
+        plantHideBtn.innerHTML = '<span>' + (plant.hidden ? 'Show in shop' : 'Hide from shoppers') + '</span>';
+        plantDetailActions.appendChild(plantHideBtn);
+        plantHideBtn.addEventListener('click', function () {
+            var nextHidden = !plant.hidden;
+            plant.hidden = nextHidden;
+            if (window.inventoryDb && window.inventoryDb.setItem) {
+                window.inventoryDb.setItem(plant.id, { hidden: nextHidden }).then(function () {
+                    if (typeof applyAllFilters === 'function') applyAllFilters();
+                });
+            } else if (typeof applyAllFilters === 'function') {
+                applyAllFilters();
+            }
+            plantHideBtn.title = nextHidden ? 'Show this plant in the shop' : 'Hide this plant from shoppers';
+            plantHideBtn.setAttribute('aria-label', nextHidden ? 'Show plant in shop' : 'Hide plant from shoppers');
+            plantHideBtn.innerHTML = '<span>' + (nextHidden ? 'Show in shop' : 'Hide from shoppers') + '</span>';
+        });
+    }
     modalBody.appendChild(plantDetailActions);
     const plantDetailEditBtn = modalBody.querySelector('.plant-detail-edit');
     const plantDetailImageBtn = modalBody.querySelector('.plant-detail-image');
