@@ -4,6 +4,12 @@
 (function() {
     'use strict';
 
+    (function applyTheme() {
+        var theme = typeof localStorage !== 'undefined' && localStorage.getItem('terrarium_theme');
+        var resolved = theme === 'dark' ? 'dark' : (theme === 'light' ? 'light' : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+        if (document.documentElement) document.documentElement.setAttribute('data-theme', resolved);
+    })();
+
     var NAV_ICONS = {
         home: '<svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
         definitions: '<svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="16" y2="11"/></svg>',
@@ -52,21 +58,35 @@
 
         var authHtml = '';
         var user = (typeof window.auth !== 'undefined' && window.auth.getCurrentUser) ? window.auth.getCurrentUser() : null;
+        var accountIcon = '<svg class="nav-auth-account-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
         if (user) {
             var name = (user.name || user.email || 'Account').replace(/</g, '&lt;');
-            authHtml = '<div class="nav-auth-wrap">' +
-                '<a href="account.html" class="nav-auth-link">' + name + '</a>' +
-                '<button type="button" id="navLogout" class="nav-auth-btn" aria-label="Log out">Logout</button>' +
+            authHtml = '<div class="nav-auth-wrap" id="navAuthWrap">' +
+                '<button type="button" class="nav-auth-trigger" id="navAuthTrigger" title="Account (' + name + ')" aria-label="Account menu" aria-expanded="false" aria-haspopup="true">' +
+                accountIcon +
+                '<svg class="nav-auth-trigger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>' +
+                '</button>' +
+                '<div class="nav-auth-dropdown" id="navAuthDropdown" role="menu">' +
+                '<div class="nav-auth-dropdown-user">You are logged in as: <strong>' + name + '</strong></div>' +
+                '<a href="account.html" class="nav-auth-dropdown-link" role="menuitem">My account</a>' +
+                '<a href="settings.html" class="nav-auth-dropdown-link" role="menuitem">Settings</a>' +
+                '<button type="button" id="navLogout" class="nav-auth-dropdown-btn" role="menuitem" aria-label="Log out">Logout</button>' +
+                '</div>' +
                 '</div>';
         } else {
-            authHtml = '<div class="nav-auth-wrap">' +
-                '<a href="auth.html" class="nav-auth-link">Login</a>' +
-                '<a href="auth.html?mode=register" class="nav-auth-link">Register</a>' +
+            authHtml = '<div class="nav-auth-wrap" id="navAuthWrap">' +
+                '<button type="button" class="nav-auth-trigger" id="navAuthTrigger" title="Account" aria-label="Account menu" aria-expanded="false" aria-haspopup="true">' +
+                accountIcon +
+                '<svg class="nav-auth-trigger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>' +
+                '</button>' +
+                '<div class="nav-auth-dropdown" id="navAuthDropdown" role="menu">' +
+                '<div class="nav-auth-dropdown-user">You are not logged in.</div>' +
+                '<a href="settings.html" class="nav-auth-dropdown-link" role="menuitem">Settings</a>' +
+                '<a href="auth.html" class="nav-auth-dropdown-link" role="menuitem">Login</a>' +
+                '</div>' +
                 '</div>';
         }
-        var authMenuItems = user
-            ? '<li class="nav-item"><a href="account.html" class="nav-link"><span class="nav-link-inner">' + (NAV_ICONS.account || '') + '<span class="nav-link-text">My account</span></span></a></li><li class="nav-item"><button type="button" id="navLogoutMenu" class="nav-link nav-link-btn" style="background:none;border:none;cursor:pointer;font:inherit;color:inherit;padding:0;width:100%;text-align:left;"><span class="nav-link-inner"><span class="nav-link-text">Logout</span></span></button></li>'
-            : '<li class="nav-item"><a href="auth.html" class="nav-link"><span class="nav-link-inner"><span class="nav-link-text">Login</span></span></a></li><li class="nav-item"><a href="auth.html?mode=register" class="nav-link"><span class="nav-link-inner"><span class="nav-link-text">Register</span></span></a></li>';
+        var authMenuItems = '';
         return '<nav class="main-nav">' +
             '<button class="nav-toggle" id="navToggle" aria-label="Open menu">' +
             '<span></span><span></span><span></span>' +
@@ -78,10 +98,10 @@
             '</div>' +
             '<div class="nav-cart-wrap">' +
             '<button type="button" id="cartToggle" class="cart-toggle" aria-label="Open cart">' +
-            '<span class="cart-icon">' +
-            '<svg class="cart-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>' +
-            '</span>' +
+            '<span class="cart-icon-wrap">' +
+            '<span class="cart-icon"><svg class="cart-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span>' +
             '<span id="cartCount" class="cart-count">0</span>' +
+            '</span>' +
             '</button>' +
             '</div>' +
             authHtml +
@@ -134,8 +154,24 @@
         }
         var logoutBtn = document.getElementById('navLogout');
         if (logoutBtn) logoutBtn.addEventListener('click', doLogout);
-        var logoutMenu = document.getElementById('navLogoutMenu');
-        if (logoutMenu) logoutMenu.addEventListener('click', doLogout);
+
+        var authWrap = document.getElementById('navAuthWrap');
+        var authTrigger = document.getElementById('navAuthTrigger');
+        var authDropdown = document.getElementById('navAuthDropdown');
+        if (authTrigger && authDropdown && authWrap) {
+            authTrigger.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                var open = authWrap.classList.toggle('open');
+                authTrigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+            });
+            document.addEventListener('click', function(e) {
+                if (!authWrap.contains(e.target)) {
+                    authWrap.classList.remove('open');
+                    authTrigger.setAttribute('aria-expanded', 'false');
+                }
+            });
+        }
     }
 
     var container = document.getElementById('main-nav-container');

@@ -13,6 +13,8 @@
         body.inventory-page * { box-sizing: border-box; }
         .inv-page { width: 100%; max-width: 100vw; margin: 0 auto; padding: clamp(0.5rem, 2vw, 1rem); }
         .inv-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; }
+        .inv-add-buttons { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .inv-add-buttons .inv-edit-btn { text-decoration: none; }
         .inv-panel#invPanelInventory { overflow: visible; }
         .inv-table-wrap { width: 100%; overflow: auto; background: var(--card-bg); border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border-color); -webkit-overflow-scrolling: touch; }
         .inv-table { width: max-content; min-width: 100%; border-collapse: collapse; table-layout: auto; }
@@ -122,7 +124,11 @@
             </div>
             <div class="inv-toolbar">
                 <p id="invSummary" class="inv-summary">Loading…</p>
-                <a href="index.html?add=plant" id="invAddNewLink" class="inv-edit-btn inv-add-only" style="display: none;">Add new plant</a>
+                <div class="inv-add-buttons inv-add-only" style="display: none;">
+                    <a href="index.html?add=plant" class="inv-edit-btn">Add new plant</a>
+                    <a href="index.html?add=equipment" class="inv-edit-btn">Add new supply</a>
+                    <a href="index.html?add=vivarium" class="inv-edit-btn">Add new vivarium</a>
+                </div>
             </div>
             <div class="inv-filters">
                 <label for="invSearch">Search</label>
@@ -330,6 +336,8 @@
             document.querySelectorAll('.inv-add-only').forEach(function(el) {
                 el.style.display = invCanAddItems ? '' : 'none';
             });
+            var invAddButtonsWrap = document.querySelector('.inv-add-buttons');
+            if (invAddButtonsWrap) invAddButtonsWrap.style.display = invCanAddItems ? 'flex' : 'none';
             function switchTab(panelId) {
                 ['invPanelInventory', 'invPanelSales', 'invPanelOrders'].forEach(function(id) {
                     document.getElementById(id).classList.toggle('active', id === panelId);
@@ -362,11 +370,6 @@
                 if (vivariumTab) {
                     vivariumTab.classList.toggle('active', category === 'vivariums');
                     vivariumTab.setAttribute('aria-selected', category === 'vivariums' ? 'true' : 'false');
-                }
-                var addLink = document.getElementById('invAddNewLink');
-                if (addLink) {
-                    addLink.href = category === 'plants' ? 'index.html?add=plant' : (category === 'equipment' ? 'index.html?add=equipment' : 'index.html?add=vivarium');
-                    addLink.textContent = category === 'plants' ? 'Add new plant' : (category === 'equipment' ? 'Add new supply' : 'Add new vivarium');
                 }
                 updateInvSecondColumnHeader();
             }

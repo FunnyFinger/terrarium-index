@@ -27,7 +27,7 @@
             <div id="main-nav-container"></div>
             <div class="banner-overlay">
                 <h1>Vivarium Store</h1>
-                <p class="subtitle">Comprehensive database of plants for all enclosed ecosystems</p>
+                <p class="subtitle">Nature and art in miniature—living landscapes for your vivarium.</p>
             </div>
         </div>
     </header>
@@ -50,6 +50,13 @@
                 </div>
 
                 <div class="filters-content">
+                    <div class="filters-mobile-header">
+                        <h4 class="filters-mobile-header-title">Filters</h4>
+                        <div class="filters-mobile-header-actions">
+                            <button type="button" id="filtersMobileReset" class="filters-mobile-reset-btn" aria-label="Reset all filters">Reset</button>
+                            <button type="button" id="filtersMobileClose" class="filters-mobile-close-btn" aria-label="Close filters">Close</button>
+                        </div>
+                    </div>
                     <!-- Compact search -->
                     <div class="control-panel-search">
                         <label for="searchInput" class="visually-hidden">Search plants</label>
@@ -1078,10 +1085,12 @@
             </aside>
             </div>
 
-            <!-- Reopen control panel when collapsed (shown on left edge when sidebar is hidden) -->
-            <button type="button" class="control-panel-reopen-btn hidden" id="controlPanelReopen" title="Show control panel" aria-label="Show control panel">
+            <!-- Reopen control panel when collapsed (fixed on left edge) -->
+            <button type="button" class="control-panel-reopen-btn hidden" id="controlPanelReopen" title="Show filters" aria-label="Show filters">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+                <span class="control-panel-reopen-btn-text">Filters</span>
             </button>
+            <div id="filtersOverlay" class="filters-overlay hidden" aria-hidden="true"></div>
             
             <!-- Main Content Area -->
             <div class="main-content">
@@ -1141,6 +1150,38 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Legend panel (right): vivarium type colors - quick reference -->
+            <div class="legend-sidebar-wrapper" id="legendSidebarWrapper">
+                <aside class="legend-sidebar" id="legendSidebar" aria-label="Vivarium types legend">
+                    <div class="legend-sidebar-header">
+                        <h4 class="legend-sidebar-title">Vivarium types</h4>
+                        <button type="button" class="legend-sidebar-collapse-btn" id="legendSidebarCollapse" title="Hide legend" aria-label="Hide legend">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                        </button>
+                    </div>
+                    <div class="legend-sidebar-content">
+                        <p class="legend-sidebar-intro">Colored circles on plant cards indicate suitable enclosure types.</p>
+                        <ul class="legend-list" role="list">
+                            <li class="legend-item"><span class="legend-dot badge open-terrarium" aria-hidden="true"></span><span>Open Terrarium</span></li>
+                            <li class="legend-item"><span class="legend-dot badge closed-terrarium" aria-hidden="true"></span><span>Closed Terrarium</span></li>
+                            <li class="legend-item"><span class="legend-dot badge paludarium" aria-hidden="true"></span><span>Paludarium</span></li>
+                            <li class="legend-item"><span class="legend-dot badge riparium" aria-hidden="true"></span><span>Riparium</span></li>
+                            <li class="legend-item"><span class="legend-dot badge aquarium" aria-hidden="true"></span><span>Aquarium</span></li>
+                            <li class="legend-item"><span class="legend-dot badge aerarium" aria-hidden="true"></span><span>Aerarium</span></li>
+                            <li class="legend-item"><span class="legend-dot badge deserterium" aria-hidden="true"></span><span>Deserterium</span></li>
+                            <li class="legend-item"><span class="legend-dot badge indoor" aria-hidden="true"></span><span>Indoor</span></li>
+                            <li class="legend-item"><span class="legend-dot badge outdoor" aria-hidden="true"></span><span>Outdoor</span></li>
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+            <!-- Legend reopen: right side, same height as Filters; only visible on mobile when card size is small -->
+            <button type="button" class="legend-sidebar-reopen-btn hidden" id="legendSidebarReopen" title="Show legend" aria-label="Show legend">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                <span class="legend-sidebar-reopen-btn-text">Legend</span>
+            </button>
+            <div id="legendOverlay" class="legend-overlay" aria-hidden="true" title="Close legend"></div>
         </div>
     </main>
 
@@ -1542,20 +1583,6 @@
         </div>
     </div>
 
-    <!-- Add New - fixed bottom-right (one visible per tab) -->
-    <button type="button" class="btn-add-plant" id="addNewPlantBtn" aria-label="Add new plant" title="Add new plant">
-        <span class="btn-add-plant-text">Add New Plant</span>
-        <span class="btn-add-plant-icon">+</span>
-    </button>
-    <button type="button" class="btn-add-plant" id="addNewEquipmentBtn" aria-label="Add new supply" title="Add new supply" style="display: none;">
-        <span class="btn-add-plant-text">Add New Supply</span>
-        <span class="btn-add-plant-icon">+</span>
-    </button>
-    <button type="button" class="btn-add-plant" id="addNewVivariumBtn" aria-label="Add new vivarium" title="Add new vivarium" style="display: none;">
-        <span class="btn-add-plant-text">Add New Vivarium</span>
-        <span class="btn-add-plant-icon">+</span>
-    </button>
-
     <footer>
         <div class="container">
             <p>&copy; 2024 Vivarium Store | Data sourced from various plant databases</p>
@@ -1587,9 +1614,13 @@
     <script src="script.js?v=5"></script>
     <script>
       if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function () {
-          navigator.serviceWorker.register('sw.js').catch(function () {});
-        });
+        if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+          navigator.serviceWorker.getRegistrations().then(function (regs) { regs.forEach(function (r) { r.unregister(); }); });
+        } else {
+          window.addEventListener('load', function () {
+            navigator.serviceWorker.register('sw.js').catch(function () {});
+          });
+        }
       }
     </script>
 </body>

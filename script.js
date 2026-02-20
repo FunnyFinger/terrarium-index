@@ -1031,22 +1031,137 @@ function setupEventListeners() {
         controlPanelEdgeActions.style.transform = 'translateY(-50%)';
     }
 
+    function isFiltersMobile() {
+        return window.matchMedia('(max-width: 1024px)').matches;
+    }
+    function openFiltersPanel() {
+        if (!filtersSidebar || !filtersSidebarWrapper) return;
+        filtersSidebar.classList.remove('control-panel-collapsed');
+        filtersSidebarWrapper.classList.remove('filters-sidebar-wrapper-collapsed');
+        filtersSidebar.style.display = '';
+        controlPanelReopen.classList.add('hidden');
+        if (isFiltersMobile()) {
+            var overlay = document.getElementById('filtersOverlay');
+            if (overlay) { overlay.classList.remove('hidden'); overlay.setAttribute('aria-hidden', 'false'); }
+            document.body.classList.add('filters-drawer-open');
+        }
+        updateEdgeActionsPosition();
+    }
+    function closeFiltersPanel() {
+        if (!filtersSidebar || !filtersSidebarWrapper) return;
+        filtersSidebar.classList.add('control-panel-collapsed');
+        filtersSidebarWrapper.classList.add('filters-sidebar-wrapper-collapsed');
+        controlPanelReopen.classList.remove('hidden');
+        var overlay = document.getElementById('filtersOverlay');
+        if (overlay) { overlay.classList.add('hidden'); overlay.setAttribute('aria-hidden', 'true'); }
+        document.body.classList.remove('filters-drawer-open');
+    }
+
     if (controlPanelCollapse && filtersSidebar && controlPanelReopen && filtersSidebarWrapper) {
+        if (isFiltersMobile()) {
+            closeFiltersPanel();
+        }
         controlPanelCollapse.addEventListener('click', () => {
-            filtersSidebar.classList.add('control-panel-collapsed');
-            if (filtersSidebarWrapper) filtersSidebarWrapper.classList.add('filters-sidebar-wrapper-collapsed');
-            controlPanelReopen.classList.remove('hidden');
+            closeFiltersPanel();
         });
-        controlPanelReopen.addEventListener('click', () => {
-            filtersSidebar.classList.remove('control-panel-collapsed');
-            if (filtersSidebarWrapper) filtersSidebarWrapper.classList.remove('filters-sidebar-wrapper-collapsed');
-            filtersSidebar.style.display = '';
-            controlPanelReopen.classList.add('hidden');
+        controlPanelReopen.addEventListener('click', openFiltersPanel);
+        var filtersOverlay = document.getElementById('filtersOverlay');
+        if (filtersOverlay) {
+            filtersOverlay.addEventListener('click', () => {
+                if (isFiltersMobile()) closeFiltersPanel();
+            });
+        }
+        var filtersMobileClose = document.getElementById('filtersMobileClose');
+        if (filtersMobileClose) {
+            filtersMobileClose.addEventListener('click', closeFiltersPanel);
+        }
+        var filtersMobileReset = document.getElementById('filtersMobileReset');
+        if (filtersMobileReset && controlPanelReset) {
+            filtersMobileReset.addEventListener('click', function() {
+                controlPanelReset.click();
+            });
+        }
+        window.addEventListener('resize', function() {
             updateEdgeActionsPosition();
+            if (isFiltersMobile()) {
+                if (!filtersSidebar.classList.contains('control-panel-collapsed')) {
+                    var o = document.getElementById('filtersOverlay');
+                    if (o) { o.classList.remove('hidden'); o.setAttribute('aria-hidden', 'false'); }
+                    document.body.classList.add('filters-drawer-open');
+                }
+            } else {
+                filtersSidebar.classList.remove('control-panel-collapsed');
+                if (filtersSidebarWrapper) filtersSidebarWrapper.classList.remove('filters-sidebar-wrapper-collapsed');
+                filtersSidebar.style.display = '';
+                controlPanelReopen.classList.add('hidden');
+                var ov = document.getElementById('filtersOverlay');
+                if (ov) { ov.classList.add('hidden'); ov.setAttribute('aria-hidden', 'true'); }
+                document.body.classList.remove('filters-drawer-open');
+            }
+        });
+        var mq = window.matchMedia('(max-width: 1024px)');
+        mq.addEventListener('change', function() {
+            if (mq.matches) closeFiltersPanel();
+            else {
+                filtersSidebar.classList.remove('control-panel-collapsed');
+                if (filtersSidebarWrapper) filtersSidebarWrapper.classList.remove('filters-sidebar-wrapper-collapsed');
+                filtersSidebar.style.display = '';
+                controlPanelReopen.classList.add('hidden');
+                var ov = document.getElementById('filtersOverlay');
+                if (ov) { ov.classList.add('hidden'); ov.setAttribute('aria-hidden', 'true'); }
+                document.body.classList.remove('filters-drawer-open');
+            }
         });
         window.addEventListener('scroll', updateEdgeActionsPosition, { passive: true });
-        window.addEventListener('resize', updateEdgeActionsPosition);
         updateEdgeActionsPosition();
+    }
+
+    var legendSidebar = document.getElementById('legendSidebar');
+    var legendSidebarWrapper = document.getElementById('legendSidebarWrapper');
+    var legendSidebarCollapse = document.getElementById('legendSidebarCollapse');
+    var legendSidebarReopen = document.getElementById('legendSidebarReopen');
+    function openLegendPanel() {
+        if (!legendSidebar || !legendSidebarWrapper) return;
+        legendSidebar.classList.remove('legend-sidebar-collapsed');
+        legendSidebarWrapper.classList.remove('legend-sidebar-wrapper-collapsed');
+        if (legendSidebarReopen) legendSidebarReopen.classList.add('hidden');
+        if (window.matchMedia('(max-width: 1024px)').matches) {
+            document.body.classList.add('legend-drawer-open');
+            var lo = document.getElementById('legendOverlay');
+            if (lo) { lo.classList.remove('hidden'); lo.setAttribute('aria-hidden', 'false'); }
+        }
+    }
+    function closeLegendPanel() {
+        if (!legendSidebar || !legendSidebarWrapper) return;
+        legendSidebar.classList.add('legend-sidebar-collapsed');
+        legendSidebarWrapper.classList.add('legend-sidebar-wrapper-collapsed');
+        if (legendSidebarReopen) legendSidebarReopen.classList.remove('hidden');
+        document.body.classList.remove('legend-drawer-open');
+        var lo = document.getElementById('legendOverlay');
+        if (lo) { lo.classList.add('hidden'); lo.setAttribute('aria-hidden', 'true'); }
+    }
+    function updateLegendButtonVisibility() {
+        if (!legendSidebarReopen) return;
+        var mobile = window.innerWidth <= 1024;
+        var smallCard = plantsGrid && plantsGrid.classList.contains('card-size-small');
+        var plantsView = currentView === 'plants';
+        var show = mobile && smallCard && plantsView;
+        legendSidebarReopen.classList.toggle('visible-on-mobile-small', show);
+        if (!show && legendSidebar && !legendSidebar.classList.contains('legend-sidebar-collapsed')) {
+            closeLegendPanel();
+        }
+    }
+    if (legendSidebarCollapse && legendSidebar && legendSidebarReopen && legendSidebarWrapper) {
+        legendSidebarCollapse.addEventListener('click', closeLegendPanel);
+        legendSidebarReopen.addEventListener('click', openLegendPanel);
+        var legendOverlay = document.getElementById('legendOverlay');
+        if (legendOverlay) legendOverlay.addEventListener('click', closeLegendPanel);
+        if (window.matchMedia('(max-width: 1024px)').matches) {
+            closeLegendPanel();
+        }
+        window.updateLegendButtonVisibility = updateLegendButtonVisibility;
+        window.addEventListener('resize', updateLegendButtonVisibility);
+        updateLegendButtonVisibility();
     }
 
     if (controlPanelReset) {
@@ -1157,6 +1272,45 @@ function setupEventListeners() {
         updateFiltersSticky();
     }
 
+    if (legendSidebar && legendSidebarWrapper) {
+        function updateLegendSticky() {
+            if (legendSidebar.classList.contains('legend-sidebar-collapsed') || legendSidebarWrapper.offsetParent === null) {
+                legendSidebar.classList.remove('is-sticky');
+                legendSidebar.style.removeProperty('--legend-sticky-right');
+                legendSidebar.style.removeProperty('--legend-sticky-top');
+                return;
+            }
+            var rect = legendSidebarWrapper.getBoundingClientRect();
+            var navHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--main-nav-height'), 10) || 65;
+            var footerPadding = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--filters-footer-padding'), 10) || 24;
+            var stickyTop = 2 * navHeight;
+            if (rect.top <= stickyTop) {
+                legendSidebar.classList.add('is-sticky');
+                legendSidebar.style.setProperty('--legend-sticky-right', (window.innerWidth - rect.right) + 'px');
+                var panelHeight = legendSidebar.offsetHeight;
+                var defaultTop = stickyTop + 'px';
+                if (footerEl) {
+                    var footerRect = footerEl.getBoundingClientRect();
+                    if (footerRect.top < stickyTop + panelHeight + footerPadding) {
+                        var top = footerRect.top - footerPadding - panelHeight;
+                        legendSidebar.style.setProperty('--legend-sticky-top', Math.max(0, Math.min(stickyTop, top)) + 'px');
+                    } else {
+                        legendSidebar.style.setProperty('--legend-sticky-top', defaultTop);
+                    }
+                } else {
+                    legendSidebar.style.setProperty('--legend-sticky-top', defaultTop);
+                }
+            } else {
+                legendSidebar.classList.remove('is-sticky');
+                legendSidebar.style.removeProperty('--legend-sticky-right');
+                legendSidebar.style.removeProperty('--legend-sticky-top');
+            }
+        }
+        window.addEventListener('scroll', updateLegendSticky, { passive: true });
+        window.addEventListener('resize', updateLegendSticky);
+        updateLegendSticky();
+    }
+
     // Card size: large (default), medium, small – persist in localStorage
     const CARD_SIZE_KEY = 'plantCardSize';
     const cardSizeBtns = document.querySelectorAll('.card-size-btn');
@@ -1169,6 +1323,7 @@ function setupEventListeners() {
                 btn.classList.toggle('active', btn.getAttribute('data-size') === valid);
             });
             try { localStorage.setItem(CARD_SIZE_KEY, valid); } catch (e) {}
+            if (typeof window.updateLegendButtonVisibility === 'function') window.updateLegendButtonVisibility();
         }
         const saved = localStorage.getItem(CARD_SIZE_KEY);
         if (saved) setCardSize(saved);
@@ -1352,32 +1507,6 @@ function setupEventListeners() {
             } else {
                 closePlantPanel();
             }
-        });
-    }
-
-    // Add New Plant - opens upload modal (new plant mode)
-    const addNewPlantBtn = document.getElementById('addNewPlantBtn');
-    if (addNewPlantBtn) {
-        addNewPlantBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            window.openImageUpload(null);
-        });
-    }
-    const addNewEquipmentBtn = document.getElementById('addNewEquipmentBtn');
-    if (addNewEquipmentBtn) {
-        addNewEquipmentBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            if (typeof openEquipmentEdit === 'function') openEquipmentEdit(null);
-        });
-    }
-    const addNewVivariumBtn = document.getElementById('addNewVivariumBtn');
-    if (addNewVivariumBtn) {
-        addNewVivariumBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            if (typeof openVivariumEdit === 'function') openVivariumEdit(null);
         });
     }
 
@@ -3398,13 +3527,7 @@ function setupShopTabs() {
         updateSortDirectionButton();
         currentPlantsPage = 1;
         applyAllFilters();
-        var addPlantBtn = document.getElementById('addNewPlantBtn');
-        var addEquipBtn = document.getElementById('addNewEquipmentBtn');
-        var addVivBtn = document.getElementById('addNewVivariumBtn');
-        var canAddItems = typeof auth !== 'undefined' && auth && ((auth.isOwner && auth.isOwner()) || (auth.isAdmin && auth.isAdmin()));
-        if (addPlantBtn) addPlantBtn.style.display = canAddItems ? '' : 'none';
-        if (addEquipBtn) addEquipBtn.style.display = 'none';
-        if (addVivBtn) addVivBtn.style.display = 'none';
+        if (typeof window.updateLegendButtonVisibility === 'function') window.updateLegendButtonVisibility();
     });
     tabEquipment.addEventListener('click', () => {
         currentView = 'equipment';
@@ -3421,13 +3544,7 @@ function setupShopTabs() {
         updateSortDirectionButton();
         currentEquipmentPage = 1;
         applyEquipmentFilters();
-        var addPlantBtn = document.getElementById('addNewPlantBtn');
-        var addEquipBtn = document.getElementById('addNewEquipmentBtn');
-        var addVivBtn = document.getElementById('addNewVivariumBtn');
-        var canAddItems = typeof auth !== 'undefined' && auth && ((auth.isOwner && auth.isOwner()) || (auth.isAdmin && auth.isAdmin()));
-        if (addPlantBtn) addPlantBtn.style.display = 'none';
-        if (addEquipBtn) addEquipBtn.style.display = canAddItems ? '' : 'none';
-        if (addVivBtn) addVivBtn.style.display = 'none';
+        if (typeof window.updateLegendButtonVisibility === 'function') window.updateLegendButtonVisibility();
     });
     if (tabVivariums) {
         tabVivariums.addEventListener('click', () => {
@@ -3445,23 +3562,8 @@ function setupShopTabs() {
             updateSortDirectionButton();
             currentVivariumPage = 1;
             applyVivariumFilters();
-            var addPlantBtn = document.getElementById('addNewPlantBtn');
-            var addEquipBtn = document.getElementById('addNewEquipmentBtn');
-            var addVivBtn = document.getElementById('addNewVivariumBtn');
-            var canAddItems = typeof auth !== 'undefined' && auth && ((auth.isOwner && auth.isOwner()) || (auth.isAdmin && auth.isAdmin()));
-            if (addPlantBtn) addPlantBtn.style.display = 'none';
-            if (addEquipBtn) addEquipBtn.style.display = 'none';
-            if (addVivBtn) addVivBtn.style.display = canAddItems ? '' : 'none';
+            if (typeof window.updateLegendButtonVisibility === 'function') window.updateLegendButtonVisibility();
         });
-    }
-    var addPlantBtnInit = document.getElementById('addNewPlantBtn');
-    var addEquipBtnInit = document.getElementById('addNewEquipmentBtn');
-    var addVivBtnInit = document.getElementById('addNewVivariumBtn');
-    var canAddItemsInit = typeof auth !== 'undefined' && auth && ((auth.isOwner && auth.isOwner()) || (auth.isAdmin && auth.isAdmin()));
-    if (!canAddItemsInit) {
-        if (addPlantBtnInit) addPlantBtnInit.style.display = 'none';
-        if (addEquipBtnInit) addEquipBtnInit.style.display = 'none';
-        if (addVivBtnInit) addVivBtnInit.style.display = 'none';
     }
 }
 

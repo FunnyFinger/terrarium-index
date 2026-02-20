@@ -175,6 +175,24 @@
         }
     }
 
+    function changePassword(currentPassword, newPassword) {
+        var db = getAuthDb();
+        if (!db) return Promise.reject(new Error('Auth not available'));
+        var user = getCurrentUser();
+        if (!user) return Promise.reject(new Error('You must be logged in to change password'));
+        if (!newPassword || newPassword.length < 6) return Promise.reject(new Error('New password must be at least 6 characters'));
+        return db.getUserById(user.id).then(function(u) {
+            if (!u || !u.passwordHash) return Promise.reject(new Error('Account not found'));
+            return verifyPassword(currentPassword, u.passwordHash).then(function(ok) {
+                if (!ok) return Promise.reject(new Error('Current password is incorrect'));
+                var salt = randomSalt();
+                return hashPassword(newPassword, salt).then(function(hash) {
+                    return db.updatePasswordHash(user.id, hash);
+                });
+            });
+        });
+    }
+
     var auth = {
         register: register,
         login: login,
@@ -187,7 +205,8 @@
         canManageInventory: canManageInventory,
         canManageStock: canManageStock,
         setSession: setSession,
-        clearSession: clearSession
+        clearSession: clearSession,
+        changePassword: changePassword
     };
 
     var root = typeof window !== 'undefined' ? window : typeof self !== 'undefined' ? self : global;

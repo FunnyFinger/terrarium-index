@@ -20,6 +20,10 @@ self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
   const u = new URL(event.request.url);
   if (u.origin !== self.location.origin) return;
+  if (u.hostname === 'localhost' || u.hostname === '127.0.0.1') {
+    event.respondWith(fetch(event.request));
+    return;
+  }
   if (u.pathname.includes('/api/') || u.pathname.includes('create-checkout')) return;
   const ext = u.pathname.split('.').pop().toLowerCase();
   const isCacheable = /^(json|js|css|html|jpg|jpeg|png|gif|webp|svg|ico|woff2?)$/.test(ext) || u.pathname.endsWith('/') || u.search.includes('v=');

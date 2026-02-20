@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings – Vivarium Store</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=4">
+    <style>
+        .settings-page { max-width: 640px; margin: 0 auto; padding: 2rem 1rem 3rem; }
+        .settings-section { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        .settings-section h2 { font-size: 1.1rem; color: var(--primary-color); margin: 0 0 0.75rem 0; font-weight: 700; }
+        .settings-section p { margin: 0 0 0.75rem 0; color: var(--text-color); font-size: 0.95rem; line-height: 1.5; }
+        .settings-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; padding: 0.5rem 0; border-bottom: 1px solid var(--border-color); }
+        .settings-row:last-child { border-bottom: none; }
+        .settings-row label { font-weight: 600; font-size: 0.95rem; cursor: pointer; flex: 1; min-width: 0; }
+        .settings-select { padding: 0.5rem 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; font-size: 0.95rem; background: var(--card-bg); color: var(--text-color); min-width: 140px; }
+        .settings-checkbox { width: 1.2rem; height: 1.2rem; cursor: pointer; accent-color: var(--primary-color); }
+        .settings-form label { display: block; margin-top: 0.75rem; font-weight: 600; font-size: 0.9rem; }
+        .settings-form input[type="password"], .settings-form input[type="text"] { width: 100%; padding: 0.6rem 0.75rem; margin-top: 0.25rem; border: 1px solid var(--border-color); border-radius: 8px; box-sizing: border-box; font-size: 1rem; background: var(--card-bg); color: var(--text-color); }
+        .settings-form .form-actions { margin-top: 1.25rem; display: flex; gap: 0.75rem; flex-wrap: wrap; }
+        .settings-btn { padding: 0.55rem 1.1rem; border-radius: 8px; font-weight: 600; font-size: 0.9rem; cursor: pointer; border: none; font-family: inherit; }
+        .settings-btn-primary { background: var(--primary-color); color: white; }
+        .settings-btn-primary:hover { background: var(--secondary-color); color: white; }
+        .settings-btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+        .settings-btn-outline { background: transparent; color: var(--primary-color); border: 2px solid var(--primary-color); }
+        .settings-btn-outline:hover { background: var(--primary-color); color: white; }
+        .settings-msg { margin-top: 0.75rem; padding: 0.5rem 0.75rem; border-radius: 8px; font-size: 0.9rem; display: none; }
+        .settings-msg.show { display: block; }
+        .settings-msg.success { background: rgba(107, 166, 68, 0.2); color: var(--primary-color); border: 1px solid var(--accent-color); }
+        .settings-msg.error { background: rgba(185, 28, 28, 0.15); color: #b91c1c; border: 1px solid #b91c1c; }
+        .settings-guest { text-align: center; padding: 2rem 1.5rem; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; }
+        .settings-guest p { margin: 0 0 1rem 0; color: var(--text-color); }
+        .settings-guest a { color: var(--primary-color); font-weight: 600; text-decoration: none; }
+        .settings-guest a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="banner">
+            <img src="images/banner.jpg" alt="" class="banner-image">
+            <div id="main-nav-container"></div>
+            <div class="banner-overlay">
+                <h1>Settings</h1>
+                <p class="subtitle">Preferences and account options</p>
+            </div>
+        </div>
+    </header>
+    <main class="settings-page">
+        <div id="settingsContent">
+            <div class="settings-section">
+                <h2>Appearance</h2>
+                <p>Choose how the store looks. Theme is applied across all pages.</p>
+                <div class="settings-row">
+                    <label for="settingsTheme">Theme</label>
+                    <select id="settingsTheme" class="settings-select" aria-label="Theme">
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                        <option value="system">System</option>
+                    </select>
+                </div>
+            </div>
+            <div class="settings-section">
+                <h2>Notifications</h2>
+                <p>Choose which emails you'd like to receive (when we add email delivery).</p>
+                <div class="settings-row">
+                    <label for="settingsEmailOrders">Order updates</label>
+                    <input type="checkbox" id="settingsEmailOrders" class="settings-checkbox" aria-label="Email order updates">
+                </div>
+                <div class="settings-row">
+                    <label for="settingsEmailMarketing">Promotions and news</label>
+                    <input type="checkbox" id="settingsEmailMarketing" class="settings-checkbox" aria-label="Marketing emails">
+                </div>
+            </div>
+            <div class="settings-section" id="settingsPasswordSection">
+                <h2>Change password</h2>
+                <p>Update your password. You must enter your current password to confirm.</p>
+                <form id="settingsPasswordForm" class="settings-form">
+                    <label for="settingsCurrentPassword">Current password</label>
+                    <input type="password" id="settingsCurrentPassword" autocomplete="current-password" required placeholder="Current password">
+                    <label for="settingsNewPassword">New password</label>
+                    <input type="password" id="settingsNewPassword" autocomplete="new-password" required minlength="6" placeholder="At least 6 characters">
+                    <label for="settingsConfirmPassword">Confirm new password</label>
+                    <input type="password" id="settingsConfirmPassword" autocomplete="new-password" required placeholder="Repeat new password">
+                    <div id="settingsPasswordMsg" class="settings-msg" role="status"></div>
+                    <div class="form-actions">
+                        <button type="submit" class="settings-btn settings-btn-primary" id="settingsPasswordSubmit">Change password</button>
+                        <button type="button" class="settings-btn settings-btn-outline" id="settingsPasswordReset">Clear</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Vivarium Store | Data sourced from various plant databases</p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/dexie@3/dist/dexie.min.js"></script>
+    <script src="js/auth-db.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/nav.js"></script>
+    <script>
+        (function() {
+            var user = (typeof window.auth !== 'undefined' && window.auth.getCurrentUser) ? window.auth.getCurrentUser() : null;
+            var store = window.settingsStore;
+            if (!store) return;
+
+            store.applyThemeToDocument(store.getTheme());
+
+            var themeSelect = document.getElementById('settingsTheme');
+            if (themeSelect) {
+                themeSelect.value = store.getTheme();
+                themeSelect.addEventListener('change', function() {
+                    store.setTheme(themeSelect.value);
+                });
+            }
+
+            var s = store.getSettings();
+            var emailOrders = document.getElementById('settingsEmailOrders');
+            var emailMarketing = document.getElementById('settingsEmailMarketing');
+            if (emailOrders) {
+                emailOrders.checked = !!s.emailOrderUpdates;
+                emailOrders.addEventListener('change', function() {
+                    s.emailOrderUpdates = emailOrders.checked;
+                    store.saveSettings(s);
+                });
+            }
+            if (emailMarketing) {
+                emailMarketing.checked = !!s.emailMarketing;
+                emailMarketing.addEventListener('change', function() {
+                    s.emailMarketing = emailMarketing.checked;
+                    store.saveSettings(s);
+                });
+            }
+
+            var passwordSection = document.getElementById('settingsPasswordSection');
+            if (passwordSection) {
+                passwordSection.style.display = user ? '' : 'none';
+            }
+
+            var form = document.getElementById('settingsPasswordForm');
+            var msgEl = document.getElementById('settingsPasswordMsg');
+            var submitBtn = document.getElementById('settingsPasswordSubmit');
+            var resetBtn = document.getElementById('settingsPasswordReset');
+
+            function showMsg(text, isError) {
+                if (!msgEl) return;
+                msgEl.textContent = text;
+                msgEl.className = 'settings-msg show ' + (isError ? 'error' : 'success');
+            }
+
+            if (form && user) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    var current = document.getElementById('settingsCurrentPassword').value;
+                    var newP = document.getElementById('settingsNewPassword').value;
+                    var confirmP = document.getElementById('settingsConfirmPassword').value;
+                    if (newP !== confirmP) {
+                        showMsg('New password and confirmation do not match.', true);
+                        return;
+                    }
+                    if (newP.length < 6) {
+                        showMsg('New password must be at least 6 characters.', true);
+                        return;
+                    }
+                    if (submitBtn) {
+                        submitBtn.disabled = true;
+                        submitBtn.textContent = 'Updating…';
+                    }
+                    window.auth.changePassword(current, newP).then(function() {
+                        showMsg('Password updated successfully.');
+                        form.reset();
+                        if (submitBtn) {
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = 'Change password';
+                        }
+                    }).catch(function(err) {
+                        showMsg(err && err.message ? err.message : 'Failed to change password.', true);
+                        if (submitBtn) {
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = 'Change password';
+                        }
+                    });
+                });
+            }
+            if (resetBtn) {
+                resetBtn.addEventListener('click', function() {
+                    if (form) form.reset();
+                    if (msgEl) {
+                        msgEl.textContent = '';
+                        msgEl.className = 'settings-msg';
+                    }
+                });
+            }
+        })();
+    </script>
+</body>
+</html>

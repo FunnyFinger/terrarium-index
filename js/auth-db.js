@@ -74,12 +74,19 @@
         });
     }
 
+    function updatePasswordHash(userId, newPasswordHash) {
+        var database = getDb();
+        if (!database) return Promise.reject(new Error('Database not available'));
+        return database.users.update(Number(userId), { passwordHash: newPasswordHash });
+    }
+
     var authDb = {
         createUser: createUser,
         getUserByEmail: getUserByEmail,
         getUserById: getUserById,
         setUserRole: setUserRole,
         getAllUsers: getAllUsers,
+        updatePasswordHash: updatePasswordHash,
         OWNER_EMAIL: OWNER_EMAIL
     };
 
