@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build Your Own Vivarium – Vivarium Store</title>
+    <script>
+      (function() {
+        var path = window.location.pathname;
+        var dir = path.replace(/\/?[^/]*$/, '') || '/';
+        if (!dir.endsWith('/')) dir += '/';
+        var base = document.createElement('base');
+        base.href = window.location.origin + dir;
+        document.head.appendChild(base);
+      })();
+    </script>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=4">
+    <link rel="stylesheet" href="build-vivarium.css?v=1">
+</head>
+<body>
+    <header>
+        <div class="banner">
+            <img src="images/banner.jpg" alt="Vivarium Store banner" class="banner-image">
+            <div id="main-nav-container"></div>
+            <div class="banner-overlay">
+                <h1>Build Your Own Vivarium</h1>
+                <p class="subtitle">Step-by-step guide to create your perfect enclosure.</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="container build-vivarium-main">
+        <div class="build-layout">
+        <nav class="build-stepper" aria-label="Build progress">
+            <ol class="build-stepper-list">
+                <li class="build-step" data-step="1" aria-current="step">
+                    <span class="build-step-num">1</span>
+                    <span class="build-step-label-wrap">
+                        <span class="build-step-label">Vivarium type</span>
+                        <span class="build-step-choice" aria-hidden="true"></span>
+                    </span>
+                </li>
+                <li class="build-step" data-step="2">
+                    <span class="build-step-num">2</span>
+                    <span class="build-step-label-wrap">
+                        <span class="build-step-label">Enclosure size</span>
+                        <span class="build-step-choice" aria-hidden="true"></span>
+                    </span>
+                </li>
+                <li class="build-step" data-step="3">
+                    <span class="build-step-num">3</span>
+                    <span class="build-step-label-wrap">
+                        <span class="build-step-label">Substrate & drainage</span>
+                        <span class="build-step-choice" aria-hidden="true"></span>
+                    </span>
+                </li>
+                <li class="build-step" data-step="4">
+                    <span class="build-step-num">4</span>
+                    <span class="build-step-label-wrap">
+                        <span class="build-step-label">Plants</span>
+                        <span class="build-step-choice" aria-hidden="true"></span>
+                    </span>
+                </li>
+                <li class="build-step" data-step="5">
+                    <span class="build-step-num">5</span>
+                    <span class="build-step-label-wrap">
+                        <span class="build-step-label">Accessories</span>
+                        <span class="build-step-choice" aria-hidden="true"></span>
+                    </span>
+                </li>
+            </ol>
+        </nav>
+
+        <div class="build-step-panels">
+            <section id="buildPanel1" class="build-panel build-panel-active" data-step="1" aria-labelledby="buildHeading1">
+                <h2 id="buildHeading1" class="build-panel-title">Choose your vivarium type</h2>
+                <p class="build-panel-desc">Select the type of enclosure. This will tailor plant and accessory suggestions.</p>
+                <p id="buildSelected1" class="build-selected-choice" aria-live="polite"></p>
+                <div id="buildTypeOptions" class="build-options build-type-options"></div>
+                <div class="build-panel-actions">
+                    <button type="button" class="btn btn-primary build-next" data-next="2" disabled>Next: Enclosure size</button>
+                </div>
+            </section>
+
+            <section id="buildPanel2" class="build-panel" data-step="2" aria-labelledby="buildHeading2" hidden>
+                <h2 id="buildHeading2" class="build-panel-title">Choose enclosure size</h2>
+                <p class="build-panel-desc">Height range for your enclosure. Affects which plants will fit.</p>
+                <p id="buildSelected2" class="build-selected-choice" aria-live="polite"></p>
+                <div id="buildSizeOptions" class="build-options build-size-options"></div>
+                <div class="build-panel-actions">
+                    <button type="button" class="btn btn-secondary build-prev" data-prev="1">Back</button>
+                    <button type="button" class="btn btn-primary build-next" data-next="3" disabled>Next: Substrate</button>
+                </div>
+            </section>
+
+            <section id="buildPanel3" class="build-panel" data-step="3" aria-labelledby="buildHeading3" hidden>
+                <h2 id="buildHeading3" class="build-panel-title">Soil, substrate & drainage</h2>
+                <p class="build-panel-desc">Select drainage and substrate layers suitable for your vivarium type.</p>
+                <p id="buildSelected3" class="build-selected-choice" aria-live="polite"></p>
+                <div id="buildSubstrateOptions" class="build-options build-substrate-options"></div>
+                <div class="build-panel-actions">
+                    <button type="button" class="btn btn-secondary build-prev" data-prev="2">Back</button>
+                    <button type="button" class="btn btn-primary build-next" data-next="4" disabled>Next: Plants</button>
+                </div>
+            </section>
+
+            <section id="buildPanel4" class="build-panel" data-step="4" aria-labelledby="buildHeading4" hidden>
+                <h2 id="buildHeading4" class="build-panel-title">Select plants</h2>
+                <p class="build-panel-desc">Plants suited to your vivarium type. Open a plant to view full details.</p>
+                <p id="buildSelected4" class="build-selected-choice" aria-live="polite"></p>
+                <div class="build-plants-toolbar">
+                    <input type="text" id="buildPlantSearch" class="build-search-input" placeholder="Search by name or scientific name…" autocomplete="off">
+                    <p id="buildPlantLimitHint" class="build-plant-limit-hint" aria-live="polite"></p>
+                </div>
+                <div id="buildPlantList" class="build-plant-list"></div>
+                <div class="build-panel-actions">
+                    <button type="button" class="btn btn-secondary build-prev" data-prev="3">Back</button>
+                    <button type="button" class="btn btn-primary build-next" data-next="5">Next: Accessories</button>
+                </div>
+            </section>
+
+            <section id="buildPanel5" class="build-panel" data-step="5" aria-labelledby="buildHeading5" hidden>
+                <h2 id="buildHeading5" class="build-panel-title">Accessories</h2>
+                <p class="build-panel-desc">Optional tools and supplies for your setup.</p>
+                <p id="buildSelected5" class="build-selected-choice" aria-live="polite"></p>
+                <div id="buildAccessoryList" class="build-accessory-list"></div>
+                <div class="build-panel-actions">
+                    <button type="button" class="btn btn-secondary build-prev" data-prev="4">Back</button>
+                    <a href="index.html" class="btn btn-primary">Done – view store</a>
+                </div>
+            </section>
+        </div>
+        </div>
+
+        <div class="build-summary" id="buildSummary" aria-live="polite"></div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-container">
+            <p class="footer-copy">&copy; <span id="footer-year">2026</span> Vivarium Store</p>
+            <p><a href="index.html">Back to store</a></p>
+        </div>
+    </footer>
+
+    <script>document.getElementById('footer-year') && (document.getElementById('footer-year').textContent = new Date().getFullYear());</script>
+    <script src="js/nav.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dexie@3/dist/dexie.min.js"></script>
+    <script src="data.js?v=4"></script>
+    <script src="data/plant-loader.js?v=5"></script>
+    <script src="data/equipment-loader.js"></script>
+    <script src="data/vivarium-loader.js"></script>
+    <script src="script.js?v=5"></script>
+    <script src="build-vivarium.js?v=1"></script>
+</body>
+</html>
