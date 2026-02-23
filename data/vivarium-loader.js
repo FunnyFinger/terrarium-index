@@ -4,7 +4,17 @@
  */
 (function () {
     'use strict';
-    const VIVARIUMS_URL = 'data/vivariums.json';
+    function getVivariumsUrl() {
+        try {
+            var script = document.currentScript;
+            if (script && script.src) {
+                var base = script.src.replace(/\/[^/]+$/, '/');
+                return base + 'vivariums.json';
+            }
+        } catch (e) { /* ignore */ }
+        return (typeof document !== 'undefined' && document.baseURI ? new URL('data/vivariums.json', document.baseURI).href : 'data/vivariums.json');
+    }
+    const VIVARIUMS_URL = getVivariumsUrl();
 
     async function loadVivariums() {
         if (typeof window === 'undefined') return [];

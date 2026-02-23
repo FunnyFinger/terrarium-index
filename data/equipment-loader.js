@@ -5,7 +5,17 @@
  */
 (function () {
     'use strict';
-    const EQUIPMENT_URL = 'data/equipment.json';
+    function getEquipmentUrl() {
+        try {
+            var script = document.currentScript;
+            if (script && script.src) {
+                var base = script.src.replace(/\/[^/]+$/, '/');
+                return base + 'equipment.json';
+            }
+        } catch (e) { /* ignore */ }
+        return (typeof document !== 'undefined' && document.baseURI ? new URL('data/equipment.json', document.baseURI).href : 'data/equipment.json');
+    }
+    const EQUIPMENT_URL = getEquipmentUrl();
 
     async function loadEquipment() {
         if (typeof window === 'undefined') return [];
