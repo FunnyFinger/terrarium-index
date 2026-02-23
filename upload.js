@@ -147,23 +147,33 @@ function readPlantDetailsFromForm() {
     }
     var priceEl = elements.uploadPrice;
     var costEl = elements.uploadCost;
+    var marginPctEl = elements.uploadMarginPct;
+    var unitEl = elements.uploadUnit;
     var invEl = elements.uploadInventory;
     var reorderEl = elements.uploadReorder;
-    if (priceEl) {
-        var p = priceEl.value.trim();
-        currentUploadPlant.price = p === '' ? undefined : (parseFloat(p) || undefined);
+    var cost = costEl && costEl.value.trim() !== '' ? parseFloat(costEl.value) : NaN;
+    var marginPct = marginPctEl && marginPctEl.value.trim() !== '' ? parseFloat(marginPctEl.value) : NaN;
+    if (!isNaN(cost)) currentUploadPlant.costPrice = cost;
+    else currentUploadPlant.costPrice = undefined;
+    if (!isNaN(cost) && !isNaN(marginPct) && marginPct < 100) {
+        var p = cost / (1 - marginPct / 100);
+        currentUploadPlant.price = p;
+        if (priceEl) priceEl.value = p.toFixed(2);
+    } else {
+        currentUploadPlant.price = priceEl && priceEl.value.trim() !== '' ? (parseFloat(priceEl.value) || undefined) : undefined;
     }
-    if (costEl) {
-        var c = costEl.value.trim();
-        currentUploadPlant.costPrice = c === '' ? undefined : (parseFloat(c) || undefined);
+    if (unitEl && unitEl.value && unitEl.value.trim() !== '') {
+        currentUploadPlant.unit = unitEl.value.trim();
+    } else {
+        currentUploadPlant.unit = undefined;
     }
     if (invEl) {
         var q = invEl.value.trim();
-        currentUploadPlant.stockQuantity = q === '' ? 0 : (parseInt(q, 10) || 0);
+        currentUploadPlant.stockQuantity = q === '' ? 0 : (parseFloat(q) || 0);
     }
     if (reorderEl) {
         var r = reorderEl.value.trim();
-        currentUploadPlant.reorderLevel = r === '' ? undefined : (parseInt(r, 10));
+        currentUploadPlant.reorderLevel = r === '' ? undefined : (parseFloat(r));
         if (currentUploadPlant.reorderLevel !== undefined && isNaN(currentUploadPlant.reorderLevel)) currentUploadPlant.reorderLevel = undefined;
     }
     var sciNameEl = elements.uploadScientificName;
@@ -247,9 +257,6 @@ function setupUploadListeners() {
 
     closeUploadModal?.addEventListener('click', closeUploadModalFunc);
     cancelUploadBtn?.addEventListener('click', closeUploadModalFunc);
-    uploadModal.addEventListener('click', (e) => {
-        if (e.target === uploadModal) closeUploadModalFunc();
-    });
 
     fileInput?.addEventListener('change', handleFileSelect);
     dragDropArea?.addEventListener('click', () => fileInput.click());
@@ -264,6 +271,21 @@ function setupUploadListeners() {
     });
 
     saveImageBtn?.addEventListener('click', saveImage);
+
+    (function () {
+        var costEl = elements.uploadCost;
+        var marginPctEl = elements.uploadMarginPct;
+        var priceEl = elements.uploadPrice;
+        function updatePriceFromCostAndMargin() {
+            if (!priceEl) return;
+            var c = costEl && costEl.value.trim() !== '' ? parseFloat(costEl.value) : NaN;
+            var m = marginPctEl && marginPctEl.value.trim() !== '' ? parseFloat(marginPctEl.value) : NaN;
+            if (!isNaN(c) && !isNaN(m) && m < 100) priceEl.value = (c / (1 - m / 100)).toFixed(2);
+            else if (priceEl.value === '' && isNaN(c)) priceEl.value = '';
+        }
+        if (costEl) costEl.addEventListener('input', updatePriceFromCostAndMargin);
+        if (marginPctEl) marginPctEl.addEventListener('input', updatePriceFromCostAndMargin);
+    })();
 
     if (selectFolderBtn) {
         selectFolderBtn.addEventListener('click', selectImagesFolder);
@@ -282,16 +304,6 @@ async function selectImagesFolder() {
         console.warn('⚠️ Browser does not support folder selection. Please use Chrome or Edge browser.');
         return;
     }
-
-    const modalClickHandler = (e) => {
-        if (e.target === uploadModal) {
-            e.stopPropagation();
-            e.preventDefault();
-        }
-    };
-
-    uploadModal?.removeEventListener('click', closeUploadModalFunc);
-    uploadModal?.addEventListener('click', modalClickHandler, { once: true });
 
     try {
         if (selectFolderBtn) {
@@ -340,18 +352,11 @@ async function selectImagesFolder() {
             selectFolderBtn.style.display = 'none';
             selectFolderBtn.disabled = false;
         }
-
-        uploadModal?.addEventListener('click', (e) => {
-            if (e.target === uploadModal) closeUploadModalFunc();
-        });
     } catch (err) {
         if (selectFolderBtn) {
             selectFolderBtn.disabled = false;
             selectFolderBtn.textContent = '📁 Select Folder (One-time Setup)';
         }
-        uploadModal?.addEventListener('click', (e) => {
-            if (e.target === uploadModal) closeUploadModalFunc();
-        });
 
         if (err.name === 'AbortError') {
             if (folderStatus) {
@@ -516,10 +521,21 @@ async function openImageUpload(plantId) {
 
     var priceEl = elements.uploadPrice;
     var costEl = elements.uploadCost;
+    var marginPctEl = elements.uploadMarginPct;
+    var unitEl = elements.uploadUnit;
     var invEl = elements.uploadInventory;
     var reorderEl = elements.uploadReorder;
-    if (priceEl) priceEl.value = (currentUploadPlant.price != null && currentUploadPlant.price !== '') ? currentUploadPlant.price : '';
     if (costEl) costEl.value = (currentUploadPlant.costPrice != null && currentUploadPlant.costPrice !== '') ? currentUploadPlant.costPrice : '';
+    var price = currentUploadPlant.price != null && currentUploadPlant.price !== '' ? currentUploadPlant.price : null;
+    var cost = currentUploadPlant.costPrice != null && currentUploadPlant.costPrice !== '' ? currentUploadPlant.costPrice : null;
+    var marginPct = (price != null && price > 0 && cost != null) ? ((price - cost) / price * 100) : '';
+    if (marginPctEl) marginPctEl.value = marginPct !== '' ? Number(marginPct).toFixed(1) : '';
+    if (priceEl) priceEl.value = (price != null ? price : '');
+    var defaultUnit = 'pot';
+    var pt = (currentUploadPlant.plantType || '').toLowerCase();
+    var nameStr = (getScientificNameString(currentUploadPlant) || '').toLowerCase() + ' ' + ((currentUploadPlant.commonNames || []).join(' ')).toLowerCase();
+    if (pt.indexOf('moss') !== -1 || nameStr.indexOf('moss') !== -1) defaultUnit = 'm2';
+    if (unitEl) unitEl.value = (currentUploadPlant.unit != null && currentUploadPlant.unit !== '') ? currentUploadPlant.unit : defaultUnit;
     if (invEl) invEl.value = (currentUploadPlant.stockQuantity != null && currentUploadPlant.stockQuantity !== '') ? currentUploadPlant.stockQuantity : '';
     if (reorderEl) reorderEl.value = (currentUploadPlant.reorderLevel != null && currentUploadPlant.reorderLevel !== '') ? currentUploadPlant.reorderLevel : '';
 
@@ -542,6 +558,8 @@ async function openImageUpload(plantId) {
 
     uploadModal.classList.remove('hidden');
     uploadModal.classList.add('show');
+    if (document.documentElement) document.documentElement.classList.remove('edit-loading-on');
+    if (document.body && !document.body.classList.contains('edit-page-visible')) document.body.classList.add('edit-page-visible');
     saveImageBtn.textContent = '💾 Save';
     saveImageBtn.disabled = false;
 
@@ -753,6 +771,7 @@ function closeUploadModalFunc() {
 
     uploadModal.classList.remove('show');
     uploadModal.classList.add('hidden');
+    if (document.body) document.body.classList.remove('edit-page-visible');
     saveImageBtn.textContent = '💾 Save';
     saveImageBtn.disabled = false;
     if (uploadPlantDescription) uploadPlantDescription.value = '';
@@ -764,6 +783,7 @@ function closeUploadModalFunc() {
         currentImageFiles = [];
         currentImageUrl = null;
     }, 100);
+    if (typeof window !== 'undefined' && window.self !== window.top) try { window.parent.postMessage({ type: 'invAddOverlayClose' }, '*'); } catch (e) {}
 }
 
 function handleFileSelect(e) {
@@ -1030,7 +1050,8 @@ async function saveImage() {
                         price: currentUploadPlant.price,
                         costPrice: currentUploadPlant.costPrice,
                         quantityInStock: currentUploadPlant.stockQuantity != null ? currentUploadPlant.stockQuantity : 0,
-                        reorderLevel: currentUploadPlant.reorderLevel
+                        reorderLevel: currentUploadPlant.reorderLevel,
+                        unit: currentUploadPlant.unit
                     });
                 }
                 var didSave = await savePlantToJsonFile(currentUploadPlant);
@@ -1135,7 +1156,8 @@ async function saveImage() {
                     price: currentUploadPlant.price,
                     costPrice: currentUploadPlant.costPrice,
                     quantityInStock: currentUploadPlant.stockQuantity != null ? currentUploadPlant.stockQuantity : 0,
-                    reorderLevel: currentUploadPlant.reorderLevel
+                    reorderLevel: currentUploadPlant.reorderLevel,
+                    unit: currentUploadPlant.unit
                 });
             }
             savePlantToJsonFile(currentUploadPlant).catch(() => {});

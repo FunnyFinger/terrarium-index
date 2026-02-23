@@ -1,1 +1,113 @@
-{"id":10418,"name":"Parlor Palm","scientificName":"Chamaedorea elegans","commonNames":["Neanthe Bella Palm","Bella Palm","Dwarf Mountain Palm"],"category":["palm","leafy","house-plant","tropical"],"substrate":"Well Draining","size":"30-120 cm","growthRate":"Slow","description":"Chamaedorea elegans, commonly known as Parlor Palm or Neanthe Bella Palm, is a small understory palm native to rainforests of Mexico and Guatemala. It belongs to the Arecaceae family and features slender, green, pinnate fronds on thin cane-like stems. It grows slowly to 30-120 cm indoors and tolerates low light and dry air better than most palms. Non-toxic. Suitable for terrariums when young and for indoor pots. Prefers warm, humid conditions and indirect light.","careTips":["Prefers bright indirect light; tolerates low light","Keep soil lightly moist; well-draining mix","Moderate to high humidity","Non-toxic to pets"],"taxonomy":{"kingdom":"Plantae","phylum":"Tracheophyta","class":"Liliopsida","order":"Arecales","family":"Arecaceae","genus":"Chamaedorea","species":"Chamaedorea elegans"},"growthPattern":"upright-bushy","hazard":"non-toxic","rarity":"uncommon","growthHabit":"ground-dwelling","plantType":"palm","floweringPeriod":"seasonal","propagation":"Seed, Division","colors":"Green","humidityRange":{"min":40,"max":70,"ideal":55},"lightRange":{"min":30,"max":60,"ideal":45},"airCirculationRange":{"min":20,"max":50,"ideal":35},"waterNeedsRange":{"min":40,"max":60,"ideal":50},"substrateType":"dry","specialNeeds":"none","temperatureRange":{"min":36,"max":48,"ideal":42},"difficultyRange":{"min":0,"max":30,"ideal":15},"soilPhRange":{"min":42.9,"max":57.1,"ideal":50},"growthRateRange":{"min":10,"max":30,"ideal":20},"carnivorous":false,"waterCirculationRange":{"min":null,"max":null,"ideal":null},"waterTemperatureRange":{"min":null,"max":null,"ideal":null},"waterPhRange":{"min":null,"max":null,"ideal":null},"waterHardnessRange":{"min":null,"max":null,"ideal":null},"salinityRange":{"min":null,"max":null,"ideal":null},"geographicOrigin":null,"additionalInfo":null}
+{
+  "id": 162,
+  "name": "Parlor Palm",
+  "scientificName": "Chamaedorea elegans",
+  "commonNames": [
+    "Neanthe Bella Palm",
+    "Bella Palm",
+    "Dwarf Mountain Palm"
+  ],
+  "category": [
+    "palm",
+    "leafy",
+    "house-plant",
+    "tropical"
+  ],
+  "substrate": "Well Draining",
+  "size": "30-120 cm",
+  "growthRate": "Slow",
+  "description": "Chamaedorea elegans, commonly known as Parlor Palm or Neanthe Bella Palm, is a small understory palm native to rainforests of Mexico and Guatemala. It belongs to the Arecaceae family and features slender, green, pinnate fronds on thin cane-like stems. It grows slowly to 30-120 cm indoors and tolerates low light and dry air better than most palms. Non-toxic. Suitable for terrariums when young and for indoor pots. Prefers warm, humid conditions and indirect light.",
+  "careTips": [
+    "Prefers bright indirect light; tolerates low light",
+    "Keep soil lightly moist; well-draining mix",
+    "Moderate to high humidity",
+    "Non-toxic to pets"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Arecales",
+    "family": "Arecaceae",
+    "genus": "Chamaedorea",
+    "species": "Chamaedorea elegans"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "palm",
+  "floweringPeriod": "seasonal",
+  "propagation": "Seed, Division",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 40,
+    "max": 70,
+    "ideal": 55
+  },
+  "lightRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "airCirculationRange": {
+    "min": 20,
+    "max": 50,
+    "ideal": 35
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 15
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 57.1,
+    "ideal": 50
+  },
+  "growthRateRange": {
+    "min": 10,
+    "max": 30,
+    "ideal": 20
+  },
+  "carnivorous": false,
+  "waterCirculationRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "waterTemperatureRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "waterPhRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "waterHardnessRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "salinityRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "geographicOrigin": null,
+  "additionalInfo": null
+}

@@ -73,8 +73,10 @@
             if ('quantityInStock' in data) row.quantityInStock = data.quantityInStock;
             if ('reorderLevel' in data) row.reorderLevel = data.reorderLevel;
             if ('size' in data) row.size = data.size;
+            if ('unit' in data) row.unit = data.unit;
             if ('description' in data) row.description = data.description;
             if ('hidden' in data) row.hidden = data.hidden;
+            if ('category' in data) row.category = data.category;
             row.updatedAt = now;
             return database.inventory.put(row);
         });
@@ -107,7 +109,9 @@
         if (!database) return Promise.resolve();
         return database.inventory.get(Number(plantId)).then(function (row) {
             if (!row || row.quantityInStock == null) return;
-            var next = Math.max(0, (row.quantityInStock || 0) - quantity);
+            var q = Number(quantity);
+            var current = Number(row.quantityInStock) || 0;
+            var next = Math.max(0, current - q);
             return database.inventory.update(Number(plantId), {
                 quantityInStock: next,
                 updatedAt: Date.now()
@@ -228,8 +232,10 @@
                     p.stockQuantity = inv.quantityInStock != null ? inv.quantityInStock : 0;
                     if (inv.reorderLevel != null) p.reorderLevel = inv.reorderLevel;
                     if (inv.size !== undefined && inv.size !== null) p.size = inv.size;
+                    if (inv.unit !== undefined && inv.unit !== null) p.unit = inv.unit;
                     if ('description' in inv) p.description = inv.description;
                     if (typeof inv.hidden === 'boolean') p.hidden = inv.hidden;
+                    if (inv.category != null && inv.category !== '') p.category = inv.category;
                 } else {
                     p.stockQuantity = 0;
                 }

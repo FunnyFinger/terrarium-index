@@ -19,7 +19,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css?v=4">
-    <link rel="stylesheet" href="build-vivarium.css?v=1">
+    <link rel="stylesheet" href="build-vivarium.css?v=3">
 </head>
 <body>
     <header>
@@ -28,7 +28,7 @@
             <div id="main-nav-container"></div>
             <div class="banner-overlay">
                 <h1>Build Your Own Vivarium</h1>
-                <p class="subtitle">Step-by-step guide to create your perfect enclosure.</p>
+                <p class="subtitle">Design a living landscape step by step—enclosure, drainage, substrate, hard scape, plants, decorations, accessories, and tools, then add your build to the cart.</p>
             </div>
         </div>
     </header>
@@ -36,6 +36,7 @@
     <main class="container build-vivarium-main">
         <div class="build-layout">
         <nav class="build-stepper" aria-label="Build progress">
+            <p class="build-stepper-heading">Your build</p>
             <ol class="build-stepper-list">
                 <li class="build-step" data-step="1" aria-current="step">
                     <span class="build-step-num">1</span>
@@ -47,28 +48,63 @@
                 <li class="build-step" data-step="2">
                     <span class="build-step-num">2</span>
                     <span class="build-step-label-wrap">
-                        <span class="build-step-label">Enclosure size</span>
+                        <span class="build-step-label">Enclosure</span>
                         <span class="build-step-choice" aria-hidden="true"></span>
                     </span>
                 </li>
                 <li class="build-step" data-step="3">
                     <span class="build-step-num">3</span>
                     <span class="build-step-label-wrap">
-                        <span class="build-step-label">Substrate & drainage</span>
+                        <span class="build-step-label">Drainage</span>
                         <span class="build-step-choice" aria-hidden="true"></span>
                     </span>
                 </li>
                 <li class="build-step" data-step="4">
                     <span class="build-step-num">4</span>
                     <span class="build-step-label-wrap">
-                        <span class="build-step-label">Plants</span>
+                        <span class="build-step-label">Substrate</span>
                         <span class="build-step-choice" aria-hidden="true"></span>
                     </span>
                 </li>
                 <li class="build-step" data-step="5">
                     <span class="build-step-num">5</span>
                     <span class="build-step-label-wrap">
+                        <span class="build-step-label">Hard scape</span>
+                        <span class="build-step-choice" aria-hidden="true"></span>
+                    </span>
+                </li>
+                <li class="build-step" data-step="6">
+                    <span class="build-step-num">6</span>
+                    <span class="build-step-label-wrap">
+                        <span class="build-step-label">Plants</span>
+                        <span class="build-step-choice" aria-hidden="true"></span>
+                    </span>
+                </li>
+                <li class="build-step" data-step="7">
+                    <span class="build-step-num">7</span>
+                    <span class="build-step-label-wrap">
+                        <span class="build-step-label">Decorations</span>
+                        <span class="build-step-choice" aria-hidden="true"></span>
+                    </span>
+                </li>
+                <li class="build-step" data-step="8">
+                    <span class="build-step-num">8</span>
+                    <span class="build-step-label-wrap">
                         <span class="build-step-label">Accessories</span>
+                        <span class="build-step-choice" aria-hidden="true"></span>
+                    </span>
+                </li>
+                <li class="build-step" data-step="9">
+                    <span class="build-step-num">9</span>
+                    <span class="build-step-label-wrap">
+                        <span class="build-step-label">Optional tools</span>
+                        <span class="build-step-choice" aria-hidden="true"></span>
+                    </span>
+                </li>
+                <li class="build-step" data-step="10">
+                    <span class="build-step-num">10</span>
+                    <span class="build-step-label-wrap">
+                        <span class="build-step-label">Review & order</span>
                         <span class="build-step-choice" aria-hidden="true"></span>
                     </span>
                 </li>
@@ -78,59 +114,113 @@
         <div class="build-step-panels">
             <section id="buildPanel1" class="build-panel build-panel-active" data-step="1" aria-labelledby="buildHeading1">
                 <h2 id="buildHeading1" class="build-panel-title">Choose your vivarium type</h2>
-                <p class="build-panel-desc">Select the type of enclosure. This will tailor plant and accessory suggestions.</p>
+                <p class="build-panel-desc">Select the style of enclosure that fits your vision.</p>
                 <p id="buildSelected1" class="build-selected-choice" aria-live="polite"></p>
                 <div id="buildTypeOptions" class="build-options build-type-options"></div>
                 <div class="build-panel-actions">
-                    <button type="button" class="btn btn-primary build-next" data-next="2" disabled>Next: Enclosure size</button>
+                    <button type="button" class="btn btn-primary build-next" data-next="2" disabled>Next: Enclosure</button>
                 </div>
             </section>
 
             <section id="buildPanel2" class="build-panel" data-step="2" aria-labelledby="buildHeading2" hidden>
-                <h2 id="buildHeading2" class="build-panel-title">Choose enclosure size</h2>
-                <p class="build-panel-desc">Height range for your enclosure. Affects which plants will fit.</p>
+                <h2 id="buildHeading2" class="build-panel-title">Choose enclosure</h2>
+                <p class="build-panel-desc">Select an enclosure from our supplies. This will hold your vivarium.</p>
                 <p id="buildSelected2" class="build-selected-choice" aria-live="polite"></p>
-                <div id="buildSizeOptions" class="build-options build-size-options"></div>
+                <div id="buildEnclosureOptions" class="build-options build-supply-options"></div>
                 <div class="build-panel-actions">
                     <button type="button" class="btn btn-secondary build-prev" data-prev="1">Back</button>
-                    <button type="button" class="btn btn-primary build-next" data-next="3" disabled>Next: Substrate</button>
+                    <button type="button" class="btn btn-primary build-next" data-next="3" disabled>Next: Drainage</button>
                 </div>
             </section>
 
             <section id="buildPanel3" class="build-panel" data-step="3" aria-labelledby="buildHeading3" hidden>
-                <h2 id="buildHeading3" class="build-panel-title">Soil, substrate & drainage</h2>
-                <p class="build-panel-desc">Select drainage and substrate layers suitable for your vivarium type.</p>
+                <h2 id="buildHeading3" class="build-panel-title">Drainage</h2>
+                <p class="build-panel-desc">Select drainage materials for the bottom layer.</p>
                 <p id="buildSelected3" class="build-selected-choice" aria-live="polite"></p>
-                <div id="buildSubstrateOptions" class="build-options build-substrate-options"></div>
+                <div id="buildDrainageOptions" class="build-options build-supply-options build-supply-multi"></div>
                 <div class="build-panel-actions">
                     <button type="button" class="btn btn-secondary build-prev" data-prev="2">Back</button>
-                    <button type="button" class="btn btn-primary build-next" data-next="4" disabled>Next: Plants</button>
+                    <button type="button" class="btn btn-primary build-next" data-next="4">Next: Substrate</button>
                 </div>
             </section>
 
             <section id="buildPanel4" class="build-panel" data-step="4" aria-labelledby="buildHeading4" hidden>
-                <h2 id="buildHeading4" class="build-panel-title">Select plants</h2>
-                <p class="build-panel-desc">Plants suited to your vivarium type. Open a plant to view full details.</p>
+                <h2 id="buildHeading4" class="build-panel-title">Substrate</h2>
+                <p class="build-panel-desc">Select substrate (soil) for your plants.</p>
                 <p id="buildSelected4" class="build-selected-choice" aria-live="polite"></p>
+                <div id="buildSubstrateOptions" class="build-options build-supply-options build-supply-multi"></div>
+                <div class="build-panel-actions">
+                    <button type="button" class="btn btn-secondary build-prev" data-prev="3">Back</button>
+                    <button type="button" class="btn btn-primary build-next" data-next="5">Next: Hard scape</button>
+                </div>
+            </section>
+
+            <section id="buildPanel5" class="build-panel" data-step="5" aria-labelledby="buildHeading5" hidden>
+                <h2 id="buildHeading5" class="build-panel-title">Hard scape</h2>
+                <p class="build-panel-desc">Add rocks, wood, or other hard scape elements.</p>
+                <p id="buildSelected5" class="build-selected-choice" aria-live="polite"></p>
+                <div id="buildHardscapeOptions" class="build-options build-supply-options build-supply-multi"></div>
+                <div class="build-panel-actions">
+                    <button type="button" class="btn btn-secondary build-prev" data-prev="4">Back</button>
+                    <button type="button" class="btn btn-primary build-next" data-next="6">Next: Plants</button>
+                </div>
+            </section>
+
+            <section id="buildPanel6" class="build-panel" data-step="6" aria-labelledby="buildHeading6" hidden>
+                <h2 id="buildHeading6" class="build-panel-title">Select plants</h2>
+                <p class="build-panel-desc">Choose plants that match your vivarium type. Click a name for full details.</p>
+                <p id="buildSelected6" class="build-selected-choice" aria-live="polite"></p>
                 <div class="build-plants-toolbar">
                     <input type="text" id="buildPlantSearch" class="build-search-input" placeholder="Search by name or scientific name…" autocomplete="off">
                     <p id="buildPlantLimitHint" class="build-plant-limit-hint" aria-live="polite"></p>
                 </div>
                 <div id="buildPlantList" class="build-plant-list"></div>
                 <div class="build-panel-actions">
-                    <button type="button" class="btn btn-secondary build-prev" data-prev="3">Back</button>
-                    <button type="button" class="btn btn-primary build-next" data-next="5">Next: Accessories</button>
+                    <button type="button" class="btn btn-secondary build-prev" data-prev="5">Back</button>
+                    <button type="button" class="btn btn-primary build-next" data-next="7">Next: Decorations</button>
                 </div>
             </section>
 
-            <section id="buildPanel5" class="build-panel" data-step="5" aria-labelledby="buildHeading5" hidden>
-                <h2 id="buildHeading5" class="build-panel-title">Accessories</h2>
-                <p class="build-panel-desc">Optional tools and supplies for your setup.</p>
-                <p id="buildSelected5" class="build-selected-choice" aria-live="polite"></p>
+            <section id="buildPanel7" class="build-panel" data-step="7" aria-labelledby="buildHeading7" hidden>
+                <h2 id="buildHeading7" class="build-panel-title">Decorations</h2>
+                <p class="build-panel-desc">Add decorative items to style your vivarium.</p>
+                <p id="buildSelected7" class="build-selected-choice" aria-live="polite"></p>
+                <div id="buildDecorationOptions" class="build-options build-supply-options build-supply-multi"></div>
+                <div class="build-panel-actions">
+                    <button type="button" class="btn btn-secondary build-prev" data-prev="6">Back</button>
+                    <button type="button" class="btn btn-primary build-next" data-next="8">Next: Accessories</button>
+                </div>
+            </section>
+
+            <section id="buildPanel8" class="build-panel" data-step="8" aria-labelledby="buildHeading8" hidden>
+                <h2 id="buildHeading8" class="build-panel-title">Accessories</h2>
+                <p class="build-panel-desc">Add accessories to complete your setup.</p>
+                <p id="buildSelected8" class="build-selected-choice" aria-live="polite"></p>
                 <div id="buildAccessoryList" class="build-accessory-list"></div>
                 <div class="build-panel-actions">
-                    <button type="button" class="btn btn-secondary build-prev" data-prev="4">Back</button>
-                    <a href="index.html" class="btn btn-primary">Done – view store</a>
+                    <button type="button" class="btn btn-secondary build-prev" data-prev="7">Back</button>
+                    <button type="button" class="btn btn-primary build-next" data-next="9">Next: Optional tools</button>
+                </div>
+            </section>
+
+            <section id="buildPanel9" class="build-panel" data-step="9" aria-labelledby="buildHeading9" hidden>
+                <h2 id="buildHeading9" class="build-panel-title">Optional tools</h2>
+                <p class="build-panel-desc">Add tools for planting and maintenance (optional).</p>
+                <p id="buildSelected9" class="build-selected-choice" aria-live="polite"></p>
+                <div id="buildToolsOptions" class="build-options build-supply-options build-supply-multi"></div>
+                <div class="build-panel-actions">
+                    <button type="button" class="btn btn-secondary build-prev" data-prev="8">Back</button>
+                    <button type="button" class="btn btn-primary build-next" data-next="10">Next: Review</button>
+                </div>
+            </section>
+
+            <section id="buildPanel10" class="build-panel" data-step="10" aria-labelledby="buildHeading10" hidden>
+                <h2 id="buildHeading10" class="build-panel-title">Review your build</h2>
+                <p class="build-panel-desc">Review your custom vivarium below. Confirm to add everything to your cart and proceed to checkout.</p>
+                <div id="buildReviewSummary" class="build-review-summary" aria-live="polite"></div>
+                <div class="build-panel-actions">
+                    <button type="button" class="btn btn-secondary build-prev" data-prev="9">Back</button>
+                    <button type="button" class="btn btn-primary" id="buildConfirmOrderBtn">Confirm & add to cart</button>
                 </div>
             </section>
         </div>
@@ -139,21 +229,28 @@
         <div class="build-summary" id="buildSummary" aria-live="polite"></div>
     </main>
 
-    <footer class="site-footer">
+    <footer class="site-footer build-footer">
         <div class="container footer-container">
             <p class="footer-copy">&copy; <span id="footer-year">2026</span> Vivarium Store</p>
-            <p><a href="index.html">Back to store</a></p>
+            <p><a href="index.html" class="footer-back-link">← Back to store</a></p>
         </div>
     </footer>
 
     <script>document.getElementById('footer-year') && (document.getElementById('footer-year').textContent = new Date().getFullYear());</script>
-    <script src="js/nav.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dexie@3/dist/dexie.min.js"></script>
+    <script src="js/auth-db.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/nav.js"></script>
+    <script src="js/inventory-db.js"></script>
     <script src="data.js?v=4"></script>
     <script src="data/plant-loader.js?v=5"></script>
+    <script src="data/supply-categories.js"></script>
     <script src="data/equipment-loader.js"></script>
     <script src="data/vivarium-loader.js"></script>
+    <script src="filters.js?v=1"></script>
+    <script src="images.js?v=11"></script>
+    <script src="upload.js?v=1"></script>
     <script src="script.js?v=5"></script>
-    <script src="build-vivarium.js?v=1"></script>
+    <script src="build-vivarium.js?v=2"></script>
 </body>
 </html>

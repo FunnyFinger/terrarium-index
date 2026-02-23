@@ -19,22 +19,196 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css?v=4">
-    <link rel="stylesheet" href="build-vivarium.css?v=1">
+    <link rel="stylesheet" href="build-vivarium.css?v=2">
     <style>
       html.embed-add-standby body { opacity: 0; pointer-events: none; }
+      html.edit-loading-on body > header,
+      html.edit-loading-on body > main,
+      html.edit-loading-on body > aside { display: none !important; }
+      html.edit-loading-on .edit-page.hidden { display: flex !important; }
+      html.edit-loading-on .edit-page .edit-page-title { opacity: 0.6; }
       html.embed-add-active body > header,
       html.embed-add-active body > main,
       html.embed-add-active body > aside { display: none !important; }
       html.embed-add-active body > .upload-modal.show { display: flex !important; }
+      /* Full-page edit view (unified for plants, supplies, vivariums) */
+      .edit-page { position: fixed; inset: 0; z-index: 9000; background: var(--bg-color); display: flex; flex-direction: column; overflow: hidden; }
+      .edit-page.hidden { display: none !important; }
+      .edit-page-header { flex-shrink: 0; display: flex; align-items: center; gap: 1rem; padding: 1rem 1.25rem; border-bottom: 1px solid var(--border-color, #e0e0e0); background: var(--bg-color, #fafafa); position: relative; }
+      .edit-page-back { padding: 0.5rem 0.75rem; font-size: 1rem; color: var(--primary-color); background: none; border: none; cursor: pointer; font-weight: 600; border-radius: 8px; }
+      .edit-page-back:hover { background: rgba(0,0,0,0.06); }
+      .edit-page-close { width: 40px; height: 40px; padding: 0; margin: 0 0 0 auto; font-size: 0; border: none; border-radius: 50%; cursor: pointer; background-color: #d32f2f; color: white; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); transition: background-color 0.2s; flex-shrink: 0; }
+      .edit-page-close::after { content: '×'; font-size: 1.75rem; font-weight: bold; line-height: 1; color: white; }
+      .edit-page-close:hover { background-color: #b71c1c; }
+      .edit-page-title { margin: 0; font-size: 1.25rem; color: var(--primary-color); }
+      .edit-page-body { flex: 1; overflow: auto; padding: 1.25rem clamp(1rem, 4vw, 2rem); max-width: 100%; width: 100%; box-sizing: border-box; }
+      .edit-page-body .edit-plant-section { margin-bottom: 1.25rem; }
+      .edit-page-body .edit-plant-detail-label { display: block; margin-bottom: 0.25rem; font-weight: 600; }
+      .edit-page-body .edit-plant-input,
+      .edit-page-body .edit-plant-select,
+      .edit-page-body .upload-plant-description { width: 100%; max-width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--border-color, #ddd); border-radius: 8px; box-sizing: border-box; font-size: 1rem; }
+      .edit-page-body .upload-plant-description { min-height: 100px; resize: vertical; }
+      .edit-page-panel { display: none; }
+      .edit-page-panel.active { display: block; }
+      body.edit-page-visible header,
+      body.edit-page-visible main,
+      body.edit-page-visible aside { display: none !important; }
+      body.edit-page-visible .upload-modal.show { position: fixed; inset: 0; z-index: 9000; display: flex !important; align-items: flex-start; justify-content: center; padding: 0; overflow: auto; background: var(--bg-color); }
+      body.edit-page-visible .upload-modal.show .upload-modal-content { margin: 0; max-width: 100%; width: 100%; box-sizing: border-box; padding: 1.5rem clamp(1rem, 4vw, 2rem) 3rem; min-height: 100vh; background-color: var(--bg-color); }
     </style>
     <script>
       (function() {
-        if (window.self !== window.top && /[?&]add=(plant|equipment|vivarium)/.test(window.location.search || ''))
+        var q = window.location.search || '';
+        if (window.self !== window.top && /[?&]add=(plant|equipment|vivarium)/.test(q))
           document.documentElement.classList.add('embed-add-standby');
+        if (/[?&](edit|add)=(plant|equipment|vivarium)/.test(q)) {
+          document.documentElement.classList.add('edit-loading-on');
+        }
       })();
     </script>
 </head>
 <body>
+    <!-- Full-page edit view (unified for plants, supplies, vivariums) -->
+    <div id="editPage" class="edit-page hidden" aria-hidden="true">
+        <div class="edit-page-header">
+            <h1 id="editPageTitle" class="edit-page-title">Edit</h1>
+            <button type="button" class="edit-page-close" id="editPageBack" aria-label="Close">×</button>
+            <script>if(document.documentElement.classList.contains('edit-loading-on')) document.getElementById('editPageTitle').textContent='Loading…';</script>
+        </div>
+        <div class="edit-page-body">
+            <div id="editPanelPlant" class="edit-page-panel" data-type="plant"></div>
+            <div id="editPanelEquipment" class="edit-page-panel" data-type="equipment">
+                <p id="equipmentEditName" class="edit-plant-name-display" style="margin-bottom: 1rem; color: var(--text-light);"></p>
+                <div class="edit-plant-section" id="equipmentEditNameRow" style="margin-bottom: 1rem; display: none;">
+                    <label for="equipmentEditNameInput" class="edit-plant-detail-label">Name</label>
+                    <input type="text" id="equipmentEditNameInput" class="edit-plant-input" placeholder="Supply name (e.g. soil, gravel, LED light)">
+                </div>
+                <div class="edit-plant-section" style="margin-bottom: 1rem;">
+                    <label for="equipmentEditDescription" class="edit-plant-detail-label">Description</label>
+                    <textarea id="equipmentEditDescription" class="upload-plant-description" rows="4" placeholder="Short description..."></textarea>
+                </div>
+                <div class="edit-plant-section" style="margin-bottom: 1rem;">
+                    <label for="equipmentEditCategory" class="edit-plant-detail-label">Category</label>
+                    <select id="equipmentEditCategory" class="edit-plant-select" aria-label="Supply category">
+                        <option value="">— Select category —</option>
+                    </select>
+                </div>
+                <div class="edit-plant-section edit-plant-shopping-section" style="margin-bottom: 1rem;">
+                    <div class="edit-plant-details-grid">
+                        <div class="edit-plant-detail-row">
+                            <label for="equipmentEditSize" class="edit-plant-detail-label">Size</label>
+                            <input type="text" id="equipmentEditSize" class="edit-plant-input" placeholder="e.g. Small, 10cm">
+                        </div>
+                        <div class="edit-plant-detail-row">
+                            <label for="equipmentEditUnit" class="edit-plant-detail-label">Unit</label>
+                            <select id="equipmentEditUnit" class="edit-plant-select" aria-label="Unit of measure">
+                                <option value="">— Select unit —</option>
+                                <option value="pot">1 pot</option>
+                                <option value="piece">1 piece</option>
+                                <option value="KG">1 KG</option>
+                                <option value="L">1 L</option>
+                                <option value="m3">1 m³</option>
+                                <option value="m2">1 m²</option>
+                                <option value="bag">1 bag</option>
+                                <option value="set">1 set</option>
+                            </select>
+                        </div>
+                        <div class="edit-plant-detail-row">
+                            <label for="equipmentEditCost" class="edit-plant-detail-label">Cost (KD)</label>
+                            <input type="number" id="equipmentEditCost" class="edit-plant-input" min="0" step="0.01" placeholder="Cost">
+                        </div>
+                        <div class="edit-plant-detail-row">
+                            <label for="equipmentEditMarginPct" class="edit-plant-detail-label">Margin %</label>
+                            <input type="number" id="equipmentEditMarginPct" class="edit-plant-input" min="0" max="99.99" step="0.1" placeholder="e.g. 40">
+                        </div>
+                        <div class="edit-plant-detail-row">
+                            <label for="equipmentEditPrice" class="edit-plant-detail-label">Sell price (KD, calculated)</label>
+                            <input type="number" id="equipmentEditPrice" class="edit-plant-input" min="0" step="0.01" placeholder="—" readonly tabindex="-1">
+                        </div>
+                        <div class="edit-plant-detail-row">
+                            <label for="equipmentEditStock" class="edit-plant-detail-label">Quantity in stock</label>
+                            <input type="number" id="equipmentEditStock" class="edit-plant-input" min="0" step="any" placeholder="0 (whole or decimal)">
+                        </div>
+                        <div class="edit-plant-detail-row">
+                            <label for="equipmentEditReorder" class="edit-plant-detail-label">Reorder when below</label>
+                            <input type="number" id="equipmentEditReorder" class="edit-plant-input" min="0" step="any" placeholder="e.g. 5">
+                        </div>
+                    </div>
+                </div>
+                <div class="upload-buttons">
+                    <button class="btn btn-primary" id="equipmentEditSaveBtn">Save</button>
+                    <button class="btn btn-secondary" id="equipmentEditCancelBtn">Cancel</button>
+                </div>
+            </div>
+            <div id="editPanelVivarium" class="edit-page-panel" data-type="vivarium">
+                <div class="edit-plant-section" style="margin-bottom: 1rem;">
+                    <label for="vivariumEditName" class="edit-plant-detail-label">Name</label>
+                    <input type="text" id="vivariumEditName" class="edit-plant-input" placeholder="Vivarium name">
+                </div>
+                <div class="edit-plant-section" style="margin-bottom: 1rem;">
+                    <label for="vivariumEditDescription" class="edit-plant-detail-label">Description</label>
+                    <textarea id="vivariumEditDescription" class="upload-plant-description" rows="4" placeholder="Description..."></textarea>
+                </div>
+                <div class="edit-plant-section edit-plant-shopping-section" style="margin-bottom: 1rem;">
+                    <div class="edit-plant-details-grid">
+                        <div class="edit-plant-detail-row">
+                            <label for="vivariumEditCost" class="edit-plant-detail-label">Cost (KD)</label>
+                            <input type="number" id="vivariumEditCost" class="edit-plant-input" min="0" step="0.01" placeholder="Cost">
+                        </div>
+                        <div class="edit-plant-detail-row">
+                            <label for="vivariumEditMarginPct" class="edit-plant-detail-label">Margin %</label>
+                            <input type="number" id="vivariumEditMarginPct" class="edit-plant-input" min="0" max="99.99" step="0.1" placeholder="e.g. 40">
+                        </div>
+                        <div class="edit-plant-detail-row">
+                            <label for="vivariumEditPrice" class="edit-plant-detail-label">Price (KD, calculated)</label>
+                            <input type="number" id="vivariumEditPrice" class="edit-plant-input" min="0" step="0.01" placeholder="—" readonly tabindex="-1">
+                        </div>
+                        <div class="edit-plant-detail-row">
+                            <label for="vivariumEditType" class="edit-plant-detail-label">Type</label>
+                            <select id="vivariumEditType" class="edit-plant-select">
+                                <option value="open-terrarium">Open Terrarium</option>
+                                <option value="closed-terrarium">Closed Terrarium</option>
+                                <option value="aerarium">Aerarium</option>
+                                <option value="deserterium">Deserterium</option>
+                                <option value="paludarium">Paludarium</option>
+                                <option value="riparium">Riparium</option>
+                                <option value="aquarium">Aquarium</option>
+                            </select>
+                        </div>
+                        <div class="edit-plant-detail-row">
+                            <label for="vivariumEditAvailability" class="edit-plant-detail-label">Availability</label>
+                            <select id="vivariumEditAvailability" class="edit-plant-select">
+                                <option value="in-stock">In Stock</option>
+                                <option value="out-of-stock">Out of Stock</option>
+                                <option value="pre-order">Pre-order</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="edit-plant-section" style="margin-bottom: 1rem;">
+                    <label for="vivariumEditPlantSearch" class="edit-plant-detail-label">Plants in this vivarium</label>
+                    <input type="text" id="vivariumEditPlantSearch" class="edit-plant-input" placeholder="Search plants..." autocomplete="off" style="margin-bottom: 0.5rem;">
+                    <div id="vivariumEditPlantTableWrap" class="vivarium-plant-table-wrap">
+                        <table class="vivarium-plant-table">
+                            <thead><tr><th class="vivarium-plant-th-include"></th><th>Common name</th><th>Scientific name</th></tr></thead>
+                            <tbody id="vivariumEditPlantTableBody"></tbody>
+                        </table>
+                        <div id="vivariumPlantImageTooltip" class="vivarium-plant-image-tooltip" aria-hidden="true" role="tooltip"><img src="" alt=""></div>
+                    </div>
+                </div>
+                <div class="edit-plant-section" style="margin-bottom: 1rem;">
+                    <label for="vivariumEditSupplyIds" class="edit-plant-detail-label">Optional supplies</label>
+                    <input type="text" id="vivariumEditSupplySearch" class="edit-plant-input" placeholder="Search supplies..." autocomplete="off" style="margin-bottom: 0.5rem;">
+                    <select id="vivariumEditSupplyIds" class="edit-plant-select" multiple size="4" style="min-height: 100px;"></select>
+                </div>
+                <div class="upload-buttons">
+                    <button class="btn btn-primary" id="vivariumEditSaveBtn">Save</button>
+                    <button class="btn btn-secondary" id="vivariumEditCancelBtn">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <header>
         <div class="banner">
             <img src="images/banner.jpg" alt="Vivarium Store banner" class="banner-image">
@@ -1021,8 +1195,13 @@
                         <div class="filter-group">
                             <label class="filter-group-label">Category</label>
                             <div class="checkbox-group">
-                                <label class="checkbox-label"><input type="checkbox" class="equipment-filter-checkbox" data-filter="equipmentCategory" value="container"><span>Container</span></label>
-                                <label class="checkbox-label"><input type="checkbox" class="equipment-filter-checkbox" data-filter="equipmentCategory" value="tool"><span>Tool</span></label>
+                                <label class="checkbox-label"><input type="checkbox" class="equipment-filter-checkbox" data-filter="equipmentCategory" value="soil"><span>Soil</span></label>
+                                <label class="checkbox-label"><input type="checkbox" class="equipment-filter-checkbox" data-filter="equipmentCategory" value="drainage"><span>Drainage</span></label>
+                                <label class="checkbox-label"><input type="checkbox" class="equipment-filter-checkbox" data-filter="equipmentCategory" value="decoration"><span>Decoration</span></label>
+                                <label class="checkbox-label"><input type="checkbox" class="equipment-filter-checkbox" data-filter="equipmentCategory" value="hardscape"><span>Hard scape</span></label>
+                                <label class="checkbox-label"><input type="checkbox" class="equipment-filter-checkbox" data-filter="equipmentCategory" value="accessories"><span>Accessories</span></label>
+                                <label class="checkbox-label"><input type="checkbox" class="equipment-filter-checkbox" data-filter="equipmentCategory" value="tools"><span>Tools</span></label>
+                                <label class="checkbox-label"><input type="checkbox" class="equipment-filter-checkbox" data-filter="equipmentCategory" value="enclosures"><span>Enclosures</span></label>
                             </div>
                         </div>
                         <div class="filter-group">
@@ -1114,7 +1293,6 @@
                         <button type="button" id="tabPlants" class="shop-tab active" role="tab" aria-selected="true" data-view="plants">Plants</button>
                         <button type="button" id="tabEquipment" class="shop-tab" role="tab" aria-selected="false" data-view="equipment">Supplies</button>
                         <button type="button" id="tabVivariums" class="shop-tab" role="tab" aria-selected="false" data-view="vivariums">Vivariums</button>
-                        <button type="button" id="tabBuild" class="shop-tab" role="tab" aria-selected="false" data-view="build">Build your own</button>
                     </div>
                     <div class="stats stats-row">
                         <span id="plantCount">0 plants found</span>
@@ -1152,106 +1330,6 @@
                     <div id="loading" class="loading hidden">
                         <div class="spinner"></div>
                         <p>Loading plant images...</p>
-                    </div>
-                </div>
-
-                <!-- Build your own vivarium (step-by-step, replaces list when Build tab active) -->
-                <div id="buildView" class="build-view hidden" aria-hidden="true">
-                    <div class="build-layout">
-                    <nav class="build-stepper" aria-label="Build progress">
-                        <ol class="build-stepper-list">
-                            <li class="build-step" data-step="1" aria-current="step">
-                                <span class="build-step-num">1</span>
-                                <span class="build-step-label-wrap">
-                                    <span class="build-step-label">Vivarium type</span>
-                                    <span class="build-step-choice" aria-hidden="true"></span>
-                                </span>
-                            </li>
-                            <li class="build-step" data-step="2">
-                                <span class="build-step-num">2</span>
-                                <span class="build-step-label-wrap">
-                                    <span class="build-step-label">Enclosure size</span>
-                                    <span class="build-step-choice" aria-hidden="true"></span>
-                                </span>
-                            </li>
-                            <li class="build-step" data-step="3">
-                                <span class="build-step-num">3</span>
-                                <span class="build-step-label-wrap">
-                                    <span class="build-step-label">Substrate & drainage</span>
-                                    <span class="build-step-choice" aria-hidden="true"></span>
-                                </span>
-                            </li>
-                            <li class="build-step" data-step="4">
-                                <span class="build-step-num">4</span>
-                                <span class="build-step-label-wrap">
-                                    <span class="build-step-label">Plants</span>
-                                    <span class="build-step-choice" aria-hidden="true"></span>
-                                </span>
-                            </li>
-                            <li class="build-step" data-step="5">
-                                <span class="build-step-num">5</span>
-                                <span class="build-step-label-wrap">
-                                    <span class="build-step-label">Accessories</span>
-                                    <span class="build-step-choice" aria-hidden="true"></span>
-                                </span>
-                            </li>
-                        </ol>
-                    </nav>
-                    <div class="build-step-panels">
-                        <section id="buildPanel1" class="build-panel build-panel-active" data-step="1" aria-labelledby="buildHeading1">
-                            <h2 id="buildHeading1" class="build-panel-title">Choose your vivarium type</h2>
-                            <p class="build-panel-desc">Select the type of enclosure. This will tailor plant and accessory suggestions.</p>
-                            <p id="buildSelected1" class="build-selected-choice" aria-live="polite"></p>
-                            <div id="buildTypeOptions" class="build-options build-type-options"></div>
-                            <div class="build-panel-actions">
-                                <button type="button" class="btn btn-primary build-next" data-next="2" disabled>Next: Enclosure size</button>
-                            </div>
-                        </section>
-                        <section id="buildPanel2" class="build-panel" data-step="2" aria-labelledby="buildHeading2" hidden>
-                            <h2 id="buildHeading2" class="build-panel-title">Choose enclosure size</h2>
-                            <p class="build-panel-desc">Height range for your enclosure. Affects which plants will fit.</p>
-                            <p id="buildSelected2" class="build-selected-choice" aria-live="polite"></p>
-                            <div id="buildSizeOptions" class="build-options build-size-options"></div>
-                            <div class="build-panel-actions">
-                                <button type="button" class="btn btn-secondary build-prev" data-prev="1">Back</button>
-                                <button type="button" class="btn btn-primary build-next" data-next="3" disabled>Next: Substrate</button>
-                            </div>
-                        </section>
-                        <section id="buildPanel3" class="build-panel" data-step="3" aria-labelledby="buildHeading3" hidden>
-                            <h2 id="buildHeading3" class="build-panel-title">Soil, substrate & drainage</h2>
-                            <p class="build-panel-desc">Select drainage and substrate layers suitable for your vivarium type.</p>
-                            <p id="buildSelected3" class="build-selected-choice" aria-live="polite"></p>
-                            <div id="buildSubstrateOptions" class="build-options build-substrate-options"></div>
-                            <div class="build-panel-actions">
-                                <button type="button" class="btn btn-secondary build-prev" data-prev="2">Back</button>
-                                <button type="button" class="btn btn-primary build-next" data-next="4" disabled>Next: Plants</button>
-                            </div>
-                        </section>
-                        <section id="buildPanel4" class="build-panel" data-step="4" aria-labelledby="buildHeading4" hidden>
-                            <h2 id="buildHeading4" class="build-panel-title">Select plants</h2>
-                            <p class="build-panel-desc">Plants suited to your vivarium type. Open a plant to view full details.</p>
-                            <p id="buildSelected4" class="build-selected-choice" aria-live="polite"></p>
-                            <div class="build-plants-toolbar">
-                                <input type="text" id="buildPlantSearch" class="build-search-input" placeholder="Search by name or scientific name…" autocomplete="off">
-                                <p id="buildPlantLimitHint" class="build-plant-limit-hint" aria-live="polite"></p>
-                            </div>
-                            <div id="buildPlantList" class="build-plant-list"></div>
-                            <div class="build-panel-actions">
-                                <button type="button" class="btn btn-secondary build-prev" data-prev="3">Back</button>
-                                <button type="button" class="btn btn-primary build-next" data-next="5">Next: Accessories</button>
-                            </div>
-                        </section>
-                        <section id="buildPanel5" class="build-panel" data-step="5" aria-labelledby="buildHeading5" hidden>
-                            <h2 id="buildHeading5" class="build-panel-title">Accessories</h2>
-                            <p class="build-panel-desc">Optional tools and supplies for your setup.</p>
-                            <p id="buildSelected5" class="build-selected-choice" aria-live="polite"></p>
-                            <div id="buildAccessoryList" class="build-accessory-list"></div>
-                            <div class="build-panel-actions">
-                                <button type="button" class="btn btn-secondary build-prev" data-prev="4">Back</button>
-                                <button type="button" class="btn btn-primary build-done" id="buildDoneBtn">Done</button>
-                            </div>
-                        </section>
-                    </div>
                     </div>
                 </div>
 
@@ -1324,8 +1402,8 @@
             <p id="cartEmptyMsg" class="cart-empty-msg">Your cart is empty.</p>
             <p id="cartTotal" class="cart-total hidden"></p>
             <div class="cart-drawer-actions">
-                <button type="button" id="cartClearBtn" class="cart-clear-btn hidden" aria-label="Clear cart">Clear cart</button>
                 <a href="checkout.html" id="cartCheckoutBtn" class="cart-checkout-btn hidden">Proceed to checkout</a>
+                <button type="button" id="cartClearBtn" class="cart-clear-btn hidden" aria-label="Clear cart">Clear cart</button>
             </div>
         </div>
     </aside>
@@ -1420,26 +1498,43 @@
                 </div>
             </div>
 
-            <!-- Shopping / inventory (price, stock; updates inventory tables) -->
+            <!-- Shopping / inventory (cost + margin % → price; stock, reorder) -->
             <div class="edit-plant-section edit-plant-shopping-section" style="margin-bottom: 1.5rem;">
                 <h3 class="edit-plant-details-title">Shopping / inventory</h3>
-                <p class="edit-plant-field-hint">Price, cost, stock and reorder level used in the store and inventory tables.</p>
+                <p class="edit-plant-field-hint">Cost and margin % determine sell price. Stock and reorder used in the store and inventory.</p>
                 <div class="edit-plant-details-grid">
                     <div class="edit-plant-detail-row">
-                        <label for="uploadPrice" class="edit-plant-detail-label">Sell price</label>
-                        <input type="number" id="uploadPrice" class="edit-plant-input" placeholder="e.g. 12.99" min="0" step="0.01" inputmode="decimal">
-                    </div>
-                    <div class="edit-plant-detail-row">
-                        <label for="uploadCost" class="edit-plant-detail-label">Cost</label>
+                        <label for="uploadCost" class="edit-plant-detail-label">Cost (KD)</label>
                         <input type="number" id="uploadCost" class="edit-plant-input" placeholder="Cost per unit" min="0" step="0.01" inputmode="decimal">
                     </div>
                     <div class="edit-plant-detail-row">
+                        <label for="uploadMarginPct" class="edit-plant-detail-label">Margin %</label>
+                        <input type="number" id="uploadMarginPct" class="edit-plant-input" placeholder="e.g. 40" min="0" max="99.99" step="0.1" inputmode="decimal">
+                    </div>
+                    <div class="edit-plant-detail-row">
+                        <label for="uploadPrice" class="edit-plant-detail-label">Sell price (KD, calculated)</label>
+                        <input type="number" id="uploadPrice" class="edit-plant-input" placeholder="—" min="0" step="0.01" readonly tabindex="-1">
+                    </div>
+                    <div class="edit-plant-detail-row">
+                        <label for="uploadUnit" class="edit-plant-detail-label">Unit</label>
+                        <select id="uploadUnit" class="edit-plant-select" aria-label="Unit of measure">
+                            <option value="pot">1 pot</option>
+                            <option value="piece">1 piece</option>
+                            <option value="KG">1 KG</option>
+                            <option value="L">1 L</option>
+                            <option value="m3">1 m³</option>
+                            <option value="m2">1 m²</option>
+                            <option value="bag">1 bag</option>
+                            <option value="set">1 set</option>
+                        </select>
+                    </div>
+                    <div class="edit-plant-detail-row">
                         <label for="uploadInventory" class="edit-plant-detail-label">Quantity in stock</label>
-                        <input type="number" id="uploadInventory" class="edit-plant-input" placeholder="0" min="0" step="1" inputmode="numeric">
+                        <input type="number" id="uploadInventory" class="edit-plant-input" placeholder="0" min="0" step="any" inputmode="decimal">
                     </div>
                     <div class="edit-plant-detail-row">
                         <label for="uploadReorder" class="edit-plant-detail-label">Reorder when below</label>
-                        <input type="number" id="uploadReorder" class="edit-plant-input" placeholder="e.g. 5" min="0" step="1" inputmode="numeric">
+                        <input type="number" id="uploadReorder" class="edit-plant-input" placeholder="e.g. 5" min="0" step="any" inputmode="decimal">
                     </div>
                 </div>
             </div>
@@ -1565,50 +1660,8 @@
     </div>
     <input type="file" id="plantFileInput" accept="image/*" multiple style="display: none;">
 
-    <!-- Edit / Add Supply Modal (inventory: size, price, cost, stock, reorder) -->
-    <div id="equipmentEditModal" class="upload-modal hidden">
-        <div class="upload-modal-content equipment-edit-modal-content">
-            <span class="close" id="closeEquipmentEditModal" aria-label="Close">&times;</span>
-            <h2 id="equipmentEditModalTitle" style="margin-bottom: 1rem; color: var(--primary-color);">Edit supply</h2>
-            <p id="equipmentEditName" style="margin-bottom: 1rem; color: var(--text-light);"></p>
-            <div class="edit-plant-section" id="equipmentEditNameRow" style="margin-bottom: 1rem; display: none;">
-                <label for="equipmentEditNameInput" class="edit-plant-detail-label">Name</label>
-                <input type="text" id="equipmentEditNameInput" class="edit-plant-input" placeholder="Supply name (e.g. soil, gravel, LED light)">
-            </div>
-            <div class="edit-plant-section" style="margin-bottom: 1rem;">
-                <label for="equipmentEditDescription" class="edit-plant-detail-label">Description</label>
-                <textarea id="equipmentEditDescription" class="upload-plant-description" rows="4" placeholder="Short description of this item..."></textarea>
-            </div>
-            <div class="edit-plant-section edit-plant-shopping-section" style="margin-bottom: 1rem;">
-                <div class="edit-plant-details-grid">
-                    <div class="edit-plant-detail-row">
-                        <label for="equipmentEditSize" class="edit-plant-detail-label">Size</label>
-                        <input type="text" id="equipmentEditSize" class="edit-plant-input" placeholder="e.g. Small, 10cm">
-                    </div>
-                    <div class="edit-plant-detail-row">
-                        <label for="equipmentEditPrice" class="edit-plant-detail-label">Sell price (KD)</label>
-                        <input type="number" id="equipmentEditPrice" class="edit-plant-input" min="0" step="0.01" placeholder="Price">
-                    </div>
-                    <div class="edit-plant-detail-row">
-                        <label for="equipmentEditCost" class="edit-plant-detail-label">Cost (KD)</label>
-                        <input type="number" id="equipmentEditCost" class="edit-plant-input" min="0" step="0.01" placeholder="Cost">
-                    </div>
-                    <div class="edit-plant-detail-row">
-                        <label for="equipmentEditStock" class="edit-plant-detail-label">Quantity in stock</label>
-                        <input type="number" id="equipmentEditStock" class="edit-plant-input" min="0" step="1" placeholder="0">
-                    </div>
-                    <div class="edit-plant-detail-row">
-                        <label for="equipmentEditReorder" class="edit-plant-detail-label">Reorder when below</label>
-                        <input type="number" id="equipmentEditReorder" class="edit-plant-input" min="0" step="1" placeholder="e.g. 5">
-                    </div>
-                </div>
-            </div>
-            <div class="upload-buttons">
-                <button class="btn btn-primary" id="equipmentEditSaveBtn">Save</button>
-                <button class="btn btn-secondary" id="equipmentEditCancelBtn">Cancel</button>
-            </div>
-        </div>
-    </div>
+    <!-- Supply edit: form lives in full-page #editPage #editPanelEquipment -->
+    <div id="equipmentEditModal" class="upload-modal hidden" aria-hidden="true"></div>
 
     <!-- Supply images modal (add/edit images and gallery, like plants) -->
     <div id="equipmentImageModal" class="upload-modal hidden">
@@ -1650,77 +1703,8 @@
     </div>
     <input type="file" id="equipmentFileInput" accept="image/*" multiple style="display: none;">
 
-    <!-- Edit / Add Vivarium Modal -->
-    <div id="vivariumEditModal" class="upload-modal hidden">
-        <div class="upload-modal-content equipment-edit-modal-content">
-            <span class="close" id="closeVivariumEditModal" aria-label="Close">&times;</span>
-            <h2 id="vivariumEditModalTitle" style="margin-bottom: 1rem; color: var(--primary-color);">Edit vivarium</h2>
-            <div class="edit-plant-section" style="margin-bottom: 1rem;">
-                <label for="vivariumEditName" class="edit-plant-detail-label">Name</label>
-                <input type="text" id="vivariumEditName" class="edit-plant-input" placeholder="Vivarium name">
-            </div>
-            <div class="edit-plant-section" style="margin-bottom: 1rem;">
-                <label for="vivariumEditDescription" class="edit-plant-detail-label">Description</label>
-                <textarea id="vivariumEditDescription" class="upload-plant-description" rows="4" placeholder="Description..."></textarea>
-            </div>
-            <div class="edit-plant-section edit-plant-shopping-section" style="margin-bottom: 1rem;">
-                <div class="edit-plant-details-grid">
-                    <div class="edit-plant-detail-row">
-                        <label for="vivariumEditPrice" class="edit-plant-detail-label">Price (KD)</label>
-                        <input type="number" id="vivariumEditPrice" class="edit-plant-input" min="0" step="0.01" placeholder="Price">
-                    </div>
-                    <div class="edit-plant-detail-row">
-                        <label for="vivariumEditType" class="edit-plant-detail-label">Type</label>
-                        <select id="vivariumEditType" class="edit-plant-select">
-                            <option value="open-terrarium">Open Terrarium</option>
-                            <option value="closed-terrarium">Closed Terrarium</option>
-                            <option value="aerarium">Aerarium</option>
-                            <option value="deserterium">Deserterium</option>
-                            <option value="paludarium">Paludarium</option>
-                            <option value="riparium">Riparium</option>
-                            <option value="aquarium">Aquarium</option>
-                        </select>
-                    </div>
-                    <div class="edit-plant-detail-row">
-                        <label for="vivariumEditAvailability" class="edit-plant-detail-label">Availability</label>
-                        <select id="vivariumEditAvailability" class="edit-plant-select">
-                            <option value="in-stock">In Stock</option>
-                            <option value="out-of-stock">Out of Stock</option>
-                            <option value="pre-order">Pre-order</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="edit-plant-section" style="margin-bottom: 1rem;">
-                <label for="vivariumEditPlantSearch" class="edit-plant-detail-label">Plants in this vivarium</label>
-                <input type="text" id="vivariumEditPlantSearch" class="edit-plant-input" placeholder="Search plants by name or scientific name..." autocomplete="off" style="margin-bottom: 0.5rem;">
-                <div id="vivariumEditPlantTableWrap" class="vivarium-plant-table-wrap">
-                    <table class="vivarium-plant-table">
-                        <thead>
-                            <tr>
-                                <th class="vivarium-plant-th-include"></th>
-                                <th>Common name</th>
-                                <th>Scientific name</th>
-                            </tr>
-                        </thead>
-                        <tbody id="vivariumEditPlantTableBody"></tbody>
-                    </table>
-                    <div id="vivariumPlantImageTooltip" class="vivarium-plant-image-tooltip" aria-hidden="true" role="tooltip"><img src="" alt=""></div>
-                </div>
-                <small class="edit-plant-hint">Check plants to include. Shoppers will see these as links on the vivarium page.</small>
-            </div>
-            <div class="edit-plant-section" style="margin-bottom: 1rem;">
-                <label for="vivariumEditSupplyIds" class="edit-plant-detail-label">Optional supplies for this vivarium</label>
-                <input type="text" id="vivariumEditSupplySearch" class="edit-plant-input" placeholder="Search supplies..." autocomplete="off" style="margin-bottom: 0.5rem;">
-                <select id="vivariumEditSupplyIds" class="edit-plant-select" multiple size="4" style="min-height: 100px;"> </select>
-                <small class="edit-plant-hint">Hold Ctrl/Cmd to select multiple. Shoppers can add these to the same order as the vivarium.</small>
-            </div>
-            <div class="upload-buttons">
-                <button class="btn btn-primary" id="vivariumEditSaveBtn">Save</button>
-                <button class="btn btn-secondary" id="vivariumEditCancelBtn">Cancel</button>
-            </div>
-        </div>
-    </div>
+    <!-- Vivarium edit: form lives in full-page #editPage #editPanelVivarium -->
+    <div id="vivariumEditModal" class="upload-modal hidden" aria-hidden="true"></div>
 
     <footer class="site-footer">
         <div class="container footer-container">
@@ -1731,7 +1715,7 @@
                         <li><a href="#about">About Us</a></li>
                         <li><a href="#contact">Contact Us</a></li>
                         <li><a href="#gift-cards">Gift Cards</a></li>
-                        <li><a href="#" id="openBuildView">Build your own vivarium</a></li>
+                        <li><a href="build-vivarium.html">Build your own vivarium</a></li>
                         <li><a href="#">Shop All Plants</a></li>
                     </ul>
                 </div>
@@ -1793,6 +1777,7 @@
     <script src="data.js?v=4"></script>
     <!-- Then load plants from JSON files into the existing plantsDatabase -->
     <script src="data/plant-loader.js?v=5"></script>
+    <script src="data/supply-categories.js"></script>
     <script src="data/equipment-loader.js"></script>
     <script src="data/vivarium-loader.js"></script>
     <!-- Filters helpers must load before the main script -->
@@ -1803,7 +1788,29 @@
     <script src="upload.js?v=1"></script>
     <!-- Finally initialize the application -->
     <script src="script.js?v=5"></script>
-    <script src="build-vivarium.js?v=1"></script>
+    <script src="build-vivarium.js?v=2"></script>
+    <script>
+      (function () {
+        var sel = document.getElementById('equipmentEditCategory');
+        if (sel && window.supplyCategories && window.supplyCategories.list) {
+          while (sel.options.length > 1) sel.remove(1);
+          window.supplyCategories.list.forEach(function (c) {
+            var opt = document.createElement('option');
+            opt.value = c.value;
+            opt.textContent = c.label;
+            sel.appendChild(opt);
+          });
+          if (window.supplyCategories.legacyMap) {
+            Object.keys(window.supplyCategories.legacyMap).forEach(function (leg) {
+              var opt = document.createElement('option');
+              opt.value = leg;
+              opt.textContent = leg.charAt(0).toUpperCase() + leg.slice(1) + ' (legacy)';
+              sel.appendChild(opt);
+            });
+          }
+        }
+      })();
+    </script>
     <script>
       if ('serviceWorker' in navigator) {
         if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {

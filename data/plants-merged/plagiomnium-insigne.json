@@ -1,9 +1,15 @@
 {
-  "id": 58,
+  "id": 344,
   "name": "Badge Moss",
   "scientificName": "Plagiomnium insigne",
-  "commonNames": ["Coastal Leafy Moss"],
-  "category": ["moss", "leafy", "ground-cover"],
+  "commonNames": [
+    "Coastal Leafy Moss"
+  ],
+  "category": [
+    "moss",
+    "leafy",
+    "ground-cover"
+  ],
   "substrate": "Moist",
   "size": "3-10 cm",
   "growthRate": "Moderate",
@@ -36,22 +42,74 @@
   "floweringPeriod": "does-not-flower",
   "propagation": "Division, Spores",
   "colors": "Green",
-  "humidityRange": {"min": 70, "max": 95, "ideal": 85},
-  "lightRange": {"min": 20, "max": 50, "ideal": 35},
-  "airCirculationRange": {"min": 0, "max": 30, "ideal": 10},
-  "waterNeedsRange": {"min": 50, "max": 80, "ideal": 65},
+  "humidityRange": {
+    "min": 70,
+    "max": 95,
+    "ideal": 85
+  },
+  "lightRange": {
+    "min": 20,
+    "max": 50,
+    "ideal": 35
+  },
+  "airCirculationRange": {
+    "min": 0,
+    "max": 30,
+    "ideal": 10
+  },
+  "waterNeedsRange": {
+    "min": 50,
+    "max": 80,
+    "ideal": 65
+  },
   "substrateType": "moist",
   "specialNeeds": "none",
-  "temperatureRange": {"min": 28, "max": 48, "ideal": 38},
-  "difficultyRange": {"min": 30, "max": 50, "ideal": 40},
-  "soilPhRange": {"min": 42.9, "max": 50, "ideal": 46.4},
-  "growthRateRange": {"min": 40, "max": 60, "ideal": 50},
+  "temperatureRange": {
+    "min": 28,
+    "max": 48,
+    "ideal": 38
+  },
+  "difficultyRange": {
+    "min": 30,
+    "max": 50,
+    "ideal": 40
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
   "carnivorous": false,
-  "waterCirculationRange": {"min": null, "max": null, "ideal": null},
-  "waterTemperatureRange": {"min": null, "max": null, "ideal": null},
-  "waterPhRange": {"min": null, "max": null, "ideal": null},
-  "waterHardnessRange": {"min": null, "max": null, "ideal": null},
-  "salinityRange": {"min": null, "max": null, "ideal": null},
+  "waterCirculationRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "waterTemperatureRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "waterPhRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "waterHardnessRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "salinityRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
   "geographicOrigin": null,
   "additionalInfo": null
 }

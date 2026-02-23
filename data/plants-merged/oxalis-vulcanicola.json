@@ -1,1 +1,117 @@
-{"id":401,"name":"Volcanic Sorrel","scientificName":"Oxalis vulcanicola","commonNames":["Molten Lava","Volcanic Sorrel"],"category":["colorful","flowering","house-plant","leafy","tropical"],"substrate":"Well Draining","size":"20-25 cm","growthRate":"Moderate","price":12.99,"description":"Oxalis vulcanicola, commonly known as Volcanic Sorrel or Molten Lava, is a tender spreading perennial native to volcanic regions of Central America. It belongs to the Oxalidaceae family and features semi-succulent stems with trifoliate (three-part) leaves that are pinkish-orange in spring, greener in summer, and deep magenta in autumn, with reddish stems. The plant grows 20-25 cm tall and spreads 60 cm or more, forming a low mounding mat. It produces small five-petaled yellow flowers (1-2.5 cm) with delicate red lines in the throat from spring to autumn. It prefers bright light and well-drained, sandy or humus-rich soil. Suitable for terrariums, hanging baskets, and as a houseplant.","careTips":["Bright direct or indirect light for best foliage color; partial shade tolerated but less vibrant","Water when top 2-3 inches of soil is dry; tolerates occasional dry spells","Well-drained substrate essential; equal parts loam, leaf mould, and grit works well","Ideal humidity 40-70%","Temperature 16-24°C (60-75°F)","Feed 1-2 times during growing season with half-strength balanced fertilizer","Contains soluble oxalates - toxic if ingested in large quantities by humans and pets"],"taxonomy":{"kingdom":"Plantae","phylum":"Tracheophyta","class":"Magnoliopsida","order":"Oxalidales","family":"Oxalidaceae","genus":"Oxalis","species":"Oxalis vulcanicola"},"growthPattern":"spreading-mound","hazard":"toxic-if-ingested","rarity":"uncommon","growthHabit":"ground-dwelling","plantType":"flowering-plant","floweringPeriod":"seasonal","propagation":"Division, Stem Cuttings","colors":"Green, Yellow, Orange, Magenta, Red","humidityRange":{"min":40,"max":70,"ideal":55},"lightRange":{"min":70,"max":90,"ideal":80},"airCirculationRange":{"min":30,"max":60,"ideal":45},"waterNeedsRange":{"min":40,"max":60,"ideal":50},"substrateType":"dry","specialNeeds":"none","temperatureRange":{"min":32,"max":48,"ideal":40},"difficultyRange":{"min":0,"max":35,"ideal":18},"soilPhRange":{"min":42.9,"max":50,"ideal":46.4},"growthRateRange":{"min":40,"max":60,"ideal":50},"carnivorous":false,"waterCirculationRange":{"min":null,"max":null,"ideal":null},"waterTemperatureRange":{"min":null,"max":null,"ideal":null},"waterPhRange":{"min":null,"max":null,"ideal":null},"waterHardnessRange":{"min":null,"max":null,"ideal":null},"salinityRange":{"min":null,"max":null,"ideal":null},"geographicOrigin":"Central America","additionalInfo":null}
+{
+  "id": 297,
+  "name": "Volcanic Sorrel",
+  "scientificName": "Oxalis vulcanicola",
+  "commonNames": [
+    "Molten Lava",
+    "Volcanic Sorrel"
+  ],
+  "category": [
+    "colorful",
+    "flowering",
+    "house-plant",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining",
+  "size": "20-25 cm",
+  "growthRate": "Moderate",
+  "price": 12.99,
+  "description": "Oxalis vulcanicola, commonly known as Volcanic Sorrel or Molten Lava, is a tender spreading perennial native to volcanic regions of Central America. It belongs to the Oxalidaceae family and features semi-succulent stems with trifoliate (three-part) leaves that are pinkish-orange in spring, greener in summer, and deep magenta in autumn, with reddish stems. The plant grows 20-25 cm tall and spreads 60 cm or more, forming a low mounding mat. It produces small five-petaled yellow flowers (1-2.5 cm) with delicate red lines in the throat from spring to autumn. It prefers bright light and well-drained, sandy or humus-rich soil. Suitable for terrariums, hanging baskets, and as a houseplant.",
+  "careTips": [
+    "Bright direct or indirect light for best foliage color; partial shade tolerated but less vibrant",
+    "Water when top 2-3 inches of soil is dry; tolerates occasional dry spells",
+    "Well-drained substrate essential; equal parts loam, leaf mould, and grit works well",
+    "Ideal humidity 40-70%",
+    "Temperature 16-24°C (60-75°F)",
+    "Feed 1-2 times during growing season with half-strength balanced fertilizer",
+    "Contains soluble oxalates - toxic if ingested in large quantities by humans and pets"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Magnoliopsida",
+    "order": "Oxalidales",
+    "family": "Oxalidaceae",
+    "genus": "Oxalis",
+    "species": "Oxalis vulcanicola"
+  },
+  "growthPattern": "spreading-mound",
+  "hazard": "toxic-if-ingested",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Division, Stem Cuttings",
+  "colors": "Green, Yellow, Orange, Magenta, Red",
+  "humidityRange": {
+    "min": 40,
+    "max": 70,
+    "ideal": 55
+  },
+  "lightRange": {
+    "min": 70,
+    "max": 90,
+    "ideal": 80
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 32,
+    "max": 48,
+    "ideal": 40
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 35,
+    "ideal": 18
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "carnivorous": false,
+  "waterCirculationRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "waterTemperatureRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "waterPhRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "waterHardnessRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "salinityRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "geographicOrigin": "Central America",
+  "additionalInfo": null
+}

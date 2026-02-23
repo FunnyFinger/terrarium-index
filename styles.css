@@ -9,6 +9,7 @@
     --secondary-color: #4a7c2a;
     --accent-color: #6ba644;
     --bg-color: #f5f7f3;
+    --footer-bg: #e2eadc;
     --card-bg: #ffffff;
     --text-color: #2c3e50;
     --text-light: #7f8c8d;
@@ -24,6 +25,7 @@
     --secondary-color: #8fc962;
     --accent-color: #9dd66b;
     --bg-color: #1a1d1a;
+    --footer-bg: #222622;
     --card-bg: #252825;
     --text-color: #e4e6e4;
     --text-light: #9ca39c;
@@ -67,6 +69,105 @@
 [data-theme="dark"] .plant-card.aquatic-plant .plant-image-container .card-price {
     background: rgba(37, 40, 37, 0.95);
     color: var(--primary-color);
+}
+
+/* Plant detail panel: no distracting gradient in dark mode */
+[data-theme="dark"] .plant-detail-panel {
+    background: var(--bg-color);
+}
+
+[data-theme="dark"] .plant-detail-panel .plant-panel-body {
+    background: transparent;
+}
+
+/* Info items in plant panel: dark-friendly background */
+[data-theme="dark"] .plant-detail-panel .info-item,
+[data-theme="dark"] .info-item {
+    background: rgba(37, 40, 37, 0.6);
+    border: 1px solid var(--border-color);
+}
+
+/* Enclosure size track: dark mode colors */
+[data-theme="dark"] .enclosure-size-track {
+    background: rgba(37, 40, 37, 0.8);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .enclosure-size-segment {
+    border-right-color: var(--border-color);
+}
+
+[data-theme="dark"] .enclosure-size-segment.minimum {
+    background: linear-gradient(135deg,
+        rgba(124, 184, 74, 0.15) 0%,
+        rgba(143, 201, 98, 0.25) 50%,
+        rgba(124, 184, 74, 0.15) 100%);
+    box-shadow:
+        inset 0 1px 2px rgba(0, 0, 0, 0.2),
+        0 0 0 2px rgba(124, 184, 74, 0.35),
+        0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .enclosure-size-segment.minimum::before {
+    background: linear-gradient(135deg,
+        rgba(124, 184, 74, 0.1) 0%,
+        transparent 50%,
+        rgba(143, 201, 98, 0.1) 100%);
+}
+
+[data-theme="dark"] .enclosure-size-segment.minimum {
+    animation: none;
+}
+
+[data-theme="dark"] .requirement-scale-track {
+    background: linear-gradient(to right,
+        rgba(37, 40, 37, 0.9) 0%,
+        rgba(58, 64, 58, 0.95) 50%,
+        rgba(37, 40, 37, 0.9) 100%);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .requirement-scale-range {
+    background: linear-gradient(to right,
+        rgba(124, 184, 74, 0.35) 0%,
+        rgba(143, 201, 98, 0.5) 50%,
+        rgba(124, 184, 74, 0.35) 100%);
+    border-color: rgba(124, 184, 74, 0.5);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .info-group.submerged-details .requirement-scale-track {
+    background: linear-gradient(to right,
+        rgba(37, 40, 37, 0.9) 0%,
+        rgba(30, 50, 58, 0.95) 50%,
+        rgba(37, 40, 37, 0.9) 100%);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .info-group.submerged-details .requirement-scale-range {
+    background: linear-gradient(to right,
+        rgba(14, 165, 233, 0.4) 0%,
+        rgba(6, 182, 212, 0.5) 50%,
+        rgba(14, 165, 233, 0.4) 100%);
+    border-color: rgba(14, 165, 233, 0.4);
+}
+
+.safety-info-item {
+    background: #fff3cd;
+    border-left: 4px solid #ffc107;
+}
+
+.safety-info-item .info-item-value {
+    color: #856404;
+}
+
+[data-theme="dark"] .safety-info-item {
+    background: rgba(180, 140, 40, 0.25);
+    border-left-color: #c9a227;
+}
+
+[data-theme="dark"] .safety-info-item .info-item-value {
+    color: #e6d9a0;
 }
 
 body {
@@ -1285,41 +1386,52 @@ html {
     flex-shrink: 0;
 }
 .cart-empty-msg { margin: 0 0 0.5rem 0; font-size: 0.9rem; color: var(--text-light); }
-.cart-checkout-btn {
-    display: inline-block;
-    margin-top: 0.5rem;
-    padding: 0.75rem 1.25rem;
-    background: var(--primary-color);
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: 600;
-    transition: background 0.2s;
-}
 .cart-drawer-actions {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
     gap: 0.5rem;
     margin-top: 0.75rem;
 }
+.cart-drawer-actions .cart-clear-btn,
+.cart-drawer-actions .cart-checkout-btn {
+    flex: 1;
+    min-width: 0;
+    height: 48px;
+    min-height: 48px;
+    max-height: 48px;
+    padding: 0 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: center;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.cart-checkout-btn {
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border: 2px solid var(--primary-color);
+}
+.cart-checkout-btn:hover { background: var(--secondary-color); border-color: var(--secondary-color); color: white; }
+.cart-checkout-btn.hidden { display: none; }
 .cart-clear-btn {
-    padding: 0.6rem 1rem;
     background: transparent;
     border: 2px solid var(--border-color);
-    border-radius: 8px;
     color: var(--text-color);
-    font-size: 0.9rem;
-    font-weight: 500;
     cursor: pointer;
-    transition: border-color 0.2s, color 0.2s;
 }
 .cart-clear-btn:hover {
-    border-color: var(--text-light);
-    color: var(--text-light);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background: rgba(45, 80, 22, 0.06);
 }
 .cart-clear-btn.hidden { display: none; }
-.cart-checkout-btn:hover { background: var(--secondary-color); color: white; }
-.cart-checkout-btn.hidden { display: none; }
 
 /* Add to cart in plant modal */
 /* Shop widget – same structure as other plant detail widgets, placed bottom right */
@@ -2713,6 +2825,61 @@ main {
 }
 .plant-product-care-list li {
     margin-bottom: 0.35rem;
+}
+.plant-content-list {
+    margin: 0;
+    padding-left: 1.25rem;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    list-style: disc;
+}
+.plant-content-list li {
+    margin-bottom: 0.35rem;
+}
+.plant-content-link {
+    color: var(--accent-color, #2d7d46);
+    text-decoration: none;
+}
+.plant-content-link:hover {
+    text-decoration: underline;
+}
+.vivarium-supplies-section .vivarium-supplies-intro {
+    margin: 0 0 0.75rem 0;
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+.vivarium-plants-grid,
+.vivarium-supplies-grid {
+    margin-bottom: 1rem;
+}
+.vivarium-plant-card.vivarium-content-card {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+.vivarium-plant-card.vivarium-content-card:hover {
+    color: inherit;
+}
+.vivarium-content-card .card-icons,
+.vivarium-content-card .quick-add-wrap {
+    display: none !important;
+}
+.vivarium-supply-card.vivarium-content-card {
+    cursor: pointer;
+    position: relative;
+}
+.vivarium-supply-card .vivarium-supply-checkbox {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 6;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--accent-color, #2d7d46);
+}
+.btn-add-vivarium-supplies {
+    margin-top: 0.25rem;
 }
 .plant-product-section-info .info-group {
     margin-bottom: 1rem;
@@ -5286,45 +5453,48 @@ body.shopper-mode .gallery-set-main-btn {
     display: none !important;
 }
 
-/* Edit Plant Details / Image Upload Modal */
+/* When any edit modal is open, only the modal scrolls – one scrollbar */
+html:has(.upload-modal.show),
+body:has(.upload-modal.show) {
+    overflow: hidden;
+    height: 100%;
+}
+
+/* Edit Plant Details / Image Upload Modal – full-page style (no overlay, no click-outside close) */
 .upload-modal {
     display: none;
     position: fixed;
     z-index: 2000;
-    left: 0;
-    top: 0;
+    inset: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(4px);
+    max-height: 100vh;
+    background-color: var(--bg-color);
     overflow-y: auto;
-    padding: 1rem;
+    overflow-x: hidden;
+    padding: 0;
     box-sizing: border-box;
-    align-items: flex-start;
-    justify-content: center;
+    align-items: stretch;
+    justify-content: stretch;
+    -webkit-overflow-scrolling: touch;
 }
 
 .upload-modal.show {
     display: flex;
-    min-height: 100%;
+    flex-direction: column;
 }
 
 .upload-modal-content {
-    background-color: var(--card-bg);
-    border-radius: 16px;
-    padding: 2rem;
+    background-color: var(--bg-color);
+    padding: 1.5rem 2rem 3rem;
     width: 100%;
-    min-width: 0;
-    max-width: none;
+    max-width: 56rem;
+    margin: 0 auto;
     position: relative;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    animation: modalSlideIn 0.3s ease;
-    min-height: calc(100vh - 2rem);
-    max-height: calc(100vh - 2rem);
-    overflow-y: auto;
-    margin: auto;
-    flex-shrink: 0;
+    flex: 1 1 auto;
+    min-height: 0;
     box-sizing: border-box;
+    animation: modalSlideIn 0.25s ease;
 }
 
 .upload-tabs {
@@ -5493,6 +5663,77 @@ body.shopper-mode .gallery-set-main-btn {
     outline: none;
     border-color: var(--accent-color);
 }
+
+.vivarium-plant-table-wrap {
+    max-height: 280px;
+    overflow: auto;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--card-bg);
+    margin-bottom: 0.5rem;
+}
+.vivarium-plant-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+.vivarium-plant-table th,
+.vivarium-plant-table td {
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+.vivarium-plant-table thead th {
+    background: var(--bg-color);
+    font-weight: 600;
+    color: var(--text-color);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+.vivarium-plant-table tbody tr:hover {
+    background: rgba(0, 0, 0, 0.03);
+}
+[data-theme="dark"] .vivarium-plant-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+.vivarium-plant-th-include,
+.vivarium-plant-td-include {
+    width: 2.5rem;
+    text-align: center;
+    vertical-align: middle;
+}
+.vivarium-plant-table .vivarium-plant-checkbox {
+    cursor: pointer;
+}
+
+.vivarium-plant-table-wrap {
+    position: relative;
+}
+
+.vivarium-plant-image-tooltip {
+    display: none;
+    position: fixed;
+    z-index: 10001;
+    pointer-events: none;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2), 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 2px solid var(--border-color);
+    background: var(--card-bg);
+}
+
+.vivarium-plant-image-tooltip.show {
+    display: block;
+}
+
+.vivarium-plant-image-tooltip img {
+    display: block;
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+}
+
 .edit-plant-size-row {
     grid-column: 1 / -1;
 }
@@ -6382,16 +6623,262 @@ body.shopper-mode .gallery-set-main-btn {
     text-align: center;
 }
 
-footer {
-    background-color: var(--primary-color);
-    color: white;
-    text-align: center;
-    padding: 1.5rem 0;
+/* Site footer – multi-column, newsletter, social (light theme) */
+.site-footer {
     margin-top: 3rem;
+    background: var(--footer-bg);
+    color: #2c3e50;
+    padding: 2.5rem 0 1.5rem;
 }
 
-footer .container {
+.footer-container {
     min-height: 0;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--container-padding-x, 20px);
+    padding-right: var(--container-padding-x, 20px);
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.footer-heading {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0 0 0.75rem 0;
+    text-transform: none;
+    letter-spacing: 0.02em;
+}
+
+.footer-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.footer-links li {
+    margin-bottom: 0.4rem;
+}
+
+.footer-links a {
+    color: #2c3e50;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.footer-links a:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+.footer-newsletter {
+    max-width: 320px;
+}
+
+.footer-brand {
+    font-size: 1.1rem;
+    color: #2c3e50;
+}
+
+.footer-brand strong {
+    color: #5b7c4b;
+    font-weight: 700;
+}
+
+.footer-tagline {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0.5rem 0 0.35rem 0;
+}
+
+.footer-desc {
+    font-size: 0.85rem;
+    color: #2c3e50;
+    margin: 0 0 1rem 0;
+    line-height: 1.5;
+}
+
+.footer-signup {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.footer-email {
+    flex: 1;
+    min-width: 160px;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    background: #fff;
+    color: var(--text-color);
+}
+
+.footer-email::placeholder {
+    color: var(--text-light);
+}
+
+.footer-btn {
+    padding: 0.5rem 1.25rem;
+    background: #5b7c4b;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.footer-btn:hover {
+    background: var(--primary-color);
+}
+
+.footer-privacy-note {
+    font-size: 0.75rem;
+    color: #5a6c5a;
+    margin: 0;
+    line-height: 1.4;
+    max-width: 280px;
+}
+
+.footer-bottom {
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.footer-social {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.footer-follow {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-right: 0.25rem;
+}
+
+.footer-social-link {
+    color: #5a6c5a;
+    text-decoration: none;
+    font-size: 0.85rem;
+}
+
+.footer-social-link:hover {
+    color: var(--primary-color);
+}
+
+.footer-copy {
+    font-size: 0.85rem;
+    color: #2c3e50;
+    margin: 0;
+}
+
+.footer-credit {
+    font-size: 0.8rem;
+    color: #5a6c5a;
+    margin: 0.25rem 0 0 0;
+    width: 100%;
+}
+
+@media (max-width: 900px) {
+    .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .footer-newsletter {
+        grid-column: span 2;
+        max-width: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    .footer-newsletter {
+        grid-column: span 1;
+    }
+    .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+    }
+}
+
+[data-theme="dark"] .site-footer {
+    background: var(--footer-bg);
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .footer-heading,
+[data-theme="dark"] .footer-tagline,
+[data-theme="dark"] .footer-copy {
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .footer-links a,
+[data-theme="dark"] .footer-brand,
+[data-theme="dark"] .footer-desc {
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .footer-links a:hover {
+    color: var(--primary-color);
+}
+
+[data-theme="dark"] .footer-brand strong {
+    color: var(--primary-color);
+}
+
+[data-theme="dark"] .footer-email {
+    background: var(--card-bg);
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .footer-btn {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+[data-theme="dark"] .footer-btn:hover {
+    background: var(--secondary-color);
+}
+
+[data-theme="dark"] .footer-privacy-note,
+[data-theme="dark"] .footer-credit,
+[data-theme="dark"] .footer-social-link {
+    color: var(--text-light);
+}
+
+[data-theme="dark"] .footer-social-link:hover {
+    color: var(--primary-color);
+}
+
+[data-theme="dark"] .footer-bottom {
+    border-top-color: var(--border-color);
+}
+
+[data-theme="dark"] .footer-follow {
+    color: var(--text-color);
 }
 
 /* Responsive Design */
@@ -7052,9 +7539,8 @@ footer .container {
         font-size: 0.9rem;
     }
     
-    footer {
-        padding: 1rem 0;
-        font-size: 0.9rem;
+    .site-footer {
+        padding: 1.5rem 0 1rem;
     }
 }
 

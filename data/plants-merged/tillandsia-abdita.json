@@ -1,5 +1,5 @@
 {
-  "id": 10402,
+  "id": 382,
   "name": "Abdita Air Plant",
   "scientificName": "Tillandsia abdita",
   "commonNames": [],
@@ -12,7 +12,7 @@
   "substrate": "Well Draining",
   "size": "5-20 cm",
   "growthRate": "Moderate",
-  "description": "Tillandsia abdita is an epiphytic bromeliad (air plant) native to tropical regions of Central America, particularly Mexico and Guatemala. It belongs to the Bromeliaceae family and features upright rosettes (10-20 cm tall) with small, dramatic, lance-shaped, dark green to gray-green leaves with distinctive dense trichomes (scales) that give it a fuzzy, silvery appearance. The plant displays an upright rosette growth habit. Trichomes not only absorb moisture but also reflect light, giving many species a silvery or fuzzy appearance that helps reduce water loss. In tropical forests, this plant typically grows as an epiphyte on tree trunks, receiving filtered sunlight through the dense canopy. In its native habitat, it grows on tree branches in tropical forests. In terrariums or indoor settings, this plant adds natural beauty with its distinctive fuzzy appearance. It's popular among air plant enthusiasts for its compact size.",
+  "description": "",
   "careTips": [
     "Mist regularly or soak in water weekly",
     "Provide good air circulation",
@@ -72,7 +72,7 @@
   "soilPhRange": {
     "min": 42.9,
     "max": 50,
-    "ideal": 46.4
+    "ideal": 46.45
   },
   "growthRateRange": {
     "min": 40,
@@ -106,5 +106,20 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "price": 3,
+  "costPrice": 1.5,
+  "stockQuantity": 0,
+  "reorderLevel": 2,
+  "images": [
+    "images/tillandsia-abdita/tillandsia-abdita-1.jpg"
+  ],
+  "imageUrl": "images/tillandsia-abdita/tillandsia-abdita-1.jpg",
+  "catalogueOfLifeUrl": "https://www.catalogueoflife.org/data/taxon/7CBSG",
+  "suitableFor": [
+    "open-terrarium",
+    "paludarium",
+    "aerarium"
+  ],
+  "unit": "pot"
 }

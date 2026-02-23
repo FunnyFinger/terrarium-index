@@ -227,10 +227,6 @@ async function initializeUI() {
     );
     if (typeof window.loadEquipment === 'function') {
         allEquipment = await window.loadEquipment();
-        try {
-            var customEq = JSON.parse(localStorage.getItem('custom_equipment') || '[]');
-            if (Array.isArray(customEq) && customEq.length) allEquipment = (allEquipment || []).concat(customEq);
-        } catch (e) { /* ignore */ }
         window.allEquipment = allEquipment;
         if (allEquipment.length && window.inventoryDb && window.inventoryDb.mergeInventoryIntoPlants) {
             await window.inventoryDb.mergeInventoryIntoPlants(allEquipment);
@@ -363,19 +359,46 @@ async function initializeUI() {
     } else if (addParam === 'plant' || addParam === 'equipment' || addParam === 'vivarium') {
         var canAddItems = typeof auth !== 'undefined' && auth && ((auth.isOwner && auth.isOwner()) || (auth.isAdmin && auth.isAdmin()));
         if (canAddItems) {
+            var inAddIframe = window.self !== window.top;
             var tabPlantsEl = document.getElementById('tabPlants');
             var tabEquipmentEl = document.getElementById('tabEquipment');
             var tabVivariumsEl = document.getElementById('tabVivariums');
             var tabEl = addParam === 'plant' ? tabPlantsEl : (addParam === 'equipment' ? tabEquipmentEl : tabVivariumsEl);
-            if (tabEl) {
-                tabEl.click();
-                setTimeout(function() {
-                    if (addParam === 'plant' && typeof window.openImageUpload === 'function') window.openImageUpload(null);
-                    else if (addParam === 'equipment' && typeof openEquipmentEdit === 'function') openEquipmentEdit(null);
-                    else if (addParam === 'vivarium' && typeof openVivariumEdit === 'function') openVivariumEdit(null);
-                }, 0);
-            }
+            if (tabEl && !inAddIframe) tabEl.click();
+            setTimeout(function() {
+                if (addParam === 'plant' && typeof window.openImageUpload === 'function') window.openImageUpload(null);
+                else if (addParam === 'equipment' && typeof openEquipmentEdit === 'function') openEquipmentEdit(null);
+                else if (addParam === 'vivarium' && typeof openVivariumEdit === 'function') openVivariumEdit(null);
+                if (inAddIframe) {
+                    document.documentElement.classList.remove('embed-add-standby');
+                    document.documentElement.classList.add('embed-add-active');
+                }
+            }, 0);
         }
+    }
+    var editParam = urlParams.get('edit');
+    var editIdParam = urlParams.get('id') || urlParams.get('editId');
+    if (editParam === 'equipment' && editIdParam) {
+        var editId = parseInt(editIdParam, 10);
+        if (!isNaN(editId)) setTimeout(function() {
+            var list = window.allEquipment || [];
+            var item = list.find(function(e) { return e.id === editId; });
+            if (item && typeof openEquipmentEdit === 'function') openEquipmentEdit(item);
+        }, 100);
+    } else if (editParam === 'vivarium' && editIdParam) {
+        var vid = parseInt(editIdParam, 10);
+        if (!isNaN(vid)) setTimeout(function() {
+            var vlist = window.allVivariums || [];
+            var vitem = vlist.find(function(v) { return v.id === vid; });
+            if (vitem && typeof openVivariumEdit === 'function') openVivariumEdit(vitem);
+        }, 100);
+    } else if (editParam === 'plant' && editIdParam) {
+        var pid = parseInt(editIdParam, 10);
+        if (!isNaN(pid)) setTimeout(function() {
+            var plist = window.allPlants || window.plantsDatabase || [];
+            var pitem = plist.find(function(p) { return p.id === pid; });
+            if (pitem && typeof window.openImageUpload === 'function') window.openImageUpload(pitem.id);
+        }, 100);
     }
 }
 let sortField = 'scientific';
@@ -479,8 +502,9 @@ function addToCart(plant, quantity) {
     const cart = getCart();
     const id = plant.id;
     const existing = cart.find(i => i.plantId === id);
-    const qty = Math.max(1, parseInt(quantity, 10) || 1);
+    const qty = Math.max(0.001, parseFloat(quantity) || 1);
     const price = getPlantPrice(plant);
+    const unit = plant.unit != null && plant.unit !== '' ? plant.unit : null;
     if (existing) {
         existing.quantity += qty;
     } else {
@@ -489,7 +513,8 @@ function addToCart(plant, quantity) {
             name: plant.name || 'Plant',
             scientificName: getScientificNameString(plant),
             quantity: qty,
-            price: price
+            price: price,
+            unit: unit || undefined
         });
     }
     setCart(cart);
@@ -527,12 +552,14 @@ function updateCartUI() {
         const lineTotal = item.price != null ? item.price * item.quantity : null;
         const priceStr = item.price != null ? formatPrice(item.price) : 'Price on request';
         const lineStr = lineTotal != null ? formatPrice(lineTotal) : '—';
+        const qtyDisplay = (item.quantity % 1 !== 0) ? Number(item.quantity) : item.quantity;
+        const unitLabel = item.unit ? ' ' + escapeHtml(item.unit) : '';
         return `
         <div class="cart-item" data-plant-id="${item.plantId}">
             <div class="cart-item-info">
                 <div class="cart-item-name">${escapeHtml(item.name)}</div>
                 <div class="cart-item-scientific">${escapeHtml(item.scientificName)}</div>
-                <div class="cart-item-qty">Qty: ${item.quantity}</div>
+                <div class="cart-item-qty">Qty: ${qtyDisplay}${unitLabel}</div>
                 <div class="cart-item-price">${priceStr} each · ${lineStr} total</div>
             </div>
             <button type="button" class="cart-item-remove" aria-label="Remove from cart" data-plant-id="${item.plantId}">×</button>
@@ -625,7 +652,7 @@ function initQuickAddOnCards() {
             if (expanded && qtyInput) {
                 expanded.classList.remove('hidden');
                 const availableToAdd = getAvailableToAdd(plantId);
-                const max = Math.min(99, availableToAdd);
+                const max = Math.min(999, availableToAdd);
                 qtyInput.max = max;
                 qtyInput.disabled = availableToAdd === 0;
                 if (availableToAdd === 0) {
@@ -643,12 +670,11 @@ function initQuickAddOnCards() {
         if (e.target.closest('.quick-add-plus')) {
             const qtyInput = wrap.querySelector('.quick-add-qty');
             if (qtyInput && !qtyInput.disabled) {
-                const max = parseInt(qtyInput.getAttribute('max'), 10) || 99;
-                const current = parseInt(qtyInput.value, 10) || 1;
-                const next = Math.min(99, current + 1);
-                const newVal = Math.min(next, max);
+                const max = parseFloat(qtyInput.getAttribute('max')) || 999;
+                const current = parseFloat(qtyInput.value) || 0;
+                const newVal = Math.min(current + 1, max);
                 qtyInput.value = newVal;
-                if (newVal === current && max < 99) {
+                if (newVal >= max && max < 999) {
                     quickAddShowToast('Max stock reached');
                 }
             }
@@ -658,7 +684,8 @@ function initQuickAddOnCards() {
         if (e.target.closest('.quick-add-minus')) {
             const qtyInput = wrap.querySelector('.quick-add-qty');
             if (qtyInput && !qtyInput.disabled) {
-                const v = Math.max(0, (parseInt(qtyInput.value, 10) || 1) - 1);
+                const min = parseFloat(qtyInput.getAttribute('min')) || 0.001;
+                const v = Math.max(min, (parseFloat(qtyInput.value) || 1) - 1);
                 qtyInput.value = v;
             }
             e.preventDefault();
@@ -672,9 +699,10 @@ function initQuickAddOnCards() {
                 e.preventDefault();
                 return;
             }
-            let qty = qtyInput ? Math.max(0, parseInt(qtyInput.value, 10) || 0) : 0;
+            let qty = qtyInput ? parseFloat(qtyInput.value) : 0;
+            if (isNaN(qty) || qty < 0.001) qty = 0;
             qty = Math.min(qty, availableToAdd);
-            if (qty <= 0) {
+            if (qty < 0.001) {
                 quickAddShowToast('Max stock reached');
                 e.preventDefault();
                 return;
@@ -690,10 +718,11 @@ function initQuickAddOnCards() {
         const qtyInput = e.target.closest('.quick-add-qty');
         if (!qtyInput) return;
         const wrap = qtyInput.closest('.quick-add-wrap');
-        const max = parseInt(qtyInput.getAttribute('max'), 10) || 99;
-        let v = parseInt(qtyInput.value, 10);
+        const max = parseFloat(qtyInput.getAttribute('max')) || 999;
+        const min = parseFloat(qtyInput.getAttribute('min')) || 0.001;
+        let v = parseFloat(qtyInput.value);
         if (isNaN(v) || v < 0) {
-            qtyInput.value = max > 0 ? 1 : 0;
+            qtyInput.value = max >= min ? 1 : 0;
             return;
         }
         if (v > max) {
@@ -705,10 +734,11 @@ function initQuickAddOnCards() {
         const qtyInput = e.target.closest('.quick-add-qty');
         if (!qtyInput) return;
         const wrap = qtyInput.closest('.quick-add-wrap');
-        const max = parseInt(qtyInput.getAttribute('max'), 10) || 99;
-        let v = parseInt(qtyInput.value, 10);
-        if (isNaN(v) || v < 1) {
-            qtyInput.value = max > 0 ? 1 : 0;
+        const max = parseFloat(qtyInput.getAttribute('max')) || 999;
+        const min = parseFloat(qtyInput.getAttribute('min')) || 0.001;
+        let v = parseFloat(qtyInput.value);
+        if (isNaN(v) || v < min) {
+            qtyInput.value = max >= min ? min : 0;
             return;
         }
         if (v > max) {
@@ -792,6 +822,8 @@ const uploadSubstrate = document.getElementById('uploadSubstrate');
 const uploadGrowthRate = document.getElementById('uploadGrowthRate');
 const uploadPrice = document.getElementById('uploadPrice');
 const uploadCost = document.getElementById('uploadCost');
+const uploadMarginPct = document.getElementById('uploadMarginPct');
+const uploadUnit = document.getElementById('uploadUnit');
 const uploadInventory = document.getElementById('uploadInventory');
 const uploadReorder = document.getElementById('uploadReorder');
 const uploadRarity = document.getElementById('uploadRarity');
@@ -860,6 +892,8 @@ uploadUtils.init({
         uploadGrowthRate,
         uploadPrice,
         uploadCost,
+        uploadMarginPct,
+        uploadUnit,
         uploadInventory,
         uploadReorder,
         uploadRarity,
@@ -1211,6 +1245,14 @@ function setupEventListeners() {
     document.querySelectorAll('.vivarium-filter-checkbox').forEach(function(cb) {
         cb.addEventListener('change', onVivariumFilterChange);
     });
+    var filtersContentVivariumsEl = document.getElementById('filtersContentVivariums');
+    if (filtersContentVivariumsEl) {
+        filtersContentVivariumsEl.addEventListener('change', function(e) {
+            if (e.target && e.target.classList && e.target.classList.contains('vivarium-filter-checkbox') && currentView === 'vivariums') {
+                applyVivariumFilters();
+            }
+        });
+    }
     var vivariumPriceMin = document.getElementById('vivariumPriceMin');
     var vivariumPriceMax = document.getElementById('vivariumPriceMax');
     if (vivariumPriceMin) vivariumPriceMin.addEventListener('input', debounce(onVivariumFilterChange, 300));
@@ -1476,17 +1518,19 @@ function setupEventListeners() {
         });
     }
     
-    closeModal.addEventListener('click', () => {
-        plantModal.classList.remove('show');
-        plantModal.classList.add('hidden');
-    });
-    
-    plantModal.addEventListener('click', (e) => {
-        if (e.target === plantModal) {
-            plantModal.classList.remove('show');
-            plantModal.classList.add('hidden');
-        }
-    });
+    if (closeModal) {
+        closeModal.addEventListener('click', () => {
+            if (plantModal) { plantModal.classList.remove('show'); plantModal.classList.add('hidden'); }
+        });
+    }
+    if (plantModal) {
+        plantModal.addEventListener('click', (e) => {
+            if (e.target === plantModal) {
+                plantModal.classList.remove('show');
+                plantModal.classList.add('hidden');
+            }
+        });
+    }
 
     if (plantPanelBack) {
         plantPanelBack.addEventListener('click', closePlantPanel);
@@ -1495,6 +1539,10 @@ function setupEventListeners() {
     if (navBackToList) {
         navBackToList.addEventListener('click', function() {
             if (navBackToList.disabled) return;
+            if (window._buildViewActive && typeof window._onNavBackFromBuildView === 'function') {
+                window._onNavBackFromBuildView();
+                return;
+            }
             const page2 = document.getElementById('modal-page-2');
             if (page2 && page2.classList.contains('active')) {
                 const plantId = page2.getAttribute('data-plant-id');
@@ -1518,12 +1566,19 @@ function setupEventListeners() {
     if (closeEquipmentEditModalBtn) closeEquipmentEditModalBtn.addEventListener('click', closeEquipmentEditModal);
     if (equipmentEditCancelBtn) equipmentEditCancelBtn.addEventListener('click', closeEquipmentEditModal);
     if (equipmentEditSaveBtn) equipmentEditSaveBtn.addEventListener('click', saveEquipmentEdit);
-    if (equipmentEditModal) {
-        equipmentEditModal.addEventListener('click', (e) => {
-            if (e.target === equipmentEditModal) closeEquipmentEditModal();
-        });
-    }
-
+    var editPageBackBtn = document.getElementById('editPageBack');
+    if (editPageBackBtn) editPageBackBtn.addEventListener('click', function() {
+        var uploadModal = document.getElementById('uploadModal');
+        if (uploadModal && uploadModal.classList.contains('show') && typeof window.closeUploadModalFunc === 'function') {
+            window.closeUploadModalFunc();
+            return;
+        }
+        var equipPanel = document.getElementById('editPanelEquipment');
+        var vivPanel = document.getElementById('editPanelVivarium');
+        if (equipPanel && equipPanel.classList.contains('active')) closeEquipmentEditModal();
+        else if (vivPanel && vivPanel.classList.contains('active')) closeVivariumEditModal();
+        else hideEditPage();
+    });
     var closeVivariumEditModalBtn = document.getElementById('closeVivariumEditModal');
     var vivariumEditCancelBtn = document.getElementById('vivariumEditCancelBtn');
     var vivariumEditSaveBtn = document.getElementById('vivariumEditSaveBtn');
@@ -1531,18 +1586,68 @@ function setupEventListeners() {
     if (closeVivariumEditModalBtn) closeVivariumEditModalBtn.addEventListener('click', closeVivariumEditModal);
     if (vivariumEditCancelBtn) vivariumEditCancelBtn.addEventListener('click', closeVivariumEditModal);
     if (vivariumEditSaveBtn) vivariumEditSaveBtn.addEventListener('click', saveVivariumEdit);
-    if (vivariumEditModal) {
-        vivariumEditModal.addEventListener('click', (e) => {
-            if (e.target === vivariumEditModal) closeVivariumEditModal();
+    var vivariumEditPlantSearch = document.getElementById('vivariumEditPlantSearch');
+    if (vivariumEditPlantSearch) vivariumEditPlantSearch.addEventListener('input', function() {
+        if (typeof refreshVivariumEditPlantOptions === 'function') refreshVivariumEditPlantOptions();
+    });
+    var vivariumEditPlantTableWrap = document.getElementById('vivariumEditPlantTableWrap');
+    if (vivariumEditPlantTableWrap) vivariumEditPlantTableWrap.addEventListener('change', function(e) {
+        if (e.target && e.target.classList && e.target.classList.contains('vivarium-plant-checkbox') && vivariumEditing) {
+            var ids = [];
+            var checkboxes = vivariumEditPlantTableWrap.querySelectorAll('.vivarium-plant-checkbox:checked');
+            for (var i = 0; i < checkboxes.length; i++) {
+                var n = Number(checkboxes[i].value);
+                if (!isNaN(n)) ids.push(n);
+            }
+            vivariumEditing.plantIds = ids;
+        }
+    });
+    var vivariumPlantImageTooltip = document.getElementById('vivariumPlantImageTooltip');
+    if (vivariumEditPlantTableWrap && vivariumPlantImageTooltip) {
+        var tooltipImg = vivariumPlantImageTooltip.querySelector('img');
+        var tooltipShow = function(tr, pageX, pageY) {
+            var url = tr.getAttribute('data-plant-image');
+            if (!url || !tooltipImg) return;
+            tooltipImg.src = url;
+            tooltipImg.alt = (tr.querySelector('td:nth-child(2)') && tr.querySelector('td:nth-child(2)').textContent) || 'Plant';
+            vivariumPlantImageTooltip.classList.add('show');
+            vivariumPlantImageTooltip.style.left = (pageX + 12) + 'px';
+            vivariumPlantImageTooltip.style.top = (pageY + 12) + 'px';
+        };
+        var tooltipHide = function() {
+            vivariumPlantImageTooltip.classList.remove('show');
+            if (tooltipImg) tooltipImg.src = '';
+        };
+        vivariumEditPlantTableWrap.addEventListener('mouseover', function(e) {
+            var tr = e.target && e.target.closest && e.target.closest('tr');
+            if (tr && tr.getAttribute('data-plant-image')) tooltipShow(tr, e.pageX, e.pageY);
         });
+        vivariumEditPlantTableWrap.addEventListener('mousemove', function(e) {
+            var tr = e.target && e.target.closest && e.target.closest('tr');
+            if (tr && tr.getAttribute('data-plant-image') && vivariumPlantImageTooltip.classList.contains('show')) {
+                vivariumPlantImageTooltip.style.left = (e.pageX + 12) + 'px';
+                vivariumPlantImageTooltip.style.top = (e.pageY + 12) + 'px';
+            }
+        });
+        vivariumEditPlantTableWrap.addEventListener('mouseleave', tooltipHide);
     }
+    var vivariumEditSupplySearch = document.getElementById('vivariumEditSupplySearch');
+    if (vivariumEditSupplySearch) vivariumEditSupplySearch.addEventListener('input', function() {
+        if (typeof refreshVivariumEditSupplyOptions === 'function') refreshVivariumEditSupplyOptions();
+    });
+    var vivariumEditSupplyIdsEl = document.getElementById('vivariumEditSupplyIds');
+    if (vivariumEditSupplyIdsEl) vivariumEditSupplyIdsEl.addEventListener('change', function() {
+        if (vivariumEditing) {
+            var ids = [];
+            [].forEach.call(vivariumEditSupplyIdsEl.selectedOptions, function(opt) {
+                var n = Number(opt.value);
+                if (!isNaN(n)) ids.push(n);
+            });
+            vivariumEditing.supplyIds = ids;
+        }
+    });
 
     var equipmentImageModal = document.getElementById('equipmentImageModal');
-    if (equipmentImageModal) {
-        equipmentImageModal.addEventListener('click', (e) => {
-            if (e.target === equipmentImageModal) closeEquipmentImageModal();
-        });
-    }
     var equipmentDragDropArea = document.getElementById('equipmentDragDropArea');
     var equipmentFileInput = document.getElementById('equipmentFileInput');
     if (equipmentDragDropArea && equipmentFileInput) {
@@ -1597,11 +1702,6 @@ function setupEventListeners() {
     if (closeEquipmentImageModalBtn) closeEquipmentImageModalBtn.addEventListener('click', closeEquipmentImageModal);
 
     var plantImageModal = document.getElementById('plantImageModal');
-    if (plantImageModal) {
-        plantImageModal.addEventListener('click', (e) => {
-            if (e.target === plantImageModal) closePlantImageModal();
-        });
-    }
     var plantDragDropArea = document.getElementById('plantDragDropArea');
     var plantFileInput = document.getElementById('plantFileInput');
     if (plantDragDropArea && plantFileInput) {
@@ -2537,6 +2637,7 @@ function calculatePlantVivariumTypes(plant) {
             const percentageScore = (score / maxScore) * 100;
             scores[type] = { score: percentageScore, name: config.name };
         }
+        window.__lastVivariumScores = scores;
         
         // Return vivarium types with score >= 70%, sorted by score
         const results = Object.entries(scores)
@@ -2610,6 +2711,15 @@ function calculatePlantVivariumTypes(plant) {
         }
     }
 }
+
+/** Returns suitability scores (0-100) per vivarium type key for a plant. Use for type-aware filtering. */
+function getPlantVivariumScores(plant) {
+    if (typeof calculatePlantVivariumTypes !== 'function') return {};
+    calculatePlantVivariumTypes(plant);
+    var s = window.__lastVivariumScores || {};
+    return Object.keys(s).reduce(function(acc, k) { acc[k] = s[k].score; return acc; }, {});
+}
+window.getPlantVivariumScores = getPlantVivariumScores;
 
 function resetAllFilters() {
     // Reset sort
@@ -3479,6 +3589,11 @@ function setupShopTabs() {
     const tabPlants = document.getElementById('tabPlants');
     const tabEquipment = document.getElementById('tabEquipment');
     const tabVivariums = document.getElementById('tabVivariums');
+    const tabBuild = document.getElementById('tabBuild');
+    const buildViewEl = document.getElementById('buildView');
+    const listViewEl = document.getElementById('listView');
+    const mainContentEl = document.querySelector('.main-content');
+    const mainLayoutEl = document.querySelector('.main-layout');
     const filtersSidebarEl = document.getElementById('filtersSidebar');
     const filtersContentPlants = document.getElementById('filtersContentPlants');
     const filtersContentEquipment = document.getElementById('filtersContentEquipment');
@@ -3486,11 +3601,41 @@ function setupShopTabs() {
     const controlPanelReopenEl = document.getElementById('controlPanelReopen');
     if (!tabPlants || !tabEquipment) return;
 
-    function setActiveTab(activeTab, inactive1, inactive2) {
+    function setActiveTab(activeTab, inactive1, inactive2, inactive3) {
         if (activeTab) { activeTab.classList.add('active'); activeTab.setAttribute('aria-selected', 'true'); }
         if (inactive1) { inactive1.classList.remove('active'); inactive1.setAttribute('aria-selected', 'false'); }
         if (inactive2) { inactive2.classList.remove('active'); inactive2.setAttribute('aria-selected', 'false'); }
+        if (inactive3) { inactive3.classList.remove('active'); inactive3.setAttribute('aria-selected', 'false'); }
     }
+    function showBuildView() {
+        if (mainLayoutEl) mainLayoutEl.classList.add('detail-view-active');
+        if (mainContentEl) mainContentEl.classList.add('build-view-active');
+        if (buildViewEl) { buildViewEl.classList.remove('hidden'); buildViewEl.setAttribute('aria-hidden', 'false'); }
+        if (listViewEl) listViewEl.classList.add('hidden');
+        if (filtersSidebarEl) filtersSidebarEl.style.display = 'none';
+        if (controlPanelReopenEl) controlPanelReopenEl.classList.add('hidden');
+        window._buildViewActive = true;
+        var navWrap = document.getElementById('navBackToListWrap');
+        var navBtn = document.getElementById('navBackToList');
+        if (navWrap) { navWrap.classList.remove('nav-back-disabled'); }
+        if (navBtn) navBtn.disabled = false;
+    }
+    function hideBuildView() {
+        if (mainLayoutEl) mainLayoutEl.classList.remove('detail-view-active');
+        if (mainContentEl) mainContentEl.classList.remove('build-view-active');
+        if (buildViewEl) { buildViewEl.classList.add('hidden'); buildViewEl.setAttribute('aria-hidden', 'true'); }
+        if (listViewEl) listViewEl.classList.remove('hidden');
+        if (filtersSidebarEl) filtersSidebarEl.style.display = '';
+        window._buildViewActive = false;
+        var navWrap = document.getElementById('navBackToListWrap');
+        var navBtn = document.getElementById('navBackToList');
+        if (navWrap) navWrap.classList.add('nav-back-disabled');
+        if (navBtn) navBtn.disabled = true;
+    }
+    window._onNavBackFromBuildView = function() {
+        hideBuildView();
+        if (tabPlants) tabPlants.click();
+    };
     function showPlantsFilters() {
         if (filtersContentPlants) { filtersContentPlants.classList.remove('hidden'); filtersContentPlants.setAttribute('aria-hidden', 'false'); }
         if (filtersContentEquipment) { filtersContentEquipment.classList.add('hidden'); filtersContentEquipment.setAttribute('aria-hidden', 'true'); }
@@ -3514,7 +3659,8 @@ function setupShopTabs() {
 
     tabPlants.addEventListener('click', () => {
         currentView = 'plants';
-        setActiveTab(tabPlants, tabEquipment, tabVivariums);
+        hideBuildView();
+        setActiveTab(tabPlants, tabEquipment, tabVivariums, tabBuild);
         if (filtersSidebarEl) filtersSidebarEl.style.display = '';
         showPlantsFilters();
         if (controlPanelReopenEl) {
@@ -3531,7 +3677,8 @@ function setupShopTabs() {
     });
     tabEquipment.addEventListener('click', () => {
         currentView = 'equipment';
-        setActiveTab(tabEquipment, tabPlants, tabVivariums);
+        hideBuildView();
+        setActiveTab(tabEquipment, tabPlants, tabVivariums, tabBuild);
         if (filtersSidebarEl) filtersSidebarEl.style.display = '';
         showEquipmentFilters();
         if (controlPanelReopenEl) {
@@ -3549,7 +3696,8 @@ function setupShopTabs() {
     if (tabVivariums) {
         tabVivariums.addEventListener('click', () => {
             currentView = 'vivariums';
-            setActiveTab(tabVivariums, tabPlants, tabEquipment);
+            hideBuildView();
+            setActiveTab(tabVivariums, tabPlants, tabEquipment, tabBuild);
             if (filtersSidebarEl) filtersSidebarEl.style.display = '';
             showVivariumFilters();
             if (controlPanelReopenEl) {
@@ -3563,6 +3711,21 @@ function setupShopTabs() {
             currentVivariumPage = 1;
             applyVivariumFilters();
             if (typeof window.updateLegendButtonVisibility === 'function') window.updateLegendButtonVisibility();
+        });
+    }
+    if (tabBuild && buildViewEl) {
+        tabBuild.addEventListener('click', () => {
+            currentView = 'build';
+            setActiveTab(tabBuild, tabPlants, tabEquipment, tabVivariums);
+            showBuildView();
+            if (typeof window.initBuildVivarium === 'function') window.initBuildVivarium();
+        });
+    }
+    var openBuildLink = document.getElementById('openBuildView');
+    if (openBuildLink && tabBuild) {
+        openBuildLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            tabBuild.click();
         });
     }
 }
@@ -3648,7 +3811,7 @@ function createEquipmentCard(equipment) {
                 </button>
                 <div class="quick-add-expanded hidden">
                     <div class="quick-add-expanded-row">
-                        <input type="number" class="quick-add-qty" value="1" min="1" max="99" aria-label="Quantity" data-plant-id="${equipment.id}">
+                        <input type="number" class="quick-add-qty" value="1" min="0.001" max="999" step="any" aria-label="Quantity" data-plant-id="${equipment.id}">
                         <div class="quick-add-stepper" aria-label="Quantity stepper">
                             <button type="button" class="quick-add-plus" aria-label="Increase quantity">+</button>
                             <button type="button" class="quick-add-minus" aria-label="Decrease quantity">−</button>
@@ -3856,10 +4019,10 @@ function applyVivariumFilters() {
         return (canSeeHidden ? true : !v.hidden) && t !== 'indoor' && t !== 'outdoor';
     });
     var q = (searchInput && searchInput.value) ? searchInput.value.trim().toLowerCase() : '';
-    var typeChecks = document.querySelectorAll('.vivarium-filter-checkbox[data-filter="vivariumType"]:checked');
-    var types = Array.from(typeChecks).map(function(c) { return c.value; });
-    var availabilityChecks = document.querySelectorAll('.vivarium-filter-checkbox[data-filter="vivariumAvailability"]:checked');
-    var availabilities = Array.from(availabilityChecks).map(function(c) { return c.value; });
+    var typeChecks = document.querySelectorAll('#filtersContentVivariums input.vivarium-filter-checkbox[data-filter="vivariumType"]:checked');
+    var types = Array.from(typeChecks).map(function(c) { return (c.value || '').toLowerCase().replace(/\s+/g, '-'); });
+    var availabilityChecks = document.querySelectorAll('#filtersContentVivariums input.vivarium-filter-checkbox[data-filter="vivariumAvailability"]:checked');
+    var availabilities = Array.from(availabilityChecks).map(function(c) { return (c.value || '').toLowerCase().replace(/\s+/g, '-'); });
     var priceMinEl = document.getElementById('vivariumPriceMin');
     var priceMaxEl = document.getElementById('vivariumPriceMax');
     var priceMin = priceMinEl && priceMinEl.value !== '' ? parseFloat(priceMinEl.value) : null;
@@ -3876,8 +4039,11 @@ function applyVivariumFilters() {
             if (!types.some(function(c) { return c.toLowerCase() === t; })) return false;
         }
         if (availabilities.length > 0) {
-            var av = (v.availability || 'in-stock').toLowerCase();
-            if (!availabilities.some(function(c) { return c.toLowerCase() === av; })) return false;
+            var avRaw = v.availability;
+            if (avRaw == null || avRaw === '') avRaw = 'in-stock';
+            var av = String(avRaw).toLowerCase().replace(/\s+/g, '-').replace(/_/g, '-');
+            var matchesAvailability = availabilities.indexOf(av) !== -1;
+            if (!matchesAvailability) return false;
         }
         if (priceMin != null || priceMax != null) {
             var p = v.price != null && v.price !== '' ? parseFloat(v.price) : null;
@@ -3965,7 +4131,7 @@ function createVivariumCard(vivarium) {
 
 function renderVivariumsPage() {
     if (!plantsGrid) return;
-    var list = filteredVivariums && filteredVivariums.length ? filteredVivariums : (allVivariums || []);
+    var list = Array.isArray(filteredVivariums) ? filteredVivariums : (allVivariums || []);
     var sorted = sortVivariums(list);
     var total = sorted.length;
     var totalPages = Math.max(1, Math.ceil(total / vivariumPerPage));
@@ -4201,6 +4367,48 @@ function showVivariumDetail(vivarium) {
         '<h2 class="plant-product-section-title">Description</h2>' +
         '<div class="plant-detail-description">' + descriptionHtml + '</div>' +
         '</section>' +
+        (function() {
+            var ids = vivarium.plantIds;
+            if (!Array.isArray(ids) || ids.length === 0) return '<section class="plant-product-section"><h2 class="plant-product-section-title">Plant content</h2><p class="description description-empty">No plants linked for this vivarium.</p></section>';
+            var plantsList = (window.allPlants || window.plantsDatabase || []).filter(function(p) { return p && p.id != null && ids.indexOf(Number(p.id)) !== -1; });
+            var order = {};
+            ids.forEach(function(id, i) { order[Number(id)] = i; });
+            plantsList.sort(function(a, b) { return (order[a.id] || 999) - (order[b.id] || 999); });
+            if (!plantsList.length) return '<section class="plant-product-section"><h2 class="plant-product-section-title">Plant content</h2><p class="description description-empty">No matching plants in catalog.</p></section>';
+            var cardHtml = plantsList.map(function(p) {
+                var url = 'index.html?tab=plants&id=' + encodeURIComponent(p.id);
+                var imgUrl = p.imageUrl || (p.images && p.images[0]) || null;
+                var sci = (typeof p.scientificName === 'string') ? p.scientificName : (p.scientificName && p.scientificName.name) ? p.scientificName.name : '';
+                return '<a href="' + url + '" class="plant-card vivarium-content-card vivarium-plant-card">' +
+                    '<div class="plant-image-container">' +
+                    (imgUrl ? '<img src="' + escapeHtml(imgUrl) + '" alt="" class="plant-image" loading="lazy">' : '<div class="image-placeholder">' + PLACEHOLDER_PLANT_SVG + '</div>') +
+                    '</div>' +
+                    '<div class="plant-info"><div class="plant-name">' + escapeHtml(p.name || sci || 'Plant') + '</div>' +
+                    (sci ? '<div class="plant-scientific">' + escapeHtml(sci) + '</div>' : '') + '</div></a>';
+            }).join('');
+            return '<section class="plant-product-section"><h2 class="plant-product-section-title">Plant content</h2><div class="vivarium-plants-grid plants-grid card-size-small">' + cardHtml + '</div></section>';
+        })() +
+        (function() {
+            var ids = vivarium.supplyIds;
+            if (!Array.isArray(ids) || ids.length === 0) return '<section class="plant-product-section vivarium-supplies-section"><h2 class="plant-product-section-title">Optional supplies</h2><p class="description description-empty">No optional supplies for this vivarium.</p></section>';
+            var equipment = window.allEquipment || [];
+            var suppliesList = equipment.filter(function(e) { return e && e.id != null && ids.indexOf(Number(e.id)) !== -1; });
+            var order = {};
+            ids.forEach(function(id, i) { order[Number(id)] = i; });
+            suppliesList.sort(function(a, b) { return (order[a.id] || 999) - (order[b.id] || 999); });
+            if (suppliesList.length === 0) return '<section class="plant-product-section vivarium-supplies-section"><h2 class="plant-product-section-title">Optional supplies</h2><p class="description description-empty">No matching supplies in catalog.</p></section>';
+            var cardHtml = suppliesList.map(function(s) {
+                var priceStr = s.price != null ? formatPrice(s.price) : 'Price on request';
+                var imgUrl = s.imageUrl || (s.images && s.images[0]) || null;
+                return '<label class="plant-card vivarium-content-card vivarium-supply-card">' +
+                    '<input type="checkbox" class="vivarium-supply-checkbox" data-supply-id="' + s.id + '">' +
+                    '<div class="plant-image-container">' +
+                    (imgUrl ? '<img src="' + escapeHtml(imgUrl) + '" alt="" class="plant-image" loading="lazy">' : '<div class="image-placeholder">' + PLACEHOLDER_EQUIPMENT_SVG + '</div>') +
+                    '<div class="card-price">' + escapeHtml(priceStr) + '</div></div>' +
+                    '<div class="plant-info"><div class="plant-name">' + escapeHtml(s.name || 'Supply') + '</div></div></label>';
+            }).join('');
+            return '<section class="plant-product-section vivarium-supplies-section"><h2 class="plant-product-section-title">Optional supplies</h2><p class="vivarium-supplies-intro">Add one or more supplies to the same order:</p><div class="vivarium-supplies-grid plants-grid card-size-small">' + cardHtml + '</div><button type="button" class="btn btn-add-vivarium-supplies btn-primary">Add vivarium + selected supplies to cart</button></section>';
+        })() +
         '<section class="plant-product-section">' +
         '<h2 class="plant-product-section-title">Maintenance</h2>' +
         '<ul class="plant-product-care-list">' + careTipsListHtml + '</ul>' +
@@ -4239,6 +4447,18 @@ function showVivariumDetail(vivarium) {
     modalBody.appendChild(vivariumDetailActions);
     var addBtn = modalBody.querySelector('.btn-add-to-cart');
     if (addBtn) addBtn.addEventListener('click', function() { addToCart(vivarium, 1); });
+    var addWithSuppliesBtn = modalBody.querySelector('.btn-add-vivarium-supplies');
+    if (addWithSuppliesBtn) {
+        addWithSuppliesBtn.addEventListener('click', function() {
+            addToCart(vivarium, 1);
+            var equipment = window.allEquipment || [];
+            modalBody.querySelectorAll('.vivarium-supply-checkbox:checked').forEach(function(cb) {
+                var id = parseInt(cb.dataset.supplyId, 10);
+                var supply = equipment.find(function(e) { return e.id === id; });
+                if (supply) addToCart(supply, 1);
+            });
+        });
+    }
     var vivariumDetailEditBtn = modalBody.querySelector('.vivarium-detail-edit');
     var vivariumDetailImageBtn = modalBody.querySelector('.vivarium-detail-image');
     if (vivariumDetailEditBtn) vivariumDetailEditBtn.addEventListener('click', function() { if (window.openVivariumEdit) openVivariumEdit(vivarium); });
@@ -4415,14 +4635,43 @@ window.handleEquipmentEditClick = function(btn) {
     if (equip && window.openEquipmentEdit) window.openEquipmentEdit(equip);
 };
 
+function showEditPage(type) {
+    document.documentElement.classList.remove('edit-loading-on');
+    var editPage = document.getElementById('editPage');
+    if (!editPage) return;
+    document.querySelectorAll('.edit-page-panel').forEach(function(p) { p.classList.remove('active'); });
+    var panel = document.getElementById('editPanel' + (type === 'plant' ? 'Plant' : type === 'equipment' ? 'Equipment' : 'Vivarium'));
+    if (panel) panel.classList.add('active');
+    editPage.classList.remove('hidden');
+    editPage.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('edit-page-visible');
+}
+
+function hideEditPage() {
+    var editPage = document.getElementById('editPage');
+    if (editPage) {
+        editPage.classList.add('hidden');
+        editPage.setAttribute('aria-hidden', 'true');
+    }
+    document.body.classList.remove('edit-page-visible');
+    var params = new URLSearchParams(window.location.search);
+    if (params.has('edit') || params.has('add')) {
+        params.delete('edit');
+        params.delete('add');
+        params.delete('id');
+        var newSearch = params.toString();
+        var url = window.location.pathname + (newSearch ? '?' + newSearch : '') + window.location.hash;
+        window.history.replaceState({}, '', url);
+    }
+}
+
 function openEquipmentEdit(equipment) {
     var isNew = !equipment || equipment.id == null;
-    equipmentEditing = isNew ? { id: null, name: '', description: '', imageUrl: '', images: [], price: null, size: '', stockQuantity: 0, reorderLevel: undefined } : equipment;
-    var modal = document.getElementById('equipmentEditModal');
+    equipmentEditing = isNew ? { id: null, name: '', description: '', imageUrl: '', images: [], price: null, size: '', unit: '', stockQuantity: 0, reorderLevel: undefined } : equipment;
     var nameEl = document.getElementById('equipmentEditName');
     var nameRow = document.getElementById('equipmentEditNameRow');
     var nameInput = document.getElementById('equipmentEditNameInput');
-    var titleEl = document.getElementById('equipmentEditModalTitle');
+    var titleEl = document.getElementById('editPageTitle');
     if (titleEl) titleEl.textContent = isNew ? 'Add supply' : 'Edit supply';
     if (nameEl) { nameEl.style.display = isNew ? 'none' : ''; nameEl.textContent = (equipmentEditing.name || 'Equipment'); }
     if (nameRow) nameRow.style.display = isNew ? '' : 'none';
@@ -4432,68 +4681,180 @@ function openEquipmentEdit(equipment) {
         var sizeEl = document.getElementById('equipmentEditSize');
         var priceEl = document.getElementById('equipmentEditPrice');
         var costEl = document.getElementById('equipmentEditCost');
+        var marginPctEl = document.getElementById('equipmentEditMarginPct');
         var stockEl = document.getElementById('equipmentEditStock');
         var reorderEl = document.getElementById('equipmentEditReorder');
         if (descEl) descEl.value = (inv && inv.description != null) ? inv.description : (equipmentEditing.description != null ? equipmentEditing.description : '');
         if (sizeEl) sizeEl.value = (inv && inv.size != null) ? inv.size : (equipmentEditing.size != null ? equipmentEditing.size : '');
-        if (priceEl) priceEl.value = (inv && inv.price != null) ? inv.price : (equipmentEditing.price != null ? equipmentEditing.price : '');
-        if (costEl) costEl.value = (inv && inv.costPrice != null) ? inv.costPrice : (equipmentEditing.costPrice != null ? equipmentEditing.costPrice : '');
+        var unitEl = document.getElementById('equipmentEditUnit');
+        if (unitEl) unitEl.value = (inv && inv.unit != null && inv.unit !== '') ? inv.unit : (equipmentEditing.unit != null ? equipmentEditing.unit : '');
+        var price = (inv && inv.price != null) ? inv.price : (equipmentEditing.price != null ? equipmentEditing.price : null);
+        var cost = (inv && inv.costPrice != null) ? inv.costPrice : (equipmentEditing.costPrice != null ? equipmentEditing.costPrice : null);
+        if (costEl) costEl.value = cost != null ? cost : '';
+        var marginPct = (price != null && price > 0 && cost != null) ? ((price - cost) / price * 100) : '';
+        if (marginPctEl) marginPctEl.value = marginPct !== '' ? Number(marginPct).toFixed(1) : '';
+        if (priceEl) priceEl.value = (price != null ? price : '');
         if (stockEl) stockEl.value = (inv && inv.quantityInStock != null) ? inv.quantityInStock : (equipmentEditing.stockQuantity != null ? equipmentEditing.stockQuantity : 0);
         if (reorderEl) reorderEl.value = (inv && inv.reorderLevel != null) ? inv.reorderLevel : (equipmentEditing.reorderLevel != null ? equipmentEditing.reorderLevel : '');
+        var categoryEl = document.getElementById('equipmentEditCategory');
+        if (categoryEl) categoryEl.value = (equipmentEditing.category != null && equipmentEditing.category !== '') ? String(equipmentEditing.category) : '';
+    }
+    function updateEquipmentPriceFromCostMargin() {
+        var costEl = document.getElementById('equipmentEditCost');
+        var marginPctEl = document.getElementById('equipmentEditMarginPct');
+        var priceEl = document.getElementById('equipmentEditPrice');
+        if (!priceEl) return;
+        var c = costEl && costEl.value.trim() !== '' ? parseFloat(costEl.value) : NaN;
+        var m = marginPctEl && marginPctEl.value.trim() !== '' ? parseFloat(marginPctEl.value) : NaN;
+        if (!isNaN(c) && !isNaN(m) && m < 100) priceEl.value = (c / (1 - m / 100)).toFixed(2);
+        else if (isNaN(c)) priceEl.value = '';
     }
     if (!isNew && window.inventoryDb) {
         window.inventoryDb.getItem(equipmentEditing.id).then(fillFields).catch(function() { fillFields(null); });
     } else {
         fillFields(null);
     }
-    if (modal) {
-        modal.classList.remove('hidden');
-        modal.classList.add('show');
-    }
+    var costEl = document.getElementById('equipmentEditCost');
+    var marginPctEl = document.getElementById('equipmentEditMarginPct');
+    if (costEl) costEl.addEventListener('input', updateEquipmentPriceFromCostMargin);
+    if (marginPctEl) marginPctEl.addEventListener('input', updateEquipmentPriceFromCostMargin);
+    var q = isNew ? 'add=equipment' : 'edit=equipment&id=' + equipmentEditing.id;
+    window.history.replaceState({}, '', window.location.pathname + '?' + q + (window.location.hash || ''));
+    showEditPage('equipment');
 }
 window.openEquipmentEdit = openEquipmentEdit;
 
 function closeEquipmentEditModal() {
     equipmentEditing = null;
-    const modal = document.getElementById('equipmentEditModal');
-    if (modal) {
-        modal.classList.remove('show');
-        modal.classList.add('hidden');
-    }
+    hideEditPage();
+    if (window.self !== window.top) try { window.parent.postMessage({ type: 'invAddOverlayClose' }, '*'); } catch (e) {}
 }
 
 var vivariumEditing = null;
 
+function refreshVivariumEditPlantOptions() {
+    if (!vivariumEditing) return;
+    var searchInput = document.getElementById('vivariumEditPlantSearch');
+    var tbody = document.getElementById('vivariumEditPlantTableBody');
+    if (!tbody) return;
+    var q = (searchInput && searchInput.value) ? searchInput.value.trim().toLowerCase() : '';
+    var plants = window.allPlants || window.plantsDatabase || [];
+    var filtered = q ? plants.filter(function(p) {
+        var name = (p.name || '').toLowerCase();
+        var sci = (typeof p.scientificName === 'string') ? (p.scientificName || '').toLowerCase() : (p.scientificName && p.scientificName.name ? String(p.scientificName.name).toLowerCase() : '');
+        var matchName = name.indexOf(q) !== -1 || sci.indexOf(q) !== -1;
+        if (matchName) return true;
+        var commonNames = p.commonNames;
+        if (Array.isArray(commonNames)) {
+            for (var i = 0; i < commonNames.length; i++) {
+                if (String(commonNames[i] || '').toLowerCase().indexOf(q) !== -1) return true;
+            }
+        }
+        return false;
+    }) : plants;
+    var selectedIds = vivariumEditing.plantIds || [];
+    var commonName = function(p) {
+        if (p.name) return p.name;
+        if (Array.isArray(p.commonNames) && p.commonNames.length) return p.commonNames[0];
+        return '—';
+    };
+    var scientificName = function(p) {
+        if (typeof p.scientificName === 'string') return p.scientificName || '—';
+        if (p.scientificName && p.scientificName.name) return p.scientificName.name;
+        return '—';
+    };
+    var imageUrlForTooltip = function(p) {
+        if (p.imageUrl) return p.imageUrl;
+        if (p.images && p.images.length) return p.images[0];
+        var slug = scientificNameToSlug(typeof p.scientificName === 'string' ? p.scientificName : (p.scientificName && p.scientificName.name));
+        return slug ? 'images/' + slug + '/' + slug + '-1.jpg' : '';
+    };
+    tbody.innerHTML = filtered.map(function(p) {
+        var id = p.id;
+        var sel = selectedIds.indexOf(Number(id)) !== -1;
+        var imgUrl = imageUrlForTooltip(p);
+        var dataImg = imgUrl ? (' data-plant-image="' + escapeHtml(imgUrl) + '"') : '';
+        return '<tr' + dataImg + '><td class="vivarium-plant-td-include"><input type="checkbox" class="vivarium-plant-checkbox" value="' + encodeURIComponent(id) + '"' + (sel ? ' checked' : '') + '></td><td>' + escapeHtml(commonName(p)) + '</td><td>' + escapeHtml(scientificName(p)) + '</td></tr>';
+    }).join('');
+}
+
+function refreshVivariumEditSupplyOptions() {
+    if (!vivariumEditing) return;
+    var searchInput = document.getElementById('vivariumEditSupplySearch');
+    var supplyIdsEl = document.getElementById('vivariumEditSupplyIds');
+    if (!supplyIdsEl) return;
+    var q = (searchInput && searchInput.value) ? searchInput.value.trim().toLowerCase() : '';
+    var supplies = window.allEquipment || [];
+    var filtered = q ? supplies.filter(function(s) {
+        var name = (s.name || '').toLowerCase();
+        return name.indexOf(q) !== -1;
+    }) : supplies;
+    var selectedIds = vivariumEditing.supplyIds || [];
+    supplyIdsEl.innerHTML = filtered.map(function(s) {
+        var id = s.id;
+        var sel = selectedIds.indexOf(Number(id)) !== -1;
+        return '<option value="' + encodeURIComponent(id) + '"' + (sel ? ' selected' : '') + '>' + escapeHtml(s.name || 'Supply #' + id) + '</option>';
+    }).join('');
+}
+
 function openVivariumEdit(vivarium) {
     var isNew = !vivarium || vivarium.id == null;
-    vivariumEditing = isNew ? { id: null, name: '', description: '', imageUrl: '', images: [], price: null, type: 'open-terrarium', availability: 'in-stock' } : vivarium;
-    var titleEl = document.getElementById('vivariumEditModalTitle');
+    vivariumEditing = isNew ? { id: null, name: '', description: '', imageUrl: '', images: [], price: null, type: 'open-terrarium', availability: 'in-stock', plantIds: [], supplyIds: [] } : vivarium;
+    if (!Array.isArray(vivariumEditing.plantIds)) vivariumEditing.plantIds = [];
+    if (!Array.isArray(vivariumEditing.supplyIds)) vivariumEditing.supplyIds = [];
+    var titleEl = document.getElementById('editPageTitle');
     if (titleEl) titleEl.textContent = isNew ? 'Add vivarium' : 'Edit vivarium';
     var nameEl = document.getElementById('vivariumEditName');
     var descEl = document.getElementById('vivariumEditDescription');
     var priceEl = document.getElementById('vivariumEditPrice');
+    var costEl = document.getElementById('vivariumEditCost');
+    var marginPctEl = document.getElementById('vivariumEditMarginPct');
     var typeEl = document.getElementById('vivariumEditType');
     var availabilityEl = document.getElementById('vivariumEditAvailability');
     if (nameEl) nameEl.value = vivariumEditing.name || '';
     if (descEl) descEl.value = vivariumEditing.description || '';
-    if (priceEl) priceEl.value = vivariumEditing.price != null ? vivariumEditing.price : '';
+    function fillVivariumPriceFields(inv) {
+        var price = vivariumEditing.price != null ? vivariumEditing.price : (inv && inv.price != null ? inv.price : null);
+        var cost = (inv && inv.costPrice != null) ? inv.costPrice : null;
+        if (costEl) costEl.value = cost != null ? cost : '';
+        var marginPct = (price != null && price > 0 && cost != null) ? ((price - cost) / price * 100) : '';
+        if (marginPctEl) marginPctEl.value = marginPct !== '' ? Number(marginPct).toFixed(1) : '';
+        if (priceEl) priceEl.value = (price != null ? price : '');
+    }
+    function updateVivariumPriceFromCostMargin() {
+        if (!priceEl) return;
+        var c = costEl && costEl.value.trim() !== '' ? parseFloat(costEl.value) : NaN;
+        var m = marginPctEl && marginPctEl.value.trim() !== '' ? parseFloat(marginPctEl.value) : NaN;
+        if (!isNaN(c) && !isNaN(m) && m < 100) priceEl.value = (c / (1 - m / 100)).toFixed(2);
+        else if (isNaN(c)) priceEl.value = '';
+    }
+    if (!isNew && window.inventoryDb && vivariumEditing.id != null) {
+        window.inventoryDb.getItem(vivariumEditing.id).then(fillVivariumPriceFields).catch(function() { fillVivariumPriceFields(null); });
+    } else {
+        fillVivariumPriceFields(null);
+    }
+    if (costEl) costEl.addEventListener('input', updateVivariumPriceFromCostMargin);
+    if (marginPctEl) marginPctEl.addEventListener('input', updateVivariumPriceFromCostMargin);
     if (typeEl) typeEl.value = vivariumEditing.type || 'open-terrarium';
     if (availabilityEl) availabilityEl.value = vivariumEditing.availability || 'in-stock';
-    var modal = document.getElementById('vivariumEditModal');
-    if (modal) {
-        modal.classList.remove('hidden');
-        modal.classList.add('show');
-    }
+    var searchInput = document.getElementById('vivariumEditPlantSearch');
+    if (searchInput) searchInput.value = '';
+    var tip = document.getElementById('vivariumPlantImageTooltip');
+    if (tip) { tip.classList.remove('show'); var img = tip.querySelector('img'); if (img) img.src = ''; }
+    refreshVivariumEditPlantOptions();
+    var searchSupplyInput = document.getElementById('vivariumEditSupplySearch');
+    if (searchSupplyInput) searchSupplyInput.value = '';
+    refreshVivariumEditSupplyOptions();
+    var q = isNew ? 'add=vivarium' : 'edit=vivarium&id=' + vivariumEditing.id;
+    window.history.replaceState({}, '', window.location.pathname + '?' + q + (window.location.hash || ''));
+    showEditPage('vivarium');
 }
 window.openVivariumEdit = openVivariumEdit;
 
 function closeVivariumEditModal() {
     vivariumEditing = null;
-    var modal = document.getElementById('vivariumEditModal');
-    if (modal) {
-        modal.classList.remove('show');
-        modal.classList.add('hidden');
-    }
+    hideEditPage();
+    if (window.self !== window.top) try { window.parent.postMessage({ type: 'invAddOverlayClose' }, '*'); } catch (e) {}
 }
 
 function saveVivariumEdit() {
@@ -4501,19 +4862,47 @@ function saveVivariumEdit() {
     var nameEl = document.getElementById('vivariumEditName');
     var descEl = document.getElementById('vivariumEditDescription');
     var priceEl = document.getElementById('vivariumEditPrice');
+    var costEl = document.getElementById('vivariumEditCost');
+    var marginPctEl = document.getElementById('vivariumEditMarginPct');
     var typeEl = document.getElementById('vivariumEditType');
     var availabilityEl = document.getElementById('vivariumEditAvailability');
     var name = nameEl && nameEl.value.trim() !== '' ? nameEl.value.trim() : (vivariumEditing.name || 'New vivarium');
     var description = descEl ? descEl.value.trim() : '';
-    var priceNum = priceEl && priceEl.value.trim() !== '' ? parseFloat(priceEl.value) : null;
-    var price = priceNum != null && !isNaN(priceNum) ? priceNum : vivariumEditing.price;
+    var cost = costEl && costEl.value.trim() !== '' ? parseFloat(costEl.value) : undefined;
+    var marginPct = marginPctEl && marginPctEl.value.trim() !== '' ? parseFloat(marginPctEl.value) : NaN;
+    var price;
+    if (cost != null && !isNaN(cost) && !isNaN(marginPct) && marginPct < 100) {
+        price = cost / (1 - marginPct / 100);
+    } else {
+        var priceNum = priceEl && priceEl.value.trim() !== '' ? parseFloat(priceEl.value) : null;
+        price = priceNum != null && !isNaN(priceNum) ? priceNum : vivariumEditing.price;
+    }
     var type = typeEl && typeEl.value ? typeEl.value : vivariumEditing.type;
     var availability = availabilityEl && availabilityEl.value ? availabilityEl.value : 'in-stock';
+    var plantTableWrap = document.getElementById('vivariumEditPlantTableWrap');
+    var plantIds = [];
+    if (plantTableWrap) {
+        var checkboxes = plantTableWrap.querySelectorAll('.vivarium-plant-checkbox:checked');
+        for (var i = 0; i < checkboxes.length; i++) {
+            var n = Number(checkboxes[i].value);
+            if (!isNaN(n)) plantIds.push(n);
+        }
+    }
+    var supplyIdsEl = document.getElementById('vivariumEditSupplyIds');
+    var supplyIds = [];
+    if (supplyIdsEl) {
+        [].forEach.call(supplyIdsEl.selectedOptions, function(opt) {
+            var n = Number(opt.value);
+            if (!isNaN(n)) supplyIds.push(n);
+        });
+    }
     vivariumEditing.name = name;
     vivariumEditing.description = description || undefined;
     vivariumEditing.price = price;
     vivariumEditing.type = type;
     vivariumEditing.availability = availability;
+    vivariumEditing.plantIds = plantIds;
+    vivariumEditing.supplyIds = supplyIds;
     var isNew = vivariumEditing.id == null;
     var id = vivariumEditing.id;
     if (isNew) {
@@ -4534,12 +4923,33 @@ function saveVivariumEdit() {
         } catch (e) { /* ignore */ }
     } else {
         try {
-            localStorage.setItem('vivarium_' + id + '_edit', JSON.stringify({ name: name, description: description || undefined, price: price, type: type, availability: availability }));
+            localStorage.setItem('vivarium_' + id + '_edit', JSON.stringify({ name: name, description: description || undefined, price: price, type: type, availability: availability, plantIds: plantIds, supplyIds: supplyIds }));
         } catch (e) { /* ignore */ }
     }
-    closeVivariumEditModal();
-    if (isNew && typeof applyVivariumFilters === 'function') applyVivariumFilters();
-    else if (typeof renderVivariumsPage === 'function') renderVivariumsPage();
+    if (window.inventoryDb && window.inventoryDb.setItem && id != null) {
+        window.inventoryDb.setItem(id, {
+            name: name,
+            description: description || undefined,
+            price: price,
+            costPrice: cost,
+            quantityInStock: vivariumEditing.quantityInStock,
+            reorderLevel: vivariumEditing.reorderLevel
+        }).then(function() {
+            if (window.inventoryDb.mergeInventoryIntoPlants && allVivariums) return window.inventoryDb.mergeInventoryIntoPlants(allVivariums);
+        }).then(function() {
+            closeVivariumEditModal();
+            if (isNew && typeof applyVivariumFilters === 'function') applyVivariumFilters();
+            else if (typeof renderVivariumsPage === 'function') renderVivariumsPage();
+        }).catch(function() {
+            closeVivariumEditModal();
+            if (isNew && typeof applyVivariumFilters === 'function') applyVivariumFilters();
+            else if (typeof renderVivariumsPage === 'function') renderVivariumsPage();
+        });
+    } else {
+        closeVivariumEditModal();
+        if (isNew && typeof applyVivariumFilters === 'function') applyVivariumFilters();
+        else if (typeof renderVivariumsPage === 'function') renderVivariumsPage();
+    }
 }
 
 function mergeVivariumEditsFromStorage() {
@@ -4556,6 +4966,8 @@ function mergeVivariumEditsFromStorage() {
             if (edit.price != null) v.price = edit.price;
             if (edit.type != null) v.type = edit.type;
             if (edit.availability != null) v.availability = edit.availability;
+            if (edit.plantIds != null && Array.isArray(edit.plantIds)) v.plantIds = edit.plantIds;
+            if (edit.supplyIds != null && Array.isArray(edit.supplyIds)) v.supplyIds = edit.supplyIds;
         } catch (e) { /* ignore */ }
     });
 }
@@ -4787,6 +5199,7 @@ function closeEquipmentImageModal() {
         modal.classList.remove('show');
         modal.classList.add('hidden');
     }
+    if (window.self !== window.top) try { window.parent.postMessage({ type: 'invAddOverlayClose' }, '*'); } catch (e) {}
 }
 
 // --- Plant images modal (add/edit images and gallery, like equipment) ---
@@ -5021,6 +5434,7 @@ function closePlantImageModal() {
         modal.classList.remove('show');
         modal.classList.add('hidden');
     }
+    if (window.self !== window.top) try { window.parent.postMessage({ type: 'invAddOverlayClose' }, '*'); } catch (e) {}
 }
 
 function saveEquipmentEdit() {
@@ -5028,23 +5442,36 @@ function saveEquipmentEdit() {
     var nameInput = document.getElementById('equipmentEditNameInput');
     var descEl = document.getElementById('equipmentEditDescription');
     var sizeEl = document.getElementById('equipmentEditSize');
+    var unitEl = document.getElementById('equipmentEditUnit');
     var priceEl = document.getElementById('equipmentEditPrice');
     var costEl = document.getElementById('equipmentEditCost');
     var stockEl = document.getElementById('equipmentEditStock');
     var reorderEl = document.getElementById('equipmentEditReorder');
     var descVal = descEl && descEl.value.trim() !== '' ? descEl.value.trim() : undefined;
     var sizeVal = sizeEl && sizeEl.value.trim() !== '' ? sizeEl.value.trim() : undefined;
-    var priceNum = priceEl && priceEl.value.trim() !== '' ? parseFloat(priceEl.value) : NaN;
-    var price = !isNaN(priceNum) ? priceNum : (equipmentEditing.price != null ? equipmentEditing.price : undefined);
+    var unitVal = unitEl && unitEl.value && unitEl.value.trim() !== '' ? unitEl.value.trim() : undefined;
+    var categoryEl = document.getElementById('equipmentEditCategory');
+    var categoryVal = categoryEl && categoryEl.value && categoryEl.value.trim() !== '' ? categoryEl.value.trim() : undefined;
     var cost = costEl && costEl.value.trim() !== '' ? parseFloat(costEl.value) : undefined;
-    var stock = stockEl && stockEl.value.trim() !== '' ? parseInt(stockEl.value, 10) : 0;
-    var reorder = reorderEl && reorderEl.value.trim() !== '' ? parseInt(reorderEl.value, 10) : undefined;
+    var marginPctEl = document.getElementById('equipmentEditMarginPct');
+    var marginPct = marginPctEl && marginPctEl.value.trim() !== '' ? parseFloat(marginPctEl.value) : NaN;
+    var price;
+    if (cost != null && !isNaN(cost) && !isNaN(marginPct) && marginPct < 100) {
+        price = cost / (1 - marginPct / 100);
+    } else {
+        var priceNum = priceEl && priceEl.value.trim() !== '' ? parseFloat(priceEl.value) : NaN;
+        price = !isNaN(priceNum) ? priceNum : (equipmentEditing.price != null ? equipmentEditing.price : undefined);
+    }
+    var stock = stockEl && stockEl.value.trim() !== '' ? parseFloat(stockEl.value) : 0;
+    var reorder = reorderEl && reorderEl.value.trim() !== '' ? parseFloat(reorderEl.value) : undefined;
     var nameVal = (nameInput && nameInput.value && nameInput.value.trim()) ? nameInput.value.trim() : (equipmentEditing.name || 'New equipment');
     equipmentEditing.description = descVal;
     equipmentEditing.name = nameVal;
     equipmentEditing.size = sizeVal;
+    equipmentEditing.unit = unitVal;
+    equipmentEditing.category = categoryVal;
     equipmentEditing.price = price;
-    equipmentEditing.stockQuantity = isNaN(stock) ? 0 : stock;
+    equipmentEditing.stockQuantity = (typeof stock === 'number' && !isNaN(stock)) ? stock : 0;
     equipmentEditing.reorderLevel = (reorder != null && !isNaN(reorder)) ? reorder : undefined;
     var isNew = equipmentEditing.id == null;
     var id = equipmentEditing.id;
@@ -5070,9 +5497,11 @@ function saveEquipmentEdit() {
             name: nameVal,
             description: descVal,
             size: sizeVal,
+            unit: unitVal,
+            category: categoryVal,
             price: price,
             costPrice: isNaN(cost) ? undefined : cost,
-            quantityInStock: isNaN(stock) ? 0 : stock,
+            quantityInStock: (typeof stock === 'number' && !isNaN(stock)) ? stock : 0,
             reorderLevel: (reorder != null && !isNaN(reorder)) ? reorder : undefined
         }).then(function() {
             return window.inventoryDb.mergeInventoryIntoPlants(allEquipment || []);
@@ -5226,7 +5655,7 @@ function createPlantCard(plant) {
                 </button>
                 <div class="quick-add-expanded hidden">
                     <div class="quick-add-expanded-row">
-                        <input type="number" class="quick-add-qty" value="1" min="1" max="99" aria-label="Quantity" data-plant-id="${plant.id}">
+                        <input type="number" class="quick-add-qty" value="1" min="0.001" max="999" step="any" aria-label="Quantity" data-plant-id="${plant.id}">
                         <div class="quick-add-stepper" aria-label="Quantity stepper">
                             <button type="button" class="quick-add-plus" aria-label="Increase quantity">+</button>
                             <button type="button" class="quick-add-minus" aria-label="Decrease quantity">−</button>
@@ -5810,9 +6239,9 @@ async function showPlantModal(plant) {
                     if (hasAllergyConcern) concerns.push(`Allergies: ${plant.allergiesPotential}`);
                     
                     return `
-                    <div class="info-item" style="grid-column: 1 / -1; background: #fff3cd; border-left: 4px solid #ffc107; margin-top: 1rem;">
+                    <div class="info-item safety-info-item" style="grid-column: 1 / -1; margin-top: 1rem;">
                         <div class="info-item-label">⚠️ Safety</div>
-                        <div class="info-item-value" style="color: #856404;">${concerns.map(c => escapeHtml(c)).join(' • ')}</div>
+                        <div class="info-item-value">${concerns.map(c => escapeHtml(c)).join(' • ')}</div>
                     </div>
                     `;
                 })()}
@@ -6466,7 +6895,7 @@ function updatePlantCardImage(plantId, imageUrl) {
                 </button>
                 <div class="quick-add-expanded hidden">
                     <div class="quick-add-expanded-row">
-                        <input type="number" class="quick-add-qty" value="1" min="1" max="99" aria-label="Quantity" data-plant-id="${plantId}">
+                        <input type="number" class="quick-add-qty" value="1" min="0.001" max="999" step="any" aria-label="Quantity" data-plant-id="${plantId}">
                         <div class="quick-add-stepper" aria-label="Quantity stepper">
                             <button type="button" class="quick-add-plus" aria-label="Increase quantity">+</button>
                             <button type="button" class="quick-add-minus" aria-label="Decrease quantity">−</button>
@@ -7019,6 +7448,17 @@ async function deleteImageFromGallery(plantId, imageIndex, imgPath) {
     }
 }
 
+// Assign next sequential plant ID for new plants (id null/undefined)
+function getNextPlantId() {
+    var db = (typeof window !== 'undefined' && window.plantsDatabase) ? window.plantsDatabase : [];
+    var maxId = 0;
+    for (var i = 0; i < db.length; i++) {
+        var n = db[i].id;
+        if (typeof n === 'number' && n > maxId) maxId = n;
+    }
+    return maxId + 1;
+}
+
 // Save plant data to JSON file (persists changes across page refreshes)
 // Returns true if file was written, false otherwise (e.g. no folder access)
 async function savePlantToJsonFile(plant) {
@@ -7026,7 +7466,9 @@ async function savePlantToJsonFile(plant) {
         console.warn('⚠️ Cannot save plant: missing scientific name');
         return false;
     }
-    
+    if (plant.id == null || plant.id === undefined) {
+        plant.id = getNextPlantId();
+    }
     try {
         let plantsFolderHandle = plantsMergedFolderHandle;
         

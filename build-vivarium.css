@@ -1,4 +1,4 @@
-/* Build Your Own Vivarium – step-by-step layout and panels */
+/* Build Your Own Vivarium – step-by-step layout and panels (aligned with site style) */
 
 /* When build view is active on main site, hide list view and show build view */
 .main-content.build-view-active .list-view {
@@ -11,11 +11,48 @@
     display: none !important;
 }
 
+.build-intro {
+    max-width: 640px;
+    margin: 0 auto 2rem;
+    padding: 0 0.5rem;
+    font-size: 1.05rem;
+    line-height: 1.55;
+    color: var(--text-light);
+    text-align: center;
+    font-family: 'Lato', sans-serif;
+}
+
 .build-vivarium-main {
-    max-width: 1100px;
-    margin-left: auto;
-    margin-right: auto;
+    max-width: none;
+    width: 100%;
     padding-bottom: 3rem;
+}
+
+/* Card-style wrapper for build content – matches site's filters-sidebar / card feel */
+.build-vivarium-main .build-layout {
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+    padding: 1.75rem;
+    gap: 1.75rem;
+}
+
+.build-footer .footer-back-link {
+    color: var(--primary-color);
+    font-weight: 600;
+    text-decoration: none;
+}
+.build-footer .footer-back-link:hover {
+    text-decoration: underline;
+}
+
+/* Intro when build view is inside index (main site) */
+.build-intro-inline {
+    margin: 0 0 1.25rem 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--text-light);
 }
 
 .build-layout {
@@ -27,6 +64,9 @@
     .build-layout {
         flex-direction: column;
     }
+    .build-vivarium-main .build-layout {
+        padding: 1.25rem;
+    }
 }
 
 .build-stepper {
@@ -34,6 +74,16 @@
     width: 260px;
     position: sticky;
     top: 1rem;
+    padding: 0.5rem 0;
+}
+.build-stepper-heading {
+    margin: 0 0 0.75rem 0;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-light);
+    font-family: 'Lato', sans-serif;
 }
 @media (max-width: 768px) {
     .build-stepper {
@@ -50,24 +100,48 @@
     margin: 0;
     padding: 0;
     counter-reset: build-step;
+    position: relative;
+}
+/* Subtle connector between steps for a clearer “journey” feel */
+.build-stepper-list::before {
+    content: '';
+    position: absolute;
+    left: 1.5rem;
+    top: 2.25rem;
+    bottom: 2.25rem;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--border-color), var(--accent-color) 20%, var(--accent-color) 80%, var(--border-color));
+    border-radius: 1px;
+    opacity: 0.5;
+    z-index: 0;
+}
+.build-stepper-list .build-step {
+    position: relative;
+    z-index: 1;
 }
 
 .build-step {
     display: flex;
     align-items: flex-start;
-    gap: 0.5rem;
-    padding: 0.75rem 1rem;
+    gap: 0.65rem;
+    padding: 0.85rem 1rem;
     background: var(--card-bg);
     border: 2px solid var(--border-color);
-    border-radius: 8px;
+    border-radius: 12px;
     font-size: 0.9rem;
-    transition: border-color 0.2s, background 0.2s;
+    transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.build-step:hover {
+    border-color: rgba(45, 80, 22, 0.35);
 }
 
 .build-step[aria-current="step"],
 .build-step.build-step-done {
     border-color: var(--primary-color);
-    background: rgba(45, 80, 22, 0.06);
+    background: rgba(45, 80, 22, 0.08);
+    box-shadow: 0 2px 8px rgba(45, 80, 22, 0.12);
 }
 
 .build-step.build-step-done .build-step-num {
@@ -123,6 +197,7 @@
     min-height: 320px;
     flex: 1;
     min-width: 0;
+    padding: 0.25rem 0;
 }
 
 .build-panel {
@@ -140,15 +215,20 @@
 }
 
 .build-panel-title {
-    font-size: 1.5rem;
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
     color: var(--primary-color);
     margin: 0 0 0.5rem 0;
+    letter-spacing: 0.02em;
 }
 
 .build-panel-desc {
+    font-family: 'Lato', sans-serif;
     color: var(--text-light);
     margin: 0 0 1.5rem 0;
-    font-size: 0.95rem;
+    font-size: 1rem;
+    line-height: 1.5;
 }
 
 .build-selected-choice {
@@ -161,6 +241,79 @@
     display: none;
 }
 
+.build-review-summary {
+    margin-bottom: 1.5rem;
+}
+.build-review-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.build-review-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.build-review-card-title {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+.build-review-card-content {
+    flex: 1;
+    min-height: 0;
+}
+.build-review-card-desc {
+    margin: 0.25rem 0 0 0;
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+.build-review-chip {
+    display: inline-block;
+    padding: 0.35rem 0.6rem;
+    background: rgba(45, 80, 22, 0.08);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    margin: 0.2rem 0.2rem 0 0;
+}
+.build-review-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem;
+}
+.build-review-empty {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+.build-review-card-wide {
+    /* full width when using column layout */
+}
+.build-review-items-grid {
+    margin-top: 0.5rem;
+}
+.build-review-summary .build-review-item-card {
+    cursor: default;
+    pointer-events: none;
+}
+.build-review-summary .build-review-item-card .plant-image-container .card-price {
+    font-size: 0.65rem;
+    padding: 0.22rem 0.4rem;
+}
+.build-review-summary .image-placeholder {
+    min-height: 100px;
+    background: var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .build-options {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -170,24 +323,27 @@
 
 .build-option-card {
     display: block;
-    padding: 1rem;
+    padding: 1.15rem 1rem;
     background: var(--card-bg);
     border: 2px solid var(--border-color);
     border-radius: 12px;
     cursor: pointer;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition: border-color 0.25s, box-shadow 0.25s, transform 0.2s;
     text-align: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    font-family: 'Lato', sans-serif;
 }
 
 .build-option-card:hover {
     border-color: var(--accent-color);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
 }
 
 .build-option-card.build-option-selected {
     border-color: var(--primary-color);
     background: rgba(45, 80, 22, 0.08);
-    box-shadow: 0 0 0 2px rgba(45, 80, 22, 0.2);
+    box-shadow: 0 0 0 2px rgba(45, 80, 22, 0.25), 0 4px 12px rgba(45, 80, 22, 0.1);
 }
 
 .build-option-card .build-option-name {
@@ -209,9 +365,30 @@
     flex-wrap: wrap;
     gap: 0.75rem;
     align-items: center;
-    margin-top: 1.5rem;
-    padding-top: 1rem;
+    margin-top: 1.75rem;
+    padding-top: 1.25rem;
     border-top: 1px solid var(--border-color);
+}
+.build-panel-actions .btn {
+    min-height: 44px;
+    padding: 0.6rem 1.1rem;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.build-panel-actions .btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+.build-panel-actions .build-prev {
+    border: 2px solid var(--border-color);
+    background: var(--card-bg);
+    color: var(--text-color);
+}
+.build-panel-actions .build-prev:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background: rgba(45, 80, 22, 0.06);
 }
 
 .build-substrate-options {
@@ -287,12 +464,12 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 .build-plant-card-selected {
-    border-color: var(--accent-color);
-    background: rgba(var(--accent-rgb, 59, 130, 246), 0.08);
-    box-shadow: 0 0 0 2px var(--accent-color);
+    border-color: var(--primary-color);
+    background: rgba(45, 80, 22, 0.08);
+    box-shadow: 0 0 0 2px rgba(45, 80, 22, 0.25);
 }
 .build-plant-card-selected:hover {
-    background: rgba(var(--accent-rgb, 59, 130, 246), 0.12);
+    background: rgba(45, 80, 22, 0.12);
 }
 .build-plant-card.build-plant-card-disabled {
     opacity: 0.7;
@@ -389,6 +566,156 @@
     line-height: 1.25;
 }
 
+/* Supply cards (same layout as plant cards) – used in Enclosure, Drainage, Substrate, Hard scape, Decorations, Accessories, Tools */
+.build-supply-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    max-height: 420px;
+    overflow-y: auto;
+}
+
+.build-supply-card {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    min-width: 0;
+    overflow: visible;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    position: relative;
+    text-align: left;
+}
+
+.build-supply-card:hover {
+    border-color: var(--accent-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.build-supply-card.build-supply-card-selected {
+    border-color: var(--primary-color);
+    background: rgba(45, 80, 22, 0.08);
+    box-shadow: 0 0 0 2px rgba(45, 80, 22, 0.25);
+}
+
+.build-supply-card.build-supply-card-single {
+    border-width: 2px;
+}
+
+.build-supply-card-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.build-supply-card-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.35rem;
+    padding: 0.35rem 0.35rem 0 0.35rem;
+}
+
+.build-supply-card-check {
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 2px solid var(--border-color);
+    border-radius: 3px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: bold;
+    color: transparent;
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+
+.build-supply-card.build-supply-card-selected .build-supply-card-check {
+    border-color: var(--primary-color);
+    background: var(--primary-color);
+    color: #fff;
+}
+
+.build-supply-card-img-wrap {
+    flex: 1;
+    min-width: 0;
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--bg-color);
+}
+
+.build-supply-card-img {
+    width: 100%;
+    aspect-ratio: 1;
+    min-height: 80px;
+    background: linear-gradient(135deg, rgba(45, 80, 22, 0.12) 0%, rgba(124, 184, 74, 0.08) 100%);
+    display: block;
+}
+
+.build-supply-card-body {
+    padding: 0.4rem 0.5rem 0.5rem 0.5rem;
+    min-width: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.build-supply-card-name {
+    font-weight: 600;
+    font-size: clamp(0.7rem, 4cqi, 0.85rem);
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    line-height: 1.25;
+    color: var(--text-color);
+}
+
+.build-supply-card-size {
+    font-size: clamp(0.65rem, 3.5cqi, 0.75rem);
+    color: var(--text-light);
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    line-height: 1.25;
+}
+
+/* Description shown on hover */
+.build-supply-card-desc {
+    padding: 0.5rem 0.6rem;
+    margin: 0 0.35rem 0.35rem 0.35rem;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: var(--text-light);
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.25s ease-out, opacity 0.2s ease-out, margin 0.2s;
+}
+
+.build-supply-card:hover .build-supply-card-desc {
+    max-height: 120px;
+    overflow-y: auto;
+    opacity: 1;
+}
+
+[data-theme="dark"] .build-supply-card-desc {
+    background: rgba(0, 0, 0, 0.2);
+}
+
 .build-accessory-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -399,10 +726,18 @@
 .build-accessory-card {
     display: flex;
     gap: 0.75rem;
-    padding: 0.75rem;
+    padding: 0.75rem 1rem;
     background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.build-accessory-card:hover {
+    border-color: rgba(45, 80, 22, 0.35);
+}
+.build-accessory-card:has(input:checked) {
+    border-color: var(--primary-color);
+    background: rgba(45, 80, 22, 0.06);
 }
 
 .build-accessory-card input[type="checkbox"] {
@@ -417,11 +752,25 @@
 
 .build-summary {
     margin-top: 2rem;
-    padding: 1rem;
-    background: var(--footer-bg, #e2eadc);
+    padding: 1.25rem 1.5rem;
+    background: linear-gradient(135deg, rgba(45, 80, 22, 0.08) 0%, rgba(124, 184, 74, 0.06) 100%);
+    border: 1px solid rgba(45, 80, 22, 0.2);
     border-radius: 12px;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: var(--text-color);
+    font-family: 'Lato', sans-serif;
+}
+#buildConfirmOrderBtn {
+    font-weight: 700;
+    padding: 0.75rem 1.5rem;
+    font-size: 1.05rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 14px rgba(45, 80, 22, 0.25);
+    font-family: 'Lato', sans-serif;
+}
+#buildConfirmOrderBtn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(45, 80, 22, 0.3);
 }
 
 [data-theme="dark"] .build-step[aria-current="step"],
@@ -433,4 +782,15 @@
 [data-theme="dark"] .build-option-card.build-option-selected {
     background: rgba(124, 184, 74, 0.12);
     border-color: var(--primary-color);
+}
+
+[data-theme="dark"] .build-vivarium-main .build-layout {
+    background: var(--card-bg);
+    border-color: var(--border-color);
+    box-shadow: var(--shadow);
+}
+
+[data-theme="dark"] .build-stepper-list::before {
+    background: linear-gradient(to bottom, var(--border-color), var(--accent-color) 20%, var(--accent-color) 80%, var(--border-color));
+    opacity: 0.4;
 }

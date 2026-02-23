@@ -9,28 +9,42 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css?v=4">
     <style>
-        .checkout-page { max-width: 600px; margin: 2rem auto; padding: 0 1rem; }
+        .checkout-page { max-width: 720px; margin: 2rem auto; padding: 0 1rem; display: flex; flex-direction: column; gap: 2rem; }
         .checkout-page h1, .checkout-page h2 { color: var(--primary-color); margin-bottom: 0.75rem; }
-        .checkout-cart-list { list-style: none; padding: 0; }
-        .checkout-cart-list li { padding: 0.5rem 0; border-bottom: 1px solid var(--border-color); }
+        .checkout-section { display: block; width: 100%; }
+        .checkout-order-table-wrap { overflow-x: auto; margin-top: 0.5rem; border: 1px solid var(--border-color); border-radius: 8px; }
+        .checkout-order-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+        .checkout-order-table th, .checkout-order-table td { padding: 0.65rem 0.75rem; text-align: left; border-bottom: 1px solid var(--border-color); }
+        .checkout-order-table thead th { background: rgba(45, 80, 22, 0.08); font-weight: 700; color: var(--primary-color); }
+        .checkout-order-table tbody tr:last-child td { border-bottom: none; }
+        .checkout-order-table .col-qty { text-align: center; width: 4rem; }
+        .checkout-order-table .col-price, .checkout-order-table .col-total { text-align: right; white-space: nowrap; }
+        .checkout-order-table tfoot td { padding: 0.85rem 0.75rem; font-weight: 700; font-size: 1.05rem; color: var(--primary-color); background: rgba(45, 80, 22, 0.06); border-top: 2px solid var(--primary-color); }
+        .checkout-order-table tfoot .col-total { text-align: right; }
         .checkout-note { margin-top: 1.5rem; padding: 1rem; background: var(--bg-color); border-radius: 8px; color: var(--text-light); font-size: 0.9rem; }
-        .checkout-total { margin-top: 1rem; font-size: 1.1rem; color: var(--primary-color); }
-        .checkout-form { margin-top: 1.5rem; padding: 1rem 0; border-top: 1px solid var(--border-color); }
+        .checkout-form { margin-top: 0; padding: 1.25rem 0; border-top: 1px solid var(--border-color); }
         .checkout-form label { display: block; font-weight: 600; margin-top: 0.75rem; }
-        .checkout-form input, .checkout-form textarea { width: 100%; padding: 0.5rem; margin-top: 0.25rem; border: 1px solid var(--border-color); border-radius: 6px; box-sizing: border-box; }
-        .checkout-form textarea { min-height: 60px; resize: vertical; }
+        .checkout-form input, .checkout-form textarea { width: 100%; padding: 0.5rem 0.75rem; margin-top: 0.25rem; border: 1px solid var(--border-color); border-radius: 6px; box-sizing: border-box; font-size: 1rem; }
+        .checkout-form textarea { min-height: 120px; resize: vertical; line-height: 1.4; }
+        .checkout-address-section { margin-top: 1rem; padding: 1rem; background: var(--bg-color); border-radius: 8px; border: 1px solid var(--border-color); }
+        .checkout-address-section label { margin-top: 0.75rem; display: block; }
+        .checkout-address-section label:first-of-type { margin-top: 0; }
+        .checkout-address-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 0.75rem; }
+        .checkout-address-row > div label { margin-top: 0; }
+        .checkout-address-row input { margin-top: 0.25rem; }
         .checkout-error { color: #b91c1c; font-size: 0.9rem; margin-top: 0.5rem; }
         .checkout-payment { margin-top: 1rem; padding: 1rem; background: var(--bg-color); border-radius: 8px; }
         .checkout-payment label { display: flex; align-items: center; gap: 0.5rem; margin: 0.5rem 0; cursor: pointer; }
         .checkout-payment input[type="radio"] { width: auto; }
         .checkout-payment-detail { margin: 0.5rem 0 0 1.5rem; font-size: 0.9rem; color: var(--text-light); }
-        .checkout-btn-wrap { margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.75rem; }
+        .checkout-btn-wrap { margin-top: 1rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.75rem; }
         .checkout-btn-wrap button { padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; }
         .checkout-btn-primary { background: var(--primary-color); color: white; }
         .checkout-btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+        .checkout-btn-secondary { display: inline-block; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; text-decoration: none; border: 2px solid var(--border-color); background: var(--card-bg); color: var(--text-color); }
+        .checkout-btn-secondary:hover { border-color: var(--primary-color); color: var(--primary-color); background: rgba(45, 80, 22, 0.06); }
         .checkout-page.checkout-empty #checkoutCartSummary {
-            text-align: center; width: 100vw; max-width: 100vw;
-            margin-left: calc(50% - 50vw); padding: 2rem 1rem; box-sizing: border-box;
+            text-align: center; width: 100%; padding: 2rem 1rem; box-sizing: border-box;
         }
         .checkout-page.checkout-empty #checkoutCartSummary .checkout-note { margin: 0; }
     </style>
@@ -47,10 +61,10 @@
         </div>
     </header>
     <main class="checkout-page">
-        <div id="checkoutCartSummary">
+        <section id="checkoutCartSummary" class="checkout-section" aria-label="Order summary">
             <p class="checkout-note">Loading cart…</p>
-        </div>
-        <div id="checkoutFormWrap" class="checkout-form" style="display: none;">
+        </section>
+        <div id="checkoutFormWrap" class="checkout-section checkout-form" style="display: none;">
             <h2>Customer details</h2>
             <label for="checkoutName">Name</label>
             <input type="text" id="checkoutName" placeholder="Your name">
@@ -64,8 +78,33 @@
                     <option value="">— Choose one —</option>
                 </select>
             </div>
-            <label for="checkoutAddress">Address / delivery notes</label>
-            <textarea id="checkoutAddress" placeholder="Delivery address or notes"></textarea>
+            <div class="checkout-address-section">
+                <h3 style="margin: 0 0 0.75rem 0; font-size: 1rem;">Delivery address</h3>
+                <label for="checkoutAddrLine1">Address line 1</label>
+                <input type="text" id="checkoutAddrLine1" placeholder="Street, block, building number">
+                <label for="checkoutAddrLine2">Address line 2</label>
+                <input type="text" id="checkoutAddrLine2" placeholder="Apt, floor, suite (optional)">
+                <div class="checkout-address-row">
+                    <div>
+                        <label for="checkoutAddrCity">City</label>
+                        <input type="text" id="checkoutAddrCity" placeholder="City">
+                    </div>
+                    <div>
+                        <label for="checkoutAddrState">State / Region</label>
+                        <input type="text" id="checkoutAddrState" placeholder="State">
+                    </div>
+                </div>
+                <div class="checkout-address-row">
+                    <div>
+                        <label for="checkoutAddrPostal">Postal code</label>
+                        <input type="text" id="checkoutAddrPostal" placeholder="Postal code">
+                    </div>
+                    <div>
+                        <label for="checkoutAddrCountry">Country</label>
+                        <input type="text" id="checkoutAddrCountry" placeholder="Country">
+                    </div>
+                </div>
+            </div>
             <div class="checkout-payment">
                 <h3 style="margin: 0 0 0.5rem 0; font-size: 1rem;">Payment method</h3>
                 <label><input type="radio" name="paymentMethod" value="cod" checked> Cash on delivery</label>
@@ -131,14 +170,18 @@
                     var totalQty = cart.reduce(function(s, i) { return s + i.quantity; }, 0);
                     var totalPrice = cart.reduce(function(s, i) { return s + (i.price != null ? i.price * i.quantity : 0); }, 0);
                     var hasPrice = cart.some(function(i) { return i.price != null; });
-                    var lines = cart.map(function(i) {
+                    var rows = cart.map(function(i) {
                         var lineTotal = i.price != null ? i.price * i.quantity : null;
-                        var priceStr = i.price != null ? formatPrice(i.price) + ' each' : 'Price on request';
+                        var priceStr = i.price != null ? formatPrice(i.price) : 'Price on request';
                         var lineStr = lineTotal != null ? formatPrice(lineTotal) : '—';
-                        return '<li><strong>' + (i.name || 'Plant') + '</strong> <em>' + (i.scientificName || '') + '</em> × ' + i.quantity + ' · ' + priceStr + ' · ' + lineStr + '</li>';
-                    });
-                    el.innerHTML = '<h2>Order summary</h2><ul class="checkout-cart-list">' + lines.join('') + '</ul><p><strong>Total items: ' + totalQty + '</strong></p>' +
-                        (hasPrice ? '<p class="checkout-total"><strong>Order total: ' + formatPrice(totalPrice) + '</strong></p>' : '');
+                        var name = (i.name || 'Item').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                        var sci = (i.scientificName || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                        var itemCell = sci ? name + ' <span style="font-style:italic;color:var(--text-light);">' + sci + '</span>' : name;
+                        var qtyNum = (i.quantity % 1 !== 0) ? Number(i.quantity) : i.quantity;
+                        var qtyDisplay = i.unit ? qtyNum + ' ' + (i.unit.replace(/</g, '&lt;').replace(/>/g, '&gt;')) : qtyNum;
+                        return '<tr><td>' + itemCell + '</td><td class="col-qty">' + qtyDisplay + '</td><td class="col-price">' + priceStr + '</td><td class="col-total">' + lineStr + '</td></tr>';
+                    }).join('');
+                    el.innerHTML = '<h2>Order summary</h2><div class="checkout-order-table-wrap"><table class="checkout-order-table" role="grid"><thead><tr><th scope="col">Item</th><th scope="col" class="col-qty">Qty</th><th scope="col" class="col-price">Unit price</th><th scope="col" class="col-total">Line total</th></tr></thead><tbody>' + rows + '</tbody><tfoot><tr><td colspan="2"><strong>Total</strong> <span style="font-size:0.85rem;color:var(--text-light);">(' + totalQty + ' item' + (totalQty !== 1 ? 's' : '') + ')</span></td><td></td><td class="col-total">' + (hasPrice ? formatPrice(totalPrice) : '—') + '</td></tr></tfoot></table></div>';
                     formWrap.style.display = 'block';
                     if (window.auth && window.auth.getCurrentUser()) {
                         var u = window.auth.getCurrentUser();
@@ -162,13 +205,17 @@
                                     if (!a) return;
                                     if (nameEl) nameEl.value = a.name || nameEl.value;
                                     document.getElementById('checkoutPhone').value = a.phone || '';
-                                    var line = [a.line1, a.line2, [a.city, a.state].filter(Boolean).join(', '), a.postalCode, a.country].filter(Boolean).join(', ');
-                                    document.getElementById('checkoutAddress').value = line;
+                                    document.getElementById('checkoutAddrLine1').value = a.line1 || '';
+                                    document.getElementById('checkoutAddrLine2').value = a.line2 || '';
+                                    document.getElementById('checkoutAddrCity').value = a.city || '';
+                                    document.getElementById('checkoutAddrState').value = a.state || '';
+                                    document.getElementById('checkoutAddrPostal').value = a.postalCode || '';
+                                    document.getElementById('checkoutAddrCountry').value = a.country || '';
                                 });
                             });
                         }
                     }
-                    confirmWrap.innerHTML = '<div class="checkout-btn-wrap"><button type="button" id="checkoutConfirmBtn" class="checkout-btn-primary">Confirm order</button></div>';
+                    confirmWrap.innerHTML = '<div class="checkout-btn-wrap"><button type="button" id="checkoutConfirmBtn" class="checkout-btn-primary">Confirm order</button><a href="index.html" class="checkout-btn-secondary" id="checkoutSaveForLaterBtn">Save for later</a></div>';
                     document.getElementById('checkoutConfirmBtn').onclick = confirmOrder;
                     bindPaymentDetails();
                 } catch (e) {
@@ -186,7 +233,7 @@
                 var name = (document.getElementById('checkoutName').value || '').trim();
                 var email = (document.getElementById('checkoutEmail').value || '').trim();
                 var phone = (document.getElementById('checkoutPhone').value || '').trim();
-                var address = (document.getElementById('checkoutAddress').value || '').trim();
+                var address = [document.getElementById('checkoutAddrLine1'), document.getElementById('checkoutAddrLine2'), document.getElementById('checkoutAddrCity'), document.getElementById('checkoutAddrState'), document.getElementById('checkoutAddrPostal'), document.getElementById('checkoutAddrCountry')].map(function(f) { return (f && f.value) ? f.value.trim() : ''; }).filter(Boolean).join(', ');
                 if (!name && !email) {
                     formError.textContent = 'Please enter at least your name or email.';
                     formError.style.display = 'block';
@@ -201,7 +248,7 @@
                 }
                 var orderItems = cart.map(function(i) {
                     var lineTotal = i.price != null ? i.price * i.quantity : 0;
-                    return { plantId: i.plantId, name: i.name, scientificName: i.scientificName, quantity: i.quantity, price: i.price, lineTotal: lineTotal };
+                    return { plantId: i.plantId, name: i.name, scientificName: i.scientificName, quantity: Number(i.quantity), unit: i.unit || undefined, price: i.price, lineTotal: lineTotal };
                 });
                 var inv = window.inventoryDb;
                 var order = {

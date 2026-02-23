@@ -13,7 +13,12 @@
             const resp = await fetch(EQUIPMENT_URL + '?v=' + Date.now(), { cache: 'no-store' });
             if (!resp.ok) return [];
             const data = await resp.json();
-            const list = Array.isArray(data) ? data : (data.items || data.equipment || []);
+            let list = Array.isArray(data) ? data : (data.items || data.equipment || []);
+            try {
+                const custom = typeof localStorage !== 'undefined' && localStorage.getItem('custom_equipment');
+                const customEq = custom ? JSON.parse(custom) : [];
+                if (Array.isArray(customEq) && customEq.length) list = (list || []).concat(customEq);
+            } catch (err) { /* ignore */ }
             window.equipmentData = list;
             return list;
         } catch (e) {

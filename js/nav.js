@@ -12,6 +12,7 @@
 
     var NAV_ICONS = {
         home: '<svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
+        build: '<svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg>',
         definitions: '<svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="16" y2="11"/></svg>',
         taxonomy: '<svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v4"/><path d="M12 18v4"/><path d="M4.93 4.93l2.83 2.83"/><path d="M16.24 16.24l2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="M4.93 19.07l2.83-2.83"/><path d="M16.24 7.76l2.83-2.83"/><circle cx="12" cy="12" r="3"/></svg>',
         inventory: '<svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>',
@@ -21,6 +22,7 @@
     };
     var NAV_LINKS = [
         { href: 'index.html', label: 'Home', icon: 'home' },
+        { href: 'build-vivarium.html', label: 'Build vivarium', icon: 'build' },
         { href: 'definitions.html', label: 'Definitions', icon: 'definitions' },
         { href: 'taxonomy.html', label: 'Taxonomy', icon: 'taxonomy' },
         { href: 'inventory.html', label: 'Inventory', icon: 'inventory' },
@@ -52,9 +54,10 @@
             return '<li class="nav-item"><a href="' + link.href + '" class="nav-link' + active + '"><span class="nav-link-inner">' + icon + '<span class="nav-link-text">' + link.label + '</span></span></a></li>';
         }).join('');
 
-        var backBtnHtml = isIndex
-            ? '<div class="nav-back-wrap nav-back-disabled" id="navBackToListWrap"><button type="button" id="navBackToList" class="nav-back-btn" aria-label="Back" title="Back" disabled><svg class="nav-back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><polyline points="12 19 5 12 12 5"/></svg><span class="nav-back-text">Back</span></button></div>'
-            : '';
+        var backSvg = '<svg class="nav-back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><polyline points="12 19 5 12 12 5"/></svg><span class="nav-back-text">Back</span>';
+        var backWrapClass = 'nav-back-wrap' + (isIndex ? ' nav-back-disabled' : '');
+        var backDisabled = isIndex ? ' disabled' : '';
+        var backBtnHtml = '<div class="' + backWrapClass + '" id="navBackToListWrap"><button type="button" id="navBackToList" class="nav-back-btn" aria-label="Back to store" title="Back to store"' + backDisabled + '>' + backSvg + '</button></div>';
 
         var authHtml = '';
         var user = (typeof window.auth !== 'undefined' && window.auth.getCurrentUser) ? window.auth.getCurrentUser() : null;
@@ -147,6 +150,14 @@
         });
     }
 
+    function initBackButton() {
+        var current = getCurrentPage();
+        var isIndex = (current === 'index.html' || current === '' || current === 'index');
+        if (isIndex) return;
+        var backBtn = document.getElementById('navBackToList');
+        if (backBtn) backBtn.addEventListener('click', function() { window.location.href = 'index.html'; });
+    }
+
     function initAuth() {
         function doLogout() {
             if (typeof window.auth !== 'undefined') window.auth.logout();
@@ -180,6 +191,7 @@
         setCartCount();
         initToggle();
         initCartRedirect();
+        initBackButton();
         initAuth();
     }
 })();

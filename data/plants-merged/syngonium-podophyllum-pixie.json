@@ -1,1 +1,113 @@
-{"id":10415,"name":"Syngonium Pixie","scientificName":"Syngonium podophyllum 'Pixie'","commonNames":["Pixie Arrowhead","Dwarf Arrowhead"],"category":["leafy","tropical","epiphytic","syngonium","mini"],"substrate":"Well Draining","size":"15-30 cm","growthRate":"Moderate","description":"Syngonium podophyllum 'Pixie' is a compact, dwarf cultivar of the Arrowhead Plant native to tropical Central and South America. It belongs to the Araceae family and features short, bushy stems with small, arrow-shaped to three-lobed leaves that stay compact (typically 15-30 cm height). Leaves are green, sometimes with subtle cream or white variegation. Unlike the standard Syngonium podophyllum, 'Pixie' remains small and bushy rather than vining, making it ideal for terrariums and small enclosures. It thrives in high humidity and medium to bright indirect light. Toxic if ingested.","careTips":["Keep soil lightly moist but well-draining","High humidity preferred","Bright indirect light","Toxic if ingested - keep away from pets and children"],"taxonomy":{"kingdom":"Plantae","phylum":"Tracheophyta","class":"Liliopsida","order":"Alismatales","family":"Araceae","genus":"Syngonium","species":"Syngonium podophyllum"},"growthPattern":"upright-bushy","hazard":"toxic-if-ingested","rarity":"uncommon","growthHabit":"ground-dwelling","plantType":"flowering-plant","floweringPeriod":"does-not-flower-in-cultivation","propagation":"Stem Cuttings, Division","colors":"Green, Cream, Variegated","humidityRange":{"min":60,"max":80,"ideal":70},"lightRange":{"min":60,"max":80,"ideal":70},"airCirculationRange":{"min":10,"max":50,"ideal":30},"waterNeedsRange":{"min":40,"max":60,"ideal":50},"substrateType":"epiphytic","specialNeeds":"none","temperatureRange":{"min":36,"max":48,"ideal":42},"difficultyRange":{"min":0,"max":40,"ideal":20},"soilPhRange":{"min":42.9,"max":50,"ideal":46.4},"growthRateRange":{"min":40,"max":60,"ideal":50},"carnivorous":false,"waterCirculationRange":{"min":null,"max":null,"ideal":null},"waterTemperatureRange":{"min":null,"max":null,"ideal":null},"waterPhRange":{"min":null,"max":null,"ideal":null},"waterHardnessRange":{"min":null,"max":null,"ideal":null},"salinityRange":{"min":null,"max":null,"ideal":null},"geographicOrigin":null,"additionalInfo":null}
+{
+  "id": 376,
+  "name": "Syngonium Pixie",
+  "scientificName": "Syngonium podophyllum 'Pixie'",
+  "commonNames": [
+    "Pixie Arrowhead",
+    "Dwarf Arrowhead"
+  ],
+  "category": [
+    "leafy",
+    "tropical",
+    "epiphytic",
+    "syngonium",
+    "mini"
+  ],
+  "substrate": "Well Draining",
+  "size": "15-30 cm",
+  "growthRate": "Moderate",
+  "description": "Syngonium podophyllum 'Pixie' is a compact, dwarf cultivar of the Arrowhead Plant native to tropical Central and South America. It belongs to the Araceae family and features short, bushy stems with small, arrow-shaped to three-lobed leaves that stay compact (typically 15-30 cm height). Leaves are green, sometimes with subtle cream or white variegation. Unlike the standard Syngonium podophyllum, 'Pixie' remains small and bushy rather than vining, making it ideal for terrariums and small enclosures. It thrives in high humidity and medium to bright indirect light. Toxic if ingested.",
+  "careTips": [
+    "Keep soil lightly moist but well-draining",
+    "High humidity preferred",
+    "Bright indirect light",
+    "Toxic if ingested - keep away from pets and children"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Syngonium",
+    "species": "Syngonium podophyllum"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "toxic-if-ingested",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "does-not-flower-in-cultivation",
+  "propagation": "Stem Cuttings, Division",
+  "colors": "Green, Cream, Variegated",
+  "humidityRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 80,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 10,
+    "max": 50,
+    "ideal": 30
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "epiphytic",
+  "specialNeeds": "none",
+  "temperatureRange": {
+    "min": 36,
+    "max": 48,
+    "ideal": 42
+  },
+  "difficultyRange": {
+    "min": 0,
+    "max": 40,
+    "ideal": 20
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "carnivorous": false,
+  "waterCirculationRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "waterTemperatureRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "waterPhRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "waterHardnessRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "salinityRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "geographicOrigin": null,
+  "additionalInfo": null
+}
