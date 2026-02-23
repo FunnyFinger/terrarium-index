@@ -364,11 +364,11 @@
                 <div class="empty-state" id="emptyState">
                     <h2>Select an item from the navigation</h2>
                     <p>Choose a category, field, or value from the left panel to view its definition</p>
-                    </div>
+                </div>
 
                 <div class="content-viewer" id="contentViewer"></div>
-                        </div>
-                            </div>
+            </div>
+        </div>
     </main>
 
     <!-- Definitions sidebar toggle (mobile) -->
@@ -376,16 +376,75 @@
             <svg class="mobile-nav-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
         </button>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 Vivarium Store | Comprehensive plant database for all enclosed ecosystems</p>
-                        </div>
+    <footer class="site-footer">
+        <div class="container footer-container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3 class="footer-heading">Explore</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html#about">About Us</a></li>
+                        <li><a href="index.html#contact">Contact Us</a></li>
+                        <li><a href="index.html#gift-cards">Gift Cards</a></li>
+                        <li><a href="build-vivarium.html">Build your own vivarium</a></li>
+                        <li><a href="index.html">Shop All Plants</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3 class="footer-heading">Plant Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="definitions.html">Plant Care &amp; Definitions</a></li>
+                        <li><a href="index.html#faqs">FAQs</a></li>
+                        <li><a href="index.html#plant-quiz">Plant Quiz</a></li>
+                        <li><a href="index.html#affiliate">Become an Affiliate</a></li>
+                        <li><a href="index.html#search">Search</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3 class="footer-heading">Useful links</h3>
+                    <ul class="footer-links">
+                        <li><a href="https://ariumology.com/" target="_blank" rel="noopener noreferrer">Ariumology</a></li>
+                        <li><a href="https://www.gbif.org/" target="_blank" rel="noopener noreferrer">GBIF</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3 class="footer-heading">Policies</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html#shipping">Shipping Policy</a></li>
+                        <li><a href="index.html#returns">Return &amp; Refund Policy</a></li>
+                        <li><a href="index.html#privacy">Privacy Policy</a></li>
+                        <li><a href="index.html#terms">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col footer-newsletter">
+                    <span class="footer-brand">Vivarium <strong>Store</strong></span>
+                    <p class="footer-tagline">Stay connected</p>
+                    <p class="footer-desc">Get plant care tips, new arrivals, and updates for your terrarium and vivarium plants.</p>
+                    <form class="footer-signup" action="#" method="post" aria-label="Newsletter signup">
+                        <input type="email" name="email" placeholder="Enter your email" class="footer-email" required>
+                        <button type="submit" class="footer-btn">Sign up</button>
+                    </form>
+                    <p class="footer-privacy-note">We won't spam you—just useful tips and news. Unsubscribe anytime.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-social">
+                    <span class="footer-follow">Follow us</span>
+                    <a href="#" class="footer-social-link" aria-label="Facebook">Facebook</a>
+                    <a href="#" class="footer-social-link" aria-label="Twitter">Twitter</a>
+                    <a href="#" class="footer-social-link" aria-label="Instagram">Instagram</a>
+                    <a href="#" class="footer-social-link" aria-label="Pinterest">Pinterest</a>
+                </div>
+                <p class="footer-copy">&copy; <span id="footer-year">2026</span> Vivarium Store &ndash; All rights reserved.</p>
+                <p class="footer-credit">Data sourced from various plant databases.</p>
+            </div>
+        </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/dexie@3/dist/dexie.min.js"></script>
     <script src="js/auth-db.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/nav.js"></script>
+    <script>document.getElementById('footer-year') && (document.getElementById('footer-year').textContent = new Date().getFullYear());</script>
     <script>
         // Navigation data structure
         const navigationData = {

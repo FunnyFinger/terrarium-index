@@ -17,7 +17,7 @@
     --shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
     --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.15);
     --main-nav-height: 65px;
-    --filters-footer-padding: 24px;
+    --filters-footer-padding: 32px;
 }
 
 [data-theme="dark"] {
@@ -2499,6 +2499,7 @@ main {
     font-size: 0.9375rem;
     line-height: 1.7;
     color: var(--text-color);
+    white-space: pre-line;
 }
 .plant-detail-panel .info-group-title {
     font-size: 0.8rem;
@@ -2814,6 +2815,7 @@ main {
 .plant-product-section .plant-detail-description .description {
     font-size: 0.95rem;
     line-height: 1.7;
+    white-space: pre-line;
     color: var(--text-color);
     margin: 0;
 }
@@ -5380,6 +5382,7 @@ body.shopper-mode .gallery-set-main-btn {
     line-height: 1.8;
     color: var(--text-color);
     text-align: justify;
+    white-space: pre-line;
 }
 
 /* Plant detail: ensure description widget is visible and in a fixed grid position */
@@ -6633,16 +6636,18 @@ body:has(.upload-modal.show) {
 
 .footer-container {
     min-height: 0;
-    max-width: 1200px;
+    width: 100%;
+    max-width: none;
     margin-left: auto;
     margin-right: auto;
     padding-left: var(--container-padding-x, 20px);
     padding-right: var(--container-padding-x, 20px);
+    box-sizing: border-box;
 }
 
 .footer-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 2rem 1.5rem;
     margin-bottom: 2rem;
 }

@@ -233,6 +233,7 @@ async function initializeUI() {
         }
         filteredEquipment = allEquipment ? allEquipment.filter(function(eq) { return canSeeHidden ? true : !eq.hidden; }) : [];
         mergeEquipmentImagesFromStorage();
+        mergeEquipmentEditsFromStorage();
         console.log('📦 Supplies loaded:', allEquipment.length, 'items');
     }
     if (typeof window.loadVivariums === 'function') {
@@ -1296,7 +1297,7 @@ function setupEventListeners() {
                     var footerRect = footerEl.getBoundingClientRect();
                     if (footerRect.top < stickyTop + panelHeight + footerPadding) {
                         var top = footerRect.top - footerPadding - panelHeight;
-                        filtersSidebar.style.setProperty('--filters-sticky-top', Math.max(0, Math.min(stickyTop, top)) + 'px');
+                        filtersSidebar.style.setProperty('--filters-sticky-top', Math.min(stickyTop, top) + 'px');
                     } else {
                         filtersSidebar.style.setProperty('--filters-sticky-top', defaultTop);
                     }
@@ -1335,7 +1336,7 @@ function setupEventListeners() {
                     var footerRect = footerEl.getBoundingClientRect();
                     if (footerRect.top < stickyTop + panelHeight + footerPadding) {
                         var top = footerRect.top - footerPadding - panelHeight;
-                        legendSidebar.style.setProperty('--legend-sticky-top', Math.max(0, Math.min(stickyTop, top)) + 'px');
+                        legendSidebar.style.setProperty('--legend-sticky-top', Math.min(stickyTop, top) + 'px');
                     } else {
                         legendSidebar.style.setProperty('--legend-sticky-top', defaultTop);
                     }
@@ -4673,9 +4674,9 @@ function openEquipmentEdit(equipment) {
     var nameInput = document.getElementById('equipmentEditNameInput');
     var titleEl = document.getElementById('editPageTitle');
     if (titleEl) titleEl.textContent = isNew ? 'Add supply' : 'Edit supply';
-    if (nameEl) { nameEl.style.display = isNew ? 'none' : ''; nameEl.textContent = (equipmentEditing.name || 'Equipment'); }
-    if (nameRow) nameRow.style.display = isNew ? '' : 'none';
-    if (nameInput) { nameInput.value = equipmentEditing.name || ''; nameInput.style.display = isNew ? '' : 'none'; }
+    if (nameEl) nameEl.style.display = 'none';
+    if (nameRow) nameRow.style.display = '';
+    if (nameInput) { nameInput.value = equipmentEditing.name || ''; nameInput.style.display = ''; }
     function fillFields(inv) {
         var descEl = document.getElementById('equipmentEditDescription');
         var sizeEl = document.getElementById('equipmentEditSize');
@@ -4968,6 +4969,28 @@ function mergeVivariumEditsFromStorage() {
             if (edit.availability != null) v.availability = edit.availability;
             if (edit.plantIds != null && Array.isArray(edit.plantIds)) v.plantIds = edit.plantIds;
             if (edit.supplyIds != null && Array.isArray(edit.supplyIds)) v.supplyIds = edit.supplyIds;
+        } catch (e) { /* ignore */ }
+    });
+}
+
+function mergeEquipmentEditsFromStorage() {
+    if (!allEquipment || !allEquipment.length) return;
+    allEquipment.forEach(function(eq) {
+        var id = eq.id;
+        if (id == null) return;
+        try {
+            var raw = localStorage.getItem('equipment_' + id + '_edit');
+            if (!raw) return;
+            var edit = JSON.parse(raw);
+            if (edit.name != null) eq.name = edit.name;
+            if (edit.description != null) eq.description = edit.description;
+            if (edit.size != null) eq.size = edit.size;
+            if (edit.unit != null) eq.unit = edit.unit;
+            if (edit.category != null) eq.category = edit.category;
+            if (edit.price != null) eq.price = edit.price;
+            if (edit.costPrice != null) eq.costPrice = edit.costPrice;
+            if (edit.stockQuantity != null) eq.stockQuantity = edit.stockQuantity;
+            if (edit.reorderLevel != null) eq.reorderLevel = edit.reorderLevel;
         } catch (e) { /* ignore */ }
     });
 }
@@ -5490,6 +5513,20 @@ function saveEquipmentEdit() {
             if (!Array.isArray(custom)) custom = [];
             custom.push(equipmentEditing);
             localStorage.setItem('custom_equipment', JSON.stringify(custom));
+        } catch (e) { /* ignore */ }
+    } else {
+        try {
+            localStorage.setItem('equipment_' + id + '_edit', JSON.stringify({
+                name: nameVal,
+                description: descVal,
+                size: sizeVal,
+                unit: unitVal,
+                category: categoryVal,
+                price: price,
+                costPrice: isNaN(cost) ? undefined : cost,
+                quantityInStock: (typeof stock === 'number' && !isNaN(stock)) ? stock : equipmentEditing.stockQuantity,
+                reorderLevel: (reorder != null && !isNaN(reorder)) ? reorder : equipmentEditing.reorderLevel
+            }));
         } catch (e) { /* ignore */ }
     }
     if (window.inventoryDb) {
