@@ -10,13 +10,13 @@
   "description": "",
   "careTips": [],
   "taxonomy": {
-    "kingdom": "",
-    "phylum": "",
-    "class": "",
-    "order": "",
-    "family": "",
-    "genus": "",
-    "species": ""
+    "kingdom": "Plantae",
+    "phylum": null,
+    "class": null,
+    "order": null,
+    "family": null,
+    "genus": null,
+    "species": "species"
   },
   "growthPattern": "",
   "hazard": "",

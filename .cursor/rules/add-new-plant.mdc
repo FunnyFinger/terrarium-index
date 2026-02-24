@@ -1,0 +1,45 @@
+---
+description: Steps to follow when the user asks to create or add a new plant (e.g. "create new plant X", "add plant Y"). Ensures sequential IDs and correct index/bundle updates.
+globs: data/plants-merged/**/*
+alwaysApply: false
+---
+
+# Adding a New Plant
+
+When the user (or any request) asks to **create a new plant** or **add plant [name]**, follow these steps in order. Do not guess the plant ID.
+
+## 1. Get the next sequential plant ID
+
+Run:
+```bash
+node scripts/get-next-plant-id.js
+```
+Use the printed number as the new plant's `id` in the JSON. **Never** invent an ID (e.g. random or timestamp); always use the output of this script.
+
+## 2. Create the plant JSON file
+
+- **Filename**: `data/plants-merged/<slug>.json` where `<slug>` is lowercase, hyphenated (e.g. `peperomia-caperata-ripple-red`). Match existing naming (see `data/plants-merged/index.json`).
+- **Structure**: Copy from `data/plants-merged/_PLANT_TEMPLATE.json` or an existing plant file. Ensure **all** fields from the template are present (see `data/plants-merged/_PLANT_TEMPLATE_README.md`).
+- **id**: Set to the number from step 1.
+- Fill in name, scientificName, description, careTips, taxonomy, ranges, and all other fields appropriately. Use `null` for optional fields that don't apply; use `[]` for empty arrays.
+
+## 3. Register in the index
+
+- Open `data/plants-merged/index.json`.
+- Add the new file's filename (e.g. `"peperomia-caperata-ripple-red.json"`) to the `plants` array.
+- Set `count` to the length of the `plants` array (or increment by 1).
+
+## 4. Rebuild the bundle
+
+Run:
+```bash
+node scripts/build-plants-bundle.js
+```
+This updates `bundle.json` and `version.json` so the app and inventory show the new plant with the correct ID.
+
+## Summary checklist
+
+- [ ] Ran `node scripts/get-next-plant-id.js` and used that value as `id`
+- [ ] Created `data/plants-merged/<slug>.json` with full template structure
+- [ ] Appended filename to `data/plants-merged/index.json` and updated `count`
+- [ ] Ran `node scripts/build-plants-bundle.js`

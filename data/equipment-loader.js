@@ -29,6 +29,15 @@
                 const customEq = custom ? JSON.parse(custom) : [];
                 if (Array.isArray(customEq) && customEq.length) list = (list || []).concat(customEq);
             } catch (err) { /* ignore */ }
+            // De-duplicate by id (custom entries override base file when ids clash)
+            if (Array.isArray(list) && list.length) {
+                const byId = {};
+                list.forEach(function (item) {
+                    if (!item || item.id == null) return;
+                    byId[item.id] = Object.assign({}, byId[item.id] || {}, item);
+                });
+                list = Object.values(byId);
+            }
             window.equipmentData = list;
             return list;
         } catch (e) {

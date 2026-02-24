@@ -27,8 +27,7 @@
     "order": "Alismatales",
     "family": "Araceae",
     "genus": "Philodendron",
-    "species": "Philodendron erubescens",
-    "cultivar": "'Pink Princess'"
+    "species": "Philodendron erubescens"
   },
   "growthPattern": "vining-trailing",
   "hazard": "toxic-if-ingested",

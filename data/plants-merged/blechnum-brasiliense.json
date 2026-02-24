@@ -27,8 +27,8 @@
     "class": "Polypodiopsida",
     "order": "Polypodiales",
     "family": "Blechnaceae",
-    "genus": "Blechnum",
-    "species": "Blechnum brasiliense"
+    "genus": "Neoblechnum",
+    "species": "Neoblechnum brasiliense"
   },
   "growthPattern": "upright-bushy",
   "hazard": "non-toxic",

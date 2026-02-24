@@ -29,11 +29,11 @@
   "taxonomy": {
     "kingdom": "Plantae",
     "phylum": "Tracheophyta",
-    "class": "Magnoliopsida",
+    "class": "Liliopsida",
     "order": "Alismatales",
     "family": "Alismataceae",
-    "genus": "Echinodorus",
-    "species": "Echinodorus amazonicus"
+    "genus": "Aquarius",
+    "species": "Aquarius grisebachii"
   },
   "growthPattern": "rosette",
   "hazard": "non-toxic",

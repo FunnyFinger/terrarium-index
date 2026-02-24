@@ -25,9 +25,9 @@
     "phylum": "Tracheophyta",
     "class": "Magnoliopsida",
     "order": "Malpighiales",
-    "family": "Apocynaceae",
-    "genus": "Adenium",
-    "species": "Adenium glaucum"
+    "family": "Passifloraceae",
+    "genus": "Adenia",
+    "species": "Adenia glauca"
   },
   "growthPattern": "upright-bushy",
   "hazard": "toxic-if-ingested",

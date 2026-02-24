@@ -344,7 +344,7 @@ async function selectImagesFolder() {
         localStorage.setItem('imagesFolderSelected', 'true');
 
         if (folderStatus) {
-            folderStatus.textContent = '✅ Folder access granted! Images will save automatically to images/[plant-folder]/';
+            folderStatus.textContent = '✅ Folder access granted! Images will save to images/plants/, images/supplies/, or images/vivariums/';
             folderStatus.style.color = 'var(--accent-color)';
         }
         if (selectFolderBtn) {
@@ -963,7 +963,7 @@ function findNextAvailableNumber(existingNumbers, maxCheck = 100) {
 }
 
 /**
- * Save an array of image File objects to the plant's folder on disk (images/{slug}/).
+ * Save an array of image File objects to the plant's folder on disk (images/plants/{slug}/).
  * Used by the plant-image-only modal so that "Add or edit images" creates the folder and persists files.
  * Prompts for folder access if not already granted.
  */
@@ -975,14 +975,14 @@ async function savePlantImageFilesToFolder(plant, imageFiles) {
     let folderPath = null;
     if (snStr) {
         plantFolderName = scientificNameToSlug(snStr);
-        if (plantFolderName) folderPath = 'images/' + plantFolderName;
+        if (plantFolderName) folderPath = 'images/plants/' + plantFolderName;
     }
     if (!plantFolderName && plant.name) {
         plantFolderName = String(plant.name).toLowerCase()
             .replace(/\s+/g, '-')
             .replace(/'/g, '')
             .replace(/[^a-z0-9-]/g, '');
-        folderPath = 'images/' + plantFolderName;
+        folderPath = 'images/plants/' + plantFolderName;
     }
     if (!plantFolderName) return { success: false, savedPaths: [] };
 
@@ -1007,6 +1007,153 @@ async function savePlantImageFilesToFolder(plant, imageFiles) {
     }
 
     return { success: savedCount > 0, savedPaths: (currentUploadPlant && currentUploadPlant.images) ? currentUploadPlant.images.slice() : [] };
+}
+
+/** Resolve directory handle for a path under images (e.g. images/plants/slug or images/supplies/equipment-50001). */
+async function getDirectoryHandleForPath(imagesFolderHandle, folderPath) {
+    const relative = folderPath.replace(/^images\/?/, '');
+    const parts = relative.split('/').filter(Boolean);
+    let h = imagesFolderHandle;
+    for (const p of parts) {
+        h = await h.getDirectoryHandle(p, { create: true });
+    }
+    return h;
+}
+
+/**
+ * Save one equipment image file to images/supplies/equipment-{id}/{number}.jpg.
+ * Uses same folder handle as plants (images folder). Returns { success, fullPath }.
+ */
+async function saveSingleEquipmentImage(equipment, imageFile, folderName, number) {
+    const imagesFolderHandle = getImagesFolderHandle();
+    if (!imagesFolderHandle) return { success: false, fullPath: null };
+    const ext = (imageFile.name && imageFile.name.toLowerCase().match(/\.(jpe?g|png|gif|webp)$/)) ? imageFile.name.match(/\.(jpe?g|png|gif|webp)$/i)[0].toLowerCase() : '.jpg';
+    const filename = number + ext;
+    const folderPath = 'images/supplies/' + folderName;
+    const fullPath = folderPath + '/' + filename;
+    try {
+        const equipmentFolderHandle = await getDirectoryHandleForPath(imagesFolderHandle, folderPath);
+        const fileHandle = await equipmentFolderHandle.getFileHandle(filename, { create: true });
+        const writable = await fileHandle.createWritable();
+        await writable.write(imageFile);
+        await writable.close();
+        return { success: true, fullPath: fullPath };
+    } catch (err) {
+        console.error('Error saving equipment image:', err);
+        return { success: false, fullPath: null };
+    }
+}
+
+/**
+ * Save equipment image files to images/supplies/equipment-{id}/ (1.jpg, 2.jpg, ...).
+ * Same flow as plants: prompt for folder if needed, write files, update equipment.images/imageUrl.
+ */
+async function saveEquipmentImageFilesToFolder(equipment, imageFiles) {
+    if (!equipment || !imageFiles || imageFiles.length === 0) return { success: false, savedPaths: [] };
+    const folderName = 'equipment-' + equipment.id;
+    const folderPath = 'images/supplies/' + folderName;
+    const existingNumbers = new Set();
+    (equipment.images || []).forEach(function (path) {
+        if (typeof path !== 'string' || (path.indexOf(folderPath + '/') !== 0 && path.indexOf('images/equipment-' + equipment.id + '/') !== 0)) return;
+        const m = path.match(/\/(\d+)\.(jpg|jpeg|png|gif|webp)$/i);
+        if (m) existingNumbers.add(parseInt(m[1], 10));
+    });
+    if (!getImagesFolderHandle() && 'showDirectoryPicker' in window) {
+        try {
+            const accessGranted = await ensureFolderAccess();
+            if (!accessGranted) return { success: false, savedPaths: [] };
+        } catch (e) {
+            return { success: false, savedPaths: [] };
+        }
+    }
+    const existingPaths = (equipment.images || []).filter(function (p) {
+        return typeof p === 'string' && p.indexOf('data:') !== 0 && (p.indexOf('images/supplies/equipment-') === 0 || p.indexOf('images/equipment-') === 0);
+    });
+    let nextNumber = findNextAvailableNumber(existingNumbers);
+    const savedPaths = [];
+    for (let i = 0; i < imageFiles.length; i++) {
+        const result = await saveSingleEquipmentImage(equipment, imageFiles[i], folderName, nextNumber);
+        if (result.success && result.fullPath) {
+            savedPaths.push(result.fullPath);
+            nextNumber++;
+        }
+    }
+    if (savedPaths.length === 0) return { success: false, savedPaths: [] };
+    const allPaths = existingPaths.concat(savedPaths);
+    equipment.images = allPaths;
+    equipment.imageUrl = allPaths[0];
+    try {
+        localStorage.setItem('equipment_' + equipment.id + '_images', JSON.stringify(allPaths));
+        localStorage.setItem('equipment_' + equipment.id + '_imageUrl', allPaths[0]);
+    } catch (e) { /* ignore */ }
+    return { success: true, savedPaths: allPaths };
+}
+
+/**
+ * Save one vivarium image file to images/vivariums/vivarium-{id}/{number}.jpg.
+ */
+async function saveSingleVivariumImage(vivarium, imageFile, folderName, number) {
+    const imagesFolderHandle = getImagesFolderHandle();
+    if (!imagesFolderHandle) return { success: false, fullPath: null };
+    const ext = (imageFile.name && imageFile.name.toLowerCase().match(/\.(jpe?g|png|gif|webp)$/)) ? imageFile.name.match(/\.(jpe?g|png|gif|webp)$/i)[0].toLowerCase() : '.jpg';
+    const filename = number + ext;
+    const folderPath = 'images/vivariums/' + folderName;
+    const fullPath = folderPath + '/' + filename;
+    try {
+        const vivariumFolderHandle = await getDirectoryHandleForPath(imagesFolderHandle, folderPath);
+        const fileHandle = await vivariumFolderHandle.getFileHandle(filename, { create: true });
+        const writable = await fileHandle.createWritable();
+        await writable.write(imageFile);
+        await writable.close();
+        return { success: true, fullPath: fullPath };
+    } catch (err) {
+        console.error('Error saving vivarium image:', err);
+        return { success: false, fullPath: null };
+    }
+}
+
+/**
+ * Save vivarium image files to images/vivariums/vivarium-{id}/ (1.jpg, 2.jpg, ...).
+ */
+async function saveVivariumImageFilesToFolder(vivarium, imageFiles) {
+    if (!vivarium || !imageFiles || imageFiles.length === 0) return { success: false, savedPaths: [] };
+    const folderName = 'vivarium-' + vivarium.id;
+    const folderPath = 'images/vivariums/' + folderName;
+    const existingNumbers = new Set();
+    (vivarium.images || []).forEach(function (path) {
+        if (typeof path !== 'string' || (path.indexOf(folderPath + '/') !== 0 && path.indexOf('images/vivarium-' + vivarium.id + '/') !== 0)) return;
+        const m = path.match(/\/(\d+)\.(jpg|jpeg|png|gif|webp)$/i);
+        if (m) existingNumbers.add(parseInt(m[1], 10));
+    });
+    if (!getImagesFolderHandle() && 'showDirectoryPicker' in window) {
+        try {
+            const accessGranted = await ensureFolderAccess();
+            if (!accessGranted) return { success: false, savedPaths: [] };
+        } catch (e) {
+            return { success: false, savedPaths: [] };
+        }
+    }
+    const existingPaths = (vivarium.images || []).filter(function (p) {
+        return typeof p === 'string' && p.indexOf('data:') !== 0 && (p.indexOf('images/vivariums/vivarium-') === 0 || p.indexOf('images/vivarium-') === 0);
+    });
+    let nextNumber = findNextAvailableNumber(existingNumbers);
+    const savedPaths = [];
+    for (let i = 0; i < imageFiles.length; i++) {
+        const result = await saveSingleVivariumImage(vivarium, imageFiles[i], folderName, nextNumber);
+        if (result.success && result.fullPath) {
+            savedPaths.push(result.fullPath);
+            nextNumber++;
+        }
+    }
+    if (savedPaths.length === 0) return { success: false, savedPaths: [] };
+    const allPaths = existingPaths.concat(savedPaths);
+    vivarium.images = allPaths;
+    vivarium.imageUrl = allPaths[0];
+    try {
+        localStorage.setItem('vivarium_' + vivarium.id + '_images', JSON.stringify(allPaths));
+        localStorage.setItem('vivarium_' + vivarium.id + '_imageUrl', allPaths[0]);
+    } catch (e) { /* ignore */ }
+    return { success: true, savedPaths: allPaths };
 }
 
 async function saveImage() {
@@ -1091,7 +1238,7 @@ async function saveImage() {
     if (snStr) {
         plantFolderName = scientificNameToSlug(snStr);
         if (plantFolderName) {
-            folderPath = `images/${plantFolderName}`;
+            folderPath = `images/plants/${plantFolderName}`;
         }
     }
 
@@ -1100,7 +1247,7 @@ async function saveImage() {
             .replace(/\s+/g, '-')
             .replace(/'/g, '')
             .replace(/[^a-z0-9-]/g, '');
-        folderPath = `images/${plantFolderName}`;
+        folderPath = `images/plants/${plantFolderName}`;
     }
 
     if (!plantFolderName) {
@@ -1254,7 +1401,7 @@ async function saveSingleImage(imageFile, isUrl, imageIndex, totalImages, plantF
         }
 
         try {
-            const plantFolderHandle = await imagesFolderHandle.getDirectoryHandle(plantFolderName, { create: true });
+            const plantFolderHandle = await getDirectoryHandleForPath(imagesFolderHandle, folderPath);
             const fileHandle = await plantFolderHandle.getFileHandle(filename, { create: true });
             const writable = await fileHandle.createWritable();
             await writable.write(imageBlob);
@@ -1342,6 +1489,8 @@ window.uploadUtils = {
     saveImage,
     saveSingleImage,
     savePlantImageFilesToFolder,
+    saveEquipmentImageFilesToFolder,
+    saveVivariumImageFilesToFolder,
     fileToDataUrl,
     blobToDataUrl
 };

@@ -30,8 +30,8 @@
     "class": "Liliopsida",
     "order": "Asparagales",
     "family": "Asphodelaceae",
-    "genus": "Haworthia",
-    "species": "Haworthia attenuata"
+    "genus": "Haworthiopsis",
+    "species": "Haworthiopsis attenuata"
   },
   "growthPattern": "rosette",
   "hazard": "non-toxic",

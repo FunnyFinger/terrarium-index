@@ -27,8 +27,8 @@
     "class": "Polypodiopsida",
     "order": "Polypodiales",
     "family": "Pteridaceae",
-    "genus": "Hemionitis",
-    "species": "Hemionitis doryopteris"
+    "genus": "Doryopteris",
+    "species": "Doryopteris pedata"
   },
   "growthPattern": "upright-bushy",
   "hazard": "non-toxic",

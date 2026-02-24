@@ -37,12 +37,15 @@ async function checkImageExists(imagePath) {
     const imagesFolderHandle = getImagesFolderHandle();
     if (imagesFolderHandle) {
         try {
-            const pathParts = imagePath.split('/');
-            if (pathParts.length >= 3) {
-                const folderName = pathParts[1];
-                const fileName = pathParts[2];
-                const plantFolderHandle = await imagesFolderHandle.getDirectoryHandle(folderName);
-                await plantFolderHandle.getFileHandle(fileName);
+            const pathParts = imagePath.split('/').filter(Boolean);
+            if (pathParts.length >= 2) {
+                const fileName = pathParts[pathParts.length - 1];
+                const dirParts = pathParts.slice(1, -1);
+                let handle = imagesFolderHandle;
+                for (const part of dirParts) {
+                    handle = await handle.getDirectoryHandle(part);
+                }
+                await handle.getFileHandle(fileName);
                 return true;
             }
         } catch (error) {
@@ -222,8 +225,8 @@ async function discoverPlantImages(plant, knownImageCount = null) {
             }
         }
         
-        const imagePath = `images/${folderName}/${folderName}-${i}.jpg`;
-        const exists = await checkImageExists(imagePath);
+        const imagePath = `images/plants/${folderName}/${folderName}-${i}.jpg`;
+        const exists = await checkImageExists(imagePath) || await checkImageExists(`images/${folderName}/${folderName}-${i}.jpg`);
 
         if (exists) {
             consecutiveFailures = 0;
@@ -456,7 +459,7 @@ async function scanExistingImages(plantFolderName, plant = null) {
                 continue;
             }
 
-            const pathMatch = imgPath.match(/images\/([^/]+)\/([^/]+)-(\d+)\.(jpg|jpeg|png|gif|webp)$/i);
+            const pathMatch = imgPath.match(/images\/(?:plants\/)?([^/]+)\/([^/]+)-(\d+)\.(jpg|jpeg|png|gif|webp)$/i);
             if (pathMatch) {
                 const folderNameFromPath = pathMatch[1];
                 const fileNamePrefix = pathMatch[2];
@@ -464,7 +467,7 @@ async function scanExistingImages(plantFolderName, plant = null) {
                 const normalizedFolderNameFromPath = folderNameFromPath.replace(/^\d{5}-/, '');
 
                 if (normalizedFolderNameFromPath === normalizedPlantFolderName) {
-                    const correctPath = `images/${normalizedPlantFolderName}/${fileNamePrefix}-${num}.${pathMatch[4]}`;
+                    const correctPath = `images/plants/${normalizedPlantFolderName}/${fileNamePrefix}-${num}.${pathMatch[4]}`;
                     existingNumbers.add(num);
                     if (!verifiedImages.has(correctPath)) {
                         existingImages.push(correctPath);
@@ -472,14 +475,14 @@ async function scanExistingImages(plantFolderName, plant = null) {
                     }
                 }
             } else {
-                const oldPathMatch = imgPath.match(/images\/([^/]+)\/(\d{2})\.(jpg|jpeg|png|gif|webp)$/i);
+                const oldPathMatch = imgPath.match(/images\/(?:plants\/)?([^/]+)\/(\d{2})\.(jpg|jpeg|png|gif|webp)$/i);
                 if (oldPathMatch) {
                     const folderNameFromPath = oldPathMatch[1];
                     const num = parseInt(oldPathMatch[2]);
                     const normalizedFolderNameFromPath = folderNameFromPath.replace(/^\d{5}-/, '');
 
                     if (normalizedFolderNameFromPath === normalizedPlantFolderName) {
-                        const correctPath = `images/${normalizedPlantFolderName}/${normalizedPlantFolderName}-${num}.${oldPathMatch[3]}`;
+                        const correctPath = `images/plants/${normalizedPlantFolderName}/${normalizedPlantFolderName}-${num}.${oldPathMatch[3]}`;
                         existingNumbers.add(num);
                         if (!verifiedImages.has(correctPath)) {
                             existingImages.push(correctPath);
@@ -496,9 +499,11 @@ async function scanExistingImages(plantFolderName, plant = null) {
     const maxCheck = 10;
     const filenameBase = plantFolderName.replace(/^\d{5}-/, '');
 
+    const plantsPrefix = 'images/plants/';
     for (let i = 1; i <= maxCheck; i++) {
-        const testPath = `images/${plantFolderName}/${filenameBase}-${i}.jpg`;
-        if (verifiedImages.has(testPath)) {
+        const testPath = `${plantsPrefix}${plantFolderName}/${filenameBase}-${i}.jpg`;
+        const legacyTestPath = `images/${plantFolderName}/${filenameBase}-${i}.jpg`;
+        if (verifiedImages.has(testPath) || verifiedImages.has(legacyTestPath)) {
             continue;
         }
 
@@ -510,26 +515,30 @@ async function scanExistingImages(plantFolderName, plant = null) {
             await new Promise(r => setTimeout(r, 100));
         }
 
-        const exists = await checkImageExists(testPath);
+        const exists = await checkImageExists(testPath) || await checkImageExists(legacyTestPath);
+        const pathToAdd = exists ? testPath : null;
         if (exists) {
             consecutiveFailures = 0;
             if (!existingNumbers.has(i)) {
                 existingNumbers.add(i);
-                if (!verifiedImages.has(testPath)) {
-                    existingImages.push(testPath);
-                    verifiedImages.add(testPath);
+                const resolvedPath = pathToAdd || testPath;
+                if (!verifiedImages.has(resolvedPath)) {
+                    existingImages.push(resolvedPath);
+                    verifiedImages.add(resolvedPath);
                 }
             }
         } else {
-            const oldTestPath = `images/${plantFolderName}/${plantFolderName}-${i}.jpg`;
-            const oldExists = await checkImageExists(oldTestPath);
+            const oldTestPath = `${plantsPrefix}${plantFolderName}/${plantFolderName}-${i}.jpg`;
+            const oldLegacyPath = `images/${plantFolderName}/${plantFolderName}-${i}.jpg`;
+            const oldExists = await checkImageExists(oldTestPath) || await checkImageExists(oldLegacyPath);
             if (oldExists) {
                 consecutiveFailures = 0;
                 if (!existingNumbers.has(i)) {
                     existingNumbers.add(i);
-                    if (!verifiedImages.has(oldTestPath)) {
-                        existingImages.push(oldTestPath);
-                        verifiedImages.add(oldTestPath);
+                    const oldPathToAdd = oldTestPath;
+                    if (!verifiedImages.has(oldPathToAdd)) {
+                        existingImages.push(oldPathToAdd);
+                        verifiedImages.add(oldPathToAdd);
                     }
                 }
             } else {

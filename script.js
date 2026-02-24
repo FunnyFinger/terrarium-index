@@ -967,6 +967,8 @@ const {
     saveImage,
     saveSingleImage,
     savePlantImageFilesToFolder,
+    saveEquipmentImageFilesToFolder,
+    saveVivariumImageFilesToFolder,
     fileToDataUrl,
     blobToDataUrl
 } = uploadUtils;
@@ -4142,8 +4144,8 @@ function renderVivariumsPage() {
 
     plantsGrid.innerHTML = '';
     if (total === 0) {
-        plantsGrid.innerHTML = '<div class="no-results"><p>No vivariums matching your filters.</p></div>';
-        if (plantCount) plantCount.textContent = 'No vivariums found';
+        // Show a single empty-state message in the header, keep the grid empty
+        if (plantCount) plantCount.textContent = 'No vivariums found. Add your first vivarium using the edit panel.';
         if (plantsPagination) { plantsPagination.classList.add('hidden'); plantsPagination.innerHTML = ''; }
         return;
     }
@@ -5178,6 +5180,66 @@ function saveEquipmentImages() {
     var id = currentEquipmentForImages.id;
     var urls = currentEquipmentImageUrls.slice();
     var files = currentEquipmentImageFiles;
+    var prefix = currentImageModalPrefix || 'equipment_';
+    var saveBtn = document.getElementById('equipmentImageSaveBtn');
+
+    if (files.length > 0 && (prefix === 'equipment_' || prefix === 'vivarium_') && (typeof saveEquipmentImageFilesToFolder === 'function' || typeof saveVivariumImageFilesToFolder === 'function')) {
+        saveBtn.textContent = '⏳ Saving to folder...';
+        saveBtn.disabled = true;
+        var savePromise = prefix === 'vivarium_'
+            ? saveVivariumImageFilesToFolder(currentEquipmentForImages, files)
+            : saveEquipmentImageFilesToFolder(currentEquipmentForImages, files);
+        savePromise.then(function(result) {
+            saveBtn.textContent = '💾 Save';
+            saveBtn.disabled = false;
+            if (result.success && result.savedPaths && result.savedPaths.length > 0) {
+                if (prefix === 'vivarium_') {
+                    if (typeof allVivariums !== 'undefined' && Array.isArray(allVivariums)) {
+                        var vIdx = allVivariums.findIndex(function(v) { return v.id === id; });
+                        if (vIdx >= 0) allVivariums[vIdx] = currentEquipmentForImages;
+                    }
+                    closeEquipmentImageModal();
+                    if (typeof renderVivariumsPage === 'function') renderVivariumsPage();
+                } else {
+                    if (typeof allEquipment !== 'undefined' && Array.isArray(allEquipment)) {
+                        var idx = allEquipment.findIndex(function(e) { return e.id === id; });
+                        if (idx >= 0) allEquipment[idx] = currentEquipmentForImages;
+                    }
+                    window.allEquipment = allEquipment;
+                    closeEquipmentImageModal();
+                    if (typeof renderEquipmentPage === 'function') renderEquipmentPage();
+                }
+            } else {
+                var toDataUrl = (window.uploadUtils && window.uploadUtils.fileToDataUrl) || function(file) {
+                    return new Promise(function(resolve, reject) {
+                        var reader = new FileReader();
+                        reader.onload = function(e) { resolve(e.target.result); };
+                        reader.onerror = reject;
+                        reader.readAsDataURL(file);
+                    });
+                };
+                Promise.all(files.map(toDataUrl)).then(function(dataUrls) {
+                    var all = urls.concat(dataUrls);
+                    localStorage.setItem(prefix + id + '_images', JSON.stringify(all));
+                    localStorage.setItem(prefix + id + '_imageUrl', all[0]);
+                    currentEquipmentForImages.images = all;
+                    currentEquipmentForImages.imageUrl = all[0];
+                    closeEquipmentImageModal();
+                    if (prefix === 'vivarium_') {
+                        if (typeof renderVivariumsPage === 'function') renderVivariumsPage();
+                    } else if (typeof renderEquipmentPage === 'function') {
+                        renderEquipmentPage();
+                    }
+                });
+            }
+        }).catch(function() {
+            saveBtn.textContent = '💾 Save';
+            saveBtn.disabled = false;
+            closeEquipmentImageModal();
+        });
+        return;
+    }
+
     var toDataUrl = (window.uploadUtils && window.uploadUtils.fileToDataUrl) || function(file) {
         return new Promise(function(resolve, reject) {
             var reader = new FileReader();
@@ -5186,7 +5248,6 @@ function saveEquipmentImages() {
             reader.readAsDataURL(file);
         });
     };
-    var prefix = currentImageModalPrefix || 'equipment_';
     Promise.all(files.map(toDataUrl)).then(function(dataUrls) {
         var all = urls.concat(dataUrls);
         if (all.length === 0) {
@@ -7359,15 +7420,17 @@ async function deleteImageFromGallery(plantId, imageIndex, imgPath) {
             // Try to delete the file
             if (imagesFolderHandle) {
                 try {
-                    // Parse the image path: images/folder-name/filename.jpg
-                    const pathParts = imageToDelete.split('/');
-                    if (pathParts.length >= 3) {
-                        const folderName = pathParts[1];
-                        const fileName = pathParts[2];
-                        
-                        console.log(`🗑️ Attempting to delete: ${folderName}/${fileName}`);
-                        const plantFolderHandle = await imagesFolderHandle.getDirectoryHandle(folderName);
-                        await plantFolderHandle.removeEntry(fileName);
+                    // Parse the image path: images/plants/folder-name/filename.jpg or images/folder-name/filename.jpg
+                    const pathParts = imageToDelete.split('/').filter(Boolean);
+                    if (pathParts.length >= 2) {
+                        const fileName = pathParts[pathParts.length - 1];
+                        const dirParts = pathParts.slice(1, -1);
+                        console.log(`🗑️ Attempting to delete: ${dirParts.join('/')}/${fileName}`);
+                        var deleteHandle = imagesFolderHandle;
+                        for (var di = 0; di < dirParts.length; di++) {
+                            deleteHandle = await deleteHandle.getDirectoryHandle(dirParts[di]);
+                        }
+                        await deleteHandle.removeEntry(fileName);
                         fileDeleted = true;
                         console.log(`✅ Successfully deleted file from disk: ${imageToDelete}`);
                     } else {
@@ -8208,6 +8271,107 @@ async function setAsMainImage(plantId, imageIndex) {
         showPlantModal(plant);
     }
 }
+
+/** Export current supplies catalog (equipment.json + custom + merged images) to JSON file. Run on local site then replace data/equipment.json with the downloaded file. */
+function exportSuppliesCatalog() {
+    var list = window.allEquipment || [];
+    var out = list.map(function(eq) {
+        return {
+            id: eq.id,
+            name: eq.name,
+            description: eq.description || '',
+            imageUrl: eq.imageUrl || '',
+            images: Array.isArray(eq.images) ? eq.images : [],
+            price: eq.price,
+            category: eq.category || ''
+        };
+    });
+    var json = JSON.stringify(out, null, 2);
+    var blob = new Blob([json], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'equipment.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+    console.log('Exported', out.length, 'supplies to equipment.json');
+    return json;
+}
+window.exportSuppliesCatalog = exportSuppliesCatalog;
+
+/** One-time helper: migrate existing localStorage equipment images to disk under images/supplies/equipment-{id}/ and update paths. */
+async function migrateEquipmentImagesToFiles() {
+    if (typeof saveEquipmentImageFilesToFolder !== 'function') {
+        console.warn('saveEquipmentImageFilesToFolder not available');
+        return;
+    }
+    if (!allEquipment || !allEquipment.length) {
+        console.warn('No equipment loaded. Open the main page so supplies load first.');
+        return;
+    }
+    function isDataUrl(str) {
+        return typeof str === 'string' && str.startsWith('data:');
+    }
+    async function dataUrlToBlob(dataUrl) {
+        try {
+            const res = await fetch(dataUrl);
+            return await res.blob();
+        } catch (e) {
+            return null;
+        }
+    }
+    let migratedCount = 0;
+    for (let i = 0; i < allEquipment.length; i++) {
+        const eq = allEquipment[i];
+        if (!eq || eq.id == null) continue;
+        let raw = null;
+        try {
+            raw = localStorage.getItem('equipment_' + eq.id + '_images');
+        } catch (e) { /* ignore */ }
+        if (!raw) continue;
+        let arr;
+        try {
+            arr = JSON.parse(raw);
+        } catch (e) {
+            continue;
+        }
+        if (!Array.isArray(arr) || !arr.length) continue;
+        const files = [];
+        for (let j = 0; j < arr.length; j++) {
+            const src = arr[j];
+            if (!src || typeof src !== 'string') continue;
+            if (src.startsWith('images/')) {
+                // Already a file path, keep as-is
+                continue;
+            }
+            let blob = null;
+            if (isDataUrl(src)) {
+                blob = await dataUrlToBlob(src);
+            } else {
+                try {
+                    const resp = await fetch(src);
+                    if (resp.ok) blob = await resp.blob();
+                } catch (e) { /* ignore */ }
+            }
+            if (!blob) continue;
+            const extMatch = (blob.type || '').match(/jpeg|jpg|png|gif|webp/i);
+            const ext = extMatch ? (extMatch[0].toLowerCase() === 'jpeg' ? '.jpg' : '.' + extMatch[0].toLowerCase()) : '.jpg';
+            const file = new File([blob], 'migrated-' + eq.id + '-' + (files.length + 1) + ext, { type: blob.type || 'image/jpeg' });
+            files.push(file);
+        }
+        if (!files.length) continue;
+        try {
+            const result = await saveEquipmentImageFilesToFolder(eq, files);
+            if (result && result.success) {
+                migratedCount++;
+                console.log('✅ Migrated images for equipment id', eq.id);
+            }
+        } catch (e) {
+            console.warn('⚠️ Failed to migrate images for equipment id', eq.id, e.message);
+        }
+    }
+    console.log('Migration complete. Supplies with images written to disk:', migratedCount);
+}
+window.migrateEquipmentImagesToFiles = migrateEquipmentImagesToFiles;
 
 // Make functions globally accessible
 window.refreshPlantImages = refreshPlantImages;

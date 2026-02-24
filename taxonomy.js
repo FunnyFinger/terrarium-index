@@ -120,7 +120,7 @@ function getPlantImagePath(plant) {
 
     const slug = getPlantFolderSlug(plant);
     if (slug) {
-        return `images/${slug}/${slug}-1.jpg`;
+        return `images/plants/${slug}/${slug}-1.jpg`;
     }
     return null;
 }
@@ -131,7 +131,7 @@ function getPlantThumbnailPath(plant) {
     if (!plant) return null;
     const slug = getPlantFolderSlug(plant);
     if (!slug) return null;
-    return `images/${slug}/thumb.jpg`;
+    return `images/plants/${slug}/thumb.jpg`;
 }
 
 // Species-level key for tree and filter: cultivars get their own node (full scientific name), else taxonomy.species.
@@ -1888,8 +1888,8 @@ function showTooltip(event, text, imagePath, nodeData = null) {
             attemptCount++;
             console.warn(`Image failed to load (attempt ${attemptCount}):`, this.src);
             
-            // If the path follows the pattern images/folderName/folderName-1.jpg, try alternatives
-            const pathMatch = imagePath.match(/^images\/([^\/]+)\/([^\/]+)-(\d+)\.jpg/);
+            // If the path follows the pattern images/plants/folderName/folderName-1.jpg, try alternatives
+            const pathMatch = imagePath.match(/^images\/(?:plants\/)?([^\/]+)\/([^\/]+)-(\d+)\.jpg/);
             if (pathMatch) {
                 const folderName = pathMatch[1];
                 const imageNum = pathMatch[3];
@@ -1897,7 +1897,7 @@ function showTooltip(event, text, imagePath, nodeData = null) {
                 // Try next image number if available (up to 3 attempts)
                 if (attemptCount <= 3) {
                     const nextNum = parseInt(imageNum) + attemptCount;
-                    const nextPath = `images/${folderName}/${folderName}-${nextNum}.jpg`;
+                    const nextPath = `images/plants/${folderName}/${folderName}-${nextNum}.jpg`;
                     const nextUrl = nextPath + separator + 'refresh=' + Date.now();
                     if (!this.src.includes(nextPath)) {
                         console.log(`Trying alternative image: ${nextUrl}`);
@@ -1907,10 +1907,10 @@ function showTooltip(event, text, imagePath, nodeData = null) {
                 }
             } else {
                 // If path doesn't match expected pattern, try standard naming
-                const pathMatch2 = imagePath.match(/^images\/([^\/]+)\//);
+                const pathMatch2 = imagePath.match(/^images\/(?:plants\/)?([^\/]+)\//);
                 if (pathMatch2 && attemptCount === 1) {
                     const folderName = pathMatch2[1];
-                    const standardPath = `images/${folderName}/${folderName}-1.jpg`;
+                    const standardPath = `images/plants/${folderName}/${folderName}-1.jpg`;
                     const standardUrl = standardPath + separator + 'refresh=' + Date.now();
                     if (!this.src.includes(standardPath)) {
                         console.log(`Trying standard image path: ${standardUrl}`);
