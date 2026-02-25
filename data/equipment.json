@@ -163,5 +163,18 @@
     ],
     "price": 6,
     "category": "accessories"
+  },
+  {
+    "id": 50016,
+    "name": "Ring Light",
+    "description": "Ring light for vivarium and terrarium display. Provides even, adjustable illumination for plant visibility and photography.",
+    "imageUrl": "images/supplies/equipment-50016/1.jpg",
+    "images": [
+      "images/supplies/equipment-50016/1.jpg",
+      "images/supplies/equipment-50016/2.jpg",
+      "images/supplies/equipment-50016/3.jpg"
+    ],
+    "price": null,
+    "category": "accessories"
   }
 ]
