@@ -1,0 +1,115 @@
+{
+  "id": 408,
+  "name": "Pineapple",
+  "scientificName": "Ananas comosus",
+  "commonNames": [
+    "Pineapple Plant",
+    "Commercial Pineapple"
+  ],
+  "category": [
+    "bromeliad",
+    "flowering",
+    "tropical"
+  ],
+  "substrate": "Well Draining",
+  "size": "80-150 cm",
+  "growthRate": "Moderate",
+  "description": "Ananas comosus is the cultivated pineapple, a terrestrial bromeliad native to South America (Brazil, Paraguay). It forms a large rosette of stiff, spiny, sword-like leaves (up to 1 m or more) and produces the familiar edible pineapple fruit. The plant is grown commercially in the tropics; in gardens or large conservatories it needs bright light, warmth, and well-draining soil. Unlike the dwarf variety (A. comosus var. microstachys), the typical pineapple is too large for most terrariums but can be used in large enclosures or as a statement houseplant. Flowers are purple to red, followed by the compound fruit. Prefers full sun to bright indirect light and moderate humidity.",
+  "careTips": [
+    "Bright light to full sun - needs strong light to fruit",
+    "Well-draining soil - avoid waterlogged roots",
+    "Moderate humidity (50-70%); can tolerate lower than many bromeliads",
+    "Water when top of soil dries; reduce in winter",
+    "Warm conditions (18-32°C); frost-sensitive",
+    "Feed during growing season with balanced fertilizer",
+    "Propagate from crown (top of fruit), slips, or suckers",
+    "Non-toxic but spiny - handle with care"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Poales",
+    "family": "Bromeliaceae",
+    "genus": "Ananas",
+    "species": "Ananas comosus"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "non-toxic",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "seasonal",
+  "propagation": "Crown, Slips, Suckers, Seed",
+  "colors": "Green, Yellow, Red",
+  "humidityRange": {
+    "min": 50,
+    "max": 70,
+    "ideal": 60
+  },
+  "lightRange": {
+    "min": 80,
+    "max": 100,
+    "ideal": 95
+  },
+  "airCirculationRange": {
+    "min": 40,
+    "max": 80,
+    "ideal": 60
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "substrateType": "moist",
+  "specialNeeds": "bromeliad",
+  "temperatureRange": {
+    "min": 36,
+    "max": 54,
+    "ideal": 45
+  },
+  "difficultyRange": {
+    "min": 20,
+    "max": 50,
+    "ideal": 35
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "carnivorous": false,
+  "waterCirculationRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "waterTemperatureRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "waterPhRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "waterHardnessRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "salinityRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "geographicOrigin": "South America",
+  "additionalInfo": null
+}

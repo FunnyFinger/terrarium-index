@@ -29,6 +29,19 @@ function ensureUniqueImages(images) {
     return [...new Set(images.filter(img => img && img.trim()))];
 }
 
+/**
+ * Normalize plant image path: legacy images/slug/ -> images/plants/slug/
+ * So paths from before the plants subfolder still resolve correctly.
+ */
+function normalizePlantImagePath(path) {
+    if (!path || typeof path !== 'string' || !path.startsWith('images/')) return path;
+    if (path.startsWith('images/plants/')) return path;
+    if (path.startsWith('images/supplies/') || path.startsWith('images/vivariums/')) return path;
+    const match = path.match(/^images\/([^/]+)\/(.*)$/);
+    if (match) return 'images/plants/' + match[1] + '/' + match[2];
+    return path;
+}
+
 async function checkImageExists(imagePath) {
     if (!imagePath || !imagePath.startsWith('images/') || !imagePath.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
         return false;
@@ -335,9 +348,10 @@ async function loadImagesFromLocalStorage(allPlants) {
             if (savedImages && expectedFolderName) {
                 const parsedImages = JSON.parse(savedImages);
                 if (Array.isArray(parsedImages) && parsedImages.length > 0) {
-                    const validImages = parsedImages.filter(imgPath => {
+                    const normalizedParsed = parsedImages.map(p => normalizePlantImagePath(p));
+                    const validImages = normalizedParsed.filter(imgPath => {
                         if (!imgPath || !imgPath.startsWith('images/')) return false;
-                        const pathMatch = imgPath.match(/images\/([^/]+)\//);
+                        const pathMatch = imgPath.match(/images\/(?:plants\/)?([^/]+)\//);
                         if (!pathMatch) return false;
                         const folderNameFromPath = pathMatch[1].replace(/^\d{5}-/, '');
                         return folderNameFromPath === expectedFolderName;
@@ -353,8 +367,9 @@ async function loadImagesFromLocalStorage(allPlants) {
                                 const num = parseInt(match[1], 10);
                                 if (num > highestCheckedNumber) highestCheckedNumber = num;
                             }
-                            if (await checkImageExists(imgPath)) {
-                                verifiedImages.push(imgPath);
+                            const pathToCheck = normalizePlantImagePath(imgPath);
+                            if (await checkImageExists(pathToCheck)) {
+                                verifiedImages.push(pathToCheck);
                                 if (match) {
                                     const num = parseInt(match[1], 10);
                                     if (num > highestValidNumber) highestValidNumber = num;
@@ -363,8 +378,9 @@ async function loadImagesFromLocalStorage(allPlants) {
                         }
                         if (verifiedImages.length > 0) {
                             plant.images = ensureUniqueImages(verifiedImages);
-                            if (savedImageUrl && verifiedImages.includes(savedImageUrl)) {
-                                plant.imageUrl = savedImageUrl;
+                            const normalizedSavedUrl = normalizePlantImagePath(savedImageUrl || '');
+                            if (normalizedSavedUrl && verifiedImages.includes(normalizedSavedUrl)) {
+                                plant.imageUrl = normalizedSavedUrl;
                             } else {
                                 plant.imageUrl = verifiedImages[0];
                             }
@@ -556,6 +572,7 @@ async function scanExistingImages(plantFolderName, plant = null) {
 const imageUtils = {
     init,
     ensureUniqueImages,
+    normalizePlantImagePath,
     loadImagesFromLocalStorage,
     getPlantImages,
     scanExistingImages,

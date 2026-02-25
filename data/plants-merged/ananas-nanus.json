@@ -1,9 +1,10 @@
 {
   "id": 61,
   "name": "Dwarf Pineapple",
-  "scientificName": "Ananas nanus",
+  "scientificName": "Ananas comosus var. microstachys",
   "commonNames": [
-    "Pineapple",
+    "Dwarf Pineapple",
+    "Mini Pineapple",
     "Pineapple Plant"
   ],
   "category": [
@@ -17,7 +18,7 @@
   "substrate": "Well Draining",
   "size": "8-15 cm",
   "growthRate": "Moderate",
-  "description": "Ananas nanus, commonly known as Dwarf Pineapple or Mini Pineapple, is a small bromeliad native to tropical regions of South America, particularly Brazil and Paraguay. It belongs to the Bromeliaceae family and features a rosette of stiff, spiny, green to bronze leaves (up to 15 cm long) arranged in a pineapple-like form. The plant produces a small, ornamental pineapple fruit (3-5 cm) that is edible but not as sweet as commercial pineapples. The plant displays an upright, rosette-forming growth habit and typically reaches up to 15 cm in height. It produces small, purple to red flowers before fruiting. In its native habitat, it grows as a terrestrial plant in well-draining soils in tropical regions. In terrariums or indoor settings, this plant adds vibrant interest with its miniature pineapple form. It's popular among bromeliad enthusiasts for its compact size and ornamental fruit.",
+  "description": "Ananas comosus var. microstachys (synonym: Ananas nanus), commonly known as Dwarf Pineapple or Mini Pineapple, is a small bromeliad native to tropical South America (Brazil, Paraguay). It belongs to the Bromeliaceae family and features a rosette of stiff, spiny, green to bronze leaves (up to 15 cm long) in a pineapple-like form. It produces a small, ornamental pineapple fruit (3-5 cm) that is edible but not as sweet as commercial pineapples. Upright, rosette-forming habit to about 15 cm; small purple to red flowers before fruiting. Terrestrial in well-draining soils in the wild. In terrariums it adds vibrant interest with its miniature pineapple form. It's popular among bromeliad enthusiasts for its compact size and ornamental fruit.",
   "careTips": [
     "Provide adequate humidity",
     "Ensure good air circulation",
@@ -30,7 +31,7 @@
     "order": "Poales",
     "family": "Bromeliaceae",
     "genus": "Ananas",
-    "species": "Ananas comosus"
+    "species": "Ananas comosus var. microstachys"
   },
   "growthPattern": "upright-bushy",
   "hazard": "non-toxic",

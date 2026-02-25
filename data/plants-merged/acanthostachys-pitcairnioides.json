@@ -1,6 +1,6 @@
 {
   "id": 2,
-  "name": "Pineapple Bromeliad",
+  "name": "Acanthostachys pitcairnioides",
   "scientificName": "Acanthostachys pitcairnioides",
   "commonNames": [],
   "category": [
@@ -10,11 +10,17 @@
   "substrate": "Well Draining",
   "size": "5-15 cm",
   "growthRate": "Moderate",
-  "description": "Acanthostachys pitcairnioides is an epiphytic bromeliad native to tropical regions of South America, particularly Brazil, Paraguay, and Argentina. It belongs to the Bromeliaceae family and features a rosette of stiff, spiny, gray-green leaves (7-10 cm long) arranged in a pineapple-like form. Many bromeliads form central water-holding rosettes (tanks) that create mini ecosystems. The plant produces small, inconspicuous flowers. The plant displays an upright, rosette-forming growth habit and typically reaches 7-10 cm in height. In its native habitat, it grows as an epiphyte on tree trunks and branches in tropical forests. In terrariums or indoor settings, this plant adds natural beauty with its distinctive pineapple-like form. It's popular among bromeliad enthusiasts for its compact size and unique appearance.",
+  "description": "Acanthostachys pitcairnioides is an epiphytic bromeliad native to tropical South America (Brazil, Paraguay, Argentina). It belongs to the Bromeliaceae family and forms a compact rosette of stiff, spiny, gray-green leaves (7-10 cm long), smaller than its relative A. strobilacea. The central tank (rosette) holds water and absorbs moisture. It produces small, inconspicuous flowers and reaches about 7-15 cm in height. In the wild it grows on tree trunks and branches in tropical forests. Ideal for terrariums and small enclosures due to its compact size.",
   "careTips": [
-    "Provide adequate humidity",
-    "Ensure good air circulation",
-    "Monitor watering needs"
+    "Requires high humidity (60-80%) - ideal for terrariums",
+    "Bright indirect light - avoid direct sun",
+    "Keep central rosette (tank) filled with water - this is how it absorbs moisture",
+    "Well-draining epiphytic mix - orchid bark, sphagnum moss",
+    "Prefers warm, humid conditions (18-24°C)",
+    "Epiphytic - can be mounted on wood or grown in pots",
+    "Non-toxic to pets and humans",
+    "After flowering, produces offsets (pups) that can be separated",
+    "Watch for scale insects and mealybugs"
   ],
   "taxonomy": {
     "kingdom": "Plantae",

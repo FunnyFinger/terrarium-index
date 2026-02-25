@@ -7,6 +7,11 @@ let filteredPlants = [];
 let allEquipment = [];
 let currentView = 'plants';
 
+function dedupePlantsById(plants) {
+    if (!plants || !plants.length) return plants || [];
+    return plants.filter((p, i, arr) => p && p.id != null && arr.findIndex(x => x.id === p.id) === i);
+}
+
 const filterUtils = window.filterUtils;
 if (!filterUtils) {
     throw new Error('filters.js must be loaded before script.js');
@@ -64,7 +69,7 @@ async function initializePlants() {
     
     // Priority 1: Check if modular loader has populated window.plantsDatabase
     if (typeof window !== 'undefined' && window.plantsDatabase && Array.isArray(window.plantsDatabase) && window.plantsDatabase.length > 0) {
-        allPlants = [...window.plantsDatabase];
+        allPlants = dedupePlantsById(window.plantsDatabase || []);
         console.log(`✅ Loaded ${allPlants.length} plants from modular loader`);
         filteredPlants = [...allPlants];
         if (window.inventoryDb && window.inventoryDb.mergeInventoryIntoPlants) {
@@ -93,13 +98,13 @@ async function initializePlants() {
             
             // Always check window.plantsDatabase first (most reliable)
             if (window.plantsDatabase && Array.isArray(window.plantsDatabase) && window.plantsDatabase.length > 0) {
-                allPlants = [...window.plantsDatabase];
+                allPlants = dedupePlantsById(window.plantsDatabase);
                 console.log(`✅ Loaded ${allPlants.length} plants from window.plantsDatabase (event)`);
             } else if (e.detail?.plants && Array.isArray(e.detail.plants) && e.detail.plants.length > 0) {
-                allPlants = [...e.detail.plants];
+                allPlants = dedupePlantsById(e.detail.plants);
                 console.log(`✅ Loaded ${allPlants.length} plants from event detail`);
             } else if (typeof plantsDatabase !== 'undefined' && Array.isArray(plantsDatabase) && plantsDatabase.length > 0) {
-                allPlants = [...plantsDatabase];
+                allPlants = dedupePlantsById(plantsDatabase);
                 console.log(`✅ Loaded ${allPlants.length} plants from data.js (event)`);
             } else {
                 console.warn('⚠️ No plants found in event - will continue polling...');
@@ -114,7 +119,7 @@ async function initializePlants() {
         
         // Check if event already fired (plants already loaded)
         if (window.plantsDatabase && Array.isArray(window.plantsDatabase) && window.plantsDatabase.length > 0) {
-            allPlants = [...window.plantsDatabase];
+            allPlants = dedupePlantsById(window.plantsDatabase);
             console.log(`✅ Loaded ${allPlants.length} plants (already available)`);
             resolve();
             return;
@@ -136,7 +141,7 @@ async function initializePlants() {
                 resolved = true;
                 clearInterval(pollInterval);
                 window.removeEventListener('plantsLoaded', handler);
-                allPlants = [...window.plantsDatabase];
+                allPlants = dedupePlantsById(window.plantsDatabase);
                 console.log(`✅ Loaded ${allPlants.length} plants (polling check)`);
                 resolve();
             } else if (pollCount >= maxPolls) {
@@ -149,10 +154,10 @@ async function initializePlants() {
                 
                 // Final check
                 if (window.plantsDatabase && Array.isArray(window.plantsDatabase) && window.plantsDatabase.length > 0) {
-                    allPlants = [...window.plantsDatabase];
+                    allPlants = dedupePlantsById(window.plantsDatabase);
                     console.log(`✅ Loaded ${allPlants.length} plants (final timeout fallback)`);
                 } else if (typeof plantsDatabase !== 'undefined' && Array.isArray(plantsDatabase) && plantsDatabase.length > 0) {
-                    allPlants = [...plantsDatabase];
+                    allPlants = dedupePlantsById(plantsDatabase);
                     console.log(`✅ Loaded ${allPlants.length} plants from data.js (final timeout)`);
                 } else {
                     console.error('❌ No plants loaded after extended timeout!');
@@ -171,7 +176,7 @@ async function initializePlants() {
         // Wait a bit more and check again
         await new Promise(resolve => setTimeout(resolve, 1000));
         if (window.plantsDatabase && Array.isArray(window.plantsDatabase) && window.plantsDatabase.length > 0) {
-            allPlants = [...window.plantsDatabase];
+            allPlants = dedupePlantsById(window.plantsDatabase);
             console.log(`✅ Loaded ${allPlants.length} plants (final check after promise)`);
         }
     }
@@ -209,7 +214,7 @@ async function initializePlants() {
         // Try one more time after a delay
         setTimeout(() => {
             if (window.plantsDatabase && Array.isArray(window.plantsDatabase) && window.plantsDatabase.length > 0) {
-                allPlants = [...window.plantsDatabase];
+                allPlants = dedupePlantsById(window.plantsDatabase);
                 filteredPlants = [...allPlants];
                 console.log(`✅ Loaded ${allPlants.length} plants (delayed retry)`);
                 initializeUI();
@@ -4315,7 +4320,9 @@ function showVivariumDetail(vivarium) {
     var galleryPage2Html = (function() {
         if (vivariumGalleryImages.length === 0) {
             return '<div class="plant-gallery-modern plant-gallery-empty gallery-no-set-main">' +
-                '<header class="plant-gallery-header"><span class="plant-gallery-title">Gallery</span></header>' +
+                '<header class="plant-gallery-header">' +
+                '<div class="plant-gallery-header-main"><span class="plant-gallery-label">Gallery</span><h2 class="plant-gallery-item-name">' + escapeHtml(vivarium.name) + '</h2></div>' +
+                '</header>' +
                 '<div class="plant-gallery-empty-message"><p>No photos yet.</p><p>Use the Image button above to add photos.</p></div>' +
                 '</div>';
         }
@@ -4329,7 +4336,7 @@ function showVivariumDetail(vivarium) {
         }).join('');
         return '<div class="plant-gallery-modern gallery-no-set-main" id="gallery-page-' + vivarium.id + '">' +
             '<header class="plant-gallery-header">' +
-            '<span class="plant-gallery-title">Gallery</span>' +
+            '<div class="plant-gallery-header-main"><span class="plant-gallery-label">Gallery</span><h2 class="plant-gallery-item-name">' + escapeHtml(vivarium.name) + '</h2></div>' +
             '<span class="plant-gallery-count">' + imgs.length + ' photo' + (imgs.length !== 1 ? 's' : '') + '</span>' +
             '</header>' +
             '<div class="plant-gallery-stage" id="gallery-preview-' + vivarium.id + '">' +
@@ -4499,7 +4506,7 @@ function showEquipmentDetail(equipment) {
     const galleryPage2Html = (() => {
         if (equipmentGalleryImages.length === 0) {
             return `<div class="plant-gallery-modern plant-gallery-empty gallery-no-set-main">
-                <header class="plant-gallery-header"><span class="plant-gallery-title">Gallery</span></header>
+                <header class="plant-gallery-header"><div class="plant-gallery-header-main"><span class="plant-gallery-label">Gallery</span><h2 class="plant-gallery-item-name">${escapeHtml(equipment.name)}</h2></div></header>
                 <div class="plant-gallery-empty-message"><p>No photos yet.</p><p>Use the Image button above to add photos.</p></div>
             </div>`;
         }
@@ -4507,7 +4514,7 @@ function showEquipmentDetail(equipment) {
         const mainUrl = displayImageUrl || imgs[0];
         return `<div class="plant-gallery-modern gallery-no-set-main" id="gallery-page-${equipment.id}">
             <header class="plant-gallery-header">
-                <span class="plant-gallery-title">Gallery</span>
+                <div class="plant-gallery-header-main"><span class="plant-gallery-label">Gallery</span><h2 class="plant-gallery-item-name">${escapeHtml(equipment.name)}</h2></div>
                 <span class="plant-gallery-count">${imgs.length} photo${imgs.length !== 1 ? 's' : ''}</span>
             </header>
             <div class="plant-gallery-stage" id="gallery-preview-${equipment.id}">
@@ -4770,7 +4777,8 @@ function refreshVivariumEditPlantOptions() {
         if (p.imageUrl) return p.imageUrl;
         if (p.images && p.images.length) return p.images[0];
         var slug = scientificNameToSlug(typeof p.scientificName === 'string' ? p.scientificName : (p.scientificName && p.scientificName.name));
-        return slug ? 'images/' + slug + '/' + slug + '-1.jpg' : '';
+        if (!slug) return '';
+        return 'images/plants/' + slug + '/' + slug + '-1.jpg';
     };
     tbody.innerHTML = filtered.map(function(p) {
         var id = p.id;
@@ -5699,7 +5707,11 @@ function createPlantCard(plant) {
     // Optimistic: try expected path so cards show images immediately without waiting for discovery (onerror shows placeholder)
     if (!displayImageUrl) {
         const slug = scientificNameToSlug(getScientificNameString(plant));
-        if (slug) displayImageUrl = `images/${slug}/${slug}-1.jpg`;
+        if (slug) displayImageUrl = `images/plants/${slug}/${slug}-1.jpg`;
+    }
+    // Normalize legacy paths (images/slug/ -> images/plants/slug/) so cards show after move
+    if (displayImageUrl && imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') {
+        displayImageUrl = imageUtils.normalizePlantImagePath(displayImageUrl);
     }
     
     // Create a unique identifier for this card to help with updates
@@ -5988,10 +6000,11 @@ async function showPlantModal(plant) {
         plant.images = ensureUniqueImages(plant.images);
     }
     
-    // Set display image
+    // Set display image (normalize legacy paths for plants folder)
     let displayImageUrl = plant.imageUrl || (plant.images && plant.images.length > 0 ? plant.images[0] : null);
-    
-    // Debug: Log plant images
+    if (displayImageUrl && imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') {
+        displayImageUrl = imageUtils.normalizePlantImagePath(displayImageUrl);
+    }
     
     // Helper function to create enclosure size scale visualization
     function createEnclosureSizeScale(plant) {
@@ -6416,13 +6429,18 @@ async function showPlantModal(plant) {
         <!-- Page 2: Gallery View (hidden by default) -->
         <div id="modal-page-2" class="modal-page" style="display: none;" data-plant-id="${plant.id}">
             ${(function() {
-                const valid = (plant.images || []).filter(img => img && img.trim());
+                const raw = (plant.images || []).filter(img => img && img.trim());
+                const valid = (imageUtils && imageUtils.normalizePlantImagePath) ? raw.map(img => imageUtils.normalizePlantImagePath(img)) : raw;
                 const hasNumbered = valid.some(path => /-\d+\.(jpg|jpeg|png|webp)$/i.test(path));
                 const galleryImages = hasNumbered ? valid.filter(path => !/\/thumb\.(jpg|jpeg|png|webp)$/i.test(path)) : valid;
                 return galleryImages.length > 0 ? `
                 <div class="plant-gallery-modern" id="gallery-page-${plant.id}">
                     <header class="plant-gallery-header">
-                        <span class="plant-gallery-title">Gallery</span>
+                        <div class="plant-gallery-header-main">
+                            <span class="plant-gallery-label">Gallery</span>
+                            <h2 class="plant-gallery-item-name">${escapeHtml(plant.name)}</h2>
+                            ${plant.scientificName ? '<p class="plant-gallery-scientific-name">' + escapeHtml(plant.scientificName) + '</p>' : ''}
+                        </div>
                         <span class="plant-gallery-count">${galleryImages.length} photo${galleryImages.length !== 1 ? 's' : ''}</span>
                     </header>
                     <div class="plant-gallery-stage" id="gallery-preview-${plant.id}">
@@ -6463,7 +6481,11 @@ async function showPlantModal(plant) {
             ` : `
                 <div class="plant-gallery-modern plant-gallery-empty">
                     <header class="plant-gallery-header">
-                        <span class="plant-gallery-title">Gallery</span>
+                        <div class="plant-gallery-header-main">
+                            <span class="plant-gallery-label">Gallery</span>
+                            <h2 class="plant-gallery-item-name">${escapeHtml(plant.name)}</h2>
+                            ${plant.scientificName ? '<p class="plant-gallery-scientific-name">' + escapeHtml(plant.scientificName) + '</p>' : ''}
+                        </div>
                     </header>
                     <div class="plant-gallery-empty-message">
                         <p>No photos yet.</p>
@@ -6938,6 +6960,9 @@ function updatePlantCardImage(plantId, imageUrl) {
         // Silent - don't log missing plant/card updates
         return;
     }
+    if (imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') {
+        imageUrl = imageUtils.normalizePlantImagePath(imageUrl);
+    }
     
     // Update the plant object
     if (plant) {
@@ -7143,7 +7168,8 @@ function handleImageError(imgElement, plantId) {
         
         if (currentIndex >= 0 && currentIndex < plant.images.length - 1) {
             // Try next image in array (silently) - but only if not already failed
-            const nextImage = plant.images[currentIndex + 1];
+            let nextImage = plant.images[currentIndex + 1];
+            if (imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') nextImage = imageUtils.normalizePlantImagePath(nextImage);
             if (!failedImageCache.has(nextImage) && !nextImage.includes(window.location.origin + nextImage)) {
                 imgElement.onerror = () => handleImageError(imgElement, plantId);
                 imgElement.src = nextImage;
@@ -7152,7 +7178,8 @@ function handleImageError(imgElement, plantId) {
             }
         } else if (currentIndex < 0 && plant.images.length > 0) {
             // Current image not in array, try first from array
-            const nextImage = plant.images[0];
+            let nextImage = plant.images[0];
+            if (imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') nextImage = imageUtils.normalizePlantImagePath(nextImage);
             if (!failedImageCache.has(nextImage)) {
                 imgElement.onerror = () => handleImageError(imgElement, plantId);
                 imgElement.src = nextImage;
@@ -7169,7 +7196,8 @@ function handleImageError(imgElement, plantId) {
             const parsedImages = JSON.parse(savedImages);
             if (parsedImages && parsedImages.length > 0) {
                 // Try first image from localStorage that's different
-                for (const savedImg of parsedImages) {
+                for (const saved of parsedImages) {
+                    const savedImg = (imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') ? imageUtils.normalizePlantImagePath(saved) : saved;
                     if (savedImg !== fullPath && savedImg !== currentSrc && !failedImageCache.has(savedImg)) {
                         imgElement.onerror = () => handleImageError(imgElement, plantId);
                         imgElement.src = savedImg;
@@ -7190,10 +7218,10 @@ function handleImageError(imgElement, plantId) {
         // Silent - localStorage check failed
     }
     
-    // Try conventional fallback: if failed src was slug-1.jpg, try thumb.jpg in same folder
-    const slugMatch = fullPath.match(/^images\/([^/]+)\/[^/]+-1\.(jpg|jpeg|png|webp)$/i);
+    // Try conventional fallback: if failed src was slug-1.jpg, try thumb.jpg in same folder (images/plants/slug/)
+    const slugMatch = fullPath.match(/^images\/(?:plants\/)?([^/]+)\/[^/]+-1\.(jpg|jpeg|png|webp)$/i);
     if (slugMatch) {
-        const fallbackPath = `images/${slugMatch[1]}/thumb.jpg`;
+        const fallbackPath = `images/plants/${slugMatch[1]}/thumb.jpg`;
         if (!failedImageCache.has(fallbackPath)) {
             imgElement.onerror = () => handleImageError(imgElement, plantId);
             imgElement.src = fallbackPath;

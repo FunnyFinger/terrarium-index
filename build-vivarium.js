@@ -113,18 +113,36 @@
         return eq;
     }
 
+    function normalizePlantImagePath(path) {
+        if (!path || typeof path !== 'string' || !path.startsWith('images/')) return path;
+        if (path.startsWith('images/plants/')) return path;
+        if (path.startsWith('images/supplies/') || path.startsWith('images/vivariums/')) return path;
+        var match = path.match(/^images\/([^/]+)\/(.*)$/);
+        return match ? 'images/plants/' + match[1] + '/' + match[2] : path;
+    }
+
     function getPlantImageUrl(p) {
-        if (p.imageUrl) return p.imageUrl;
-        if (p.images && p.images.length) return p.images[0];
+        var url = p.imageUrl || (p.images && p.images.length ? p.images[0] : null);
+        if (url) return (window.imageUtils && typeof window.imageUtils.normalizePlantImagePath === 'function')
+            ? window.imageUtils.normalizePlantImagePath(url) : normalizePlantImagePath(url);
         var slug = window.scientificNameToSlug && window.scientificNameToSlug(typeof p.scientificName === 'string' ? p.scientificName : (p.scientificName && p.scientificName.name));
-        return slug ? 'images/' + slug + '/' + slug + '-1.jpg' : '';
+        return slug ? 'images/plants/' + slug + '/' + slug + '-1.jpg' : '';
     }
 
     function getMaxPlants() {
         return 15;
     }
 
-    /** Build HTML for one supply card (same visual as plant card). singleSelect: true = button with selected state, false = label + checkbox. */
+    var BUILD_PLANTS_PAGE_SIZE = 24;
+    var buildPlantPage = 1;
+
+    function escapeAttr(s) {
+        if (s == null) return '';
+        var str = String(s);
+        return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    /** Build HTML for one supply card (same visual as plant card). singleSelect: true = button with selected state, false = label + checkbox. Description shown in tooltip on hover. */
     function supplyCardHtml(e, options) {
         var name = escapeHtml(e.name || 'Item');
         var size = (e.size && String(e.size).trim()) ? escapeHtml(String(e.size).trim()) : '';
@@ -143,14 +161,14 @@
             '<span class="build-supply-card-name">' + name + '</span>' +
             (size ? '<div class="build-supply-card-size">' + size + '</div>' : '') +
             '</div>';
-        var cardDesc = desc ? ('<div class="build-supply-card-desc" role="tooltip">' + desc + '</div>') : '';
+        var dataDesc = desc ? (' data-build-desc="' + escapeAttr(desc) + '"') : '';
         if (singleSelect) {
-            return '<button type="button" class="build-supply-card build-supply-card-single' + selClass + '" data-id="' + escapeHtml(String(id)) + '">' +
-                cardTop + cardBody + cardDesc + '</button>';
+            return '<button type="button" class="build-supply-card build-supply-card-single' + selClass + '" data-id="' + escapeHtml(String(id)) + '"' + dataDesc + '>' +
+                cardTop + cardBody + '</button>';
         }
-        return '<label class="build-supply-card' + selClass + '">' +
+        return '<label class="build-supply-card' + selClass + '"' + dataDesc + '>' +
             '<input type="checkbox" class="build-supply-card-input" id="' + inputId + '" data-id="' + id + '"' + (checked ? ' checked' : '') + ' aria-label="Select ' + name + '">' +
-            cardTop + cardBody + cardDesc + '</label>';
+            cardTop + cardBody + '</label>';
     }
 
     function getPlantMaxHeightCm(plant) {
@@ -381,6 +399,7 @@
 
     function renderPlantList() {
         var container = document.getElementById('buildPlantList');
+        var paginationEl = document.getElementById('buildPlantPagination');
         var searchEl = document.getElementById('buildPlantSearch');
         if (!container) return;
         var maxPlants = getMaxPlants();
@@ -404,10 +423,15 @@
                 return false;
             });
         }
+        var totalPlants = plants.length;
+        var totalPages = Math.max(1, Math.ceil(totalPlants / BUILD_PLANTS_PAGE_SIZE));
+        buildPlantPage = Math.max(1, Math.min(buildPlantPage, totalPages));
+        var start = (buildPlantPage - 1) * BUILD_PLANTS_PAGE_SIZE;
+        var pagePlants = plants.slice(start, start + BUILD_PLANTS_PAGE_SIZE);
         var onMainSite = !!document.getElementById('tabPlants');
         var baseUrl = window.location.href.replace(/\/[^/]*$/, '/') + 'index.html';
         var atLimit = config.plantIds.length >= maxPlants;
-        container.innerHTML = plants.slice(0, 100).map(function (p) {
+        container.innerHTML = pagePlants.map(function (p) {
             var pid = plantIdNum(p.id);
             var name = p.name || (p.commonNames && p.commonNames[0]) || '—';
             var sci = typeof p.scientificName === 'string' ? (p.scientificName || '—') : (p.scientificName && p.scientificName.name ? p.scientificName.name : '—');
@@ -436,8 +460,37 @@
                 '<div class="build-plant-card-scientific">' + escapeHtml(sci) + '</div>' +
                 '</div></label>';
         }).join('');
-        if (plants.length > 100) {
-            container.innerHTML += '<p class="build-panel-desc">Showing first 100 of ' + plants.length + '. Use search to narrow.</p>';
+        if (paginationEl) {
+            if (totalPages <= 1) {
+                paginationEl.innerHTML = totalPlants > 0 ? '<p class="build-plant-pagination-info">Showing all ' + totalPlants + ' plants</p>' : '';
+            } else {
+                var startOne = totalPlants === 0 ? 0 : start + 1;
+                var endOne = Math.min(start + BUILD_PLANTS_PAGE_SIZE, totalPlants);
+                var info = '<p class="build-plant-pagination-info">Showing ' + startOne + '–' + endOne + ' of ' + totalPlants + ' plants</p>';
+                var prevDisabled = buildPlantPage <= 1 ? ' disabled' : '';
+                var nextDisabled = buildPlantPage >= totalPages ? ' disabled' : '';
+                var prevBtn = '<button type="button" class="build-pagination-btn build-pagination-prev"' + prevDisabled + ' data-page="' + (buildPlantPage - 1) + '" aria-label="Previous page">Previous</button>';
+                var nextBtn = '<button type="button" class="build-pagination-btn build-pagination-next"' + nextDisabled + ' data-page="' + (buildPlantPage + 1) + '" aria-label="Next page">Next</button>';
+                var pageNums = '';
+                var showFrom = Math.max(1, buildPlantPage - 2);
+                var showTo = Math.min(totalPages, buildPlantPage + 2);
+                for (var pg = showFrom; pg <= showTo; pg++) {
+                    var active = pg === buildPlantPage ? ' build-pagination-page-active' : '';
+                    pageNums += '<button type="button" class="build-pagination-btn build-pagination-page' + active + '" data-page="' + pg + '" aria-label="Page ' + pg + '"' + (pg === buildPlantPage ? ' aria-current="page"' : '') + '>' + pg + '</button>';
+                }
+                paginationEl.innerHTML = '<div class="build-pagination-wrap">' + info + '<div class="build-pagination-controls">' + prevBtn + '<span class="build-pagination-pages">' + pageNums + '</span>' + nextBtn + '</div></div>';
+                paginationEl.querySelectorAll('.build-pagination-btn').forEach(function (btn) {
+                    if (btn.disabled) return;
+                    btn.addEventListener('click', function () {
+                        var p = parseInt(btn.getAttribute('data-page'), 10);
+                        if (p >= 1 && p <= totalPages) {
+                            buildPlantPage = p;
+                            renderPlantList();
+                            container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    });
+                });
+            }
         }
         updateSelectedDisplay();
     }
@@ -616,8 +669,12 @@
         else cart.push({ plantId: keyId, name: e.name || 'Item', scientificName: '', quantity: 1, price: price });
     }
 
+    var LABOUR_VIVARIUM_ID = 'labour-vivarium';
+    var LABOUR_CHARGE_KD = 10;
+
     function addBuildToCart() {
         var cart = getCart();
+        cart = cart.filter(function (i) { return i.plantId !== LABOUR_VIVARIUM_ID; });
         var plants = getPlants();
         var equipment = getEquipment();
         if (config.enclosureId) addSupplyToCart(cart, equipment, config.enclosureId);
@@ -638,6 +695,7 @@
         (config.decorationIds || []).forEach(function (id) { addSupplyToCart(cart, equipment, id); });
         (config.accessoryIds || []).forEach(function (id) { addSupplyToCart(cart, equipment, id); });
         (config.toolIds || []).forEach(function (id) { addSupplyToCart(cart, equipment, id); });
+        cart.push({ plantId: LABOUR_VIVARIUM_ID, name: 'Labour (Vivarium build)', scientificName: '', quantity: 1, price: LABOUR_CHARGE_KD });
         setCart(cart);
         var base = window.location.href.replace(/\/[^/]*$/, '/');
         window.location.href = base + 'checkout.html';
@@ -694,7 +752,55 @@
         });
     }
 
+    function initBuildDescTooltip() {
+        var tooltip = document.getElementById('buildDescTooltip');
+        if (!tooltip) {
+            tooltip = document.createElement('div');
+            tooltip.id = 'buildDescTooltip';
+            tooltip.className = 'build-desc-tooltip';
+            tooltip.setAttribute('role', 'tooltip');
+            tooltip.setAttribute('aria-hidden', 'true');
+            document.body.appendChild(tooltip);
+        }
+        document.addEventListener('mouseover', function (e) {
+            var card = e.target && e.target.closest && e.target.closest('.build-supply-card');
+            var desc = card && card.getAttribute && card.getAttribute('data-build-desc');
+            if (!desc) {
+                tooltip.classList.remove('build-desc-tooltip-visible');
+                tooltip.setAttribute('aria-hidden', 'true');
+                return;
+            }
+            tooltip.textContent = desc;
+            tooltip.classList.add('build-desc-tooltip-visible');
+            tooltip.setAttribute('aria-hidden', 'false');
+            var rect = card.getBoundingClientRect();
+            var gap = 8;
+            requestAnimationFrame(function () {
+                var ttRect = tooltip.getBoundingClientRect();
+                var left = rect.left + (rect.width / 2) - (ttRect.width / 2);
+                left = Math.max(8, Math.min(left, document.documentElement.clientWidth - ttRect.width - 8));
+                var top = rect.top - ttRect.height - gap;
+                if (top < 8) {
+                    top = rect.bottom + gap;
+                } else {
+                    top = Math.max(8, top);
+                }
+                tooltip.style.left = left + 'px';
+                tooltip.style.top = top + 'px';
+            });
+        });
+        document.addEventListener('mouseout', function (e) {
+            var fromCard = e.target && e.target.closest && e.target.closest('.build-supply-card');
+            var toCard = e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest('.build-supply-card');
+            if (fromCard && !toCard) {
+                tooltip.classList.remove('build-desc-tooltip-visible');
+                tooltip.setAttribute('aria-hidden', 'true');
+            }
+        });
+    }
+
     function init() {
+        initBuildDescTooltip();
         logBuildStepSupplies(true);
         renderTypeOptions();
         renderEnclosureOptions();
@@ -715,6 +821,7 @@
         var searchInput = document.getElementById('buildPlantSearch');
         if (searchInput) {
             searchInput.addEventListener('input', function () {
+                buildPlantPage = 1;
                 renderPlantList();
             });
         }

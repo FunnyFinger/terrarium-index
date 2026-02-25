@@ -13,6 +13,15 @@ function applyPlantEditOverlays(plantsArray) {
             if (saved) {
                 const parsed = JSON.parse(saved);
                 if (parsed && typeof parsed === 'object') {
+                    // Remove faulty overlay: id 2 is Acanthostachys pitcairnioides (Pineapple Bromeliad), not Baby's Tears
+                    if (plantsArray[i].id === 2) {
+                        const name = (parsed.name || '').trim();
+                        const sci = (typeof parsed.scientificName === 'string' ? parsed.scientificName : (parsed.scientificName && parsed.scientificName.name)) || '';
+                        if (name === "Baby's Tears" || sci.indexOf('Soleirolia') !== -1) {
+                            localStorage.removeItem(key);
+                            continue;
+                        }
+                    }
                     // Merge overlay onto original; never overwrite with undefined or empty for description/careTips
                     const base = plantsArray[i];
                     const merged = { ...base };
@@ -67,8 +76,9 @@ async function loadAllPlants() {
             const list = Array.isArray(plants) ? plants : [];
             if (list.length > 0) {
                 const sorted = list.sort((a, b) => (a.id || 0) - (b.id || 0));
+                const deduped = sorted.filter((p, i, arr) => p && p.id != null && arr.findIndex(x => x.id === p.id) === i);
                 plantsDatabase.length = 0;
-                plantsDatabase.push(...sorted);
+                plantsDatabase.push(...deduped);
                 applyPlantEditOverlays(plantsDatabase);
                 if (typeof window !== 'undefined') window.plantsDatabase = plantsDatabase;
                 console.log(`✅ Loaded ${plantsDatabase.length} plants from bundle (1 request)`);
@@ -115,8 +125,9 @@ async function loadAllPlants() {
 
             if (loadedPlants.length > 0) {
                 const sortedPlants = loadedPlants.sort((a, b) => a.id - b.id);
+                const deduped = sortedPlants.filter((p, i, arr) => p && p.id != null && arr.findIndex(x => x.id === p.id) === i);
                 plantsDatabase.length = 0;
-                plantsDatabase.push(...sortedPlants);
+                plantsDatabase.push(...deduped);
                 applyPlantEditOverlays(plantsDatabase);
                 if (typeof window !== 'undefined') window.plantsDatabase = plantsDatabase;
                 console.log(`✅ Loaded ${plantsDatabase.length} plants from plants-merged${failedCount > 0 ? ` (${failedCount} failed)` : ''}`);
@@ -146,8 +157,9 @@ async function loadAllPlants() {
             }
             if (loadedPlants.length > 0) {
                 const sortedPlants = loadedPlants.sort((a, b) => a.id - b.id);
+                const deduped = sortedPlants.filter((p, i, arr) => p && p.id != null && arr.findIndex(x => x.id === p.id) === i);
                 plantsDatabase.length = 0;
-                plantsDatabase.push(...sortedPlants);
+                plantsDatabase.push(...deduped);
                 applyPlantEditOverlays(plantsDatabase);
                 if (typeof window !== 'undefined') window.plantsDatabase = plantsDatabase;
                 console.log(`✅ Loaded ${plantsDatabase.length} plants from category index`);

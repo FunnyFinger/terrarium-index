@@ -194,10 +194,12 @@
 
 .build-step-panels {
     position: relative;
-    min-height: 320px;
+    min-height: 520px;
     flex: 1;
     min-width: 0;
     padding: 0.25rem 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .build-panel {
@@ -206,7 +208,10 @@
 }
 
 .build-panel.build-panel-active {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
 }
 
 @keyframes buildPanelIn {
@@ -426,13 +431,89 @@
     border-color: var(--accent-color);
 }
 
+/* Panel 6: plant list grows so panel-actions sit at bottom of build-step-panels */
+#buildPanel6.build-panel-active {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+}
+#buildPanel6 .build-plants-toolbar {
+    flex-shrink: 0;
+}
+#buildPanel6 .build-plant-list {
+    flex: 1;
+    min-height: 280px;
+    margin-bottom: 0.75rem;
+}
+#buildPanel6 .build-plant-pagination {
+    flex-shrink: 0;
+}
+#buildPanel6 .build-panel-actions {
+    flex-shrink: 0;
+    margin-top: auto;
+}
+
 .build-plant-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 0.75rem;
-    margin-bottom: 1rem;
-    max-height: 420px;
     overflow-y: auto;
+}
+
+.build-plant-pagination {
+    margin-bottom: 1rem;
+}
+
+.build-plant-pagination-info {
+    font-size: 0.9rem;
+    color: var(--text-light, #666);
+    margin: 0 0 0.5rem 0;
+}
+
+.build-pagination-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.build-pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.build-pagination-btn {
+    padding: 0.4rem 0.65rem;
+    font-size: 0.9rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--card-bg);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.build-pagination-btn:hover:not(:disabled) {
+    border-color: var(--accent-color);
+    background: rgba(45, 80, 22, 0.06);
+}
+
+.build-pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.build-pagination-page-active {
+    border-color: var(--primary-color);
+    background: rgba(45, 80, 22, 0.12);
+    font-weight: 600;
+}
+
+.build-pagination-pages {
+    display: flex;
+    gap: 0.2rem;
 }
 
 .build-plant-card {
@@ -690,30 +771,37 @@
     line-height: 1.25;
 }
 
-/* Description shown on hover */
-.build-supply-card-desc {
-    padding: 0.5rem 0.6rem;
-    margin: 0 0.35rem 0.35rem 0.35rem;
+/* Floating tooltip for supply card description */
+.build-desc-tooltip {
+    position: fixed;
+    z-index: 10000;
+    max-width: 320px;
+    max-height: 240px;
+    overflow-y: auto;
+    padding: 0.6rem 0.75rem;
     font-size: 0.8rem;
     line-height: 1.4;
-    color: var(--text-light);
-    background: rgba(0, 0, 0, 0.04);
-    border-radius: 6px;
+    color: var(--text-color);
+    background: var(--card-bg);
     border: 1px solid var(--border-color);
-    max-height: 0;
-    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    pointer-events: none;
+    visibility: hidden;
     opacity: 0;
-    transition: max-height 0.25s ease-out, opacity 0.2s ease-out, margin 0.2s;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    white-space: pre-wrap;
+    word-break: break-word;
 }
 
-.build-supply-card:hover .build-supply-card-desc {
-    max-height: 120px;
-    overflow-y: auto;
+.build-desc-tooltip.build-desc-tooltip-visible {
+    visibility: visible;
     opacity: 1;
 }
 
-[data-theme="dark"] .build-supply-card-desc {
-    background: rgba(0, 0, 0, 0.2);
+[data-theme="dark"] .build-desc-tooltip {
+    background: var(--card-bg);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
 }
 
 .build-accessory-list {

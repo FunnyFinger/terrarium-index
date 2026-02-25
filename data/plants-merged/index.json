@@ -1,5 +1,5 @@
 {
-  "count": 407,
+  "count": 408,
   "plants": [
     "acalypha-hispida.json",
     "acanthostachys-pitcairnioides.json",
@@ -407,6 +407,7 @@
     "cissus-discolor.json",
     "anubias-barteri.json",
     "labisia-pumila.json",
-    "ardisia-japonica.json"
+    "ardisia-japonica.json",
+    "ananas-comosus.json"
   ]
 }

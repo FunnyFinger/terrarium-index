@@ -4408,9 +4408,38 @@ body.shopper-mode .gallery-set-main-btn {
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding: 0.85rem 1.25rem;
+    padding: 1rem 1.25rem;
     border-bottom: 1px solid var(--border-color);
     background: var(--bg-color);
+}
+.plant-gallery-header-main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    flex: 1;
+    min-width: 0;
+}
+.plant-gallery-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-light);
+}
+.plant-gallery-item-name {
+    font-size: 1.35rem;
+    font-weight: 800;
+    margin: 0;
+    line-height: 1.25;
+    color: var(--text-color);
+    letter-spacing: -0.02em;
+}
+.plant-gallery-scientific-name {
+    font-size: 0.95rem;
+    font-style: italic;
+    margin: 0;
+    color: var(--text-light);
+    font-weight: 500;
 }
 .plant-gallery-back {
     padding: 0.4rem 0.75rem;
