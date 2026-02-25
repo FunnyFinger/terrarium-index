@@ -60,6 +60,13 @@
 
     function plantIdNum(pid) { return parseInt(pid, 10) || 0; }
 
+    /** Drainage combos: 50006 = Black Gravel, 50007 = Clay Balls, 50008 = Mesh */
+    var DRAINAGE_COMBOS = [
+        { id: 'combo1', label: 'Black gravel + Clay balls + Mesh', ids: [50006, 50007, 50008] },
+        { id: 'combo2', label: 'Black gravel ×2 + Mesh', ids: [50006, 50006, 50008] },
+        { id: 'combo3', label: 'Clay balls ×2 + Mesh', ids: [50007, 50007, 50008] }
+    ];
+
     function getPlants() {
         var a = window.allPlants || [];
         var b = window.plantsDatabase || (typeof plantsDatabase !== 'undefined' ? plantsDatabase : []);
@@ -171,6 +178,21 @@
             cardTop + cardBody + '</label>';
     }
 
+    /** Display-only supply card (image + name) for use inside drainage combo blocks. */
+    function supplyCardDisplayHtml(e) {
+        var name = escapeHtml(e.name || 'Item');
+        var size = (e.size && String(e.size).trim()) ? escapeHtml(String(e.size).trim()) : '';
+        var imgUrl = e.imageUrl || (e.images && e.images[0]);
+        var imgBlock = imgUrl
+            ? '<div class="build-supply-card-img-wrap"><img src="' + escapeHtml(imgUrl) + '" alt="" class="build-supply-card-img"></div>'
+            : '<div class="build-supply-card-img-wrap"><div class="build-supply-card-img"></div></div>';
+        var body = '<div class="build-supply-card-body">' +
+            '<span class="build-supply-card-name">' + name + '</span>' +
+            (size ? '<div class="build-supply-card-size">' + size + '</div>' : '') + '</div>';
+        return '<div class="build-supply-card build-supply-card-display">' +
+            '<div class="build-supply-card-top">' + imgBlock + '</div>' + body + '</div>';
+    }
+
     function getPlantMaxHeightCm(plant) {
         var s = plant && plant.size;
         if (typeof s !== 'string' || !s.trim()) return null;
@@ -213,14 +235,32 @@
         console.groupEnd();
     }
 
+    /** Small enclosure id (Glass Terrarium Container - Small); show compact/mini plants even with lower type score. */
+    var SMALL_ENCLOSURE_ID = 50001;
+    var PLANT_TYPE_SCORE_THRESHOLD = 25;
+    var MAX_HEIGHT_CM_FOR_SMALL = 35;
+
+    function plantFitsSmallEnclosure(p) {
+        var maxCm = getPlantMaxHeightCm(p);
+        if (maxCm != null && maxCm <= MAX_HEIGHT_CM_FOR_SMALL) return true;
+        var cat = p.category || [];
+        if (Array.isArray(cat) && cat.some(function (c) { return String(c).toLowerCase() === 'mini'; })) return true;
+        return false;
+    }
+
     function getPlantsForType(vivariumType) {
         var plants = getPlants();
         var getScores = window.getPlantVivariumScores;
+        var enclosureId = supplyIdNum(config.enclosureId);
+        var isSmallEnclosure = enclosureId === SMALL_ENCLOSURE_ID;
         if (getScores && vivariumType) {
             var filtered = plants.filter(function (p) {
                 var scores = getScores(p);
                 var score = scores[vivariumType];
-                return score != null && score >= 50;
+                var passesScore = score != null && score >= PLANT_TYPE_SCORE_THRESHOLD;
+                if (passesScore) return true;
+                if (isSmallEnclosure && plantFitsSmallEnclosure(p)) return true;
+                return false;
             });
             if (filtered.length > 0) plants = filtered;
         }
@@ -256,9 +296,10 @@
                 if (el) el.textContent = enc ? 'Selected: ' + enc.name : '';
                 if (stepChoice) stepChoice.textContent = txt2;
             } else if (i === 3) {
-                names = getSupplyNames(config.drainageIds, SUPPLY_CATEGORIES.drainage);
-                if (el) el.textContent = names.length ? 'Selected: ' + names.join(', ') : '';
-                if (stepChoice) stepChoice.textContent = names.join('\n');
+                var drainageCombo = DRAINAGE_COMBOS.filter(function (c) { return drainageIdsMatch(config.drainageIds || [], c.ids); })[0];
+                var drainageLabel = drainageCombo ? drainageCombo.label : '';
+                if (el) el.textContent = drainageLabel ? 'Selected: ' + drainageLabel : '';
+                if (stepChoice) stepChoice.textContent = drainageLabel;
             } else if (i === 4) {
                 names = getSupplyNames(config.substrateIds, SUPPLY_CATEGORIES.soil);
                 if (el) el.textContent = names.length ? 'Selected: ' + names.join(', ') : '';
@@ -321,7 +362,7 @@
                 btn.classList.add('build-option-selected');
                 document.querySelector('[data-next="2"]').disabled = false;
                 renderEnclosureOptions();
-                renderSupplyMulti('buildDrainageOptions', SUPPLY_CATEGORIES.drainage, 'drainageIds');
+                renderDrainageOptions();
                 renderSupplyMulti('buildSubstrateOptions', SUPPLY_CATEGORIES.soil, 'substrateIds');
                 renderSupplyMulti('buildHardscapeOptions', SUPPLY_CATEGORIES.hardscape, 'hardscapeIds');
                 renderPlantList();
@@ -331,6 +372,56 @@
                 updateSelectedDisplay();
             });
         });
+        updateSelectedDisplay();
+    }
+
+    function drainageIdsMatch(idsA, idsB) {
+        if (!idsA || !idsB || idsA.length !== idsB.length) return false;
+        var a = idsA.map(supplyIdNum).sort(function (x, y) { return x - y; });
+        var b = idsB.map(supplyIdNum).sort(function (x, y) { return x - y; });
+        for (var i = 0; i < a.length; i++) { if (a[i] !== b[i]) return false; }
+        return true;
+    }
+
+    function renderDrainageOptions() {
+        var el = document.getElementById('buildDrainageOptions');
+        if (!el) return;
+        el.classList.remove('build-options');
+        el.classList.add('build-supply-list', 'build-drainage-combo-list');
+        var equipment = getEquipment();
+        var current = (config.drainageIds || []).map(supplyIdNum);
+        el.innerHTML = DRAINAGE_COMBOS.map(function (combo) {
+            var selected = drainageIdsMatch(current, combo.ids);
+            var selClass = selected ? ' build-drainage-combo-selected' : '';
+            var cardsHtml = combo.ids.map(function (id) {
+                var e = equipment.filter(function (x) { return supplyIdNum(x.id) === supplyIdNum(id); })[0];
+                return e ? supplyCardDisplayHtml(e) : '';
+            }).filter(Boolean).join('');
+            var checkContent = selected ? '✓' : '';
+            return '<button type="button" class="build-drainage-combo' + selClass + '" data-drainage-combo="' + escapeHtml(combo.id) + '">' +
+                '<span class="build-drainage-combo-check" aria-hidden="true">' + checkContent + '</span>' +
+                '<div class="build-drainage-combo-cards">' + cardsHtml + '</div></button>';
+        }).join('');
+        el.querySelectorAll('.build-drainage-combo').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var comboId = btn.getAttribute('data-drainage-combo');
+                var combo = DRAINAGE_COMBOS.filter(function (c) { return c.id === comboId; })[0];
+                if (combo) config.drainageIds = combo.ids.slice();
+                document.querySelectorAll('#buildDrainageOptions .build-drainage-combo').forEach(function (b) {
+                    b.classList.remove('build-drainage-combo-selected');
+                    var ch = b.querySelector('.build-drainage-combo-check');
+                    if (ch) ch.textContent = '';
+                });
+                btn.classList.add('build-drainage-combo-selected');
+                var ch = btn.querySelector('.build-drainage-combo-check');
+                if (ch) ch.textContent = '✓';
+                var nextBtn = document.querySelector('#buildPanel3 [data-next="4"]');
+                if (nextBtn) nextBtn.disabled = false;
+                updateSelectedDisplay();
+            });
+        });
+        var nextBtn = document.querySelector('#buildPanel3 [data-next="4"]');
+        if (nextBtn) nextBtn.disabled = !config.drainageIds.length;
         updateSelectedDisplay();
     }
 
@@ -423,6 +514,18 @@
                 return false;
             });
         }
+        // Selected plants first (in selection order), then the rest
+        var selectedIds = config.plantIds || [];
+        plants = plants.slice().sort(function (a, b) {
+            var aid = plantIdNum(a.id);
+            var bid = plantIdNum(b.id);
+            var aSel = selectedIds.indexOf(aid);
+            var bSel = selectedIds.indexOf(bid);
+            if (aSel !== -1 && bSel !== -1) return aSel - bSel;
+            if (aSel !== -1) return -1;
+            if (bSel !== -1) return 1;
+            return 0;
+        });
         var totalPlants = plants.length;
         var totalPages = Math.max(1, Math.ceil(totalPlants / BUILD_PLANTS_PAGE_SIZE));
         buildPlantPage = Math.max(1, Math.min(buildPlantPage, totalPages));
@@ -804,7 +907,7 @@
         logBuildStepSupplies(true);
         renderTypeOptions();
         renderEnclosureOptions();
-        renderSupplyMulti('buildDrainageOptions', SUPPLY_CATEGORIES.drainage, 'drainageIds');
+        renderDrainageOptions();
         renderSupplyMulti('buildSubstrateOptions', SUPPLY_CATEGORIES.soil, 'substrateIds');
         renderSupplyMulti('buildHardscapeOptions', SUPPLY_CATEGORIES.hardscape, 'hardscapeIds');
         renderPlantList();

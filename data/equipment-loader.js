@@ -5,22 +5,36 @@
  */
 (function () {
     'use strict';
-    function getEquipmentUrl() {
+    function getDataBaseUrl() {
         try {
             var script = document.currentScript;
             if (script && script.src) {
-                var base = script.src.replace(/\/[^/]+$/, '/');
-                return base + 'equipment.json';
+                return script.src.replace(/\/[^/]+$/, '/');
             }
         } catch (e) { /* ignore */ }
-        return (typeof document !== 'undefined' && document.baseURI ? new URL('data/equipment.json', document.baseURI).href : 'data/equipment.json');
+        return (typeof document !== 'undefined' && document.baseURI ? new URL('data/', document.baseURI).href : 'data/');
     }
-    const EQUIPMENT_URL = getEquipmentUrl();
+    const DATA_BASE = getDataBaseUrl();
 
     async function loadEquipment() {
         if (typeof window === 'undefined') return [];
         try {
-            const resp = await fetch(EQUIPMENT_URL + '?v=' + Date.now(), { cache: 'no-store' });
+            // Prefer repo overrides (synced from local edits when using sync server)
+            const overridesResp = await fetch(DATA_BASE + 'overrides/equipment.json?v=' + Date.now(), { cache: 'no-store' });
+            if (overridesResp.ok) {
+                const data = await overridesResp.json();
+                const list = Array.isArray(data) ? data : (data.items || data.equipment || []);
+                if (Array.isArray(list) && list.length) {
+                    const byId = {};
+                    list.forEach(function (item) {
+                        if (!item || item.id == null) return;
+                        byId[item.id] = Object.assign({}, byId[item.id] || {}, item);
+                    });
+                    window.equipmentData = Object.values(byId);
+                    return window.equipmentData;
+                }
+            }
+            const resp = await fetch(DATA_BASE + 'equipment.json?v=' + Date.now(), { cache: 'no-store' });
             if (!resp.ok) return [];
             const data = await resp.json();
             let list = Array.isArray(data) ? data : (data.items || data.equipment || []);
@@ -29,7 +43,6 @@
                 const customEq = custom ? JSON.parse(custom) : [];
                 if (Array.isArray(customEq) && customEq.length) list = (list || []).concat(customEq);
             } catch (err) { /* ignore */ }
-            // De-duplicate by id (custom entries override base file when ids clash)
             if (Array.isArray(list) && list.length) {
                 const byId = {};
                 list.forEach(function (item) {

@@ -1085,6 +1085,7 @@ async function saveEquipmentImageFilesToFolder(equipment, imageFiles) {
     try {
         localStorage.setItem('equipment_' + equipment.id + '_images', JSON.stringify(allPaths));
         localStorage.setItem('equipment_' + equipment.id + '_imageUrl', allPaths[0]);
+        if (typeof window !== 'undefined' && typeof window.syncToRepo === 'function') window.syncToRepo();
     } catch (e) { /* ignore */ }
     return { success: true, savedPaths: allPaths };
 }
@@ -1423,6 +1424,7 @@ async function saveSingleImage(imageFile, isUrl, imageIndex, totalImages, plantF
                 if (currentUploadPlant.imageUrl) {
                     localStorage.setItem(`plant_${currentUploadPlant.id}_imageUrl`, currentUploadPlant.imageUrl);
                 }
+                if (typeof window !== 'undefined' && typeof window.syncToRepo === 'function') window.syncToRepo();
             } catch (e) {
                 console.log('Could not save to localStorage:', e);
             }

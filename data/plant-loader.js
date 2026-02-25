@@ -39,6 +39,32 @@ function applyPlantEditOverlays(plantsArray) {
     }
 }
 
+/** Apply edit overlays from repo (data/overrides/plant-edits.json). Keyed by plant id. */
+function applyPlantEditOverlaysFromRepo(plantsArray, editsById) {
+    if (!plantsArray || !editsById || typeof editsById !== 'object') return;
+    for (let i = 0; i < plantsArray.length; i++) {
+        const id = plantsArray[i].id;
+        if (id == null) continue;
+        const parsed = editsById[id] || editsById[String(id)];
+        if (!parsed || typeof parsed !== 'object') continue;
+        if (plantsArray[i].id === 2) {
+            const name = (parsed.name || '').trim();
+            const sci = (typeof parsed.scientificName === 'string' ? parsed.scientificName : (parsed.scientificName && parsed.scientificName.name)) || '';
+            if (name === "Baby's Tears" || (sci && sci.indexOf('Soleirolia') !== -1)) continue;
+        }
+        const base = plantsArray[i];
+        const merged = { ...base };
+        for (const k of Object.keys(parsed)) {
+            const v = parsed[k];
+            if (v === undefined || v === null) continue;
+            if (k === 'description' && (v === '' || (typeof v === 'string' && !v.trim()))) continue;
+            if (k === 'careTips' && (!Array.isArray(v) || v.length === 0)) continue;
+            merged[k] = v;
+        }
+        plantsArray[i] = merged;
+    }
+}
+
 /** Cache-friendly version for plant data (bump when bundle is rebuilt). Per-file fallback uses this too. */
 const PLANTS_DATA_VERSION = 1;
 
@@ -80,6 +106,10 @@ async function loadAllPlants() {
                 plantsDatabase.length = 0;
                 plantsDatabase.push(...deduped);
                 applyPlantEditOverlays(plantsDatabase);
+                try {
+                    const ovResp = await fetch('data/overrides/plant-edits.json?v=' + Date.now(), { cache: 'no-store' });
+                    if (ovResp.ok) applyPlantEditOverlaysFromRepo(plantsDatabase, await ovResp.json());
+                } catch (_) { /* ignore */ }
                 if (typeof window !== 'undefined') window.plantsDatabase = plantsDatabase;
                 console.log(`✅ Loaded ${plantsDatabase.length} plants from bundle (1 request)`);
                 return plantsDatabase;
@@ -129,6 +159,10 @@ async function loadAllPlants() {
                 plantsDatabase.length = 0;
                 plantsDatabase.push(...deduped);
                 applyPlantEditOverlays(plantsDatabase);
+                try {
+                    const ovResp = await fetch('data/overrides/plant-edits.json?v=' + Date.now(), { cache: 'no-store' });
+                    if (ovResp.ok) applyPlantEditOverlaysFromRepo(plantsDatabase, await ovResp.json());
+                } catch (_) { /* ignore */ }
                 if (typeof window !== 'undefined') window.plantsDatabase = plantsDatabase;
                 console.log(`✅ Loaded ${plantsDatabase.length} plants from plants-merged${failedCount > 0 ? ` (${failedCount} failed)` : ''}`);
                 return plantsDatabase;
@@ -161,6 +195,10 @@ async function loadAllPlants() {
                 plantsDatabase.length = 0;
                 plantsDatabase.push(...deduped);
                 applyPlantEditOverlays(plantsDatabase);
+                try {
+                    const ovResp = await fetch('data/overrides/plant-edits.json?v=' + Date.now(), { cache: 'no-store' });
+                    if (ovResp.ok) applyPlantEditOverlaysFromRepo(plantsDatabase, await ovResp.json());
+                } catch (_) { /* ignore */ }
                 if (typeof window !== 'undefined') window.plantsDatabase = plantsDatabase;
                 console.log(`✅ Loaded ${plantsDatabase.length} plants from category index`);
                 return plantsDatabase;

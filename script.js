@@ -38,6 +38,79 @@ const {
     init: initImageUtils
 } = imageUtils;
 
+/** When running on localhost, sync localStorage-backed edits to repo (data/overrides/) via sync server so push reflects on hosted site. */
+var REPO_SYNC_URL = (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) ? window.location.origin : '';
+var _repoSyncTimeout = null;
+function syncToRepo() {
+    if (!REPO_SYNC_URL) return;
+    clearTimeout(_repoSyncTimeout);
+    _repoSyncTimeout = setTimeout(function () {
+        var list = window.allEquipment || [];
+        var equipment = list.map(function (e) {
+            var o = Object.assign({}, e);
+            try {
+                var edit = localStorage.getItem('equipment_' + e.id + '_edit');
+                if (edit) {
+                    var parsed = JSON.parse(edit);
+                    if (parsed && typeof parsed === 'object') Object.assign(o, parsed);
+                }
+                var imgUrl = localStorage.getItem('equipment_' + e.id + '_imageUrl');
+                var imgs = localStorage.getItem('equipment_' + e.id + '_images');
+                if (imgUrl) o.imageUrl = imgUrl;
+                if (imgs) try { o.images = JSON.parse(imgs); } catch (err) { }
+            } catch (e) { }
+            return o;
+        });
+        var plantEdits = {};
+        try {
+            for (var i = 0; i < localStorage.length; i++) {
+                var key = localStorage.key(i);
+                if (key && key.indexOf('plant_edit_') === 0) {
+                    var id = key.replace('plant_edit_', '');
+                    var val = localStorage.getItem(key);
+                    if (val) {
+                        try {
+                            var overlay = JSON.parse(val);
+                            var imgUrl = localStorage.getItem('plant_' + id + '_imageUrl');
+                            var imgs = localStorage.getItem('plant_' + id + '_images');
+                            if (imgUrl) overlay.imageUrl = imgUrl;
+                            if (imgs) try { overlay.images = JSON.parse(imgs); } catch (err) { }
+                            plantEdits[id] = overlay;
+                        } catch (e) { }
+                    }
+                }
+            }
+        } catch (e) { }
+        var vivariumEdits = {};
+        var customVivariums = [];
+        try { customVivariums = JSON.parse(localStorage.getItem('custom_vivariums') || '[]'); } catch (e) { }
+        try {
+            for (var j = 0; j < localStorage.length; j++) {
+                var k = localStorage.key(j);
+                if (k && k.indexOf('vivarium_') === 0 && k.indexOf('_edit') !== -1) {
+                    var id = k.replace('vivarium_', '').replace('_edit', '');
+                    var raw = localStorage.getItem(k);
+                    if (raw) {
+                        try {
+                            var ed = JSON.parse(raw);
+                            var vImg = localStorage.getItem('vivarium_' + id + '_imageUrl');
+                            var vImgs = localStorage.getItem('vivarium_' + id + '_images');
+                            if (vImg) ed.imageUrl = vImg;
+                            if (vImgs) try { ed.images = JSON.parse(vImgs); } catch (err) { }
+                            vivariumEdits[id] = ed;
+                        } catch (e) { }
+                    }
+                }
+            }
+        } catch (e) { }
+        fetch(REPO_SYNC_URL + '/api/sync', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ equipment: equipment, plantEdits: plantEdits, vivariumEdits: vivariumEdits, customVivariums: customVivariums })
+        }).catch(function () { });
+    }, 600);
+}
+
 const PLANT_RENDER_BATCH_SIZE = 60; // Increased for faster initial render
 let plantsPerPage = 24;
 let currentPlantsPage = 1;
@@ -4931,10 +5004,12 @@ function saveVivariumEdit() {
             if (!Array.isArray(custom)) custom = [];
             custom.push(vivariumEditing);
             localStorage.setItem('custom_vivariums', JSON.stringify(custom));
+            if (typeof syncToRepo === 'function') syncToRepo();
         } catch (e) { /* ignore */ }
     } else {
         try {
             localStorage.setItem('vivarium_' + id + '_edit', JSON.stringify({ name: name, description: description || undefined, price: price, type: type, availability: availability, plantIds: plantIds, supplyIds: supplyIds }));
+            if (typeof syncToRepo === 'function') syncToRepo();
         } catch (e) { /* ignore */ }
     }
     if (window.inventoryDb && window.inventoryDb.setItem && id != null) {
@@ -5582,6 +5657,7 @@ function saveEquipmentEdit() {
             if (!Array.isArray(custom)) custom = [];
             custom.push(equipmentEditing);
             localStorage.setItem('custom_equipment', JSON.stringify(custom));
+            if (typeof syncToRepo === 'function') syncToRepo();
         } catch (e) { /* ignore */ }
     } else {
         try {
@@ -5596,6 +5672,7 @@ function saveEquipmentEdit() {
                 quantityInStock: (typeof stock === 'number' && !isNaN(stock)) ? stock : equipmentEditing.stockQuantity,
                 reorderLevel: (reorder != null && !isNaN(reorder)) ? reorder : equipmentEditing.reorderLevel
             }));
+            if (typeof syncToRepo === 'function') syncToRepo();
         } catch (e) { /* ignore */ }
     }
     if (window.inventoryDb) {
@@ -5973,6 +6050,7 @@ async function showPlantModal(plant) {
             if (plant.imageUrl) {
                 localStorage.setItem(`plant_${plant.id}_imageUrl`, plant.imageUrl);
             }
+            if (typeof syncToRepo === 'function') syncToRepo();
         } catch (e) {
             // Silent - localStorage update failed
         }
@@ -6943,6 +7021,7 @@ function discoverImagesForCurrentPage() {
                             localStorage.setItem(`plant_${plant.id}_images`, JSON.stringify(plant.images));
                             if (plant.imageUrl) localStorage.setItem(`plant_${plant.id}_imageUrl`, plant.imageUrl);
                             if (highest > 0) localStorage.setItem(`plant_${plant.id}_maxImage`, String(highest));
+                            if (typeof syncToRepo === 'function') syncToRepo();
                         } catch (e) {}
                         updatePlantCardImage(plant.id, plant.imageUrl);
                     } else {
@@ -7623,6 +7702,7 @@ async function savePlantToJsonFile(plant) {
                 
                 try {
                     localStorage.setItem('plant_edit_' + plant.id, jsonContent.trim());
+                    if (typeof syncToRepo === 'function') syncToRepo();
                 } catch (e) { /* ignore */ }
                 console.log(`✅ Saved plant JSON: data/plants-merged/${filename}`);
                 return true;
@@ -7636,6 +7716,7 @@ async function savePlantToJsonFile(plant) {
                 delete plantDataToSave._filename;
                 delete plantDataToSave._filePath;
                 localStorage.setItem('plant_edit_' + plant.id, JSON.stringify(plantDataToSave, null, 2));
+                if (typeof syncToRepo === 'function') syncToRepo();
             } catch (e) { /* ignore */ }
             console.log('ℹ️ Plant JSON not saved to file (folder access not available). Edits stored in browser for this session.');
             return false;
@@ -7667,6 +7748,7 @@ function removeImageFromGallery(plantId, imgPath, index) {
         } else {
             localStorage.removeItem(`plant_${plantId}_images`);
         }
+        if (typeof syncToRepo === 'function') syncToRepo();
     } catch (e) {
         // Silent - localStorage update failed
     }
