@@ -7133,6 +7133,14 @@ body:has(.upload-modal.show) {
     .plants-grid.card-size-large .plant-name {
         font-size: 0.85rem;
     }
+    .plants-grid.card-size-large .equipment-card .plant-name {
+        font-size: 0.75rem;
+        line-height: 1.2;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
     .plants-grid.card-size-large .plant-scientific {
         font-size: 0.65rem;
     }
