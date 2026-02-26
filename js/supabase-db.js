@@ -62,6 +62,13 @@
         }).catch(function () { return undefined; });
     }
 
+    function deleteInventoryRow(plantId) {
+        var id = Number(plantId);
+        if (!isFinite(id)) return Promise.resolve();
+        if (!isConfigured()) return Promise.resolve();
+        return request('DELETE', '/inventory?plant_id=eq.' + id).then(function () {});
+    }
+
     function setInventoryRow(plantId, data) {
         var id = Number(plantId);
         if (!isFinite(id)) return Promise.resolve();
@@ -156,6 +163,7 @@
         getInventory: getInventory,
         getInventoryItem: getInventoryItem,
         setInventoryRow: setInventoryRow,
+        deleteInventoryRow: deleteInventoryRow,
         getCustomEquipment: getCustomEquipment,
         saveCustomEquipment: saveCustomEquipment,
         getCustomVivariums: getCustomVivariums,

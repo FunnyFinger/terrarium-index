@@ -86,6 +86,20 @@
     }
 
     /**
+     * Remove an item from inventory (clears its price, stock, etc. from the inventory store).
+     * The product stays in the catalog; only the inventory row is deleted.
+     * @param {number} plantId
+     * @returns {Promise<void>}
+     */
+    function deleteItem(plantId) {
+        var database = getDb();
+        if (!database) return Promise.resolve();
+        var id = Number(plantId);
+        if (!isFinite(id)) return Promise.resolve();
+        return database.inventory.delete(id);
+    }
+
+    /**
      * Record a sale (for history and optional stock decrement).
      * @param {number} plantId
      * @param {number} quantity
@@ -255,6 +269,7 @@
         getItem: getItem,
         getAll: getAll,
         setItem: setItem,
+        deleteItem: deleteItem,
         recordSale: recordSale,
         decrementStock: decrementStock,
         getRecentSales: getRecentSales,

@@ -169,6 +169,7 @@
                 <button type="button" class="inv-edit-btn" id="invBatchSelectAll">Select all</button>
                 <button type="button" class="inv-edit-btn" id="invBatchClear">Clear selection</button>
                 <button type="button" class="inv-edit-btn" id="invBatchEdit">Batch edit</button>
+                <button type="button" class="inv-edit-btn" id="invBatchDeleteFromInventory" style="background: #b91c1c;">Delete from inventory</button>
             </div>
             <div id="invTableWrap" class="inv-table-wrap">
                 <div id="invLoading" class="inv-loading">Loading plants and inventory…</div>
@@ -273,6 +274,7 @@
             <div id="invDetailBody" style="font-size: 0.95rem; line-height: 1.5;"></div>
             <div class="inv-editor-actions inv-staff-only" style="margin-top: 1rem;">
                 <button type="button" class="save" id="invDetailEdit">Edit</button>
+                <button type="button" class="inv-edit-btn" id="invDetailDeleteFromInventory" style="background: #b91c1c;">Remove from inventory</button>
                 <button type="button" class="cancel" id="invDetailCloseBtn">Close</button>
             </div>
         </div>
@@ -897,6 +899,17 @@
                     frame.src = editUrl;
                 }
             });
+            document.getElementById('invDetailDeleteFromInventory').addEventListener('click', function() {
+                var id = window.invDetailPlantId;
+                if (id == null) return;
+                if (!confirm('Remove this item from inventory? Its price and stock will be cleared. The product stays in the catalog.')) return;
+                var inv = window.inventoryDb;
+                if (!inv || !inv.deleteItem) return;
+                inv.deleteItem(id).then(function() {
+                    closeDetailModal();
+                    loadAndRender();
+                });
+            });
             document.getElementById('invSearch').addEventListener('input', function() {
                 invFilterQuery = this.value;
                 invCurrentPage = 1;
@@ -979,6 +992,19 @@
                 var unitEl = document.getElementById('invBatchUnit');
                 if (unitEl) unitEl.value = '';
                 document.getElementById('invBatchEditor').classList.remove('hidden');
+            });
+            document.getElementById('invBatchDeleteFromInventory').addEventListener('click', function() {
+                var ids = Object.keys(invSelectedIds).filter(function(id) { return invSelectedIds[id]; }).map(Number);
+                if (ids.length === 0) return;
+                if (!confirm('Remove ' + ids.length + ' item(s) from inventory? Their price and stock will be cleared. The products stay in the catalog.')) return;
+                var inv = window.inventoryDb;
+                if (!inv || !inv.deleteItem) return;
+                Promise.all(ids.map(function(id) { return inv.deleteItem(id); })).then(function() {
+                    invSelectedIds = {};
+                    document.querySelectorAll('.inv-row-select, #invSelectAll').forEach(function(cb) { cb.checked = false; });
+                    updateBatchBar();
+                    loadAndRender();
+                });
             });
             document.getElementById('invBatchCancel').addEventListener('click', function() {
                 document.getElementById('invBatchEditor').classList.add('hidden');

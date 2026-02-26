@@ -11,6 +11,7 @@
     inv.getAll = function () { return sup.getInventory(); };
     inv.getItem = function (plantId) { return sup.getInventoryItem(plantId); };
     inv.setItem = function (plantId, data) { return sup.setInventoryRow(plantId, data); };
+    inv.deleteItem = function (plantId) { return sup.deleteInventoryRow(plantId); };
     inv.mergeInventoryIntoPlants = function (plants) {
         if (!plants || !plants.length) return Promise.resolve();
         return sup.getInventory().then(function (rows) {
