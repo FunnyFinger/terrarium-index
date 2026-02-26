@@ -8803,6 +8803,13 @@ function generateCareCard(plantId) {
         }
     }
     
+    // Plant page URL for QR code (same origin + hash so it works on localhost and hosted site)
+    let base = window.location.origin + (window.location.pathname || '/');
+    if (base.endsWith('.html')) base = base.replace(/\/[^/]*$/, '/');
+    else if (!base.endsWith('/')) base = base.replace(/\/[^/]*$/, '') + '/';
+    const plantPageUrl = base + '#' + plantId;
+    const qrImageUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=96x96&margin=1&data=' + encodeURIComponent(plantPageUrl);
+
     // Create HTML content
     const htmlContent = `
 <!DOCTYPE html>
@@ -8927,6 +8934,26 @@ function generateCareCard(plantId) {
         .care-badge.vivarium {
             background-color: #d1ecf1;
             color: #0c5460;
+        }
+        
+        .care-qr-row {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 2mm;
+            margin-top: 2mm;
+            padding-top: 2mm;
+            border-top: 1px solid #eee;
+        }
+        .care-qr-label {
+            font-size: 7pt;
+            color: #7f8c8d;
+            text-align: right;
+        }
+        .care-qr-container img {
+            display: block;
+            width: 20mm;
+            height: 20mm;
         }
         
         .care-left-section {
@@ -9209,6 +9236,10 @@ function generateCareCard(plantId) {
             </div>
         </div>
         ${badgesHTML ? `<div class="care-badges">${badgesHTML}</div>` : ''}
+        <div class="care-qr-row">
+            <span class="care-qr-label">Scan for plant page</span>
+            <div class="care-qr-container"><img src="${qrImageUrl}" alt="QR code" width="96" height="96"></div>
+        </div>
     </div>
     <script>
         window.onload = function() {
