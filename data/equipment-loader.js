@@ -7,12 +7,16 @@
     'use strict';
     function getDataBaseUrl() {
         try {
+            if (typeof document !== 'undefined' && document.baseURI) {
+                var base = new URL('data/', document.baseURI).href;
+                if (base) return base;
+            }
             var script = document.currentScript;
             if (script && script.src) {
                 return script.src.replace(/\/[^/]+$/, '/');
             }
         } catch (e) { /* ignore */ }
-        return (typeof document !== 'undefined' && document.baseURI ? new URL('data/', document.baseURI).href : 'data/');
+        return 'data/';
     }
     const DATA_BASE = getDataBaseUrl();
 
@@ -34,7 +38,10 @@
                     return window.equipmentData;
                 }
             }
-            const resp = await fetch(DATA_BASE + 'equipment.json?v=' + Date.now(), { cache: 'no-store' });
+            var resp = await fetch(DATA_BASE + 'equipment.json?v=' + Date.now(), { cache: 'no-store' });
+            if (!resp.ok && DATA_BASE !== 'data/') {
+                resp = await fetch('data/equipment.json?v=' + Date.now(), { cache: 'no-store' });
+            }
             if (!resp.ok) return [];
             const data = await resp.json();
             let list = Array.isArray(data) ? data : (data.items || data.equipment || []);

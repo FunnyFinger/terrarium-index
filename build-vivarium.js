@@ -1137,12 +1137,12 @@
     function ensureEquipmentThenInit() {
         if (typeof window.loadEquipment === 'function') {
             window.loadEquipment().then(function (list) {
-                // Prefer inventory-backed equipment list when available,
-                // but fall back to whatever equipment-loader.js already provided.
                 var fallback = getEquipment();
-                var arr = Array.isArray(list) && list.length ? list : (Array.isArray(fallback) ? fallback : []);
-                window.allEquipment = arr;
-                window.equipmentData = arr;
+                var arr = Array.isArray(list) && list.length ? list : (Array.isArray(fallback) && fallback.length ? fallback : []);
+                if (arr.length > 0) {
+                    window.allEquipment = arr;
+                    window.equipmentData = arr;
+                }
                 function doInit() {
                     init();
                 }
@@ -1155,9 +1155,15 @@
                     return refreshInventorySupplyIds().then(doInit);
                 }
                 refreshInventorySupplyIds().then(doInit);
-            }).catch(function () {
-                window.allEquipment = [];
-                window.equipmentData = [];
+            }).catch(function (err) {
+                var existing = getEquipment();
+                if (Array.isArray(existing) && existing.length > 0) {
+                    window.allEquipment = existing;
+                    window.equipmentData = existing;
+                } else {
+                    window.allEquipment = [];
+                    window.equipmentData = [];
+                }
                 inventorySupplyIds = null;
                 init();
             });
