@@ -824,6 +824,9 @@ html.detail-startup body {
     body.filters-drawer-open .filters-content {
         padding-top: 0;
     }
+    body.filters-drawer-open .legend-sidebar-reopen-btn {
+        display: none !important;
+    }
     
     .filters-sidebar {
         width: 100%;
