@@ -852,8 +852,8 @@
     }
 
     function addBuildToCart() {
-        var cart = getCart();
-        cart = cart.filter(function (i) { return i.plantId !== LABOUR_VIVARIUM_ID; });
+        var cartBefore = getCart().filter(function (i) { return i.plantId !== LABOUR_VIVARIUM_ID; });
+        var cart = cartBefore.slice();
         var plants = getPlants();
         var equipment = getEquipment();
         if (config.enclosureId) addSupplyToCart(cart, equipment, config.enclosureId);
@@ -877,6 +877,22 @@
         cart.push({ plantId: LABOUR_VIVARIUM_ID, name: 'Labour (Vivarium build)', scientificName: '', quantity: 1, price: LABOUR_CHARGE_KD });
         setCart(cart);
 
+        // Compute total price for THIS build only (excluding any items that were already in the cart before starting the builder).
+        var beforeQtyById = {};
+        cartBefore.forEach(function (item) {
+            var key = String(item.plantId);
+            beforeQtyById[key] = (beforeQtyById[key] || 0) + (item.quantity || 0);
+        });
+        var buildTotal = cart.reduce(function (sum, item) {
+            var key = String(item.plantId);
+            var prevQty = beforeQtyById[key] || 0;
+            var deltaQty = (item.quantity || 0) - prevQty;
+            if (deltaQty > 0 && item.price != null) {
+                sum += Number(item.price) * deltaQty;
+            }
+            return sum;
+        }, 0);
+
         var typeName = (BUILD_TYPES.filter(function (t) { return t.id === config.type; })[0] || {}).name || 'Vivarium';
         var customVivarium = {
             id: getNextCustomVivariumId(),
@@ -893,7 +909,7 @@
                 config.accessoryIds || [],
                 config.toolIds || []
             ),
-            price: null,
+            price: buildTotal > 0 ? Number(buildTotal.toFixed(3)) : null,
             availability: 'in-stock',
             _buildConfig: {
                 type: config.type,
@@ -914,6 +930,21 @@
             localStorage.setItem('custom_vivariums', JSON.stringify(custom));
             if (typeof window.syncToRepo === 'function') window.syncToRepo();
         } catch (e) { }
+
+        // Also create an inventory row so the custom vivarium shows a cost equal to the build price.
+        try {
+            if (window.inventoryDb && typeof window.inventoryDb.setItem === 'function' && customVivarium.id != null && buildTotal > 0) {
+                window.inventoryDb.setItem(customVivarium.id, {
+                    name: customVivarium.name,
+                    scientificName: '',
+                    price: customVivarium.price,
+                    costPrice: customVivarium.price,
+                    quantityInStock: 0,
+                    reorderLevel: 0,
+                    description: customVivarium.description
+                });
+            }
+        } catch (e) { /* ignore */ }
 
         var base = window.location.href.replace(/\/[^/]*$/, '/');
         window.location.href = base + 'checkout.html';
