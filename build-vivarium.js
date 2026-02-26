@@ -90,14 +90,6 @@
         var catalog = getEquipment();
         if (!catalog.length) return [];
         var eq = catalog;
-        if (inventorySupplyIds !== null) {
-            var idSet = inventorySupplyIds;
-            eq = catalog.filter(function (e) {
-                var id = supplyIdNum(e.id);
-                return idSet.has(id) || idSet.has(String(id));
-            });
-            if (!eq.length) return [];
-        }
         var allowed = CATEGORY_MAP[category];
         if (!allowed) allowed = [category];
         var allowedLower = allowed.map(function (c) { return (c || '').toLowerCase(); });
