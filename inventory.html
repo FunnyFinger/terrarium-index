@@ -331,6 +331,7 @@
     <script src="data/plant-loader.js?v=4"></script>
     <script src="data/equipment-loader.js"></script>
     <script src="data/vivarium-loader.js"></script>
+    <script src="images.js?v=11"></script>
     <script>
         (function() {
             if (!window.auth || !window.auth.canManageStock()) {
@@ -502,20 +503,25 @@
             }
             function getItemImageUrl(p) {
                 if (!p) return '';
+                var url = '';
                 if (invCurrentCategory === 'equipment') {
-                    var eqUrl = (typeof localStorage !== 'undefined' && localStorage.getItem('equipment_' + p.id + '_imageUrl')) || p.imageUrl || (p.images && p.images[0]);
-                    return eqUrl || '';
+                    url = (typeof localStorage !== 'undefined' && localStorage.getItem('equipment_' + p.id + '_imageUrl')) || p.imageUrl || (p.images && p.images[0]) || '';
+                } else if (invCurrentCategory === 'vivariums') {
+                    url = (typeof localStorage !== 'undefined' && localStorage.getItem('vivarium_' + p.id + '_imageUrl')) || p.imageUrl || (p.images && p.images[0]) || '';
+                } else {
+                    var saved = typeof localStorage !== 'undefined' ? localStorage.getItem('plant_' + p.id + '_imageUrl') : null;
+                    if (saved) url = saved;
+                    else if (p.imageUrl) url = p.imageUrl;
+                    else if (p.images && p.images[0]) url = p.images[0];
+                    else {
+                        var slug = slugifyForImage(getScientific(p) || p.name);
+                        if (slug) url = 'images/plants/' + slug + '/' + slug + '-1.jpg';
+                    }
                 }
-                if (invCurrentCategory === 'vivariums') {
-                    var vUrl = (typeof localStorage !== 'undefined' && localStorage.getItem('vivarium_' + p.id + '_imageUrl')) || p.imageUrl || (p.images && p.images[0]);
-                    return vUrl || '';
+                if (url && window.imageUtils && typeof window.imageUtils.normalizePlantImagePath === 'function') {
+                    url = window.imageUtils.normalizePlantImagePath(url);
                 }
-                var saved = typeof localStorage !== 'undefined' ? localStorage.getItem('plant_' + p.id + '_imageUrl') : null;
-                if (saved) return saved;
-                if (p.imageUrl) return p.imageUrl;
-                if (p.images && p.images[0]) return p.images[0];
-                var slug = slugifyForImage(getScientific(p) || p.name);
-                return slug ? 'images/' + slug + '/' + slug + '-1.jpg' : '';
+                return url || '';
             }
             var formatPrice = function(n) {
                 if (n == null || isNaN(n)) return '—';
