@@ -806,10 +806,14 @@ html.detail-startup body {
         pointer-events: auto;
     }
     body.filters-drawer-open .filters-sidebar {
-        width: min(100%, 360px);
-        max-height: calc(100vh - var(--main-nav-height));
-        margin: 0 auto;
-        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+        /* Full-screen filters panel on mobile */
+        width: 100%;
+        min-width: 100%;
+        height: calc(100vh - var(--main-nav-height));
+        max-height: none;
+        margin: 0;
+        border-radius: 0;
+        box-shadow: none;
     }
     body.filters-drawer-open .control-panel-edge-actions {
         display: none;
