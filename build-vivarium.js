@@ -1202,8 +1202,15 @@
                     }
                 });
             }
-            inventorySupplyIds = set;
-            inventorySupplyIdOrder = order;
+            // If the inventory has no supply rows yet (e.g. on the hosted site),
+            // fall back to showing all equipment from equipment.json instead of an empty list.
+            if (set.size === 0) {
+                inventorySupplyIds = null;
+                inventorySupplyIdOrder = [];
+            } else {
+                inventorySupplyIds = set;
+                inventorySupplyIdOrder = order;
+            }
         }).catch(function () {
             inventorySupplyIds = null;
             inventorySupplyIdOrder = [];
