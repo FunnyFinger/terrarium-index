@@ -560,6 +560,16 @@
         while (config.plantIds.length > maxPlants) config.plantIds.pop();
         var type = config.type;
         var all = getPlants();
+        // Hosted-site safety: if plants are not loaded yet, trigger a load and re-render once ready.
+        if ((!all || !all.length) && typeof loadAllPlants === 'function') {
+            loadAllPlants().then(function() {
+                // loadAllPlants populates window.plantsDatabase; re-render once data is ready.
+                renderPlantList();
+            }).catch(function() {
+                // If loading fails, leave the list empty rather than breaking the UI.
+            });
+            return;
+        }
         var plants = type ? getPlantsForType(type) : all;
         if (plants.length === 0 && all.length > 0) plants = all;
         var q = (searchEl && searchEl.value) ? searchEl.value.trim().toLowerCase() : '';
