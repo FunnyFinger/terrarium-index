@@ -199,11 +199,10 @@
         return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     }
 
-    /** Build HTML for one supply card (same visual as plant card). singleSelect: true = button with selected state, false = label + checkbox. Description shown in tooltip on hover. */
+    /** Build HTML for one supply card (same visual as plant card). singleSelect: true = button with selected state, false = label + checkbox. */
     function supplyCardHtml(e, options) {
         var name = escapeHtml(e.name || 'Item');
         var size = (e.size && String(e.size).trim()) ? escapeHtml(String(e.size).trim()) : '';
-        var desc = (e.description && String(e.description).trim()) ? escapeHtml(String(e.description).trim()) : '';
         var singleSelect = options && options.singleSelect;
         var checked = options && options.checked;
         var id = e.id;
@@ -222,12 +221,11 @@
             '<span class="build-supply-card-name">' + name + '</span>' +
             (size ? '<div class="build-supply-card-size">' + size + '</div>' : '') +
             '</div>';
-        var dataDesc = desc ? (' data-build-desc="' + escapeAttr(desc) + '"') : '';
         if (singleSelect) {
-            return '<button type="button" class="build-supply-card build-supply-card-single' + selClass + '" data-id="' + escapeHtml(String(id)) + '"' + dataDesc + '>' +
+            return '<button type="button" class="build-supply-card build-supply-card-single' + selClass + '" data-id="' + escapeHtml(String(id)) + '">' +
                 cardTop + cardBody + '</button>';
         }
-        return '<label class="build-supply-card' + selClass + '"' + dataDesc + '>' +
+        return '<label class="build-supply-card' + selClass + '">' +
             '<input type="checkbox" class="build-supply-card-input" id="' + inputId + '" data-id="' + id + '"' + (checked ? ' checked' : '') + ' aria-label="Select ' + name + '">' +
             cardTop + cardBody + '</label>';
     }
@@ -1037,72 +1035,7 @@
         });
     }
 
-    function initBuildDescTooltip() {
-        var tooltip = document.getElementById('buildDescTooltip');
-        var currentCard = null;
-        if (!tooltip) {
-            tooltip = document.createElement('div');
-            tooltip.id = 'buildDescTooltip';
-            tooltip.className = 'build-desc-tooltip';
-            tooltip.setAttribute('role', 'tooltip');
-            tooltip.setAttribute('aria-hidden', 'true');
-            document.body.appendChild(tooltip);
-        }
-        function positionTooltip(clientX, clientY) {
-            var gap = 16;
-            var ttRect = tooltip.getBoundingClientRect();
-            var viewportWidth = document.documentElement.clientWidth;
-            var viewportHeight = document.documentElement.clientHeight;
-
-            // Prefer showing to the right of the cursor.
-            var left = clientX + gap;
-            if (left + ttRect.width + 8 > viewportWidth) {
-                // Not enough room on the right: show to the left.
-                left = clientX - gap - ttRect.width;
-            }
-            left = Math.max(8, Math.min(left, viewportWidth - ttRect.width - 8));
-
-            // Vertically center relative to cursor, clamped to viewport.
-            var top = clientY - (ttRect.height / 2);
-            top = Math.max(8, Math.min(top, viewportHeight - ttRect.height - 8));
-
-            tooltip.style.left = left + 'px';
-            tooltip.style.top = top + 'px';
-        }
-
-        document.addEventListener('mouseover', function (e) {
-            var card = e.target && e.target.closest && e.target.closest('.build-supply-card');
-            var desc = card && card.getAttribute && card.getAttribute('data-build-desc');
-            if (!desc) {
-                tooltip.classList.remove('build-desc-tooltip-visible');
-                tooltip.setAttribute('aria-hidden', 'true');
-                currentCard = null;
-                return;
-            }
-            currentCard = card;
-            tooltip.textContent = desc;
-            tooltip.classList.add('build-desc-tooltip-visible');
-            tooltip.setAttribute('aria-hidden', 'false');
-            positionTooltip(e.clientX, e.clientY);
-        });
-
-        document.addEventListener('mousemove', function (e) {
-            if (!currentCard || tooltip.getAttribute('aria-hidden') === 'true') return;
-            positionTooltip(e.clientX, e.clientY);
-        });
-        document.addEventListener('mouseout', function (e) {
-            var fromCard = e.target && e.target.closest && e.target.closest('.build-supply-card');
-            var toCard = e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest('.build-supply-card');
-            if (fromCard && !toCard) {
-                tooltip.classList.remove('build-desc-tooltip-visible');
-                tooltip.setAttribute('aria-hidden', 'true');
-                currentCard = null;
-            }
-        });
-    }
-
     function init() {
-        initBuildDescTooltip();
         logBuildStepSupplies(true);
         renderTypeOptions();
         renderEnclosureOptions();

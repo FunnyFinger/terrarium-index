@@ -494,6 +494,69 @@
     margin-top: 0.15rem;
 }
 
+/* Mobile: drainage step and build layout – avoid clipping, scale down */
+@media (max-width: 768px) {
+    .build-drainage-combo-list {
+        gap: 1rem;
+    }
+    .build-drainage-combo {
+        flex-direction: column;
+        align-items: stretch;
+        padding-left: 0;
+        padding-top: 2.25rem;
+        min-width: 0;
+        overflow: visible;
+    }
+    .build-drainage-combo-check {
+        top: 0.5rem;
+        left: 0.5rem;
+    }
+    .build-drainage-combo-cards {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        padding: 0.5rem;
+        min-width: 0;
+    }
+    .build-drainage-combo-cards .build-supply-card-display {
+        min-width: 0;
+        flex: 1 1 100px;
+        max-width: 140px;
+    }
+    .build-drainage-combo-cards .build-supply-card-display .build-supply-card-name {
+        font-size: 0.75rem;
+    }
+    .build-drainage-combo-cards .build-supply-card-display .build-supply-card-size {
+        font-size: 0.65rem;
+    }
+    .build-supply-list {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 0.5rem;
+    }
+    .build-supply-card-name {
+        font-size: 0.8rem;
+    }
+    .build-supply-card-body {
+        padding: 0.35rem 0.4rem 0.4rem 0.4rem;
+    }
+    .build-panel-actions {
+        margin-top: 1.25rem;
+        padding-top: 1rem;
+    }
+    .build-panel-actions .btn {
+        min-height: 44px;
+    }
+}
+
+@media (max-width: 480px) {
+    .build-drainage-combo-cards .build-supply-card-display {
+        max-width: 100%;
+        flex: 1 1 80px;
+    }
+    .build-supply-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
 .build-panel-actions {
     display: flex;
     flex-wrap: wrap;
