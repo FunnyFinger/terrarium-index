@@ -359,9 +359,10 @@ async function initializeUI() {
                 const parsedImages = JSON.parse(savedImages);
                 if (Array.isArray(parsedImages) && parsedImages.length > 0) {
                     const expectedSlug = scientificNameToSlug(plant.scientificName);
-                    const prefix = expectedSlug ? `images/${expectedSlug}/` : null;
-                    const validImages = prefix
-                        ? parsedImages.filter(p => typeof p === 'string' && p.startsWith(prefix))
+                    const prefixLegacy = expectedSlug ? `images/${expectedSlug}/` : null;
+                    const prefixPlants = expectedSlug ? `images/plants/${expectedSlug}/` : null;
+                    const validImages = (prefixLegacy || prefixPlants)
+                        ? parsedImages.filter(p => typeof p === 'string' && (prefixLegacy && p.startsWith(prefixLegacy) || prefixPlants && p.startsWith(prefixPlants)))
                         : [];
                     if (validImages.length > 0) {
                         plant.images = validImages;
@@ -7015,14 +7016,7 @@ function discoverImagesForCurrentPage() {
     const page = Math.max(1, Math.min(currentPlantsPage, totalPages));
     const start = (page - 1) * plantsPerPage;
     const pagePlants = filteredPlants.slice(start, start + plantsPerPage);
-    const needing = pagePlants.filter(plant => {
-        if (!plant.images || plant.images.length === 0) {
-            const savedMax = localStorage.getItem(`plant_${plant.id}_maxImage`);
-            if (savedMax === '0') return false;
-            return true;
-        }
-        return false;
-    });
+    const needing = pagePlants.filter(plant => !plant.images || plant.images.length === 0);
     if (needing.length === 0) return;
     const CONCURRENCY = 10;
     (async () => {
