@@ -128,6 +128,22 @@
         return match ? 'images/plants/' + match[1] + '/' + match[2] : path;
     }
 
+    // Local slug helper so we don't depend on globals being present on the hosted site.
+    function slugifyScientificName(scientificName) {
+        if (!scientificName) return null;
+        var nameStr = typeof scientificName === 'string'
+            ? scientificName
+            : (scientificName.scientificName || scientificName.name || String(scientificName));
+        if (!nameStr) return null;
+        return nameStr
+            .toLowerCase()
+            .trim()
+            .replace(/\s+/g, '-')
+            .replace(/[^a-z0-9-]/g, '')
+            .replace(/-+/g, '-')
+            .replace(/^-|-$/g, '');
+    }
+
     function getPlantImageUrl(p) {
         var url = p.imageUrl || (p.images && p.images.length ? p.images[0] : null);
 
@@ -150,7 +166,7 @@
         if (!url) {
             var sci = p && p.scientificName ? p.scientificName : null;
             if (sci) {
-                var slug = slugify(sci);
+                var slug = slugifyScientificName(sci);
                 if (slug) url = 'images/plants/' + slug + '/' + slug + '-1.jpg';
             }
         }
@@ -1164,7 +1180,10 @@
     function ensureEquipmentThenInit() {
         if (typeof window.loadEquipment === 'function') {
             window.loadEquipment().then(function (list) {
-                var arr = Array.isArray(list) ? list : [];
+                // Prefer inventory-backed equipment list when available,
+                // but fall back to whatever equipment-loader.js already provided.
+                var fallback = getEquipment();
+                var arr = Array.isArray(list) && list.length ? list : (Array.isArray(fallback) ? fallback : []);
                 window.allEquipment = arr;
                 window.equipmentData = arr;
                 function doInit() {
