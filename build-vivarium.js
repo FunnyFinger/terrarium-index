@@ -163,12 +163,22 @@
             } catch (e) { /* ignore */ }
         }
 
-        if (!url) {
-            var sci = p && p.scientificName ? p.scientificName : null;
-            if (sci) {
-                var slug = slugifyScientificName(sci);
-                if (slug) url = 'images/plants/' + slug + '/' + slug + '-1.jpg';
+        var sci = p && p.scientificName ? p.scientificName : null;
+        var expectedSlug = sci ? slugifyScientificName(sci) : null;
+
+        // If we have a URL but it clearly doesn't match this plant's slug folder, fall back to the slug-based default.
+        if (url && expectedSlug && url.indexOf('images/') === 0) {
+            var match = url.match(/images\/(?:plants\/)?([^/]+)\//);
+            if (match) {
+                var folder = match[1].replace(/^\d{5}-/, '');
+                if (folder !== expectedSlug) {
+                    url = null;
+                }
             }
+        }
+
+        if (!url && expectedSlug) {
+            url = 'images/plants/' + expectedSlug + '/' + expectedSlug + '-1.jpg';
         }
 
         if (url) return (window.imageUtils && typeof window.imageUtils.normalizePlantImagePath === 'function')
@@ -621,7 +631,6 @@
         var start = (buildPlantPage - 1) * BUILD_PLANTS_PAGE_SIZE;
         var pagePlants = plants.slice(start, start + BUILD_PLANTS_PAGE_SIZE);
         var onMainSite = !!document.getElementById('tabPlants');
-        var baseUrl = window.location.href.replace(/\/[^/]*$/, '/') + 'index.html';
         var atLimit = config.plantIds.length >= maxPlants;
         container.innerHTML = pagePlants.map(function (p) {
             var pid = plantIdNum(p.id);
@@ -635,7 +644,8 @@
             if (onMainSite && typeof window.showPlantModal === 'function') {
                 nameHtml = '<button type="button" class="build-plant-card-name-link" data-plant-id="' + pid + '">' + escapeHtml(name) + '</button>';
             } else {
-                var link = baseUrl + '?plant=' + pid;
+                // Use relative URL so it works both locally and on the hosted site.
+                var link = 'index.html?tab=plants&id=' + encodeURIComponent(pid);
                 nameHtml = '<a href="' + escapeHtml(link) + '" class="build-plant-card-name-link" target="_blank" rel="noopener">' + escapeHtml(name) + '</a>';
             }
             var imgBlock = imgUrl
@@ -1029,6 +1039,7 @@
 
     function initBuildDescTooltip() {
         var tooltip = document.getElementById('buildDescTooltip');
+        var currentCard = null;
         if (!tooltip) {
             tooltip = document.createElement('div');
             tooltip.id = 'buildDescTooltip';
@@ -1037,32 +1048,47 @@
             tooltip.setAttribute('aria-hidden', 'true');
             document.body.appendChild(tooltip);
         }
+        function positionTooltip(clientX, clientY) {
+            var gap = 16;
+            var ttRect = tooltip.getBoundingClientRect();
+            var viewportWidth = document.documentElement.clientWidth;
+            var viewportHeight = document.documentElement.clientHeight;
+
+            // Prefer showing to the right of the cursor.
+            var left = clientX + gap;
+            if (left + ttRect.width + 8 > viewportWidth) {
+                // Not enough room on the right: show to the left.
+                left = clientX - gap - ttRect.width;
+            }
+            left = Math.max(8, Math.min(left, viewportWidth - ttRect.width - 8));
+
+            // Vertically center relative to cursor, clamped to viewport.
+            var top = clientY - (ttRect.height / 2);
+            top = Math.max(8, Math.min(top, viewportHeight - ttRect.height - 8));
+
+            tooltip.style.left = left + 'px';
+            tooltip.style.top = top + 'px';
+        }
+
         document.addEventListener('mouseover', function (e) {
             var card = e.target && e.target.closest && e.target.closest('.build-supply-card');
             var desc = card && card.getAttribute && card.getAttribute('data-build-desc');
             if (!desc) {
                 tooltip.classList.remove('build-desc-tooltip-visible');
                 tooltip.setAttribute('aria-hidden', 'true');
+                currentCard = null;
                 return;
             }
+            currentCard = card;
             tooltip.textContent = desc;
             tooltip.classList.add('build-desc-tooltip-visible');
             tooltip.setAttribute('aria-hidden', 'false');
-            var rect = card.getBoundingClientRect();
-            var gap = 8;
-            requestAnimationFrame(function () {
-                var ttRect = tooltip.getBoundingClientRect();
-                var left = rect.left + (rect.width / 2) - (ttRect.width / 2);
-                left = Math.max(8, Math.min(left, document.documentElement.clientWidth - ttRect.width - 8));
-                var top = rect.top - ttRect.height - gap;
-                if (top < 8) {
-                    top = rect.bottom + gap;
-                } else {
-                    top = Math.max(8, top);
-                }
-                tooltip.style.left = left + 'px';
-                tooltip.style.top = top + 'px';
-            });
+            positionTooltip(e.clientX, e.clientY);
+        });
+
+        document.addEventListener('mousemove', function (e) {
+            if (!currentCard || tooltip.getAttribute('aria-hidden') === 'true') return;
+            positionTooltip(e.clientX, e.clientY);
         });
         document.addEventListener('mouseout', function (e) {
             var fromCard = e.target && e.target.closest && e.target.closest('.build-supply-card');
@@ -1070,6 +1096,7 @@
             if (fromCard && !toCard) {
                 tooltip.classList.remove('build-desc-tooltip-visible');
                 tooltip.setAttribute('aria-hidden', 'true');
+                currentCard = null;
             }
         });
     }
@@ -1105,18 +1132,15 @@
             plantListContainer.addEventListener('click', function (e) {
                 var nameLink = e.target.closest('.build-plant-card-name-link');
                 if (!nameLink) return;
-                e.preventDefault();
-                e.stopPropagation();
                 var card = e.target.closest('.build-plant-card');
                 var id = plantIdNum(nameLink.getAttribute('data-plant-id') || (card && card.getAttribute('data-plant-id')));
                 if (!id) return;
                 var plant = getPlants().filter(function (p) { return plantIdNum(p.id) === id; })[0];
                 if (document.getElementById('tabPlants') && typeof window.showPlantModal === 'function' && plant) {
+                    e.preventDefault();
+                    e.stopPropagation();
                     document.getElementById('tabPlants').click();
                     setTimeout(function () { window.showPlantModal(plant); }, 0);
-                } else {
-                    var base = window.location.href.replace(/\/[^/]*$/, '/') + 'index.html';
-                    window.open(base + '?plant=' + id, '_blank', 'noopener');
                 }
             });
             plantListContainer.addEventListener('change', function (e) {

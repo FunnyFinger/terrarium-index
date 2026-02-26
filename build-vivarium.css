@@ -106,7 +106,8 @@
 .build-stepper-list::before {
     content: '';
     position: absolute;
-    left: 1.5rem;
+    /* Align connector with the visual center of the numbered circles */
+    left: calc(1rem + 0.875rem);
     top: 2.25rem;
     bottom: 2.25rem;
     width: 2px;
@@ -122,7 +123,7 @@
 
 .build-step {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 0.65rem;
     padding: 0.85rem 1rem;
     background: var(--card-bg);
@@ -153,6 +154,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
     width: 1.75rem;
     height: 1.75rem;
     border-radius: 50%;
@@ -882,12 +884,11 @@
 .build-desc-tooltip {
     position: fixed;
     z-index: 10000;
-    max-width: 320px;
-    max-height: 240px;
-    overflow-y: auto;
+    max-width: 720px;
+    /* Let the tooltip grow with content instead of scrolling */
     padding: 0.6rem 0.75rem;
-    font-size: 0.8rem;
-    line-height: 1.4;
+    font-size: 0.85rem;
+    line-height: 1.5;
     color: var(--text-color);
     background: var(--card-bg);
     border: 1px solid var(--border-color);
