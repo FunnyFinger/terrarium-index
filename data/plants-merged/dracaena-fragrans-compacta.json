@@ -1,0 +1,125 @@
+{
+  "id": 409,
+  "name": "Dracaena Compacta",
+  "scientificName": "Dracaena fragrans 'Compacta'",
+  "commonNames": [
+    "Compacta Corn Plant",
+    "Janet Craig Compacta"
+  ],
+  "category": [
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining",
+  "size": "30-60 cm",
+  "growthRate": "Slow",
+  "description": "Dracaena fragrans 'Compacta' (often sold as Janet Craig Compacta) is a compact cultivar of Dracaena fragrans, native to tropical Africa. It belongs to the Asparagaceae family and forms dense rosettes of short, broad, glossy dark green leaves (typically 15-30 cm long), unlike the taller, arching foliage of the standard Corn Plant. Growth is upright and bushy, with a slow growth rate that makes it well-suited to terrariums and indoor displays. It tolerates low to medium light and moderate humidity. Like other Dracaena species, it is toxic if ingested. In terrariums it provides lush, tropical foliage without outgrowing the space quickly.",
+  "careTips": [
+    "Bright indirect light preferred; tolerates low light",
+    "Well-draining substrate; allow top layer to dry between waterings",
+    "Moderate humidity (40-60%); avoid soggy soil",
+    "Avoid fluoride in water if possible to prevent leaf tip burn",
+    "Wipe leaves occasionally to remove dust",
+    "Keep away from pets – toxic if ingested"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Asparagales",
+    "family": "Asparagaceae",
+    "genus": "Dracaena",
+    "species": "Dracaena fragrans"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "toxic-if-ingested",
+  "rarity": "common",
+  "growthHabit": "ground-dwelling",
+  "plantType": "flowering-plant",
+  "floweringPeriod": "does-not-flower-in-cultivation",
+  "propagation": "Stem Cuttings",
+  "colors": "Green",
+  "humidityRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 75,
+    "ideal": 57.5
+  },
+  "airCirculationRange": {
+    "min": 40,
+    "max": 70,
+    "ideal": 55
+  },
+  "waterNeedsRange": {
+    "min": 45,
+    "max": 65,
+    "ideal": 55
+  },
+  "substrateType": "moist",
+  "specialNeeds": null,
+  "temperatureRange": {
+    "min": 45,
+    "max": 55,
+    "ideal": 50
+  },
+  "difficultyRange": {
+    "min": 15,
+    "max": 35,
+    "ideal": 25
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.45
+  },
+  "growthRateRange": {
+    "min": 25,
+    "max": 45,
+    "ideal": 35
+  },
+  "carnivorous": false,
+  "waterCirculationRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "waterTemperatureRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "waterPhRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "waterHardnessRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "salinityRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "geographicOrigin": null,
+  "additionalInfo": "Cultivar of Dracaena fragrans (Corn Plant).",
+  "stockQuantity": 5,
+  "images": [],
+  "costPrice": 2,
+  "price": 4,
+  "unit": "pot",
+  "reorderLevel": 2,
+  "catalogueOfLifeUrl": "",
+  "suitableFor": [
+    "open-terrarium",
+    "paludarium",
+    "indoor",
+    "outdoor"
+  ]
+}

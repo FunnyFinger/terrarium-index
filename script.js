@@ -1055,6 +1055,19 @@ window.openImageUpload = openImageUpload;
 
 // Initialize (nav menu is unified in js/nav.js)
 document.addEventListener('DOMContentLoaded', async () => {
+    // Clear only plant image cache on localhost so hard refresh avoids stale images but keeps login/session
+    try {
+        if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+            var keysToRemove = [];
+            for (var i = 0; i < localStorage.length; i++) {
+                var k = localStorage.key(i);
+                if (k && (k.indexOf('plant_') === 0 && (k.endsWith('_images') || k.endsWith('_imageUrl') || k.endsWith('_maxImage')))) {
+                    keysToRemove.push(k);
+                }
+            }
+            keysToRemove.forEach(function(k) { localStorage.removeItem(k); });
+        }
+    } catch (e) { /* ignore */ }
     setupEventListeners();
     setupUploadListeners();
     initCart();
@@ -4849,9 +4862,7 @@ function refreshVivariumEditPlantOptions() {
     var imageUrlForTooltip = function(p) {
         if (p.imageUrl) return p.imageUrl;
         if (p.images && p.images.length) return p.images[0];
-        var slug = scientificNameToSlug(typeof p.scientificName === 'string' ? p.scientificName : (p.scientificName && p.scientificName.name));
-        if (!slug) return '';
-        return 'images/plants/' + slug + '/' + slug + '-1.jpg';
+        return '';
     };
     tbody.innerHTML = filtered.map(function(p) {
         var id = p.id;
@@ -5379,17 +5390,31 @@ function openPlantImageUpload(plant) {
     currentPlantForImages = plant;
     currentPlantImageFiles = [];
     currentPlantImageUrls = [];
+    var expectedSlug = scientificNameToSlug(getScientificNameString(plant));
+    var validPrefixes = expectedSlug ? ['images/plants/' + expectedSlug + '/', 'images/' + expectedSlug + '/'] : [];
+    function urlBelongsToPlant(url) {
+        if (!url || typeof url !== 'string') return false;
+        if (validPrefixes.length === 0) return true;
+        return validPrefixes.some(function(p) { return url.indexOf(p) === 0; });
+    }
     var savedImages = localStorage.getItem('plant_' + plant.id + '_images');
     if (savedImages) {
         try {
             var arr = JSON.parse(savedImages);
-            if (Array.isArray(arr)) currentPlantImageUrls = arr.slice();
+            if (Array.isArray(arr)) {
+                currentPlantImageUrls = arr.filter(urlBelongsToPlant);
+                if (currentPlantImageUrls.length !== arr.length) {
+                    localStorage.removeItem('plant_' + plant.id + '_images');
+                    localStorage.removeItem('plant_' + plant.id + '_imageUrl');
+                    localStorage.removeItem('plant_' + plant.id + '_maxImage');
+                }
+            }
         } catch (e) { /* ignore */ }
     }
     if (currentPlantImageUrls.length === 0 && (plant.images && plant.images.length)) {
-        currentPlantImageUrls = plant.images.slice();
+        currentPlantImageUrls = plant.images.filter(urlBelongsToPlant);
     }
-    if (currentPlantImageUrls.length === 0 && plant.imageUrl) {
+    if (currentPlantImageUrls.length === 0 && plant.imageUrl && urlBelongsToPlant(plant.imageUrl)) {
         currentPlantImageUrls = [plant.imageUrl];
     }
     var nameEl = document.getElementById('plantImageModalName');
@@ -5543,13 +5568,16 @@ function savePlantImages() {
                     if (all.length === 0) {
                         localStorage.removeItem('plant_' + id + '_images');
                         localStorage.removeItem('plant_' + id + '_imageUrl');
+                        localStorage.removeItem('plant_' + id + '_maxImage');
                         currentPlantForImages.images = [];
                         currentPlantForImages.imageUrl = '';
+                        if (typeof updatePlantCardImage === 'function') updatePlantCardImage(id, null);
                     } else {
                         localStorage.setItem('plant_' + id + '_images', JSON.stringify(all));
                         localStorage.setItem('plant_' + id + '_imageUrl', all[0]);
                         currentPlantForImages.images = all;
                         currentPlantForImages.imageUrl = all[0];
+                        if (typeof updatePlantCardImage === 'function') updatePlantCardImage(id, all[0]);
                     }
                     closePlantImageModal();
                     if (typeof applyAllFilters === 'function') applyAllFilters();
@@ -5576,13 +5604,16 @@ function savePlantImages() {
         if (all.length === 0) {
             localStorage.removeItem('plant_' + id + '_images');
             localStorage.removeItem('plant_' + id + '_imageUrl');
+            localStorage.removeItem('plant_' + id + '_maxImage');
             currentPlantForImages.images = [];
             currentPlantForImages.imageUrl = '';
+            if (typeof updatePlantCardImage === 'function') updatePlantCardImage(id, null);
         } else {
             localStorage.setItem('plant_' + id + '_images', JSON.stringify(all));
             localStorage.setItem('plant_' + id + '_imageUrl', all[0]);
             currentPlantForImages.images = all;
             currentPlantForImages.imageUrl = all[0];
+            if (typeof updatePlantCardImage === 'function') updatePlantCardImage(id, all[0]);
         }
         closePlantImageModal();
         if (typeof applyAllFilters === 'function') applyAllFilters();
@@ -5781,8 +5812,8 @@ function createPlantCard(plant) {
         displayImageUrl = plant.images[0];
         plant.imageUrl = displayImageUrl;
     }
-    // Optimistic: try expected path so cards show images immediately without waiting for discovery (onerror shows placeholder)
-    if (!displayImageUrl) {
+    // Only use optimistic path when we already have at least one image (e.g. from discovery) so we don't request non-existent files for new plants
+    if (!displayImageUrl && plant.images && plant.images.length > 0) {
         const slug = scientificNameToSlug(getScientificNameString(plant));
         if (slug) displayImageUrl = `images/plants/${slug}/${slug}-1.jpg`;
     }
@@ -6057,20 +6088,11 @@ async function showPlantModal(plant) {
         
         // Using discovered image order from folder
     } else {
-        // No images found - ensure arrays are initialized
+        // No images found - leave empty so we show "No photos yet" instead of broken image requests
         if (!plant.images) {
             plant.images = [];
         }
-        // Fallback: use conventional paths (slug-1, slug-2, slug-3) so gallery shows when discovery
-        // missed (e.g. HEAD 404 but GET works, or first image is -2.jpg not -1.jpg)
-        if (plant.images.length === 0) {
-            const slug = scientificNameToSlug(getScientificNameString(plant));
-            if (slug) {
-                const fallbackPaths = [1, 2, 3].map(n => `images/${slug}/${slug}-${n}.jpg`);
-                plant.images = fallbackPaths;
-                plant.imageUrl = fallbackPaths[0];
-            }
-        }
+        plant.imageUrl = null;
     }
     
     // Ensure no duplicates
@@ -7035,23 +7057,36 @@ function discoverImagesForCurrentPage() {
 
 function updatePlantCardImage(plantId, imageUrl) {
     const plant = allPlants.find(p => p.id === plantId);
-    if (!plant || !imageUrl) {
-        // Silent - don't log missing plant/card updates
+    if (!plant) return;
+
+    // Clear card to placeholder when no image
+    if (!imageUrl) {
+        plant.imageUrl = null;
+        plant.images = [];
+        const cards = document.querySelectorAll('.plant-image-container[data-plant-id="' + plantId + '"]');
+        cards.forEach(function(container) {
+            const img = container.querySelector('.plant-image');
+            if (img) {
+                const placeholder = document.createElement('div');
+                placeholder.className = 'image-placeholder';
+                placeholder.innerHTML = (typeof PLACEHOLDER_PLANT_SVG !== 'undefined' ? PLACEHOLDER_PLANT_SVG : '');
+                img.parentNode.replaceChild(placeholder, img);
+            }
+        });
         return;
     }
+
     if (imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') {
         imageUrl = imageUtils.normalizePlantImagePath(imageUrl);
     }
     
     // Update the plant object
-    if (plant) {
-        plant.imageUrl = imageUrl;
-        if (!plant.images) {
-            plant.images = [];
-        }
-        if (!plant.images.includes(imageUrl)) {
-            plant.images.unshift(imageUrl); // Add to beginning
-        }
+    plant.imageUrl = imageUrl;
+    if (!plant.images) {
+        plant.images = [];
+    }
+    if (!plant.images.includes(imageUrl)) {
+        plant.images.unshift(imageUrl); // Add to beginning
     }
     
     // Find and update the card by data attribute

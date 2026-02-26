@@ -132,8 +132,7 @@
         var url = p.imageUrl || (p.images && p.images.length ? p.images[0] : null);
         if (url) return (window.imageUtils && typeof window.imageUtils.normalizePlantImagePath === 'function')
             ? window.imageUtils.normalizePlantImagePath(url) : normalizePlantImagePath(url);
-        var slug = window.scientificNameToSlug && window.scientificNameToSlug(typeof p.scientificName === 'string' ? p.scientificName : (p.scientificName && p.scientificName.name));
-        return slug ? 'images/plants/' + slug + '/' + slug + '-1.jpg' : '';
+        return '';
     }
 
     function getMaxPlants() {

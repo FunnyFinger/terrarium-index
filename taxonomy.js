@@ -118,10 +118,6 @@ function getPlantImagePath(plant) {
         // Silent - localStorage parsing failed
     }
 
-    const slug = getPlantFolderSlug(plant);
-    if (slug) {
-        return `images/plants/${slug}/${slug}-1.jpg`;
-    }
     return null;
 }
 
@@ -129,9 +125,11 @@ function getPlantImagePath(plant) {
 // Saves bandwidth and keeps the page fast when many nodes are visible. Full-size loads only in tooltip on hover.
 function getPlantThumbnailPath(plant) {
     if (!plant) return null;
-    const slug = getPlantFolderSlug(plant);
-    if (!slug) return null;
-    return `images/plants/${slug}/thumb.jpg`;
+    if (plant.imageUrl || (plant.images && plant.images.length > 0)) {
+        const slug = getPlantFolderSlug(plant);
+        if (slug) return `images/plants/${slug}/thumb.jpg`;
+    }
+    return null;
 }
 
 // Species-level key for tree and filter: cultivars get their own node (full scientific name), else taxonomy.species.
