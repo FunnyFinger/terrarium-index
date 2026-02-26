@@ -2682,6 +2682,16 @@ main {
     font-weight: 600;
 }
 
+/* Supply/equipment card labels: smaller font and 2-line clamp to avoid long names stretching cards */
+.equipment-card .plant-name {
+    font-size: 0.9rem;
+    line-height: 1.25;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
 /* When modal shows equipment/vivarium detail, use flow layout instead of grid */
 .plant-detail-panel #modalBody:has(.equipment-detail-layout) {
     display: block !important;
@@ -7060,6 +7070,9 @@ body:has(.upload-modal.show) {
     
     .main-layout {
         margin-top: 0.75rem;
+    }
+    .equipment-card .plant-name {
+        font-size: 0.8rem;
     }
 }
 
