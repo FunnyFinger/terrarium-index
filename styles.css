@@ -821,6 +821,9 @@ html.detail-startup body {
     body.filters-drawer-open {
         overflow: hidden;
     }
+    body.filters-drawer-open .filters-content {
+        padding-top: 0;
+    }
     
     .filters-sidebar {
         width: 100%;
@@ -904,7 +907,7 @@ html.detail-startup body {
     }
     body.filters-drawer-open .filters-mobile-sticky-top {
         margin: 0 -1.5rem;
-        padding: 0 1.5rem 0.5rem;
+        padding: 0.5rem 1.5rem 0.5rem;
     }
     .filters-mobile-header {
         display: flex;
