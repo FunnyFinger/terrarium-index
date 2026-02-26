@@ -1743,11 +1743,15 @@ function setupEventListeners() {
     var vivariumEditPlantTableWrap = document.getElementById('vivariumEditPlantTableWrap');
     if (vivariumEditPlantTableWrap) vivariumEditPlantTableWrap.addEventListener('change', function(e) {
         if (e.target && e.target.classList && e.target.classList.contains('vivarium-plant-checkbox') && vivariumEditing) {
-            var ids = [];
-            var checkboxes = vivariumEditPlantTableWrap.querySelectorAll('.vivarium-plant-checkbox:checked');
-            for (var i = 0; i < checkboxes.length; i++) {
-                var n = Number(checkboxes[i].value);
-                if (!isNaN(n)) ids.push(n);
+            var n = Number(e.target.value);
+            if (isNaN(n)) return;
+            if (!Array.isArray(vivariumEditing.plantIds)) vivariumEditing.plantIds = [];
+            var ids = vivariumEditing.plantIds.slice();
+            var idx = ids.indexOf(n);
+            if (e.target.checked) {
+                if (idx === -1) ids.push(n);
+            } else if (idx !== -1) {
+                ids.splice(idx, 1);
             }
             vivariumEditing.plantIds = ids;
         }
@@ -5112,15 +5116,7 @@ function saveVivariumEdit() {
     }
     var type = typeEl && typeEl.value ? typeEl.value : vivariumEditing.type;
     var availability = availabilityEl && availabilityEl.value ? availabilityEl.value : 'in-stock';
-    var plantTableWrap = document.getElementById('vivariumEditPlantTableWrap');
-    var plantIds = [];
-    if (plantTableWrap) {
-        var checkboxes = plantTableWrap.querySelectorAll('.vivarium-plant-checkbox:checked');
-        for (var i = 0; i < checkboxes.length; i++) {
-            var n = Number(checkboxes[i].value);
-            if (!isNaN(n)) plantIds.push(n);
-        }
-    }
+    var plantIds = Array.isArray(vivariumEditing.plantIds) ? vivariumEditing.plantIds.slice() : [];
     var supplyIdsEl = document.getElementById('vivariumEditSupplyIds');
     var supplyIds = [];
     if (supplyIdsEl) {
