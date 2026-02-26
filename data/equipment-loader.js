@@ -46,8 +46,12 @@
             const data = await resp.json();
             let list = Array.isArray(data) ? data : (data.items || data.equipment || []);
             try {
-                const custom = typeof localStorage !== 'undefined' && localStorage.getItem('custom_equipment');
-                const customEq = custom ? JSON.parse(custom) : [];
+                var customEq = [];
+                if (typeof window !== 'undefined' && window.supabaseDb && window.supabaseDb.isConfigured()) {
+                    customEq = await window.supabaseDb.getCustomEquipment();
+                } else if (typeof localStorage !== 'undefined' && localStorage.getItem('custom_equipment')) {
+                    customEq = JSON.parse(localStorage.getItem('custom_equipment'));
+                }
                 if (Array.isArray(customEq) && customEq.length) list = (list || []).concat(customEq);
             } catch (err) { /* ignore */ }
             if (Array.isArray(list) && list.length) {

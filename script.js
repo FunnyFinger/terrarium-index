@@ -323,7 +323,12 @@ async function initializeUI() {
     if (typeof window.loadVivariums === 'function') {
         allVivariums = await window.loadVivariums();
         try {
-            var customViv = JSON.parse(localStorage.getItem('custom_vivariums') || '[]');
+            var customViv = [];
+            if (window.supabaseDb && window.supabaseDb.isConfigured()) {
+                customViv = await window.supabaseDb.getCustomVivariums();
+            } else {
+                customViv = JSON.parse(localStorage.getItem('custom_vivariums') || '[]');
+            }
             if (Array.isArray(customViv) && customViv.length) allVivariums = (allVivariums || []).concat(customViv);
         } catch (e) { /* ignore */ }
         window.allVivariums = allVivariums;
@@ -5149,12 +5154,19 @@ function saveVivariumEdit() {
             if (!Array.isArray(custom)) custom = [];
             custom.push(vivariumEditing);
             localStorage.setItem('custom_vivariums', JSON.stringify(custom));
+            if (window.supabaseDb && window.supabaseDb.isConfigured()) window.supabaseDb.saveCustomVivariums(custom);
             if (typeof syncToRepo === 'function') syncToRepo();
         } catch (e) { /* ignore */ }
     } else {
         try {
             localStorage.setItem('vivarium_' + id + '_edit', JSON.stringify({ name: name, description: description || undefined, price: price, type: type, availability: availability, plantIds: plantIds, supplyIds: supplyIds, careTips: careTips.length ? careTips : undefined }));
             if (typeof syncToRepo === 'function') syncToRepo();
+            var customList = (allVivariums || []).filter(function (v) { var vid = parseInt(v.id, 10); return vid >= 60001; });
+            var idx = customList.findIndex(function (v) { return parseInt(v.id, 10) === parseInt(id, 10); });
+            if (idx >= 0) {
+                customList[idx] = Object.assign({}, customList[idx], { name: name, description: description || undefined, price: price, type: type, plantIds: plantIds, supplyIds: supplyIds, careTips: careTips });
+                if (window.supabaseDb && window.supabaseDb.isConfigured()) window.supabaseDb.saveCustomVivariums(customList);
+            }
         } catch (e) { /* ignore */ }
     }
     if (window.inventoryDb && window.inventoryDb.setItem && id != null) {
@@ -5823,6 +5835,7 @@ function saveEquipmentEdit() {
             if (!Array.isArray(custom)) custom = [];
             custom.push(equipmentEditing);
             localStorage.setItem('custom_equipment', JSON.stringify(custom));
+            if (window.supabaseDb && window.supabaseDb.isConfigured()) window.supabaseDb.saveCustomEquipment(custom);
             if (typeof syncToRepo === 'function') syncToRepo();
         } catch (e) { /* ignore */ }
     } else {

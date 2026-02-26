@@ -954,6 +954,7 @@
             if (!Array.isArray(custom)) custom = [];
             custom.push(customVivarium);
             localStorage.setItem('custom_vivariums', JSON.stringify(custom));
+            if (window.supabaseDb && window.supabaseDb.isConfigured()) window.supabaseDb.saveCustomVivariums(custom);
             if (typeof window.syncToRepo === 'function') window.syncToRepo();
         } catch (e) { }
 
