@@ -148,7 +148,10 @@ async function discoverPlantImages(plant, knownImageCount = null) {
     }
 
     const discoveredImages = [];
-    const maxCheck = 100; // Check up to 100 numbered images; loop stops on first missing (e.g. 1,2,3,4 then 5 404)
+    // Allow up to 20 numbered images per plant (1–20).
+    // Heuristics below stop as soon as we hit the first gap, so in practice
+    // we usually only probe up to the real max (e.g. 3) and avoid excess 404s.
+    const maxCheck = 20;
     let consecutiveFailures = 0;
     const maxConsecutiveFailures = 1;
 
@@ -239,7 +242,7 @@ async function discoverPlantImages(plant, knownImageCount = null) {
         }
         
         const imagePath = `images/plants/${folderName}/${folderName}-${i}.jpg`;
-        const exists = await checkImageExists(imagePath) || await checkImageExists(`images/${folderName}/${folderName}-${i}.jpg`);
+        const exists = await checkImageExists(imagePath);
 
         if (exists) {
             consecutiveFailures = 0;

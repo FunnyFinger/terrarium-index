@@ -38,8 +38,14 @@ const {
     init: initImageUtils
 } = imageUtils;
 
-/** When running on localhost, sync localStorage-backed edits to repo (data/overrides/) via sync server so push reflects on hosted site. */
-var REPO_SYNC_URL = (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) ? window.location.origin : '';
+/** When running on localhost, sync localStorage-backed edits to repo (data/overrides/) via sync server so push reflects on hosted site.
+ * Sync is only enabled if window.SYNC_API_ENABLED === true, to avoid noisy errors when no sync server is running.
+ */
+var REPO_SYNC_URL = (typeof window !== 'undefined'
+    && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    && window.SYNC_API_ENABLED === true)
+    ? window.location.origin
+    : '';
 var _repoSyncTimeout = null;
 function syncToRepo() {
     if (!REPO_SYNC_URL) return;
@@ -605,8 +611,56 @@ function addToCart(plant, quantity) {
         cartOverlay && cartOverlay.classList.add('open');
     }
 }
+var LABOUR_VIVARIUM_ID = 'labour-vivarium';
+var LABOUR_VIVARIUM_CHARGE_KD = 10;
+
+function addVivariumBuildToCart(vivarium) {
+    var bc = vivarium._buildConfig;
+    if (!bc) {
+        addToCart(vivarium, 1);
+        return;
+    }
+    var cart = getCart().filter(function(i) { return i.plantId !== LABOUR_VIVARIUM_ID; });
+    var equipment = window.allEquipment || [];
+    var plants = window.allPlants || window.plantsDatabase || [];
+    function addSupply(id) {
+        var n = parseInt(id, 10);
+        var e = equipment.filter(function(x) { return x && (x.id === n || parseInt(x.id, 10) === n); })[0];
+        if (!e) return;
+        var price = (e.price !== undefined && e.price !== null && e.price !== '') ? Number(e.price) : null;
+        var existing = cart.filter(function(i) { return i.plantId == e.id || parseInt(i.plantId, 10) === n; })[0];
+        if (existing) existing.quantity += 1;
+        else cart.push({ plantId: e.id, name: e.name || 'Item', scientificName: '', quantity: 1, price: price });
+    }
+    if (bc.enclosureId) addSupply(bc.enclosureId);
+    (bc.drainageIds || []).forEach(addSupply);
+    (bc.substrateIds || []).forEach(addSupply);
+    (bc.hardscapeIds || []).forEach(addSupply);
+    (bc.plantIds || []).forEach(function(id) {
+        var n = parseInt(id, 10);
+        var p = plants.filter(function(x) { return x && (x.id === n || parseInt(x.id, 10) === n); })[0];
+        if (!p) return;
+        var price = (p.price !== undefined && p.price !== null && p.price !== '') ? Number(p.price) : null;
+        var sci = typeof p.scientificName === 'string' ? p.scientificName : (p.scientificName && p.scientificName.name) ? p.scientificName.name : '';
+        var existing = cart.filter(function(i) { return i.plantId == p.id || parseInt(i.plantId, 10) === n; })[0];
+        if (existing) existing.quantity += 1;
+        else cart.push({ plantId: p.id, name: p.name || 'Plant', scientificName: sci, quantity: 1, price: price });
+    });
+    (bc.decorationIds || []).forEach(addSupply);
+    (bc.accessoryIds || []).forEach(addSupply);
+    (bc.toolIds || []).forEach(addSupply);
+    cart.push({ plantId: LABOUR_VIVARIUM_ID, name: 'Labour (Vivarium build)', scientificName: '', quantity: 1, price: LABOUR_VIVARIUM_CHARGE_KD });
+    setCart(cart);
+    if (cartDrawer && !cartDrawer.classList.contains('open')) {
+        cartDrawer.classList.remove('hidden');
+        if (cartOverlay) cartOverlay.classList.remove('hidden');
+        cartDrawer.classList.add('open');
+        if (cartOverlay) cartOverlay.classList.add('open');
+    }
+}
+
 function removeFromCart(plantId) {
-    setCart(getCart().filter(i => i.plantId !== plantId));
+    setCart(getCart().filter(i => i.plantId != plantId));
 }
 function clearCart() {
     setCart([]);
@@ -646,9 +700,7 @@ function updateCartUI() {
         </div>`;
     }).join('');
     cartItemsEl.querySelectorAll('.cart-item-remove').forEach(btn => {
-        btn.addEventListener('click', () => {
-            removeFromCart(parseInt(btn.dataset.plantId, 10));
-        });
+        btn.addEventListener('click', () => { removeFromCart(btn.dataset.plantId); });
     });
 }
 function initCart() {
@@ -852,6 +904,9 @@ function closePlantPanel() {
     }
     if (history.replaceState) {
         try { history.replaceState(null, '', location.pathname || '/'); } catch (e) {}
+    }
+    if (typeof document !== 'undefined') {
+        document.documentElement.classList.remove('detail-startup');
     }
 }
 function handlePlantPanelEscape(e) {
@@ -4465,6 +4520,38 @@ function showVivariumDetail(vivarium) {
         '<div class="plant-detail-description">' + descriptionHtml + '</div>' +
         '</section>' +
         (function() {
+            var bc = vivarium._buildConfig;
+            if (!bc) return '';
+            var eq = window.allEquipment || [];
+            var plantsList = window.allPlants || window.plantsDatabase || [];
+            function findEq(id) { var n = parseInt(id, 10); return eq.filter(function(e) { return e && (e.id === n || parseInt(e.id, 10) === n); })[0]; }
+            function findPlant(id) { var n = parseInt(id, 10); return plantsList.filter(function(p) { return p && (p.id === n || parseInt(p.id, 10) === n); })[0]; }
+            function row(label, items) {
+                if (!items || items.length === 0) return '';
+                var html = items.map(function(item) { return '<span class="vivarium-build-item">' + item + '</span>'; }).join(', ');
+                return '<div class="vivarium-build-row"><span class="vivarium-build-label">' + escapeHtml(label) + ':</span> ' + html + '</div>';
+            }
+            var parts = [];
+            if (bc.enclosureId) { var e = findEq(bc.enclosureId); parts.push(row('Enclosure', e ? [escapeHtml(e.name || 'Item')] : [])); }
+            if (bc.drainageIds && bc.drainageIds.length) parts.push(row('Drainage', bc.drainageIds.map(function(id) { var e = findEq(id); return e ? escapeHtml(e.name || 'Item') : ''; }).filter(Boolean)));
+            if (bc.substrateIds && bc.substrateIds.length) parts.push(row('Substrate', bc.substrateIds.map(function(id) { var e = findEq(id); return e ? escapeHtml(e.name || 'Item') : ''; }).filter(Boolean)));
+            if (bc.hardscapeIds && bc.hardscapeIds.length) parts.push(row('Hardscape', bc.hardscapeIds.map(function(id) { var e = findEq(id); return e ? escapeHtml(e.name || 'Item') : ''; }).filter(Boolean)));
+            if (bc.plantIds && bc.plantIds.length) {
+                var plantLinks = bc.plantIds.map(function(id) {
+                    var p = findPlant(id);
+                    if (!p) return '';
+                    var url = 'index.html?tab=plants&id=' + encodeURIComponent(p.id);
+                    return '<a href="' + url + '" class="vivarium-build-plant-link">' + escapeHtml(p.name || (typeof p.scientificName === 'string' ? p.scientificName : (p.scientificName && p.scientificName.name) || 'Plant') || 'Plant') + '</a>';
+                }).filter(Boolean);
+                if (plantLinks.length) parts.push('<div class="vivarium-build-row"><span class="vivarium-build-label">Plants:</span> ' + plantLinks.join(', ') + '</div>');
+            }
+            if (bc.decorationIds && bc.decorationIds.length) parts.push(row('Decorations', bc.decorationIds.map(function(id) { var e = findEq(id); return e ? escapeHtml(e.name || 'Item') : ''; }).filter(Boolean)));
+            if (bc.accessoryIds && bc.accessoryIds.length) parts.push(row('Accessories', bc.accessoryIds.map(function(id) { var e = findEq(id); return e ? escapeHtml(e.name || 'Item') : ''; }).filter(Boolean)));
+            if (bc.toolIds && bc.toolIds.length) parts.push(row('Tools', bc.toolIds.map(function(id) { var e = findEq(id); return e ? escapeHtml(e.name || 'Item') : ''; }).filter(Boolean)));
+            if (parts.length === 0) return '';
+            return '<section class="plant-product-section vivarium-build-contents"><h2 class="plant-product-section-title">Build contents</h2><div class="vivarium-build-list">' + parts.join('') + '</div></section>';
+        })() +
+        (function() {
             var ids = vivarium.plantIds;
             if (!Array.isArray(ids) || ids.length === 0) return '<section class="plant-product-section"><h2 class="plant-product-section-title">Plant content</h2><p class="description description-empty">No plants linked for this vivarium.</p></section>';
             var plantsList = (window.allPlants || window.plantsDatabase || []).filter(function(p) { return p && p.id != null && ids.indexOf(Number(p.id)) !== -1; });
@@ -4516,7 +4603,8 @@ function showVivariumDetail(vivarium) {
         '<div id="modal-page-2" class="modal-page" style="display: none;" data-plant-id="' + vivarium.id + '">' + galleryPage2Html + '</div>';
     var vivariumDetailActions = document.createElement('div');
     vivariumDetailActions.className = 'detail-actions detail-actions-fixed';
-    vivariumDetailActions.innerHTML = '<button type="button" class="detail-btn card-edit-icon vivarium-detail-edit" title="Edit details" aria-label="Edit details">' + detailEditSvgV + '<span>Edit details</span></button><button type="button" class="detail-btn card-image-icon vivarium-detail-image" title="Add or edit images" aria-label="Add or edit images">' + detailImageSvgV + '<span>Image</span></button>';
+    var printCareCardSvgV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>';
+    vivariumDetailActions.innerHTML = '<button type="button" class="detail-btn card-edit-icon vivarium-detail-edit" title="Edit details" aria-label="Edit details">' + detailEditSvgV + '<span>Edit details</span></button><button type="button" class="detail-btn card-image-icon vivarium-detail-image" title="Add or edit images" aria-label="Add or edit images">' + detailImageSvgV + '<span>Image</span></button><button type="button" class="detail-btn vivarium-detail-care-card" title="Print care card" aria-label="Print care card">' + printCareCardSvgV + '<span>Print care card</span></button>';
     var canManageVisibility = typeof auth !== 'undefined' && auth && ((auth.isOwner && auth.isOwner()) || (auth.isAdmin && auth.isAdmin()));
     if (canManageVisibility) {
         var vivHideBtn = document.createElement('button');
@@ -4543,11 +4631,15 @@ function showVivariumDetail(vivarium) {
     }
     modalBody.appendChild(vivariumDetailActions);
     var addBtn = modalBody.querySelector('.btn-add-to-cart');
-    if (addBtn) addBtn.addEventListener('click', function() { addToCart(vivarium, 1); });
+    if (addBtn) addBtn.addEventListener('click', function() {
+        if (vivarium._buildConfig && typeof addVivariumBuildToCart === 'function') addVivariumBuildToCart(vivarium);
+        else addToCart(vivarium, 1);
+    });
     var addWithSuppliesBtn = modalBody.querySelector('.btn-add-vivarium-supplies');
     if (addWithSuppliesBtn) {
         addWithSuppliesBtn.addEventListener('click', function() {
-            addToCart(vivarium, 1);
+            if (vivarium._buildConfig && typeof addVivariumBuildToCart === 'function') addVivariumBuildToCart(vivarium);
+            else addToCart(vivarium, 1);
             var equipment = window.allEquipment || [];
             modalBody.querySelectorAll('.vivarium-supply-checkbox:checked').forEach(function(cb) {
                 var id = parseInt(cb.dataset.supplyId, 10);
@@ -4560,6 +4652,8 @@ function showVivariumDetail(vivarium) {
     var vivariumDetailImageBtn = modalBody.querySelector('.vivarium-detail-image');
     if (vivariumDetailEditBtn) vivariumDetailEditBtn.addEventListener('click', function() { if (window.openVivariumEdit) openVivariumEdit(vivarium); });
     if (vivariumDetailImageBtn) vivariumDetailImageBtn.addEventListener('click', function() { openVivariumImageUpload(vivarium); });
+    var vivariumCareCardBtn = modalBody.querySelector('.vivarium-detail-care-card');
+    if (vivariumCareCardBtn) vivariumCareCardBtn.addEventListener('click', function() { if (typeof generateVivariumCareCard === 'function') generateVivariumCareCard(vivarium); });
     var vivariumReviewsWidget = modalBody.querySelector('.product-reviews-widget');
     if (vivariumReviewsWidget && typeof window.initProductReviewsWidget === 'function') window.initProductReviewsWidget(vivariumReviewsWidget);
     var navBackWrap = document.getElementById('navBackToListWrap');
@@ -5800,7 +5894,7 @@ function createPlantCard(plant) {
     const badges = badgeArray.join('');
     
     // Ensure imageUrl exists - use first image from images array if available
-    // Priority: imageUrl > images[0] > placeholder
+    // Priority: imageUrl > images[0] > slug-1.jpg > placeholder
     let displayImageUrl = plant.imageUrl;
     
     // Only use if it exists and is not empty
@@ -5813,8 +5907,9 @@ function createPlantCard(plant) {
         displayImageUrl = plant.images[0];
         plant.imageUrl = displayImageUrl;
     }
-    // Only use optimistic path when we already have at least one image (e.g. from discovery) so we don't request non-existent files for new plants
-    if (!displayImageUrl && plant.images && plant.images.length > 0) {
+    // As a final fallback, optimistically point to slug-1.jpg inside the plant's folder.
+    // If the file doesn't exist, handleImageError will replace it with a placeholder.
+    if (!displayImageUrl) {
         const slug = scientificNameToSlug(getScientificNameString(plant));
         if (slug) displayImageUrl = `images/plants/${slug}/${slug}-1.jpg`;
     }
@@ -6006,6 +6101,10 @@ function determineMinimumEnclosureSize(plant) {
 
 // Show plant modal with detailed information
 async function showPlantModal(plant) {
+    // If we arrived via direct URL (tab=plants&id=...), remove startup-hiding class
+    if (typeof document !== 'undefined') {
+        document.documentElement.classList.remove('detail-startup');
+    }
     // Check localStorage first for saved image order (user's preference)
     let savedImages = null;
     let savedImageUrl = null;
@@ -6020,8 +6119,8 @@ async function showPlantModal(plant) {
         // Silent - localStorage parsing failed
     }
     
-    // Full discovery when opening modal (ignore stored maxImage so we find all images in folder)
-    let discovered = await getPlantImages(plant, null, { forceFullDiscovery: true });
+    // Prefer cached maxImage hint to avoid repeated 404s; only do full discovery when explicitly requested elsewhere.
+    let discovered = await getPlantImages(plant);
     
     if (savedImages && Array.isArray(savedImages) && savedImages.length > 0) {
         const folderName = scientificNameToSlug(getScientificNameString(plant));
@@ -7008,7 +7107,8 @@ async function loadPlantImages() {
 }
 
 // Update individual plant card image
-// Discover images for the current page's plants that have none (real HEAD checks so cards show images without opening gallery)
+// NOTE: We no longer run network discovery here; this function only ensures
+// cards reflect whatever images are already known on the plant objects.
 function discoverImagesForCurrentPage() {
     if (!filteredPlants || filteredPlants.length === 0) return;
     const total = filteredPlants.length;
@@ -7016,37 +7116,12 @@ function discoverImagesForCurrentPage() {
     const page = Math.max(1, Math.min(currentPlantsPage, totalPages));
     const start = (page - 1) * plantsPerPage;
     const pagePlants = filteredPlants.slice(start, start + plantsPerPage);
-    const needing = pagePlants.filter(plant => !plant.images || plant.images.length === 0);
-    if (needing.length === 0) return;
-    const CONCURRENCY = 10;
-    (async () => {
-        for (let i = 0; i < needing.length; i += CONCURRENCY) {
-            const batch = needing.slice(i, i + CONCURRENCY);
-            await Promise.all(batch.map(async (plant) => {
-                try {
-                    const discovered = await getPlantImages(plant);
-                    if (discovered.images.length > 0) {
-                        plant.images = discovered.images;
-                        plant.imageUrl = discovered.imageUrl;
-                        let highest = 0;
-                        for (const p of discovered.images) {
-                            const m = p.match(/-(\d+)\./);
-                            if (m) highest = Math.max(highest, parseInt(m[1], 10));
-                        }
-                        try {
-                            localStorage.setItem(`plant_${plant.id}_images`, JSON.stringify(plant.images));
-                            if (plant.imageUrl) localStorage.setItem(`plant_${plant.id}_imageUrl`, plant.imageUrl);
-                            if (highest > 0) localStorage.setItem(`plant_${plant.id}_maxImage`, String(highest));
-                            if (typeof syncToRepo === 'function') syncToRepo();
-                        } catch (e) {}
-                        updatePlantCardImage(plant.id, plant.imageUrl);
-                    } else {
-                        try { localStorage.setItem(`plant_${plant.id}_maxImage`, '0'); } catch (e) {}
-                    }
-                } catch (e) {}
-            }));
+    pagePlants.forEach(function (plant) {
+        if (plant && (plant.imageUrl || (plant.images && plant.images.length))) {
+            const url = plant.imageUrl || plant.images[0];
+            updatePlantCardImage(plant.id, url);
         }
-    })();
+    });
 }
 
 function updatePlantCardImage(plantId, imageUrl) {
@@ -9257,4 +9332,36 @@ function generateCareCard(plantId) {
     printWindow.document.write(htmlContent);
     printWindow.document.close();
 }
+
+function generateVivariumCareCard(vivarium) {
+    if (!vivarium || !vivarium.id) return;
+    var name = vivarium.name || 'Vivarium';
+    var imageUrl = vivarium.imageUrl || (vivarium.images && vivarium.images[0]) || null;
+    var plants = window.allPlants || window.plantsDatabase || [];
+    var plantIds = vivarium.plantIds || (vivarium._buildConfig && vivarium._buildConfig.plantIds) || [];
+    var plantNames = plantIds.map(function(id) {
+        var n = parseInt(id, 10);
+        var p = plants.filter(function(x) { return x && (x.id === n || parseInt(x.id, 10) === n); })[0];
+        return p ? (p.name || (typeof p.scientificName === 'string' ? p.scientificName : (p.scientificName && p.scientificName.name) || 'Plant') || 'Plant') : null;
+    }).filter(Boolean);
+    var base = window.location.origin + (window.location.pathname || '/');
+    if (base.endsWith('.html')) base = base.replace(/\/[^/]*$/, '/');
+    else if (!base.endsWith('/')) base = base.replace(/\/[^/]*$/, '') + '/';
+    var vivariumPageUrl = base + 'index.html?tab=vivariums&id=' + encodeURIComponent(vivarium.id);
+    var qrImageUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=120x120&margin=1&data=' + encodeURIComponent(vivariumPageUrl);
+    var plantsHtml = plantNames.length ? '<ul class="vivarium-care-plants">' + plantNames.map(function(n) { return '<li>' + escapeHtml(n) + '</li>'; }).join('') + '</ul>' : '<p class="vivarium-care-no-plants">No plants listed.</p>';
+    var htmlContent = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Care Card - ' + escapeHtml(name) + '</title><style>' +
+        '*{margin:0;padding:0;box-sizing:border-box;} body{font-family:system-ui,sans-serif;padding:8mm;background:#fff;} .vivarium-care-card{max-width:105mm;} .vivarium-care-name{font-size:14pt;font-weight:700;margin-bottom:4mm;} .vivarium-care-image{margin:4mm 0;max-width:100%;max-height:50mm;object-fit:contain;} .vivarium-care-plants{margin:4mm 0;padding-left:6mm;} .vivarium-care-plants li{margin:1mm 0;} .vivarium-care-qr{margin-top:6mm;} .vivarium-care-qr img{display:block;} .vivarium-care-qr-label{font-size:8pt;color:#666;} @media print{body{padding:5mm;} .vivarium-care-card{page-break-inside:avoid;}} </style></head><body>' +
+        '<div class="vivarium-care-card">' +
+        '<div class="vivarium-care-name">' + escapeHtml(name) + '</div>' +
+        (imageUrl ? '<img src="' + escapeHtml(imageUrl) + '" alt="" class="vivarium-care-image" onerror="this.style.display=\'none\'">' : '') +
+        '<div class="vivarium-care-plants-wrap"><strong>Plants in this vivarium</strong>' + plantsHtml + '</div>' +
+        '<div class="vivarium-care-qr"><span class="vivarium-care-qr-label">Scan for vivarium page</span><img src="' + qrImageUrl + '" alt="QR code" width="120" height="120"></div>' +
+        '</div></body></html>';
+    var printWindow = window.open('', '_blank');
+    printWindow.document.write(htmlContent);
+    printWindow.document.close();
+    setTimeout(function() { printWindow.print(); }, 400);
+}
+window.generateVivariumCareCard = generateVivariumCareCard;
 

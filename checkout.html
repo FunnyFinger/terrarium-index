@@ -233,9 +233,23 @@
                 var name = (document.getElementById('checkoutName').value || '').trim();
                 var email = (document.getElementById('checkoutEmail').value || '').trim();
                 var phone = (document.getElementById('checkoutPhone').value || '').trim();
-                var address = [document.getElementById('checkoutAddrLine1'), document.getElementById('checkoutAddrLine2'), document.getElementById('checkoutAddrCity'), document.getElementById('checkoutAddrState'), document.getElementById('checkoutAddrPostal'), document.getElementById('checkoutAddrCountry')].map(function(f) { return (f && f.value) ? f.value.trim() : ''; }).filter(Boolean).join(', ');
-                if (!name && !email) {
-                    formError.textContent = 'Please enter at least your name or email.';
+                var addrLine1El = document.getElementById('checkoutAddrLine1');
+                var addrLine2El = document.getElementById('checkoutAddrLine2');
+                var addrCityEl = document.getElementById('checkoutAddrCity');
+                var addrStateEl = document.getElementById('checkoutAddrState');
+                var addrPostalEl = document.getElementById('checkoutAddrPostal');
+                var addrCountryEl = document.getElementById('checkoutAddrCountry');
+                var addrLine1 = (addrLine1El && addrLine1El.value || '').trim();
+                var addrLine2 = (addrLine2El && addrLine2El.value || '').trim();
+                var addrCity = (addrCityEl && addrCityEl.value || '').trim();
+                var addrState = (addrStateEl && addrStateEl.value || '').trim();
+                var addrPostal = (addrPostalEl && addrPostalEl.value || '').trim();
+                var addrCountry = (addrCountryEl && addrCountryEl.value || '').trim();
+                var address = [addrLine1, addrLine2, addrCity, addrState, addrPostal, addrCountry].filter(Boolean).join(', ');
+
+                // Require full customer details and address
+                if (!name || !email || !phone || !addrLine1 || !addrCity || !addrCountry) {
+                    formError.textContent = 'Please fill in all customer details and address fields.';
                     formError.style.display = 'block';
                     return;
                 }
@@ -258,6 +272,11 @@
                     paymentMethod: paymentMethod
                 };
                 if (paymentMethod === 'card') {
+                    if (!inv || typeof inv.saveOrder !== 'function') {
+                        formError.textContent = 'Card payments are not configured. Use Cash on delivery or Bank transfer, or set up the payment server.';
+                        formError.style.display = 'block';
+                        return;
+                    }
                     var apiBase = (window.CHECKOUT_API_BASE || '').replace(/\/$/, '');
                     if (!apiBase) {
                         formError.textContent = 'Card payments are not configured. Use Cash on delivery or Bank transfer, or set up the payment server.';

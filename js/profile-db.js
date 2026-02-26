@@ -23,8 +23,10 @@
     function getProfile(userId) {
         var database = getDb();
         if (!database) return Promise.resolve(null);
-        return database.profiles.get(Number(userId)).then(function (p) {
-            return p || { userId: Number(userId), savedAddresses: [], billingAddress: null };
+        var id = Number(userId);
+        if (!isFinite(id)) return Promise.resolve(null);
+        return database.profiles.get(id).then(function (p) {
+            return p || { userId: id, savedAddresses: [], billingAddress: null };
         });
     }
 
@@ -32,6 +34,7 @@
         var database = getDb();
         if (!database) return Promise.reject(new Error('Profile DB not available'));
         var id = Number(userId);
+        if (!isFinite(id)) return Promise.reject(new Error('Invalid user id'));
         return database.profiles.put({ userId: id, savedAddresses: data.savedAddresses || [], billingAddress: data.billingAddress || null });
     }
 

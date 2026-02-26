@@ -66,6 +66,18 @@
         }
       })();
     </script>
+    <script>
+      // Hide main list briefly when loading a specific plant by id so the user
+      // sees only the plant detail view, not the full grid flashing first.
+      (function() {
+        try {
+          var params = new URLSearchParams(window.location.search || '');
+          if (params.get('tab') === 'plants' && params.get('id')) {
+            document.documentElement.classList.add('detail-startup');
+          }
+        } catch (e) {}
+      })();
+    </script>
 </head>
 <body>
     <!-- Full-page edit view (unified for plants, supplies, vivariums) -->

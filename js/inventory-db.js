@@ -39,7 +39,9 @@
     function getItem(plantId) {
         var database = getDb();
         if (!database) return Promise.resolve(undefined);
-        return database.inventory.get(Number(plantId));
+        var id = Number(plantId);
+        if (!isFinite(id)) return Promise.resolve(undefined);
+        return database.inventory.get(id);
     }
 
     /**
@@ -63,6 +65,7 @@
         var database = getDb();
         if (!database) return Promise.resolve();
         var id = Number(plantId);
+        if (!isFinite(id)) return Promise.resolve();
         var now = Date.now();
         return database.inventory.get(id).then(function (existing) {
             var row = existing || { plantId: id };
@@ -92,8 +95,10 @@
     function recordSale(plantId, quantity, amount, scientificName) {
         var database = getDb();
         if (!database) return Promise.resolve();
+        var id = Number(plantId);
+        if (!isFinite(id)) return Promise.resolve();
         return database.sales.add({
-            plantId: Number(plantId),
+            plantId: id,
             quantity: quantity,
             amount: amount,
             scientificName: scientificName || null,
@@ -107,12 +112,14 @@
     function decrementStock(plantId, quantity) {
         var database = getDb();
         if (!database) return Promise.resolve();
-        return database.inventory.get(Number(plantId)).then(function (row) {
+        var id = Number(plantId);
+        if (!isFinite(id)) return Promise.resolve();
+        return database.inventory.get(id).then(function (row) {
             if (!row || row.quantityInStock == null) return;
             var q = Number(quantity);
             var current = Number(row.quantityInStock) || 0;
             var next = Math.max(0, current - q);
-            return database.inventory.update(Number(plantId), {
+            return database.inventory.update(id, {
                 quantityInStock: next,
                 updatedAt: Date.now()
             });

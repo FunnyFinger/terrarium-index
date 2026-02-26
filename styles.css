@@ -188,6 +188,19 @@ html {
     max-width: 100%;
 }
 
+/* When opening a plant directly by URL (tab=plants&id=...), hide the main
+   grid until the detail panel/modal takes over, to avoid a flash of the list. */
+html.detail-startup .main-layout .main-content,
+html.detail-startup .main-layout .list-view,
+html.detail-startup #plantsGrid,
+html.detail-startup #filtersSidebarWrapper {
+    display: none !important;
+}
+
+html.detail-startup body {
+    background-color: var(--bg-color);
+}
+
 .container {
     --container-padding-x: 20px;
     max-width: none;
@@ -2882,6 +2895,28 @@ main {
 }
 .btn-add-vivarium-supplies {
     margin-top: 0.25rem;
+}
+.vivarium-build-contents .vivarium-build-list {
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+.vivarium-build-row {
+    margin-bottom: 0.5rem;
+}
+.vivarium-build-label {
+    font-weight: 600;
+    color: var(--text-light);
+    margin-right: 0.35rem;
+}
+.vivarium-build-item {
+    color: var(--text-color);
+}
+.vivarium-build-plant-link {
+    color: var(--accent-color, #2d7d46);
+    text-decoration: none;
+}
+.vivarium-build-plant-link:hover {
+    text-decoration: underline;
 }
 .plant-product-section-info .info-group {
     margin-bottom: 1rem;
