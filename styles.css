@@ -895,15 +895,19 @@ html.detail-startup body {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 0.75rem;
-        padding: 0.75rem 0;
-        margin-bottom: 0.5rem;
+        gap: 0.5rem;
+        padding: 0.4rem 0;
+        margin-bottom: 0.25rem;
         border-bottom: 1px solid var(--border-color);
         flex-shrink: 0;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        background: var(--card-bg);
     }
     .filters-mobile-header-title {
         margin: 0;
-        font-size: 1.1rem;
+        font-size: 0.95rem;
         color: var(--primary-color);
         font-weight: 700;
     }
@@ -936,6 +940,25 @@ html.detail-startup body {
     }
     .filters-mobile-close-btn:hover {
         background: var(--secondary-color);
+    }
+    body.filters-drawer-open .control-panel-search {
+        position: sticky;
+        top: 2rem;
+        z-index: 2;
+        background: var(--card-bg);
+        margin-bottom: 0.5rem;
+        padding: 0.25rem 0;
+        flex-shrink: 0;
+    }
+    body.filters-drawer-open .control-panel-search-input {
+        padding: 6px 10px;
+        font-size: 0.875rem;
+    }
+    body.filters-drawer-open .control-panel-search-btn {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+        max-width: 36px;
     }
 }
 
