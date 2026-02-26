@@ -4440,10 +4440,25 @@ var VIVARIUM_TYPE_CARE_TIPS = {
     ]
 };
 
+var COMMON_VIVARIUM_CARE_TIPS = [
+    'If plant colours fade or new leaves look pale, move the unit to brighter indirect light; if leaves scorch or bleach, move it farther from direct sun or strong grow lights.',
+    'When plants start touching the glass or crowding each other, prune them back with clean scissors to restore airflow and keep views clear.',
+    'Remove yellowing or rotting leaves as soon as you see them to prevent mould and pests from spreading.',
+    'Check regularly for pests (e.g. aphids, mites, mealybugs); isolate the unit and treat promptly if any are found.',
+    'Avoid overwatering: if you see constant condensation or soggy substrate, air the vivarium out and let the top layer dry slightly before watering again.',
+    'A small amount of harmless mould, mushrooms, or springtails/isopods is normal in a living ecosystem and helps break down dead leaves.',
+    'If mould or mushrooms start to cover healthy plants or hardscape, improve airflow, remove affected pieces, and reduce watering or feeding until it stabilises.'
+];
+
 function getVivariumCareTips(typeKey) {
-    if (!typeKey) return VIVARIUM_TYPE_CARE_TIPS['open-terrarium'] || VIVARIUM_TYPE_CARE_TIPS['vivarium'];
-    var key = String(typeKey).toLowerCase().replace(/\s+/g, '-');
-    return VIVARIUM_TYPE_CARE_TIPS[key] || VIVARIUM_TYPE_CARE_TIPS['open-terrarium'] || VIVARIUM_TYPE_CARE_TIPS['vivarium'];
+    var baseTips;
+    if (!typeKey) {
+        baseTips = VIVARIUM_TYPE_CARE_TIPS['open-terrarium'] || VIVARIUM_TYPE_CARE_TIPS['vivarium'] || [];
+    } else {
+        var key = String(typeKey).toLowerCase().replace(/\s+/g, '-');
+        baseTips = VIVARIUM_TYPE_CARE_TIPS[key] || VIVARIUM_TYPE_CARE_TIPS['open-terrarium'] || VIVARIUM_TYPE_CARE_TIPS['vivarium'] || [];
+    }
+    return baseTips.concat(COMMON_VIVARIUM_CARE_TIPS);
 }
 
 function showVivariumDetail(vivarium) {
@@ -4457,7 +4472,9 @@ function showVivariumDetail(vivarium) {
     var vivariumGalleryImages = (vivarium.images || []).filter(function(img) { return img && img.trim(); });
     var hasGallery = vivariumGalleryImages.length > 0;
     var descriptionHtml = vivarium.description ? '<p class="description">' + escapeHtml(vivarium.description) + '</p>' : '<p class="description description-empty">No description available.</p>';
-    var careTips = getVivariumCareTips(vivarium.type);
+    var careTips = Array.isArray(vivarium.careTips) && vivarium.careTips.length
+        ? vivarium.careTips
+        : getVivariumCareTips(vivarium.type);
     var careTipsListHtml = careTips.map(function(tip) { return '<li style="margin-bottom: 0.3rem;">' + escapeHtml(tip) + '</li>'; }).join('');
     var galleryPage2Html = (function() {
         if (vivariumGalleryImages.length === 0) {
@@ -4523,33 +4540,59 @@ function showVivariumDetail(vivarium) {
             var bc = vivarium._buildConfig;
             if (!bc) return '';
             var eq = window.allEquipment || [];
-            var plantsList = window.allPlants || window.plantsDatabase || [];
-            function findEq(id) { var n = parseInt(id, 10); return eq.filter(function(e) { return e && (e.id === n || parseInt(e.id, 10) === n); })[0]; }
-            function findPlant(id) { var n = parseInt(id, 10); return plantsList.filter(function(p) { return p && (p.id === n || parseInt(p.id, 10) === n); })[0]; }
-            function row(label, items) {
-                if (!items || items.length === 0) return '';
-                var html = items.map(function(item) { return '<span class="vivarium-build-item">' + item + '</span>'; }).join(', ');
-                return '<div class="vivarium-build-row"><span class="vivarium-build-label">' + escapeHtml(label) + ':</span> ' + html + '</div>';
+            function findEq(id) {
+                var n = parseInt(id, 10);
+                return eq.filter(function(e) { return e && (e.id === n || parseInt(e.id, 10) === n); })[0];
             }
-            var parts = [];
-            if (bc.enclosureId) { var e = findEq(bc.enclosureId); parts.push(row('Enclosure', e ? [escapeHtml(e.name || 'Item')] : [])); }
-            if (bc.drainageIds && bc.drainageIds.length) parts.push(row('Drainage', bc.drainageIds.map(function(id) { var e = findEq(id); return e ? escapeHtml(e.name || 'Item') : ''; }).filter(Boolean)));
-            if (bc.substrateIds && bc.substrateIds.length) parts.push(row('Substrate', bc.substrateIds.map(function(id) { var e = findEq(id); return e ? escapeHtml(e.name || 'Item') : ''; }).filter(Boolean)));
-            if (bc.hardscapeIds && bc.hardscapeIds.length) parts.push(row('Hardscape', bc.hardscapeIds.map(function(id) { var e = findEq(id); return e ? escapeHtml(e.name || 'Item') : ''; }).filter(Boolean)));
-            if (bc.plantIds && bc.plantIds.length) {
-                var plantLinks = bc.plantIds.map(function(id) {
-                    var p = findPlant(id);
-                    if (!p) return '';
-                    var url = 'index.html?tab=plants&id=' + encodeURIComponent(p.id);
-                    return '<a href="' + url + '" class="vivarium-build-plant-link">' + escapeHtml(p.name || (typeof p.scientificName === 'string' ? p.scientificName : (p.scientificName && p.scientificName.name) || 'Plant') || 'Plant') + '</a>';
-                }).filter(Boolean);
-                if (plantLinks.length) parts.push('<div class="vivarium-build-row"><span class="vivarium-build-label">Plants:</span> ' + plantLinks.join(', ') + '</div>');
+            function supplyCardGrid(label, items) {
+                if (!items || !items.length) return '';
+                var cards = items.map(function(e) {
+                    if (!e) return '';
+                    var url = 'index.html?tab=equipment&id=' + encodeURIComponent(e.id);
+                    var imgUrl = e.imageUrl || (e.images && e.images[0]) || null;
+                    if (imgUrl && imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') {
+                        imgUrl = imageUtils.normalizePlantImagePath(imgUrl);
+                    }
+                    return '<a href="' + url + '" class="plant-card vivarium-content-card vivarium-supply-card">' +
+                        '<div class="plant-image-container">' +
+                        (imgUrl ? '<img src="' + escapeHtml(imgUrl) + '" alt="" class="plant-image" loading="lazy">' : '<div class="image-placeholder">' + PLACEHOLDER_EQUIPMENT_SVG + '</div>') +
+                        '</div>' +
+                        '<div class="plant-info"><div class="plant-name">' + escapeHtml(e.name || 'Item') + '</div></div></a>';
+                }).filter(Boolean).join('');
+                if (!cards) return '';
+                return '<div class="vivarium-build-section">' +
+                    '<h3 class="vivarium-build-section-title">' + escapeHtml(label) + '</h3>' +
+                    '<div class="vivarium-build-grid plants-grid card-size-small">' + cards + '</div>' +
+                    '</div>';
             }
-            if (bc.decorationIds && bc.decorationIds.length) parts.push(row('Decorations', bc.decorationIds.map(function(id) { var e = findEq(id); return e ? escapeHtml(e.name || 'Item') : ''; }).filter(Boolean)));
-            if (bc.accessoryIds && bc.accessoryIds.length) parts.push(row('Accessories', bc.accessoryIds.map(function(id) { var e = findEq(id); return e ? escapeHtml(e.name || 'Item') : ''; }).filter(Boolean)));
-            if (bc.toolIds && bc.toolIds.length) parts.push(row('Tools', bc.toolIds.map(function(id) { var e = findEq(id); return e ? escapeHtml(e.name || 'Item') : ''; }).filter(Boolean)));
-            if (parts.length === 0) return '';
-            return '<section class="plant-product-section vivarium-build-contents"><h2 class="plant-product-section-title">Build contents</h2><div class="vivarium-build-list">' + parts.join('') + '</div></section>';
+            var sections = [];
+            if (bc.enclosureId) {
+                var enc = findEq(bc.enclosureId);
+                if (enc) sections.push(supplyCardGrid('Enclosure', [enc]));
+            }
+            if (bc.drainageIds && bc.drainageIds.length) {
+                sections.push(supplyCardGrid('Drainage', bc.drainageIds.map(findEq).filter(Boolean)));
+            }
+            if (bc.substrateIds && bc.substrateIds.length) {
+                sections.push(supplyCardGrid('Substrate', bc.substrateIds.map(findEq).filter(Boolean)));
+            }
+            if (bc.hardscapeIds && bc.hardscapeIds.length) {
+                sections.push(supplyCardGrid('Hard scape', bc.hardscapeIds.map(findEq).filter(Boolean)));
+            }
+            if (bc.decorationIds && bc.decorationIds.length) {
+                sections.push(supplyCardGrid('Decorations', bc.decorationIds.map(findEq).filter(Boolean)));
+            }
+            if (bc.accessoryIds && bc.accessoryIds.length) {
+                sections.push(supplyCardGrid('Accessories', bc.accessoryIds.map(findEq).filter(Boolean)));
+            }
+            if (bc.toolIds && bc.toolIds.length) {
+                sections.push(supplyCardGrid('Optional tools', bc.toolIds.map(findEq).filter(Boolean)));
+            }
+            if (!sections.length) return '';
+            return '<section class="plant-product-section vivarium-build-contents">' +
+                '<h2 class="plant-product-section-title">Build contents</h2>' +
+                '<div class="vivarium-build-list">' + sections.join('') + '</div>' +
+                '</section>';
         })() +
         (function() {
             var ids = vivarium.plantIds;
@@ -4562,6 +4605,14 @@ function showVivariumDetail(vivarium) {
             var cardHtml = plantsList.map(function(p) {
                 var url = 'index.html?tab=plants&id=' + encodeURIComponent(p.id);
                 var imgUrl = p.imageUrl || (p.images && p.images[0]) || null;
+                // Normalize legacy plant image paths and fall back to slug-based path
+                if (!imgUrl && typeof scientificNameToSlug === 'function' && typeof getScientificNameString === 'function') {
+                    var slug = scientificNameToSlug(getScientificNameString(p));
+                    if (slug) imgUrl = 'images/plants/' + slug + '/' + slug + '-1.jpg';
+                }
+                if (imgUrl && imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') {
+                    imgUrl = imageUtils.normalizePlantImagePath(imgUrl);
+                }
                 var sci = (typeof p.scientificName === 'string') ? p.scientificName : (p.scientificName && p.scientificName.name) ? p.scientificName.name : '';
                 return '<a href="' + url + '" class="plant-card vivarium-content-card vivarium-plant-card">' +
                     '<div class="plant-image-container">' +
@@ -4573,25 +4624,8 @@ function showVivariumDetail(vivarium) {
             return '<section class="plant-product-section"><h2 class="plant-product-section-title">Plant content</h2><div class="vivarium-plants-grid plants-grid card-size-small">' + cardHtml + '</div></section>';
         })() +
         (function() {
-            var ids = vivarium.supplyIds;
-            if (!Array.isArray(ids) || ids.length === 0) return '<section class="plant-product-section vivarium-supplies-section"><h2 class="plant-product-section-title">Optional supplies</h2><p class="description description-empty">No optional supplies for this vivarium.</p></section>';
-            var equipment = window.allEquipment || [];
-            var suppliesList = equipment.filter(function(e) { return e && e.id != null && ids.indexOf(Number(e.id)) !== -1; });
-            var order = {};
-            ids.forEach(function(id, i) { order[Number(id)] = i; });
-            suppliesList.sort(function(a, b) { return (order[a.id] || 999) - (order[b.id] || 999); });
-            if (suppliesList.length === 0) return '<section class="plant-product-section vivarium-supplies-section"><h2 class="plant-product-section-title">Optional supplies</h2><p class="description description-empty">No matching supplies in catalog.</p></section>';
-            var cardHtml = suppliesList.map(function(s) {
-                var priceStr = s.price != null ? formatPrice(s.price) : 'Price on request';
-                var imgUrl = s.imageUrl || (s.images && s.images[0]) || null;
-                return '<label class="plant-card vivarium-content-card vivarium-supply-card">' +
-                    '<input type="checkbox" class="vivarium-supply-checkbox" data-supply-id="' + s.id + '">' +
-                    '<div class="plant-image-container">' +
-                    (imgUrl ? '<img src="' + escapeHtml(imgUrl) + '" alt="" class="plant-image" loading="lazy">' : '<div class="image-placeholder">' + PLACEHOLDER_EQUIPMENT_SVG + '</div>') +
-                    '<div class="card-price">' + escapeHtml(priceStr) + '</div></div>' +
-                    '<div class="plant-info"><div class="plant-name">' + escapeHtml(s.name || 'Supply') + '</div></div></label>';
-            }).join('');
-            return '<section class="plant-product-section vivarium-supplies-section"><h2 class="plant-product-section-title">Optional supplies</h2><p class="vivarium-supplies-intro">Add one or more supplies to the same order:</p><div class="vivarium-supplies-grid plants-grid card-size-small">' + cardHtml + '</div><button type="button" class="btn btn-add-vivarium-supplies btn-primary">Add vivarium + selected supplies to cart</button></section>';
+            // Optional supplies section removed; build contents now shows all components by category.
+            return '';
         })() +
         '<section class="plant-product-section">' +
         '<h2 class="plant-product-section-title">Maintenance</h2>' +
@@ -4989,13 +5023,14 @@ function refreshVivariumEditSupplyOptions() {
 
 function openVivariumEdit(vivarium) {
     var isNew = !vivarium || vivarium.id == null;
-    vivariumEditing = isNew ? { id: null, name: '', description: '', imageUrl: '', images: [], price: null, type: 'open-terrarium', availability: 'in-stock', plantIds: [], supplyIds: [] } : vivarium;
+    vivariumEditing = isNew ? { id: null, name: '', description: '', imageUrl: '', images: [], price: null, type: 'open-terrarium', availability: 'in-stock', plantIds: [], supplyIds: [], careTips: [] } : vivarium;
     if (!Array.isArray(vivariumEditing.plantIds)) vivariumEditing.plantIds = [];
     if (!Array.isArray(vivariumEditing.supplyIds)) vivariumEditing.supplyIds = [];
     var titleEl = document.getElementById('editPageTitle');
     if (titleEl) titleEl.textContent = isNew ? 'Add vivarium' : 'Edit vivarium';
     var nameEl = document.getElementById('vivariumEditName');
     var descEl = document.getElementById('vivariumEditDescription');
+    var maintEl = document.getElementById('vivariumEditMaintenance');
     var priceEl = document.getElementById('vivariumEditPrice');
     var costEl = document.getElementById('vivariumEditCost');
     var marginPctEl = document.getElementById('vivariumEditMarginPct');
@@ -5003,6 +5038,12 @@ function openVivariumEdit(vivarium) {
     var availabilityEl = document.getElementById('vivariumEditAvailability');
     if (nameEl) nameEl.value = vivariumEditing.name || '';
     if (descEl) descEl.value = vivariumEditing.description || '';
+    if (maintEl) {
+        var existingTips = Array.isArray(vivariumEditing.careTips) && vivariumEditing.careTips.length
+            ? vivariumEditing.careTips
+            : ((typeof getVivariumCareTips === 'function') ? getVivariumCareTips(vivariumEditing.type || 'open-terrarium') : []);
+        maintEl.value = existingTips.join('\n');
+    }
     function fillVivariumPriceFields(inv) {
         var price = vivariumEditing.price != null ? vivariumEditing.price : (inv && inv.price != null ? inv.price : null);
         var cost = (inv && inv.costPrice != null) ? inv.costPrice : null;
@@ -5051,6 +5092,7 @@ function saveVivariumEdit() {
     if (!vivariumEditing) return;
     var nameEl = document.getElementById('vivariumEditName');
     var descEl = document.getElementById('vivariumEditDescription');
+    var maintEl = document.getElementById('vivariumEditMaintenance');
     var priceEl = document.getElementById('vivariumEditPrice');
     var costEl = document.getElementById('vivariumEditCost');
     var marginPctEl = document.getElementById('vivariumEditMarginPct');
@@ -5058,6 +5100,7 @@ function saveVivariumEdit() {
     var availabilityEl = document.getElementById('vivariumEditAvailability');
     var name = nameEl && nameEl.value.trim() !== '' ? nameEl.value.trim() : (vivariumEditing.name || 'New vivarium');
     var description = descEl ? descEl.value.trim() : '';
+    var careTips = maintEl && maintEl.value ? maintEl.value.split(/\r?\n/).map(function(t){ return t.trim(); }).filter(Boolean) : [];
     var cost = costEl && costEl.value.trim() !== '' ? parseFloat(costEl.value) : undefined;
     var marginPct = marginPctEl && marginPctEl.value.trim() !== '' ? parseFloat(marginPctEl.value) : NaN;
     var price;
@@ -5114,7 +5157,7 @@ function saveVivariumEdit() {
         } catch (e) { /* ignore */ }
     } else {
         try {
-            localStorage.setItem('vivarium_' + id + '_edit', JSON.stringify({ name: name, description: description || undefined, price: price, type: type, availability: availability, plantIds: plantIds, supplyIds: supplyIds }));
+            localStorage.setItem('vivarium_' + id + '_edit', JSON.stringify({ name: name, description: description || undefined, price: price, type: type, availability: availability, plantIds: plantIds, supplyIds: supplyIds, careTips: careTips.length ? careTips : undefined }));
             if (typeof syncToRepo === 'function') syncToRepo();
         } catch (e) { /* ignore */ }
     }
@@ -5160,6 +5203,7 @@ function mergeVivariumEditsFromStorage() {
             if (edit.availability != null) v.availability = edit.availability;
             if (edit.plantIds != null && Array.isArray(edit.plantIds)) v.plantIds = edit.plantIds;
             if (edit.supplyIds != null && Array.isArray(edit.supplyIds)) v.supplyIds = edit.supplyIds;
+            if (edit.careTips != null && Array.isArray(edit.careTips)) v.careTips = edit.careTips;
         } catch (e) { /* ignore */ }
     });
 }
@@ -9337,26 +9381,101 @@ function generateVivariumCareCard(vivarium) {
     if (!vivarium || !vivarium.id) return;
     var name = vivarium.name || 'Vivarium';
     var imageUrl = vivarium.imageUrl || (vivarium.images && vivarium.images[0]) || null;
+    if (imageUrl && imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') {
+        imageUrl = imageUtils.normalizePlantImagePath(imageUrl);
+    }
     var plants = window.allPlants || window.plantsDatabase || [];
     var plantIds = vivarium.plantIds || (vivarium._buildConfig && vivarium._buildConfig.plantIds) || [];
-    var plantNames = plantIds.map(function(id) {
-        var n = parseInt(id, 10);
-        var p = plants.filter(function(x) { return x && (x.id === n || parseInt(x.id, 10) === n); })[0];
-        return p ? (p.name || (typeof p.scientificName === 'string' ? p.scientificName : (p.scientificName && p.scientificName.name) || 'Plant') || 'Plant') : null;
-    }).filter(Boolean);
+    var plantItems = [];
+    if (Array.isArray(plantIds) && plantIds.length) {
+        var order = {};
+        plantIds.forEach(function(id, i) { order[Number(id)] = i; });
+        plantItems = plants.filter(function(p) {
+            return p && p.id != null && plantIds.indexOf(Number(p.id)) !== -1;
+        }).sort(function(a, b) {
+            return (order[a.id] || 999) - (order[b.id] || 999);
+        });
+    }
+    var plantsCardsHtml = '';
+    if (plantItems.length) {
+        plantsCardsHtml = plantItems.map(function(p) {
+            var url = 'index.html?tab=plants&id=' + encodeURIComponent(p.id);
+            var imgUrl = p.imageUrl || (p.images && p.images[0]) || null;
+            if (!imgUrl && typeof scientificNameToSlug === 'function' && typeof getScientificNameString === 'function') {
+                var slug = scientificNameToSlug(getScientificNameString(p));
+                if (slug) imgUrl = 'images/plants/' + slug + '/' + slug + '-1.jpg';
+            }
+            if (imgUrl && imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') {
+                imgUrl = imageUtils.normalizePlantImagePath(imgUrl);
+            }
+            var sci = (typeof p.scientificName === 'string') ? p.scientificName : (p.scientificName && p.scientificName.name) ? p.scientificName.name : '';
+            return '<a href="' + url + '" class="plant-card vivarium-content-card vivarium-plant-card">' +
+                '<div class="plant-image-container">' +
+                (imgUrl ? '<img src="' + escapeHtml(imgUrl) + '" alt="" class="plant-image" loading="lazy">' : '<div class="image-placeholder">' + PLACEHOLDER_PLANT_SVG + '</div>') +
+                '</div>' +
+                '<div class="plant-info"><div class="plant-name">' + escapeHtml(p.name || sci || 'Plant') + '</div>' +
+                (sci ? '<div class="plant-scientific">' + escapeHtml(sci) + '</div>' : '') + '</div></a>';
+        }).join('');
+    }
+    var careTips = Array.isArray(vivarium.careTips) && vivarium.careTips.length
+        ? vivarium.careTips
+        : ((typeof getVivariumCareTips === 'function') ? getVivariumCareTips(vivarium.type) : []);
+    if (!Array.isArray(careTips)) careTips = [];
+    var careTipsHtml = careTips.length
+        ? '<ul class="vivarium-care-tips-list">' + careTips.map(function(t) { return '<li>' + escapeHtml(t) + '</li>'; }).join('') + '</ul>'
+        : '<p class="vivarium-care-no-tips">No specific maintenance tips available.</p>';
     var base = window.location.origin + (window.location.pathname || '/');
     if (base.endsWith('.html')) base = base.replace(/\/[^/]*$/, '/');
     else if (!base.endsWith('/')) base = base.replace(/\/[^/]*$/, '') + '/';
     var vivariumPageUrl = base + 'index.html?tab=vivariums&id=' + encodeURIComponent(vivarium.id);
-    var qrImageUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=120x120&margin=1&data=' + encodeURIComponent(vivariumPageUrl);
-    var plantsHtml = plantNames.length ? '<ul class="vivarium-care-plants">' + plantNames.map(function(n) { return '<li>' + escapeHtml(n) + '</li>'; }).join('') + '</ul>' : '<p class="vivarium-care-no-plants">No plants listed.</p>';
+    var qrImageUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=100x100&margin=1&data=' + encodeURIComponent(vivariumPageUrl);
+    var plantsSectionHtml = plantItems.length
+        ? '<div class="vivarium-care-section-title">Plants in this vivarium</div><div class="vivarium-care-plants-grid">' + plantsCardsHtml + '</div>'
+        : '<div class="vivarium-care-section-title">Plants in this vivarium</div><p class="vivarium-care-no-plants">No plants listed.</p>';
     var htmlContent = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Care Card - ' + escapeHtml(name) + '</title><style>' +
-        '*{margin:0;padding:0;box-sizing:border-box;} body{font-family:system-ui,sans-serif;padding:8mm;background:#fff;} .vivarium-care-card{max-width:105mm;} .vivarium-care-name{font-size:14pt;font-weight:700;margin-bottom:4mm;} .vivarium-care-image{margin:4mm 0;max-width:100%;max-height:50mm;object-fit:contain;} .vivarium-care-plants{margin:4mm 0;padding-left:6mm;} .vivarium-care-plants li{margin:1mm 0;} .vivarium-care-qr{margin-top:6mm;} .vivarium-care-qr img{display:block;} .vivarium-care-qr-label{font-size:8pt;color:#666;} @media print{body{padding:5mm;} .vivarium-care-card{page-break-inside:avoid;}} </style></head><body>' +
+        '@page{size:A4 portrait;margin:6mm;}' +
+        '*{margin:0;padding:0;box-sizing:border-box;}' +
+        'body{font-family:-apple-system,BlinkMacSystemFont,system-ui,sans-serif;background:#fff;color:#111;}' +
+        '.vivarium-care-card{max-width:190mm;background:#fff;border-radius:4px;border:1px solid #ddd;box-shadow:none;padding:6mm 7mm;margin:0 auto;}' +
+        '.vivarium-care-header{display:flex;gap:4mm;align-items:flex-start;margin-bottom:4mm;}' +
+        '.vivarium-care-title-block{flex:1;}' +
+        '.vivarium-care-name{font-size:13pt;font-weight:700;margin-bottom:1mm;}' +
+        '.vivarium-care-subtitle{font-size:8pt;color:#666;}' +
+        '.vivarium-care-image{width:28mm;height:28mm;object-fit:cover;border-radius:3px;border:1px solid #e0e0e0;background:#fafafa;}' +
+        '.vivarium-care-body{display:flex;flex-direction:column;gap:4mm;}' +
+        '.vivarium-care-column{flex:1;min-width:0;}' +
+        '.vivarium-care-section-title{font-size:9pt;font-weight:600;margin-bottom:1.5mm;border-bottom:1px solid #eee;padding-bottom:1mm;}' +
+        '.vivarium-care-plants-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2mm;margin-top:1.5mm;}' +
+        '.plant-card{border:1px solid #e3e3e3;border-radius:3px;overflow:hidden;background:#fafafa;text-decoration:none;color:inherit;display:flex;flex-direction:column;}' +
+        '.plant-image-container{width:100%;padding-top:55%;position:relative;background:#f0f0f0;overflow:hidden;}' +
+        '.plant-image-container img.plant-image{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;}' +
+        '.image-placeholder{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#bbb;}' +
+        '.plant-info{padding:1.5mm 2mm;}' +
+        '.plant-name{font-size:7.5pt;font-weight:600;margin-bottom:0.5mm;}' +
+        '.plant-scientific{font-size:6.5pt;color:#666;font-style:italic;}' +
+        '.vivarium-care-no-plants{font-size:7.5pt;color:#666;margin-top:2mm;}' +
+        '.vivarium-care-tips-list{margin-top:1.5mm;padding-left:4mm;font-size:7.5pt;}' +
+        '.vivarium-care-tips-list li{margin-bottom:1mm;}' +
+        '.vivarium-care-footer{display:flex;justify-content:space-between;align-items:flex-end;margin-top:4mm;font-size:7pt;color:#666;}' +
+        '.vivarium-care-qr{text-align:right;}' +
+        '.vivarium-care-qr img{display:block;margin-left:auto;border:1px solid #e0e0e0;border-radius:3px;background:#fff;}' +
+        '.vivarium-care-qr-label{margin-top:1mm;}' +
+        '@media print{body{background:#fff;} .vivarium-care-card{border-color:#ccc;page-break-inside:avoid;}}' +
+        '</style></head><body>' +
         '<div class="vivarium-care-card">' +
-        '<div class="vivarium-care-name">' + escapeHtml(name) + '</div>' +
+        '<div class="vivarium-care-header">' +
+        '<div class="vivarium-care-title-block"><div class="vivarium-care-name">' + escapeHtml(name) + '</div>' +
+        '<div class="vivarium-care-subtitle">Care card</div></div>' +
         (imageUrl ? '<img src="' + escapeHtml(imageUrl) + '" alt="" class="vivarium-care-image" onerror="this.style.display=\'none\'">' : '') +
-        '<div class="vivarium-care-plants-wrap"><strong>Plants in this vivarium</strong>' + plantsHtml + '</div>' +
-        '<div class="vivarium-care-qr"><span class="vivarium-care-qr-label">Scan for vivarium page</span><img src="' + qrImageUrl + '" alt="QR code" width="120" height="120"></div>' +
+        '</div>' +
+        '<div class="vivarium-care-body">' +
+        '<div class="vivarium-care-column vivarium-care-column-plants">' + plantsSectionHtml + '</div>' +
+        '<div class="vivarium-care-column vivarium-care-column-tips"><div class="vivarium-care-section-title">Maintenance</div>' + careTipsHtml + '</div>' +
+        '</div>' +
+        '<div class="vivarium-care-footer">' +
+        '<div class="vivarium-care-footer-text">Scan the QR code to view this vivarium online.</div>' +
+        '<div class="vivarium-care-qr"><span class="vivarium-care-qr-label">Vivarium page</span><img src="' + qrImageUrl + '" alt="QR code" width="120" height="120"></div>' +
+        '</div>' +
         '</div></body></html>';
     var printWindow = window.open('', '_blank');
     printWindow.document.write(htmlContent);
