@@ -948,6 +948,7 @@ const cancelUploadBtn = document.getElementById('cancelUploadBtn');
 const selectFolderBtn = document.getElementById('selectFolderBtn');
 const folderStatus = document.getElementById('folderStatus');
 const uploadPlantName = document.getElementById('uploadPlantName');
+const uploadName = document.getElementById('uploadName');
 const uploadScientificName = document.getElementById('uploadScientificName');
 const uploadCommonNames = document.getElementById('uploadCommonNames');
 const uploadCatalogueOfLifeUrl = document.getElementById('uploadCatalogueOfLifeUrl');
@@ -1018,6 +1019,7 @@ uploadUtils.init({
         selectFolderBtn,
         folderStatus,
         uploadPlantName,
+        uploadName,
         uploadScientificName,
         uploadCommonNames,
         uploadCatalogueOfLifeUrl,

@@ -175,6 +175,11 @@ function readPlantDetailsFromForm() {
         currentUploadPlant.reorderLevel = r === '' ? undefined : (parseFloat(r));
         if (currentUploadPlant.reorderLevel !== undefined && isNaN(currentUploadPlant.reorderLevel)) currentUploadPlant.reorderLevel = undefined;
     }
+    var nameEl = elements.uploadName;
+    if (nameEl) {
+        var nameVal = nameEl.value ? nameEl.value.trim() : '';
+        currentUploadPlant.name = nameVal || currentUploadPlant.name || '';
+    }
     var sciNameEl = elements.uploadScientificName;
     var commonNamesEl = elements.uploadCommonNames;
     if (sciNameEl) {
@@ -474,7 +479,7 @@ async function openImageUpload(plantId) {
         if (currentUploadPlant.id != null) {
             var scientificName = getScientificNameString(currentUploadPlant) || currentUploadPlant.name || '';
             var escapedName = String(scientificName).replace(/'/g, "\\'").replace(/"/g, '&quot;');
-            uploadPlantName.innerHTML = 'Plant: <span class="scientific-name-tag" onclick="typeof copyScientificNameToClipboard===\'function\'&&copyScientificNameToClipboard(\'' + escapedName + '\', this)" title="Click to copy" style="cursor: pointer; color: var(--primary-color); text-decoration: underline; font-weight: 600; padding: 2px 6px; border-radius: 4px; background: rgba(74, 144, 226, 0.1); transition: all 0.2s; display: inline-block;">' + escapeHtml(scientificName) + '</span>';
+            uploadPlantName.innerHTML = 'Scientific name (click to copy): <span class="scientific-name-tag" onclick="typeof copyScientificNameToClipboard===\'function\'&&copyScientificNameToClipboard(\'' + escapedName + '\', this)" title="Click to copy" style="cursor: pointer; color: var(--primary-color); text-decoration: underline; font-weight: 600; padding: 2px 6px; border-radius: 4px; background: rgba(74, 144, 226, 0.1); transition: all 0.2s; display: inline-block;">' + escapeHtml(scientificName) + '</span>';
             uploadPlantName.style.display = '';
         } else {
             uploadPlantName.innerHTML = '';
@@ -490,6 +495,8 @@ async function openImageUpload(plantId) {
         var tips = currentUploadPlant.careTips;
         careTipsEl.value = Array.isArray(tips) ? tips.filter(Boolean).map(String).join('\n') : (tips ? String(tips) : '');
     }
+    var nameEl = elements.uploadName;
+    if (nameEl) nameEl.value = currentUploadPlant.name || '';
     var sciNameEl = elements.uploadScientificName;
     var commonNamesEl = elements.uploadCommonNames;
     if (sciNameEl) sciNameEl.value = getScientificNameString(currentUploadPlant) || '';

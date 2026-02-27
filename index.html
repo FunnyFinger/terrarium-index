@@ -1436,7 +1436,15 @@
         <div class="upload-modal-content">
             <span class="close" id="closeUploadModal">&times;</span>
             <h2 style="margin-bottom: 1rem; color: var(--primary-color);">Edit Plant Details</h2>
-            <p id="uploadPlantName" style="margin-bottom: 1rem; color: var(--text-light);"></p>
+
+            <!-- Main name first – this is the name on cards and headers (e.g. "Chinese Evergreen") -->
+            <div class="edit-plant-section edit-plant-section-main-name" style="margin-bottom: 1.25rem;">
+                <label for="uploadName" class="edit-plant-detail-label">Main name</label>
+                <input type="text" id="uploadName" class="edit-plant-input edit-plant-text" placeholder="e.g. Chinese Evergreen, Swiss Cheese Vine" aria-label="Plant main display name">
+                <p class="edit-plant-field-hint" style="margin-top: 0.25rem;">Shown on plant cards and as the main title on the detail page.</p>
+            </div>
+
+            <p id="uploadPlantName" class="edit-plant-scientific-copy-hint" style="margin-bottom: 1rem; color: var(--text-light); font-size: 0.9rem;"></p>
 
             <!-- Scientific name & Common names -->
             <div class="edit-plant-section" style="margin-bottom: 1.25rem;">
