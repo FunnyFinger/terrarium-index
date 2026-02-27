@@ -567,6 +567,33 @@
             var invVivariumList = [];
             var invPerPage = 25;
             var invCurrentPage = 1;
+            /** Delete from inventory; if custom supply (50001+) or custom vivarium (60001+), also remove from Supabase so item disappears globally. */
+            function deleteInventoryItemAndSyncCustom(id, category) {
+                var inv = window.inventoryDb;
+                if (!inv || !inv.deleteItem) return Promise.reject(new Error('Inventory not available'));
+                var numId = Number(id);
+                var isEquipment = category === 'equipment';
+                var isVivarium = category === 'vivariums';
+                var promise = inv.deleteItem(id);
+                if (window.supabaseDb && window.supabaseDb.isConfigured()) {
+                    if (isEquipment && numId >= 50001 && numId < 60001) {
+                        promise = promise.then(function() {
+                            return window.supabaseDb.getCustomEquipment().then(function(custom) {
+                                var updated = (custom || []).filter(function(it) { return Number(it.id) !== numId; });
+                                return window.supabaseDb.saveCustomEquipment(updated);
+                            });
+                        });
+                    } else if (isVivarium && numId >= 60001) {
+                        promise = promise.then(function() {
+                            return window.supabaseDb.getCustomVivariums().then(function(custom) {
+                                var updated = (custom || []).filter(function(it) { return Number(it.id) !== numId; });
+                                return window.supabaseDb.saveCustomVivariums(updated);
+                            });
+                        });
+                    }
+                }
+                return promise;
+            }
             function getRowMeta(p, invByPlantId) {
                 var inv = invByPlantId[p.id] || {};
                 var sellPrice = inv.price != null ? inv.price : (p.price != null ? p.price : DEFAULT_PRICE);
@@ -905,10 +932,15 @@
             document.getElementById('invDetailDeleteFromInventory').addEventListener('click', function() {
                 var id = window.invDetailPlantId;
                 if (id == null) return;
-                if (!confirm('Remove this item from inventory? Its price and stock will be cleared. The product stays in the catalog.')) return;
-                var inv = window.inventoryDb;
-                if (!inv || !inv.deleteItem) return;
-                inv.deleteItem(id).then(function() {
+                var isCustom = (invCurrentCategory === 'equipment' && Number(id) >= 50001) || (invCurrentCategory === 'vivariums' && Number(id) >= 60001);
+                var msg = isCustom ? 'Remove this item from the catalog and inventory? It will no longer appear in Supplies/Vivariums anywhere.' : 'Remove this item from inventory? Its price and stock will be cleared. The product stays in the catalog.';
+                if (!confirm(msg)) return;
+                deleteInventoryItemAndSyncCustom(id, invCurrentCategory).then(function() {
+                    closeDetailModal();
+                    loadAndRender();
+                }).catch(function(err) {
+                    console.error('Delete failed:', err);
+                    alert('Delete failed: ' + (err && err.message ? err.message : 'unknown error'));
                     closeDetailModal();
                     loadAndRender();
                 });
@@ -999,10 +1031,18 @@
             document.getElementById('invBatchDeleteFromInventory').addEventListener('click', function() {
                 var ids = Object.keys(invSelectedIds).filter(function(id) { return invSelectedIds[id]; }).map(Number);
                 if (ids.length === 0) return;
-                if (!confirm('Remove ' + ids.length + ' item(s) from inventory? Their price and stock will be cleared. The products stay in the catalog.')) return;
-                var inv = window.inventoryDb;
-                if (!inv || !inv.deleteItem) return;
-                Promise.all(ids.map(function(id) { return inv.deleteItem(id); })).then(function() {
+                var hasCustom = invCurrentCategory === 'equipment' && ids.some(function(id) { return id >= 50001 && id < 60001; });
+                if (invCurrentCategory === 'vivariums') hasCustom = hasCustom || ids.some(function(id) { return id >= 60001; });
+                var msg = hasCustom ? 'Remove ' + ids.length + ' item(s) from inventory and catalog? Custom supplies/vivariums will no longer appear anywhere.' : 'Remove ' + ids.length + ' item(s) from inventory? Their price and stock will be cleared. The products stay in the catalog.';
+                if (!confirm(msg)) return;
+                Promise.all(ids.map(function(id) { return deleteInventoryItemAndSyncCustom(id, invCurrentCategory); })).then(function() {
+                    invSelectedIds = {};
+                    document.querySelectorAll('.inv-row-select, #invSelectAll').forEach(function(cb) { cb.checked = false; });
+                    updateBatchBar();
+                    loadAndRender();
+                }).catch(function(err) {
+                    console.error('Batch delete failed:', err);
+                    alert('Delete failed: ' + (err && err.message ? err.message : 'unknown error'));
                     invSelectedIds = {};
                     document.querySelectorAll('.inv-row-select, #invSelectAll').forEach(function(cb) { cb.checked = false; });
                     updateBatchBar();
