@@ -24,6 +24,8 @@
     "normalize-kingdom": "node scripts/normalize-kingdom-names.js",
     "build-plants": "node scripts/build-plants-bundle.js",
     "sync-server": "node scripts/sync-server.js",
+    "sync-from-supabase": "node scripts/sync-from-supabase.js",
+    "local-backup": "node scripts/sync-from-supabase.js && node scripts/sync-server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
