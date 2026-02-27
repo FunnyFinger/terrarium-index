@@ -865,12 +865,17 @@ async function handlePaste(e) {
     const { uploadModal, fileInput, folderStatus } = elements;
     if (!uploadModal || !uploadModal.classList.contains('show')) return;
 
-    e.preventDefault();
+    var target = e.target && e.target.closest ? e.target.closest('input, textarea, [contenteditable="true"]') : null;
+    if (!target && document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA' || document.activeElement.getAttribute('contenteditable') === 'true')) target = document.activeElement;
+    if (target) return;
+
     const items = e.clipboardData?.items;
     if (!items) return;
 
     const imageItems = Array.from(items).filter(item => item.type.startsWith('image/'));
     if (imageItems.length === 0) return;
+
+    e.preventDefault();
 
     const newFiles = [];
     for (const item of imageItems) {

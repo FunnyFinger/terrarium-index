@@ -5834,6 +5834,14 @@ body:has(.upload-modal.show) {
     outline: none;
     border-color: var(--accent-color);
 }
+.edit-plant-input,
+.edit-plant-select,
+.upload-plant-description,
+.edit-plant-textarea-lines,
+.edit-plant-text {
+    user-select: text;
+    -webkit-user-select: text;
+}
 .edit-plant-input::placeholder {
     color: var(--text-light);
     opacity: 0.9;
