@@ -565,7 +565,13 @@ async function openImageUpload(plantId) {
 
     document.addEventListener('paste', handlePaste);
 
-    if (!getImagesFolderHandle() && 'showDirectoryPicker' in window) {
+    if (window.supabaseDb && window.supabaseDb.isConfigured && window.supabaseDb.isConfigured()) {
+        if (selectFolderBtn) selectFolderBtn.style.display = 'none';
+        if (folderStatus) {
+            folderStatus.textContent = 'Edits save directly to Supabase.';
+            folderStatus.style.color = 'var(--text-light)';
+        }
+    } else if (!getImagesFolderHandle() && 'showDirectoryPicker' in window) {
         const wasSelected = localStorage.getItem('imagesFolderSelected');
         if (wasSelected) {
             if (folderStatus) {
@@ -594,23 +600,25 @@ async function openImageUpload(plantId) {
         }
     }
 
-    if (!getImagesFolderHandle() && 'showDirectoryPicker' in window) {
+    var useSupabase = typeof window !== 'undefined' && window.supabaseDb && window.supabaseDb.isConfigured && window.supabaseDb.isConfigured();
+    if (useSupabase) {
+        selectFolderBtn.style.display = 'none';
+        if (folderStatus) {
+            folderStatus.textContent = 'Edits save directly to Supabase.';
+            folderStatus.style.color = 'var(--text-light)';
+        }
+    } else if (!getImagesFolderHandle() && 'showDirectoryPicker' in window) {
         selectFolderBtn.style.display = 'inline-block';
         selectFolderBtn.textContent = '📁 Select Folder (One-time Setup)';
-    } else {
-        selectFolderBtn.style.display = 'none';
-    }
-
-    if (folderStatus) {
-        if (getImagesFolderHandle()) {
-            folderStatus.textContent = '✅ Images folder ready - files will save automatically!';
-            folderStatus.style.color = 'var(--accent-color)';
-        } else if ('showDirectoryPicker' in window) {
+        if (folderStatus) {
             folderStatus.textContent = '💡 Click "📁 Select Folder" button above to set up folder access (one-time setup).';
             folderStatus.style.color = 'var(--text-light)';
-        } else {
-            folderStatus.textContent = '💡 Browser does not support automatic folder saving. Please use Chrome or Edge.';
-            folderStatus.style.color = 'var(--text-light)';
+        }
+    } else {
+        selectFolderBtn.style.display = 'none';
+        if (folderStatus) {
+            folderStatus.textContent = getImagesFolderHandle() ? '✅ Images folder ready - files will save automatically!' : '💡 Browser does not support automatic folder saving. Please use Chrome or Edge.';
+            folderStatus.style.color = getImagesFolderHandle() ? 'var(--accent-color)' : 'var(--text-light)';
         }
     }
 
@@ -1202,20 +1210,31 @@ async function saveImage() {
                         unit: currentUploadPlant.unit
                     });
                 }
-                var didSave = await savePlantToJsonFile(currentUploadPlant);
-                saveImageBtn.textContent = didSave ? '✅ Details saved' : '✅ Details updated';
-                if (folderStatus) {
-                    if (didSave) {
-                        folderStatus.textContent = '✅ Plant details saved to file. Changes will persist after reload.';
+                var useSupabase = window.supabaseDb && window.supabaseDb.isConfigured && window.supabaseDb.isConfigured() && window.supabaseDb.updatePlantInCatalog;
+                if (useSupabase) {
+                    var updatedPlant = Object.assign({}, currentUploadPlant);
+                    await window.supabaseDb.updatePlantInCatalog(currentUploadPlant.id, updatedPlant);
+                    saveImageBtn.textContent = '✅ Saved to Supabase';
+                    if (folderStatus) {
+                        folderStatus.textContent = '✅ Plant details saved to Supabase.';
                         folderStatus.style.color = 'var(--accent-color)';
-                    } else {
-                        folderStatus.textContent = '✅ Details updated in memory. To keep after reload: click "Select Folder" and choose your Terrarium_index project folder.';
-                        folderStatus.style.color = 'var(--text-color)';
+                    }
+                } else {
+                    var didSave = await savePlantToJsonFile(currentUploadPlant);
+                    saveImageBtn.textContent = didSave ? '✅ Details saved' : '✅ Details updated';
+                    if (folderStatus) {
+                        if (didSave) {
+                            folderStatus.textContent = '✅ Plant details saved to file. Changes will persist after reload.';
+                            folderStatus.style.color = 'var(--accent-color)';
+                        } else {
+                            folderStatus.textContent = '✅ Details updated in memory. To keep after reload: click "Select Folder" and choose your Terrarium_index project folder.';
+                            folderStatus.style.color = 'var(--text-color)';
+                        }
                     }
                 }
             } catch (e) {
                 saveImageBtn.textContent = '💾 Save';
-                if (folderStatus) folderStatus.textContent = 'Could not save to file.';
+                if (folderStatus) folderStatus.textContent = 'Could not save. ' + (e && e.message ? e.message : '');
             }
             renderPlants(getFilteredPlants());
             setTimeout(() => closeUploadModalFunc(), 1200);
