@@ -380,26 +380,28 @@ async function loadImagesFromLocalStorage(allPlants) {
                             }
                         }
                         if (verifiedImages.length > 0) {
-                            plant.images = ensureUniqueImages(verifiedImages);
-                            const normalizedSavedUrl = normalizePlantImagePath(savedImageUrl || '');
-                            if (normalizedSavedUrl && verifiedImages.includes(normalizedSavedUrl)) {
-                                plant.imageUrl = normalizedSavedUrl;
-                            } else {
-                                plant.imageUrl = verifiedImages[0];
+                            // Don't replace catalog images with fewer (e.g. hosted site 404s for some images)
+                            const catalogCount = Array.isArray(plant.images) ? plant.images.length : 0;
+                            if (verifiedImages.length >= catalogCount) {
+                                plant.images = ensureUniqueImages(verifiedImages);
+                                const normalizedSavedUrl = normalizePlantImagePath(savedImageUrl || '');
+                                if (normalizedSavedUrl && verifiedImages.includes(normalizedSavedUrl)) {
+                                    plant.imageUrl = normalizedSavedUrl;
+                                } else {
+                                    plant.imageUrl = verifiedImages[0];
+                                }
+                                try {
+                                    localStorage.setItem(`plant_${plant.id}_images`, JSON.stringify(plant.images));
+                                    localStorage.setItem(`plant_${plant.id}_imageUrl`, plant.imageUrl);
+                                    if (highestValidNumber > 0) {
+                                        localStorage.setItem(`plant_${plant.id}_maxImage`, highestValidNumber.toString());
+                                    }
+                                } catch (e) { /* silent */ }
+                            } else if (catalogCount > 0 && !plant.imageUrl) {
+                                plant.imageUrl = plant.images[0];
                             }
                             loadedCount++;
                             validatedCount++;
-                            // Update localStorage with verified images only
-                            try {
-                                localStorage.setItem(`plant_${plant.id}_images`, JSON.stringify(plant.images));
-                                localStorage.setItem(`plant_${plant.id}_imageUrl`, plant.imageUrl);
-                                // Store highest valid number to avoid checking beyond it
-                                if (highestValidNumber > 0) {
-                                    localStorage.setItem(`plant_${plant.id}_maxImage`, highestValidNumber.toString());
-                                }
-                            } catch (e) {
-                                // silent
-                            }
                             return;
                         } else {
                             // No verified images, but we checked some

@@ -375,7 +375,9 @@ async function initializeUI() {
                     const validImages = (prefixLegacy || prefixPlants)
                         ? parsedImages.filter(p => typeof p === 'string' && (prefixLegacy && p.startsWith(prefixLegacy) || prefixPlants && p.startsWith(prefixPlants)))
                         : [];
-                    if (validImages.length > 0) {
+                    const catalogCount = Array.isArray(plant.images) ? plant.images.length : 0;
+                    // Prefer catalog when it has more images (e.g. Supabase full gallery) so hosted site shows all photos
+                    if (validImages.length > 0 && catalogCount <= validImages.length) {
                         plant.images = validImages;
                         if (savedImageUrl && validImages.includes(savedImageUrl)) {
                             plant.imageUrl = savedImageUrl;
@@ -383,6 +385,9 @@ async function initializeUI() {
                             plant.imageUrl = validImages[0];
                         }
                         imagesLoadedCount++;
+                    } else if (validImages.length > 0 && catalogCount > validImages.length) {
+                        // Keep catalog images (more than localStorage)
+                        if (plant.imageUrl && plant.images.includes(plant.imageUrl)) { /* keep */ } else if (plant.images.length) plant.imageUrl = plant.images[0];
                     } else {
                         // Don't overwrite catalog images when localStorage paths are invalid
                         if (!(Array.isArray(plant.images) && plant.images.length > 0)) plant.images = plant.images || [];
