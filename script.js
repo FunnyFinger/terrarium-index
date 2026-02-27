@@ -3851,7 +3851,7 @@ function setupShopTabs() {
         applyAllFilters();
         if (typeof window.updateLegendButtonVisibility === 'function') window.updateLegendButtonVisibility();
     });
-    tabEquipment.addEventListener('click', () => {
+    tabEquipment.addEventListener('click', function() {
         currentView = 'equipment';
         hideBuildView();
         setActiveTab(tabEquipment, tabPlants, tabVivariums, tabBuild);
@@ -3866,11 +3866,28 @@ function setupShopTabs() {
         setSortSelectOptions('equipment');
         updateSortDirectionButton();
         currentEquipmentPage = 1;
-        applyEquipmentFilters();
+        if (window.supabaseDb && window.supabaseDb.isConfigured() && typeof window.loadEquipment === 'function') {
+            window.loadEquipment().then(function(list) {
+                allEquipment = list || [];
+                window.allEquipment = allEquipment;
+                if (allEquipment.length && window.inventoryDb && window.inventoryDb.mergeInventoryIntoPlants) {
+                    return window.inventoryDb.mergeInventoryIntoPlants(allEquipment).then(function() { return list; });
+                }
+                return list;
+            }).then(function() {
+                var canSeeHidden = typeof auth !== 'undefined' && auth && ((auth.isOwner && auth.isOwner()) || (auth.isAdmin && auth.isAdmin()));
+                filteredEquipment = allEquipment ? allEquipment.filter(function(eq) { return canSeeHidden ? true : !eq.hidden; }) : [];
+                mergeEquipmentImagesFromStorage();
+                mergeEquipmentEditsFromStorage();
+                applyEquipmentFilters();
+            }).catch(function() { applyEquipmentFilters(); });
+        } else {
+            applyEquipmentFilters();
+        }
         if (typeof window.updateLegendButtonVisibility === 'function') window.updateLegendButtonVisibility();
     });
     if (tabVivariums) {
-        tabVivariums.addEventListener('click', () => {
+        tabVivariums.addEventListener('click', function() {
             currentView = 'vivariums';
             hideBuildView();
             setActiveTab(tabVivariums, tabPlants, tabEquipment, tabBuild);
@@ -3885,7 +3902,28 @@ function setupShopTabs() {
             setSortSelectOptions('vivariums');
             updateSortDirectionButton();
             currentVivariumPage = 1;
-            applyVivariumFilters();
+            if (window.supabaseDb && window.supabaseDb.isConfigured() && typeof window.loadVivariums === 'function') {
+                window.loadVivariums().then(function(baseList) {
+                    return window.supabaseDb.getCustomVivariums().then(function(customViv) {
+                        allVivariums = (baseList || []).concat(Array.isArray(customViv) ? customViv : []);
+                        window.allVivariums = allVivariums;
+                        if (allVivariums.length && window.inventoryDb && window.inventoryDb.mergeInventoryIntoPlants) {
+                            return window.inventoryDb.mergeInventoryIntoPlants(allVivariums).then(function() {});
+                        }
+                    });
+                }).then(function() {
+                    var canSeeHidden = typeof auth !== 'undefined' && auth && ((auth.isOwner && auth.isOwner()) || (auth.isAdmin && auth.isAdmin()));
+                    filteredVivariums = allVivariums ? allVivariums.filter(function(v) {
+                        var t = (v.type || '').toLowerCase();
+                        return (canSeeHidden ? true : !v.hidden) && t !== 'indoor' && t !== 'outdoor';
+                    }) : [];
+                    mergeVivariumImagesFromStorage();
+                    mergeVivariumEditsFromStorage();
+                    applyVivariumFilters();
+                }).catch(function() { applyVivariumFilters(); });
+            } else {
+                applyVivariumFilters();
+            }
             if (typeof window.updateLegendButtonVisibility === 'function') window.updateLegendButtonVisibility();
         });
     }
@@ -5460,18 +5498,24 @@ function syncEquipmentOrVivariumImagesToSupabase() {
     if (!currentEquipmentForImages || !window.supabaseDb || !window.supabaseDb.isConfigured()) return;
     var id = currentEquipmentForImages.id;
     var prefix = currentImageModalPrefix || 'equipment_';
+    var imgs = currentEquipmentForImages.images;
+    var imgUrl = currentEquipmentForImages.imageUrl;
     if (prefix === 'vivarium_') {
         var customList = (typeof allVivariums !== 'undefined' && Array.isArray(allVivariums)) ? allVivariums.filter(function (v) { return parseInt(v.id, 10) >= 60001; }) : [];
         var vIdx = customList.findIndex(function (v) { return parseInt(v.id, 10) === parseInt(id, 10); });
         if (vIdx >= 0) {
-            customList[vIdx] = Object.assign({}, customList[vIdx], { images: currentEquipmentForImages.images, imageUrl: currentEquipmentForImages.imageUrl });
+            customList[vIdx] = Object.assign({}, customList[vIdx], { images: imgs, imageUrl: imgUrl });
+            var fullIdx = allVivariums && allVivariums.findIndex(function (v) { return parseInt(v.id, 10) === parseInt(id, 10); });
+            if (fullIdx >= 0) { allVivariums[fullIdx].images = imgs; allVivariums[fullIdx].imageUrl = imgUrl; }
             window.supabaseDb.saveCustomVivariums(customList);
         }
     } else {
         var customList = (typeof allEquipment !== 'undefined' && Array.isArray(allEquipment)) ? allEquipment.filter(function (e) { return Number(e.id) >= 50001; }) : [];
         var eIdx = customList.findIndex(function (e) { return Number(e.id) === Number(id); });
         if (eIdx >= 0) {
-            customList[eIdx] = Object.assign({}, customList[eIdx], { images: currentEquipmentForImages.images, imageUrl: currentEquipmentForImages.imageUrl });
+            customList[eIdx] = Object.assign({}, customList[eIdx], { images: imgs, imageUrl: imgUrl });
+            var fullIdx = allEquipment && allEquipment.findIndex(function (e) { return Number(e.id) === Number(id); });
+            if (fullIdx >= 0) { allEquipment[fullIdx].images = imgs; allEquipment[fullIdx].imageUrl = imgUrl; }
             window.supabaseDb.saveCustomEquipment(customList);
         }
     }
