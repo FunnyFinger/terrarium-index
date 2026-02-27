@@ -35,3 +35,22 @@ drop policy if exists "Allow all for custom_vivariums" on public.custom_vivarium
 create policy "Allow all for inventory" on public.inventory for all using (true) with check (true);
 create policy "Allow all for custom_equipment" on public.custom_equipment for all using (true) with check (true);
 create policy "Allow all for custom_vivariums" on public.custom_vivariums for all using (true) with check (true);
+
+-- Storage: allow public read/write for vivarium-assets bucket (images).
+-- Run AFTER you create the bucket named vivarium-assets in Storage.
+alter table storage.objects enable row level security;
+
+drop policy if exists "public read vivarium-assets" on storage.objects;
+drop policy if exists "public write vivarium-assets" on storage.objects;
+
+create policy "public read vivarium-assets"
+  on storage.objects
+  for select
+  to anon
+  using (bucket_id = 'vivarium-assets');
+
+create policy "public write vivarium-assets"
+  on storage.objects
+  for insert
+  to anon
+  with check (bucket_id = 'vivarium-assets');
