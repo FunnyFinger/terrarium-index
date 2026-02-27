@@ -82,6 +82,28 @@ async function loadAllPlants() {
 
     try {
         console.log('🌱 Loading plant data...');
+        // Prefer Supabase plants_catalog when configured (single source of truth)
+        if (typeof window !== 'undefined' && window.supabaseDb && window.supabaseDb.isConfigured && window.supabaseDb.isConfigured() && window.supabaseDb.getPlantsCatalog) {
+            try {
+                const cat = await window.supabaseDb.getPlantsCatalog();
+                if (Array.isArray(cat) && cat.length > 0) {
+                    const sorted = cat.sort((a, b) => (a.id || 0) - (b.id || 0));
+                    plantsDatabase.length = 0;
+                    plantsDatabase.push(...sorted);
+                    applyPlantEditOverlays(plantsDatabase);
+                    try {
+                        const ovResp = await fetch('data/overrides/plant-edits.json?v=' + Date.now(), { cache: 'no-store' });
+                        if (ovResp.ok) applyPlantEditOverlaysFromRepo(plantsDatabase, await ovResp.json());
+                    } catch (_) { /* ignore */ }
+                    if (typeof window !== 'undefined') window.plantsDatabase = plantsDatabase;
+                    console.log('✅ Loaded ' + plantsDatabase.length + ' plants from Supabase plants_catalog');
+                    return plantsDatabase;
+                }
+            } catch (e) {
+                console.warn('Supabase plants_catalog load failed, falling back to bundle:', (e && e.message) || e);
+            }
+        }
+
         let bundleVersion = PLANTS_DATA_VERSION;
         const fetchOpts = { cache: 'default' };
         try {

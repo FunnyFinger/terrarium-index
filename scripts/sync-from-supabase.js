@@ -10,7 +10,11 @@
  * 1. Fetches inventory, custom_equipment, custom_vivariums from Supabase
  * 2. Downloads all image URLs (from Storage or any http(s) URL) into images/plants/, images/supplies/, images/vivariums/
  * 3. Writes data/backup/inventory.json, custom_equipment.json, custom_vivariums.json
+ *
+ * NODE_TLS_REJECT_UNAUTHORIZED=0 is set automatically for HTTPS to Supabase when run from strict TLS environments.
  */
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 const fs = require('fs');
 const path = require('path');
 const https = require('https');

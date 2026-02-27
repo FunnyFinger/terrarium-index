@@ -127,6 +127,40 @@
         });
     }
 
+    // ---- Catalog helpers (read-only) ----
+    function getPlantsCatalog() {
+        if (!isConfigured()) return Promise.resolve([]);
+        return request('GET', '/plants_catalog?select=id,data&order=id.asc').then(function (rows) {
+            return (rows || []).map(function (r) {
+                var d = r.data || {};
+                d.id = r.id;
+                return d;
+            });
+        }).catch(function () { return []; });
+    }
+
+    function getEquipmentCatalog() {
+        if (!isConfigured()) return Promise.resolve([]);
+        return request('GET', '/equipment_catalog?select=id,data&order=id.asc').then(function (rows) {
+            return (rows || []).map(function (r) {
+                var d = r.data || {};
+                d.id = r.id;
+                return d;
+            });
+        }).catch(function () { return []; });
+    }
+
+    function getVivariumsCatalog() {
+        if (!isConfigured()) return Promise.resolve([]);
+        return request('GET', '/vivariums_catalog?select=id,data&order=id.asc').then(function (rows) {
+            return (rows || []).map(function (r) {
+                var d = r.data || {};
+                d.id = r.id;
+                return d;
+            });
+        }).catch(function () { return []; });
+    }
+
     // ---- Custom equipment (array of items with id, name, category, ...) ----
     function getCustomEquipment() {
         if (!isConfigured()) return Promise.resolve([]);
@@ -196,6 +230,9 @@
         getInventoryItem: getInventoryItem,
         setInventoryRow: setInventoryRow,
         deleteInventoryRow: deleteInventoryRow,
+        getPlantsCatalog: getPlantsCatalog,
+        getEquipmentCatalog: getEquipmentCatalog,
+        getVivariumsCatalog: getVivariumsCatalog,
         getCustomEquipment: getCustomEquipment,
         saveCustomEquipment: saveCustomEquipment,
         getCustomVivariums: getCustomVivariums,

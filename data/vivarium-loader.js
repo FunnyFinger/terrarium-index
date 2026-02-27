@@ -19,6 +19,29 @@
     async function loadVivariums() {
         if (typeof window === 'undefined') return [];
         try {
+            // Prefer Supabase vivariums_catalog + custom_vivariums when configured
+            if (window.supabaseDb && window.supabaseDb.isConfigured && window.supabaseDb.isConfigured()) {
+                try {
+                    var cat = await window.supabaseDb.getVivariumsCatalog();
+                    var custom = await window.supabaseDb.getCustomVivariums();
+                    if (Array.isArray(cat) || Array.isArray(custom)) {
+                        var list = (Array.isArray(cat) ? cat : []).concat(Array.isArray(custom) ? custom : []);
+                        if (list.length) {
+                            var byId = {};
+                            list.forEach(function (v) {
+                                if (!v || v.id == null) return;
+                                byId[v.id] = Object.assign({}, byId[v.id] || {}, v);
+                            });
+                            list = Object.values(byId);
+                            window.vivariumData = list;
+                            return list;
+                        }
+                    }
+                } catch (e) {
+                    console.warn('Supabase vivariums load failed, falling back to JSON:', (e && e.message) || e);
+                }
+            }
+
             const resp = await fetch(VIVARIUMS_URL + '?v=' + Date.now(), { cache: 'no-store' });
             if (!resp.ok) return [];
             const data = await resp.json();

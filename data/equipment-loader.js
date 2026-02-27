@@ -23,6 +23,18 @@
     async function loadEquipment() {
         if (typeof window === 'undefined') return [];
         try {
+            // If Supabase is configured and provides a catalog, use that as the single source of truth.
+            if (window.supabaseDb && window.supabaseDb.isConfigured && window.supabaseDb.isConfigured() && window.supabaseDb.getEquipmentCatalog) {
+                try {
+                    const cat = await window.supabaseDb.getEquipmentCatalog();
+                    if (Array.isArray(cat) && cat.length) {
+                        window.equipmentData = cat;
+                        return cat;
+                    }
+                } catch (e) {
+                    console.warn('Supabase equipment_catalog load failed, falling back to JSON:', e.message);
+                }
+            }
             // Prefer repo overrides (synced from local edits when using sync server)
             const overridesResp = await fetch(DATA_BASE + 'overrides/equipment.json?v=' + Date.now(), { cache: 'no-store' });
             if (overridesResp.ok) {

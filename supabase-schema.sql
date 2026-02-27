@@ -16,8 +16,29 @@ create table if not exists public.custom_equipment (
   created_at timestamptz not null default now()
 );
 
--- Custom vivariums (builds) – visible to all visitors.
 create table if not exists public.custom_vivariums (
+  id bigint primary key,
+  data jsonb not null,
+  created_at timestamptz not null default now()
+);
+
+-- Full catalog tables – single source of truth for all items.
+-- Plants (base catalog)
+create table if not exists public.plants_catalog (
+  id bigint primary key,
+  data jsonb not null,
+  created_at timestamptz not null default now()
+);
+
+-- Supplies (equipment) – base catalog
+create table if not exists public.equipment_catalog (
+  id bigint primary key,
+  data jsonb not null,
+  created_at timestamptz not null default now()
+);
+
+-- Ready-made vivariums – base catalog
+create table if not exists public.vivariums_catalog (
   id bigint primary key,
   data jsonb not null,
   created_at timestamptz not null default now()
@@ -27,18 +48,23 @@ create table if not exists public.custom_vivariums (
 alter table public.inventory enable row level security;
 alter table public.custom_equipment enable row level security;
 alter table public.custom_vivariums enable row level security;
+alter table public.plants_catalog enable row level security;
+alter table public.equipment_catalog enable row level security;
+alter table public.vivariums_catalog enable row level security;
 
 drop policy if exists "Allow all for inventory" on public.inventory;
 drop policy if exists "Allow all for custom_equipment" on public.custom_equipment;
 drop policy if exists "Allow all for custom_vivariums" on public.custom_vivariums;
+drop policy if exists "Allow all for plants_catalog" on public.plants_catalog;
+drop policy if exists "Allow all for equipment_catalog" on public.equipment_catalog;
+drop policy if exists "Allow all for vivariums_catalog" on public.vivariums_catalog;
 
 create policy "Allow all for inventory" on public.inventory for all using (true) with check (true);
 create policy "Allow all for custom_equipment" on public.custom_equipment for all using (true) with check (true);
 create policy "Allow all for custom_vivariums" on public.custom_vivariums for all using (true) with check (true);
-
--- Storage: allow public read/write for vivarium-assets bucket (images).
--- Run AFTER you create the bucket named vivarium-assets in Storage.
-alter table storage.objects enable row level security;
+create policy "Allow all for plants_catalog" on public.plants_catalog for all using (true) with check (true);
+create policy "Allow all for equipment_catalog" on public.equipment_catalog for all using (true) with check (true);
+create policy "Allow all for vivariums_catalog" on public.vivariums_catalog for all using (true) with check (true);
 
 drop policy if exists "public read vivarium-assets" on storage.objects;
 drop policy if exists "public write vivarium-assets" on storage.objects;
