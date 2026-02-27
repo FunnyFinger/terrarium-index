@@ -1,45 +1,34 @@
 ---
-description: Steps to follow when the user asks to create or add a new plant (e.g. "create new plant X", "add plant Y"). Ensures sequential IDs and correct index/bundle updates.
-globs: data/plants-merged/**/*
+description: When the user asks to add a new plant (e.g. "add Monstera Deliciosa", "add Red Ruby Aglaonema"). Use web search, generate plant details, then add to Supabase via script. No manual steps.
+globs: 
 alwaysApply: false
 ---
 
-# Adding a New Plant
+# Adding a New Plant (Supabase-first)
 
-When the user (or any request) asks to **create a new plant** or **add plant [name]**, follow these steps in order. Do not guess the plant ID.
+When the user asks to **add** or **create** a new plant (e.g. "add [plant name]"), do the following. No manual work for the user.
 
-## 1. Get the next sequential plant ID
+## 1. Research the plant (web search)
 
-Run:
-```bash
-node scripts/get-next-plant-id.js
-```
-Use the printed number as the new plant's `id` in the JSON. **Never** invent an ID (e.g. random or timestamp); always use the output of this script.
+- Search for the plant's **scientific name**, **care requirements**, **description**, **family/genus**, **light/water/humidity**, **toxicity**, **propagation**, **size/growth rate**.
+- Use WebSearch to fill: name, scientificName, description, careTips (array of strings), taxonomy (family, genus, species), category (e.g. ["tropical","leafy"]), substrate, size, growthRate, propagation, colors, hazard (e.g. "toxic-if-ingested" or "non-toxic"), growthPattern, growthHabit, etc.
 
-## 2. Create the plant JSON file
+## 2. Build the plant JSON
 
-- **Filename**: `data/plants-merged/<slug>.json` where `<slug>` is lowercase, hyphenated (e.g. `peperomia-caperata-ripple-red`). Match existing naming (see `data/plants-merged/index.json`).
-- **Structure**: Copy from `data/plants-merged/_PLANT_TEMPLATE.json` or an existing plant file. Ensure **all** fields from the template are present (see `data/plants-merged/_PLANT_TEMPLATE_README.md`).
-- **id**: Set to the number from step 1.
-- Fill in name, scientificName, description, careTips, taxonomy, ranges, and all other fields appropriately. Use `null` for optional fields that don't apply; use `[]` for empty arrays.
+- Create a JSON object with at least: **name**, **scientificName**, **description**, **careTips** (array), **category** (array), **taxonomy** (object with family, genus, species). Do **not** set `id` (the script assigns it). Do **not** set `images`/`imageUrl` (script defaults to [] and '').
+- Optional but helpful: substrate, size, growthRate, propagation, colors, hazard, commonNames, growthPattern, growthHabit, plantType, floweringPeriod, substrateType, specialNeeds, rarity.
 
-## 3. Register in the index
+## 3. Write payload and run the script
 
-- Open `data/plants-merged/index.json`.
-- Add the new file's filename (e.g. `"peperomia-caperata-ripple-red.json"`) to the `plants` array.
-- Set `count` to the length of the `plants` array (or increment by 1).
+- Write the JSON to a file, e.g. `data/new-plant.json` or `scripts/new-plant-payload.json`.
+- Run: `npm run add-plant-to-supabase -- <path-to-file>` (e.g. `npm run add-plant-to-supabase -- data/new-plant.json`).
+- The script reads config from `js/config.js`, gets the next plant ID from Supabase, normalizes missing fields, and POSTs to `plants_catalog`. It prints the new id and name on success.
 
-## 4. Rebuild the bundle
+## 4. Confirm to the user
 
-Run:
-```bash
-node scripts/build-plants-bundle.js
-```
-This updates `bundle.json` and `version.json` so the app and inventory show the new plant with the correct ID.
+- Report that the plant was added to Supabase with id X, and that it will appear on the hosted site (no redeploy needed for catalog data). They can add images later via the app.
 
-## Summary checklist
+## Summary
 
-- [ ] Ran `node scripts/get-next-plant-id.js` and used that value as `id`
-- [ ] Created `data/plants-merged/<slug>.json` with full template structure
-- [ ] Appended filename to `data/plants-merged/index.json` and updated `count`
-- [ ] Ran `node scripts/build-plants-bundle.js`
+- You do: web search → build JSON → write file → run `npm run add-plant-to-supabase -- <file>`.
+- User does: nothing. Redeploy is not required for new catalog entries; the site reads from Supabase.

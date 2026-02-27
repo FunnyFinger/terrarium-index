@@ -76,12 +76,11 @@ function renderSuitableForTags(selectedValues) {
         var selected = set.has(opt.value);
         var btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = 'edit-plant-tag' + (selected ? ' edit-plant-tag-selected ' + opt.value : '');
+        btn.className = 'edit-plant-tag ' + opt.value + (selected ? ' edit-plant-tag-selected' : '');
         btn.setAttribute('data-value', opt.value);
         btn.textContent = opt.label;
         btn.addEventListener('click', function () {
             btn.classList.toggle('edit-plant-tag-selected');
-            btn.classList.toggle(opt.value);
         });
         container.appendChild(btn);
     });

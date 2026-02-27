@@ -31,6 +31,8 @@
     "populate-supplies-vivarium-images": "node scripts/populate-supplies-vivarium-images-from-folders.js",
     "migrate-plants-catalog": "node scripts/migrate-plants-catalog-to-supabase.js",
     "migrate-vivariums-catalog": "node scripts/migrate-vivariums-catalog-to-supabase.js",
+    "migrate-custom-to-catalog": "node scripts/migrate-custom-to-catalog.js",
+    "add-plant-to-supabase": "node scripts/add-plant-to-supabase.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

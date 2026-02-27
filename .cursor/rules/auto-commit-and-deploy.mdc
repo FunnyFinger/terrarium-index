@@ -1,0 +1,19 @@
+---
+description: After making code changes in this project, commit and push automatically so Netlify redeploys. User prefers no manual deploy steps.
+globs: 
+alwaysApply: true
+---
+
+# Auto commit and redeploy
+
+After you finish applying code changes to this project:
+
+1. **Commit and push** so the host (e.g. Netlify) can redeploy:
+   - Run: `git add -A` then `git commit -m "Brief description of changes"` then `git push`
+   - Use a short, clear commit message (e.g. "Fix Suitable for tag colors in edit plant modal", "Add migrate-custom-to-catalog script").
+   - If nothing changed (e.g. user only asked a question), skip commit/push.
+   - If the user said they do not want auto-deploy this time, skip.
+
+2. **Accepting edits in Cursor**: The editor may still ask you to "Accept" each file diff. To reduce that:
+   - In Cursor: **Settings** (Ctrl+,) → search **"auto accept"** or **"Cursor"** and enable any option that auto-applies agent edits if you want changes applied without clicking Accept each time.
+   - Note: Cursor’s auto-accept behavior can be unreliable; if it’s not available or broken, you may need to keep using Accept manually.

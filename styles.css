@@ -5945,13 +5945,23 @@ body:has(.upload-modal.show) {
     border-color: var(--accent-color);
     color: var(--accent-color);
 }
+/* Unselected: show dedicated vivarium color as border + light fill */
+.edit-plant-tag.open-terrarium { border-color: #5a6e2f; color: #5a6e2f; background: rgba(212, 237, 110, 0.2); }
+.edit-plant-tag.closed-terrarium { border-color: #6b8e23; color: #6b8e23; background: rgba(107, 142, 35, 0.2); }
+.edit-plant-tag.paludarium { border-color: #1b4332; color: #1b4332; background: rgba(27, 67, 50, 0.15); }
+.edit-plant-tag.deserterium { border-color: #8b6914; color: #8b6914; background: rgba(230, 213, 184, 0.4); }
+.edit-plant-tag.aerarium { border-color: #1e4d72; color: #1e4d72; background: rgba(179, 217, 255, 0.3); }
+.edit-plant-tag.aquarium { border-color: #1a4d7a; color: #1a4d7a; background: rgba(26, 77, 122, 0.15); }
+.edit-plant-tag.riparium { border-color: #0d9488; color: #0d9488; background: rgba(13, 148, 136, 0.15); }
+.edit-plant-tag.indoor { border-color: #c94a4a; color: #c94a4a; background: rgba(201, 74, 74, 0.2); }
+.edit-plant-tag.outdoor { border-color: #8b6914; color: #8b6914; background: rgba(139, 105, 20, 0.2); }
 .edit-plant-tag.edit-plant-tag-selected {
     border-color: transparent;
 }
 .edit-plant-tag.edit-plant-tag-selected:hover {
     filter: brightness(1.1);
 }
-/* Match card badge colors per enclosure type */
+/* Match card badge colors per enclosure type (selected = solid fill) */
 .edit-plant-tag.edit-plant-tag-selected.open-terrarium {
     background-color: #d4ed6e;
     color: #5a6e2f;
