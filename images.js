@@ -474,11 +474,14 @@ async function scanExistingImages(plantFolderName, plant = null) {
         const normalizedPlantFolderName = plantFolderName.replace(/^\d{5}-/, '');
 
         for (const imgPath of plantImages) {
-            if (!imgPath || !imgPath.startsWith('images/') || !imgPath.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
-                continue;
-            }
+            if (!imgPath || typeof imgPath !== 'string' || !imgPath.trim()) continue;
+            const trimmed = imgPath.trim();
+            const isHttp = /^https?:\/\//i.test(trimmed);
+            const isRelative = trimmed.startsWith('images/');
+            if (!isHttp && !isRelative) continue;
+            if (!isHttp && !trimmed.match(/\.(jpg|jpeg|png|gif|webp)$/i)) continue;
 
-            const pathMatch = imgPath.match(/images\/(?:plants\/)?([^/]+)\/([^/]+)-(\d+)\.(jpg|jpeg|png|gif|webp)$/i);
+            const pathMatch = trimmed.match(/images\/(?:plants\/)?([^/]+)\/([^/]+)-(\d+)\.(jpg|jpeg|png|gif|webp)$/i);
             if (pathMatch) {
                 const folderNameFromPath = pathMatch[1];
                 const fileNamePrefix = pathMatch[2];
@@ -493,8 +496,14 @@ async function scanExistingImages(plantFolderName, plant = null) {
                         verifiedImages.add(correctPath);
                     }
                 }
+            } else if (isHttp || (isRelative && !pathMatch)) {
+                // Full URL (e.g. Supabase Storage) or other path - keep as-is for gallery
+                if (!verifiedImages.has(trimmed)) {
+                    existingImages.push(trimmed);
+                    verifiedImages.add(trimmed);
+                }
             } else {
-                const oldPathMatch = imgPath.match(/images\/(?:plants\/)?([^/]+)\/(\d{2})\.(jpg|jpeg|png|gif|webp)$/i);
+                const oldPathMatch = trimmed.match(/images\/(?:plants\/)?([^/]+)\/(\d{2})\.(jpg|jpeg|png|gif|webp)$/i);
                 if (oldPathMatch) {
                     const folderNameFromPath = oldPathMatch[1];
                     const num = parseInt(oldPathMatch[2]);
@@ -509,6 +518,15 @@ async function scanExistingImages(plantFolderName, plant = null) {
                         }
                     }
                 }
+            }
+        }
+    }
+    // When no paths matched (e.g. catalog has different format), use catalog images as-is so hosted site shows them
+    if (existingImages.length === 0 && plantImages && plantImages.length > 0) {
+        for (const imgPath of plantImages) {
+            const p = (imgPath && typeof imgPath === 'string') ? imgPath.trim() : '';
+            if (p && (p.startsWith('images/') || /^https?:\/\//i.test(p)) && /\.(jpg|jpeg|png|gif|webp)$/i.test(p)) {
+                existingImages.push(p);
             }
         }
     }

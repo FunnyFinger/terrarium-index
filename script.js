@@ -384,17 +384,18 @@ async function initializeUI() {
                         }
                         imagesLoadedCount++;
                     } else {
-                        if (!plant.images) plant.images = [];
+                        // Don't overwrite catalog images when localStorage paths are invalid
+                        if (!(Array.isArray(plant.images) && plant.images.length > 0)) plant.images = plant.images || [];
                     }
                 } else {
-                    if (!plant.images) plant.images = [];
+                    if (!(Array.isArray(plant.images) && plant.images.length > 0)) plant.images = plant.images || [];
                 }
             } else {
-                if (!plant.images) plant.images = [];
+                // Preserve catalog images (e.g. from Supabase) when no localStorage
+                if (!(Array.isArray(plant.images) && plant.images.length > 0)) plant.images = plant.images || [];
             }
         } catch (e) {
-            // Silent - just initialize empty arrays
-            if (!plant.images) plant.images = [];
+            if (!(Array.isArray(plant.images) && plant.images.length > 0)) plant.images = plant.images || [];
         }
     });
     console.log(`📦 Quick-loaded ${imagesLoadedCount} plant images from localStorage`);
@@ -6407,7 +6408,7 @@ async function showPlantModal(plant) {
         // No saved order - use discovered order
         plant.images = discovered.images;
         plant.imageUrl = discovered.imageUrl;
-        
+
         // Save to localStorage for future use
         try {
             localStorage.setItem(`plant_${plant.id}_images`, JSON.stringify(plant.images));
@@ -6418,14 +6419,16 @@ async function showPlantModal(plant) {
         } catch (e) {
             // Silent - localStorage update failed
         }
-        
+
         // Using discovered image order from folder
     } else {
-        // No images found - leave empty so we show "No photos yet" instead of broken image requests
-        if (!plant.images) {
-            plant.images = [];
+        // No images from discovery (e.g. hosted site) - keep catalog images if present
+        if (!(Array.isArray(plant.images) && plant.images.length > 0)) {
+            plant.images = plant.images || [];
+            plant.imageUrl = null;
+        } else {
+            plant.imageUrl = plant.imageUrl || plant.images[0];
         }
-        plant.imageUrl = null;
     }
     
     // Ensure no duplicates
