@@ -5861,14 +5861,36 @@ function savePlantImages() {
     if (files.length > 0 && uploadToStorage) {
         plantImageSaveBtn.textContent = '⏳ Uploading...';
         plantImageSaveBtn.disabled = true;
-        var basePath = 'plants/' + id + '/';
-        Promise.all(files.map(function (file, i) {
-            var path = basePath + Date.now() + '_' + i + '_' + (file.name || 'image').replace(/[^a-zA-Z0-9._-]/g, '_');
-            return uploadToStorage(file, path);
-        })).then(function (uploadedUrls) {
+        var slug = scientificNameToSlug(getScientificNameString(currentPlantForImages));
+        if (!slug) slug = 'plant-' + id;
+        var existingUrls = urls.slice();
+        var maxNum = 0;
+        existingUrls.forEach(function (u) {
+            var m = (u && u.match(/-(\d+)\.(jpg|jpeg|png|gif|webp)$/i));
+            if (m) { var n = parseInt(m[1], 10); if (n > maxNum) maxNum = n; }
+        });
+        var nextNum = maxNum + 1;
+        function getExt(file) {
+            if (file.name) {
+                var match = file.name.toLowerCase().match(/\.(jpe?g|png|gif|webp)$/);
+                if (match) return match[1].replace('jpeg', 'jpg');
+            }
+            return (file.type && file.type.indexOf('png') !== -1) ? 'png' : 'jpg';
+        }
+        var uploads = files.map(function (file) {
+            var ext = getExt(file);
+            var objectPath = 'plants/' + slug + '/' + slug + '-' + nextNum + '.' + ext;
+            nextNum++;
+            return uploadToStorage(file, objectPath);
+        });
+        Promise.all(uploads).then(function (uploadedUrls) {
             var existingHttp = urls.filter(isHttpUrl);
             var all = existingHttp.concat(uploadedUrls);
             applyPlantImageResult(all);
+            if (supabase && window.supabaseDb && window.supabaseDb.updatePlantInCatalog) {
+                var updated = Object.assign({}, currentPlantForImages, { images: all, imageUrl: all[0] });
+                window.supabaseDb.updatePlantInCatalog(id, updated);
+            }
         }).catch(function () {
             plantImageSaveBtn.textContent = '💾 Save';
             plantImageSaveBtn.disabled = false;

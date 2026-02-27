@@ -127,6 +127,19 @@
         });
     }
 
+    /**
+     * Update one plant in plants_catalog (e.g. after adding images).
+     * @param {number} plantId - plant id
+     * @param {object} plantData - full plant object to store in data column (must include id, images, imageUrl, etc.)
+     */
+    function updatePlantInCatalog(plantId, plantData) {
+        var id = Number(plantId);
+        if (!isFinite(id) || !plantData) return Promise.resolve();
+        if (!isConfigured()) return Promise.resolve();
+        var payload = { data: plantData };
+        return request('PATCH', '/plants_catalog?id=eq.' + id, payload).catch(function () {});
+    }
+
     // ---- Catalog helpers (read-only) ----
     function getPlantsCatalog() {
         if (!isConfigured()) return Promise.resolve([]);
@@ -239,6 +252,7 @@
         saveCustomEquipment: saveCustomEquipment,
         getCustomVivariums: getCustomVivariums,
         saveCustomVivariums: saveCustomVivariums,
-        uploadToStorage: uploadToStorage
+        uploadToStorage: uploadToStorage,
+        updatePlantInCatalog: updatePlantInCatalog
     };
 })(typeof window !== 'undefined' ? window : this);
