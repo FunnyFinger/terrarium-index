@@ -105,5 +105,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/begonia-hatacoa/begonia-hatacoa-1.jpg",
+    "images/plants/begonia-hatacoa/begonia-hatacoa-2.jpg",
+    "images/plants/begonia-hatacoa/begonia-hatacoa-3.jpg"
+  ],
+  "imageUrl": "images/plants/begonia-hatacoa/begonia-hatacoa-1.jpg"
 }

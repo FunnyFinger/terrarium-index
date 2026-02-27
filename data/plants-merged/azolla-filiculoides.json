@@ -115,5 +115,13 @@
   },
   "carnivorous": false,
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/azolla-filiculoides/azolla-filiculoides-1.jpg",
+    "images/plants/azolla-filiculoides/azolla-filiculoides-2.jpg",
+    "images/plants/azolla-filiculoides/azolla-filiculoides-3.jpg",
+    "images/plants/azolla-filiculoides/azolla-filiculoides-4.jpg",
+    "images/plants/azolla-filiculoides/azolla-filiculoides-5.jpg"
+  ],
+  "imageUrl": "images/plants/azolla-filiculoides/azolla-filiculoides-1.jpg"
 }

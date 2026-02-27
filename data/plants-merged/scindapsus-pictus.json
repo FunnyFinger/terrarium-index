@@ -113,5 +113,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/scindapsus-pictus/scindapsus-pictus-1.jpg",
+    "images/plants/scindapsus-pictus/scindapsus-pictus-2.jpg",
+    "images/plants/scindapsus-pictus/scindapsus-pictus-3.jpg"
+  ],
+  "imageUrl": "images/plants/scindapsus-pictus/scindapsus-pictus-1.jpg"
 }

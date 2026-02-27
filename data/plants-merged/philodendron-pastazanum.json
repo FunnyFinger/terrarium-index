@@ -107,5 +107,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/philodendron-pastazanum/philodendron-pastazanum-1.jpg",
+    "images/plants/philodendron-pastazanum/philodendron-pastazanum-2.jpg",
+    "images/plants/philodendron-pastazanum/philodendron-pastazanum-3.jpg"
+  ],
+  "imageUrl": "images/plants/philodendron-pastazanum/philodendron-pastazanum-1.jpg"
 }

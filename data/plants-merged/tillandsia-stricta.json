@@ -108,5 +108,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/tillandsia-stricta/tillandsia-stricta-1.jpg",
+    "images/plants/tillandsia-stricta/tillandsia-stricta-2.jpg",
+    "images/plants/tillandsia-stricta/tillandsia-stricta-3.jpg"
+  ],
+  "imageUrl": "images/plants/tillandsia-stricta/tillandsia-stricta-1.jpg"
 }

@@ -105,5 +105,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anthurium-variegatum/anthurium-variegatum-1.jpg",
+    "images/plants/anthurium-variegatum/anthurium-variegatum-2.jpg",
+    "images/plants/anthurium-variegatum/anthurium-variegatum-3.jpg",
+    "images/plants/anthurium-variegatum/anthurium-variegatum-4.jpg"
+  ],
+  "imageUrl": "images/plants/anthurium-variegatum/anthurium-variegatum-1.jpg"
 }

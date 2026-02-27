@@ -111,5 +111,13 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anthurium-bakeri/anthurium-bakeri-1.jpg",
+    "images/plants/anthurium-bakeri/anthurium-bakeri-2.jpg",
+    "images/plants/anthurium-bakeri/anthurium-bakeri-3.jpg",
+    "images/plants/anthurium-bakeri/anthurium-bakeri-4.jpg",
+    "images/plants/anthurium-bakeri/anthurium-bakeri-5.jpg"
+  ],
+  "imageUrl": "images/plants/anthurium-bakeri/anthurium-bakeri-1.jpg"
 }

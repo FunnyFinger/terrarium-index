@@ -104,5 +104,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anthurium-vanderknaapii/anthurium-vanderknaapii-1.jpg",
+    "images/plants/anthurium-vanderknaapii/anthurium-vanderknaapii-2.jpg",
+    "images/plants/anthurium-vanderknaapii/anthurium-vanderknaapii-3.jpg"
+  ],
+  "imageUrl": "images/plants/anthurium-vanderknaapii/anthurium-vanderknaapii-1.jpg"
 }

@@ -107,5 +107,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/phlebodium-aureum/phlebodium-aureum-1.jpg",
+    "images/plants/phlebodium-aureum/phlebodium-aureum-2.jpg",
+    "images/plants/phlebodium-aureum/phlebodium-aureum-3.jpg",
+    "images/plants/phlebodium-aureum/phlebodium-aureum-4.jpg"
+  ],
+  "imageUrl": "images/plants/phlebodium-aureum/phlebodium-aureum-1.jpg"
 }

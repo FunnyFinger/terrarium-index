@@ -103,5 +103,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anthurium-wendlingeri/anthurium-wendlingeri-1.jpg",
+    "images/plants/anthurium-wendlingeri/anthurium-wendlingeri-2.jpg",
+    "images/plants/anthurium-wendlingeri/anthurium-wendlingeri-3.jpg",
+    "images/plants/anthurium-wendlingeri/anthurium-wendlingeri-4.jpg"
+  ],
+  "imageUrl": "images/plants/anthurium-wendlingeri/anthurium-wendlingeri-1.jpg"
 }

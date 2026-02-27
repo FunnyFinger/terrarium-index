@@ -112,5 +112,11 @@
   },
   "carnivorous": false,
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/elodea-densa/elodea-densa-1.jpg",
+    "images/plants/elodea-densa/elodea-densa-2.jpg",
+    "images/plants/elodea-densa/elodea-densa-3.jpg"
+  ],
+  "imageUrl": "images/plants/elodea-densa/elodea-densa-1.jpg"
 }

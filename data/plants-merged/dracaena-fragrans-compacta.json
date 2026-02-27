@@ -110,7 +110,12 @@
   "geographicOrigin": null,
   "additionalInfo": "Cultivar of Dracaena fragrans (Corn Plant).",
   "stockQuantity": 5,
-  "images": [],
+  "images": [
+    "images/plants/dracaena-fragrans-compacta/dracaena-fragrans-compacta-1.jpg",
+    "images/plants/dracaena-fragrans-compacta/dracaena-fragrans-compacta-2.jpg",
+    "images/plants/dracaena-fragrans-compacta/dracaena-fragrans-compacta-3.jpg",
+    "images/plants/dracaena-fragrans-compacta/dracaena-fragrans-compacta-4.jpg"
+  ],
   "costPrice": 2,
   "price": 4,
   "unit": "pot",
@@ -121,5 +126,6 @@
     "paludarium",
     "indoor",
     "outdoor"
-  ]
+  ],
+  "imageUrl": "images/plants/dracaena-fragrans-compacta/dracaena-fragrans-compacta-1.jpg"
 }

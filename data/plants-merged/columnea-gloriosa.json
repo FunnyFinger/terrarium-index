@@ -113,5 +113,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/columnea-gloriosa/columnea-gloriosa-1.jpg",
+    "images/plants/columnea-gloriosa/columnea-gloriosa-2.jpg",
+    "images/plants/columnea-gloriosa/columnea-gloriosa-3.jpg"
+  ],
+  "imageUrl": "images/plants/columnea-gloriosa/columnea-gloriosa-1.jpg"
 }

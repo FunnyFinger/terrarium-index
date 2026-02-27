@@ -113,5 +113,13 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/biophytum-sensitivum/biophytum-sensitivum-1.jpg",
+    "images/plants/biophytum-sensitivum/biophytum-sensitivum-2.jpg",
+    "images/plants/biophytum-sensitivum/biophytum-sensitivum-3.jpg",
+    "images/plants/biophytum-sensitivum/biophytum-sensitivum-4.jpg",
+    "images/plants/biophytum-sensitivum/biophytum-sensitivum-5.jpg"
+  ],
+  "imageUrl": "images/plants/biophytum-sensitivum/biophytum-sensitivum-1.jpg"
 }

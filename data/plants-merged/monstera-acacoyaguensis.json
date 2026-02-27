@@ -111,5 +111,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/monstera-acacoyaguensis/monstera-acacoyaguensis-1.jpg",
+    "images/plants/monstera-acacoyaguensis/monstera-acacoyaguensis-2.jpg",
+    "images/plants/monstera-acacoyaguensis/monstera-acacoyaguensis-3.jpg"
+  ],
+  "imageUrl": "images/plants/monstera-acacoyaguensis/monstera-acacoyaguensis-1.jpg"
 }

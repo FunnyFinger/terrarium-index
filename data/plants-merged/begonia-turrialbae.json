@@ -106,5 +106,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/begonia-turrialbae/begonia-turrialbae-1.jpg",
+    "images/plants/begonia-turrialbae/begonia-turrialbae-2.jpg",
+    "images/plants/begonia-turrialbae/begonia-turrialbae-3.jpg"
+  ],
+  "imageUrl": "images/plants/begonia-turrialbae/begonia-turrialbae-1.jpg"
 }

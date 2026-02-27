@@ -107,5 +107,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/hoya-archboldiana/hoya-archboldiana-1.jpg",
+    "images/plants/hoya-archboldiana/hoya-archboldiana-2.jpg",
+    "images/plants/hoya-archboldiana/hoya-archboldiana-3.jpg"
+  ],
+  "imageUrl": "images/plants/hoya-archboldiana/hoya-archboldiana-1.jpg"
 }

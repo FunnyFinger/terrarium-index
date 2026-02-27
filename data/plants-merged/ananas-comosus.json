@@ -111,5 +111,11 @@
     "ideal": null
   },
   "geographicOrigin": "South America",
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/ananas-comosus/ananas-comosus-1.jpg",
+    "images/plants/ananas-comosus/ananas-comosus-2.jpg",
+    "images/plants/ananas-comosus/ananas-comosus-3.jpg"
+  ],
+  "imageUrl": "images/plants/ananas-comosus/ananas-comosus-1.jpg"
 }

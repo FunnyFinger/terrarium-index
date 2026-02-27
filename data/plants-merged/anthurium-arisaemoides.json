@@ -104,5 +104,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anthurium-arisaemoides/anthurium-arisaemoides-1.jpg",
+    "images/plants/anthurium-arisaemoides/anthurium-arisaemoides-2.jpg",
+    "images/plants/anthurium-arisaemoides/anthurium-arisaemoides-3.jpg"
+  ],
+  "imageUrl": "images/plants/anthurium-arisaemoides/anthurium-arisaemoides-1.jpg"
 }

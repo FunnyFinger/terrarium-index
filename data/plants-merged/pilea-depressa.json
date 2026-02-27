@@ -111,5 +111,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/pilea-depressa/pilea-depressa-1.jpg",
+    "images/plants/pilea-depressa/pilea-depressa-2.jpg",
+    "images/plants/pilea-depressa/pilea-depressa-3.jpg"
+  ],
+  "imageUrl": "images/plants/pilea-depressa/pilea-depressa-1.jpg"
 }

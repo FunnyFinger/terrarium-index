@@ -119,5 +119,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/bolbitis-heteroclita-difformis/bolbitis-heteroclita-difformis-1.jpg",
+    "images/plants/bolbitis-heteroclita-difformis/bolbitis-heteroclita-difformis-2.jpg",
+    "images/plants/bolbitis-heteroclita-difformis/bolbitis-heteroclita-difformis-3.jpg",
+    "images/plants/bolbitis-heteroclita-difformis/bolbitis-heteroclita-difformis-4.jpg"
+  ],
+  "imageUrl": "images/plants/bolbitis-heteroclita-difformis/bolbitis-heteroclita-difformis-1.jpg"
 }

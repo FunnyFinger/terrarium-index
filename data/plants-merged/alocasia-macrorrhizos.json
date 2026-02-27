@@ -112,5 +112,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/alocasia-macrorrhizos/alocasia-macrorrhizos-1.jpg",
+    "images/plants/alocasia-macrorrhizos/alocasia-macrorrhizos-2.jpg",
+    "images/plants/alocasia-macrorrhizos/alocasia-macrorrhizos-3.jpg",
+    "images/plants/alocasia-macrorrhizos/alocasia-macrorrhizos-4.jpg"
+  ],
+  "imageUrl": "images/plants/alocasia-macrorrhizos/alocasia-macrorrhizos-1.jpg"
 }

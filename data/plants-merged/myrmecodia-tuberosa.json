@@ -113,5 +113,13 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/myrmecodia-tuberosa/myrmecodia-tuberosa-1.jpg",
+    "images/plants/myrmecodia-tuberosa/myrmecodia-tuberosa-2.jpg",
+    "images/plants/myrmecodia-tuberosa/myrmecodia-tuberosa-3.jpg",
+    "images/plants/myrmecodia-tuberosa/myrmecodia-tuberosa-4.jpg",
+    "images/plants/myrmecodia-tuberosa/myrmecodia-tuberosa-5.jpg"
+  ],
+  "imageUrl": "images/plants/myrmecodia-tuberosa/myrmecodia-tuberosa-1.jpg"
 }

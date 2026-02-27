@@ -107,5 +107,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/begonia-elaeagnifolia/begonia-elaeagnifolia-1.jpg",
+    "images/plants/begonia-elaeagnifolia/begonia-elaeagnifolia-2.jpg",
+    "images/plants/begonia-elaeagnifolia/begonia-elaeagnifolia-3.jpg"
+  ],
+  "imageUrl": "images/plants/begonia-elaeagnifolia/begonia-elaeagnifolia-1.jpg"
 }

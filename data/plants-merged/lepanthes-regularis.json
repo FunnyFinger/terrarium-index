@@ -108,5 +108,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/lepanthes-regularis/lepanthes-regularis-1.jpg",
+    "images/plants/lepanthes-regularis/lepanthes-regularis-2.jpg",
+    "images/plants/lepanthes-regularis/lepanthes-regularis-3.jpg",
+    "images/plants/lepanthes-regularis/lepanthes-regularis-4.jpg"
+  ],
+  "imageUrl": "images/plants/lepanthes-regularis/lepanthes-regularis-1.jpg"
 }

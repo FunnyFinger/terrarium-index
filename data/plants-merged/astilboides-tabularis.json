@@ -104,5 +104,13 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/astilboides-tabularis/astilboides-tabularis-1.jpg",
+    "images/plants/astilboides-tabularis/astilboides-tabularis-2.jpg",
+    "images/plants/astilboides-tabularis/astilboides-tabularis-3.jpg",
+    "images/plants/astilboides-tabularis/astilboides-tabularis-4.jpg",
+    "images/plants/astilboides-tabularis/astilboides-tabularis-5.jpg"
+  ],
+  "imageUrl": "images/plants/astilboides-tabularis/astilboides-tabularis-1.jpg"
 }

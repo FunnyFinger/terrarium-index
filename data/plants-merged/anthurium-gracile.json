@@ -105,5 +105,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anthurium-gracile/anthurium-gracile-1.jpg",
+    "images/plants/anthurium-gracile/anthurium-gracile-2.jpg",
+    "images/plants/anthurium-gracile/anthurium-gracile-3.jpg"
+  ],
+  "imageUrl": "images/plants/anthurium-gracile/anthurium-gracile-1.jpg"
 }

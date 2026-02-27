@@ -115,5 +115,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/ardisia-japonica/ardisia-japonica-1.jpg",
+    "images/plants/ardisia-japonica/ardisia-japonica-2.jpg",
+    "images/plants/ardisia-japonica/ardisia-japonica-3.jpg"
+  ],
+  "imageUrl": "images/plants/ardisia-japonica/ardisia-japonica-1.jpg"
 }

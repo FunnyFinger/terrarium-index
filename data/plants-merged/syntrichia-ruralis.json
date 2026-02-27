@@ -108,5 +108,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/syntrichia-ruralis/syntrichia-ruralis-1.jpg",
+    "images/plants/syntrichia-ruralis/syntrichia-ruralis-2.jpg",
+    "images/plants/syntrichia-ruralis/syntrichia-ruralis-3.jpg"
+  ],
+  "imageUrl": "images/plants/syntrichia-ruralis/syntrichia-ruralis-1.jpg"
 }

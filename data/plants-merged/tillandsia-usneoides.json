@@ -120,5 +120,16 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/tillandsia-usneoides/tillandsia-usneoides-1.jpg",
+    "images/plants/tillandsia-usneoides/tillandsia-usneoides-2.jpg",
+    "images/plants/tillandsia-usneoides/tillandsia-usneoides-3.jpg",
+    "images/plants/tillandsia-usneoides/tillandsia-usneoides-4.jpg",
+    "images/plants/tillandsia-usneoides/tillandsia-usneoides-5.jpg",
+    "images/plants/tillandsia-usneoides/tillandsia-usneoides-6.jpg",
+    "images/plants/tillandsia-usneoides/tillandsia-usneoides-7.jpg",
+    "images/plants/tillandsia-usneoides/tillandsia-usneoides-8.jpg"
+  ],
+  "imageUrl": "images/plants/tillandsia-usneoides/tillandsia-usneoides-1.jpg"
 }

@@ -108,5 +108,10 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/begonia-subnummularifolia/begonia-subnummularifolia-1.jpg",
+    "images/plants/begonia-subnummularifolia/begonia-subnummularifolia-2.jpg"
+  ],
+  "imageUrl": "images/plants/begonia-subnummularifolia/begonia-subnummularifolia-1.jpg"
 }

@@ -104,5 +104,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/aristolochia-littoralis/aristolochia-littoralis-1.jpg",
+    "images/plants/aristolochia-littoralis/aristolochia-littoralis-2.jpg",
+    "images/plants/aristolochia-littoralis/aristolochia-littoralis-3.jpg",
+    "images/plants/aristolochia-littoralis/aristolochia-littoralis-4.jpg"
+  ],
+  "imageUrl": "images/plants/aristolochia-littoralis/aristolochia-littoralis-1.jpg"
 }

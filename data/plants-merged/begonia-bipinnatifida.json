@@ -109,5 +109,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/begonia-bipinnatifida/begonia-bipinnatifida-1.jpg",
+    "images/plants/begonia-bipinnatifida/begonia-bipinnatifida-2.jpg",
+    "images/plants/begonia-bipinnatifida/begonia-bipinnatifida-3.jpg"
+  ],
+  "imageUrl": "images/plants/begonia-bipinnatifida/begonia-bipinnatifida-1.jpg"
 }

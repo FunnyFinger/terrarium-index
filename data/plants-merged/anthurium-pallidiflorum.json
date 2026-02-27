@@ -107,5 +107,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anthurium-pallidiflorum/anthurium-pallidiflorum-1.jpg",
+    "images/plants/anthurium-pallidiflorum/anthurium-pallidiflorum-2.jpg",
+    "images/plants/anthurium-pallidiflorum/anthurium-pallidiflorum-3.jpg"
+  ],
+  "imageUrl": "images/plants/anthurium-pallidiflorum/anthurium-pallidiflorum-1.jpg"
 }

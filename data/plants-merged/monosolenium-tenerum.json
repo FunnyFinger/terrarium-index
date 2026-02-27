@@ -110,5 +110,11 @@
   },
   "carnivorous": false,
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/monosolenium-tenerum/monosolenium-tenerum-1.jpg",
+    "images/plants/monosolenium-tenerum/monosolenium-tenerum-2.jpg",
+    "images/plants/monosolenium-tenerum/monosolenium-tenerum-3.jpg"
+  ],
+  "imageUrl": "images/plants/monosolenium-tenerum/monosolenium-tenerum-1.jpg"
 }

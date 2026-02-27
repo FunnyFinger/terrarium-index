@@ -107,5 +107,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/begonia-ferox/begonia-ferox-1.jpg",
+    "images/plants/begonia-ferox/begonia-ferox-2.jpg",
+    "images/plants/begonia-ferox/begonia-ferox-3.jpg"
+  ],
+  "imageUrl": "images/plants/begonia-ferox/begonia-ferox-1.jpg"
 }

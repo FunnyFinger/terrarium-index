@@ -106,5 +106,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/drosophyllum-lusitanicum/drosophyllum-lusitanicum-1.jpg",
+    "images/plants/drosophyllum-lusitanicum/drosophyllum-lusitanicum-2.jpg",
+    "images/plants/drosophyllum-lusitanicum/drosophyllum-lusitanicum-3.jpg",
+    "images/plants/drosophyllum-lusitanicum/drosophyllum-lusitanicum-4.jpg"
+  ],
+  "imageUrl": "images/plants/drosophyllum-lusitanicum/drosophyllum-lusitanicum-1.jpg"
 }

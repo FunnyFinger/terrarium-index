@@ -112,5 +112,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/monstera-siltepecana/monstera-siltepecana-1.jpg",
+    "images/plants/monstera-siltepecana/monstera-siltepecana-2.jpg",
+    "images/plants/monstera-siltepecana/monstera-siltepecana-3.jpg"
+  ],
+  "imageUrl": "images/plants/monstera-siltepecana/monstera-siltepecana-1.jpg"
 }

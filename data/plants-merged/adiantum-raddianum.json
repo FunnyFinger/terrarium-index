@@ -121,5 +121,13 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/adiantum-raddianum/adiantum-raddianum-1.jpg",
+    "images/plants/adiantum-raddianum/adiantum-raddianum-2.jpg",
+    "images/plants/adiantum-raddianum/adiantum-raddianum-3.jpg",
+    "images/plants/adiantum-raddianum/adiantum-raddianum-4.jpg",
+    "images/plants/adiantum-raddianum/adiantum-raddianum-5.jpg"
+  ],
+  "imageUrl": "images/plants/adiantum-raddianum/adiantum-raddianum-1.jpg"
 }

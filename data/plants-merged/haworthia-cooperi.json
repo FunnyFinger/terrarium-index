@@ -107,5 +107,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/haworthia-cooperi/haworthia-cooperi-1.jpg",
+    "images/plants/haworthia-cooperi/haworthia-cooperi-2.jpg",
+    "images/plants/haworthia-cooperi/haworthia-cooperi-3.jpg",
+    "images/plants/haworthia-cooperi/haworthia-cooperi-4.jpg"
+  ],
+  "imageUrl": "images/plants/haworthia-cooperi/haworthia-cooperi-1.jpg"
 }

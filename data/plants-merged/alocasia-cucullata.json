@@ -105,5 +105,14 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/alocasia-cucullata/alocasia-cucullata-1.jpg",
+    "images/plants/alocasia-cucullata/alocasia-cucullata-2.jpg",
+    "images/plants/alocasia-cucullata/alocasia-cucullata-3.jpg",
+    "images/plants/alocasia-cucullata/alocasia-cucullata-4.jpg",
+    "images/plants/alocasia-cucullata/alocasia-cucullata-5.jpg",
+    "images/plants/alocasia-cucullata/alocasia-cucullata-6.jpg"
+  ],
+  "imageUrl": "images/plants/alocasia-cucullata/alocasia-cucullata-1.jpg"
 }

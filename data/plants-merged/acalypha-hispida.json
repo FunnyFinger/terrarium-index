@@ -111,5 +111,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/acalypha-hispida/acalypha-hispida-1.jpg",
+    "images/plants/acalypha-hispida/acalypha-hispida-2.jpg",
+    "images/plants/acalypha-hispida/acalypha-hispida-3.jpg",
+    "images/plants/acalypha-hispida/acalypha-hispida-4.jpg"
+  ],
+  "imageUrl": "images/plants/acalypha-hispida/acalypha-hispida-1.jpg"
 }

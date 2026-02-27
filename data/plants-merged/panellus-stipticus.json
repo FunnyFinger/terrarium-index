@@ -112,5 +112,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/panellus-stipticus/panellus-stipticus-1.jpg",
+    "images/plants/panellus-stipticus/panellus-stipticus-2.jpg",
+    "images/plants/panellus-stipticus/panellus-stipticus-3.jpg",
+    "images/plants/panellus-stipticus/panellus-stipticus-4.jpg"
+  ],
+  "imageUrl": "images/plants/panellus-stipticus/panellus-stipticus-1.jpg"
 }

@@ -106,5 +106,14 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/aloe-vera/aloe-vera-1.jpg",
+    "images/plants/aloe-vera/aloe-vera-2.jpg",
+    "images/plants/aloe-vera/aloe-vera-3.jpg",
+    "images/plants/aloe-vera/aloe-vera-4.jpg",
+    "images/plants/aloe-vera/aloe-vera-5.jpg",
+    "images/plants/aloe-vera/aloe-vera-6.jpg"
+  ],
+  "imageUrl": "images/plants/aloe-vera/aloe-vera-1.jpg"
 }

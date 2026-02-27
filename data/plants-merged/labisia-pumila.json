@@ -114,5 +114,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/labisia-pumila/labisia-pumila-1.jpg",
+    "images/plants/labisia-pumila/labisia-pumila-2.jpg",
+    "images/plants/labisia-pumila/labisia-pumila-3.jpg"
+  ],
+  "imageUrl": "images/plants/labisia-pumila/labisia-pumila-1.jpg"
 }

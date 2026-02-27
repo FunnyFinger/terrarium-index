@@ -111,5 +111,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anthurium-crystallinum/anthurium-crystallinum-1.jpg",
+    "images/plants/anthurium-crystallinum/anthurium-crystallinum-2.jpg",
+    "images/plants/anthurium-crystallinum/anthurium-crystallinum-3.jpg"
+  ],
+  "imageUrl": "images/plants/anthurium-crystallinum/anthurium-crystallinum-1.jpg"
 }

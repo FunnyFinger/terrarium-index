@@ -110,5 +110,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/pogonatum-cirratum/pogonatum-cirratum-1.jpg",
+    "images/plants/pogonatum-cirratum/pogonatum-cirratum-2.jpg",
+    "images/plants/pogonatum-cirratum/pogonatum-cirratum-3.jpg"
+  ],
+  "imageUrl": "images/plants/pogonatum-cirratum/pogonatum-cirratum-1.jpg"
 }

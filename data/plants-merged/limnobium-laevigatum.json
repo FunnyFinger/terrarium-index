@@ -113,5 +113,13 @@
   },
   "carnivorous": false,
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/limnobium-laevigatum/limnobium-laevigatum-1.jpg",
+    "images/plants/limnobium-laevigatum/limnobium-laevigatum-2.jpg",
+    "images/plants/limnobium-laevigatum/limnobium-laevigatum-3.jpg",
+    "images/plants/limnobium-laevigatum/limnobium-laevigatum-4.jpg",
+    "images/plants/limnobium-laevigatum/limnobium-laevigatum-5.jpg"
+  ],
+  "imageUrl": "images/plants/limnobium-laevigatum/limnobium-laevigatum-1.jpg"
 }

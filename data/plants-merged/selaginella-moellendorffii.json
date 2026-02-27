@@ -113,5 +113,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/selaginella-moellendorffii/selaginella-moellendorffii-1.jpg",
+    "images/plants/selaginella-moellendorffii/selaginella-moellendorffii-2.jpg",
+    "images/plants/selaginella-moellendorffii/selaginella-moellendorffii-3.jpg"
+  ],
+  "imageUrl": "images/plants/selaginella-moellendorffii/selaginella-moellendorffii-1.jpg"
 }

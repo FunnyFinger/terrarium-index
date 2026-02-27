@@ -105,5 +105,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anthurium-warocqueanum/anthurium-warocqueanum-1.jpg",
+    "images/plants/anthurium-warocqueanum/anthurium-warocqueanum-2.jpg",
+    "images/plants/anthurium-warocqueanum/anthurium-warocqueanum-3.jpg",
+    "images/plants/anthurium-warocqueanum/anthurium-warocqueanum-4.jpg"
+  ],
+  "imageUrl": "images/plants/anthurium-warocqueanum/anthurium-warocqueanum-1.jpg"
 }

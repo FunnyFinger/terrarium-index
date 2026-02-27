@@ -105,5 +105,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/philodendron-grandipes/philodendron-grandipes-1.jpg",
+    "images/plants/philodendron-grandipes/philodendron-grandipes-2.jpg",
+    "images/plants/philodendron-grandipes/philodendron-grandipes-3.jpg"
+  ],
+  "imageUrl": "images/plants/philodendron-grandipes/philodendron-grandipes-1.jpg"
 }

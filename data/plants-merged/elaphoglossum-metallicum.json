@@ -107,5 +107,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/elaphoglossum-metallicum/elaphoglossum-metallicum-1.jpg",
+    "images/plants/elaphoglossum-metallicum/elaphoglossum-metallicum-2.jpg",
+    "images/plants/elaphoglossum-metallicum/elaphoglossum-metallicum-3.jpg",
+    "images/plants/elaphoglossum-metallicum/elaphoglossum-metallicum-4.jpg"
+  ],
+  "imageUrl": "images/plants/elaphoglossum-metallicum/elaphoglossum-metallicum-1.jpg"
 }

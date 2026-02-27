@@ -108,5 +108,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/masdevallia-oreas/masdevallia-oreas-1.jpg",
+    "images/plants/masdevallia-oreas/masdevallia-oreas-2.jpg",
+    "images/plants/masdevallia-oreas/masdevallia-oreas-3.jpg"
+  ],
+  "imageUrl": "images/plants/masdevallia-oreas/masdevallia-oreas-1.jpg"
 }

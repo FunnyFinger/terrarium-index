@@ -108,5 +108,13 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/lepanthes-uxoria/lepanthes-uxoria-1.jpg",
+    "images/plants/lepanthes-uxoria/lepanthes-uxoria-2.jpg",
+    "images/plants/lepanthes-uxoria/lepanthes-uxoria-3.jpg",
+    "images/plants/lepanthes-uxoria/lepanthes-uxoria-4.jpg",
+    "images/plants/lepanthes-uxoria/lepanthes-uxoria-5.jpg"
+  ],
+  "imageUrl": "images/plants/lepanthes-uxoria/lepanthes-uxoria-1.jpg"
 }

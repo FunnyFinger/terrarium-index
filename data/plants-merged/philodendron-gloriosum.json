@@ -105,5 +105,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/philodendron-gloriosum/philodendron-gloriosum-1.jpg",
+    "images/plants/philodendron-gloriosum/philodendron-gloriosum-2.jpg",
+    "images/plants/philodendron-gloriosum/philodendron-gloriosum-3.jpg"
+  ],
+  "imageUrl": "images/plants/philodendron-gloriosum/philodendron-gloriosum-1.jpg"
 }

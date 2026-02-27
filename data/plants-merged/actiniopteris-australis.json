@@ -108,5 +108,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/actiniopteris-australis/actiniopteris-australis-1.jpg",
+    "images/plants/actiniopteris-australis/actiniopteris-australis-2.jpg",
+    "images/plants/actiniopteris-australis/actiniopteris-australis-3.jpg"
+  ],
+  "imageUrl": "images/plants/actiniopteris-australis/actiniopteris-australis-1.jpg"
 }

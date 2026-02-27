@@ -108,5 +108,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/cryptanthus-bivittatus/cryptanthus-bivittatus-1.jpg",
+    "images/plants/cryptanthus-bivittatus/cryptanthus-bivittatus-2.jpg",
+    "images/plants/cryptanthus-bivittatus/cryptanthus-bivittatus-3.jpg"
+  ],
+  "imageUrl": "images/plants/cryptanthus-bivittatus/cryptanthus-bivittatus-1.jpg"
 }

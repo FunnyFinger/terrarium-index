@@ -108,5 +108,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/dracaena-sanderiana/dracaena-sanderiana-1.jpg",
+    "images/plants/dracaena-sanderiana/dracaena-sanderiana-2.jpg",
+    "images/plants/dracaena-sanderiana/dracaena-sanderiana-3.jpg",
+    "images/plants/dracaena-sanderiana/dracaena-sanderiana-4.jpg"
+  ],
+  "imageUrl": "images/plants/dracaena-sanderiana/dracaena-sanderiana-1.jpg"
 }

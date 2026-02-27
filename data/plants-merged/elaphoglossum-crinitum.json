@@ -105,5 +105,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/elaphoglossum-crinitum/elaphoglossum-crinitum-1.jpg",
+    "images/plants/elaphoglossum-crinitum/elaphoglossum-crinitum-2.jpg",
+    "images/plants/elaphoglossum-crinitum/elaphoglossum-crinitum-3.jpg"
+  ],
+  "imageUrl": "images/plants/elaphoglossum-crinitum/elaphoglossum-crinitum-1.jpg"
 }

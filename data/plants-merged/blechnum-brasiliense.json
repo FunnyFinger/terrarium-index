@@ -107,5 +107,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/blechnum-brasiliense/blechnum-brasiliense-1.jpg",
+    "images/plants/blechnum-brasiliense/blechnum-brasiliense-2.jpg",
+    "images/plants/blechnum-brasiliense/blechnum-brasiliense-3.jpg",
+    "images/plants/blechnum-brasiliense/blechnum-brasiliense-4.jpg"
+  ],
+  "imageUrl": "images/plants/blechnum-brasiliense/blechnum-brasiliense-1.jpg"
 }

@@ -106,5 +106,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/begonia-thelmae/begonia-thelmae-1.jpg",
+    "images/plants/begonia-thelmae/begonia-thelmae-2.jpg",
+    "images/plants/begonia-thelmae/begonia-thelmae-3.jpg",
+    "images/plants/begonia-thelmae/begonia-thelmae-4.jpg"
+  ],
+  "imageUrl": "images/plants/begonia-thelmae/begonia-thelmae-1.jpg"
 }

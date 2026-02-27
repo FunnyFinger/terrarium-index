@@ -107,5 +107,13 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/tillandsia-xerographica/tillandsia-xerographica-1.jpg",
+    "images/plants/tillandsia-xerographica/tillandsia-xerographica-2.jpg",
+    "images/plants/tillandsia-xerographica/tillandsia-xerographica-3.jpg",
+    "images/plants/tillandsia-xerographica/tillandsia-xerographica-4.jpg",
+    "images/plants/tillandsia-xerographica/tillandsia-xerographica-5.jpg"
+  ],
+  "imageUrl": "images/plants/tillandsia-xerographica/tillandsia-xerographica-1.jpg"
 }

@@ -105,5 +105,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/drosera-capensis/drosera-capensis-1.jpg",
+    "images/plants/drosera-capensis/drosera-capensis-2.jpg",
+    "images/plants/drosera-capensis/drosera-capensis-3.jpg"
+  ],
+  "imageUrl": "images/plants/drosera-capensis/drosera-capensis-1.jpg"
 }

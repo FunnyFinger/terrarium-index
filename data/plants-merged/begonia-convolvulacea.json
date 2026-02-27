@@ -105,5 +105,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/begonia-convolvulacea/begonia-convolvulacea-1.jpg",
+    "images/plants/begonia-convolvulacea/begonia-convolvulacea-2.jpg",
+    "images/plants/begonia-convolvulacea/begonia-convolvulacea-3.jpg"
+  ],
+  "imageUrl": "images/plants/begonia-convolvulacea/begonia-convolvulacea-1.jpg"
 }

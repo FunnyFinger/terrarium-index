@@ -104,5 +104,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anthurium-regale/anthurium-regale-1.jpg",
+    "images/plants/anthurium-regale/anthurium-regale-2.jpg",
+    "images/plants/anthurium-regale/anthurium-regale-3.jpg",
+    "images/plants/anthurium-regale/anthurium-regale-4.jpg"
+  ],
+  "imageUrl": "images/plants/anthurium-regale/anthurium-regale-1.jpg"
 }

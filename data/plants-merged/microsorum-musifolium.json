@@ -111,5 +111,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/microsorum-musifolium/microsorum-musifolium-1.jpg",
+    "images/plants/microsorum-musifolium/microsorum-musifolium-2.jpg",
+    "images/plants/microsorum-musifolium/microsorum-musifolium-3.jpg"
+  ],
+  "imageUrl": "images/plants/microsorum-musifolium/microsorum-musifolium-1.jpg"
 }

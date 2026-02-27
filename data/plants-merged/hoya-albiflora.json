@@ -107,5 +107,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/hoya-albiflora/hoya-albiflora-1.jpg",
+    "images/plants/hoya-albiflora/hoya-albiflora-2.jpg",
+    "images/plants/hoya-albiflora/hoya-albiflora-3.jpg"
+  ],
+  "imageUrl": "images/plants/hoya-albiflora/hoya-albiflora-1.jpg"
 }

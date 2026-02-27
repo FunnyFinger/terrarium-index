@@ -106,5 +106,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/pinguicula-leptoceras/pinguicula-leptoceras-1.jpg",
+    "images/plants/pinguicula-leptoceras/pinguicula-leptoceras-2.jpg",
+    "images/plants/pinguicula-leptoceras/pinguicula-leptoceras-3.jpg",
+    "images/plants/pinguicula-leptoceras/pinguicula-leptoceras-4.jpg"
+  ],
+  "imageUrl": "images/plants/pinguicula-leptoceras/pinguicula-leptoceras-1.jpg"
 }

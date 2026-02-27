@@ -115,5 +115,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/saintpaulia-ionantha/saintpaulia-ionantha-1.jpg",
+    "images/plants/saintpaulia-ionantha/saintpaulia-ionantha-2.jpg",
+    "images/plants/saintpaulia-ionantha/saintpaulia-ionantha-3.jpg"
+  ],
+  "imageUrl": "images/plants/saintpaulia-ionantha/saintpaulia-ionantha-1.jpg"
 }

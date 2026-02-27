@@ -110,5 +110,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/pellaea-rotundifolia/pellaea-rotundifolia-1.jpg",
+    "images/plants/pellaea-rotundifolia/pellaea-rotundifolia-2.jpg",
+    "images/plants/pellaea-rotundifolia/pellaea-rotundifolia-3.jpg"
+  ],
+  "imageUrl": "images/plants/pellaea-rotundifolia/pellaea-rotundifolia-1.jpg"
 }

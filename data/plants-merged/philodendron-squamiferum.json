@@ -105,5 +105,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/philodendron-squamiferum/philodendron-squamiferum-1.jpg",
+    "images/plants/philodendron-squamiferum/philodendron-squamiferum-2.jpg",
+    "images/plants/philodendron-squamiferum/philodendron-squamiferum-3.jpg"
+  ],
+  "imageUrl": "images/plants/philodendron-squamiferum/philodendron-squamiferum-1.jpg"
 }

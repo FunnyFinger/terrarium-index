@@ -105,5 +105,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anthurium-scherzerianum/anthurium-scherzerianum-1.jpg",
+    "images/plants/anthurium-scherzerianum/anthurium-scherzerianum-2.jpg",
+    "images/plants/anthurium-scherzerianum/anthurium-scherzerianum-3.jpg",
+    "images/plants/anthurium-scherzerianum/anthurium-scherzerianum-4.jpg"
+  ],
+  "imageUrl": "images/plants/anthurium-scherzerianum/anthurium-scherzerianum-1.jpg"
 }

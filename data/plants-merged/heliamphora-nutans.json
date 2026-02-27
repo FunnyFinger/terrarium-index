@@ -104,5 +104,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/heliamphora-nutans/heliamphora-nutans-1.jpg",
+    "images/plants/heliamphora-nutans/heliamphora-nutans-2.jpg",
+    "images/plants/heliamphora-nutans/heliamphora-nutans-3.jpg"
+  ],
+  "imageUrl": "images/plants/heliamphora-nutans/heliamphora-nutans-1.jpg"
 }

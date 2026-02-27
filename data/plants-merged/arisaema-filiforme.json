@@ -104,5 +104,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/arisaema-filiforme/arisaema-filiforme-1.jpg",
+    "images/plants/arisaema-filiforme/arisaema-filiforme-2.jpg",
+    "images/plants/arisaema-filiforme/arisaema-filiforme-3.jpg",
+    "images/plants/arisaema-filiforme/arisaema-filiforme-4.jpg"
+  ],
+  "imageUrl": "images/plants/arisaema-filiforme/arisaema-filiforme-1.jpg"
 }

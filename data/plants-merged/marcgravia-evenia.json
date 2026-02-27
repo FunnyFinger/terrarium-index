@@ -114,5 +114,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/marcgravia-evenia/marcgravia-evenia-1.jpg",
+    "images/plants/marcgravia-evenia/marcgravia-evenia-2.jpg",
+    "images/plants/marcgravia-evenia/marcgravia-evenia-3.jpg",
+    "images/plants/marcgravia-evenia/marcgravia-evenia-4.jpg"
+  ],
+  "imageUrl": "images/plants/marcgravia-evenia/marcgravia-evenia-1.jpg"
 }

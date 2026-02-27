@@ -104,5 +104,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/asarum-splendens/asarum-splendens-1.jpg",
+    "images/plants/asarum-splendens/asarum-splendens-2.jpg",
+    "images/plants/asarum-splendens/asarum-splendens-3.jpg",
+    "images/plants/asarum-splendens/asarum-splendens-4.jpg"
+  ],
+  "imageUrl": "images/plants/asarum-splendens/asarum-splendens-1.jpg"
 }

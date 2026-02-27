@@ -111,5 +111,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/monstera-aureopinnata/monstera-aureopinnata-1.jpg",
+    "images/plants/monstera-aureopinnata/monstera-aureopinnata-2.jpg",
+    "images/plants/monstera-aureopinnata/monstera-aureopinnata-3.jpg"
+  ],
+  "imageUrl": "images/plants/monstera-aureopinnata/monstera-aureopinnata-1.jpg"
 }

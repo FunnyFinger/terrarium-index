@@ -103,5 +103,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anthurium-acaule/anthurium-acaule-1.jpg",
+    "images/plants/anthurium-acaule/anthurium-acaule-2.jpg",
+    "images/plants/anthurium-acaule/anthurium-acaule-3.jpg",
+    "images/plants/anthurium-acaule/anthurium-acaule-4.jpg"
+  ],
+  "imageUrl": "images/plants/anthurium-acaule/anthurium-acaule-1.jpg"
 }

@@ -107,5 +107,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/aeonium-tabuliforme/aeonium-tabuliforme-1.jpg",
+    "images/plants/aeonium-tabuliforme/aeonium-tabuliforme-2.jpg",
+    "images/plants/aeonium-tabuliforme/aeonium-tabuliforme-3.jpg",
+    "images/plants/aeonium-tabuliforme/aeonium-tabuliforme-4.jpg"
+  ],
+  "imageUrl": "images/plants/aeonium-tabuliforme/aeonium-tabuliforme-1.jpg"
 }

@@ -109,5 +109,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/microsorum-diversifolium/microsorum-diversifolium-1.jpg",
+    "images/plants/microsorum-diversifolium/microsorum-diversifolium-2.jpg",
+    "images/plants/microsorum-diversifolium/microsorum-diversifolium-3.jpg",
+    "images/plants/microsorum-diversifolium/microsorum-diversifolium-4.jpg"
+  ],
+  "imageUrl": "images/plants/microsorum-diversifolium/microsorum-diversifolium-1.jpg"
 }

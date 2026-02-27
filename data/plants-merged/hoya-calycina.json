@@ -106,5 +106,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/hoya-calycina/hoya-calycina-1.jpg",
+    "images/plants/hoya-calycina/hoya-calycina-2.jpg",
+    "images/plants/hoya-calycina/hoya-calycina-3.jpg"
+  ],
+  "imageUrl": "images/plants/hoya-calycina/hoya-calycina-1.jpg"
 }

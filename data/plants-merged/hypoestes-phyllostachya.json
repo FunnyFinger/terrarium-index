@@ -118,5 +118,17 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/hypoestes-phyllostachya/hypoestes-phyllostachya-1.jpg",
+    "images/plants/hypoestes-phyllostachya/hypoestes-phyllostachya-2.jpg",
+    "images/plants/hypoestes-phyllostachya/hypoestes-phyllostachya-3.jpg",
+    "images/plants/hypoestes-phyllostachya/hypoestes-phyllostachya-4.jpg",
+    "images/plants/hypoestes-phyllostachya/hypoestes-phyllostachya-5.jpg",
+    "images/plants/hypoestes-phyllostachya/hypoestes-phyllostachya-6.jpg",
+    "images/plants/hypoestes-phyllostachya/hypoestes-phyllostachya-7.jpg",
+    "images/plants/hypoestes-phyllostachya/hypoestes-phyllostachya-8.jpg",
+    "images/plants/hypoestes-phyllostachya/hypoestes-phyllostachya-9.jpg"
+  ],
+  "imageUrl": "images/plants/hypoestes-phyllostachya/hypoestes-phyllostachya-1.jpg"
 }

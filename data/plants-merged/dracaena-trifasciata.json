@@ -105,5 +105,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/dracaena-trifasciata/dracaena-trifasciata-1.jpg",
+    "images/plants/dracaena-trifasciata/dracaena-trifasciata-2.jpg",
+    "images/plants/dracaena-trifasciata/dracaena-trifasciata-3.jpg"
+  ],
+  "imageUrl": "images/plants/dracaena-trifasciata/dracaena-trifasciata-1.jpg"
 }

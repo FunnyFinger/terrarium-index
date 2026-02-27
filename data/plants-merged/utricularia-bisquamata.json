@@ -107,5 +107,14 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/utricularia-bisquamata/utricularia-bisquamata-1.jpg",
+    "images/plants/utricularia-bisquamata/utricularia-bisquamata-2.jpg",
+    "images/plants/utricularia-bisquamata/utricularia-bisquamata-3.jpg",
+    "images/plants/utricularia-bisquamata/utricularia-bisquamata-4.jpg",
+    "images/plants/utricularia-bisquamata/utricularia-bisquamata-5.jpg",
+    "images/plants/utricularia-bisquamata/utricularia-bisquamata-6.jpg"
+  ],
+  "imageUrl": "images/plants/utricularia-bisquamata/utricularia-bisquamata-1.jpg"
 }

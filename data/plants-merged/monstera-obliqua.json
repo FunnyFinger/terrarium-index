@@ -112,5 +112,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/monstera-obliqua/monstera-obliqua-1.jpg",
+    "images/plants/monstera-obliqua/monstera-obliqua-2.jpg",
+    "images/plants/monstera-obliqua/monstera-obliqua-3.jpg"
+  ],
+  "imageUrl": "images/plants/monstera-obliqua/monstera-obliqua-1.jpg"
 }

@@ -109,5 +109,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/nephrolepis-exaltata/nephrolepis-exaltata-1.jpg",
+    "images/plants/nephrolepis-exaltata/nephrolepis-exaltata-2.jpg",
+    "images/plants/nephrolepis-exaltata/nephrolepis-exaltata-3.jpg",
+    "images/plants/nephrolepis-exaltata/nephrolepis-exaltata-4.jpg"
+  ],
+  "imageUrl": "images/plants/nephrolepis-exaltata/nephrolepis-exaltata-1.jpg"
 }

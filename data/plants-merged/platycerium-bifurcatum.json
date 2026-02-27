@@ -110,5 +110,13 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/platycerium-bifurcatum/platycerium-bifurcatum-1.jpg",
+    "images/plants/platycerium-bifurcatum/platycerium-bifurcatum-2.jpg",
+    "images/plants/platycerium-bifurcatum/platycerium-bifurcatum-3.jpg",
+    "images/plants/platycerium-bifurcatum/platycerium-bifurcatum-4.jpg",
+    "images/plants/platycerium-bifurcatum/platycerium-bifurcatum-5.jpg"
+  ],
+  "imageUrl": "images/plants/platycerium-bifurcatum/platycerium-bifurcatum-1.jpg"
 }

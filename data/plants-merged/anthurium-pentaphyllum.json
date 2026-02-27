@@ -103,5 +103,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anthurium-pentaphyllum/anthurium-pentaphyllum-1.jpg",
+    "images/plants/anthurium-pentaphyllum/anthurium-pentaphyllum-2.jpg",
+    "images/plants/anthurium-pentaphyllum/anthurium-pentaphyllum-3.jpg"
+  ],
+  "imageUrl": "images/plants/anthurium-pentaphyllum/anthurium-pentaphyllum-1.jpg"
 }

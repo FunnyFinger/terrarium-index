@@ -107,5 +107,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/begonia-maculata/begonia-maculata-1.jpg",
+    "images/plants/begonia-maculata/begonia-maculata-2.jpg",
+    "images/plants/begonia-maculata/begonia-maculata-3.jpg"
+  ],
+  "imageUrl": "images/plants/begonia-maculata/begonia-maculata-1.jpg"
 }

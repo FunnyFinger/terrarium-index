@@ -107,5 +107,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/darlingtonia-californica/darlingtonia-californica-1.jpg",
+    "images/plants/darlingtonia-californica/darlingtonia-californica-2.jpg",
+    "images/plants/darlingtonia-californica/darlingtonia-californica-3.jpg",
+    "images/plants/darlingtonia-californica/darlingtonia-californica-4.jpg"
+  ],
+  "imageUrl": "images/plants/darlingtonia-californica/darlingtonia-californica-1.jpg"
 }

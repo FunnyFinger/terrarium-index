@@ -105,5 +105,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/pinguicula-esseriana/pinguicula-esseriana-1.jpg",
+    "images/plants/pinguicula-esseriana/pinguicula-esseriana-2.jpg",
+    "images/plants/pinguicula-esseriana/pinguicula-esseriana-3.jpg"
+  ],
+  "imageUrl": "images/plants/pinguicula-esseriana/pinguicula-esseriana-1.jpg"
 }

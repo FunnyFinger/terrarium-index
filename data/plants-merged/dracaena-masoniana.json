@@ -109,5 +109,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/dracaena-masoniana/dracaena-masoniana-1.jpg",
+    "images/plants/dracaena-masoniana/dracaena-masoniana-2.jpg",
+    "images/plants/dracaena-masoniana/dracaena-masoniana-3.jpg"
+  ],
+  "imageUrl": "images/plants/dracaena-masoniana/dracaena-masoniana-1.jpg"
 }

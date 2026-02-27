@@ -103,5 +103,13 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/adenia-lanceolata/adenia-lanceolata-1.jpg",
+    "images/plants/adenia-lanceolata/adenia-lanceolata-2.jpg",
+    "images/plants/adenia-lanceolata/adenia-lanceolata-3.jpg",
+    "images/plants/adenia-lanceolata/adenia-lanceolata-4.jpg",
+    "images/plants/adenia-lanceolata/adenia-lanceolata-5.jpg"
+  ],
+  "imageUrl": "images/plants/adenia-lanceolata/adenia-lanceolata-1.jpg"
 }

@@ -116,5 +116,13 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/phalaenopsis-amabilis/phalaenopsis-amabilis-1.jpg",
+    "images/plants/phalaenopsis-amabilis/phalaenopsis-amabilis-2.jpg",
+    "images/plants/phalaenopsis-amabilis/phalaenopsis-amabilis-3.jpg",
+    "images/plants/phalaenopsis-amabilis/phalaenopsis-amabilis-4.jpg",
+    "images/plants/phalaenopsis-amabilis/phalaenopsis-amabilis-5.jpg"
+  ],
+  "imageUrl": "images/plants/phalaenopsis-amabilis/phalaenopsis-amabilis-1.jpg"
 }

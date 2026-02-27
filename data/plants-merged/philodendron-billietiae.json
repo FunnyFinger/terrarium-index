@@ -105,5 +105,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/philodendron-billietiae/philodendron-billietiae-1.jpg",
+    "images/plants/philodendron-billietiae/philodendron-billietiae-2.jpg",
+    "images/plants/philodendron-billietiae/philodendron-billietiae-3.jpg"
+  ],
+  "imageUrl": "images/plants/philodendron-billietiae/philodendron-billietiae-1.jpg"
 }

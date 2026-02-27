@@ -105,5 +105,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anthurium-obtusum/anthurium-obtusum-1.jpg",
+    "images/plants/anthurium-obtusum/anthurium-obtusum-2.jpg",
+    "images/plants/anthurium-obtusum/anthurium-obtusum-3.jpg",
+    "images/plants/anthurium-obtusum/anthurium-obtusum-4.jpg"
+  ],
+  "imageUrl": "images/plants/anthurium-obtusum/anthurium-obtusum-1.jpg"
 }

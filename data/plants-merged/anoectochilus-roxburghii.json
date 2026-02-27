@@ -108,5 +108,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anoectochilus-roxburghii/anoectochilus-roxburghii-1.jpg",
+    "images/plants/anoectochilus-roxburghii/anoectochilus-roxburghii-2.jpg",
+    "images/plants/anoectochilus-roxburghii/anoectochilus-roxburghii-3.jpg"
+  ],
+  "imageUrl": "images/plants/anoectochilus-roxburghii/anoectochilus-roxburghii-1.jpg"
 }

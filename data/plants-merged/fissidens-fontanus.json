@@ -108,5 +108,13 @@
   },
   "carnivorous": false,
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/fissidens-fontanus/fissidens-fontanus-1.jpg",
+    "images/plants/fissidens-fontanus/fissidens-fontanus-2.jpg",
+    "images/plants/fissidens-fontanus/fissidens-fontanus-3.jpg",
+    "images/plants/fissidens-fontanus/fissidens-fontanus-4.jpg",
+    "images/plants/fissidens-fontanus/fissidens-fontanus-5.jpg"
+  ],
+  "imageUrl": "images/plants/fissidens-fontanus/fissidens-fontanus-1.jpg"
 }

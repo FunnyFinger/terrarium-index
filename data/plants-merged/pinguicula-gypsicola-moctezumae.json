@@ -105,5 +105,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/pinguicula-gypsicola-moctezumae/pinguicula-gypsicola-moctezumae-1.jpg",
+    "images/plants/pinguicula-gypsicola-moctezumae/pinguicula-gypsicola-moctezumae-2.jpg",
+    "images/plants/pinguicula-gypsicola-moctezumae/pinguicula-gypsicola-moctezumae-3.jpg"
+  ],
+  "imageUrl": "images/plants/pinguicula-gypsicola-moctezumae/pinguicula-gypsicola-moctezumae-1.jpg"
 }

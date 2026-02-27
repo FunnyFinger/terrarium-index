@@ -111,5 +111,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anubias-barteri/anubias-barteri-1.jpg",
+    "images/plants/anubias-barteri/anubias-barteri-2.jpg",
+    "images/plants/anubias-barteri/anubias-barteri-3.jpg"
+  ],
+  "imageUrl": "images/plants/anubias-barteri/anubias-barteri-1.jpg"
 }

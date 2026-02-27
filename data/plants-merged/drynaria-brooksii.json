@@ -103,5 +103,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/drynaria-brooksii/drynaria-brooksii-1.jpg",
+    "images/plants/drynaria-brooksii/drynaria-brooksii-2.jpg",
+    "images/plants/drynaria-brooksii/drynaria-brooksii-3.jpg"
+  ],
+  "imageUrl": "images/plants/drynaria-brooksii/drynaria-brooksii-1.jpg"
 }

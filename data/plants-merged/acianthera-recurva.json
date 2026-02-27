@@ -109,5 +109,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/acianthera-recurva/acianthera-recurva-1.jpg",
+    "images/plants/acianthera-recurva/acianthera-recurva-2.jpg",
+    "images/plants/acianthera-recurva/acianthera-recurva-3.jpg",
+    "images/plants/acianthera-recurva/acianthera-recurva-4.jpg"
+  ],
+  "imageUrl": "images/plants/acianthera-recurva/acianthera-recurva-1.jpg"
 }

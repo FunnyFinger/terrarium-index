@@ -107,5 +107,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anthurium-hookeri/anthurium-hookeri-1.jpg",
+    "images/plants/anthurium-hookeri/anthurium-hookeri-2.jpg",
+    "images/plants/anthurium-hookeri/anthurium-hookeri-3.jpg"
+  ],
+  "imageUrl": "images/plants/anthurium-hookeri/anthurium-hookeri-1.jpg"
 }

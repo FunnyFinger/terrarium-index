@@ -108,5 +108,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/masdevallia-nidifica/masdevallia-nidifica-1.jpg",
+    "images/plants/masdevallia-nidifica/masdevallia-nidifica-2.jpg",
+    "images/plants/masdevallia-nidifica/masdevallia-nidifica-3.jpg"
+  ],
+  "imageUrl": "images/plants/masdevallia-nidifica/masdevallia-nidifica-1.jpg"
 }

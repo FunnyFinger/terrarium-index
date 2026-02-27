@@ -103,5 +103,13 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anthurium-clidemioides/anthurium-clidemioides-1.jpg",
+    "images/plants/anthurium-clidemioides/anthurium-clidemioides-2.jpg",
+    "images/plants/anthurium-clidemioides/anthurium-clidemioides-3.jpg",
+    "images/plants/anthurium-clidemioides/anthurium-clidemioides-4.jpg",
+    "images/plants/anthurium-clidemioides/anthurium-clidemioides-5.jpg"
+  ],
+  "imageUrl": "images/plants/anthurium-clidemioides/anthurium-clidemioides-1.jpg"
 }

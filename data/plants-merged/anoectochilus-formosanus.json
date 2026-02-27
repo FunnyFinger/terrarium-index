@@ -108,5 +108,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anoectochilus-formosanus/anoectochilus-formosanus-1.jpg",
+    "images/plants/anoectochilus-formosanus/anoectochilus-formosanus-2.jpg",
+    "images/plants/anoectochilus-formosanus/anoectochilus-formosanus-3.jpg",
+    "images/plants/anoectochilus-formosanus/anoectochilus-formosanus-4.jpg"
+  ],
+  "imageUrl": "images/plants/anoectochilus-formosanus/anoectochilus-formosanus-1.jpg"
 }

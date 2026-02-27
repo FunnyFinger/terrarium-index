@@ -110,5 +110,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anthurium-pedatoradiatum/anthurium-pedatoradiatum-1.jpg",
+    "images/plants/anthurium-pedatoradiatum/anthurium-pedatoradiatum-2.jpg",
+    "images/plants/anthurium-pedatoradiatum/anthurium-pedatoradiatum-3.jpg"
+  ],
+  "imageUrl": "images/plants/anthurium-pedatoradiatum/anthurium-pedatoradiatum-1.jpg"
 }

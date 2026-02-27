@@ -114,5 +114,11 @@
   },
   "carnivorous": false,
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/eleocharis-parvula/eleocharis-parvula-1.jpg",
+    "images/plants/eleocharis-parvula/eleocharis-parvula-2.jpg",
+    "images/plants/eleocharis-parvula/eleocharis-parvula-3.jpg"
+  ],
+  "imageUrl": "images/plants/eleocharis-parvula/eleocharis-parvula-1.jpg"
 }

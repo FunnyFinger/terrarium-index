@@ -116,5 +116,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/leucobryum-glaucum/leucobryum-glaucum-1.jpg",
+    "images/plants/leucobryum-glaucum/leucobryum-glaucum-2.jpg",
+    "images/plants/leucobryum-glaucum/leucobryum-glaucum-3.jpg"
+  ],
+  "imageUrl": "images/plants/leucobryum-glaucum/leucobryum-glaucum-1.jpg"
 }

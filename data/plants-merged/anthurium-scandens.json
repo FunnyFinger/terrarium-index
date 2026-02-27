@@ -106,5 +106,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anthurium-scandens/anthurium-scandens-1.jpg",
+    "images/plants/anthurium-scandens/anthurium-scandens-2.jpg",
+    "images/plants/anthurium-scandens/anthurium-scandens-3.jpg"
+  ],
+  "imageUrl": "images/plants/anthurium-scandens/anthurium-scandens-1.jpg"
 }

@@ -110,5 +110,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/peperomia-tetraphylla/peperomia-tetraphylla-1.jpg",
+    "images/plants/peperomia-tetraphylla/peperomia-tetraphylla-2.jpg",
+    "images/plants/peperomia-tetraphylla/peperomia-tetraphylla-3.jpg",
+    "images/plants/peperomia-tetraphylla/peperomia-tetraphylla-4.jpg"
+  ],
+  "imageUrl": "images/plants/peperomia-tetraphylla/peperomia-tetraphylla-1.jpg"
 }

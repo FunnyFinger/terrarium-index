@@ -112,5 +112,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/bulbophyllum-depressum/bulbophyllum-depressum-1.jpg",
+    "images/plants/bulbophyllum-depressum/bulbophyllum-depressum-2.jpg",
+    "images/plants/bulbophyllum-depressum/bulbophyllum-depressum-3.jpg"
+  ],
+  "imageUrl": "images/plants/bulbophyllum-depressum/bulbophyllum-depressum-1.jpg"
 }

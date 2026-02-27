@@ -105,5 +105,10 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/argostemma-bicolor/argostemma-bicolor-1.jpg",
+    "images/plants/argostemma-bicolor/argostemma-bicolor-2.jpg"
+  ],
+  "imageUrl": "images/plants/argostemma-bicolor/argostemma-bicolor-1.jpg"
 }

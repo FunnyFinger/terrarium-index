@@ -114,5 +114,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/nephrolepis-cordifolia/nephrolepis-cordifolia-1.jpg",
+    "images/plants/nephrolepis-cordifolia/nephrolepis-cordifolia-2.jpg",
+    "images/plants/nephrolepis-cordifolia/nephrolepis-cordifolia-3.jpg",
+    "images/plants/nephrolepis-cordifolia/nephrolepis-cordifolia-4.jpg"
+  ],
+  "imageUrl": "images/plants/nephrolepis-cordifolia/nephrolepis-cordifolia-1.jpg"
 }

@@ -104,5 +104,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/aglaonema-pumilum/aglaonema-pumilum-1.jpg",
+    "images/plants/aglaonema-pumilum/aglaonema-pumilum-2.jpg",
+    "images/plants/aglaonema-pumilum/aglaonema-pumilum-3.jpg",
+    "images/plants/aglaonema-pumilum/aglaonema-pumilum-4.jpg"
+  ],
+  "imageUrl": "images/plants/aglaonema-pumilum/aglaonema-pumilum-1.jpg"
 }

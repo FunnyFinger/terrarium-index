@@ -105,5 +105,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anthurium-radicans/anthurium-radicans-1.jpg",
+    "images/plants/anthurium-radicans/anthurium-radicans-2.jpg",
+    "images/plants/anthurium-radicans/anthurium-radicans-3.jpg"
+  ],
+  "imageUrl": "images/plants/anthurium-radicans/anthurium-radicans-1.jpg"
 }

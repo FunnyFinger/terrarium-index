@@ -113,5 +113,14 @@
   },
   "carnivorous": false,
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/riccia-fluitans/riccia-fluitans-1.jpg",
+    "images/plants/riccia-fluitans/riccia-fluitans-2.jpg",
+    "images/plants/riccia-fluitans/riccia-fluitans-3.jpg",
+    "images/plants/riccia-fluitans/riccia-fluitans-4.jpg",
+    "images/plants/riccia-fluitans/riccia-fluitans-5.jpg",
+    "images/plants/riccia-fluitans/riccia-fluitans-6.jpg"
+  ],
+  "imageUrl": "images/plants/riccia-fluitans/riccia-fluitans-1.jpg"
 }

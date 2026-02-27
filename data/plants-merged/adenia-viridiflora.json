@@ -103,5 +103,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/adenia-viridiflora/adenia-viridiflora-1.jpg",
+    "images/plants/adenia-viridiflora/adenia-viridiflora-2.jpg",
+    "images/plants/adenia-viridiflora/adenia-viridiflora-3.jpg"
+  ],
+  "imageUrl": "images/plants/adenia-viridiflora/adenia-viridiflora-1.jpg"
 }

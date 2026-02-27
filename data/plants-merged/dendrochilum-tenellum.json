@@ -108,5 +108,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/dendrochilum-tenellum/dendrochilum-tenellum-1.jpg",
+    "images/plants/dendrochilum-tenellum/dendrochilum-tenellum-2.jpg",
+    "images/plants/dendrochilum-tenellum/dendrochilum-tenellum-3.jpg"
+  ],
+  "imageUrl": "images/plants/dendrochilum-tenellum/dendrochilum-tenellum-1.jpg"
 }

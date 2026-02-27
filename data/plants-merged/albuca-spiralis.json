@@ -110,5 +110,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/albuca-spiralis/albuca-spiralis-1.jpg",
+    "images/plants/albuca-spiralis/albuca-spiralis-2.jpg",
+    "images/plants/albuca-spiralis/albuca-spiralis-3.jpg"
+  ],
+  "imageUrl": "images/plants/albuca-spiralis/albuca-spiralis-1.jpg"
 }

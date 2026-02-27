@@ -112,5 +112,13 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/episcia-cupreata/episcia-cupreata-1.jpg",
+    "images/plants/episcia-cupreata/episcia-cupreata-2.jpg",
+    "images/plants/episcia-cupreata/episcia-cupreata-3.jpg",
+    "images/plants/episcia-cupreata/episcia-cupreata-4.jpg",
+    "images/plants/episcia-cupreata/episcia-cupreata-5.jpg"
+  ],
+  "imageUrl": "images/plants/episcia-cupreata/episcia-cupreata-1.jpg"
 }

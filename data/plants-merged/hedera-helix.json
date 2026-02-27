@@ -111,5 +111,13 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/hedera-helix/hedera-helix-1.jpg",
+    "images/plants/hedera-helix/hedera-helix-2.jpg",
+    "images/plants/hedera-helix/hedera-helix-3.jpg",
+    "images/plants/hedera-helix/hedera-helix-4.jpg",
+    "images/plants/hedera-helix/hedera-helix-5.jpg"
+  ],
+  "imageUrl": "images/plants/hedera-helix/hedera-helix-1.jpg"
 }

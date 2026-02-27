@@ -108,5 +108,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/cyathea-cooperi/cyathea-cooperi-1.jpg",
+    "images/plants/cyathea-cooperi/cyathea-cooperi-2.jpg",
+    "images/plants/cyathea-cooperi/cyathea-cooperi-3.jpg",
+    "images/plants/cyathea-cooperi/cyathea-cooperi-4.jpg"
+  ],
+  "imageUrl": "images/plants/cyathea-cooperi/cyathea-cooperi-1.jpg"
 }

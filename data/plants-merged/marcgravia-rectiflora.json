@@ -114,5 +114,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/marcgravia-rectiflora/marcgravia-rectiflora-1.jpg",
+    "images/plants/marcgravia-rectiflora/marcgravia-rectiflora-2.jpg",
+    "images/plants/marcgravia-rectiflora/marcgravia-rectiflora-3.jpg"
+  ],
+  "imageUrl": "images/plants/marcgravia-rectiflora/marcgravia-rectiflora-1.jpg"
 }

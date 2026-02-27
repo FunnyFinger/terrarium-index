@@ -112,5 +112,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/peperomia-caperata-ripple-red/peperomia-caperata-ripple-red-1.jpg",
+    "images/plants/peperomia-caperata-ripple-red/peperomia-caperata-ripple-red-2.jpg",
+    "images/plants/peperomia-caperata-ripple-red/peperomia-caperata-ripple-red-3.jpg"
+  ],
+  "imageUrl": "images/plants/peperomia-caperata-ripple-red/peperomia-caperata-ripple-red-1.jpg"
 }

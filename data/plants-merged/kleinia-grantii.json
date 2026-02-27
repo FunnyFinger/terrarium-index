@@ -102,5 +102,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/kleinia-grantii/kleinia-grantii-1.jpg",
+    "images/plants/kleinia-grantii/kleinia-grantii-2.jpg",
+    "images/plants/kleinia-grantii/kleinia-grantii-3.jpg"
+  ],
+  "imageUrl": "images/plants/kleinia-grantii/kleinia-grantii-1.jpg"
 }

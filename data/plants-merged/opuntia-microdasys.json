@@ -110,5 +110,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/opuntia-microdasys/opuntia-microdasys-1.jpg",
+    "images/plants/opuntia-microdasys/opuntia-microdasys-2.jpg",
+    "images/plants/opuntia-microdasys/opuntia-microdasys-3.jpg"
+  ],
+  "imageUrl": "images/plants/opuntia-microdasys/opuntia-microdasys-1.jpg"
 }

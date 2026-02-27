@@ -110,5 +110,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/epiphyllum-pumilum/epiphyllum-pumilum-1.jpg",
+    "images/plants/epiphyllum-pumilum/epiphyllum-pumilum-2.jpg",
+    "images/plants/epiphyllum-pumilum/epiphyllum-pumilum-3.jpg"
+  ],
+  "imageUrl": "images/plants/epiphyllum-pumilum/epiphyllum-pumilum-1.jpg"
 }

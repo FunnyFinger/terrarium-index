@@ -108,5 +108,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/goodyera-hispida/goodyera-hispida-1.jpg",
+    "images/plants/goodyera-hispida/goodyera-hispida-2.jpg",
+    "images/plants/goodyera-hispida/goodyera-hispida-3.jpg"
+  ],
+  "imageUrl": "images/plants/goodyera-hispida/goodyera-hispida-1.jpg"
 }

@@ -106,5 +106,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/pinguicula-alpina/pinguicula-alpina-1.jpg",
+    "images/plants/pinguicula-alpina/pinguicula-alpina-2.jpg",
+    "images/plants/pinguicula-alpina/pinguicula-alpina-3.jpg",
+    "images/plants/pinguicula-alpina/pinguicula-alpina-4.jpg"
+  ],
+  "imageUrl": "images/plants/pinguicula-alpina/pinguicula-alpina-1.jpg"
 }

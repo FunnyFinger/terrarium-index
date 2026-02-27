@@ -108,5 +108,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anthurium-lineolatum/anthurium-lineolatum-1.jpg",
+    "images/plants/anthurium-lineolatum/anthurium-lineolatum-2.jpg",
+    "images/plants/anthurium-lineolatum/anthurium-lineolatum-3.jpg"
+  ],
+  "imageUrl": "images/plants/anthurium-lineolatum/anthurium-lineolatum-1.jpg"
 }

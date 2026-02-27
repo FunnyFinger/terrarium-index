@@ -108,5 +108,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/adenia-spinosa/adenia-spinosa-1.jpg",
+    "images/plants/adenia-spinosa/adenia-spinosa-2.jpg",
+    "images/plants/adenia-spinosa/adenia-spinosa-3.jpg",
+    "images/plants/adenia-spinosa/adenia-spinosa-4.jpg"
+  ],
+  "imageUrl": "images/plants/adenia-spinosa/adenia-spinosa-1.jpg"
 }

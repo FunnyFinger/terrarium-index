@@ -108,5 +108,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/catopsis-morreniana/catopsis-morreniana-1.jpg",
+    "images/plants/catopsis-morreniana/catopsis-morreniana-2.jpg",
+    "images/plants/catopsis-morreniana/catopsis-morreniana-3.jpg"
+  ],
+  "imageUrl": "images/plants/catopsis-morreniana/catopsis-morreniana-1.jpg"
 }

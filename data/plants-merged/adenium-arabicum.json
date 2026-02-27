@@ -108,5 +108,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/adenium-arabicum/adenium-arabicum-1.jpg",
+    "images/plants/adenium-arabicum/adenium-arabicum-2.jpg",
+    "images/plants/adenium-arabicum/adenium-arabicum-3.jpg",
+    "images/plants/adenium-arabicum/adenium-arabicum-4.jpg"
+  ],
+  "imageUrl": "images/plants/adenium-arabicum/adenium-arabicum-1.jpg"
 }

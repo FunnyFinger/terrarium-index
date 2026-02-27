@@ -111,5 +111,11 @@
   },
   "carnivorous": false,
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/vesicularia-ferriei/vesicularia-ferriei-1.jpg",
+    "images/plants/vesicularia-ferriei/vesicularia-ferriei-2.jpg",
+    "images/plants/vesicularia-ferriei/vesicularia-ferriei-3.jpg"
+  ],
+  "imageUrl": "images/plants/vesicularia-ferriei/vesicularia-ferriei-1.jpg"
 }

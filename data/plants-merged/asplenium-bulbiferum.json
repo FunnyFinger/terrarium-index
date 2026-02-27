@@ -106,5 +106,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/asplenium-bulbiferum/asplenium-bulbiferum-1.jpg",
+    "images/plants/asplenium-bulbiferum/asplenium-bulbiferum-2.jpg",
+    "images/plants/asplenium-bulbiferum/asplenium-bulbiferum-3.jpg",
+    "images/plants/asplenium-bulbiferum/asplenium-bulbiferum-4.jpg"
+  ],
+  "imageUrl": "images/plants/asplenium-bulbiferum/asplenium-bulbiferum-1.jpg"
 }

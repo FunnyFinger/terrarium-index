@@ -109,5 +109,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/achimenes-erecta/achimenes-erecta-1.jpg",
+    "images/plants/achimenes-erecta/achimenes-erecta-2.jpg",
+    "images/plants/achimenes-erecta/achimenes-erecta-3.jpg"
+  ],
+  "imageUrl": "images/plants/achimenes-erecta/achimenes-erecta-1.jpg"
 }

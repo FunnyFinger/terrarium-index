@@ -114,5 +114,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/pilea-glauca/pilea-glauca-1.jpg",
+    "images/plants/pilea-glauca/pilea-glauca-2.jpg",
+    "images/plants/pilea-glauca/pilea-glauca-3.jpg",
+    "images/plants/pilea-glauca/pilea-glauca-4.jpg"
+  ],
+  "imageUrl": "images/plants/pilea-glauca/pilea-glauca-1.jpg"
 }

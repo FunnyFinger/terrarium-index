@@ -105,5 +105,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/begonia-kingiana/begonia-kingiana-1.jpg",
+    "images/plants/begonia-kingiana/begonia-kingiana-2.jpg",
+    "images/plants/begonia-kingiana/begonia-kingiana-3.jpg"
+  ],
+  "imageUrl": "images/plants/begonia-kingiana/begonia-kingiana-1.jpg"
 }

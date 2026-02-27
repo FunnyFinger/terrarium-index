@@ -114,5 +114,13 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/marcgravia-sintenisii/marcgravia-sintenisii-1.jpg",
+    "images/plants/marcgravia-sintenisii/marcgravia-sintenisii-2.jpg",
+    "images/plants/marcgravia-sintenisii/marcgravia-sintenisii-3.jpg",
+    "images/plants/marcgravia-sintenisii/marcgravia-sintenisii-4.jpg",
+    "images/plants/marcgravia-sintenisii/marcgravia-sintenisii-5.jpg"
+  ],
+  "imageUrl": "images/plants/marcgravia-sintenisii/marcgravia-sintenisii-1.jpg"
 }

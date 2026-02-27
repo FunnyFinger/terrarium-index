@@ -113,5 +113,12 @@
   },
   "carnivorous": false,
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/vesicularia-montagnei/vesicularia-montagnei-1.jpg",
+    "images/plants/vesicularia-montagnei/vesicularia-montagnei-2.jpg",
+    "images/plants/vesicularia-montagnei/vesicularia-montagnei-3.jpg",
+    "images/plants/vesicularia-montagnei/vesicularia-montagnei-4.jpg"
+  ],
+  "imageUrl": "images/plants/vesicularia-montagnei/vesicularia-montagnei-1.jpg"
 }

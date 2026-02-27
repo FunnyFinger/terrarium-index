@@ -106,5 +106,14 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/adiantum-hispidulum/adiantum-hispidulum-1.jpg",
+    "images/plants/adiantum-hispidulum/adiantum-hispidulum-2.jpg",
+    "images/plants/adiantum-hispidulum/adiantum-hispidulum-3.jpg",
+    "images/plants/adiantum-hispidulum/adiantum-hispidulum-4.jpg",
+    "images/plants/adiantum-hispidulum/adiantum-hispidulum-5.jpg",
+    "images/plants/adiantum-hispidulum/adiantum-hispidulum-6.jpg"
+  ],
+  "imageUrl": "images/plants/adiantum-hispidulum/adiantum-hispidulum-1.jpg"
 }

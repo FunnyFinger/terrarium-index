@@ -108,5 +108,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/agave-titanota/agave-titanota-1.jpg",
+    "images/plants/agave-titanota/agave-titanota-2.jpg",
+    "images/plants/agave-titanota/agave-titanota-3.jpg"
+  ],
+  "imageUrl": "images/plants/agave-titanota/agave-titanota-1.jpg"
 }

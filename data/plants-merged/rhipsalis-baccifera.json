@@ -112,5 +112,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/rhipsalis-baccifera/rhipsalis-baccifera-1.jpg",
+    "images/plants/rhipsalis-baccifera/rhipsalis-baccifera-2.jpg",
+    "images/plants/rhipsalis-baccifera/rhipsalis-baccifera-3.jpg",
+    "images/plants/rhipsalis-baccifera/rhipsalis-baccifera-4.jpg"
+  ],
+  "imageUrl": "images/plants/rhipsalis-baccifera/rhipsalis-baccifera-1.jpg"
 }

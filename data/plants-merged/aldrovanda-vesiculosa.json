@@ -105,5 +105,11 @@
     "ideal": 70
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/aldrovanda-vesiculosa/aldrovanda-vesiculosa-1.jpg",
+    "images/plants/aldrovanda-vesiculosa/aldrovanda-vesiculosa-2.jpg",
+    "images/plants/aldrovanda-vesiculosa/aldrovanda-vesiculosa-3.jpg"
+  ],
+  "imageUrl": "images/plants/aldrovanda-vesiculosa/aldrovanda-vesiculosa-1.jpg"
 }

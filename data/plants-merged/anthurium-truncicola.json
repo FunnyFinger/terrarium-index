@@ -107,5 +107,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anthurium-truncicola/anthurium-truncicola-1.jpg",
+    "images/plants/anthurium-truncicola/anthurium-truncicola-2.jpg",
+    "images/plants/anthurium-truncicola/anthurium-truncicola-3.jpg"
+  ],
+  "imageUrl": "images/plants/anthurium-truncicola/anthurium-truncicola-1.jpg"
 }

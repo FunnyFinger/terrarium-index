@@ -106,5 +106,13 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/philodendron-erubescens/philodendron-erubescens-1.jpg",
+    "images/plants/philodendron-erubescens/philodendron-erubescens-2.jpg",
+    "images/plants/philodendron-erubescens/philodendron-erubescens-3.jpg",
+    "images/plants/philodendron-erubescens/philodendron-erubescens-4.jpg",
+    "images/plants/philodendron-erubescens/philodendron-erubescens-5.jpg"
+  ],
+  "imageUrl": "images/plants/philodendron-erubescens/philodendron-erubescens-1.jpg"
 }

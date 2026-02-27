@@ -105,5 +105,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/lecanopteris-sinuosa/lecanopteris-sinuosa-1.jpg",
+    "images/plants/lecanopteris-sinuosa/lecanopteris-sinuosa-2.jpg",
+    "images/plants/lecanopteris-sinuosa/lecanopteris-sinuosa-3.jpg",
+    "images/plants/lecanopteris-sinuosa/lecanopteris-sinuosa-4.jpg"
+  ],
+  "imageUrl": "images/plants/lecanopteris-sinuosa/lecanopteris-sinuosa-1.jpg"
 }

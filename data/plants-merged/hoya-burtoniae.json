@@ -105,5 +105,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/hoya-burtoniae/hoya-burtoniae-1.jpg",
+    "images/plants/hoya-burtoniae/hoya-burtoniae-2.jpg",
+    "images/plants/hoya-burtoniae/hoya-burtoniae-3.jpg"
+  ],
+  "imageUrl": "images/plants/hoya-burtoniae/hoya-burtoniae-1.jpg"
 }

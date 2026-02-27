@@ -103,5 +103,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/tillandsia-duratii/tillandsia-duratii-1.jpg",
+    "images/plants/tillandsia-duratii/tillandsia-duratii-2.jpg",
+    "images/plants/tillandsia-duratii/tillandsia-duratii-3.jpg"
+  ],
+  "imageUrl": "images/plants/tillandsia-duratii/tillandsia-duratii-1.jpg"
 }

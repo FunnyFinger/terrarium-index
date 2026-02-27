@@ -113,5 +113,12 @@
   },
   "carnivorous": false,
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/microsorum-pteropus/microsorum-pteropus-1.jpg",
+    "images/plants/microsorum-pteropus/microsorum-pteropus-2.jpg",
+    "images/plants/microsorum-pteropus/microsorum-pteropus-3.jpg",
+    "images/plants/microsorum-pteropus/microsorum-pteropus-4.jpg"
+  ],
+  "imageUrl": "images/plants/microsorum-pteropus/microsorum-pteropus-1.jpg"
 }

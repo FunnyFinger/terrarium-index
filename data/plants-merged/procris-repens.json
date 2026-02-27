@@ -110,5 +110,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/procris-repens/procris-repens-1.jpg",
+    "images/plants/procris-repens/procris-repens-2.jpg",
+    "images/plants/procris-repens/procris-repens-3.jpg"
+  ],
+  "imageUrl": "images/plants/procris-repens/procris-repens-1.jpg"
 }

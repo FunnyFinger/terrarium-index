@@ -110,5 +110,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/ceropegia-woodii/ceropegia-woodii-1.jpg",
+    "images/plants/ceropegia-woodii/ceropegia-woodii-2.jpg",
+    "images/plants/ceropegia-woodii/ceropegia-woodii-3.jpg",
+    "images/plants/ceropegia-woodii/ceropegia-woodii-4.jpg"
+  ],
+  "imageUrl": "images/plants/ceropegia-woodii/ceropegia-woodii-1.jpg"
 }

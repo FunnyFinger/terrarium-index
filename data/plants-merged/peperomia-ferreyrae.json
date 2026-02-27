@@ -113,5 +113,13 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/peperomia-ferreyrae/peperomia-ferreyrae-1.jpg",
+    "images/plants/peperomia-ferreyrae/peperomia-ferreyrae-2.jpg",
+    "images/plants/peperomia-ferreyrae/peperomia-ferreyrae-3.jpg",
+    "images/plants/peperomia-ferreyrae/peperomia-ferreyrae-4.jpg",
+    "images/plants/peperomia-ferreyrae/peperomia-ferreyrae-5.jpg"
+  ],
+  "imageUrl": "images/plants/peperomia-ferreyrae/peperomia-ferreyrae-1.jpg"
 }

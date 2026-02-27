@@ -107,5 +107,14 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/senecio-rowleyanus/senecio-rowleyanus-1.jpg",
+    "images/plants/senecio-rowleyanus/senecio-rowleyanus-2.jpg",
+    "images/plants/senecio-rowleyanus/senecio-rowleyanus-3.jpg",
+    "images/plants/senecio-rowleyanus/senecio-rowleyanus-4.jpg",
+    "images/plants/senecio-rowleyanus/senecio-rowleyanus-5.jpg",
+    "images/plants/senecio-rowleyanus/senecio-rowleyanus-6.jpg"
+  ],
+  "imageUrl": "images/plants/senecio-rowleyanus/senecio-rowleyanus-1.jpg"
 }

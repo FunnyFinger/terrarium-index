@@ -114,5 +114,11 @@
   },
   "carnivorous": false,
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/bacopa-caroliniana/bacopa-caroliniana-1.jpg",
+    "images/plants/bacopa-caroliniana/bacopa-caroliniana-2.jpg",
+    "images/plants/bacopa-caroliniana/bacopa-caroliniana-3.jpg"
+  ],
+  "imageUrl": "images/plants/bacopa-caroliniana/bacopa-caroliniana-1.jpg"
 }

@@ -116,5 +116,14 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/ficus-pumila/ficus-pumila-1.jpg",
+    "images/plants/ficus-pumila/ficus-pumila-2.jpg",
+    "images/plants/ficus-pumila/ficus-pumila-3.jpg",
+    "images/plants/ficus-pumila/ficus-pumila-4.jpg",
+    "images/plants/ficus-pumila/ficus-pumila-5.jpg",
+    "images/plants/ficus-pumila/ficus-pumila-6.jpg"
+  ],
+  "imageUrl": "images/plants/ficus-pumila/ficus-pumila-1.jpg"
 }

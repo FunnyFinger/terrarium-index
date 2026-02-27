@@ -103,5 +103,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anthurium-plowmanii/anthurium-plowmanii-1.jpg",
+    "images/plants/anthurium-plowmanii/anthurium-plowmanii-2.jpg",
+    "images/plants/anthurium-plowmanii/anthurium-plowmanii-3.jpg"
+  ],
+  "imageUrl": "images/plants/anthurium-plowmanii/anthurium-plowmanii-1.jpg"
 }

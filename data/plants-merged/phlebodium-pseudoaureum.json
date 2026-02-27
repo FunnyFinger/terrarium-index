@@ -108,5 +108,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/phlebodium-pseudoaureum/phlebodium-pseudoaureum-1.jpg",
+    "images/plants/phlebodium-pseudoaureum/phlebodium-pseudoaureum-2.jpg",
+    "images/plants/phlebodium-pseudoaureum/phlebodium-pseudoaureum-3.jpg",
+    "images/plants/phlebodium-pseudoaureum/phlebodium-pseudoaureum-4.jpg"
+  ],
+  "imageUrl": "images/plants/phlebodium-pseudoaureum/phlebodium-pseudoaureum-1.jpg"
 }

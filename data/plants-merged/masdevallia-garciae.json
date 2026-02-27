@@ -108,5 +108,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/masdevallia-garciae/masdevallia-garciae-1.jpg",
+    "images/plants/masdevallia-garciae/masdevallia-garciae-2.jpg",
+    "images/plants/masdevallia-garciae/masdevallia-garciae-3.jpg"
+  ],
+  "imageUrl": "images/plants/masdevallia-garciae/masdevallia-garciae-1.jpg"
 }

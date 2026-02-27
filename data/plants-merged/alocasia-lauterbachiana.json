@@ -109,5 +109,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/alocasia-lauterbachiana/alocasia-lauterbachiana-1.jpg",
+    "images/plants/alocasia-lauterbachiana/alocasia-lauterbachiana-2.jpg",
+    "images/plants/alocasia-lauterbachiana/alocasia-lauterbachiana-3.jpg",
+    "images/plants/alocasia-lauterbachiana/alocasia-lauterbachiana-4.jpg"
+  ],
+  "imageUrl": "images/plants/alocasia-lauterbachiana/alocasia-lauterbachiana-1.jpg"
 }

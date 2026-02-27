@@ -104,5 +104,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/dioscorea-mexicana/dioscorea-mexicana-1.jpg",
+    "images/plants/dioscorea-mexicana/dioscorea-mexicana-2.jpg",
+    "images/plants/dioscorea-mexicana/dioscorea-mexicana-3.jpg",
+    "images/plants/dioscorea-mexicana/dioscorea-mexicana-4.jpg"
+  ],
+  "imageUrl": "images/plants/dioscorea-mexicana/dioscorea-mexicana-1.jpg"
 }

@@ -108,5 +108,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/aeschynanthus-speciosus/aeschynanthus-speciosus-1.jpg",
+    "images/plants/aeschynanthus-speciosus/aeschynanthus-speciosus-2.jpg",
+    "images/plants/aeschynanthus-speciosus/aeschynanthus-speciosus-3.jpg"
+  ],
+  "imageUrl": "images/plants/aeschynanthus-speciosus/aeschynanthus-speciosus-1.jpg"
 }

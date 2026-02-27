@@ -107,5 +107,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anthurium-fornicifolium/anthurium-fornicifolium-1.jpg",
+    "images/plants/anthurium-fornicifolium/anthurium-fornicifolium-2.jpg",
+    "images/plants/anthurium-fornicifolium/anthurium-fornicifolium-3.jpg"
+  ],
+  "imageUrl": "images/plants/anthurium-fornicifolium/anthurium-fornicifolium-1.jpg"
 }

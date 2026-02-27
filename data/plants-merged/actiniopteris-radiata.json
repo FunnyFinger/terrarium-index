@@ -106,5 +106,13 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/actiniopteris-radiata/actiniopteris-radiata-1.jpg",
+    "images/plants/actiniopteris-radiata/actiniopteris-radiata-2.jpg",
+    "images/plants/actiniopteris-radiata/actiniopteris-radiata-3.jpg",
+    "images/plants/actiniopteris-radiata/actiniopteris-radiata-4.jpg",
+    "images/plants/actiniopteris-radiata/actiniopteris-radiata-5.jpg"
+  ],
+  "imageUrl": "images/plants/actiniopteris-radiata/actiniopteris-radiata-1.jpg"
 }

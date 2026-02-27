@@ -112,5 +112,12 @@
   },
   "carnivorous": false,
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/chaetomorpha-linum/chaetomorpha-linum-1.jpg",
+    "images/plants/chaetomorpha-linum/chaetomorpha-linum-2.jpg",
+    "images/plants/chaetomorpha-linum/chaetomorpha-linum-3.jpg",
+    "images/plants/chaetomorpha-linum/chaetomorpha-linum-4.jpg"
+  ],
+  "imageUrl": "images/plants/chaetomorpha-linum/chaetomorpha-linum-1.jpg"
 }

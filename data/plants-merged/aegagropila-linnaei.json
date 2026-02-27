@@ -115,5 +115,12 @@
   },
   "carnivorous": false,
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/aegagropila-linnaei/aegagropila-linnaei-1.jpg",
+    "images/plants/aegagropila-linnaei/aegagropila-linnaei-2.jpg",
+    "images/plants/aegagropila-linnaei/aegagropila-linnaei-3.jpg",
+    "images/plants/aegagropila-linnaei/aegagropila-linnaei-4.jpg"
+  ],
+  "imageUrl": "images/plants/aegagropila-linnaei/aegagropila-linnaei-1.jpg"
 }

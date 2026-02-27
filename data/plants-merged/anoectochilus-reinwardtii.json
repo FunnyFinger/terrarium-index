@@ -109,5 +109,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anoectochilus-reinwardtii/anoectochilus-reinwardtii-1.jpg",
+    "images/plants/anoectochilus-reinwardtii/anoectochilus-reinwardtii-2.jpg",
+    "images/plants/anoectochilus-reinwardtii/anoectochilus-reinwardtii-3.jpg"
+  ],
+  "imageUrl": "images/plants/anoectochilus-reinwardtii/anoectochilus-reinwardtii-1.jpg"
 }

@@ -111,5 +111,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/pilea-microphylla/pilea-microphylla-1.jpg",
+    "images/plants/pilea-microphylla/pilea-microphylla-2.jpg",
+    "images/plants/pilea-microphylla/pilea-microphylla-3.jpg",
+    "images/plants/pilea-microphylla/pilea-microphylla-4.jpg"
+  ],
+  "imageUrl": "images/plants/pilea-microphylla/pilea-microphylla-1.jpg"
 }

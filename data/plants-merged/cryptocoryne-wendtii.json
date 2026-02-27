@@ -112,5 +112,12 @@
   },
   "carnivorous": false,
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/cryptocoryne-wendtii/cryptocoryne-wendtii-1.jpg",
+    "images/plants/cryptocoryne-wendtii/cryptocoryne-wendtii-2.jpg",
+    "images/plants/cryptocoryne-wendtii/cryptocoryne-wendtii-3.jpg",
+    "images/plants/cryptocoryne-wendtii/cryptocoryne-wendtii-4.jpg"
+  ],
+  "imageUrl": "images/plants/cryptocoryne-wendtii/cryptocoryne-wendtii-1.jpg"
 }

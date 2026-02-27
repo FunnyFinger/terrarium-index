@@ -103,5 +103,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anthurium-polyschistum/anthurium-polyschistum-1.jpg",
+    "images/plants/anthurium-polyschistum/anthurium-polyschistum-2.jpg",
+    "images/plants/anthurium-polyschistum/anthurium-polyschistum-3.jpg"
+  ],
+  "imageUrl": "images/plants/anthurium-polyschistum/anthurium-polyschistum-1.jpg"
 }

@@ -105,5 +105,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/dryopteris-erythrosora/dryopteris-erythrosora-1.jpg",
+    "images/plants/dryopteris-erythrosora/dryopteris-erythrosora-2.jpg",
+    "images/plants/dryopteris-erythrosora/dryopteris-erythrosora-3.jpg",
+    "images/plants/dryopteris-erythrosora/dryopteris-erythrosora-4.jpg"
+  ],
+  "imageUrl": "images/plants/dryopteris-erythrosora/dryopteris-erythrosora-1.jpg"
 }

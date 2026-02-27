@@ -103,5 +103,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/epipremnum-aureum/epipremnum-aureum-1.jpg",
+    "images/plants/epipremnum-aureum/epipremnum-aureum-2.jpg",
+    "images/plants/epipremnum-aureum/epipremnum-aureum-3.jpg"
+  ],
+  "imageUrl": "images/plants/epipremnum-aureum/epipremnum-aureum-1.jpg"
 }

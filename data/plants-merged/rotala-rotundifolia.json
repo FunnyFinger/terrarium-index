@@ -112,5 +112,11 @@
   },
   "carnivorous": false,
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/rotala-rotundifolia/rotala-rotundifolia-1.jpg",
+    "images/plants/rotala-rotundifolia/rotala-rotundifolia-2.jpg",
+    "images/plants/rotala-rotundifolia/rotala-rotundifolia-3.jpg"
+  ],
+  "imageUrl": "images/plants/rotala-rotundifolia/rotala-rotundifolia-1.jpg"
 }

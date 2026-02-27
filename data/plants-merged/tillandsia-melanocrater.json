@@ -106,5 +106,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/tillandsia-melanocrater/tillandsia-melanocrater-1.jpg",
+    "images/plants/tillandsia-melanocrater/tillandsia-melanocrater-2.jpg",
+    "images/plants/tillandsia-melanocrater/tillandsia-melanocrater-3.jpg"
+  ],
+  "imageUrl": "images/plants/tillandsia-melanocrater/tillandsia-melanocrater-1.jpg"
 }

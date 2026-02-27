@@ -108,5 +108,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/cryptanthus-zonatus/cryptanthus-zonatus-1.jpg",
+    "images/plants/cryptanthus-zonatus/cryptanthus-zonatus-2.jpg",
+    "images/plants/cryptanthus-zonatus/cryptanthus-zonatus-3.jpg"
+  ],
+  "imageUrl": "images/plants/cryptanthus-zonatus/cryptanthus-zonatus-1.jpg"
 }

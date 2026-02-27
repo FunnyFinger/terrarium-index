@@ -107,5 +107,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anthurium-papillilaminum/anthurium-papillilaminum-1.jpg",
+    "images/plants/anthurium-papillilaminum/anthurium-papillilaminum-2.jpg",
+    "images/plants/anthurium-papillilaminum/anthurium-papillilaminum-3.jpg"
+  ],
+  "imageUrl": "images/plants/anthurium-papillilaminum/anthurium-papillilaminum-1.jpg"
 }

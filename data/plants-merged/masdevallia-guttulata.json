@@ -108,5 +108,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/masdevallia-guttulata/masdevallia-guttulata-1.jpg",
+    "images/plants/masdevallia-guttulata/masdevallia-guttulata-2.jpg",
+    "images/plants/masdevallia-guttulata/masdevallia-guttulata-3.jpg"
+  ],
+  "imageUrl": "images/plants/masdevallia-guttulata/masdevallia-guttulata-1.jpg"
 }

@@ -104,5 +104,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/aglaonema-pictum/aglaonema-pictum-1.jpg",
+    "images/plants/aglaonema-pictum/aglaonema-pictum-2.jpg",
+    "images/plants/aglaonema-pictum/aglaonema-pictum-3.jpg"
+  ],
+  "imageUrl": "images/plants/aglaonema-pictum/aglaonema-pictum-1.jpg"
 }

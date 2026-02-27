@@ -116,5 +116,11 @@
   },
   "carnivorous": false,
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/ceratopteris-thalictroides/ceratopteris-thalictroides-1.jpg",
+    "images/plants/ceratopteris-thalictroides/ceratopteris-thalictroides-2.jpg",
+    "images/plants/ceratopteris-thalictroides/ceratopteris-thalictroides-3.jpg"
+  ],
+  "imageUrl": "images/plants/ceratopteris-thalictroides/ceratopteris-thalictroides-1.jpg"
 }

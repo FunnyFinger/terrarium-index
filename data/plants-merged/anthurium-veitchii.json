@@ -110,5 +110,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anthurium-veitchii/anthurium-veitchii-1.jpg",
+    "images/plants/anthurium-veitchii/anthurium-veitchii-2.jpg",
+    "images/plants/anthurium-veitchii/anthurium-veitchii-3.jpg"
+  ],
+  "imageUrl": "images/plants/anthurium-veitchii/anthurium-veitchii-1.jpg"
 }

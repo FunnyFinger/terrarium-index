@@ -111,5 +111,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/plagiomnium-insigne/plagiomnium-insigne-1.jpg",
+    "images/plants/plagiomnium-insigne/plagiomnium-insigne-2.jpg",
+    "images/plants/plagiomnium-insigne/plagiomnium-insigne-3.jpg"
+  ],
+  "imageUrl": "images/plants/plagiomnium-insigne/plagiomnium-insigne-1.jpg"
 }

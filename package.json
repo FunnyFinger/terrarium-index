@@ -27,6 +27,8 @@
     "sync-from-supabase": "node scripts/sync-from-supabase.js",
     "local-backup": "node scripts/sync-from-supabase.js && node scripts/sync-server.js",
     "migrate-equipment-catalog": "node scripts/migrate-equipment-catalog-to-supabase.js",
+    "populate-plant-images": "node scripts/populate-plant-images-from-folders.js",
+    "populate-supplies-vivarium-images": "node scripts/populate-supplies-vivarium-images-from-folders.js",
     "migrate-plants-catalog": "node scripts/migrate-plants-catalog-to-supabase.js",
     "migrate-vivariums-catalog": "node scripts/migrate-vivariums-catalog-to-supabase.js",
     "test": "echo \"Error: no test specified\" && exit 1"

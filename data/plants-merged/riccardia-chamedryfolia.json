@@ -113,5 +113,12 @@
   },
   "carnivorous": false,
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/riccardia-chamedryfolia/riccardia-chamedryfolia-1.jpg",
+    "images/plants/riccardia-chamedryfolia/riccardia-chamedryfolia-2.jpg",
+    "images/plants/riccardia-chamedryfolia/riccardia-chamedryfolia-3.jpg",
+    "images/plants/riccardia-chamedryfolia/riccardia-chamedryfolia-4.jpg"
+  ],
+  "imageUrl": "images/plants/riccardia-chamedryfolia/riccardia-chamedryfolia-1.jpg"
 }

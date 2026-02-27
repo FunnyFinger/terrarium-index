@@ -109,5 +109,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/chamaedorea-elegans/chamaedorea-elegans-1.jpg",
+    "images/plants/chamaedorea-elegans/chamaedorea-elegans-2.jpg",
+    "images/plants/chamaedorea-elegans/chamaedorea-elegans-3.jpg"
+  ],
+  "imageUrl": "images/plants/chamaedorea-elegans/chamaedorea-elegans-1.jpg"
 }

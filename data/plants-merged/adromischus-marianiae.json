@@ -107,5 +107,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/adromischus-marianiae/adromischus-marianiae-1.jpg",
+    "images/plants/adromischus-marianiae/adromischus-marianiae-2.jpg",
+    "images/plants/adromischus-marianiae/adromischus-marianiae-3.jpg"
+  ],
+  "imageUrl": "images/plants/adromischus-marianiae/adromischus-marianiae-1.jpg"
 }

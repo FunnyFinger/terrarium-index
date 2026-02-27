@@ -109,5 +109,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/syngonium-podophyllum-pixie/syngonium-podophyllum-pixie-1.jpg",
+    "images/plants/syngonium-podophyllum-pixie/syngonium-podophyllum-pixie-2.jpg",
+    "images/plants/syngonium-podophyllum-pixie/syngonium-podophyllum-pixie-3.jpg"
+  ],
+  "imageUrl": "images/plants/syngonium-podophyllum-pixie/syngonium-podophyllum-pixie-1.jpg"
 }

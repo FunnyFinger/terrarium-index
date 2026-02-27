@@ -105,5 +105,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/philodendron-hederaceum/philodendron-hederaceum-1.jpg",
+    "images/plants/philodendron-hederaceum/philodendron-hederaceum-2.jpg",
+    "images/plants/philodendron-hederaceum/philodendron-hederaceum-3.jpg"
+  ],
+  "imageUrl": "images/plants/philodendron-hederaceum/philodendron-hederaceum-1.jpg"
 }

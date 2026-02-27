@@ -107,5 +107,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/philodendron-hastatum/philodendron-hastatum-1.jpg",
+    "images/plants/philodendron-hastatum/philodendron-hastatum-2.jpg",
+    "images/plants/philodendron-hastatum/philodendron-hastatum-3.jpg"
+  ],
+  "imageUrl": "images/plants/philodendron-hastatum/philodendron-hastatum-1.jpg"
 }

@@ -113,5 +113,11 @@
     "ideal": null
   },
   "geographicOrigin": "Central America",
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/oxalis-vulcanicola/oxalis-vulcanicola-1.jpg",
+    "images/plants/oxalis-vulcanicola/oxalis-vulcanicola-2.jpg",
+    "images/plants/oxalis-vulcanicola/oxalis-vulcanicola-3.jpg"
+  ],
+  "imageUrl": "images/plants/oxalis-vulcanicola/oxalis-vulcanicola-1.jpg"
 }

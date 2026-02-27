@@ -111,5 +111,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/cladonia-rangiferina/cladonia-rangiferina-1.jpg",
+    "images/plants/cladonia-rangiferina/cladonia-rangiferina-2.jpg",
+    "images/plants/cladonia-rangiferina/cladonia-rangiferina-3.jpg",
+    "images/plants/cladonia-rangiferina/cladonia-rangiferina-4.jpg"
+  ],
+  "imageUrl": "images/plants/cladonia-rangiferina/cladonia-rangiferina-1.jpg"
 }

@@ -111,5 +111,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/peperomia-prostrata/peperomia-prostrata-1.jpg",
+    "images/plants/peperomia-prostrata/peperomia-prostrata-2.jpg",
+    "images/plants/peperomia-prostrata/peperomia-prostrata-3.jpg"
+  ],
+  "imageUrl": "images/plants/peperomia-prostrata/peperomia-prostrata-1.jpg"
 }

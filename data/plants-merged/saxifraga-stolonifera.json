@@ -111,5 +111,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/saxifraga-stolonifera/saxifraga-stolonifera-1.jpg",
+    "images/plants/saxifraga-stolonifera/saxifraga-stolonifera-2.jpg",
+    "images/plants/saxifraga-stolonifera/saxifraga-stolonifera-3.jpg"
+  ],
+  "imageUrl": "images/plants/saxifraga-stolonifera/saxifraga-stolonifera-1.jpg"
 }

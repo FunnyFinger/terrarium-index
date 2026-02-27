@@ -110,5 +110,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/agave-victoriae-reginae/agave-victoriae-reginae-1.jpg",
+    "images/plants/agave-victoriae-reginae/agave-victoriae-reginae-2.jpg",
+    "images/plants/agave-victoriae-reginae/agave-victoriae-reginae-3.jpg",
+    "images/plants/agave-victoriae-reginae/agave-victoriae-reginae-4.jpg"
+  ],
+  "imageUrl": "images/plants/agave-victoriae-reginae/agave-victoriae-reginae-1.jpg"
 }

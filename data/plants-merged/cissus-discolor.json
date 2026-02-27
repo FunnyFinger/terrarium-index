@@ -114,5 +114,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/cissus-discolor/cissus-discolor-1.jpg",
+    "images/plants/cissus-discolor/cissus-discolor-2.jpg",
+    "images/plants/cissus-discolor/cissus-discolor-3.jpg"
+  ],
+  "imageUrl": "images/plants/cissus-discolor/cissus-discolor-1.jpg"
 }

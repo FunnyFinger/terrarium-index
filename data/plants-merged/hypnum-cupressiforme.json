@@ -111,5 +111,13 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/hypnum-cupressiforme/hypnum-cupressiforme-1.jpg",
+    "images/plants/hypnum-cupressiforme/hypnum-cupressiforme-2.jpg",
+    "images/plants/hypnum-cupressiforme/hypnum-cupressiforme-3.jpg",
+    "images/plants/hypnum-cupressiforme/hypnum-cupressiforme-4.jpg",
+    "images/plants/hypnum-cupressiforme/hypnum-cupressiforme-5.jpg"
+  ],
+  "imageUrl": "images/plants/hypnum-cupressiforme/hypnum-cupressiforme-1.jpg"
 }

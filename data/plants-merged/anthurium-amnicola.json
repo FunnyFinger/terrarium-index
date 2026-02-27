@@ -104,5 +104,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anthurium-amnicola/anthurium-amnicola-1.jpg",
+    "images/plants/anthurium-amnicola/anthurium-amnicola-2.jpg",
+    "images/plants/anthurium-amnicola/anthurium-amnicola-3.jpg",
+    "images/plants/anthurium-amnicola/anthurium-amnicola-4.jpg"
+  ],
+  "imageUrl": "images/plants/anthurium-amnicola/anthurium-amnicola-1.jpg"
 }

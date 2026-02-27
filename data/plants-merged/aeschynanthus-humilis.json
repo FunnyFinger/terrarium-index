@@ -108,5 +108,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/aeschynanthus-humilis/aeschynanthus-humilis-1.jpg",
+    "images/plants/aeschynanthus-humilis/aeschynanthus-humilis-2.jpg",
+    "images/plants/aeschynanthus-humilis/aeschynanthus-humilis-3.jpg"
+  ],
+  "imageUrl": "images/plants/aeschynanthus-humilis/aeschynanthus-humilis-1.jpg"
 }

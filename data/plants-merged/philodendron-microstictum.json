@@ -105,5 +105,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/philodendron-microstictum/philodendron-microstictum-1.jpg",
+    "images/plants/philodendron-microstictum/philodendron-microstictum-2.jpg",
+    "images/plants/philodendron-microstictum/philodendron-microstictum-3.jpg",
+    "images/plants/philodendron-microstictum/philodendron-microstictum-4.jpg"
+  ],
+  "imageUrl": "images/plants/philodendron-microstictum/philodendron-microstictum-1.jpg"
 }

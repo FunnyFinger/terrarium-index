@@ -109,5 +109,10 @@
   },
   "carnivorous": false,
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/gracilaria-verrucosa/gracilaria-verrucosa-1.jpg",
+    "images/plants/gracilaria-verrucosa/gracilaria-verrucosa-2.jpg"
+  ],
+  "imageUrl": "images/plants/gracilaria-verrucosa/gracilaria-verrucosa-1.jpg"
 }

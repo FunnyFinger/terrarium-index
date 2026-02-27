@@ -116,5 +116,13 @@
     "ideal": 70
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/utricularia-gibba/utricularia-gibba-1.jpg",
+    "images/plants/utricularia-gibba/utricularia-gibba-2.jpg",
+    "images/plants/utricularia-gibba/utricularia-gibba-3.jpg",
+    "images/plants/utricularia-gibba/utricularia-gibba-4.jpg",
+    "images/plants/utricularia-gibba/utricularia-gibba-5.jpg"
+  ],
+  "imageUrl": "images/plants/utricularia-gibba/utricularia-gibba-1.jpg"
 }

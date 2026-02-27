@@ -105,5 +105,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/begonia-dietrichiana/begonia-dietrichiana-1.jpg",
+    "images/plants/begonia-dietrichiana/begonia-dietrichiana-2.jpg",
+    "images/plants/begonia-dietrichiana/begonia-dietrichiana-3.jpg"
+  ],
+  "imageUrl": "images/plants/begonia-dietrichiana/begonia-dietrichiana-1.jpg"
 }

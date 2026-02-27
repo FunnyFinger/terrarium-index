@@ -112,7 +112,9 @@
   "stockQuantity": 0,
   "reorderLevel": 2,
   "images": [
-    "images/plants/tillandsia-abdita/tillandsia-abdita-1.jpg"
+    "images/plants/tillandsia-abdita/tillandsia-abdita-1.jpg",
+    "images/plants/tillandsia-abdita/tillandsia-abdita-2.jpg",
+    "images/plants/tillandsia-abdita/tillandsia-abdita-3.jpg"
   ],
   "imageUrl": "images/plants/tillandsia-abdita/tillandsia-abdita-1.jpg",
   "catalogueOfLifeUrl": "https://www.catalogueoflife.org/data/taxon/7CBSG",

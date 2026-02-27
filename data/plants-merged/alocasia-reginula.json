@@ -106,5 +106,14 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/alocasia-reginula/alocasia-reginula-1.jpg",
+    "images/plants/alocasia-reginula/alocasia-reginula-2.jpg",
+    "images/plants/alocasia-reginula/alocasia-reginula-3.jpg",
+    "images/plants/alocasia-reginula/alocasia-reginula-4.jpg",
+    "images/plants/alocasia-reginula/alocasia-reginula-5.jpg",
+    "images/plants/alocasia-reginula/alocasia-reginula-6.jpg"
+  ],
+  "imageUrl": "images/plants/alocasia-reginula/alocasia-reginula-1.jpg"
 }

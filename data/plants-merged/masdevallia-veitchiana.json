@@ -114,5 +114,13 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/masdevallia-veitchiana/masdevallia-veitchiana-1.jpg",
+    "images/plants/masdevallia-veitchiana/masdevallia-veitchiana-2.jpg",
+    "images/plants/masdevallia-veitchiana/masdevallia-veitchiana-3.jpg",
+    "images/plants/masdevallia-veitchiana/masdevallia-veitchiana-4.jpg",
+    "images/plants/masdevallia-veitchiana/masdevallia-veitchiana-5.jpg"
+  ],
+  "imageUrl": "images/plants/masdevallia-veitchiana/masdevallia-veitchiana-1.jpg"
 }

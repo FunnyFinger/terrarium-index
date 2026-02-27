@@ -110,5 +110,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/sempervivum-tectorum/sempervivum-tectorum-1.jpg",
+    "images/plants/sempervivum-tectorum/sempervivum-tectorum-2.jpg",
+    "images/plants/sempervivum-tectorum/sempervivum-tectorum-3.jpg"
+  ],
+  "imageUrl": "images/plants/sempervivum-tectorum/sempervivum-tectorum-1.jpg"
 }

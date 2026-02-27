@@ -116,5 +116,13 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/goeppertia-makoyana/goeppertia-makoyana-1.jpg",
+    "images/plants/goeppertia-makoyana/goeppertia-makoyana-2.jpg",
+    "images/plants/goeppertia-makoyana/goeppertia-makoyana-3.jpg",
+    "images/plants/goeppertia-makoyana/goeppertia-makoyana-4.jpg",
+    "images/plants/goeppertia-makoyana/goeppertia-makoyana-5.jpg"
+  ],
+  "imageUrl": "images/plants/goeppertia-makoyana/goeppertia-makoyana-1.jpg"
 }

@@ -104,5 +104,9 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anthurium-ranchoanum/anthurium-ranchoanum-1.jpg"
+  ],
+  "imageUrl": "images/plants/anthurium-ranchoanum/anthurium-ranchoanum-1.jpg"
 }

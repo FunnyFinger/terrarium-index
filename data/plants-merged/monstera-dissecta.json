@@ -111,5 +111,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/monstera-dissecta/monstera-dissecta-1.jpg",
+    "images/plants/monstera-dissecta/monstera-dissecta-2.jpg",
+    "images/plants/monstera-dissecta/monstera-dissecta-3.jpg",
+    "images/plants/monstera-dissecta/monstera-dissecta-4.jpg"
+  ],
+  "imageUrl": "images/plants/monstera-dissecta/monstera-dissecta-1.jpg"
 }

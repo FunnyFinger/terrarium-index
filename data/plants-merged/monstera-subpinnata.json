@@ -111,5 +111,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/monstera-subpinnata/monstera-subpinnata-1.jpg",
+    "images/plants/monstera-subpinnata/monstera-subpinnata-2.jpg",
+    "images/plants/monstera-subpinnata/monstera-subpinnata-3.jpg"
+  ],
+  "imageUrl": "images/plants/monstera-subpinnata/monstera-subpinnata-1.jpg"
 }

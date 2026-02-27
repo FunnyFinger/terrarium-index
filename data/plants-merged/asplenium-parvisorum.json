@@ -107,5 +107,10 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/asplenium-parvisorum/asplenium-parvisorum-1.jpg",
+    "images/plants/asplenium-parvisorum/asplenium-parvisorum-2.jpg"
+  ],
+  "imageUrl": "images/plants/asplenium-parvisorum/asplenium-parvisorum-1.jpg"
 }

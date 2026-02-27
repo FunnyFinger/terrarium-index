@@ -113,5 +113,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/callisia-repens/callisia-repens-1.jpg",
+    "images/plants/callisia-repens/callisia-repens-2.jpg",
+    "images/plants/callisia-repens/callisia-repens-3.jpg",
+    "images/plants/callisia-repens/callisia-repens-4.jpg"
+  ],
+  "imageUrl": "images/plants/callisia-repens/callisia-repens-1.jpg"
 }

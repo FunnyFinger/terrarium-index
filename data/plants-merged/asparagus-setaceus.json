@@ -106,5 +106,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/asparagus-setaceus/asparagus-setaceus-1.jpg",
+    "images/plants/asparagus-setaceus/asparagus-setaceus-2.jpg",
+    "images/plants/asparagus-setaceus/asparagus-setaceus-3.jpg",
+    "images/plants/asparagus-setaceus/asparagus-setaceus-4.jpg"
+  ],
+  "imageUrl": "images/plants/asparagus-setaceus/asparagus-setaceus-1.jpg"
 }

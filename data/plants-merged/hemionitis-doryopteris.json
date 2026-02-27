@@ -107,5 +107,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/hemionitis-doryopteris/hemionitis-doryopteris-1.jpg",
+    "images/plants/hemionitis-doryopteris/hemionitis-doryopteris-2.jpg",
+    "images/plants/hemionitis-doryopteris/hemionitis-doryopteris-3.jpg"
+  ],
+  "imageUrl": "images/plants/hemionitis-doryopteris/hemionitis-doryopteris-1.jpg"
 }

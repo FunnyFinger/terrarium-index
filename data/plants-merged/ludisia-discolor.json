@@ -119,5 +119,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/ludisia-discolor/ludisia-discolor-1.jpg",
+    "images/plants/ludisia-discolor/ludisia-discolor-2.jpg",
+    "images/plants/ludisia-discolor/ludisia-discolor-3.jpg",
+    "images/plants/ludisia-discolor/ludisia-discolor-4.jpg"
+  ],
+  "imageUrl": "images/plants/ludisia-discolor/ludisia-discolor-1.jpg"
 }

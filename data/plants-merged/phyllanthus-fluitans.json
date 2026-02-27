@@ -116,5 +116,12 @@
   },
   "carnivorous": false,
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/phyllanthus-fluitans/phyllanthus-fluitans-1.jpg",
+    "images/plants/phyllanthus-fluitans/phyllanthus-fluitans-2.jpg",
+    "images/plants/phyllanthus-fluitans/phyllanthus-fluitans-3.jpg",
+    "images/plants/phyllanthus-fluitans/phyllanthus-fluitans-4.jpg"
+  ],
+  "imageUrl": "images/plants/phyllanthus-fluitans/phyllanthus-fluitans-1.jpg"
 }

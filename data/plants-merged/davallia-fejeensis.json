@@ -107,5 +107,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/davallia-fejeensis/davallia-fejeensis-1.jpg",
+    "images/plants/davallia-fejeensis/davallia-fejeensis-2.jpg",
+    "images/plants/davallia-fejeensis/davallia-fejeensis-3.jpg",
+    "images/plants/davallia-fejeensis/davallia-fejeensis-4.jpg"
+  ],
+  "imageUrl": "images/plants/davallia-fejeensis/davallia-fejeensis-1.jpg"
 }

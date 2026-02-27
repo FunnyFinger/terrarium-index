@@ -106,5 +106,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/wallisia-cyanea/wallisia-cyanea-1.jpg",
+    "images/plants/wallisia-cyanea/wallisia-cyanea-2.jpg",
+    "images/plants/wallisia-cyanea/wallisia-cyanea-3.jpg"
+  ],
+  "imageUrl": "images/plants/wallisia-cyanea/wallisia-cyanea-1.jpg"
 }

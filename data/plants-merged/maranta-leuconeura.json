@@ -112,5 +112,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/maranta-leuconeura/maranta-leuconeura-1.jpg",
+    "images/plants/maranta-leuconeura/maranta-leuconeura-2.jpg",
+    "images/plants/maranta-leuconeura/maranta-leuconeura-3.jpg"
+  ],
+  "imageUrl": "images/plants/maranta-leuconeura/maranta-leuconeura-1.jpg"
 }

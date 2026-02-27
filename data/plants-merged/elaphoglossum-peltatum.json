@@ -112,5 +112,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/elaphoglossum-peltatum/elaphoglossum-peltatum-1.jpg",
+    "images/plants/elaphoglossum-peltatum/elaphoglossum-peltatum-2.jpg",
+    "images/plants/elaphoglossum-peltatum/elaphoglossum-peltatum-3.jpg"
+  ],
+  "imageUrl": "images/plants/elaphoglossum-peltatum/elaphoglossum-peltatum-1.jpg"
 }

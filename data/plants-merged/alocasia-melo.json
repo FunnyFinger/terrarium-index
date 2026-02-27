@@ -110,5 +110,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/alocasia-melo/alocasia-melo-1.jpg",
+    "images/plants/alocasia-melo/alocasia-melo-2.jpg",
+    "images/plants/alocasia-melo/alocasia-melo-3.jpg"
+  ],
+  "imageUrl": "images/plants/alocasia-melo/alocasia-melo-1.jpg"
 }

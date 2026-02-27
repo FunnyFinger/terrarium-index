@@ -112,5 +112,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/alocasia-sanderiana/alocasia-sanderiana-1.jpg",
+    "images/plants/alocasia-sanderiana/alocasia-sanderiana-2.jpg",
+    "images/plants/alocasia-sanderiana/alocasia-sanderiana-3.jpg"
+  ],
+  "imageUrl": "images/plants/alocasia-sanderiana/alocasia-sanderiana-1.jpg"
 }

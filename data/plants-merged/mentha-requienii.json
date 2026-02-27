@@ -113,5 +113,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/mentha-requienii/mentha-requienii-1.jpg",
+    "images/plants/mentha-requienii/mentha-requienii-2.jpg",
+    "images/plants/mentha-requienii/mentha-requienii-3.jpg"
+  ],
+  "imageUrl": "images/plants/mentha-requienii/mentha-requienii-1.jpg"
 }

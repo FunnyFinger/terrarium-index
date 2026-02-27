@@ -107,5 +107,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/adiantum-pedatum/adiantum-pedatum-1.jpg",
+    "images/plants/adiantum-pedatum/adiantum-pedatum-2.jpg",
+    "images/plants/adiantum-pedatum/adiantum-pedatum-3.jpg",
+    "images/plants/adiantum-pedatum/adiantum-pedatum-4.jpg"
+  ],
+  "imageUrl": "images/plants/adiantum-pedatum/adiantum-pedatum-1.jpg"
 }

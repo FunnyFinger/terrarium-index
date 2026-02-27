@@ -103,5 +103,10 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/adenia-lindiensis/adenia-lindiensis-1.jpg",
+    "images/plants/adenia-lindiensis/adenia-lindiensis-2.jpg"
+  ],
+  "imageUrl": "images/plants/adenia-lindiensis/adenia-lindiensis-1.jpg"
 }

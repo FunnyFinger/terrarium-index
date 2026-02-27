@@ -106,5 +106,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/aspidogyne-argentea/aspidogyne-argentea-1.jpg",
+    "images/plants/aspidogyne-argentea/aspidogyne-argentea-2.jpg",
+    "images/plants/aspidogyne-argentea/aspidogyne-argentea-3.jpg"
+  ],
+  "imageUrl": "images/plants/aspidogyne-argentea/aspidogyne-argentea-1.jpg"
 }

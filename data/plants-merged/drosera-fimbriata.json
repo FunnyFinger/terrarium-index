@@ -107,5 +107,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/drosera-fimbriata/drosera-fimbriata-1.jpg",
+    "images/plants/drosera-fimbriata/drosera-fimbriata-2.jpg",
+    "images/plants/drosera-fimbriata/drosera-fimbriata-3.jpg",
+    "images/plants/drosera-fimbriata/drosera-fimbriata-4.jpg"
+  ],
+  "imageUrl": "images/plants/drosera-fimbriata/drosera-fimbriata-1.jpg"
 }

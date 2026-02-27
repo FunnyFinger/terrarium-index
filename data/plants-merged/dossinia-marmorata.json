@@ -106,5 +106,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/dossinia-marmorata/dossinia-marmorata-1.jpg",
+    "images/plants/dossinia-marmorata/dossinia-marmorata-2.jpg",
+    "images/plants/dossinia-marmorata/dossinia-marmorata-3.jpg",
+    "images/plants/dossinia-marmorata/dossinia-marmorata-4.jpg"
+  ],
+  "imageUrl": "images/plants/dossinia-marmorata/dossinia-marmorata-1.jpg"
 }

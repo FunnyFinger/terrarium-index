@@ -112,5 +112,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/alocasia-longiloba/alocasia-longiloba-1.jpg",
+    "images/plants/alocasia-longiloba/alocasia-longiloba-2.jpg",
+    "images/plants/alocasia-longiloba/alocasia-longiloba-3.jpg"
+  ],
+  "imageUrl": "images/plants/alocasia-longiloba/alocasia-longiloba-1.jpg"
 }

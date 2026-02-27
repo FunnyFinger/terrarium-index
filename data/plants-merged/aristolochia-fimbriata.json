@@ -102,5 +102,13 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/aristolochia-fimbriata/aristolochia-fimbriata-1.jpg",
+    "images/plants/aristolochia-fimbriata/aristolochia-fimbriata-2.jpg",
+    "images/plants/aristolochia-fimbriata/aristolochia-fimbriata-3.jpg",
+    "images/plants/aristolochia-fimbriata/aristolochia-fimbriata-4.jpg",
+    "images/plants/aristolochia-fimbriata/aristolochia-fimbriata-5.jpg"
+  ],
+  "imageUrl": "images/plants/aristolochia-fimbriata/aristolochia-fimbriata-1.jpg"
 }

@@ -105,5 +105,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/dracaena-angolensis/dracaena-angolensis-1.jpg",
+    "images/plants/dracaena-angolensis/dracaena-angolensis-2.jpg",
+    "images/plants/dracaena-angolensis/dracaena-angolensis-3.jpg"
+  ],
+  "imageUrl": "images/plants/dracaena-angolensis/dracaena-angolensis-1.jpg"
 }

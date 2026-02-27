@@ -105,5 +105,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/alocasia-infernalis/alocasia-infernalis-1.jpg",
+    "images/plants/alocasia-infernalis/alocasia-infernalis-2.jpg",
+    "images/plants/alocasia-infernalis/alocasia-infernalis-3.jpg"
+  ],
+  "imageUrl": "images/plants/alocasia-infernalis/alocasia-infernalis-1.jpg"
 }

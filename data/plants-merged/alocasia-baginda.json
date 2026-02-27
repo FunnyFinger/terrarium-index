@@ -112,5 +112,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/alocasia-baginda/alocasia-baginda-1.jpg",
+    "images/plants/alocasia-baginda/alocasia-baginda-2.jpg",
+    "images/plants/alocasia-baginda/alocasia-baginda-3.jpg"
+  ],
+  "imageUrl": "images/plants/alocasia-baginda/alocasia-baginda-1.jpg"
 }

@@ -119,5 +119,22 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/fittonia-albivenis/fittonia-albivenis-1.jpg",
+    "images/plants/fittonia-albivenis/fittonia-albivenis-2.jpg",
+    "images/plants/fittonia-albivenis/fittonia-albivenis-3.jpg",
+    "images/plants/fittonia-albivenis/fittonia-albivenis-4.jpg",
+    "images/plants/fittonia-albivenis/fittonia-albivenis-5.jpg",
+    "images/plants/fittonia-albivenis/fittonia-albivenis-6.jpg",
+    "images/plants/fittonia-albivenis/fittonia-albivenis-7.jpg",
+    "images/plants/fittonia-albivenis/fittonia-albivenis-8.jpg",
+    "images/plants/fittonia-albivenis/fittonia-albivenis-9.jpg",
+    "images/plants/fittonia-albivenis/fittonia-albivenis-10.jpg",
+    "images/plants/fittonia-albivenis/fittonia-albivenis-11.jpg",
+    "images/plants/fittonia-albivenis/fittonia-albivenis-12.jpg",
+    "images/plants/fittonia-albivenis/fittonia-albivenis-13.jpg",
+    "images/plants/fittonia-albivenis/fittonia-albivenis-14.jpg"
+  ],
+  "imageUrl": "images/plants/fittonia-albivenis/fittonia-albivenis-1.jpg"
 }

@@ -114,5 +114,12 @@
   },
   "carnivorous": false,
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/ceratophyllum-demersum/ceratophyllum-demersum-1.jpg",
+    "images/plants/ceratophyllum-demersum/ceratophyllum-demersum-2.jpg",
+    "images/plants/ceratophyllum-demersum/ceratophyllum-demersum-3.jpg",
+    "images/plants/ceratophyllum-demersum/ceratophyllum-demersum-4.jpg"
+  ],
+  "imageUrl": "images/plants/ceratophyllum-demersum/ceratophyllum-demersum-1.jpg"
 }

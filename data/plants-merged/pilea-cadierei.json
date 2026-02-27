@@ -113,5 +113,13 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/pilea-cadierei/pilea-cadierei-1.jpg",
+    "images/plants/pilea-cadierei/pilea-cadierei-2.jpg",
+    "images/plants/pilea-cadierei/pilea-cadierei-3.jpg",
+    "images/plants/pilea-cadierei/pilea-cadierei-4.jpg",
+    "images/plants/pilea-cadierei/pilea-cadierei-5.jpg"
+  ],
+  "imageUrl": "images/plants/pilea-cadierei/pilea-cadierei-1.jpg"
 }

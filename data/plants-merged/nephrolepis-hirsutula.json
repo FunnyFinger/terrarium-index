@@ -105,5 +105,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/nephrolepis-hirsutula/nephrolepis-hirsutula-1.jpg",
+    "images/plants/nephrolepis-hirsutula/nephrolepis-hirsutula-2.jpg",
+    "images/plants/nephrolepis-hirsutula/nephrolepis-hirsutula-3.jpg"
+  ],
+  "imageUrl": "images/plants/nephrolepis-hirsutula/nephrolepis-hirsutula-1.jpg"
 }

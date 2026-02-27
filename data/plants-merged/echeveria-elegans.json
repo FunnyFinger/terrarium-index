@@ -105,5 +105,13 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/echeveria-elegans/echeveria-elegans-1.jpg",
+    "images/plants/echeveria-elegans/echeveria-elegans-2.jpg",
+    "images/plants/echeveria-elegans/echeveria-elegans-3.jpg",
+    "images/plants/echeveria-elegans/echeveria-elegans-4.jpg",
+    "images/plants/echeveria-elegans/echeveria-elegans-5.jpg"
+  ],
+  "imageUrl": "images/plants/echeveria-elegans/echeveria-elegans-1.jpg"
 }

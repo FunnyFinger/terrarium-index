@@ -111,5 +111,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/peperomia-argyreia/peperomia-argyreia-1.jpg",
+    "images/plants/peperomia-argyreia/peperomia-argyreia-2.jpg",
+    "images/plants/peperomia-argyreia/peperomia-argyreia-3.jpg",
+    "images/plants/peperomia-argyreia/peperomia-argyreia-4.jpg"
+  ],
+  "imageUrl": "images/plants/peperomia-argyreia/peperomia-argyreia-1.jpg"
 }

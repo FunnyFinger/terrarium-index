@@ -107,5 +107,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/euphorbia-trigona/euphorbia-trigona-1.jpg",
+    "images/plants/euphorbia-trigona/euphorbia-trigona-2.jpg",
+    "images/plants/euphorbia-trigona/euphorbia-trigona-3.jpg"
+  ],
+  "imageUrl": "images/plants/euphorbia-trigona/euphorbia-trigona-1.jpg"
 }

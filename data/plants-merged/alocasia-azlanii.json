@@ -110,5 +110,14 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/alocasia-azlanii/alocasia-azlanii-1.jpg",
+    "images/plants/alocasia-azlanii/alocasia-azlanii-2.jpg",
+    "images/plants/alocasia-azlanii/alocasia-azlanii-3.jpg",
+    "images/plants/alocasia-azlanii/alocasia-azlanii-4.jpg",
+    "images/plants/alocasia-azlanii/alocasia-azlanii-5.jpg",
+    "images/plants/alocasia-azlanii/alocasia-azlanii-6.jpg"
+  ],
+  "imageUrl": "images/plants/alocasia-azlanii/alocasia-azlanii-1.jpg"
 }

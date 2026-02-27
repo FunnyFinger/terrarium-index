@@ -115,5 +115,12 @@
   },
   "carnivorous": false,
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/salvinia-minima/salvinia-minima-1.jpg",
+    "images/plants/salvinia-minima/salvinia-minima-2.jpg",
+    "images/plants/salvinia-minima/salvinia-minima-3.jpg",
+    "images/plants/salvinia-minima/salvinia-minima-4.jpg"
+  ],
+  "imageUrl": "images/plants/salvinia-minima/salvinia-minima-1.jpg"
 }

@@ -107,5 +107,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/aglaomorpha-coronans/aglaomorpha-coronans-1.jpg",
+    "images/plants/aglaomorpha-coronans/aglaomorpha-coronans-2.jpg",
+    "images/plants/aglaomorpha-coronans/aglaomorpha-coronans-3.jpg"
+  ],
+  "imageUrl": "images/plants/aglaomorpha-coronans/aglaomorpha-coronans-1.jpg"
 }

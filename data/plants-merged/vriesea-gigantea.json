@@ -106,5 +106,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/vriesea-gigantea/vriesea-gigantea-1.jpg",
+    "images/plants/vriesea-gigantea/vriesea-gigantea-2.jpg",
+    "images/plants/vriesea-gigantea/vriesea-gigantea-3.jpg",
+    "images/plants/vriesea-gigantea/vriesea-gigantea-4.jpg"
+  ],
+  "imageUrl": "images/plants/vriesea-gigantea/vriesea-gigantea-1.jpg"
 }

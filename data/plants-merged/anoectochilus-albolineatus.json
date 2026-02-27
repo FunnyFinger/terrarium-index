@@ -108,5 +108,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anoectochilus-albolineatus/anoectochilus-albolineatus-1.jpg",
+    "images/plants/anoectochilus-albolineatus/anoectochilus-albolineatus-2.jpg",
+    "images/plants/anoectochilus-albolineatus/anoectochilus-albolineatus-3.jpg"
+  ],
+  "imageUrl": "images/plants/anoectochilus-albolineatus/anoectochilus-albolineatus-1.jpg"
 }

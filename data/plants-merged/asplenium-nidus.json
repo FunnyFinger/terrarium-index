@@ -110,5 +110,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/asplenium-nidus/asplenium-nidus-1.jpg",
+    "images/plants/asplenium-nidus/asplenium-nidus-2.jpg",
+    "images/plants/asplenium-nidus/asplenium-nidus-3.jpg"
+  ],
+  "imageUrl": "images/plants/asplenium-nidus/asplenium-nidus-1.jpg"
 }

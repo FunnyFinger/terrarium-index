@@ -108,5 +108,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/acanthostachys-pitcairnioides/acanthostachys-pitcairnioides-1.jpg",
+    "images/plants/acanthostachys-pitcairnioides/acanthostachys-pitcairnioides-2.jpg",
+    "images/plants/acanthostachys-pitcairnioides/acanthostachys-pitcairnioides-3.jpg",
+    "images/plants/acanthostachys-pitcairnioides/acanthostachys-pitcairnioides-4.jpg"
+  ],
+  "imageUrl": "images/plants/acanthostachys-pitcairnioides/acanthostachys-pitcairnioides-1.jpg"
 }

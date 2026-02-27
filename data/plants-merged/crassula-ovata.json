@@ -115,5 +115,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/crassula-ovata/crassula-ovata-1.jpg",
+    "images/plants/crassula-ovata/crassula-ovata-2.jpg",
+    "images/plants/crassula-ovata/crassula-ovata-3.jpg",
+    "images/plants/crassula-ovata/crassula-ovata-4.jpg"
+  ],
+  "imageUrl": "images/plants/crassula-ovata/crassula-ovata-1.jpg"
 }

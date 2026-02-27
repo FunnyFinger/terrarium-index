@@ -112,5 +112,13 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/sphagnum-palustre/sphagnum-palustre-1.jpg",
+    "images/plants/sphagnum-palustre/sphagnum-palustre-2.jpg",
+    "images/plants/sphagnum-palustre/sphagnum-palustre-3.jpg",
+    "images/plants/sphagnum-palustre/sphagnum-palustre-4.jpg",
+    "images/plants/sphagnum-palustre/sphagnum-palustre-5.jpg"
+  ],
+  "imageUrl": "images/plants/sphagnum-palustre/sphagnum-palustre-1.jpg"
 }

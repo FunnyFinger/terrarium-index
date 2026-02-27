@@ -113,5 +113,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/dischidia-nummularia/dischidia-nummularia-1.jpg",
+    "images/plants/dischidia-nummularia/dischidia-nummularia-2.jpg",
+    "images/plants/dischidia-nummularia/dischidia-nummularia-3.jpg"
+  ],
+  "imageUrl": "images/plants/dischidia-nummularia/dischidia-nummularia-1.jpg"
 }

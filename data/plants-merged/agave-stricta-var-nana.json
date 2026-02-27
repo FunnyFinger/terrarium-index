@@ -108,5 +108,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/agave-stricta-var-nana/agave-stricta-var-nana-1.jpg",
+    "images/plants/agave-stricta-var-nana/agave-stricta-var-nana-2.jpg",
+    "images/plants/agave-stricta-var-nana/agave-stricta-var-nana-3.jpg"
+  ],
+  "imageUrl": "images/plants/agave-stricta-var-nana/agave-stricta-var-nana-1.jpg"
 }

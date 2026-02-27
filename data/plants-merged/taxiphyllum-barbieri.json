@@ -111,5 +111,10 @@
   },
   "carnivorous": false,
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/taxiphyllum-barbieri/taxiphyllum-barbieri-1.jpg",
+    "images/plants/taxiphyllum-barbieri/taxiphyllum-barbieri-2.jpg"
+  ],
+  "imageUrl": "images/plants/taxiphyllum-barbieri/taxiphyllum-barbieri-1.jpg"
 }

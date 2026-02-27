@@ -114,5 +114,13 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/lepanthes-calodictyon/lepanthes-calodictyon-1.jpg",
+    "images/plants/lepanthes-calodictyon/lepanthes-calodictyon-2.jpg",
+    "images/plants/lepanthes-calodictyon/lepanthes-calodictyon-3.jpg",
+    "images/plants/lepanthes-calodictyon/lepanthes-calodictyon-4.jpg",
+    "images/plants/lepanthes-calodictyon/lepanthes-calodictyon-5.jpg"
+  ],
+  "imageUrl": "images/plants/lepanthes-calodictyon/lepanthes-calodictyon-1.jpg"
 }

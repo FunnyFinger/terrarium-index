@@ -106,5 +106,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/tillandsia-bulbosa/tillandsia-bulbosa-1.jpg",
+    "images/plants/tillandsia-bulbosa/tillandsia-bulbosa-2.jpg",
+    "images/plants/tillandsia-bulbosa/tillandsia-bulbosa-3.jpg"
+  ],
+  "imageUrl": "images/plants/tillandsia-bulbosa/tillandsia-bulbosa-1.jpg"
 }

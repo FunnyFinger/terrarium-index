@@ -108,5 +108,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/pleurothallis-rubella/pleurothallis-rubella-1.jpg",
+    "images/plants/pleurothallis-rubella/pleurothallis-rubella-2.jpg",
+    "images/plants/pleurothallis-rubella/pleurothallis-rubella-3.jpg"
+  ],
+  "imageUrl": "images/plants/pleurothallis-rubella/pleurothallis-rubella-1.jpg"
 }

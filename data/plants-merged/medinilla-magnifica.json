@@ -113,5 +113,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/medinilla-magnifica/medinilla-magnifica-1.jpg",
+    "images/plants/medinilla-magnifica/medinilla-magnifica-2.jpg",
+    "images/plants/medinilla-magnifica/medinilla-magnifica-3.jpg"
+  ],
+  "imageUrl": "images/plants/medinilla-magnifica/medinilla-magnifica-1.jpg"
 }

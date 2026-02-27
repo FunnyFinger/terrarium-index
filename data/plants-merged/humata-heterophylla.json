@@ -107,5 +107,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/humata-heterophylla/humata-heterophylla-1.jpg",
+    "images/plants/humata-heterophylla/humata-heterophylla-2.jpg",
+    "images/plants/humata-heterophylla/humata-heterophylla-3.jpg"
+  ],
+  "imageUrl": "images/plants/humata-heterophylla/humata-heterophylla-1.jpg"
 }

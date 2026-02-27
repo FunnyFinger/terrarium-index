@@ -107,5 +107,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/begonia-foliosa/begonia-foliosa-1.jpg",
+    "images/plants/begonia-foliosa/begonia-foliosa-2.jpg",
+    "images/plants/begonia-foliosa/begonia-foliosa-3.jpg"
+  ],
+  "imageUrl": "images/plants/begonia-foliosa/begonia-foliosa-1.jpg"
 }

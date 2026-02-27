@@ -112,5 +112,10 @@
   },
   "carnivorous": false,
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/echinodorus-amazonicus/echinodorus-amazonicus-1.jpg",
+    "images/plants/echinodorus-amazonicus/echinodorus-amazonicus-2.jpg"
+  ],
+  "imageUrl": "images/plants/echinodorus-amazonicus/echinodorus-amazonicus-1.jpg"
 }

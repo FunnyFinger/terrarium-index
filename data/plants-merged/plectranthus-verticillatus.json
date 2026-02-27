@@ -112,5 +112,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/plectranthus-verticillatus/plectranthus-verticillatus-1.jpg",
+    "images/plants/plectranthus-verticillatus/plectranthus-verticillatus-2.jpg",
+    "images/plants/plectranthus-verticillatus/plectranthus-verticillatus-3.jpg"
+  ],
+  "imageUrl": "images/plants/plectranthus-verticillatus/plectranthus-verticillatus-1.jpg"
 }

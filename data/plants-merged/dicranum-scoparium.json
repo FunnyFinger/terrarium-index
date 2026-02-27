@@ -111,5 +111,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/dicranum-scoparium/dicranum-scoparium-1.jpg",
+    "images/plants/dicranum-scoparium/dicranum-scoparium-2.jpg",
+    "images/plants/dicranum-scoparium/dicranum-scoparium-3.jpg",
+    "images/plants/dicranum-scoparium/dicranum-scoparium-4.jpg"
+  ],
+  "imageUrl": "images/plants/dicranum-scoparium/dicranum-scoparium-1.jpg"
 }

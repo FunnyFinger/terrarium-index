@@ -106,5 +106,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/kroenleinia-grusonii/kroenleinia-grusonii-1.jpg",
+    "images/plants/kroenleinia-grusonii/kroenleinia-grusonii-2.jpg",
+    "images/plants/kroenleinia-grusonii/kroenleinia-grusonii-3.jpg",
+    "images/plants/kroenleinia-grusonii/kroenleinia-grusonii-4.jpg"
+  ],
+  "imageUrl": "images/plants/kroenleinia-grusonii/kroenleinia-grusonii-1.jpg"
 }

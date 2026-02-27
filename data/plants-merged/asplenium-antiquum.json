@@ -107,5 +107,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/asplenium-antiquum/asplenium-antiquum-1.jpg",
+    "images/plants/asplenium-antiquum/asplenium-antiquum-2.jpg",
+    "images/plants/asplenium-antiquum/asplenium-antiquum-3.jpg"
+  ],
+  "imageUrl": "images/plants/asplenium-antiquum/asplenium-antiquum-1.jpg"
 }

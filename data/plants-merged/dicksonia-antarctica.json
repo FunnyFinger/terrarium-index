@@ -108,5 +108,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/dicksonia-antarctica/dicksonia-antarctica-1.jpg",
+    "images/plants/dicksonia-antarctica/dicksonia-antarctica-2.jpg",
+    "images/plants/dicksonia-antarctica/dicksonia-antarctica-3.jpg"
+  ],
+  "imageUrl": "images/plants/dicksonia-antarctica/dicksonia-antarctica-1.jpg"
 }

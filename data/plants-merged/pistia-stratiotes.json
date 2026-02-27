@@ -115,5 +115,14 @@
   },
   "carnivorous": false,
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/pistia-stratiotes/pistia-stratiotes-1.jpg",
+    "images/plants/pistia-stratiotes/pistia-stratiotes-2.jpg",
+    "images/plants/pistia-stratiotes/pistia-stratiotes-3.jpg",
+    "images/plants/pistia-stratiotes/pistia-stratiotes-4.jpg",
+    "images/plants/pistia-stratiotes/pistia-stratiotes-5.jpg",
+    "images/plants/pistia-stratiotes/pistia-stratiotes-6.jpg"
+  ],
+  "imageUrl": "images/plants/pistia-stratiotes/pistia-stratiotes-1.jpg"
 }

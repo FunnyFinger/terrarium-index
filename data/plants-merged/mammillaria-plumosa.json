@@ -104,5 +104,13 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/mammillaria-plumosa/mammillaria-plumosa-1.jpg",
+    "images/plants/mammillaria-plumosa/mammillaria-plumosa-2.jpg",
+    "images/plants/mammillaria-plumosa/mammillaria-plumosa-3.jpg",
+    "images/plants/mammillaria-plumosa/mammillaria-plumosa-4.jpg",
+    "images/plants/mammillaria-plumosa/mammillaria-plumosa-5.jpg"
+  ],
+  "imageUrl": "images/plants/mammillaria-plumosa/mammillaria-plumosa-1.jpg"
 }

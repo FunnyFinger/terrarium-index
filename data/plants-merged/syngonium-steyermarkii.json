@@ -104,5 +104,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/syngonium-steyermarkii/syngonium-steyermarkii-1.jpg",
+    "images/plants/syngonium-steyermarkii/syngonium-steyermarkii-2.jpg",
+    "images/plants/syngonium-steyermarkii/syngonium-steyermarkii-3.jpg"
+  ],
+  "imageUrl": "images/plants/syngonium-steyermarkii/syngonium-steyermarkii-1.jpg"
 }

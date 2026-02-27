@@ -108,5 +108,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/pleurothallis-ruscifolia/pleurothallis-ruscifolia-1.jpg",
+    "images/plants/pleurothallis-ruscifolia/pleurothallis-ruscifolia-2.jpg",
+    "images/plants/pleurothallis-ruscifolia/pleurothallis-ruscifolia-3.jpg"
+  ],
+  "imageUrl": "images/plants/pleurothallis-ruscifolia/pleurothallis-ruscifolia-1.jpg"
 }

@@ -120,5 +120,16 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/oxalis-triangularis/oxalis-triangularis-1.jpg",
+    "images/plants/oxalis-triangularis/oxalis-triangularis-2.jpg",
+    "images/plants/oxalis-triangularis/oxalis-triangularis-3.jpg",
+    "images/plants/oxalis-triangularis/oxalis-triangularis-4.jpg",
+    "images/plants/oxalis-triangularis/oxalis-triangularis-5.jpg",
+    "images/plants/oxalis-triangularis/oxalis-triangularis-6.jpg",
+    "images/plants/oxalis-triangularis/oxalis-triangularis-7.jpg",
+    "images/plants/oxalis-triangularis/oxalis-triangularis-8.jpg"
+  ],
+  "imageUrl": "images/plants/oxalis-triangularis/oxalis-triangularis-1.jpg"
 }

@@ -104,5 +104,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/pilea-peperomioides/pilea-peperomioides-1.jpg",
+    "images/plants/pilea-peperomioides/pilea-peperomioides-2.jpg",
+    "images/plants/pilea-peperomioides/pilea-peperomioides-3.jpg",
+    "images/plants/pilea-peperomioides/pilea-peperomioides-4.jpg"
+  ],
+  "imageUrl": "images/plants/pilea-peperomioides/pilea-peperomioides-1.jpg"
 }

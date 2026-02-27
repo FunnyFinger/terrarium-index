@@ -108,5 +108,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/alocasia-chaii/alocasia-chaii-1.jpg",
+    "images/plants/alocasia-chaii/alocasia-chaii-2.jpg",
+    "images/plants/alocasia-chaii/alocasia-chaii-3.jpg"
+  ],
+  "imageUrl": "images/plants/alocasia-chaii/alocasia-chaii-1.jpg"
 }

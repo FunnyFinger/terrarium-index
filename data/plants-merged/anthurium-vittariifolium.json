@@ -104,5 +104,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anthurium-vittariifolium/anthurium-vittariifolium-1.jpg",
+    "images/plants/anthurium-vittariifolium/anthurium-vittariifolium-2.jpg",
+    "images/plants/anthurium-vittariifolium/anthurium-vittariifolium-3.jpg"
+  ],
+  "imageUrl": "images/plants/anthurium-vittariifolium/anthurium-vittariifolium-1.jpg"
 }

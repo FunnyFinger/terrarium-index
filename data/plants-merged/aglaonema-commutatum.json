@@ -107,5 +107,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/aglaonema-commutatum/aglaonema-commutatum-1.jpg",
+    "images/plants/aglaonema-commutatum/aglaonema-commutatum-2.jpg",
+    "images/plants/aglaonema-commutatum/aglaonema-commutatum-3.jpg"
+  ],
+  "imageUrl": "images/plants/aglaonema-commutatum/aglaonema-commutatum-1.jpg"
 }

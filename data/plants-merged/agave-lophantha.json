@@ -107,5 +107,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/agave-lophantha/agave-lophantha-1.jpg",
+    "images/plants/agave-lophantha/agave-lophantha-2.jpg",
+    "images/plants/agave-lophantha/agave-lophantha-3.jpg"
+  ],
+  "imageUrl": "images/plants/agave-lophantha/agave-lophantha-1.jpg"
 }

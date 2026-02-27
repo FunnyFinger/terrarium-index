@@ -108,5 +108,10 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/syngonium-erythrophyllum/syngonium-erythrophyllum-1.jpg",
+    "images/plants/syngonium-erythrophyllum/syngonium-erythrophyllum-2.jpg"
+  ],
+  "imageUrl": "images/plants/syngonium-erythrophyllum/syngonium-erythrophyllum-1.jpg"
 }

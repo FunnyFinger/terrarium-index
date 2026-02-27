@@ -105,5 +105,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/philodendron-bipinnatifidum/philodendron-bipinnatifidum-1.jpg",
+    "images/plants/philodendron-bipinnatifidum/philodendron-bipinnatifidum-2.jpg",
+    "images/plants/philodendron-bipinnatifidum/philodendron-bipinnatifidum-3.jpg"
+  ],
+  "imageUrl": "images/plants/philodendron-bipinnatifidum/philodendron-bipinnatifidum-1.jpg"
 }

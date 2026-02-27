@@ -107,5 +107,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anthurium-kunayalense/anthurium-kunayalense-1.jpg",
+    "images/plants/anthurium-kunayalense/anthurium-kunayalense-2.jpg",
+    "images/plants/anthurium-kunayalense/anthurium-kunayalense-3.jpg"
+  ],
+  "imageUrl": "images/plants/anthurium-kunayalense/anthurium-kunayalense-1.jpg"
 }

@@ -105,5 +105,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/alocasia-scalprum/alocasia-scalprum-1.jpg",
+    "images/plants/alocasia-scalprum/alocasia-scalprum-2.jpg",
+    "images/plants/alocasia-scalprum/alocasia-scalprum-3.jpg",
+    "images/plants/alocasia-scalprum/alocasia-scalprum-4.jpg"
+  ],
+  "imageUrl": "images/plants/alocasia-scalprum/alocasia-scalprum-1.jpg"
 }

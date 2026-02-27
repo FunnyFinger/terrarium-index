@@ -111,5 +111,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/cephalotus-follicularis/cephalotus-follicularis-1.jpg",
+    "images/plants/cephalotus-follicularis/cephalotus-follicularis-2.jpg",
+    "images/plants/cephalotus-follicularis/cephalotus-follicularis-3.jpg",
+    "images/plants/cephalotus-follicularis/cephalotus-follicularis-4.jpg"
+  ],
+  "imageUrl": "images/plants/cephalotus-follicularis/cephalotus-follicularis-1.jpg"
 }

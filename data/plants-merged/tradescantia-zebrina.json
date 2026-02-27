@@ -116,5 +116,13 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/tradescantia-zebrina/tradescantia-zebrina-1.jpg",
+    "images/plants/tradescantia-zebrina/tradescantia-zebrina-2.jpg",
+    "images/plants/tradescantia-zebrina/tradescantia-zebrina-3.jpg",
+    "images/plants/tradescantia-zebrina/tradescantia-zebrina-4.jpg",
+    "images/plants/tradescantia-zebrina/tradescantia-zebrina-5.jpg"
+  ],
+  "imageUrl": "images/plants/tradescantia-zebrina/tradescantia-zebrina-1.jpg"
 }

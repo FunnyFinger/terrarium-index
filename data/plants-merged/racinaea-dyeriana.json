@@ -108,5 +108,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/racinaea-dyeriana/racinaea-dyeriana-1.jpg",
+    "images/plants/racinaea-dyeriana/racinaea-dyeriana-2.jpg",
+    "images/plants/racinaea-dyeriana/racinaea-dyeriana-3.jpg"
+  ],
+  "imageUrl": "images/plants/racinaea-dyeriana/racinaea-dyeriana-1.jpg"
 }

@@ -121,5 +121,15 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/hoya-waymaniae/hoya-waymaniae-1.jpg",
+    "images/plants/hoya-waymaniae/hoya-waymaniae-2.jpg",
+    "images/plants/hoya-waymaniae/hoya-waymaniae-3.jpg",
+    "images/plants/hoya-waymaniae/hoya-waymaniae-4.jpg",
+    "images/plants/hoya-waymaniae/hoya-waymaniae-5.jpg",
+    "images/plants/hoya-waymaniae/hoya-waymaniae-6.jpg",
+    "images/plants/hoya-waymaniae/hoya-waymaniae-7.jpg"
+  ],
+  "imageUrl": "images/plants/hoya-waymaniae/hoya-waymaniae-1.jpg"
 }

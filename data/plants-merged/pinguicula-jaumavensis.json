@@ -106,5 +106,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/pinguicula-jaumavensis/pinguicula-jaumavensis-1.jpg",
+    "images/plants/pinguicula-jaumavensis/pinguicula-jaumavensis-2.jpg",
+    "images/plants/pinguicula-jaumavensis/pinguicula-jaumavensis-3.jpg"
+  ],
+  "imageUrl": "images/plants/pinguicula-jaumavensis/pinguicula-jaumavensis-1.jpg"
 }

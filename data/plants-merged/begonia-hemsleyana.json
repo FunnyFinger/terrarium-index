@@ -105,5 +105,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/begonia-hemsleyana/begonia-hemsleyana-1.jpg",
+    "images/plants/begonia-hemsleyana/begonia-hemsleyana-2.jpg",
+    "images/plants/begonia-hemsleyana/begonia-hemsleyana-3.jpg"
+  ],
+  "imageUrl": "images/plants/begonia-hemsleyana/begonia-hemsleyana-1.jpg"
 }

@@ -113,5 +113,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/monstera-adansonii/monstera-adansonii-1.jpg",
+    "images/plants/monstera-adansonii/monstera-adansonii-2.jpg",
+    "images/plants/monstera-adansonii/monstera-adansonii-3.jpg"
+  ],
+  "imageUrl": "images/plants/monstera-adansonii/monstera-adansonii-1.jpg"
 }

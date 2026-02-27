@@ -112,5 +112,14 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/specklinia-grobyi/specklinia-grobyi-1.jpg",
+    "images/plants/specklinia-grobyi/specklinia-grobyi-2.jpg",
+    "images/plants/specklinia-grobyi/specklinia-grobyi-3.jpg",
+    "images/plants/specklinia-grobyi/specklinia-grobyi-4.jpg",
+    "images/plants/specklinia-grobyi/specklinia-grobyi-5.jpg",
+    "images/plants/specklinia-grobyi/specklinia-grobyi-6.jpg"
+  ],
+  "imageUrl": "images/plants/specklinia-grobyi/specklinia-grobyi-1.jpg"
 }

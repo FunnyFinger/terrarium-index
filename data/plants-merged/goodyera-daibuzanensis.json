@@ -108,5 +108,13 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/goodyera-daibuzanensis/goodyera-daibuzanensis-1.jpg",
+    "images/plants/goodyera-daibuzanensis/goodyera-daibuzanensis-2.jpg",
+    "images/plants/goodyera-daibuzanensis/goodyera-daibuzanensis-3.jpg",
+    "images/plants/goodyera-daibuzanensis/goodyera-daibuzanensis-4.jpg",
+    "images/plants/goodyera-daibuzanensis/goodyera-daibuzanensis-5.jpg"
+  ],
+  "imageUrl": "images/plants/goodyera-daibuzanensis/goodyera-daibuzanensis-1.jpg"
 }

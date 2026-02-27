@@ -106,5 +106,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/tillandsia-pruinosa/tillandsia-pruinosa-1.jpg",
+    "images/plants/tillandsia-pruinosa/tillandsia-pruinosa-2.jpg",
+    "images/plants/tillandsia-pruinosa/tillandsia-pruinosa-3.jpg",
+    "images/plants/tillandsia-pruinosa/tillandsia-pruinosa-4.jpg"
+  ],
+  "imageUrl": "images/plants/tillandsia-pruinosa/tillandsia-pruinosa-1.jpg"
 }

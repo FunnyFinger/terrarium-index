@@ -112,5 +112,10 @@
   },
   "carnivorous": false,
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/sagittaria-subulata/sagittaria-subulata-1.jpg",
+    "images/plants/sagittaria-subulata/sagittaria-subulata-2.jpg"
+  ],
+  "imageUrl": "images/plants/sagittaria-subulata/sagittaria-subulata-1.jpg"
 }

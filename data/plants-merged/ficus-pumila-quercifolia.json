@@ -110,5 +110,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/ficus-pumila-quercifolia/ficus-pumila-quercifolia-1.jpg",
+    "images/plants/ficus-pumila-quercifolia/ficus-pumila-quercifolia-2.jpg",
+    "images/plants/ficus-pumila-quercifolia/ficus-pumila-quercifolia-3.jpg"
+  ],
+  "imageUrl": "images/plants/ficus-pumila-quercifolia/ficus-pumila-quercifolia-1.jpg"
 }

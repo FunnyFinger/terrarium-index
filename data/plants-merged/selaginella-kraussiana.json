@@ -117,5 +117,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/selaginella-kraussiana/selaginella-kraussiana-1.jpg",
+    "images/plants/selaginella-kraussiana/selaginella-kraussiana-2.jpg",
+    "images/plants/selaginella-kraussiana/selaginella-kraussiana-3.jpg"
+  ],
+  "imageUrl": "images/plants/selaginella-kraussiana/selaginella-kraussiana-1.jpg"
 }

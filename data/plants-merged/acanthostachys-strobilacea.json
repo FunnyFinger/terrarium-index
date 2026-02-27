@@ -112,5 +112,13 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/acanthostachys-strobilacea/acanthostachys-strobilacea-1.jpg",
+    "images/plants/acanthostachys-strobilacea/acanthostachys-strobilacea-2.jpg",
+    "images/plants/acanthostachys-strobilacea/acanthostachys-strobilacea-3.jpg",
+    "images/plants/acanthostachys-strobilacea/acanthostachys-strobilacea-4.jpg",
+    "images/plants/acanthostachys-strobilacea/acanthostachys-strobilacea-5.jpg"
+  ],
+  "imageUrl": "images/plants/acanthostachys-strobilacea/acanthostachys-strobilacea-1.jpg"
 }

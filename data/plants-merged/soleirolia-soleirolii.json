@@ -117,5 +117,22 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/soleirolia-soleirolii/soleirolia-soleirolii-1.jpg",
+    "images/plants/soleirolia-soleirolii/soleirolia-soleirolii-2.jpg",
+    "images/plants/soleirolia-soleirolii/soleirolia-soleirolii-3.jpg",
+    "images/plants/soleirolia-soleirolii/soleirolia-soleirolii-4.jpg",
+    "images/plants/soleirolia-soleirolii/soleirolia-soleirolii-5.jpg",
+    "images/plants/soleirolia-soleirolii/soleirolia-soleirolii-6.jpg",
+    "images/plants/soleirolia-soleirolii/soleirolia-soleirolii-7.jpg",
+    "images/plants/soleirolia-soleirolii/soleirolia-soleirolii-8.jpg",
+    "images/plants/soleirolia-soleirolii/soleirolia-soleirolii-9.jpg",
+    "images/plants/soleirolia-soleirolii/soleirolia-soleirolii-10.jpg",
+    "images/plants/soleirolia-soleirolii/soleirolia-soleirolii-11.jpg",
+    "images/plants/soleirolia-soleirolii/soleirolia-soleirolii-12.jpg",
+    "images/plants/soleirolia-soleirolii/soleirolia-soleirolii-13.jpg",
+    "images/plants/soleirolia-soleirolii/soleirolia-soleirolii-14.jpg"
+  ],
+  "imageUrl": "images/plants/soleirolia-soleirolii/soleirolia-soleirolii-1.jpg"
 }

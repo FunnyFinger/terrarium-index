@@ -116,5 +116,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/sarracenia-flava/sarracenia-flava-1.jpg",
+    "images/plants/sarracenia-flava/sarracenia-flava-2.jpg",
+    "images/plants/sarracenia-flava/sarracenia-flava-3.jpg",
+    "images/plants/sarracenia-flava/sarracenia-flava-4.jpg"
+  ],
+  "imageUrl": "images/plants/sarracenia-flava/sarracenia-flava-1.jpg"
 }

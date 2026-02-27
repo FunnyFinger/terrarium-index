@@ -114,5 +114,13 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/ficus-microcarpa/ficus-microcarpa-1.jpg",
+    "images/plants/ficus-microcarpa/ficus-microcarpa-2.jpg",
+    "images/plants/ficus-microcarpa/ficus-microcarpa-3.jpg",
+    "images/plants/ficus-microcarpa/ficus-microcarpa-4.jpg",
+    "images/plants/ficus-microcarpa/ficus-microcarpa-5.jpg"
+  ],
+  "imageUrl": "images/plants/ficus-microcarpa/ficus-microcarpa-1.jpg"
 }

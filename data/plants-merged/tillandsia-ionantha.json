@@ -105,5 +105,15 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/tillandsia-ionantha/tillandsia-ionantha-1.jpg",
+    "images/plants/tillandsia-ionantha/tillandsia-ionantha-2.jpg",
+    "images/plants/tillandsia-ionantha/tillandsia-ionantha-3.jpg",
+    "images/plants/tillandsia-ionantha/tillandsia-ionantha-4.jpg",
+    "images/plants/tillandsia-ionantha/tillandsia-ionantha-5.jpg",
+    "images/plants/tillandsia-ionantha/tillandsia-ionantha-6.jpg",
+    "images/plants/tillandsia-ionantha/tillandsia-ionantha-7.jpg"
+  ],
+  "imageUrl": "images/plants/tillandsia-ionantha/tillandsia-ionantha-1.jpg"
 }

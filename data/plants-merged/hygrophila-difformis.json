@@ -112,5 +112,9 @@
   },
   "carnivorous": false,
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/hygrophila-difformis/hygrophila-difformis-1.jpg"
+  ],
+  "imageUrl": "images/plants/hygrophila-difformis/hygrophila-difformis-1.jpg"
 }

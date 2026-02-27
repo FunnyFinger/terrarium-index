@@ -105,5 +105,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/microsorum-thailandicum/microsorum-thailandicum-1.jpg",
+    "images/plants/microsorum-thailandicum/microsorum-thailandicum-2.jpg",
+    "images/plants/microsorum-thailandicum/microsorum-thailandicum-3.jpg",
+    "images/plants/microsorum-thailandicum/microsorum-thailandicum-4.jpg"
+  ],
+  "imageUrl": "images/plants/microsorum-thailandicum/microsorum-thailandicum-1.jpg"
 }

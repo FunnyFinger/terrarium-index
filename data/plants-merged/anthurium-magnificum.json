@@ -110,5 +110,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/anthurium-magnificum/anthurium-magnificum-1.jpg",
+    "images/plants/anthurium-magnificum/anthurium-magnificum-2.jpg",
+    "images/plants/anthurium-magnificum/anthurium-magnificum-3.jpg"
+  ],
+  "imageUrl": "images/plants/anthurium-magnificum/anthurium-magnificum-1.jpg"
 }

@@ -108,5 +108,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/dischidia-oiantha/dischidia-oiantha-1.jpg",
+    "images/plants/dischidia-oiantha/dischidia-oiantha-2.jpg",
+    "images/plants/dischidia-oiantha/dischidia-oiantha-3.jpg",
+    "images/plants/dischidia-oiantha/dischidia-oiantha-4.jpg"
+  ],
+  "imageUrl": "images/plants/dischidia-oiantha/dischidia-oiantha-1.jpg"
 }

@@ -109,5 +109,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/begonia-bowerae/begonia-bowerae-1.jpg",
+    "images/plants/begonia-bowerae/begonia-bowerae-2.jpg",
+    "images/plants/begonia-bowerae/begonia-bowerae-3.jpg"
+  ],
+  "imageUrl": "images/plants/begonia-bowerae/begonia-bowerae-1.jpg"
 }

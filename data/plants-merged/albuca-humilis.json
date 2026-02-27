@@ -107,5 +107,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/albuca-humilis/albuca-humilis-1.jpg",
+    "images/plants/albuca-humilis/albuca-humilis-2.jpg",
+    "images/plants/albuca-humilis/albuca-humilis-3.jpg"
+  ],
+  "imageUrl": "images/plants/albuca-humilis/albuca-humilis-1.jpg"
 }

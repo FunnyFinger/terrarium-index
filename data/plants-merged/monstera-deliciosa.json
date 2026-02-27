@@ -110,5 +110,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/monstera-deliciosa/monstera-deliciosa-1.jpg",
+    "images/plants/monstera-deliciosa/monstera-deliciosa-2.jpg",
+    "images/plants/monstera-deliciosa/monstera-deliciosa-3.jpg"
+  ],
+  "imageUrl": "images/plants/monstera-deliciosa/monstera-deliciosa-1.jpg"
 }

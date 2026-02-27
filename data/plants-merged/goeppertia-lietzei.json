@@ -114,5 +114,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/goeppertia-lietzei/goeppertia-lietzei-1.jpg",
+    "images/plants/goeppertia-lietzei/goeppertia-lietzei-2.jpg",
+    "images/plants/goeppertia-lietzei/goeppertia-lietzei-3.jpg"
+  ],
+  "imageUrl": "images/plants/goeppertia-lietzei/goeppertia-lietzei-1.jpg"
 }

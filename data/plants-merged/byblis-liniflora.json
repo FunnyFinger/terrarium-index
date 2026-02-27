@@ -103,5 +103,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/byblis-liniflora/byblis-liniflora-1.jpg",
+    "images/plants/byblis-liniflora/byblis-liniflora-2.jpg",
+    "images/plants/byblis-liniflora/byblis-liniflora-3.jpg",
+    "images/plants/byblis-liniflora/byblis-liniflora-4.jpg"
+  ],
+  "imageUrl": "images/plants/byblis-liniflora/byblis-liniflora-1.jpg"
 }

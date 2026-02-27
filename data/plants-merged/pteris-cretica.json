@@ -110,5 +110,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/pteris-cretica/pteris-cretica-1.jpg",
+    "images/plants/pteris-cretica/pteris-cretica-2.jpg",
+    "images/plants/pteris-cretica/pteris-cretica-3.jpg"
+  ],
+  "imageUrl": "images/plants/pteris-cretica/pteris-cretica-1.jpg"
 }

@@ -105,5 +105,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/philodendron-polypodioides/philodendron-polypodioides-1.jpg",
+    "images/plants/philodendron-polypodioides/philodendron-polypodioides-2.jpg",
+    "images/plants/philodendron-polypodioides/philodendron-polypodioides-3.jpg"
+  ],
+  "imageUrl": "images/plants/philodendron-polypodioides/philodendron-polypodioides-1.jpg"
 }

@@ -112,5 +112,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/alocasia-brancifolia/alocasia-brancifolia-1.jpg",
+    "images/plants/alocasia-brancifolia/alocasia-brancifolia-2.jpg",
+    "images/plants/alocasia-brancifolia/alocasia-brancifolia-3.jpg"
+  ],
+  "imageUrl": "images/plants/alocasia-brancifolia/alocasia-brancifolia-1.jpg"
 }

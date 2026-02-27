@@ -113,5 +113,13 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/thuidium-delicatulum/thuidium-delicatulum-1.jpg",
+    "images/plants/thuidium-delicatulum/thuidium-delicatulum-2.jpg",
+    "images/plants/thuidium-delicatulum/thuidium-delicatulum-3.jpg",
+    "images/plants/thuidium-delicatulum/thuidium-delicatulum-4.jpg",
+    "images/plants/thuidium-delicatulum/thuidium-delicatulum-5.jpg"
+  ],
+  "imageUrl": "images/plants/thuidium-delicatulum/thuidium-delicatulum-1.jpg"
 }

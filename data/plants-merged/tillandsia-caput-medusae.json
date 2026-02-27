@@ -107,5 +107,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/tillandsia-caput-medusae/tillandsia-caput-medusae-1.jpg",
+    "images/plants/tillandsia-caput-medusae/tillandsia-caput-medusae-2.jpg",
+    "images/plants/tillandsia-caput-medusae/tillandsia-caput-medusae-3.jpg"
+  ],
+  "imageUrl": "images/plants/tillandsia-caput-medusae/tillandsia-caput-medusae-1.jpg"
 }

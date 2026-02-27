@@ -115,5 +115,12 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/nepenthes-ventricosa/nepenthes-ventricosa-1.jpg",
+    "images/plants/nepenthes-ventricosa/nepenthes-ventricosa-2.jpg",
+    "images/plants/nepenthes-ventricosa/nepenthes-ventricosa-3.jpg",
+    "images/plants/nepenthes-ventricosa/nepenthes-ventricosa-4.jpg"
+  ],
+  "imageUrl": "images/plants/nepenthes-ventricosa/nepenthes-ventricosa-1.jpg"
 }

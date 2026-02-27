@@ -111,5 +111,11 @@
     "ideal": null
   },
   "geographicOrigin": null,
-  "additionalInfo": null
+  "additionalInfo": null,
+  "images": [
+    "images/plants/monstera-egregia/monstera-egregia-1.jpg",
+    "images/plants/monstera-egregia/monstera-egregia-2.jpg",
+    "images/plants/monstera-egregia/monstera-egregia-3.jpg"
+  ],
+  "imageUrl": "images/plants/monstera-egregia/monstera-egregia-1.jpg"
 }
