@@ -19,13 +19,14 @@
     async function loadVivariums() {
         if (typeof window === 'undefined') return [];
         try {
+            var list;
             // Prefer Supabase vivariums_catalog + custom_vivariums when configured
             if (window.supabaseDb && window.supabaseDb.isConfigured && window.supabaseDb.isConfigured()) {
                 try {
                     var cat = await window.supabaseDb.getVivariumsCatalog();
                     var custom = await window.supabaseDb.getCustomVivariums();
                     if (Array.isArray(cat) || Array.isArray(custom)) {
-                        var list = (Array.isArray(cat) ? cat : []).concat(Array.isArray(custom) ? custom : []);
+                        list = (Array.isArray(cat) ? cat : []).concat(Array.isArray(custom) ? custom : []);
                         if (list.length) {
                             var byId = {};
                             list.forEach(function (v) {
@@ -45,7 +46,7 @@
             const resp = await fetch(VIVARIUMS_URL + '?v=' + Date.now(), { cache: 'no-store' });
             if (!resp.ok) return [];
             const data = await resp.json();
-            let list = Array.isArray(data) ? data : (data.items || data.vivariums || []);
+            list = Array.isArray(data) ? data : (data.items || data.vivariums || []);
             try {
                 const baseUrl = VIVARIUMS_URL.replace(/\/[^/]+$/, '/');
                 const ovResp = await fetch(baseUrl + 'overrides/vivarium-overrides.json?v=' + Date.now(), { cache: 'no-store' });
