@@ -134,6 +134,8 @@
             return (rows || []).map(function (r) {
                 var d = r.data || {};
                 d.id = r.id;
+                if (!Array.isArray(d.images) && d.imageUrl) d.images = [d.imageUrl];
+                if (!Array.isArray(d.images)) d.images = [];
                 return d;
             });
         }).catch(function () { return []; });

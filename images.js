@@ -141,6 +141,15 @@ async function discoverPlantImages(plant, knownImageCount = null) {
         return { images: [], imageUrl: null };
     }
 
+    // Use catalog images when present (e.g. from Supabase) so hosted site shows full gallery without 404 probes
+    const catalogImages = plant.images;
+    if (Array.isArray(catalogImages) && catalogImages.length > 0) {
+        const valid = catalogImages.filter(function (p) { return p && typeof p === 'string' && (p.startsWith('images/') || /^https?:\/\//i.test(p)); });
+        if (valid.length > 0) {
+            return { images: valid, imageUrl: plant.imageUrl || valid[0] };
+        }
+    }
+
     const plantId = plant.id;
     const folderName = slugify(plant.scientificName);
     if (!folderName) {
@@ -344,6 +353,7 @@ async function loadImagesFromLocalStorage(allPlants) {
 
     const validationPromises = allPlants.map(async (plant) => {
         try {
+            if (Array.isArray(plant.images) && plant.images.length > 0) return;
             const savedImages = localStorage.getItem(`plant_${plant.id}_images`);
             const savedImageUrl = localStorage.getItem(`plant_${plant.id}_imageUrl`);
             const expectedFolderName = slugify(plant.scientificName);

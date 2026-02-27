@@ -358,12 +358,15 @@ async function initializeUI() {
     
     console.log(`📊 Plants ready: ${allPlants.length} plants`);
     
-    // First: Quickly load images from localStorage (fast synchronous check)
-    // This ensures images are available when cards render
-    // OPTIMIZED: Do a quick synchronous pass first, then validate async
+    // First: Use catalog images when present; only use localStorage when catalog has none or fewer
     let imagesLoadedCount = 0;
     allPlants.forEach(plant => {
         try {
+            var catalogCount = Array.isArray(plant.images) ? plant.images.length : 0;
+            if (catalogCount > 0) {
+                plant.imageUrl = plant.imageUrl || plant.images[0];
+                return;
+            }
             const savedImages = localStorage.getItem(`plant_${plant.id}_images`);
             const savedImageUrl = localStorage.getItem(`plant_${plant.id}_imageUrl`);
             if (savedImages) {
@@ -375,29 +378,18 @@ async function initializeUI() {
                     const validImages = (prefixLegacy || prefixPlants)
                         ? parsedImages.filter(p => typeof p === 'string' && (prefixLegacy && p.startsWith(prefixLegacy) || prefixPlants && p.startsWith(prefixPlants)))
                         : [];
-                    const catalogCount = Array.isArray(plant.images) ? plant.images.length : 0;
-                    // Prefer catalog when it has more images (e.g. Supabase full gallery) so hosted site shows all photos
-                    if (validImages.length > 0 && catalogCount <= validImages.length) {
+                    if (validImages.length > 0) {
                         plant.images = validImages;
-                        if (savedImageUrl && validImages.includes(savedImageUrl)) {
-                            plant.imageUrl = savedImageUrl;
-                        } else {
-                            plant.imageUrl = validImages[0];
-                        }
+                        plant.imageUrl = (savedImageUrl && validImages.includes(savedImageUrl)) ? savedImageUrl : validImages[0];
                         imagesLoadedCount++;
-                    } else if (validImages.length > 0 && catalogCount > validImages.length) {
-                        // Keep catalog images (more than localStorage)
-                        if (plant.imageUrl && plant.images.includes(plant.imageUrl)) { /* keep */ } else if (plant.images.length) plant.imageUrl = plant.images[0];
                     } else {
-                        // Don't overwrite catalog images when localStorage paths are invalid
-                        if (!(Array.isArray(plant.images) && plant.images.length > 0)) plant.images = plant.images || [];
+                        plant.images = plant.images || [];
                     }
                 } else {
-                    if (!(Array.isArray(plant.images) && plant.images.length > 0)) plant.images = plant.images || [];
+                    plant.images = plant.images || [];
                 }
             } else {
-                // Preserve catalog images (e.g. from Supabase) when no localStorage
-                if (!(Array.isArray(plant.images) && plant.images.length > 0)) plant.images = plant.images || [];
+                plant.images = plant.images || [];
             }
         } catch (e) {
             if (!(Array.isArray(plant.images) && plant.images.length > 0)) plant.images = plant.images || [];
@@ -6361,73 +6353,58 @@ async function showPlantModal(plant) {
     // Prefer cached maxImage hint to avoid repeated 404s; only do full discovery when explicitly requested elsewhere.
     let discovered = await getPlantImages(plant);
     
-    if (savedImages && Array.isArray(savedImages) && savedImages.length > 0) {
+    var catalogImageCount = Array.isArray(plant.images) ? plant.images.length : 0;
+    var catalogWins = catalogImageCount > 0 && catalogImageCount >= (discovered.images && discovered.images.length ? discovered.images.length : 0) && catalogImageCount >= (savedImages && Array.isArray(savedImages) ? savedImages.length : 0);
+
+    if (catalogWins) {
+        plant.imageUrl = plant.imageUrl || (plant.images && plant.images[0]) || null;
+    } else if (savedImages && Array.isArray(savedImages) && savedImages.length > 0) {
         const folderName = scientificNameToSlug(getScientificNameString(plant));
         const allPathsValid = savedImages.every(img => {
             if (!img || typeof img !== 'string') return false;
             const expectedPattern = new RegExp(`^images/${folderName}/${folderName}-\\d+\\.(jpg|jpeg|png|gif|webp)$`, 'i');
             return expectedPattern.test(img);
         });
-        
+
         if (allPathsValid && discovered.images.length <= savedImages.length) {
-            // Use saved order (user's preference) when we have no new images from folder
             plant.images = savedImages;
             plant.imageUrl = savedImageUrl || (savedImages.length > 0 ? savedImages[0] : null);
-        } else if (discovered.images.length > 0) {
-            // Folder has more images than cache (or saved paths invalid) - use full discovered list
+        } else if (discovered.images.length > 0 && discovered.images.length >= catalogImageCount) {
             plant.images = discovered.images;
             plant.imageUrl = discovered.imageUrl || discovered.images[0];
             try {
                 localStorage.setItem(`plant_${plant.id}_images`, JSON.stringify(plant.images));
                 if (plant.imageUrl) localStorage.setItem(`plant_${plant.id}_imageUrl`, plant.imageUrl);
             } catch (e) { /* silent */ }
+        } else if (catalogImageCount > 0) {
+            plant.imageUrl = plant.imageUrl || plant.images[0];
         } else if (allPathsValid) {
             plant.images = savedImages;
             plant.imageUrl = savedImageUrl || (savedImages.length > 0 ? savedImages[0] : null);
         } else {
-            // Invalid paths detected - clear cache and use discovered images
-            console.warn(`⚠️ [Modal] Invalid image paths detected for ${plant.scientificName}, clearing cache and using discovered images...`);
             try {
                 localStorage.removeItem(`plant_${plant.id}_images`);
                 localStorage.removeItem(`plant_${plant.id}_imageUrl`);
-            } catch (e) {
-                // Silent - localStorage removal failed
-            }
-            // Fall through to use discovered images
+            } catch (e) { }
             if (discovered.images.length > 0) {
                 plant.images = discovered.images;
                 plant.imageUrl = discovered.imageUrl;
-                
-                // Save to localStorage for future use
                 try {
                     localStorage.setItem(`plant_${plant.id}_images`, JSON.stringify(plant.images));
-                    if (plant.imageUrl) {
-                        localStorage.setItem(`plant_${plant.id}_imageUrl`, plant.imageUrl);
-                    }
-                } catch (e) {
-                    // Silent - localStorage update failed
-                }
+                    if (plant.imageUrl) localStorage.setItem(`plant_${plant.id}_imageUrl`, plant.imageUrl);
+                } catch (e) { }
             }
         }
-    } else if (discovered.images.length > 0) {
-        // No saved order - use discovered order
+    } else if (discovered.images.length > 0 && discovered.images.length >= catalogImageCount) {
         plant.images = discovered.images;
         plant.imageUrl = discovered.imageUrl;
-
-        // Save to localStorage for future use
         try {
             localStorage.setItem(`plant_${plant.id}_images`, JSON.stringify(plant.images));
-            if (plant.imageUrl) {
-                localStorage.setItem(`plant_${plant.id}_imageUrl`, plant.imageUrl);
-            }
-            if (typeof syncToRepo === 'function') syncToRepo();
-        } catch (e) {
-            // Silent - localStorage update failed
-        }
-
-        // Using discovered image order from folder
+            if (plant.imageUrl) localStorage.setItem(`plant_${plant.id}_imageUrl`, plant.imageUrl);
+        } catch (e) { }
+    } else if (catalogImageCount > 0) {
+        plant.imageUrl = plant.imageUrl || plant.images[0];
     } else {
-        // No images from discovery (e.g. hosted site) - keep catalog images if present
         if (!(Array.isArray(plant.images) && plant.images.length > 0)) {
             plant.images = plant.images || [];
             plant.imageUrl = null;

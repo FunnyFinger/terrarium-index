@@ -105,8 +105,9 @@ async function main() {
   }
   const base = url + '/rest/v1';
   const items = loadPlantsFromRepo();
+  const withMultipleImages = items.filter((p) => Array.isArray(p.images) && p.images.length > 1).length;
   console.log('Migrating plants catalog to Supabase from:', url);
-  console.log('Found', items.length, 'plants in repo (bundle or index).');
+  console.log('Found', items.length, 'plants in repo (bundle or index).', withMultipleImages, 'have multiple images.');
   if (!items.length) {
     console.log('Nothing to migrate.');
     return;

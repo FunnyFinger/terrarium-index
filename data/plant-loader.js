@@ -30,6 +30,9 @@ function applyPlantEditOverlays(plantsArray) {
                         if (v === undefined || v === null) continue;
                         if (k === 'description' && (v === '' || (typeof v === 'string' && !v.trim()))) continue;
                         if (k === 'careTips' && (!Array.isArray(v) || v.length === 0)) continue;
+                        // Never overwrite catalog images with fewer from overlay (hosted site must show full gallery)
+                        if (k === 'images' && Array.isArray(base.images) && base.images.length > 0 && Array.isArray(v) && v.length < base.images.length) continue;
+                        if (k === 'imageUrl' && Array.isArray(base.images) && base.images.length > 0 && !(Array.isArray(parsed.images) && parsed.images.length >= base.images.length)) continue;
                         merged[k] = v;
                     }
                     plantsArray[i] = merged;
