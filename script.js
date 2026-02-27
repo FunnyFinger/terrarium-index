@@ -7846,12 +7846,20 @@ async function deleteImageFromGallery(plantId, imageIndex, imgPath) {
     }
     
     // Confirm deletion
-    if (!confirm(`Are you sure you want to delete this image?\n\n${imageToDelete}\n\nThis will permanently delete the file from your images folder.`)) {
+    if (!confirm(`Are you sure you want to delete this image?\n\n${imageToDelete}\n\nThis will permanently delete the file.`)) {
         return;
     }
     
     try {
-        // Delete file from file system if we have folder access
+        var supabase = window.supabaseDb && window.supabaseDb.isConfigured && window.supabaseDb.isConfigured();
+        var isSupabaseStorageUrl = typeof imageToDelete === 'string' && (imageToDelete.indexOf('supabase.co/storage') !== -1 || (imageToDelete.startsWith('http') && imageToDelete.indexOf('/storage/v1/object/') !== -1));
+
+        // Delete from Supabase Storage when on hosted site (image is a Supabase URL)
+        if (supabase && isSupabaseStorageUrl && window.supabaseDb.deleteFromStorage) {
+            await window.supabaseDb.deleteFromStorage(imageToDelete);
+        }
+
+        // Delete file from local file system if we have folder access (local only)
         let fileDeleted = false;
         if (imageToDelete.startsWith('images/')) {
             // Ensure we have folder access
@@ -7976,6 +7984,12 @@ async function deleteImageFromGallery(plantId, imageIndex, imgPath) {
             }
         } catch (e) {
             console.warn('Could not update localStorage:', e);
+        }
+
+        // Update Supabase plants_catalog so delete persists on hosted site
+        if (supabase && window.supabaseDb && window.supabaseDb.updatePlantInCatalog) {
+            var updatedPlant = Object.assign({}, plant);
+            window.supabaseDb.updatePlantInCatalog(plantId, updatedPlant);
         }
         
         // Refresh the modal to update gallery and other views

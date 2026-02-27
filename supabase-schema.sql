@@ -68,6 +68,7 @@ create policy "Allow all for vivariums_catalog" on public.vivariums_catalog for 
 
 drop policy if exists "public read vivarium-assets" on storage.objects;
 drop policy if exists "public write vivarium-assets" on storage.objects;
+drop policy if exists "public delete vivarium-assets" on storage.objects;
 
 create policy "public read vivarium-assets"
   on storage.objects
@@ -80,3 +81,9 @@ create policy "public write vivarium-assets"
   for insert
   to anon
   with check (bucket_id = 'vivarium-assets');
+
+create policy "public delete vivarium-assets"
+  on storage.objects
+  for delete
+  to anon
+  using (bucket_id = 'vivarium-assets');

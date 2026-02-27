@@ -68,6 +68,34 @@
         });
     }
 
+    /**
+     * Delete a file from Supabase Storage (vivarium-assets bucket).
+     * @param {string} publicUrlOrPath - full public URL (e.g. https://xxx.supabase.co/storage/.../plants/slug/slug-5.jpg) or object path (e.g. plants/slug/slug-5.jpg)
+     * @returns {Promise<void>}
+     */
+    function deleteFromStorage(publicUrlOrPath) {
+        if (!publicUrlOrPath || typeof publicUrlOrPath !== 'string') return Promise.resolve();
+        if (!isConfigured()) return Promise.resolve();
+        if (!STORAGE_BASE) STORAGE_BASE = (global.SUPABASE_URL || '').toString().trim().replace(/\/$/, '');
+        var objectPath = publicUrlOrPath.trim();
+        var prefix = STORAGE_BASE + '/storage/v1/object/public/vivarium-assets/';
+        if (objectPath.indexOf(prefix) === 0) {
+            objectPath = objectPath.slice(prefix.length);
+        } else if (objectPath.indexOf('/storage/v1/object/public/vivarium-assets/') !== -1) {
+            objectPath = objectPath.split('/storage/v1/object/public/vivarium-assets/')[1] || objectPath;
+        }
+        if (!objectPath) return Promise.resolve();
+        var url = STORAGE_BASE + '/storage/v1/object/vivarium-assets/' + objectPath;
+        var headers = {
+            'Authorization': 'Bearer ' + (global.SUPABASE_ANON_KEY || HEADERS.apikey || ''),
+            'apikey': (global.SUPABASE_ANON_KEY || HEADERS.apikey || '')
+        };
+        return fetch(url, { method: 'DELETE', headers: headers }).then(function (res) {
+            if (!res.ok) return Promise.reject(new Error('Storage delete failed: ' + res.status));
+            return undefined;
+        }).catch(function () {});
+    }
+
     // ---- Inventory (same shape as IndexedDB: { plantId, name, price, ... }) ----
     function getInventory() {
         if (!isConfigured()) return Promise.resolve([]);
@@ -253,6 +281,7 @@
         getCustomVivariums: getCustomVivariums,
         saveCustomVivariums: saveCustomVivariums,
         uploadToStorage: uploadToStorage,
+        deleteFromStorage: deleteFromStorage,
         updatePlantInCatalog: updatePlantInCatalog
     };
 })(typeof window !== 'undefined' ? window : this);
