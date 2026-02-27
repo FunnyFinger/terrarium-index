@@ -5174,14 +5174,29 @@ function saveVivariumEdit() {
         list.push(vivariumEditing);
         allVivariums = list;
         window.allVivariums = list;
-        try {
-            var custom = JSON.parse(localStorage.getItem('custom_vivariums') || '[]');
-            if (!Array.isArray(custom)) custom = [];
-            custom.push(vivariumEditing);
-            localStorage.setItem('custom_vivariums', JSON.stringify(custom));
-            if (window.supabaseDb && window.supabaseDb.isConfigured()) window.supabaseDb.saveCustomVivariums(custom);
-            if (typeof syncToRepo === 'function') syncToRepo();
-        } catch (e) { /* ignore */ }
+        if (window.supabaseDb && window.supabaseDb.isConfigured()) {
+            window.supabaseDb.getCustomVivariums().then(function(existing) {
+                var custom = Array.isArray(existing) ? existing.slice() : [];
+                custom.push(vivariumEditing);
+                try { localStorage.setItem('custom_vivariums', JSON.stringify(custom)); } catch (e) { }
+                return window.supabaseDb.saveCustomVivariums(custom);
+            }).catch(function() {
+                try {
+                    var custom = JSON.parse(localStorage.getItem('custom_vivariums') || '[]');
+                    if (!Array.isArray(custom)) custom = [];
+                    custom.push(vivariumEditing);
+                    localStorage.setItem('custom_vivariums', JSON.stringify(custom));
+                } catch (e) { }
+            });
+        } else {
+            try {
+                var custom = JSON.parse(localStorage.getItem('custom_vivariums') || '[]');
+                if (!Array.isArray(custom)) custom = [];
+                custom.push(vivariumEditing);
+                localStorage.setItem('custom_vivariums', JSON.stringify(custom));
+            } catch (e) { }
+        }
+        if (typeof syncToRepo === 'function') syncToRepo();
     } else {
         try {
             localStorage.setItem('vivarium_' + id + '_edit', JSON.stringify({ name: name, description: description || undefined, price: price, type: type, availability: availability, plantIds: plantIds, supplyIds: supplyIds, careTips: careTips.length ? careTips : undefined }));
@@ -5930,19 +5945,35 @@ function saveEquipmentEdit() {
         list.push(equipmentEditing);
         allEquipment = list;
         window.allEquipment = list;
-        try {
-            var custom = JSON.parse(localStorage.getItem('custom_equipment') || '[]');
-            if (!Array.isArray(custom)) custom = [];
-            custom.push(equipmentEditing);
-            localStorage.setItem('custom_equipment', JSON.stringify(custom));
-            if (window.supabaseDb && window.supabaseDb.isConfigured()) {
-                window.supabaseDb.saveCustomEquipment(custom);
+        var saveCustomPromise;
+        if (window.supabaseDb && window.supabaseDb.isConfigured()) {
+            saveCustomPromise = window.supabaseDb.getCustomEquipment().then(function(existing) {
+                var custom = Array.isArray(existing) ? existing.slice() : [];
+                custom.push(equipmentEditing);
+                try { localStorage.setItem('custom_equipment', JSON.stringify(custom)); } catch (e) { }
+                return window.supabaseDb.saveCustomEquipment(custom);
+            }).then(function() {
                 if (typeof quickAddShowToast === 'function') quickAddShowToast('Saved. Item will appear for all visitors.');
-            } else {
+            }).catch(function() {
+                try {
+                    var custom = JSON.parse(localStorage.getItem('custom_equipment') || '[]');
+                    if (!Array.isArray(custom)) custom = [];
+                    custom.push(equipmentEditing);
+                    localStorage.setItem('custom_equipment', JSON.stringify(custom));
+                } catch (e) { }
+            });
+        } else {
+            try {
+                var custom = JSON.parse(localStorage.getItem('custom_equipment') || '[]');
+                if (!Array.isArray(custom)) custom = [];
+                custom.push(equipmentEditing);
+                localStorage.setItem('custom_equipment', JSON.stringify(custom));
                 if (typeof quickAddShowToast === 'function') quickAddShowToast('Saved in this browser only. Set up Supabase (see docs) to see it on other devices and in Supplies.');
-            }
-            if (typeof syncToRepo === 'function') syncToRepo();
-        } catch (e) { /* ignore */ }
+            } catch (e) { }
+            saveCustomPromise = Promise.resolve();
+        }
+        if (typeof syncToRepo === 'function') syncToRepo();
+        (saveCustomPromise || Promise.resolve()).then(function() { /* continue to inventoryDb below */ });
     } else {
         try {
             localStorage.setItem('equipment_' + id + '_edit', JSON.stringify({
