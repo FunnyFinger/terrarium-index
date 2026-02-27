@@ -14,6 +14,7 @@
         var key = (global.SUPABASE_ANON_KEY || '').toString().trim();
         if (!url || !key) return false;
         BASE = url.replace(/\/$/, '') + '/rest/v1';
+        STORAGE_BASE = url.replace(/\/$/, '');
         HEADERS = {
             'apikey': key,
             'Authorization': 'Bearer ' + key,
@@ -28,6 +29,8 @@
         return configure();
     }
 
+    var STORAGE_BASE = '';
+
     function request(method, path, body) {
         var opt = { method: method, headers: HEADERS };
         if (body !== undefined) opt.body = JSON.stringify(body);
@@ -35,6 +38,33 @@
             if (!res.ok) return Promise.reject(new Error(res.status + ' ' + res.statusText));
             if (res.status === 204 || res.headers.get('content-length') === '0') return [];
             return res.json();
+        });
+    }
+
+    /**
+     * Upload a file to Supabase Storage. Bucket must exist and be public (see docs/SUPABASE_SETUP.md).
+     * @param {File} file - the file to upload
+     * @param {string} objectPath - path inside bucket, e.g. "plants/123/photo.jpg"
+     * @returns {Promise<string>} public URL of the uploaded file
+     */
+    function uploadToStorage(file, objectPath) {
+        if (!file || !objectPath) return Promise.reject(new Error('file and path required'));
+        if (!isConfigured()) return Promise.reject(new Error('Supabase not configured'));
+        if (!STORAGE_BASE) STORAGE_BASE = (global.SUPABASE_URL || '').toString().trim().replace(/\/$/, '');
+        var url = STORAGE_BASE + '/storage/v1/object/vivarium-assets/' + objectPath;
+        var headers = {
+            'Authorization': 'Bearer ' + (global.SUPABASE_ANON_KEY || HEADERS.apikey || ''),
+            'apikey': (global.SUPABASE_ANON_KEY || HEADERS.apikey || '')
+        };
+        if (file.type) headers['Content-Type'] = file.type;
+        return fetch(url, { method: 'POST', headers: headers, body: file }).then(function (res) {
+            if (!res.ok) return Promise.reject(new Error('Storage upload failed: ' + res.status));
+            return res.json().then(function (data) {
+                var path = (data && data.path) ? data.path : objectPath;
+                return STORAGE_BASE + '/storage/v1/object/public/vivarium-assets/' + path;
+            }).catch(function () {
+                return STORAGE_BASE + '/storage/v1/object/public/vivarium-assets/' + objectPath;
+            });
         });
     }
 
@@ -86,6 +116,8 @@
             if ('description' in data) row.description = data.description;
             if ('hidden' in data) row.hidden = data.hidden;
             if ('category' in data) row.category = data.category;
+            if ('images' in data) row.images = data.images;
+            if ('imageUrl' in data) row.imageUrl = data.imageUrl;
             row.updatedAt = Date.now();
             var payload = { data: row, updated_at: new Date().toISOString() };
             return request('PATCH', '/inventory?plant_id=eq.' + id, payload).then(function (updated) {
@@ -167,6 +199,7 @@
         getCustomEquipment: getCustomEquipment,
         saveCustomEquipment: saveCustomEquipment,
         getCustomVivariums: getCustomVivariums,
-        saveCustomVivariums: saveCustomVivariums
+        saveCustomVivariums: saveCustomVivariums,
+        uploadToStorage: uploadToStorage
     };
 })(typeof window !== 'undefined' ? window : this);

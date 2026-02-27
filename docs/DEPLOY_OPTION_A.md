@@ -62,4 +62,8 @@ If your site is already hosted from this repo (e.g. GitHub Pages):
 - [ ] Changes pushed to GitHub (or your host)  
 - [ ] Live site opened and tested (e.g. add a custom vivarium and check from another device or incognito)
 
+**Why new items don’t show everywhere:**  
+- **Supplies tab (cards view):** If you had the main site open in another tab, that tab will refresh the supplies list when you add an item (storage event). Otherwise, refresh the main site once to see the new item.  
+- **Other browser or device:** New items only appear everywhere if Supabase is configured. Without it, they’re stored in the current browser only. Follow Step 1–2 above so your hosted site has `config.js` with Supabase URL and key; then new items are saved to the cloud and show for all visitors and devices.
+
 If something doesn’t work, check the browser console (F12 → Console) for errors and that `js/config.js` is loading (e.g. in the Network tab).

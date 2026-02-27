@@ -1148,6 +1148,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Images are now handled gracefully - browser will show placeholders for missing images
     imageErrorsLogged = true;
     updateCartUI();
+
+    // When custom_equipment is updated in another tab (e.g. add form in inventory iframe), refresh supplies so the Supplies tab shows new items
+    window.addEventListener('storage', function (e) {
+        if (e && e.key === 'custom_equipment' && typeof window.loadEquipment === 'function') {
+            window.loadEquipment().then(function (list) {
+                if (!Array.isArray(list)) return;
+                allEquipment = list;
+                window.allEquipment = list;
+                if (window.inventoryDb && window.inventoryDb.mergeInventoryIntoPlants) {
+                    window.inventoryDb.mergeInventoryIntoPlants(list);
+                }
+                var canSeeHidden = typeof auth !== 'undefined' && auth && (auth.isOwner && auth.isOwner() || auth.isAdmin && auth.isAdmin());
+                filteredEquipment = list.filter(function (eq) { return canSeeHidden ? true : !eq.hidden; });
+                if (typeof applyEquipmentFilters === 'function') applyEquipmentFilters();
+            });
+        }
+    });
 });
 
 // Scan all plant folders for existing images
@@ -3894,14 +3911,18 @@ function mergeEquipmentImagesFromStorage() {
     allEquipment.forEach(function(eq) {
         var id = eq.id;
         if (id == null) return;
-        var savedUrl = localStorage.getItem('equipment_' + id + '_imageUrl');
-        var savedImages = localStorage.getItem('equipment_' + id + '_images');
-        if (savedUrl) eq.imageUrl = savedUrl;
-        if (savedImages) {
-            try {
-                var arr = JSON.parse(savedImages);
-                if (Array.isArray(arr) && arr.length) eq.images = arr;
-            } catch (e) { /* ignore */ }
+        if (!eq.imageUrl) {
+            var savedUrl = localStorage.getItem('equipment_' + id + '_imageUrl');
+            if (savedUrl) eq.imageUrl = savedUrl;
+        }
+        if (!eq.images || !eq.images.length) {
+            var savedImages = localStorage.getItem('equipment_' + id + '_images');
+            if (savedImages) {
+                try {
+                    var arr = JSON.parse(savedImages);
+                    if (Array.isArray(arr) && arr.length) eq.images = arr;
+                } catch (e) { /* ignore */ }
+            }
         }
         if (eq.images && eq.images.length && !eq.imageUrl) eq.imageUrl = eq.images[0];
     });
@@ -3912,14 +3933,18 @@ function mergeVivariumImagesFromStorage() {
     allVivariums.forEach(function(v) {
         var id = v.id;
         if (id == null) return;
-        var savedUrl = localStorage.getItem('vivarium_' + id + '_imageUrl');
-        var savedImages = localStorage.getItem('vivarium_' + id + '_images');
-        if (savedUrl) v.imageUrl = savedUrl;
-        if (savedImages) {
-            try {
-                var arr = JSON.parse(savedImages);
-                if (Array.isArray(arr) && arr.length) v.images = arr;
-            } catch (e) { /* ignore */ }
+        if (!v.imageUrl) {
+            var savedUrl = localStorage.getItem('vivarium_' + id + '_imageUrl');
+            if (savedUrl) v.imageUrl = savedUrl;
+        }
+        if (!v.images || !v.images.length) {
+            var savedImages = localStorage.getItem('vivarium_' + id + '_images');
+            if (savedImages) {
+                try {
+                    var arr = JSON.parse(savedImages);
+                    if (Array.isArray(arr) && arr.length) v.images = arr;
+                } catch (e) { /* ignore */ }
+            }
         }
         if (v.images && v.images.length && !v.imageUrl) v.imageUrl = v.images[0];
     });
@@ -5416,6 +5441,27 @@ function clearEquipmentImageGallery() {
     updateEquipmentImageGallery();
 }
 
+function syncEquipmentOrVivariumImagesToSupabase() {
+    if (!currentEquipmentForImages || !window.supabaseDb || !window.supabaseDb.isConfigured()) return;
+    var id = currentEquipmentForImages.id;
+    var prefix = currentImageModalPrefix || 'equipment_';
+    if (prefix === 'vivarium_') {
+        var customList = (typeof allVivariums !== 'undefined' && Array.isArray(allVivariums)) ? allVivariums.filter(function (v) { return parseInt(v.id, 10) >= 60001; }) : [];
+        var vIdx = customList.findIndex(function (v) { return parseInt(v.id, 10) === parseInt(id, 10); });
+        if (vIdx >= 0) {
+            customList[vIdx] = Object.assign({}, customList[vIdx], { images: currentEquipmentForImages.images, imageUrl: currentEquipmentForImages.imageUrl });
+            window.supabaseDb.saveCustomVivariums(customList);
+        }
+    } else {
+        var customList = (typeof allEquipment !== 'undefined' && Array.isArray(allEquipment)) ? allEquipment.filter(function (e) { return Number(e.id) >= 50001; }) : [];
+        var eIdx = customList.findIndex(function (e) { return Number(e.id) === Number(id); });
+        if (eIdx >= 0) {
+            customList[eIdx] = Object.assign({}, customList[eIdx], { images: currentEquipmentForImages.images, imageUrl: currentEquipmentForImages.imageUrl });
+            window.supabaseDb.saveCustomEquipment(customList);
+        }
+    }
+}
+
 function saveEquipmentImages() {
     if (!currentEquipmentForImages) return;
     var id = currentEquipmentForImages.id;
@@ -5423,6 +5469,42 @@ function saveEquipmentImages() {
     var files = currentEquipmentImageFiles;
     var prefix = currentImageModalPrefix || 'equipment_';
     var saveBtn = document.getElementById('equipmentImageSaveBtn');
+    var supabase = window.supabaseDb && window.supabaseDb.isConfigured();
+    var uploadToStorage = supabase && window.supabaseDb.uploadToStorage;
+
+    if (files.length > 0 && uploadToStorage && (prefix === 'equipment_' || prefix === 'vivarium_')) {
+        saveBtn.textContent = '⏳ Uploading...';
+        saveBtn.disabled = true;
+        var basePath = (prefix === 'vivarium_' ? 'vivariums/' : 'equipment/') + id + '/';
+        Promise.all(files.map(function (file, i) {
+            var path = basePath + Date.now() + '_' + i + '_' + (file.name || 'image').replace(/[^a-zA-Z0-9._-]/g, '_');
+            return uploadToStorage(file, path);
+        })).then(function (uploadedUrls) {
+            var existingHttp = urls.filter(isHttpUrl);
+            var all = existingHttp.concat(uploadedUrls);
+            if (all.length === 0) {
+                localStorage.removeItem(prefix + id + '_images');
+                localStorage.removeItem(prefix + id + '_imageUrl');
+                currentEquipmentForImages.images = [];
+                currentEquipmentForImages.imageUrl = '';
+            } else {
+                localStorage.setItem(prefix + id + '_images', JSON.stringify(all));
+                localStorage.setItem(prefix + id + '_imageUrl', all[0]);
+                currentEquipmentForImages.images = all;
+                currentEquipmentForImages.imageUrl = all[0];
+            }
+            syncEquipmentOrVivariumImagesToSupabase();
+            saveBtn.textContent = '💾 Save';
+            saveBtn.disabled = false;
+            closeEquipmentImageModal();
+            if (prefix === 'vivarium_') { if (typeof renderVivariumsPage === 'function') renderVivariumsPage(); } else if (typeof renderEquipmentPage === 'function') renderEquipmentPage();
+        }).catch(function () {
+            saveBtn.textContent = '💾 Save';
+            saveBtn.disabled = false;
+            closeEquipmentImageModal();
+        });
+        return;
+    }
 
     if (files.length > 0 && (prefix === 'equipment_' || prefix === 'vivarium_') && (typeof saveEquipmentImageFilesToFolder === 'function' || typeof saveVivariumImageFilesToFolder === 'function')) {
         saveBtn.textContent = '⏳ Saving to folder...';
@@ -5434,11 +5516,16 @@ function saveEquipmentImages() {
             saveBtn.textContent = '💾 Save';
             saveBtn.disabled = false;
             if (result.success && result.savedPaths && result.savedPaths.length > 0) {
+                currentEquipmentForImages.images = result.savedPaths;
+                currentEquipmentForImages.imageUrl = result.savedPaths[0];
+                localStorage.setItem(prefix + id + '_images', JSON.stringify(result.savedPaths));
+                localStorage.setItem(prefix + id + '_imageUrl', result.savedPaths[0]);
                 if (prefix === 'vivarium_') {
                     if (typeof allVivariums !== 'undefined' && Array.isArray(allVivariums)) {
                         var vIdx = allVivariums.findIndex(function(v) { return v.id === id; });
                         if (vIdx >= 0) allVivariums[vIdx] = currentEquipmentForImages;
                     }
+                    syncEquipmentOrVivariumImagesToSupabase();
                     closeEquipmentImageModal();
                     if (typeof renderVivariumsPage === 'function') renderVivariumsPage();
                 } else {
@@ -5447,6 +5534,7 @@ function saveEquipmentImages() {
                         if (idx >= 0) allEquipment[idx] = currentEquipmentForImages;
                     }
                     window.allEquipment = allEquipment;
+                    syncEquipmentOrVivariumImagesToSupabase();
                     closeEquipmentImageModal();
                     if (typeof renderEquipmentPage === 'function') renderEquipmentPage();
                 }
@@ -5465,6 +5553,7 @@ function saveEquipmentImages() {
                     localStorage.setItem(prefix + id + '_imageUrl', all[0]);
                     currentEquipmentForImages.images = all;
                     currentEquipmentForImages.imageUrl = all[0];
+                    syncEquipmentOrVivariumImagesToSupabase();
                     closeEquipmentImageModal();
                     if (prefix === 'vivarium_') {
                         if (typeof renderVivariumsPage === 'function') renderVivariumsPage();
@@ -5502,6 +5591,7 @@ function saveEquipmentImages() {
             currentEquipmentForImages.images = all;
             currentEquipmentForImages.imageUrl = all[0];
         }
+        syncEquipmentOrVivariumImagesToSupabase();
         closeEquipmentImageModal();
         if (prefix === 'vivarium_') {
             if (typeof renderVivariumsPage === 'function') renderVivariumsPage();
@@ -5677,13 +5767,58 @@ function clearPlantImageGallery() {
     updatePlantImageGallery();
 }
 
+function isHttpUrl(s) { return typeof s === 'string' && (s.startsWith('http://') || s.startsWith('https://')); }
+
 function savePlantImages() {
     if (!currentPlantForImages) return;
     var id = currentPlantForImages.id;
     var urls = currentPlantImageUrls.slice();
     var files = currentPlantImageFiles;
-
+    var supabase = window.supabaseDb && window.supabaseDb.isConfigured();
+    var uploadToStorage = supabase && window.supabaseDb.uploadToStorage;
     var plantImageSaveBtn = document.getElementById('plantImageSaveBtn');
+
+    function applyPlantImageResult(all) {
+        if (all.length === 0) {
+            localStorage.removeItem('plant_' + id + '_images');
+            localStorage.removeItem('plant_' + id + '_imageUrl');
+            localStorage.removeItem('plant_' + id + '_maxImage');
+            currentPlantForImages.images = [];
+            currentPlantForImages.imageUrl = '';
+            if (typeof updatePlantCardImage === 'function') updatePlantCardImage(id, null);
+        } else {
+            localStorage.setItem('plant_' + id + '_images', JSON.stringify(all));
+            localStorage.setItem('plant_' + id + '_imageUrl', all[0]);
+            currentPlantForImages.images = all;
+            currentPlantForImages.imageUrl = all[0];
+            if (typeof updatePlantCardImage === 'function') updatePlantCardImage(id, all[0]);
+        }
+        if (supabase && window.inventoryDb && window.inventoryDb.setItem) {
+            var forInv = all.filter(isHttpUrl);
+            if (forInv.length) window.inventoryDb.setItem(id, { images: forInv, imageUrl: forInv[0] });
+        }
+        closePlantImageModal();
+        if (typeof applyAllFilters === 'function') applyAllFilters();
+    }
+
+    if (files.length > 0 && uploadToStorage) {
+        plantImageSaveBtn.textContent = '⏳ Uploading...';
+        plantImageSaveBtn.disabled = true;
+        var basePath = 'plants/' + id + '/';
+        Promise.all(files.map(function (file, i) {
+            var path = basePath + Date.now() + '_' + i + '_' + (file.name || 'image').replace(/[^a-zA-Z0-9._-]/g, '_');
+            return uploadToStorage(file, path);
+        })).then(function (uploadedUrls) {
+            var existingHttp = urls.filter(isHttpUrl);
+            var all = existingHttp.concat(uploadedUrls);
+            applyPlantImageResult(all);
+        }).catch(function () {
+            plantImageSaveBtn.textContent = '💾 Save';
+            plantImageSaveBtn.disabled = false;
+            closePlantImageModal();
+        });
+        return;
+    }
 
     if (files.length > 0 && typeof savePlantImageFilesToFolder === 'function') {
         plantImageSaveBtn.textContent = '⏳ Saving to folder...';
@@ -5694,12 +5829,7 @@ function savePlantImages() {
             var all;
             if (result.success && result.savedPaths && result.savedPaths.length > 0) {
                 all = result.savedPaths;
-                currentPlantForImages.images = all;
-                currentPlantForImages.imageUrl = all[0];
-                localStorage.setItem('plant_' + id + '_images', JSON.stringify(all));
-                localStorage.setItem('plant_' + id + '_imageUrl', all[0]);
-                closePlantImageModal();
-                if (typeof applyAllFilters === 'function') applyAllFilters();
+                applyPlantImageResult(all);
                 if (typeof updatePlantCardImage === 'function') updatePlantCardImage(id, currentPlantForImages.imageUrl);
             } else {
                 var toDataUrl = (window.uploadUtils && window.uploadUtils.fileToDataUrl) || function(file) {
@@ -5712,22 +5842,7 @@ function savePlantImages() {
                 };
                 Promise.all(files.map(toDataUrl)).then(function(dataUrls) {
                     all = urls.concat(dataUrls);
-                    if (all.length === 0) {
-                        localStorage.removeItem('plant_' + id + '_images');
-                        localStorage.removeItem('plant_' + id + '_imageUrl');
-                        localStorage.removeItem('plant_' + id + '_maxImage');
-                        currentPlantForImages.images = [];
-                        currentPlantForImages.imageUrl = '';
-                        if (typeof updatePlantCardImage === 'function') updatePlantCardImage(id, null);
-                    } else {
-                        localStorage.setItem('plant_' + id + '_images', JSON.stringify(all));
-                        localStorage.setItem('plant_' + id + '_imageUrl', all[0]);
-                        currentPlantForImages.images = all;
-                        currentPlantForImages.imageUrl = all[0];
-                        if (typeof updatePlantCardImage === 'function') updatePlantCardImage(id, all[0]);
-                    }
-                    closePlantImageModal();
-                    if (typeof applyAllFilters === 'function') applyAllFilters();
+                    applyPlantImageResult(all);
                 });
             }
         }).catch(function() {
@@ -5748,22 +5863,7 @@ function savePlantImages() {
     };
     Promise.all(files.map(toDataUrl)).then(function(dataUrls) {
         var all = urls.concat(dataUrls);
-        if (all.length === 0) {
-            localStorage.removeItem('plant_' + id + '_images');
-            localStorage.removeItem('plant_' + id + '_imageUrl');
-            localStorage.removeItem('plant_' + id + '_maxImage');
-            currentPlantForImages.images = [];
-            currentPlantForImages.imageUrl = '';
-            if (typeof updatePlantCardImage === 'function') updatePlantCardImage(id, null);
-        } else {
-            localStorage.setItem('plant_' + id + '_images', JSON.stringify(all));
-            localStorage.setItem('plant_' + id + '_imageUrl', all[0]);
-            currentPlantForImages.images = all;
-            currentPlantForImages.imageUrl = all[0];
-            if (typeof updatePlantCardImage === 'function') updatePlantCardImage(id, all[0]);
-        }
-        closePlantImageModal();
-        if (typeof applyAllFilters === 'function') applyAllFilters();
+        applyPlantImageResult(all);
     }).catch(function() {
         closePlantImageModal();
     });
@@ -5835,7 +5935,12 @@ function saveEquipmentEdit() {
             if (!Array.isArray(custom)) custom = [];
             custom.push(equipmentEditing);
             localStorage.setItem('custom_equipment', JSON.stringify(custom));
-            if (window.supabaseDb && window.supabaseDb.isConfigured()) window.supabaseDb.saveCustomEquipment(custom);
+            if (window.supabaseDb && window.supabaseDb.isConfigured()) {
+                window.supabaseDb.saveCustomEquipment(custom);
+                if (typeof quickAddShowToast === 'function') quickAddShowToast('Saved. Item will appear for all visitors.');
+            } else {
+                if (typeof quickAddShowToast === 'function') quickAddShowToast('Saved in this browser only. Set up Supabase (see docs) to see it on other devices and in Supplies.');
+            }
             if (typeof syncToRepo === 'function') syncToRepo();
         } catch (e) { /* ignore */ }
     } else {

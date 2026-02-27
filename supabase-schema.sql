@@ -28,6 +28,10 @@ alter table public.inventory enable row level security;
 alter table public.custom_equipment enable row level security;
 alter table public.custom_vivariums enable row level security;
 
+drop policy if exists "Allow all for inventory" on public.inventory;
+drop policy if exists "Allow all for custom_equipment" on public.custom_equipment;
+drop policy if exists "Allow all for custom_vivariums" on public.custom_vivariums;
+
 create policy "Allow all for inventory" on public.inventory for all using (true) with check (true);
 create policy "Allow all for custom_equipment" on public.custom_equipment for all using (true) with check (true);
 create policy "Allow all for custom_vivariums" on public.custom_vivariums for all using (true) with check (true);

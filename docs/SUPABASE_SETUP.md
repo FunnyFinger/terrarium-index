@@ -13,6 +13,14 @@ To make inventory, custom equipment, and custom vivariums **shared for all visit
 1. In the Supabase dashboard, open **SQL Editor**.
 2. Copy the contents of **`supabase-schema.sql`** (in the project root) and run it.
 
+## 2b. Create the Storage bucket (for images)
+
+So that plant and equipment images are stored globally, create a public bucket:
+
+1. In Supabase dashboard go to **Storage**.
+2. **New bucket** → Name: `vivarium-assets` → set **Public bucket** to Yes (so image URLs work for everyone).
+3. Create the bucket. You can leave default policies or add a policy that allows all to read and insert (e.g. `INSERT` and `SELECT` for role `anon` on `vivarium-assets`).
+
 ## 3. Get your keys
 
 1. In Supabase: **Project Settings** → **API**.
@@ -87,8 +95,10 @@ If you use a single `index.html`, add it there; add the same line to `build-viva
 
 ## What becomes global
 
-- **Inventory** – stock, prices, visibility for plants/supplies/vivariums (same for everyone).
-- **Custom equipment** – supplies added via the site (visible to all).
-- **Custom vivariums** – custom builds saved from the vivarium builder (visible to all).
+- **Inventory** – stock, prices, visibility, **images**, and **plant details** for plants/supplies/vivariums (same for everyone).
+- **Custom equipment** – supplies added via the site, including **images** (visible to all).
+- **Custom vivariums** – custom builds saved from the vivarium builder, including **images** (visible to all).
+
+When you add or change images (plants, equipment, or vivariums), new uploads are stored in the **vivarium-assets** Storage bucket and the image URLs are saved in Supabase so they are visible on all devices and browsers.
 
 When `SUPABASE_URL` and the Publishable key (`SUPABASE_ANON_KEY`) are set, the site uses Supabase for this data. When they are empty, it falls back to local storage (current behaviour).

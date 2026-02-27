@@ -29,6 +29,8 @@
                     if ('description' in invRow) p.description = invRow.description;
                     if (typeof invRow.hidden === 'boolean') p.hidden = invRow.hidden;
                     if (invRow.category != null && invRow.category !== '') p.category = invRow.category;
+                    if (Array.isArray(invRow.images) && invRow.images.length) p.images = invRow.images;
+                    if (invRow.imageUrl != null && invRow.imageUrl !== '') p.imageUrl = invRow.imageUrl;
                 } else {
                     p.stockQuantity = 0;
                 }

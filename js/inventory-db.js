@@ -80,6 +80,8 @@
             if ('description' in data) row.description = data.description;
             if ('hidden' in data) row.hidden = data.hidden;
             if ('category' in data) row.category = data.category;
+            if ('images' in data) row.images = data.images;
+            if ('imageUrl' in data) row.imageUrl = data.imageUrl;
             row.updatedAt = now;
             return database.inventory.put(row);
         });
@@ -257,6 +259,8 @@
                     if ('description' in inv) p.description = inv.description;
                     if (typeof inv.hidden === 'boolean') p.hidden = inv.hidden;
                     if (inv.category != null && inv.category !== '') p.category = inv.category;
+                    if (Array.isArray(inv.images) && inv.images.length) p.images = inv.images;
+                    if (inv.imageUrl != null && inv.imageUrl !== '') p.imageUrl = inv.imageUrl;
                 } else {
                     p.stockQuantity = 0;
                 }
