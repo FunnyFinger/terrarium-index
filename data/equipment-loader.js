@@ -27,7 +27,7 @@
             if (window.supabaseDb && window.supabaseDb.isConfigured && window.supabaseDb.isConfigured() && window.supabaseDb.getEquipmentCatalog) {
                 try {
                     const cat = await window.supabaseDb.getEquipmentCatalog();
-                    if (Array.isArray(cat) && cat.length) {
+                    if (Array.isArray(cat)) {
                         window.equipmentData = cat;
                         return cat;
                     }
@@ -59,9 +59,7 @@
             let list = Array.isArray(data) ? data : (data.items || data.equipment || []);
             try {
                 var customEq = [];
-                if (typeof window !== 'undefined' && window.supabaseDb && window.supabaseDb.isConfigured()) {
-                    customEq = await window.supabaseDb.getCustomEquipment();
-                } else if (typeof localStorage !== 'undefined' && localStorage.getItem('custom_equipment')) {
+                if (typeof localStorage !== 'undefined' && localStorage.getItem('custom_equipment')) {
                     customEq = JSON.parse(localStorage.getItem('custom_equipment'));
                 }
                 if (Array.isArray(customEq) && customEq.length) list = (list || []).concat(customEq);

@@ -20,23 +20,20 @@
         if (typeof window === 'undefined') return [];
         try {
             var list;
-            // Prefer Supabase vivariums_catalog + custom_vivariums when configured
+            // Prefer Supabase vivariums_catalog as single source when configured
             if (window.supabaseDb && window.supabaseDb.isConfigured && window.supabaseDb.isConfigured()) {
                 try {
                     var cat = await window.supabaseDb.getVivariumsCatalog();
-                    var custom = await window.supabaseDb.getCustomVivariums();
-                    if (Array.isArray(cat) || Array.isArray(custom)) {
-                        list = (Array.isArray(cat) ? cat : []).concat(Array.isArray(custom) ? custom : []);
-                        if (list.length) {
-                            var byId = {};
-                            list.forEach(function (v) {
-                                if (!v || v.id == null) return;
-                                byId[v.id] = Object.assign({}, byId[v.id] || {}, v);
-                            });
-                            list = Object.values(byId);
-                            window.vivariumData = list;
-                            return list;
-                        }
+                    if (Array.isArray(cat)) {
+                        list = cat;
+                        var byId = {};
+                        list.forEach(function (v) {
+                            if (!v || v.id == null) return;
+                            byId[v.id] = Object.assign({}, byId[v.id] || {}, v);
+                        });
+                        list = Object.values(byId);
+                        window.vivariumData = list;
+                        return list;
                     }
                 } catch (e) {
                     console.warn('Supabase vivariums load failed, falling back to JSON:', (e && e.message) || e);

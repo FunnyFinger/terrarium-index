@@ -5200,31 +5200,38 @@ function saveVivariumEdit() {
     vivariumEditing.supplyIds = supplyIds;
     var isNew = vivariumEditing.id == null;
     var id = vivariumEditing.id;
+    var saveVivariumCatalogPromise = Promise.resolve();
     if (isNew) {
         var list = allVivariums || [];
-        var maxId = list.length ? Math.max.apply(null, list.map(function(v) { return v.id || 0; })) : 60000;
-        id = Math.max(60001, maxId + 1);
-        vivariumEditing.id = id;
-        vivariumEditing.imageUrl = '';
-        vivariumEditing.images = [];
-        list.push(vivariumEditing);
-        allVivariums = list;
-        window.allVivariums = list;
-        if (window.supabaseDb && window.supabaseDb.isConfigured()) {
-            window.supabaseDb.getCustomVivariums().then(function(existing) {
-                var custom = Array.isArray(existing) ? existing.slice() : [];
-                custom.push(vivariumEditing);
-                try { localStorage.setItem('custom_vivariums', JSON.stringify(custom)); } catch (e) { }
-                return window.supabaseDb.saveCustomVivariums(custom);
+        if (window.supabaseDb && window.supabaseDb.isConfigured() && window.supabaseDb.getNextVivariumId) {
+            saveVivariumCatalogPromise = window.supabaseDb.getNextVivariumId().then(function(nextId) {
+                id = nextId;
+                vivariumEditing.id = id;
+                vivariumEditing.imageUrl = vivariumEditing.imageUrl || '';
+                vivariumEditing.images = Array.isArray(vivariumEditing.images) ? vivariumEditing.images : [];
+                list.push(vivariumEditing);
+                allVivariums = list;
+                window.allVivariums = list;
+                return window.supabaseDb.createVivariumInCatalog(vivariumEditing);
             }).catch(function() {
-                try {
-                    var custom = JSON.parse(localStorage.getItem('custom_vivariums') || '[]');
-                    if (!Array.isArray(custom)) custom = [];
-                    custom.push(vivariumEditing);
-                    localStorage.setItem('custom_vivariums', JSON.stringify(custom));
-                } catch (e) { }
+                var maxId = list.length ? Math.max.apply(null, list.map(function(v) { return v.id || 0; })) : 60000;
+                id = Math.max(60001, maxId + 1);
+                vivariumEditing.id = id;
+                vivariumEditing.imageUrl = '';
+                vivariumEditing.images = [];
+                list.push(vivariumEditing);
+                allVivariums = list;
+                window.allVivariums = list;
             });
         } else {
+            var maxId = list.length ? Math.max.apply(null, list.map(function(v) { return v.id || 0; })) : 60000;
+            id = Math.max(60001, maxId + 1);
+            vivariumEditing.id = id;
+            vivariumEditing.imageUrl = '';
+            vivariumEditing.images = [];
+            list.push(vivariumEditing);
+            allVivariums = list;
+            window.allVivariums = list;
             try {
                 var custom = JSON.parse(localStorage.getItem('custom_vivariums') || '[]');
                 if (!Array.isArray(custom)) custom = [];
@@ -5234,25 +5241,25 @@ function saveVivariumEdit() {
         }
         if (typeof syncToRepo === 'function') syncToRepo();
     } else {
+        if (window.supabaseDb && window.supabaseDb.isConfigured() && window.supabaseDb.updateVivariumInCatalog) {
+            saveVivariumCatalogPromise = window.supabaseDb.updateVivariumInCatalog(id, vivariumEditing).catch(function() {});
+        }
         try {
             localStorage.setItem('vivarium_' + id + '_edit', JSON.stringify({ name: name, description: description || undefined, price: price, type: type, availability: availability, plantIds: plantIds, supplyIds: supplyIds, careTips: careTips.length ? careTips : undefined }));
             if (typeof syncToRepo === 'function') syncToRepo();
-            var customList = (allVivariums || []).filter(function (v) { var vid = parseInt(v.id, 10); return vid >= 60001; });
-            var idx = customList.findIndex(function (v) { return parseInt(v.id, 10) === parseInt(id, 10); });
-            if (idx >= 0) {
-                customList[idx] = Object.assign({}, customList[idx], { name: name, description: description || undefined, price: price, type: type, plantIds: plantIds, supplyIds: supplyIds, careTips: careTips });
-                if (window.supabaseDb && window.supabaseDb.isConfigured()) window.supabaseDb.saveCustomVivariums(customList);
-            }
         } catch (e) { /* ignore */ }
     }
-    if (window.inventoryDb && window.inventoryDb.setItem && id != null) {
-        window.inventoryDb.setItem(id, {
-            name: name,
-            description: description || undefined,
-            price: price,
-            costPrice: cost,
-            quantityInStock: vivariumEditing.quantityInStock,
-            reorderLevel: vivariumEditing.reorderLevel
+    if (window.inventoryDb && window.inventoryDb.setItem) {
+        saveVivariumCatalogPromise.then(function() {
+            var itemId = vivariumEditing.id != null ? vivariumEditing.id : id;
+            return window.inventoryDb.setItem(itemId, {
+                name: name,
+                description: description || undefined,
+                price: price,
+                costPrice: cost,
+                quantityInStock: vivariumEditing.quantityInStock,
+                reorderLevel: vivariumEditing.reorderLevel
+            });
         }).then(function() {
             if (window.inventoryDb.mergeInventoryIntoPlants && allVivariums) return window.inventoryDb.mergeInventoryIntoPlants(allVivariums);
         }).then(function() {
@@ -5265,9 +5272,11 @@ function saveVivariumEdit() {
             else if (typeof renderVivariumsPage === 'function') renderVivariumsPage();
         });
     } else {
-        closeVivariumEditModal();
-        if (isNew && typeof applyVivariumFilters === 'function') applyVivariumFilters();
-        else if (typeof renderVivariumsPage === 'function') renderVivariumsPage();
+        saveVivariumCatalogPromise.then(function() {
+            closeVivariumEditModal();
+            if (isNew && typeof applyVivariumFilters === 'function') applyVivariumFilters();
+            else if (typeof renderVivariumsPage === 'function') renderVivariumsPage();
+        });
     }
 }
 
@@ -5499,23 +5508,13 @@ function syncEquipmentOrVivariumImagesToSupabase() {
     var imgs = currentEquipmentForImages.images;
     var imgUrl = currentEquipmentForImages.imageUrl;
     if (prefix === 'vivarium_') {
-        var customList = (typeof allVivariums !== 'undefined' && Array.isArray(allVivariums)) ? allVivariums.filter(function (v) { return parseInt(v.id, 10) >= 60001; }) : [];
-        var vIdx = customList.findIndex(function (v) { return parseInt(v.id, 10) === parseInt(id, 10); });
-        if (vIdx >= 0) {
-            customList[vIdx] = Object.assign({}, customList[vIdx], { images: imgs, imageUrl: imgUrl });
-            var fullIdx = allVivariums && allVivariums.findIndex(function (v) { return parseInt(v.id, 10) === parseInt(id, 10); });
-            if (fullIdx >= 0) { allVivariums[fullIdx].images = imgs; allVivariums[fullIdx].imageUrl = imgUrl; }
-            window.supabaseDb.saveCustomVivariums(customList);
-        }
+        var fullIdx = allVivariums && allVivariums.findIndex(function (v) { return parseInt(v.id, 10) === parseInt(id, 10); });
+        if (fullIdx >= 0) { allVivariums[fullIdx].images = imgs; allVivariums[fullIdx].imageUrl = imgUrl; }
+        window.supabaseDb.updateVivariumInCatalog(id, currentEquipmentForImages);
     } else {
-        var customList = (typeof allEquipment !== 'undefined' && Array.isArray(allEquipment)) ? allEquipment.filter(function (e) { return Number(e.id) >= 50001; }) : [];
-        var eIdx = customList.findIndex(function (e) { return Number(e.id) === Number(id); });
-        if (eIdx >= 0) {
-            customList[eIdx] = Object.assign({}, customList[eIdx], { images: imgs, imageUrl: imgUrl });
-            var fullIdx = allEquipment && allEquipment.findIndex(function (e) { return Number(e.id) === Number(id); });
-            if (fullIdx >= 0) { allEquipment[fullIdx].images = imgs; allEquipment[fullIdx].imageUrl = imgUrl; }
-            window.supabaseDb.saveCustomEquipment(customList);
-        }
+        var fullIdx = allEquipment && allEquipment.findIndex(function (e) { return Number(e.id) === Number(id); });
+        if (fullIdx >= 0) { allEquipment[fullIdx].images = imgs; allEquipment[fullIdx].imageUrl = imgUrl; }
+        window.supabaseDb.updateEquipmentInCatalog(id, currentEquipmentForImages);
     }
 }
 
@@ -5999,34 +5998,40 @@ function saveEquipmentEdit() {
     equipmentEditing.reorderLevel = (reorder != null && !isNaN(reorder)) ? reorder : undefined;
     var isNew = equipmentEditing.id == null;
     var id = equipmentEditing.id;
+    var saveCatalogPromise = Promise.resolve();
     if (isNew) {
         var list = allEquipment || [];
-        var maxId = list.length ? Math.max.apply(null, list.map(function(e) { return e.id || 0; })) : 50000;
-        id = Math.max(50001, maxId + 1);
-        equipmentEditing.id = id;
-        equipmentEditing.imageUrl = '';
-        equipmentEditing.images = [];
-        list.push(equipmentEditing);
-        allEquipment = list;
-        window.allEquipment = list;
-        var saveCustomPromise;
-        if (window.supabaseDb && window.supabaseDb.isConfigured()) {
-            saveCustomPromise = window.supabaseDb.getCustomEquipment().then(function(existing) {
-                var custom = Array.isArray(existing) ? existing.slice() : [];
-                custom.push(equipmentEditing);
-                try { localStorage.setItem('custom_equipment', JSON.stringify(custom)); } catch (e) { }
-                return window.supabaseDb.saveCustomEquipment(custom);
+        if (window.supabaseDb && window.supabaseDb.isConfigured() && window.supabaseDb.getNextEquipmentId) {
+            saveCatalogPromise = window.supabaseDb.getNextEquipmentId().then(function(nextId) {
+                id = nextId;
+                equipmentEditing.id = id;
+                equipmentEditing.imageUrl = equipmentEditing.imageUrl || '';
+                equipmentEditing.images = Array.isArray(equipmentEditing.images) ? equipmentEditing.images : [];
+                list.push(equipmentEditing);
+                allEquipment = list;
+                window.allEquipment = list;
+                return window.supabaseDb.createEquipmentInCatalog(equipmentEditing);
             }).then(function() {
-                if (typeof quickAddShowToast === 'function') quickAddShowToast('Saved. Item will appear for all visitors.');
+                if (typeof quickAddShowToast === 'function') quickAddShowToast('Saved to catalog. Item will appear for all visitors.');
             }).catch(function() {
-                try {
-                    var custom = JSON.parse(localStorage.getItem('custom_equipment') || '[]');
-                    if (!Array.isArray(custom)) custom = [];
-                    custom.push(equipmentEditing);
-                    localStorage.setItem('custom_equipment', JSON.stringify(custom));
-                } catch (e) { }
+                var maxId = list.length ? Math.max.apply(null, list.map(function(e) { return e.id || 0; })) : 50000;
+                id = Math.max(50001, maxId + 1);
+                equipmentEditing.id = id;
+                equipmentEditing.imageUrl = '';
+                equipmentEditing.images = [];
+                list.push(equipmentEditing);
+                allEquipment = list;
+                window.allEquipment = list;
             });
         } else {
+            var maxId = list.length ? Math.max.apply(null, list.map(function(e) { return e.id || 0; })) : 50000;
+            id = Math.max(50001, maxId + 1);
+            equipmentEditing.id = id;
+            equipmentEditing.imageUrl = '';
+            equipmentEditing.images = [];
+            list.push(equipmentEditing);
+            allEquipment = list;
+            window.allEquipment = list;
             try {
                 var custom = JSON.parse(localStorage.getItem('custom_equipment') || '[]');
                 if (!Array.isArray(custom)) custom = [];
@@ -6034,11 +6039,14 @@ function saveEquipmentEdit() {
                 localStorage.setItem('custom_equipment', JSON.stringify(custom));
                 if (typeof quickAddShowToast === 'function') quickAddShowToast('Saved in this browser only. Set up Supabase (see docs) to see it on other devices and in Supplies.');
             } catch (e) { }
-            saveCustomPromise = Promise.resolve();
         }
         if (typeof syncToRepo === 'function') syncToRepo();
-        (saveCustomPromise || Promise.resolve()).then(function() { /* continue to inventoryDb below */ });
     } else {
+        if (window.supabaseDb && window.supabaseDb.isConfigured() && window.supabaseDb.updateEquipmentInCatalog) {
+            saveCatalogPromise = window.supabaseDb.updateEquipmentInCatalog(id, equipmentEditing).then(function() {
+                if (typeof quickAddShowToast === 'function') quickAddShowToast('Saved to catalog.');
+            }).catch(function() {});
+        }
         try {
             localStorage.setItem('equipment_' + id + '_edit', JSON.stringify({
                 name: nameVal,
@@ -6055,16 +6063,19 @@ function saveEquipmentEdit() {
         } catch (e) { /* ignore */ }
     }
     if (window.inventoryDb) {
-        window.inventoryDb.setItem(id, {
-            name: nameVal,
-            description: descVal,
-            size: sizeVal,
-            unit: unitVal,
-            category: categoryVal,
-            price: price,
-            costPrice: isNaN(cost) ? undefined : cost,
-            quantityInStock: (typeof stock === 'number' && !isNaN(stock)) ? stock : 0,
-            reorderLevel: (reorder != null && !isNaN(reorder)) ? reorder : undefined
+        saveCatalogPromise.then(function() {
+            var itemId = equipmentEditing.id != null ? equipmentEditing.id : id;
+            return window.inventoryDb.setItem(itemId, {
+                name: nameVal,
+                description: descVal,
+                size: sizeVal,
+                unit: unitVal,
+                category: categoryVal,
+                price: price,
+                costPrice: isNaN(cost) ? undefined : cost,
+                quantityInStock: (typeof stock === 'number' && !isNaN(stock)) ? stock : 0,
+                reorderLevel: (reorder != null && !isNaN(reorder)) ? reorder : undefined
+            });
         }).then(function() {
             return window.inventoryDb.mergeInventoryIntoPlants(allEquipment || []);
         }).then(function() {
@@ -6072,12 +6083,18 @@ function saveEquipmentEdit() {
             if (isNew && typeof applyEquipmentFilters === 'function') applyEquipmentFilters();
             else if (typeof renderEquipmentPage === 'function') renderEquipmentPage();
             if (typeof updateQuickAddButtonsState === 'function') updateQuickAddButtonsState();
+        }).catch(function() {
+            closeEquipmentEditModal();
+            if (isNew && typeof applyEquipmentFilters === 'function') applyEquipmentFilters();
+            else if (typeof renderEquipmentPage === 'function') renderEquipmentPage();
         });
     } else {
-        closeEquipmentEditModal();
-        if (isNew && typeof applyEquipmentFilters === 'function') applyEquipmentFilters();
-        else if (typeof renderEquipmentPage === 'function') renderEquipmentPage();
-        if (typeof updateQuickAddButtonsState === 'function') updateQuickAddButtonsState();
+        saveCatalogPromise.then(function() {
+            closeEquipmentEditModal();
+            if (isNew && typeof applyEquipmentFilters === 'function') applyEquipmentFilters();
+            else if (typeof renderEquipmentPage === 'function') renderEquipmentPage();
+            if (typeof updateQuickAddButtonsState === 'function') updateQuickAddButtonsState();
+        });
     }
 }
 

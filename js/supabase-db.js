@@ -204,7 +204,67 @@
         }).catch(function () { return []; });
     }
 
-    // ---- Custom equipment (array of items with id, name, category, ...) ----
+    function updateEquipmentInCatalog(equipmentId, itemData) {
+        var id = Number(equipmentId);
+        if (!isFinite(id) || !itemData) return Promise.resolve();
+        if (!isConfigured()) return Promise.resolve();
+        return request('PATCH', '/equipment_catalog?id=eq.' + id, { data: itemData }).catch(function () {});
+    }
+
+    function updateVivariumInCatalog(vivariumId, itemData) {
+        var id = Number(vivariumId);
+        if (!isFinite(id) || !itemData) return Promise.resolve();
+        if (!isConfigured()) return Promise.resolve();
+        return request('PATCH', '/vivariums_catalog?id=eq.' + id, { data: itemData }).catch(function () {});
+    }
+
+    function createEquipmentInCatalog(itemData) {
+        if (!itemData || itemData.id == null) return Promise.resolve();
+        if (!isConfigured()) return Promise.resolve();
+        var id = Number(itemData.id);
+        if (!isFinite(id)) return Promise.resolve();
+        return request('POST', '/equipment_catalog', { id: id, data: itemData }).catch(function () {});
+    }
+
+    function createVivariumInCatalog(itemData) {
+        if (!itemData || itemData.id == null) return Promise.resolve();
+        if (!isConfigured()) return Promise.resolve();
+        var id = Number(itemData.id);
+        if (!isFinite(id)) return Promise.resolve();
+        return request('POST', '/vivariums_catalog', { id: id, data: itemData }).catch(function () {});
+    }
+
+    function deleteFromEquipmentCatalog(equipmentId) {
+        var id = Number(equipmentId);
+        if (!isFinite(id)) return Promise.resolve();
+        if (!isConfigured()) return Promise.resolve();
+        return request('DELETE', '/equipment_catalog?id=eq.' + id).catch(function () {});
+    }
+
+    function deleteFromVivariumCatalog(vivariumId) {
+        var id = Number(vivariumId);
+        if (!isFinite(id)) return Promise.resolve();
+        if (!isConfigured()) return Promise.resolve();
+        return request('DELETE', '/vivariums_catalog?id=eq.' + id).catch(function () {});
+    }
+
+    function getNextEquipmentId() {
+        if (!isConfigured()) return Promise.resolve(50001);
+        return request('GET', '/equipment_catalog?select=id&order=id.desc&limit=1').then(function (rows) {
+            var max = (rows && rows[0] && rows[0].id != null) ? Number(rows[0].id) : 50000;
+            return Math.max(50001, max + 1);
+        }).catch(function () { return 50001; });
+    }
+
+    function getNextVivariumId() {
+        if (!isConfigured()) return Promise.resolve(60001);
+        return request('GET', '/vivariums_catalog?select=id&order=id.desc&limit=1').then(function (rows) {
+            var max = (rows && rows[0] && rows[0].id != null) ? Number(rows[0].id) : 60000;
+            return Math.max(60001, max + 1);
+        }).catch(function () { return 60001; });
+    }
+
+    // ---- Custom equipment (legacy; prefer equipment_catalog) ----
     function getCustomEquipment() {
         if (!isConfigured()) return Promise.resolve([]);
         return request('GET', '/custom_equipment?select=id,data&order=id.asc').then(function (rows) {
@@ -276,6 +336,14 @@
         getPlantsCatalog: getPlantsCatalog,
         getEquipmentCatalog: getEquipmentCatalog,
         getVivariumsCatalog: getVivariumsCatalog,
+        updateEquipmentInCatalog: updateEquipmentInCatalog,
+        updateVivariumInCatalog: updateVivariumInCatalog,
+        createEquipmentInCatalog: createEquipmentInCatalog,
+        createVivariumInCatalog: createVivariumInCatalog,
+        deleteFromEquipmentCatalog: deleteFromEquipmentCatalog,
+        deleteFromVivariumCatalog: deleteFromVivariumCatalog,
+        getNextEquipmentId: getNextEquipmentId,
+        getNextVivariumId: getNextVivariumId,
         getCustomEquipment: getCustomEquipment,
         saveCustomEquipment: saveCustomEquipment,
         getCustomVivariums: getCustomVivariums,

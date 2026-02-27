@@ -567,29 +567,18 @@
             var invVivariumList = [];
             var invPerPage = 25;
             var invCurrentPage = 1;
-            /** Delete from inventory; if custom supply (50001+) or custom vivarium (60001+), also remove from Supabase so item disappears globally. */
+            /** Delete from inventory; if supply or vivarium, also remove from catalog so item disappears globally. */
             function deleteInventoryItemAndSyncCustom(id, category) {
                 var inv = window.inventoryDb;
                 if (!inv || !inv.deleteItem) return Promise.reject(new Error('Inventory not available'));
-                var numId = Number(id);
                 var isEquipment = category === 'equipment';
                 var isVivarium = category === 'vivariums';
                 var promise = inv.deleteItem(id);
                 if (window.supabaseDb && window.supabaseDb.isConfigured()) {
-                    if (isEquipment && numId >= 50001 && numId < 60001) {
-                        promise = promise.then(function() {
-                            return window.supabaseDb.getCustomEquipment().then(function(custom) {
-                                var updated = (custom || []).filter(function(it) { return Number(it.id) !== numId; });
-                                return window.supabaseDb.saveCustomEquipment(updated);
-                            });
-                        });
-                    } else if (isVivarium && numId >= 60001) {
-                        promise = promise.then(function() {
-                            return window.supabaseDb.getCustomVivariums().then(function(custom) {
-                                var updated = (custom || []).filter(function(it) { return Number(it.id) !== numId; });
-                                return window.supabaseDb.saveCustomVivariums(updated);
-                            });
-                        });
+                    if (isEquipment && window.supabaseDb.deleteFromEquipmentCatalog) {
+                        promise = promise.then(function() { return window.supabaseDb.deleteFromEquipmentCatalog(id); });
+                    } else if (isVivarium && window.supabaseDb.deleteFromVivariumCatalog) {
+                        promise = promise.then(function() { return window.supabaseDb.deleteFromVivariumCatalog(id); });
                     }
                 }
                 return promise;

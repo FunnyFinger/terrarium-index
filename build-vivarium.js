@@ -937,6 +937,8 @@
             ),
             price: buildTotal > 0 ? Number(buildTotal.toFixed(3)) : null,
             availability: 'in-stock',
+            imageUrl: '',
+            images: [],
             _buildConfig: {
                 type: config.type,
                 enclosureId: config.enclosureId ? supplyIdNum(config.enclosureId) : null,
@@ -949,32 +951,38 @@
                 toolIds: (config.toolIds || []).map(function (id) { return supplyIdNum(id); })
             }
         };
-        try {
-            var custom = JSON.parse(localStorage.getItem('custom_vivariums') || '[]');
-            if (!Array.isArray(custom)) custom = [];
-            custom.push(customVivarium);
-            localStorage.setItem('custom_vivariums', JSON.stringify(custom));
-            if (window.supabaseDb && window.supabaseDb.isConfigured()) window.supabaseDb.saveCustomVivariums(custom);
-            if (typeof window.syncToRepo === 'function') window.syncToRepo();
-        } catch (e) { }
-
-        // Also create an inventory row so the custom vivarium shows a cost equal to the build price.
-        try {
-            if (window.inventoryDb && typeof window.inventoryDb.setItem === 'function' && customVivarium.id != null && buildTotal > 0) {
-                window.inventoryDb.setItem(customVivarium.id, {
-                    name: customVivarium.name,
-                    scientificName: '',
-                    price: customVivarium.price,
-                    costPrice: customVivarium.price,
-                    quantityInStock: 0,
-                    reorderLevel: 0,
-                    description: customVivarium.description
-                });
-            }
-        } catch (e) { /* ignore */ }
-
-        var base = window.location.href.replace(/\/[^/]*$/, '/');
-        window.location.href = base + 'checkout.html';
+        function finishAndRedirect() {
+            try {
+                var custom = JSON.parse(localStorage.getItem('custom_vivariums') || '[]');
+                if (!Array.isArray(custom)) custom = [];
+                custom.push(customVivarium);
+                localStorage.setItem('custom_vivariums', JSON.stringify(custom));
+                if (typeof window.syncToRepo === 'function') window.syncToRepo();
+            } catch (e) { }
+            try {
+                if (window.inventoryDb && typeof window.inventoryDb.setItem === 'function' && customVivarium.id != null && buildTotal > 0) {
+                    window.inventoryDb.setItem(customVivarium.id, {
+                        name: customVivarium.name,
+                        scientificName: '',
+                        price: customVivarium.price,
+                        costPrice: customVivarium.price,
+                        quantityInStock: 0,
+                        reorderLevel: 0,
+                        description: customVivarium.description
+                    });
+                }
+            } catch (e) { /* ignore */ }
+            var base = window.location.href.replace(/\/[^/]*$/, '/');
+            window.location.href = base + 'checkout.html';
+        }
+        if (window.supabaseDb && window.supabaseDb.isConfigured() && window.supabaseDb.getNextVivariumId && window.supabaseDb.createVivariumInCatalog) {
+            window.supabaseDb.getNextVivariumId().then(function(nextId) {
+                customVivarium.id = nextId;
+                return window.supabaseDb.createVivariumInCatalog(customVivarium);
+            }).then(finishAndRedirect).catch(finishAndRedirect);
+        } else {
+            finishAndRedirect();
+        }
     }
 
     function goToStep(step) {
