@@ -87,6 +87,70 @@
     border: 1px solid var(--border-color);
 }
 
+/* Plant modal: Edit / Image / Hide buttons – dark mode */
+[data-theme="dark"] .detail-actions .detail-btn,
+[data-theme="dark"] .detail-actions-fixed .detail-btn {
+    background: rgba(37, 40, 37, 0.95);
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+[data-theme="dark"] .detail-actions .detail-btn:hover,
+[data-theme="dark"] .detail-actions-fixed .detail-btn:hover {
+    background: var(--accent-color);
+    color: #1a1d1a;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+[data-theme="dark"] .detail-actions .detail-btn svg,
+[data-theme="dark"] .detail-actions-fixed .detail-btn svg {
+    color: inherit;
+}
+
+/* Plant card overlay: Edit / Image icons – dark mode */
+[data-theme="dark"] .card-icons .card-edit-icon,
+[data-theme="dark"] .card-icons .card-image-icon,
+[data-theme="dark"] .image-edit-icon,
+[data-theme="dark"] .plant-image-icon {
+    background: rgba(37, 40, 37, 0.95);
+    border-color: var(--accent-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+[data-theme="dark"] .card-icons .card-edit-icon svg,
+[data-theme="dark"] .card-icons .card-image-icon svg,
+[data-theme="dark"] .image-edit-icon svg,
+[data-theme="dark"] .plant-image-icon svg {
+    color: var(--accent-color);
+}
+[data-theme="dark"] .card-edit-icon:hover,
+[data-theme="dark"] .card-image-icon:hover,
+[data-theme="dark"] .image-edit-icon:hover,
+[data-theme="dark"] .plant-image-icon:hover {
+    background: var(--accent-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+[data-theme="dark"] .card-edit-icon:hover svg,
+[data-theme="dark"] .card-image-icon:hover svg,
+[data-theme="dark"] .image-edit-icon:hover svg,
+[data-theme="dark"] .plant-image-icon:hover svg {
+    color: #1a1d1a;
+}
+
+[data-theme="dark"] .care-card-icon {
+    background: rgba(37, 40, 37, 0.95);
+    border-color: var(--accent-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+[data-theme="dark"] .care-card-icon svg {
+    color: var(--accent-color);
+}
+[data-theme="dark"] .care-card-icon:hover {
+    background: var(--accent-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+[data-theme="dark"] .care-card-icon:hover svg {
+    color: #1a1d1a;
+}
+
 /* Enclosure size track: dark mode colors */
 [data-theme="dark"] .enclosure-size-track {
     background: rgba(37, 40, 37, 0.8);
