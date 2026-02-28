@@ -5463,7 +5463,7 @@ function updateEquipmentImageGallery() {
         removeBtn.type = 'button';
         removeBtn.className = 'remove-btn';
         removeBtn.innerHTML = '×';
-        removeBtn.onclick = function() { removeEquipmentImageAtIndex(index); };
+        removeBtn.onclick = function(e) { e.preventDefault(); e.stopPropagation(); removeEquipmentImageAtIndex(index); };
         item.appendChild(img);
         item.appendChild(numBadge);
         item.appendChild(removeBtn);
@@ -5485,7 +5485,7 @@ function updateEquipmentImageGallery() {
         removeBtn.type = 'button';
         removeBtn.className = 'remove-btn';
         removeBtn.innerHTML = '×';
-        removeBtn.onclick = function() { removeEquipmentImageAtIndex(index); };
+        removeBtn.onclick = function(e) { e.preventDefault(); e.stopPropagation(); removeEquipmentImageAtIndex(index); };
         item.appendChild(img);
         item.appendChild(numBadge);
         item.appendChild(removeBtn);
@@ -5785,7 +5785,7 @@ function updatePlantImageGallery() {
         removeBtn.type = 'button';
         removeBtn.className = 'remove-btn';
         removeBtn.innerHTML = '×';
-        removeBtn.onclick = function() { removePlantImageAtIndex(index); };
+        removeBtn.onclick = function(e) { e.preventDefault(); e.stopPropagation(); removePlantImageAtIndex(index); };
         item.appendChild(img);
         item.appendChild(numBadge);
         item.appendChild(removeBtn);
@@ -5806,7 +5806,7 @@ function updatePlantImageGallery() {
         removeBtn.type = 'button';
         removeBtn.className = 'remove-btn';
         removeBtn.innerHTML = '×';
-        removeBtn.onclick = function() { removePlantImageAtIndex(index); };
+        removeBtn.onclick = function(e) { e.preventDefault(); e.stopPropagation(); removePlantImageAtIndex(index); };
         item.appendChild(img);
         item.appendChild(numBadge);
         item.appendChild(removeBtn);
