@@ -112,11 +112,15 @@ async function loadAllPlants() {
                     }
                     sorted.forEach((p) => {
                         const slug = slugFromPlant(p);
-                        if (storagePrefix && p.images && Array.isArray(p.images)) {
-                            p.images = p.images.map((u) => toFullUrl(u, slug));
+                        if (p.images && Array.isArray(p.images)) {
+                            p.images = p.images
+                                .map((u) => (typeof u === 'string' ? u : (u && (u.url || u.src || u.href)) ? String(u.url || u.src || u.href) : null))
+                                .filter(Boolean)
+                                .map((u) => (storagePrefix ? toFullUrl(u, slug) : u));
                         }
-                        if (p.imageUrl && typeof p.imageUrl === 'string') {
-                            p.imageUrl = toFullUrl(p.imageUrl, slug);
+                        if (p.imageUrl != null && p.imageUrl !== '') {
+                            const str = typeof p.imageUrl === 'string' ? p.imageUrl : (p.imageUrl && (p.imageUrl.url || p.imageUrl.src || p.imageUrl.href)) ? String(p.imageUrl.url || p.imageUrl.src || p.imageUrl.href) : '';
+                            if (str) p.imageUrl = storagePrefix ? toFullUrl(str, slug) : str;
                         }
                     });
                     plantsDatabase.length = 0;

@@ -364,7 +364,9 @@ async function initializeUI() {
         try {
             var catalogCount = Array.isArray(plant.images) ? plant.images.length : 0;
             if (catalogCount > 0) {
-                plant.imageUrl = plant.imageUrl || plant.images[0];
+                var first = plant.images[0];
+                var firstStr = (typeof first === 'string' && first.trim()) ? first.trim() : null;
+                if (firstStr) plant.imageUrl = (typeof plant.imageUrl === 'string' && plant.imageUrl.trim()) ? plant.imageUrl.trim() : firstStr;
                 return;
             }
             const savedImages = localStorage.getItem(`plant_${plant.id}_images`);
@@ -6223,24 +6225,21 @@ function createPlantCard(plant) {
     const badges = badgeArray.join('');
     
     // Ensure imageUrl exists - use first image from images array if available
-    // Priority: imageUrl > images[0] > slug-1.jpg > placeholder
-    let displayImageUrl = plant.imageUrl;
+    // Priority: imageUrl > images[0] > slug-1.webp > placeholder (only use string URLs)
+    let displayImageUrl = (typeof plant.imageUrl === 'string' && plant.imageUrl.trim()) ? plant.imageUrl.trim() : null;
     
-    // Only use if it exists and is not empty
-    if (!displayImageUrl || !displayImageUrl.trim()) {
-        displayImageUrl = null;
-    }
-    
-    // If no imageUrl but images array exists, use first image (if any)
+    // If no imageUrl but images array exists, use first image (if any) — ensure it's a string
     if (!displayImageUrl && plant.images && plant.images.length > 0) {
-        displayImageUrl = plant.images[0];
-        plant.imageUrl = displayImageUrl;
+        var firstImg = plant.images[0];
+        if (typeof firstImg === 'string' && firstImg.trim()) {
+            displayImageUrl = firstImg.trim();
+            plant.imageUrl = displayImageUrl;
+        }
     }
-    // As a final fallback, optimistically point to slug-1.jpg inside the plant's folder.
-    // If the file doesn't exist, handleImageError will replace it with a placeholder.
+    // As a final fallback, point to slug-1 in plant's folder (.webp first; bucket often uses webp).
     if (!displayImageUrl) {
         const slug = scientificNameToSlug(getScientificNameString(plant));
-        if (slug) displayImageUrl = `images/plants/${slug}/${slug}-1.jpg`;
+        if (slug) displayImageUrl = `images/plants/${slug}/${slug}-1.webp`;
     }
     // Resolve to full Supabase URL so img src never hits wrong origin (fixes 400 on hosted site)
     if (displayImageUrl && imageUtils && typeof imageUtils.resolvePlantImageUrl === 'function') {
