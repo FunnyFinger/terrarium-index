@@ -5858,18 +5858,20 @@ function savePlantImages() {
     }
 
     function applyPlantImageResult(all) {
+        var list = window.allPlants || window.plantsDatabase;
+        var canonical = list && list.find(function(p) { return p && Number(p.id) === Number(id); });
         if (all.length === 0) {
             localStorage.removeItem('plant_' + id + '_images');
             localStorage.removeItem('plant_' + id + '_imageUrl');
             localStorage.removeItem('plant_' + id + '_maxImage');
-            currentPlantForImages.images = [];
-            currentPlantForImages.imageUrl = '';
+            if (currentPlantForImages) { currentPlantForImages.images = []; currentPlantForImages.imageUrl = ''; }
+            if (canonical) { canonical.images = []; canonical.imageUrl = ''; }
             if (typeof updatePlantCardImage === 'function') updatePlantCardImage(id, null);
         } else {
             localStorage.setItem('plant_' + id + '_images', JSON.stringify(all));
             localStorage.setItem('plant_' + id + '_imageUrl', all[0]);
-            currentPlantForImages.images = all;
-            currentPlantForImages.imageUrl = all[0];
+            if (currentPlantForImages) { currentPlantForImages.images = all; currentPlantForImages.imageUrl = all[0]; }
+            if (canonical) { canonical.images = all.slice(); canonical.imageUrl = all[0]; }
             if (typeof updatePlantCardImage === 'function') updatePlantCardImage(id, all[0]);
         }
         if (supabase && window.inventoryDb && window.inventoryDb.setItem) {
@@ -5907,18 +5909,36 @@ function savePlantImages() {
             nextNum++;
             return uploadToStorage(file, objectPath);
         });
-        Promise.all(uploads).then(function (uploadedUrls) {
+        Promise.all(uploads).then(function (result) {
+            var uploadedUrls = Array.isArray(result) ? result.filter(function(u) { return typeof u === 'string' && u.length; }) : [];
             var existingHttp = urls.filter(isHttpUrl);
             var all = existingHttp.concat(uploadedUrls);
+            if (all.length === 0 && existingHttp.length === 0 && uploadedUrls.length === 0) {
+                plantImageSaveBtn.textContent = '💾 Save';
+                plantImageSaveBtn.disabled = false;
+                if (typeof quickAddShowToast === 'function') quickAddShowToast('Upload failed: no URLs returned.');
+                return;
+            }
             var updatedPlant = Object.assign({}, currentPlantForImages, { images: all, imageUrl: all.length ? all[0] : '' });
             deleteRemovedPlantImagesFromStorage(all).then(function() {
-                applyPlantImageResult(all);
-                if (supabase && window.supabaseDb && window.supabaseDb.updatePlantInCatalog) window.supabaseDb.updatePlantInCatalog(id, updatedPlant);
+                var catalogPromise = (supabase && window.supabaseDb && window.supabaseDb.updatePlantInCatalog)
+                    ? window.supabaseDb.updatePlantInCatalog(id, updatedPlant)
+                    : Promise.resolve();
+                catalogPromise.then(function() {
+                    applyPlantImageResult(all);
+                    if (typeof updatePlantCardImage === 'function') updatePlantCardImage(id, all.length ? all[0] : null);
+                }).catch(function(err) {
+                    applyPlantImageResult(all);
+                    if (typeof updatePlantCardImage === 'function') updatePlantCardImage(id, all.length ? all[0] : null);
+                    if (typeof quickAddShowToast === 'function') quickAddShowToast('Images saved locally; catalog update failed.');
+                });
             });
-        }).catch(function () {
+        }).catch(function (err) {
             plantImageSaveBtn.textContent = '💾 Save';
             plantImageSaveBtn.disabled = false;
-            closePlantImageModal();
+            var msg = (err && err.message) ? err.message : 'Upload failed';
+            if (typeof quickAddShowToast === 'function') quickAddShowToast(msg);
+            else alert(msg);
         });
         return;
     }
