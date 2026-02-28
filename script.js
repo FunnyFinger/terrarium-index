@@ -6265,8 +6265,8 @@ function createPlantCard(plant) {
     if (displayImageUrl && imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') {
         displayImageUrl = imageUtils.normalizePlantImagePath(displayImageUrl);
     }
-    // Only use Supabase image URL if this plant has images in the bucket (avoids 400s for 400+ plants)
-    if (displayImageUrl && /supabase\.co\/storage\/v1\/object\/public\//i.test(displayImageUrl) && !plantHasBucketImages(plant)) {
+    // When Supabase is configured, all plant images load from storage — do not clear Supabase URLs
+    if (displayImageUrl && /supabase\.co\/storage\/v1\/object\/public\//i.test(displayImageUrl) && !window.SUPABASE_URL && !plantHasBucketImages(plant)) {
         displayImageUrl = null;
     }
     if (typeof window._plantImageDebugCount === 'undefined') window._plantImageDebugCount = 0;
@@ -7465,7 +7465,7 @@ function discoverImagesForCurrentPage() {
     pagePlants.forEach(function (plant) {
         if (plant && (plant.imageUrl || (plant.images && plant.images.length))) {
             var url = plant.imageUrl || plant.images[0];
-            if (url && /supabase\.co\/storage\/v1\/object\/public\//i.test(url) && !plantHasBucketImages(plant)) url = null;
+            if (url && /supabase\.co\/storage\/v1\/object\/public\//i.test(url) && !window.SUPABASE_URL && !plantHasBucketImages(plant)) url = null;
             if (window._discoverImagesDebugCount < 3 && url) {
                 console.log('[plant-images] discoverImagesForCurrentPage -> updatePlantCardImage', { plantId: plant.id, url: url, isFullUrl: /^https?:/i.test(url) });
                 window._discoverImagesDebugCount++;
@@ -7499,7 +7499,7 @@ function updatePlantCardImage(plantId, imageUrl) {
     if (imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') {
         imageUrl = imageUtils.normalizePlantImagePath(imageUrl);
     }
-    if (imageUrl && /supabase\.co\/storage\/v1\/object\/public\//i.test(imageUrl) && !plantHasBucketImages(plant)) {
+    if (imageUrl && /supabase\.co\/storage\/v1\/object\/public\//i.test(imageUrl) && !window.SUPABASE_URL && !plantHasBucketImages(plant)) {
         imageUrl = null;
     }
     if (!imageUrl) {
