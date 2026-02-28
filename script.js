@@ -4030,7 +4030,8 @@ function createEquipmentCard(equipment) {
         }
         showEquipmentDetail(equipment);
     });
-    const displayImageUrl = equipment.imageUrl || (equipment.images && equipment.images[0]) || null;
+    let displayImageUrl = equipment.imageUrl || (equipment.images && equipment.images[0]) || null;
+    if (displayImageUrl && imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') displayImageUrl = imageUtils.normalizePlantImagePath(displayImageUrl);
     const priceStr = equipment.price != null ? formatPrice(equipment.price) : 'Price on request';
     const available = getAvailableToAdd(equipment.id);
     const maxedClass = available <= 0 ? ' quick-add-btn-maxed' : '';
@@ -4802,7 +4803,8 @@ function showVivariumDetail(vivarium) {
 }
 
 function showEquipmentDetail(equipment) {
-    const displayImageUrl = equipment.imageUrl || (equipment.images && equipment.images[0]) || null;
+    let displayImageUrl = equipment.imageUrl || (equipment.images && equipment.images[0]) || null;
+    if (displayImageUrl && imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') displayImageUrl = imageUtils.normalizePlantImagePath(displayImageUrl);
     const priceStr = equipment.price != null ? formatPrice(equipment.price) : 'Price on request';
     const stock = equipment.stockQuantity;
     const stockHtml = typeof stock === 'number' ? (stock <= 0 ? '<div class="plant-product-stock plant-product-stock-out">Out of stock</div>' : '<div class="plant-product-stock plant-product-stock-ok">In stock: ' + stock + '</div>') : '<div class="plant-product-stock plant-product-stock-untracked">Stock not tracked</div>';
@@ -4811,6 +4813,9 @@ function showEquipmentDetail(equipment) {
     const detailEditSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
     const detailImageSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>';
     const equipmentGalleryImages = (equipment.images || []).filter(img => img && img.trim());
+    const normalizedGalleryUrls = (imageUtils && typeof imageUtils.normalizePlantImagePath === 'function')
+        ? equipmentGalleryImages.map(function(u) { return imageUtils.normalizePlantImagePath(u); })
+        : equipmentGalleryImages;
     const hasGallery = equipmentGalleryImages.length > 0;
     const descriptionHtml = equipment.description ? '<p class="description">' + escapeHtml(equipment.description) + '</p>' : '<p class="description description-empty">No description available.</p>';
     const galleryPage2Html = (() => {
@@ -4820,7 +4825,7 @@ function showEquipmentDetail(equipment) {
                 <div class="plant-gallery-empty-message"><p>No photos yet.</p><p>Use the Image button above to add photos.</p></div>
             </div>`;
         }
-        const imgs = equipmentGalleryImages;
+        const imgs = normalizedGalleryUrls;
         const mainUrl = displayImageUrl || imgs[0];
         return `<div class="plant-gallery-modern gallery-no-set-main" id="gallery-page-${equipment.id}">
             <header class="plant-gallery-header">
@@ -4846,9 +4851,9 @@ function showEquipmentDetail(equipment) {
             <div class="plant-gallery-thumbnails-wrap">
                 <div class="plant-gallery-thumbnails">
                     ${imgs.map((img, idx) => {
-                        const escapedPath = img.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                        const escapedPath = (img || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
                         return `<button type="button" class="plant-gallery-thumb gallery-thumbnail ${idx === 0 ? 'selected' : ''}" data-img-index="${idx}" data-img-path="${escapedPath}" onclick="selectGalleryImage('${escapedPath}', ${equipment.id}, ${idx}, event)" aria-label="Image ${idx + 1}">
-                        <span class="plant-gallery-thumb-img"><img src="${img}" alt="" loading="lazy" onerror="this.style.display='none'" onload="this.style.display='block'"></span>
+                        <span class="plant-gallery-thumb-img"><img src="${escapeHtml(img || '')}" alt="" loading="lazy" onerror="this.style.display='none'" onload="this.style.display='block'"></span>
                     </button>`;
                     }).join('')}
                 </div>

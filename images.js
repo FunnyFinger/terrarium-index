@@ -61,6 +61,34 @@ function resolvePlantImageUrl(path) {
 }
 
 /**
+ * Resolve equipment/supplies image path to full Supabase Storage URL.
+ */
+function resolveSupplyImageUrl(path) {
+    if (!path || typeof path !== 'string') return path;
+    if (/^https?:\/\//i.test(path)) return path;
+    var base = (typeof window !== 'undefined' && window.SUPABASE_URL) ? String(window.SUPABASE_URL).replace(/\/$/, '') : '';
+    var storagePrefix = base ? base + '/storage/v1/object/public/vivarium-assets/' : '';
+    if (!storagePrefix) return path;
+    if (path.startsWith('supplies/')) return storagePrefix + path;
+    if (path.startsWith('images/supplies/')) return storagePrefix + path.slice(7);
+    return path;
+}
+
+/**
+ * Resolve vivarium image path to full Supabase Storage URL.
+ */
+function resolveVivariumImageUrl(path) {
+    if (!path || typeof path !== 'string') return path;
+    if (/^https?:\/\//i.test(path)) return path;
+    var base = (typeof window !== 'undefined' && window.SUPABASE_URL) ? String(window.SUPABASE_URL).replace(/\/$/, '') : '';
+    var storagePrefix = base ? base + '/storage/v1/object/public/vivarium-assets/' : '';
+    if (!storagePrefix) return path;
+    if (path.startsWith('vivariums/')) return storagePrefix + path;
+    if (path.startsWith('images/vivariums/')) return storagePrefix + path.slice(7);
+    return path;
+}
+
+/**
  * Normalize plant image path: legacy images/slug/ -> images/plants/slug/,
  * and resolve Supabase-relative paths to full URLs so images load when hosted elsewhere.
  */
@@ -74,8 +102,14 @@ function normalizePlantImagePath(path) {
         out = resolvePlantImageUrl(path);
     else if (!path.startsWith('images/'))
         out = resolvePlantImageUrl(path);
-    else if (path.startsWith('images/supplies/') || path.startsWith('images/vivariums/'))
-        out = path;
+    else if (path.startsWith('images/supplies/'))
+        out = resolveSupplyImageUrl(path);
+    else if (path.startsWith('images/vivariums/'))
+        out = resolveVivariumImageUrl(path);
+    else if (path.startsWith('supplies/'))
+        out = resolveSupplyImageUrl(path);
+    else if (path.startsWith('vivariums/'))
+        out = resolveVivariumImageUrl(path);
     else {
         const match = path.match(/^images\/([^/]+)\/(.*)$/);
         out = match ? 'images/plants/' + match[1] + '/' + match[2] : path;
