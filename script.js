@@ -1875,7 +1875,7 @@ function setupEventListeners() {
         });
     }
     var equipmentClearGalleryBtn = document.getElementById('equipmentClearGalleryBtn');
-    if (equipmentClearGalleryBtn) equipmentClearGalleryBtn.addEventListener('click', clearEquipmentImageGallery);
+    if (equipmentClearGalleryBtn) equipmentClearGalleryBtn.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); clearEquipmentImageGallery(); });
     var equipmentImageSaveBtn = document.getElementById('equipmentImageSaveBtn');
     if (equipmentImageSaveBtn) equipmentImageSaveBtn.addEventListener('click', saveEquipmentImages);
     var equipmentImageCancelBtn = document.getElementById('equipmentImageCancelBtn');
@@ -1929,7 +1929,7 @@ function setupEventListeners() {
         });
     }
     var plantClearGalleryBtn = document.getElementById('plantClearGalleryBtn');
-    if (plantClearGalleryBtn) plantClearGalleryBtn.addEventListener('click', clearPlantImageGallery);
+    if (plantClearGalleryBtn) plantClearGalleryBtn.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); clearPlantImageGallery(); });
     var plantImageSaveBtn = document.getElementById('plantImageSaveBtn');
     if (plantImageSaveBtn) plantImageSaveBtn.addEventListener('click', savePlantImages);
     var plantImageCancelBtn = document.getElementById('plantImageCancelBtn');
