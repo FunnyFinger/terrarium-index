@@ -7632,6 +7632,20 @@ function handleImageError(imgElement, plantId) {
     // Prevent console spam by silently handling errors
     const currentSrc = imgElement.src;
     console.warn('[plant-images] handleImageError: image failed to load', { plantId: plantId, failedSrc: currentSrc, isFullUrl: /^https?:/i.test(currentSrc) });
+    if (typeof window._plantImageDiagnosticDone === 'undefined') {
+        window._plantImageDiagnosticDone = true;
+        console.log('[plant-images] FULL URL (copy and open in new tab to test):', currentSrc);
+        fetch(currentSrc, { method: 'GET', mode: 'no-cors' }).then(function () {
+            console.log('[plant-images] no-cors fetch completed (cannot read status). Try opening the URL above in a new tab.');
+        }).catch(function (e) {
+            console.warn('[plant-images] Fetch failed:', e.message);
+        });
+        fetch(currentSrc, { method: 'HEAD' }).then(function (r) {
+            console.log('[plant-images] HEAD request status:', r.status, r.statusText, '— 403 = bucket private or CORS; 404 = wrong path; 200 = OK (then img may be blocked by CORS).');
+        }).catch(function (e) {
+            console.warn('[plant-images] HEAD request failed (often CORS from Netlify to Supabase). Fix: Supabase Dashboard → Storage → vivarium-assets → set Public ON, and add your site origin to CORS allowed origins.');
+        });
+    }
 
     // If we've already tried this image and it failed, don't try again
     if (failedImageCache.has(currentSrc)) {
