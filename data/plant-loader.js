@@ -135,6 +135,25 @@ async function loadAllPlants() {
                     }
                     if (typeof window !== 'undefined') window.plantsDatabase = plantsDatabase;
                     console.log('✅ Loaded ' + plantsDatabase.length + ' plants from Supabase plants_catalog');
+                    var withImages = plantsDatabase.filter(function (p) { return p.images && p.images.length > 0; });
+                    if (withImages.length > 0) {
+                        var sample = withImages[0];
+                        console.log('[plant-images] After load, first plant with images:', {
+                            id: sample.id,
+                            name: sample.name,
+                            imageUrl: sample.imageUrl,
+                            imageUrlIsFull: !!(sample.imageUrl && /^https?:/i.test(sample.imageUrl)),
+                            images0: (sample.images && sample.images[0]) || null,
+                            images0IsFull: !!((sample.images && sample.images[0]) && /^https?:/i.test(sample.images[0])),
+                            imagesCount: sample.images ? sample.images.length : 0
+                        });
+                        if (withImages.length > 1) {
+                            var second = withImages[1];
+                            console.log('[plant-images] Second plant with images:', { id: second.id, name: second.name, imageUrl: second.imageUrl, images0: second.images && second.images[0] });
+                        }
+                    } else {
+                        console.warn('[plant-images] No plants have images array after load.');
+                    }
                     return plantsDatabase;
                 }
             } catch (e) {

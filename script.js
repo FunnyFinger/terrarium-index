@@ -179,6 +179,10 @@ async function initializePlants() {
             if (window.plantsDatabase && Array.isArray(window.plantsDatabase) && window.plantsDatabase.length > 0) {
                 allPlants = dedupePlantsById(window.plantsDatabase);
                 console.log(`✅ Loaded ${allPlants.length} plants from window.plantsDatabase (event)`);
+                var firstWithImg = allPlants.find(function (p) { return p.images && p.images.length > 0; });
+                if (firstWithImg) {
+                    console.log('[plant-images] script.js received first plant with images:', { id: firstWithImg.id, name: firstWithImg.name, imageUrl: firstWithImg.imageUrl, images0: firstWithImg.images[0], imageUrlIsFull: !!(firstWithImg.imageUrl && /^https?:/i.test(firstWithImg.imageUrl)) });
+                }
             } else if (e.detail?.plants && Array.isArray(e.detail.plants) && e.detail.plants.length > 0) {
                 allPlants = dedupePlantsById(e.detail.plants);
                 console.log(`✅ Loaded ${allPlants.length} plants from event detail`);
@@ -6244,6 +6248,11 @@ function createPlantCard(plant) {
     if (displayImageUrl && imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') {
         displayImageUrl = imageUtils.normalizePlantImagePath(displayImageUrl);
     }
+    if (typeof window._plantImageDebugCount === 'undefined') window._plantImageDebugCount = 0;
+    if (window._plantImageDebugCount < 5 && displayImageUrl) {
+        console.log('[plant-images] createPlantCard img src:', { plantId: plant.id, name: plant.name, displayImageUrl: displayImageUrl, isFullUrl: /^https?:/i.test(displayImageUrl) });
+        window._plantImageDebugCount++;
+    }
     
     // Create a unique identifier for this card to help with updates
     card.dataset.plantId = plant.id;
@@ -7431,9 +7440,14 @@ function discoverImagesForCurrentPage() {
     const page = Math.max(1, Math.min(currentPlantsPage, totalPages));
     const start = (page - 1) * plantsPerPage;
     const pagePlants = filteredPlants.slice(start, start + plantsPerPage);
+    if (typeof window._discoverImagesDebugCount === 'undefined') window._discoverImagesDebugCount = 0;
     pagePlants.forEach(function (plant) {
         if (plant && (plant.imageUrl || (plant.images && plant.images.length))) {
             const url = plant.imageUrl || plant.images[0];
+            if (window._discoverImagesDebugCount < 3) {
+                console.log('[plant-images] discoverImagesForCurrentPage -> updatePlantCardImage', { plantId: plant.id, url: url, isFullUrl: url && /^https?:/i.test(url) });
+                window._discoverImagesDebugCount++;
+            }
             updatePlantCardImage(plant.id, url);
         }
     });
@@ -7462,6 +7476,11 @@ function updatePlantCardImage(plantId, imageUrl) {
 
     if (imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') {
         imageUrl = imageUtils.normalizePlantImagePath(imageUrl);
+    }
+    if (typeof window._plantImageUpdateDebugCount === 'undefined') window._plantImageUpdateDebugCount = 0;
+    if (window._plantImageUpdateDebugCount < 5) {
+        console.log('[plant-images] updatePlantCardImage:', { plantId: plantId, imageUrl: imageUrl, isFullUrl: imageUrl && /^https?:/i.test(imageUrl) });
+        window._plantImageUpdateDebugCount++;
     }
     
     // Update the plant object
@@ -7612,7 +7631,8 @@ const failedImageCache = new Set();
 function handleImageError(imgElement, plantId) {
     // Prevent console spam by silently handling errors
     const currentSrc = imgElement.src;
-    
+    console.warn('[plant-images] handleImageError: image failed to load', { plantId: plantId, failedSrc: currentSrc, isFullUrl: /^https?:/i.test(currentSrc) });
+
     // If we've already tried this image and it failed, don't try again
     if (failedImageCache.has(currentSrc)) {
         // Show placeholder immediately without trying again
@@ -7668,6 +7688,7 @@ function handleImageError(imgElement, plantId) {
             // Try next image in array (silently) - but only if not already failed
             let nextImage = plant.images[currentIndex + 1];
             if (imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') nextImage = imageUtils.normalizePlantImagePath(nextImage);
+            console.log('[plant-images] handleImageError: trying next image in array', { plantId: plantId, nextImage: nextImage });
             if (!failedImageCache.has(nextImage) && !nextImage.includes(window.location.origin + nextImage)) {
                 imgElement.onerror = () => handleImageError(imgElement, plantId);
                 imgElement.src = nextImage;
@@ -7678,6 +7699,7 @@ function handleImageError(imgElement, plantId) {
             // Current image not in array, try first from array
             let nextImage = plant.images[0];
             if (imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') nextImage = imageUtils.normalizePlantImagePath(nextImage);
+            console.log('[plant-images] handleImageError: trying first image from array', { plantId: plantId, nextImage: nextImage });
             if (!failedImageCache.has(nextImage)) {
                 imgElement.onerror = () => handleImageError(imgElement, plantId);
                 imgElement.src = nextImage;

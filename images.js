@@ -34,33 +34,58 @@ function ensureUniqueImages(images) {
  * Relative paths (plants/, /storage/, or slug/filename) become full Supabase storage URLs
  * so img src works when the site is served from another origin (e.g. Netlify).
  */
+var _resolvePlantImageUrlLogCount = 0;
+var _resolvePlantImageUrlLogMax = 20;
 function resolvePlantImageUrl(path) {
     if (!path || typeof path !== 'string') return path;
     if (/^https?:\/\//i.test(path)) return path;
     const base = (typeof window !== 'undefined' && window.SUPABASE_URL) ? String(window.SUPABASE_URL).replace(/\/$/, '') : '';
     const storagePrefix = base ? base + '/storage/v1/object/public/vivarium-assets/' : '';
-    if (!storagePrefix) return path;
-    if (path.startsWith('/storage/')) return base + path;
-    if (path.startsWith('plants/')) return storagePrefix + path;
-    if (path.indexOf('/') !== -1 && /\.(jpg|jpeg|png|gif|webp)$/i.test(path)) return storagePrefix + 'plants/' + path;
-    return path;
+    if (!storagePrefix) {
+        if (_resolvePlantImageUrlLogCount < _resolvePlantImageUrlLogMax) {
+            console.warn('[plant-images] resolvePlantImageUrl: no SUPABASE_URL, path unchanged:', path);
+            _resolvePlantImageUrlLogCount++;
+        }
+        return path;
+    }
+    var out = path;
+    if (path.startsWith('/storage/')) out = base + path;
+    else if (path.startsWith('plants/')) out = storagePrefix + path;
+    else if (path.indexOf('/') !== -1 && /\.(jpg|jpeg|png|gif|webp)$/i.test(path)) out = storagePrefix + 'plants/' + path;
+    if (out !== path && _resolvePlantImageUrlLogCount < _resolvePlantImageUrlLogMax) {
+        console.log('[plant-images] resolvePlantImageUrl:', { in: path, out: out });
+        _resolvePlantImageUrlLogCount++;
+    }
+    return out;
 }
 
 /**
  * Normalize plant image path: legacy images/slug/ -> images/plants/slug/,
  * and resolve Supabase-relative paths to full URLs so images load when hosted elsewhere.
  */
+var _normalizePlantImagePathLogCount = 0;
+var _normalizePlantImagePathLogMax = 15;
 function normalizePlantImagePath(path) {
     if (!path || typeof path !== 'string') return path;
     if (/^https?:\/\//i.test(path)) return path;
+    var out;
     if (path.startsWith('plants/') || path.startsWith('/storage/') || (path.indexOf('/') !== -1 && /\.(jpg|jpeg|png|gif|webp)$/i.test(path)))
-        return resolvePlantImageUrl(path);
-    if (!path.startsWith('images/')) return resolvePlantImageUrl(path);
-    if (path.startsWith('images/plants/')) return path;
-    if (path.startsWith('images/supplies/') || path.startsWith('images/vivariums/')) return path;
-    const match = path.match(/^images\/([^/]+)\/(.*)$/);
-    if (match) return 'images/plants/' + match[1] + '/' + match[2];
-    return path;
+        out = resolvePlantImageUrl(path);
+    else if (!path.startsWith('images/'))
+        out = resolvePlantImageUrl(path);
+    else if (path.startsWith('images/plants/'))
+        out = path;
+    else if (path.startsWith('images/supplies/') || path.startsWith('images/vivariums/'))
+        out = path;
+    else {
+        const match = path.match(/^images\/([^/]+)\/(.*)$/);
+        out = match ? 'images/plants/' + match[1] + '/' + match[2] : path;
+    }
+    if (out !== path && _normalizePlantImagePathLogCount < _normalizePlantImagePathLogMax) {
+        console.log('[plant-images] normalizePlantImagePath:', { in: path, out: out });
+        _normalizePlantImagePathLogCount++;
+    }
+    return out;
 }
 
 async function checkImageExists(imagePath) {
