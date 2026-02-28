@@ -122,6 +122,18 @@ let plantsPerPage = 24;
 let currentPlantsPage = 1;
 let currentRenderToken = 0;
 
+// Plant slugs that have images in Supabase Storage bucket vivarium-assets/plants/
+// Only these get Supabase image URLs; others show placeholder to avoid 400s.
+var PLANT_SLUGS_WITH_BUCKET_IMAGES = ['aglaonema-commutatum-toms-pride', 'aglaonema-red-ruby', 'aglaonema-rotundum-red-tiger'];
+
+function plantHasBucketImages(plant) {
+    if (!plant) return false;
+    var slug = typeof scientificNameToSlug === 'function' && typeof getScientificNameString === 'function'
+        ? scientificNameToSlug(getScientificNameString(plant))
+        : (plant.scientificName && scientificNameToSlug(plant.scientificName));
+    return slug && PLANT_SLUGS_WITH_BUCKET_IMAGES.indexOf(slug) !== -1;
+}
+
 // Convert scientific name to slug (matching folder naming convention)
 function scientificNameToSlug(scientificName) {
     if (!scientificName) return null;
@@ -6248,6 +6260,10 @@ function createPlantCard(plant) {
     if (displayImageUrl && imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') {
         displayImageUrl = imageUtils.normalizePlantImagePath(displayImageUrl);
     }
+    // Only use Supabase image URL if this plant has images in the bucket (avoids 400s for 400+ plants)
+    if (displayImageUrl && /supabase\.co\/storage\/v1\/object\/public\//i.test(displayImageUrl) && !plantHasBucketImages(plant)) {
+        displayImageUrl = null;
+    }
     if (typeof window._plantImageDebugCount === 'undefined') window._plantImageDebugCount = 0;
     if (window._plantImageDebugCount < 5 && displayImageUrl) {
         console.log('[plant-images] createPlantCard img src:', { plantId: plant.id, name: plant.name, displayImageUrl: displayImageUrl, isFullUrl: /^https?:/i.test(displayImageUrl) });
@@ -7443,9 +7459,10 @@ function discoverImagesForCurrentPage() {
     if (typeof window._discoverImagesDebugCount === 'undefined') window._discoverImagesDebugCount = 0;
     pagePlants.forEach(function (plant) {
         if (plant && (plant.imageUrl || (plant.images && plant.images.length))) {
-            const url = plant.imageUrl || plant.images[0];
-            if (window._discoverImagesDebugCount < 3) {
-                console.log('[plant-images] discoverImagesForCurrentPage -> updatePlantCardImage', { plantId: plant.id, url: url, isFullUrl: url && /^https?:/i.test(url) });
+            var url = plant.imageUrl || plant.images[0];
+            if (url && /supabase\.co\/storage\/v1\/object\/public\//i.test(url) && !plantHasBucketImages(plant)) url = null;
+            if (window._discoverImagesDebugCount < 3 && url) {
+                console.log('[plant-images] discoverImagesForCurrentPage -> updatePlantCardImage', { plantId: plant.id, url: url, isFullUrl: /^https?:/i.test(url) });
                 window._discoverImagesDebugCount++;
             }
             updatePlantCardImage(plant.id, url);
@@ -7477,9 +7494,27 @@ function updatePlantCardImage(plantId, imageUrl) {
     if (imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') {
         imageUrl = imageUtils.normalizePlantImagePath(imageUrl);
     }
+    if (imageUrl && /supabase\.co\/storage\/v1\/object\/public\//i.test(imageUrl) && !plantHasBucketImages(plant)) {
+        imageUrl = null;
+    }
+    if (!imageUrl) {
+        plant.imageUrl = null;
+        plant.images = plant.images || [];
+        const cards = document.querySelectorAll('.plant-image-container[data-plant-id="' + plantId + '"]');
+        cards.forEach(function(container) {
+            const img = container.querySelector('.plant-image');
+            if (img) {
+                const placeholder = document.createElement('div');
+                placeholder.className = 'image-placeholder';
+                placeholder.innerHTML = (typeof PLACEHOLDER_PLANT_SVG !== 'undefined' ? PLACEHOLDER_PLANT_SVG : '');
+                img.parentNode.replaceChild(placeholder, img);
+            }
+        });
+        return;
+    }
     if (typeof window._plantImageUpdateDebugCount === 'undefined') window._plantImageUpdateDebugCount = 0;
     if (window._plantImageUpdateDebugCount < 5) {
-        console.log('[plant-images] updatePlantCardImage:', { plantId: plantId, imageUrl: imageUrl, isFullUrl: imageUrl && /^https?:/i.test(imageUrl) });
+        console.log('[plant-images] updatePlantCardImage:', { plantId: plantId, imageUrl: imageUrl, isFullUrl: /^https?:/i.test(imageUrl) });
         window._plantImageUpdateDebugCount++;
     }
     
@@ -7665,6 +7700,27 @@ function handleImageError(imgElement, plantId) {
     // Mark this image as failed
     failedImageCache.add(currentSrc);
     const plant = allPlants.find(p => p.id === plantId);
+
+    // 400 from Supabase often means object not found; catalog may list .jpg but bucket has .webp
+    if (imgElement && currentSrc && /supabase\.co\/storage\/v1\/object\/public\//i.test(currentSrc) && /\.jpe?g$/i.test(currentSrc)) {
+        var webpUrl = currentSrc.replace(/\.jpe?g$/i, '.webp');
+        if (!failedImageCache.has(webpUrl)) {
+            imgElement.onerror = function () {
+                failedImageCache.add(webpUrl);
+                handleImageError(imgElement, plantId);
+            };
+            imgElement.src = webpUrl;
+            if (plant) {
+                plant.imageUrl = webpUrl;
+                if (plant.images && Array.isArray(plant.images)) {
+                    var idx = plant.images.findIndex(function (u) { return u === currentSrc || (u && u.replace(/\.jpe?g$/i, '.webp') === webpUrl); });
+                    if (idx >= 0) plant.images[idx] = webpUrl;
+                    else if (!plant.images.includes(webpUrl)) plant.images.unshift(webpUrl);
+                }
+            }
+            return;
+        }
+    }
     
     if (!imgElement || !plant) return;
     
