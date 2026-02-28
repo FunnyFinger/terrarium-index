@@ -374,13 +374,18 @@ async function initializeUI() {
     
     console.log(`📊 Plants ready: ${allPlants.length} plants`);
     
-    // First: Use catalog images when present; only use localStorage when catalog has none or fewer
+    // Single source: when Supabase is configured, use only catalog (no localStorage). Otherwise allow localStorage fallback.
+    var supabaseOnly = !!(typeof window !== 'undefined' && window.SUPABASE_URL);
     let imagesLoadedCount = 0;
     allPlants.forEach(plant => {
         try {
             var catalogCount = Array.isArray(plant.images) ? plant.images.length : 0;
             if (catalogCount > 0) {
                 plant.imageUrl = plant.imageUrl || plant.images[0];
+                return;
+            }
+            if (supabaseOnly) {
+                plant.images = plant.images || [];
                 return;
             }
             const savedImages = localStorage.getItem(`plant_${plant.id}_images`);
@@ -411,7 +416,7 @@ async function initializeUI() {
             if (!(Array.isArray(plant.images) && plant.images.length > 0)) plant.images = plant.images || [];
         }
     });
-    console.log(`📦 Quick-loaded ${imagesLoadedCount} plant images from localStorage`);
+    console.log(supabaseOnly ? '📦 Plant images: Supabase only (single source)' : `📦 Quick-loaded ${imagesLoadedCount} plant images from localStorage`);
     
     // Second: Apply filters and render IMMEDIATELY (images are now available)
     applyAllFilters();
@@ -6503,66 +6508,25 @@ async function showPlantModal(plant) {
         // Silent - localStorage parsing failed
     }
     
-    // Prefer cached maxImage hint to avoid repeated 404s; only do full discovery when explicitly requested elsewhere.
-    let discovered = await getPlantImages(plant);
-    
-    var catalogImageCount = Array.isArray(plant.images) ? plant.images.length : 0;
-    var catalogWins = catalogImageCount > 0 && catalogImageCount >= (discovered.images && discovered.images.length ? discovered.images.length : 0) && catalogImageCount >= (savedImages && Array.isArray(savedImages) ? savedImages.length : 0);
-
-    if (catalogWins) {
-        plant.imageUrl = plant.imageUrl || (plant.images && plant.images[0]) || null;
-    } else if (savedImages && Array.isArray(savedImages) && savedImages.length > 0) {
-        const folderName = scientificNameToSlug(getScientificNameString(plant));
-        const allPathsValid = savedImages.every(img => {
-            if (!img || typeof img !== 'string') return false;
-            const expectedPattern = new RegExp(`^images/${folderName}/${folderName}-\\d+\\.(jpg|jpeg|png|gif|webp)$`, 'i');
-            return expectedPattern.test(img);
-        });
-
-        if (allPathsValid && discovered.images.length <= savedImages.length) {
-            plant.images = savedImages;
-            plant.imageUrl = savedImageUrl || (savedImages.length > 0 ? savedImages[0] : null);
-        } else if (discovered.images.length > 0 && discovered.images.length >= catalogImageCount) {
+    // Single source: when Supabase is configured, use only catalog (loaded from Supabase). No localStorage or file discovery.
+    var useSupabaseOnly = !!(typeof window !== 'undefined' && window.SUPABASE_URL);
+    if (useSupabaseOnly) {
+        plant.imageUrl = (plant.images && plant.images.length > 0) ? (plant.imageUrl || plant.images[0]) : (plant.imageUrl || null);
+        if (!(Array.isArray(plant.images) && plant.images.length > 0)) plant.images = plant.images || [];
+    } else {
+        let discovered = await getPlantImages(plant);
+        var catalogImageCount = Array.isArray(plant.images) ? plant.images.length : 0;
+        if (catalogImageCount > 0) {
+            plant.imageUrl = plant.imageUrl || (plant.images && plant.images[0]) || null;
+        } else if (discovered.images && discovered.images.length > 0) {
             plant.images = discovered.images;
             plant.imageUrl = discovered.imageUrl || discovered.images[0];
-            try {
-                localStorage.setItem(`plant_${plant.id}_images`, JSON.stringify(plant.images));
-                if (plant.imageUrl) localStorage.setItem(`plant_${plant.id}_imageUrl`, plant.imageUrl);
-            } catch (e) { /* silent */ }
-        } else if (catalogImageCount > 0) {
-            plant.imageUrl = plant.imageUrl || plant.images[0];
-        } else if (allPathsValid) {
+        } else if (savedImages && Array.isArray(savedImages) && savedImages.length > 0) {
             plant.images = savedImages;
-            plant.imageUrl = savedImageUrl || (savedImages.length > 0 ? savedImages[0] : null);
+            plant.imageUrl = savedImageUrl || savedImages[0];
         } else {
-            try {
-                localStorage.removeItem(`plant_${plant.id}_images`);
-                localStorage.removeItem(`plant_${plant.id}_imageUrl`);
-            } catch (e) { }
-            if (discovered.images.length > 0) {
-                plant.images = discovered.images;
-                plant.imageUrl = discovered.imageUrl;
-                try {
-                    localStorage.setItem(`plant_${plant.id}_images`, JSON.stringify(plant.images));
-                    if (plant.imageUrl) localStorage.setItem(`plant_${plant.id}_imageUrl`, plant.imageUrl);
-                } catch (e) { }
-            }
-        }
-    } else if (discovered.images.length > 0 && discovered.images.length >= catalogImageCount) {
-        plant.images = discovered.images;
-        plant.imageUrl = discovered.imageUrl;
-        try {
-            localStorage.setItem(`plant_${plant.id}_images`, JSON.stringify(plant.images));
-            if (plant.imageUrl) localStorage.setItem(`plant_${plant.id}_imageUrl`, plant.imageUrl);
-        } catch (e) { }
-    } else if (catalogImageCount > 0) {
-        plant.imageUrl = plant.imageUrl || plant.images[0];
-    } else {
-        if (!(Array.isArray(plant.images) && plant.images.length > 0)) {
             plant.images = plant.images || [];
-            plant.imageUrl = null;
-        } else {
-            plant.imageUrl = plant.imageUrl || plant.images[0];
+            plant.imageUrl = plant.imageUrl || (plant.images && plant.images[0]) || null;
         }
     }
     

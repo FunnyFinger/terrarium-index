@@ -230,11 +230,11 @@ async function checkImageExists(imagePath) {
 }
 
 async function discoverPlantImages(plant, knownImageCount = null) {
-    if (!plant || !plant.scientificName) {
+    if (!plant) {
         return { images: [], imageUrl: null };
     }
 
-    // Use catalog images when present (e.g. from Supabase) so hosted site shows full gallery without 404 probes
+    // Use catalog images when present (e.g. from Supabase) so all plants get full gallery; check before scientificName so we never drop catalog
     const catalogImages = plant.images;
     if (Array.isArray(catalogImages) && catalogImages.length > 0) {
         const valid = catalogImages.filter(function (p) {
@@ -459,6 +459,9 @@ async function getPlantImages(plant, knownImageCount = null, options = {}) {
 }
 
 async function loadImagesFromLocalStorage(allPlants) {
+    if (typeof window !== 'undefined' && window.SUPABASE_URL) {
+        return;
+    }
     let loadedCount = 0;
     let validatedCount = 0;
 
