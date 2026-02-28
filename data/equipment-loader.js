@@ -20,6 +20,25 @@
     }
     const DATA_BASE = getDataBaseUrl();
 
+    function normalizeEquipmentImageUrls(list) {
+        if (!list || !list.length) return;
+        var base = (typeof window !== 'undefined' && window.SUPABASE_URL) ? String(window.SUPABASE_URL).replace(/\/$/, '') : '';
+        if (!base) return;
+        var storagePrefix = base + '/storage/v1/object/public/vivarium-assets/';
+        list.forEach(function (item) {
+            function toStorageUrl(path) {
+                if (!path || typeof path !== 'string' || /^https?:\/\//i.test(path)) return path;
+                if (path.startsWith('supplies/')) return storagePrefix + path;
+                if (path.startsWith('images/supplies/')) return storagePrefix + path.slice(7);
+                var legacy = path.match(/^(?:images\/)?equipment\/(\d+)(?:\/(.*))?$/);
+                if (legacy) return storagePrefix + 'supplies/equipment-' + legacy[1] + '/' + ((legacy[2] && legacy[2].trim()) ? legacy[2] : '1.jpg');
+                return path;
+            }
+            if (item.imageUrl) item.imageUrl = toStorageUrl(item.imageUrl);
+            if (Array.isArray(item.images)) item.images = item.images.map(toStorageUrl);
+        });
+    }
+
     async function loadEquipment() {
         if (typeof window === 'undefined') return [];
         try {
@@ -27,7 +46,8 @@
             if (window.supabaseDb && window.supabaseDb.isConfigured && window.supabaseDb.isConfigured() && window.supabaseDb.getEquipmentCatalog) {
                 try {
                     const cat = await window.supabaseDb.getEquipmentCatalog();
-                    if (Array.isArray(cat)) {
+                    if (Array.isArray(cat) && cat.length) {
+                        normalizeEquipmentImageUrls(cat);
                         window.equipmentData = cat;
                         return cat;
                     }
@@ -46,7 +66,9 @@
                         if (!item || item.id == null) return;
                         byId[item.id] = Object.assign({}, byId[item.id] || {}, item);
                     });
-                    window.equipmentData = Object.values(byId);
+                    list = Object.values(byId);
+                    normalizeEquipmentImageUrls(list);
+                    window.equipmentData = list;
                     return window.equipmentData;
                 }
             }
@@ -72,6 +94,7 @@
                 });
                 list = Object.values(byId);
             }
+            normalizeEquipmentImageUrls(list);
             window.equipmentData = list;
             return list;
         } catch (e) {

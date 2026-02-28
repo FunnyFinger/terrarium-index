@@ -16,6 +16,24 @@
     }
     const VIVARIUMS_URL = getVivariumsUrl();
 
+    function normalizeVivariumImageUrls(list) {
+        if (!list || !list.length) return;
+        var base = (typeof window !== 'undefined' && window.SUPABASE_URL) ? String(window.SUPABASE_URL).replace(/\/$/, '') : '';
+        if (!base) return;
+        var storagePrefix = base + '/storage/v1/object/public/vivarium-assets/';
+        list.forEach(function (item) {
+            function toStorageUrl(path) {
+                if (!path || typeof path !== 'string' || /^https?:\/\//i.test(path)) return path;
+                if (path.startsWith('vivariums/') || path.startsWith('Vivariums/')) return storagePrefix + path;
+                if (path.startsWith('images/vivariums/')) return storagePrefix + path.slice(7);
+                if (path.startsWith('images/Vivariums/')) return storagePrefix + 'Vivariums/' + path.slice(16);
+                return path;
+            }
+            if (item.imageUrl) item.imageUrl = toStorageUrl(item.imageUrl);
+            if (Array.isArray(item.images)) item.images = item.images.map(toStorageUrl);
+        });
+    }
+
     async function loadVivariums() {
         if (typeof window === 'undefined') return [];
         try {
@@ -32,6 +50,7 @@
                             byId[v.id] = Object.assign({}, byId[v.id] || {}, v);
                         });
                         list = Object.values(byId);
+                        normalizeVivariumImageUrls(list);
                         window.vivariumData = list;
                         return list;
                     }
@@ -70,6 +89,7 @@
                     if (custom.length) list = list.concat(custom);
                 }
             } catch (_) { /* ignore */ }
+            normalizeVivariumImageUrls(list);
             window.vivariumData = list;
             return list;
         } catch (e) {

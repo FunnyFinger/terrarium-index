@@ -5564,7 +5564,7 @@ function saveEquipmentImages() {
     if (files.length > 0 && uploadToStorage && (prefix === 'equipment_' || prefix === 'vivarium_')) {
         saveBtn.textContent = '⏳ Uploading...';
         saveBtn.disabled = true;
-        var basePath = (prefix === 'vivarium_' ? 'vivariums/' : 'equipment/') + id + '/';
+        var basePath = (prefix === 'vivarium_' ? 'Vivariums/' : 'supplies/equipment-') + id + '/';
         Promise.all(files.map(function (file, i) {
             var path = basePath + Date.now() + '_' + i + '_' + (file.name || 'image').replace(/[^a-zA-Z0-9._-]/g, '_');
             return uploadToStorage(file, path);
