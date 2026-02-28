@@ -5886,12 +5886,12 @@ function savePlantImages() {
         var slug = scientificNameToSlug(getScientificNameString(currentPlantForImages));
         if (!slug) slug = 'plant-' + id;
         var existingUrls = urls.slice();
-        var maxNum = 0;
+        var usedNumbers = new Set();
         existingUrls.forEach(function (u) {
             var m = (u && u.match(/-(\d+)\.(jpg|jpeg|png|gif|webp)$/i));
-            if (m) { var n = parseInt(m[1], 10); if (n > maxNum) maxNum = n; }
+            if (m) { var n = parseInt(m[1], 10); if (!isNaN(n)) usedNumbers.add(n); }
         });
-        var nextNum = maxNum + 1;
+        var nextNum = 1;
         function getExt(file) {
             if (file.name) {
                 var match = file.name.toLowerCase().match(/\.(jpe?g|png|gif|webp)$/);
@@ -5900,20 +5900,20 @@ function savePlantImages() {
             return (file.type && file.type.indexOf('png') !== -1) ? 'png' : 'jpg';
         }
         var uploads = files.map(function (file) {
+            while (usedNumbers.has(nextNum)) nextNum++;
             var ext = getExt(file);
             var objectPath = 'plants/' + slug + '/' + slug + '-' + nextNum + '.' + ext;
+            usedNumbers.add(nextNum);
             nextNum++;
             return uploadToStorage(file, objectPath);
         });
         Promise.all(uploads).then(function (uploadedUrls) {
             var existingHttp = urls.filter(isHttpUrl);
             var all = existingHttp.concat(uploadedUrls);
+            var updatedPlant = Object.assign({}, currentPlantForImages, { images: all, imageUrl: all.length ? all[0] : '' });
             deleteRemovedPlantImagesFromStorage(all).then(function() {
                 applyPlantImageResult(all);
-                if (supabase && window.supabaseDb && window.supabaseDb.updatePlantInCatalog) {
-                    var updated = Object.assign({}, currentPlantForImages, { images: all, imageUrl: all[0] });
-                    window.supabaseDb.updatePlantInCatalog(id, updated);
-                }
+                if (supabase && window.supabaseDb && window.supabaseDb.updatePlantInCatalog) window.supabaseDb.updatePlantInCatalog(id, updatedPlant);
             });
         }).catch(function () {
             plantImageSaveBtn.textContent = '💾 Save';
@@ -5932,10 +5932,11 @@ function savePlantImages() {
             var all;
             if (result.success && result.savedPaths && result.savedPaths.length > 0) {
                 all = result.savedPaths;
+                var updatedPlant = Object.assign({}, currentPlantForImages, { images: all, imageUrl: all.length ? all[0] : '' });
                 deleteRemovedPlantImagesFromStorage(all).then(function() {
                     applyPlantImageResult(all);
-                    if (supabase && window.supabaseDb && window.supabaseDb.updatePlantInCatalog) window.supabaseDb.updatePlantInCatalog(id, Object.assign({}, currentPlantForImages));
-                    if (typeof updatePlantCardImage === 'function') updatePlantCardImage(id, currentPlantForImages.imageUrl);
+                    if (supabase && window.supabaseDb && window.supabaseDb.updatePlantInCatalog) window.supabaseDb.updatePlantInCatalog(id, updatedPlant);
+                    if (typeof updatePlantCardImage === 'function') updatePlantCardImage(id, updatedPlant.imageUrl);
                 });
             } else {
                 var toDataUrl = (window.uploadUtils && window.uploadUtils.fileToDataUrl) || function(file) {
@@ -5948,9 +5949,10 @@ function savePlantImages() {
                 };
                 Promise.all(files.map(toDataUrl)).then(function(dataUrls) {
                     all = urls.concat(dataUrls);
+                    var updatedPlant = Object.assign({}, currentPlantForImages, { images: all, imageUrl: all.length ? all[0] : '' });
                     deleteRemovedPlantImagesFromStorage(all).then(function() {
                         applyPlantImageResult(all);
-                        if (supabase && window.supabaseDb && window.supabaseDb.updatePlantInCatalog) window.supabaseDb.updatePlantInCatalog(id, Object.assign({}, currentPlantForImages));
+                        if (supabase && window.supabaseDb && window.supabaseDb.updatePlantInCatalog) window.supabaseDb.updatePlantInCatalog(id, updatedPlant);
                     });
                 });
             }
@@ -5972,9 +5974,10 @@ function savePlantImages() {
     };
     Promise.all(files.map(toDataUrl)).then(function(dataUrls) {
         var all = urls.concat(dataUrls);
+        var updatedPlant = Object.assign({}, currentPlantForImages, { images: all, imageUrl: all.length ? all[0] : '' });
         deleteRemovedPlantImagesFromStorage(all).then(function() {
             applyPlantImageResult(all);
-            if (supabase && window.supabaseDb && window.supabaseDb.updatePlantInCatalog) window.supabaseDb.updatePlantInCatalog(id, Object.assign({}, currentPlantForImages));
+            if (supabase && window.supabaseDb && window.supabaseDb.updatePlantInCatalog) window.supabaseDb.updatePlantInCatalog(id, updatedPlant);
         });
     }).catch(function() {
         closePlantImageModal();
