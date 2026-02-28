@@ -5565,10 +5565,30 @@ function saveEquipmentImages() {
         saveBtn.textContent = '⏳ Uploading...';
         saveBtn.disabled = true;
         var basePath = (prefix === 'vivarium_' ? 'Vivariums/' : 'supplies/equipment-') + id + '/';
-        Promise.all(files.map(function (file, i) {
-            var path = basePath + Date.now() + '_' + i + '_' + (file.name || 'image').replace(/[^a-zA-Z0-9._-]/g, '_');
-            return uploadToStorage(file, path);
-        })).then(function (uploadedUrls) {
+        // Use repo-style numbered filenames: 1.jpg, 2.jpg, ... (same as migrated content)
+        var usedNumbers = new Set();
+        (urls || []).forEach(function (u) {
+            if (typeof u !== 'string') return;
+            var m = u.match(/\/(\d+)\.(jpg|jpeg|png|gif|webp)$/i);
+            if (m) { var n = parseInt(m[1], 10); if (!isNaN(n)) usedNumbers.add(n); }
+        });
+        function getExt(file) {
+            if (file.name) {
+                var match = file.name.toLowerCase().match(/\.(jpe?g|png|gif|webp)$/);
+                if (match) return match[1].replace('jpeg', 'jpg');
+            }
+            return (file.type && file.type.indexOf('png') !== -1) ? 'png' : 'jpg';
+        }
+        var nextNum = 1;
+        var uploads = files.map(function (file) {
+            while (usedNumbers.has(nextNum)) nextNum++;
+            var ext = getExt(file);
+            var fileName = nextNum + '.' + ext;
+            usedNumbers.add(nextNum);
+            nextNum++;
+            return uploadToStorage(file, basePath + fileName);
+        });
+        Promise.all(uploads).then(function (uploadedUrls) {
             var existingHttp = urls.filter(isHttpUrl);
             var all = existingHttp.concat(uploadedUrls);
             if (all.length === 0) {
