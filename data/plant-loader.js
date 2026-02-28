@@ -97,22 +97,26 @@ async function loadAllPlants() {
                         const sn = plant && (plant.scientificName && (typeof plant.scientificName === 'string' ? plant.scientificName : (plant.scientificName.scientificName || plant.scientificName.name || ''))) || '';
                         return String(sn).toLowerCase().trim().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-').replace(/^-|-$/g, '') || null;
                     }
+                    function toFullUrl(u, slug) {
+                        if (!u || typeof u !== 'string') return u;
+                        const t = u.trim();
+                        if (/^https?:\/\//i.test(t)) return t;
+                        if (t.indexOf('//') === 0) return 'https:' + t;
+                        if (t.indexOf('supabase.co') !== -1) return t.indexOf('http') === 0 ? t : 'https://' + t.replace(/^\/+/, '');
+                        if (base && t.startsWith('/storage/')) return base + t;
+                        if (base && t.startsWith('storage/')) return base + '/' + t;
+                        if (base && t.startsWith('vivarium-assets/')) return base + '/storage/v1/object/public/' + t;
+                        if (storagePrefix && t.startsWith('plants/')) return storagePrefix + t;
+                        if (storagePrefix && slug && t.match(/\.(jpg|jpeg|png|gif|webp)$/i) && !t.includes('/')) return storagePrefix + 'plants/' + slug + '/' + t;
+                        return u;
+                    }
                     sorted.forEach((p) => {
                         const slug = slugFromPlant(p);
                         if (storagePrefix && p.images && Array.isArray(p.images)) {
-                            p.images = p.images.map((u) => {
-                                if (!u || typeof u !== 'string') return u;
-                                if (/^https?:\/\//i.test(u)) return u;
-                                if (u.startsWith('/storage/')) return base + u;
-                                if (u.startsWith('plants/')) return storagePrefix + u;
-                                if (slug && u.match(/\.(jpg|jpeg|png|gif|webp)$/i) && !u.includes('/')) return storagePrefix + 'plants/' + slug + '/' + u;
-                                return u;
-                            });
+                            p.images = p.images.map((u) => toFullUrl(u, slug));
                         }
-                        if (storagePrefix && p.imageUrl && typeof p.imageUrl === 'string' && !/^https?:\/\//i.test(p.imageUrl)) {
-                            if (p.imageUrl.startsWith('/storage/')) p.imageUrl = base + p.imageUrl;
-                            else if (p.imageUrl.startsWith('plants/')) p.imageUrl = storagePrefix + p.imageUrl;
-                            else if (slug && p.imageUrl.match(/\.(jpg|jpeg|png|gif|webp)$/i) && !p.imageUrl.includes('/')) p.imageUrl = storagePrefix + 'plants/' + slug + '/' + p.imageUrl;
+                        if (p.imageUrl && typeof p.imageUrl === 'string') {
+                            p.imageUrl = toFullUrl(p.imageUrl, slug);
                         }
                     });
                     plantsDatabase.length = 0;

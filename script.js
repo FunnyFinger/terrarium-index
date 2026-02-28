@@ -375,9 +375,11 @@ async function initializeUI() {
                     const expectedSlug = scientificNameToSlug(plant.scientificName);
                     const prefixLegacy = expectedSlug ? `images/${expectedSlug}/` : null;
                     const prefixPlants = expectedSlug ? `images/plants/${expectedSlug}/` : null;
-                    const validImages = (prefixLegacy || prefixPlants)
-                        ? parsedImages.filter(p => typeof p === 'string' && (prefixLegacy && p.startsWith(prefixLegacy) || prefixPlants && p.startsWith(prefixPlants)))
-                        : [];
+                    const validImages = parsedImages.filter(p => typeof p === 'string' && (
+                        /^https?:\/\//i.test(p) ||
+                        (prefixLegacy && p.startsWith(prefixLegacy)) ||
+                        (prefixPlants && p.startsWith(prefixPlants))
+                    ));
                     if (validImages.length > 0) {
                         plant.images = validImages;
                         plant.imageUrl = (savedImageUrl && validImages.includes(savedImageUrl)) ? savedImageUrl : validImages[0];
@@ -4688,8 +4690,8 @@ function showVivariumDetail(vivarium) {
                     var slug = scientificNameToSlug(getScientificNameString(p));
                     if (slug) imgUrl = 'images/plants/' + slug + '/' + slug + '-1.jpg';
                 }
-                if (imgUrl && imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') {
-                    imgUrl = imageUtils.normalizePlantImagePath(imgUrl);
+                if (imgUrl && imageUtils && typeof imageUtils.resolvePlantImageUrl === 'function') {
+                    imgUrl = imageUtils.resolvePlantImageUrl(imgUrl, p);
                 }
                 var sci = (typeof p.scientificName === 'string') ? p.scientificName : (p.scientificName && p.scientificName.name) ? p.scientificName.name : '';
                 return '<a href="' + url + '" class="plant-card vivarium-content-card vivarium-plant-card">' +
@@ -5069,9 +5071,9 @@ function refreshVivariumEditPlantOptions() {
         return '—';
     };
     var imageUrlForTooltip = function(p) {
-        if (p.imageUrl) return p.imageUrl;
-        if (p.images && p.images.length) return p.images[0];
-        return '';
+        var u = p.imageUrl || (p.images && p.images.length ? p.images[0] : '');
+        if (u && imageUtils && typeof imageUtils.resolvePlantImageUrl === 'function') u = imageUtils.resolvePlantImageUrl(u, p);
+        return u || '';
     };
     tbody.innerHTML = filtered.map(function(p) {
         var id = p.id;
@@ -7667,7 +7669,7 @@ function handleImageError(imgElement, plantId) {
         if (currentIndex >= 0 && currentIndex < plant.images.length - 1) {
             // Try next image in array (silently) - but only if not already failed
             let nextImage = plant.images[currentIndex + 1];
-            if (imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') nextImage = imageUtils.normalizePlantImagePath(nextImage);
+            if (imageUtils && typeof imageUtils.resolvePlantImageUrl === 'function') nextImage = imageUtils.resolvePlantImageUrl(nextImage, plant);
             if (!failedImageCache.has(nextImage) && !nextImage.includes(window.location.origin + nextImage)) {
                 imgElement.onerror = () => handleImageError(imgElement, plantId);
                 imgElement.src = nextImage;
@@ -7677,7 +7679,7 @@ function handleImageError(imgElement, plantId) {
         } else if (currentIndex < 0 && plant.images.length > 0) {
             // Current image not in array, try first from array
             let nextImage = plant.images[0];
-            if (imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') nextImage = imageUtils.normalizePlantImagePath(nextImage);
+            if (imageUtils && typeof imageUtils.resolvePlantImageUrl === 'function') nextImage = imageUtils.resolvePlantImageUrl(nextImage, plant);
             if (!failedImageCache.has(nextImage)) {
                 imgElement.onerror = () => handleImageError(imgElement, plantId);
                 imgElement.src = nextImage;
@@ -7695,7 +7697,7 @@ function handleImageError(imgElement, plantId) {
             if (parsedImages && parsedImages.length > 0) {
                 // Try first image from localStorage that's different
                 for (const saved of parsedImages) {
-                    const savedImg = (imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') ? imageUtils.normalizePlantImagePath(saved) : saved;
+                    let savedImg = (imageUtils && typeof imageUtils.resolvePlantImageUrl === 'function') ? imageUtils.resolvePlantImageUrl(saved, plant) : saved;
                     if (savedImg !== fullPath && savedImg !== currentSrc && !failedImageCache.has(savedImg)) {
                         imgElement.onerror = () => handleImageError(imgElement, plantId);
                         imgElement.src = savedImg;
@@ -7720,13 +7722,15 @@ function handleImageError(imgElement, plantId) {
     const slugMatch = fullPath.match(/^images\/(?:plants\/)?([^/]+)\/[^/]+-1\.(jpg|jpeg|png|webp)$/i);
     if (slugMatch) {
         const fallbackPath = `images/plants/${slugMatch[1]}/thumb.jpg`;
-        if (!failedImageCache.has(fallbackPath)) {
+        let resolvedFallback = fallbackPath;
+        if (imageUtils && typeof imageUtils.resolvePlantImageUrl === 'function' && plant) resolvedFallback = imageUtils.resolvePlantImageUrl(fallbackPath, plant);
+        if (!failedImageCache.has(resolvedFallback)) {
             imgElement.onerror = () => handleImageError(imgElement, plantId);
-            imgElement.src = fallbackPath;
+            imgElement.src = resolvedFallback;
             if (plant) {
-                plant.imageUrl = fallbackPath;
+                plant.imageUrl = resolvedFallback;
                 if (!plant.images) plant.images = [];
-                if (!plant.images.includes(fallbackPath)) plant.images.unshift(fallbackPath);
+                if (!plant.images.includes(resolvedFallback)) plant.images.unshift(resolvedFallback);
             }
             return;
         }

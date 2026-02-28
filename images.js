@@ -48,18 +48,30 @@ function normalizePlantImagePath(path) {
  */
 function resolvePlantImageUrl(url, plant) {
     if (!url || typeof url !== 'string' || !url.trim()) return url;
-    const u = url.trim();
+    let u = url.trim();
+    // Protocol-relative URL (//host/path) -> https:
+    if (u.indexOf('//') === 0) u = 'https:' + u;
     if (/^https?:\/\//i.test(u)) return u;
     const base = (typeof window !== 'undefined' && window.SUPABASE_URL) ? String(window.SUPABASE_URL).replace(/\/$/, '') : '';
     const storagePrefix = base ? base + '/storage/v1/object/public/vivarium-assets/' : '';
     if (!storagePrefix) return u;
     if (u.indexOf(storagePrefix) === 0) return u;
+    if (u.indexOf(base) === 0) return u;
+    // Path that contains supabase.co but no protocol (e.g. from truncated storage path)
+    if (u.indexOf('supabase.co') !== -1 && u.indexOf('http') !== 0) return /^https?:\/\//i.test(u) ? u : 'https://' + u.replace(/^\/+/, '');
     if (u.startsWith('plants/')) return storagePrefix + u;
     if (u.startsWith('/storage/')) return base + u;
+    if (u.startsWith('storage/')) return base + '/' + u;
+    if (u.startsWith('vivarium-assets/')) return base + '/storage/v1/object/public/' + u;
     if (u.startsWith('images/plants/')) return storagePrefix + u.replace(/^images\/plants\//, 'plants/');
     const folderName = plant && slugify(plant.scientificName);
     if (folderName && u.match(/\.(jpg|jpeg|png|gif|webp)$/i) && !u.includes('/')) {
         return storagePrefix + 'plants/' + folderName + '/' + u;
+    }
+    // Path like "folder/file.webp" (single segment with slash) - assume plants/folder/file
+    if (u.match(/\.(jpg|jpeg|png|gif|webp)$/i) && u.indexOf('/') !== -1 && !u.startsWith('http') && !u.startsWith('plants/')) {
+        if (u.startsWith('plants/')) return storagePrefix + u;
+        return storagePrefix + 'plants/' + u;
     }
     return u;
 }
@@ -398,9 +410,11 @@ async function loadImagesFromLocalStorage(allPlants) {
             if (savedImages && expectedFolderName) {
                 const parsedImages = JSON.parse(savedImages);
                 if (Array.isArray(parsedImages) && parsedImages.length > 0) {
-                    const normalizedParsed = parsedImages.map(p => normalizePlantImagePath(p));
+                    const normalizedParsed = parsedImages.map(p => (typeof p === 'string' && p.trim()) ? (normalizePlantImagePath(p) || p) : '').filter(Boolean);
                     const validImages = normalizedParsed.filter(imgPath => {
-                        if (!imgPath || !imgPath.startsWith('images/')) return false;
+                        if (!imgPath || typeof imgPath !== 'string') return false;
+                        if (/^https?:\/\//i.test(imgPath)) return true;
+                        if (!imgPath.startsWith('images/')) return false;
                         const pathMatch = imgPath.match(/images\/(?:plants\/)?([^/]+)\//);
                         if (!pathMatch) return false;
                         const folderNameFromPath = pathMatch[1].replace(/^\d{5}-/, '');
@@ -417,8 +431,10 @@ async function loadImagesFromLocalStorage(allPlants) {
                                 const num = parseInt(match[1], 10);
                                 if (num > highestCheckedNumber) highestCheckedNumber = num;
                             }
-                            const pathToCheck = normalizePlantImagePath(imgPath);
-                            if (await checkImageExists(pathToCheck)) {
+                            const isFullUrl = /^https?:\/\//i.test(imgPath);
+                            const pathToCheck = isFullUrl ? imgPath : normalizePlantImagePath(imgPath);
+                            const exists = isFullUrl || await checkImageExists(pathToCheck);
+                            if (exists) {
                                 verifiedImages.push(pathToCheck);
                                 if (match) {
                                     const num = parseInt(match[1], 10);

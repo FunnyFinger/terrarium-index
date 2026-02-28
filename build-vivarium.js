@@ -173,8 +173,10 @@
             url = 'images/plants/' + expectedSlug + '/' + expectedSlug + '-1.jpg';
         }
 
+        if (url && window.imageUtils && typeof window.imageUtils.resolvePlantImageUrl === 'function')
+            return window.imageUtils.resolvePlantImageUrl(url, p);
         if (url) return (window.imageUtils && typeof window.imageUtils.normalizePlantImagePath === 'function')
-            ? window.imageUtils.normalizePlantImagePath(url) : normalizePlantImagePath(url);
+            ? window.imageUtils.normalizePlantImagePath(url) : (typeof normalizePlantImagePath === 'function' ? normalizePlantImagePath(url) : url);
         return '';
     }
 
