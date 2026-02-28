@@ -5716,10 +5716,9 @@ function openPlantImageUpload(plant) {
     }
     if (currentPlantImageUrls.length === 0 && (plant.images && plant.images.length)) {
         currentPlantImageUrls = plant.images.filter(urlBelongsToPlant);
+        if (currentPlantImageUrls.length === 0) currentPlantImageUrls = plant.images.slice();
     }
-    if (currentPlantImageUrls.length === 0 && plant.imageUrl && urlBelongsToPlant(plant.imageUrl)) {
-        currentPlantImageUrls = [plant.imageUrl];
-    }
+    if (currentPlantImageUrls.length === 0 && plant.imageUrl) currentPlantImageUrls = [plant.imageUrl];
     var nameEl = document.getElementById('plantImageModalName');
     if (nameEl) nameEl.textContent = plant.name || (getScientificNameString(plant) || 'Plant');
     var modal = document.getElementById('plantImageModal');
