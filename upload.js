@@ -496,7 +496,11 @@ async function openImageUpload(plantId) {
         careTipsEl.value = Array.isArray(tips) ? tips.filter(Boolean).map(String).join('\n') : (tips ? String(tips) : '');
     }
     var nameEl = elements.uploadName;
-    if (nameEl) nameEl.value = currentUploadPlant.name || '';
+    if (nameEl) {
+        var mainName = currentUploadPlant.name || '';
+        if (!mainName && Array.isArray(currentUploadPlant.commonNames) && currentUploadPlant.commonNames.length) mainName = String(currentUploadPlant.commonNames[0] || '').trim();
+        nameEl.value = mainName;
+    }
     var sciNameEl = elements.uploadScientificName;
     var commonNamesEl = elements.uploadCommonNames;
     if (sciNameEl) sciNameEl.value = getScientificNameString(currentUploadPlant) || '';

@@ -3114,17 +3114,18 @@ main {
     margin-bottom: 1rem;
 }
 
-/* Edit details / Image buttons at bottom right of detail panel (all tabs) */
+/* Edit / Image / Hide buttons at top right of detail panel, aligned with item name */
 .plant-detail-panel .plant-panel-body {
     position: relative;
 }
 .detail-actions-fixed {
     position: absolute !important;
-    bottom: 1rem;
+    top: 0.75rem;
     right: 1rem;
     margin: 0 !important;
     z-index: 25;
     flex-wrap: nowrap;
+    align-items: flex-start;
 }
 .detail-actions .detail-btn {
     display: inline-flex;
