@@ -364,9 +364,7 @@ async function initializeUI() {
         try {
             var catalogCount = Array.isArray(plant.images) ? plant.images.length : 0;
             if (catalogCount > 0) {
-                var first = plant.images[0];
-                var firstStr = (typeof first === 'string' && first.trim()) ? first.trim() : null;
-                if (firstStr) plant.imageUrl = (typeof plant.imageUrl === 'string' && plant.imageUrl.trim()) ? plant.imageUrl.trim() : firstStr;
+                plant.imageUrl = plant.imageUrl || plant.images[0];
                 return;
             }
             const savedImages = localStorage.getItem(`plant_${plant.id}_images`);
@@ -377,11 +375,9 @@ async function initializeUI() {
                     const expectedSlug = scientificNameToSlug(plant.scientificName);
                     const prefixLegacy = expectedSlug ? `images/${expectedSlug}/` : null;
                     const prefixPlants = expectedSlug ? `images/plants/${expectedSlug}/` : null;
-                    const validImages = parsedImages.filter(p => typeof p === 'string' && (
-                        /^https?:\/\//i.test(p) ||
-                        (prefixLegacy && p.startsWith(prefixLegacy)) ||
-                        (prefixPlants && p.startsWith(prefixPlants))
-                    ));
+                    const validImages = (prefixLegacy || prefixPlants)
+                        ? parsedImages.filter(p => typeof p === 'string' && (prefixLegacy && p.startsWith(prefixLegacy) || prefixPlants && p.startsWith(prefixPlants)))
+                        : [];
                     if (validImages.length > 0) {
                         plant.images = validImages;
                         plant.imageUrl = (savedImageUrl && validImages.includes(savedImageUrl)) ? savedImageUrl : validImages[0];
@@ -4692,8 +4688,8 @@ function showVivariumDetail(vivarium) {
                     var slug = scientificNameToSlug(getScientificNameString(p));
                     if (slug) imgUrl = 'images/plants/' + slug + '/' + slug + '-1.jpg';
                 }
-                if (imgUrl && imageUtils && typeof imageUtils.resolvePlantImageUrl === 'function') {
-                    imgUrl = imageUtils.resolvePlantImageUrl(imgUrl, p);
+                if (imgUrl && imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') {
+                    imgUrl = imageUtils.normalizePlantImagePath(imgUrl);
                 }
                 var sci = (typeof p.scientificName === 'string') ? p.scientificName : (p.scientificName && p.scientificName.name) ? p.scientificName.name : '';
                 return '<a href="' + url + '" class="plant-card vivarium-content-card vivarium-plant-card">' +
@@ -5073,9 +5069,9 @@ function refreshVivariumEditPlantOptions() {
         return '—';
     };
     var imageUrlForTooltip = function(p) {
-        var u = p.imageUrl || (p.images && p.images.length ? p.images[0] : '');
-        if (u && imageUtils && typeof imageUtils.resolvePlantImageUrl === 'function') u = imageUtils.resolvePlantImageUrl(u, p);
-        return u || '';
+        if (p.imageUrl) return p.imageUrl;
+        if (p.images && p.images.length) return p.images[0];
+        return '';
     };
     tbody.innerHTML = filtered.map(function(p) {
         var id = p.id;
@@ -6225,25 +6221,28 @@ function createPlantCard(plant) {
     const badges = badgeArray.join('');
     
     // Ensure imageUrl exists - use first image from images array if available
-    // Priority: imageUrl > images[0] > slug-1.webp > placeholder (only use string URLs)
-    let displayImageUrl = (typeof plant.imageUrl === 'string' && plant.imageUrl.trim()) ? plant.imageUrl.trim() : null;
+    // Priority: imageUrl > images[0] > slug-1.jpg > placeholder
+    let displayImageUrl = plant.imageUrl;
     
-    // If no imageUrl but images array exists, use first image (if any) — ensure it's a string
-    if (!displayImageUrl && plant.images && plant.images.length > 0) {
-        var firstImg = plant.images[0];
-        if (typeof firstImg === 'string' && firstImg.trim()) {
-            displayImageUrl = firstImg.trim();
-            plant.imageUrl = displayImageUrl;
-        }
+    // Only use if it exists and is not empty
+    if (!displayImageUrl || !displayImageUrl.trim()) {
+        displayImageUrl = null;
     }
-    // As a final fallback, point to slug-1 in plant's folder (.webp first; bucket often uses webp).
+    
+    // If no imageUrl but images array exists, use first image (if any)
+    if (!displayImageUrl && plant.images && plant.images.length > 0) {
+        displayImageUrl = plant.images[0];
+        plant.imageUrl = displayImageUrl;
+    }
+    // As a final fallback, optimistically point to slug-1.jpg inside the plant's folder.
+    // If the file doesn't exist, handleImageError will replace it with a placeholder.
     if (!displayImageUrl) {
         const slug = scientificNameToSlug(getScientificNameString(plant));
-        if (slug) displayImageUrl = `images/plants/${slug}/${slug}-1.webp`;
+        if (slug) displayImageUrl = `images/plants/${slug}/${slug}-1.jpg`;
     }
-    // Resolve to full Supabase URL so img src never hits wrong origin (fixes 400 on hosted site)
-    if (displayImageUrl && imageUtils && typeof imageUtils.resolvePlantImageUrl === 'function') {
-        displayImageUrl = imageUtils.resolvePlantImageUrl(displayImageUrl, plant);
+    // Normalize legacy paths (images/slug/ -> images/plants/slug/) so cards show after move
+    if (displayImageUrl && imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') {
+        displayImageUrl = imageUtils.normalizePlantImagePath(displayImageUrl);
     }
     
     // Create a unique identifier for this card to help with updates
@@ -6515,10 +6514,10 @@ async function showPlantModal(plant) {
         plant.images = ensureUniqueImages(plant.images);
     }
     
-    // Set display image (resolve to full Supabase URL so images load on hosted site)
+    // Set display image (normalize legacy paths for plants folder)
     let displayImageUrl = plant.imageUrl || (plant.images && plant.images.length > 0 ? plant.images[0] : null);
-    if (displayImageUrl && imageUtils && typeof imageUtils.resolvePlantImageUrl === 'function') {
-        displayImageUrl = imageUtils.resolvePlantImageUrl(displayImageUrl, plant);
+    if (displayImageUrl && imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') {
+        displayImageUrl = imageUtils.normalizePlantImagePath(displayImageUrl);
     }
     
     // Helper function to create enclosure size scale visualization
@@ -6945,7 +6944,7 @@ async function showPlantModal(plant) {
         <div id="modal-page-2" class="modal-page" style="display: none;" data-plant-id="${plant.id}">
             ${(function() {
                 const raw = (plant.images || []).filter(img => img && img.trim());
-                const valid = (imageUtils && imageUtils.resolvePlantImageUrl) ? raw.map(img => imageUtils.resolvePlantImageUrl(img, plant)) : raw;
+                const valid = (imageUtils && imageUtils.normalizePlantImagePath) ? raw.map(img => imageUtils.normalizePlantImagePath(img)) : raw;
                 const hasNumbered = valid.some(path => /-\d+\.(jpg|jpeg|png|webp)$/i.test(path));
                 const galleryImages = hasNumbered ? valid.filter(path => !/\/thumb\.(jpg|jpeg|png|webp)$/i.test(path)) : valid;
                 return galleryImages.length > 0 ? `
@@ -7461,8 +7460,8 @@ function updatePlantCardImage(plantId, imageUrl) {
         return;
     }
 
-    if (imageUtils && typeof imageUtils.resolvePlantImageUrl === 'function') {
-        imageUrl = imageUtils.resolvePlantImageUrl(imageUrl, plant);
+    if (imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') {
+        imageUrl = imageUtils.normalizePlantImagePath(imageUrl);
     }
     
     // Update the plant object
@@ -7668,7 +7667,7 @@ function handleImageError(imgElement, plantId) {
         if (currentIndex >= 0 && currentIndex < plant.images.length - 1) {
             // Try next image in array (silently) - but only if not already failed
             let nextImage = plant.images[currentIndex + 1];
-            if (imageUtils && typeof imageUtils.resolvePlantImageUrl === 'function') nextImage = imageUtils.resolvePlantImageUrl(nextImage, plant);
+            if (imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') nextImage = imageUtils.normalizePlantImagePath(nextImage);
             if (!failedImageCache.has(nextImage) && !nextImage.includes(window.location.origin + nextImage)) {
                 imgElement.onerror = () => handleImageError(imgElement, plantId);
                 imgElement.src = nextImage;
@@ -7678,7 +7677,7 @@ function handleImageError(imgElement, plantId) {
         } else if (currentIndex < 0 && plant.images.length > 0) {
             // Current image not in array, try first from array
             let nextImage = plant.images[0];
-            if (imageUtils && typeof imageUtils.resolvePlantImageUrl === 'function') nextImage = imageUtils.resolvePlantImageUrl(nextImage, plant);
+            if (imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') nextImage = imageUtils.normalizePlantImagePath(nextImage);
             if (!failedImageCache.has(nextImage)) {
                 imgElement.onerror = () => handleImageError(imgElement, plantId);
                 imgElement.src = nextImage;
@@ -7696,7 +7695,7 @@ function handleImageError(imgElement, plantId) {
             if (parsedImages && parsedImages.length > 0) {
                 // Try first image from localStorage that's different
                 for (const saved of parsedImages) {
-                    let savedImg = (imageUtils && typeof imageUtils.resolvePlantImageUrl === 'function') ? imageUtils.resolvePlantImageUrl(saved, plant) : saved;
+                    const savedImg = (imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') ? imageUtils.normalizePlantImagePath(saved) : saved;
                     if (savedImg !== fullPath && savedImg !== currentSrc && !failedImageCache.has(savedImg)) {
                         imgElement.onerror = () => handleImageError(imgElement, plantId);
                         imgElement.src = savedImg;
@@ -7721,15 +7720,13 @@ function handleImageError(imgElement, plantId) {
     const slugMatch = fullPath.match(/^images\/(?:plants\/)?([^/]+)\/[^/]+-1\.(jpg|jpeg|png|webp)$/i);
     if (slugMatch) {
         const fallbackPath = `images/plants/${slugMatch[1]}/thumb.jpg`;
-        let resolvedFallback = fallbackPath;
-        if (imageUtils && typeof imageUtils.resolvePlantImageUrl === 'function' && plant) resolvedFallback = imageUtils.resolvePlantImageUrl(fallbackPath, plant);
-        if (!failedImageCache.has(resolvedFallback)) {
+        if (!failedImageCache.has(fallbackPath)) {
             imgElement.onerror = () => handleImageError(imgElement, plantId);
-            imgElement.src = resolvedFallback;
+            imgElement.src = fallbackPath;
             if (plant) {
-                plant.imageUrl = resolvedFallback;
+                plant.imageUrl = fallbackPath;
                 if (!plant.images) plant.images = [];
-                if (!plant.images.includes(resolvedFallback)) plant.images.unshift(resolvedFallback);
+                if (!plant.images.includes(fallbackPath)) plant.images.unshift(fallbackPath);
             }
             return;
         }
@@ -7777,12 +7774,10 @@ function openGalleryLightbox(plantId, imageIndex) {
     // Create lightbox
     const lightbox = document.createElement('div');
     lightbox.className = 'gallery-lightbox';
-    var lightboxImgUrl = plant.images[imageIndex];
-    if (imageUtils && typeof imageUtils.resolvePlantImageUrl === 'function') lightboxImgUrl = imageUtils.resolvePlantImageUrl(lightboxImgUrl, plant);
     lightbox.innerHTML = `
         <div class="lightbox-content">
             <span class="lightbox-close">&times;</span>
-            <img src="${lightboxImgUrl}" alt="${plant.name}">
+            <img src="${plant.images[imageIndex]}" alt="${plant.name}">
             <div class="lightbox-nav">
                 ${imageIndex > 0 ? `<button class="lightbox-btn lightbox-prev" onclick="changeGalleryImage(${plantId}, ${imageIndex - 1})">‹</button>` : ''}
                 <span class="lightbox-counter">${imageIndex + 1} / ${plant.images.length}</span>
@@ -7840,9 +7835,7 @@ function changeGalleryImage(plantId, imageIndex) {
     const counter = lightbox.querySelector('.lightbox-counter');
     const nav = lightbox.querySelector('.lightbox-nav');
     
-    var srcUrl = plant.images[imageIndex];
-    if (imageUtils && typeof imageUtils.resolvePlantImageUrl === 'function') srcUrl = imageUtils.resolvePlantImageUrl(srcUrl, plant);
-    img.src = srcUrl;
+    img.src = plant.images[imageIndex];
     counter.textContent = `${imageIndex + 1} / ${plant.images.length}`;
     
     // Update navigation buttons
@@ -8082,9 +8075,7 @@ async function deleteImageFromGallery(plantId, imageIndex, imgPath) {
         if (card) {
             const cardImg = card.querySelector('.plant-image');
             if (cardImg && plant.imageUrl) {
-                var resolvedUrl = plant.imageUrl;
-                if (imageUtils && typeof imageUtils.resolvePlantImageUrl === 'function') resolvedUrl = imageUtils.resolvePlantImageUrl(resolvedUrl, plant);
-                cardImg.src = resolvedUrl + '?refresh=' + Date.now();
+                cardImg.src = plant.imageUrl + '?refresh=' + Date.now();
             } else if (cardImg) {
                 cardImg.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2Y1ZjVmNSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7wn4y6PC90ZXh0Pjwvc3ZnPg==';
             }

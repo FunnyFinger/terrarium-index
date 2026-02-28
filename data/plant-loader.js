@@ -93,34 +93,19 @@ async function loadAllPlants() {
                     const sorted = cat.sort((a, b) => (a.id || 0) - (b.id || 0));
                     const base = (typeof window !== 'undefined' && window.SUPABASE_URL) ? String(window.SUPABASE_URL).replace(/\/$/, '') : '';
                     const storagePrefix = base ? base + '/storage/v1/object/public/vivarium-assets/' : '';
-                    function slugFromPlant(plant) {
-                        const sn = plant && (plant.scientificName && (typeof plant.scientificName === 'string' ? plant.scientificName : (plant.scientificName.scientificName || plant.scientificName.name || ''))) || '';
-                        return String(sn).toLowerCase().trim().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-').replace(/^-|-$/g, '') || null;
-                    }
-                    function toFullUrl(u, slug) {
-                        if (!u || typeof u !== 'string') return u;
-                        const t = u.trim();
-                        if (/^https?:\/\//i.test(t)) return t;
-                        if (t.indexOf('//') === 0) return 'https:' + t;
-                        if (t.indexOf('supabase.co') !== -1) return t.indexOf('http') === 0 ? t : 'https://' + t.replace(/^\/+/, '');
-                        if (base && t.startsWith('/storage/')) return base + t;
-                        if (base && t.startsWith('storage/')) return base + '/' + t;
-                        if (base && t.startsWith('vivarium-assets/')) return base + '/storage/v1/object/public/' + t;
-                        if (storagePrefix && t.startsWith('plants/')) return storagePrefix + t;
-                        if (storagePrefix && slug && t.match(/\.(jpg|jpeg|png|gif|webp)$/i) && !t.includes('/')) return storagePrefix + 'plants/' + slug + '/' + t;
-                        return u;
-                    }
                     sorted.forEach((p) => {
-                        const slug = slugFromPlant(p);
-                        if (p.images && Array.isArray(p.images)) {
-                            p.images = p.images
-                                .map((u) => (typeof u === 'string' ? u : (u && (u.url || u.src || u.href)) ? String(u.url || u.src || u.href) : null))
-                                .filter(Boolean)
-                                .map((u) => (storagePrefix ? toFullUrl(u, slug) : u));
+                        if (storagePrefix && p.images && Array.isArray(p.images)) {
+                            p.images = p.images.map((u) => {
+                                if (!u || typeof u !== 'string') return u;
+                                if (/^https?:\/\//i.test(u)) return u;
+                                if (u.startsWith('/storage/')) return base + u;
+                                if (u.startsWith('plants/')) return storagePrefix + u;
+                                return u;
+                            });
                         }
-                        if (p.imageUrl != null && p.imageUrl !== '') {
-                            const str = typeof p.imageUrl === 'string' ? p.imageUrl : (p.imageUrl && (p.imageUrl.url || p.imageUrl.src || p.imageUrl.href)) ? String(p.imageUrl.url || p.imageUrl.src || p.imageUrl.href) : '';
-                            if (str) p.imageUrl = storagePrefix ? toFullUrl(str, slug) : str;
+                        if (storagePrefix && p.imageUrl && typeof p.imageUrl === 'string' && !/^https?:\/\//i.test(p.imageUrl)) {
+                            if (p.imageUrl.startsWith('/storage/')) p.imageUrl = base + p.imageUrl;
+                            else if (p.imageUrl.startsWith('plants/')) p.imageUrl = storagePrefix + p.imageUrl;
                         }
                     });
                     plantsDatabase.length = 0;
@@ -130,6 +115,24 @@ async function loadAllPlants() {
                         const ovResp = await fetch('data/overrides/plant-edits.json?v=' + Date.now(), { cache: 'no-store' });
                         if (ovResp.ok) applyPlantEditOverlaysFromRepo(plantsDatabase, await ovResp.json());
                     } catch (_) { /* ignore */ }
+                    // Re-normalize image URLs after overlays so overlay merge cannot leave relative paths
+                    if (base && storagePrefix) {
+                        plantsDatabase.forEach(function (p) {
+                            if (p.images && Array.isArray(p.images)) {
+                                p.images = p.images.map(function (u) {
+                                    if (!u || typeof u !== 'string') return u;
+                                    if (/^https?:\/\//i.test(u)) return u;
+                                    if (u.startsWith('/storage/')) return base + u;
+                                    if (u.startsWith('plants/')) return storagePrefix + u;
+                                    return u;
+                                });
+                            }
+                            if (p.imageUrl && typeof p.imageUrl === 'string' && !/^https?:\/\//i.test(p.imageUrl)) {
+                                if (p.imageUrl.startsWith('/storage/')) p.imageUrl = base + p.imageUrl;
+                                else if (p.imageUrl.startsWith('plants/')) p.imageUrl = storagePrefix + p.imageUrl;
+                            }
+                        });
+                    }
                     if (typeof window !== 'undefined') window.plantsDatabase = plantsDatabase;
                     console.log('✅ Loaded ' + plantsDatabase.length + ' plants from Supabase plants_catalog');
                     return plantsDatabase;

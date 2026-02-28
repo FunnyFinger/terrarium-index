@@ -523,11 +523,8 @@
                         if (slug) url = 'images/plants/' + slug + '/' + slug + '-1.jpg';
                     }
                 }
-                if (url && window.imageUtils) {
-                    if (invCurrentCategory === 'plants' && typeof window.imageUtils.resolvePlantImageUrl === 'function')
-                        url = window.imageUtils.resolvePlantImageUrl(url, p);
-                    else if (typeof window.imageUtils.normalizePlantImagePath === 'function')
-                        url = window.imageUtils.normalizePlantImagePath(url);
+                if (url && window.imageUtils && typeof window.imageUtils.normalizePlantImagePath === 'function') {
+                    url = window.imageUtils.normalizePlantImagePath(url);
                 }
                 return url || '';
             }

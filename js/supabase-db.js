@@ -182,17 +182,8 @@
             return (rows || []).map(function (r) {
                 var d = r.data || {};
                 d.id = r.id;
-                var imgUrl = d.imageUrl;
-                if (typeof imgUrl !== 'string') imgUrl = null;
-                var imgs = d.images;
-                if (!Array.isArray(imgs)) imgs = imgUrl ? [imgUrl] : [];
-                d.images = imgs.map(function (img) {
-                    if (typeof img === 'string' && img.trim()) return img.trim();
-                    if (img && typeof img === 'object' && (img.url || img.src || img.href)) return String(img.url || img.src || img.href).trim();
-                    return null;
-                }).filter(Boolean);
-                if (!d.images.length && imgUrl) d.images = [imgUrl];
-                d.imageUrl = imgUrl || (d.images.length ? d.images[0] : '');
+                if (!Array.isArray(d.images) && d.imageUrl) d.images = [d.imageUrl];
+                if (!Array.isArray(d.images)) d.images = [];
                 return d;
             });
         }).catch(function () { return []; });
