@@ -5450,7 +5450,8 @@ function updateEquipmentImageGallery() {
     currentEquipmentImageFiles.forEach(function(file) {
         var item = document.createElement('div');
         item.className = 'drag-drop-gallery-item';
-        item.dataset.index = String(index);
+        var idx = index;
+        item.dataset.index = String(idx);
         item.dataset.type = 'file';
         var img = document.createElement('img');
         var reader = new FileReader();
@@ -5458,12 +5459,12 @@ function updateEquipmentImageGallery() {
         reader.readAsDataURL(file);
         var numBadge = document.createElement('div');
         numBadge.className = 'image-number';
-        numBadge.textContent = '#' + (index + 1);
+        numBadge.textContent = '#' + (idx + 1);
         var removeBtn = document.createElement('button');
         removeBtn.type = 'button';
         removeBtn.className = 'remove-btn';
         removeBtn.innerHTML = '×';
-        removeBtn.onclick = function(e) { e.preventDefault(); e.stopPropagation(); removeEquipmentImageAtIndex(index); };
+        removeBtn.onclick = (function(i) { return function(e) { e.preventDefault(); e.stopPropagation(); removeEquipmentImageAtIndex(i); }; })(idx);
         item.appendChild(img);
         item.appendChild(numBadge);
         item.appendChild(removeBtn);
@@ -5473,19 +5474,20 @@ function updateEquipmentImageGallery() {
     currentEquipmentImageUrls.forEach(function(url) {
         var item = document.createElement('div');
         item.className = 'drag-drop-gallery-item';
-        item.dataset.index = String(index);
+        var idx = index;
+        item.dataset.index = String(idx);
         item.dataset.type = 'url';
         var img = document.createElement('img');
         img.src = url;
         img.onerror = function() { img.style.background = '#eee'; img.alt = 'Failed to load'; };
         var numBadge = document.createElement('div');
         numBadge.className = 'image-number';
-        numBadge.textContent = '#' + (index + 1);
+        numBadge.textContent = '#' + (idx + 1);
         var removeBtn = document.createElement('button');
         removeBtn.type = 'button';
         removeBtn.className = 'remove-btn';
         removeBtn.innerHTML = '×';
-        removeBtn.onclick = function(e) { e.preventDefault(); e.stopPropagation(); removeEquipmentImageAtIndex(index); };
+        removeBtn.onclick = (function(i) { return function(e) { e.preventDefault(); e.stopPropagation(); removeEquipmentImageAtIndex(i); }; })(idx);
         item.appendChild(img);
         item.appendChild(numBadge);
         item.appendChild(removeBtn);
@@ -5773,19 +5775,20 @@ function updatePlantImageGallery() {
     currentPlantImageFiles.forEach(function(file) {
         var item = document.createElement('div');
         item.className = 'drag-drop-gallery-item';
-        item.dataset.index = String(index);
+        var idx = index;
+        item.dataset.index = String(idx);
         var img = document.createElement('img');
         var reader = new FileReader();
         reader.onload = function(e) { img.src = e.target.result; };
         reader.readAsDataURL(file);
         var numBadge = document.createElement('div');
         numBadge.className = 'image-number';
-        numBadge.textContent = '#' + (index + 1);
+        numBadge.textContent = '#' + (idx + 1);
         var removeBtn = document.createElement('button');
         removeBtn.type = 'button';
         removeBtn.className = 'remove-btn';
         removeBtn.innerHTML = '×';
-        removeBtn.onclick = function(e) { e.preventDefault(); e.stopPropagation(); removePlantImageAtIndex(index); };
+        removeBtn.onclick = (function(i) { return function(e) { e.preventDefault(); e.stopPropagation(); removePlantImageAtIndex(i); }; })(idx);
         item.appendChild(img);
         item.appendChild(numBadge);
         item.appendChild(removeBtn);
@@ -5795,18 +5798,19 @@ function updatePlantImageGallery() {
     currentPlantImageUrls.forEach(function(url) {
         var item = document.createElement('div');
         item.className = 'drag-drop-gallery-item';
-        item.dataset.index = String(index);
+        var idx = index;
+        item.dataset.index = String(idx);
         var img = document.createElement('img');
         img.src = url;
         img.onerror = function() { img.style.background = '#eee'; img.alt = 'Failed to load'; };
         var numBadge = document.createElement('div');
         numBadge.className = 'image-number';
-        numBadge.textContent = '#' + (index + 1);
+        numBadge.textContent = '#' + (idx + 1);
         var removeBtn = document.createElement('button');
         removeBtn.type = 'button';
         removeBtn.className = 'remove-btn';
         removeBtn.innerHTML = '×';
-        removeBtn.onclick = function(e) { e.preventDefault(); e.stopPropagation(); removePlantImageAtIndex(index); };
+        removeBtn.onclick = (function(i) { return function(e) { e.preventDefault(); e.stopPropagation(); removePlantImageAtIndex(i); }; })(idx);
         item.appendChild(img);
         item.appendChild(numBadge);
         item.appendChild(removeBtn);
@@ -5842,6 +5846,16 @@ function savePlantImages() {
     var supabase = window.supabaseDb && window.supabaseDb.isConfigured();
     var uploadToStorage = supabase && window.supabaseDb.uploadToStorage;
     var plantImageSaveBtn = document.getElementById('plantImageSaveBtn');
+
+    function deleteRemovedPlantImagesFromStorage(newList) {
+        var old = (currentPlantForImages && currentPlantForImages.images) ? currentPlantForImages.images.slice() : [];
+        var removed = old.filter(function(u) { return newList.indexOf(u) === -1; });
+        var del = window.supabaseDb && window.supabaseDb.deleteFromStorage;
+        if (!del) return Promise.resolve();
+        return Promise.all(removed.filter(function(u) {
+            return typeof u === 'string' && (u.indexOf('http://') === 0 || u.indexOf('https://') === 0) && u.indexOf('supabase') !== -1;
+        }).map(function(u) { return window.supabaseDb.deleteFromStorage(u).catch(function() {}); }));
+    }
 
     function applyPlantImageResult(all) {
         if (all.length === 0) {
@@ -5894,11 +5908,13 @@ function savePlantImages() {
         Promise.all(uploads).then(function (uploadedUrls) {
             var existingHttp = urls.filter(isHttpUrl);
             var all = existingHttp.concat(uploadedUrls);
-            applyPlantImageResult(all);
-            if (supabase && window.supabaseDb && window.supabaseDb.updatePlantInCatalog) {
-                var updated = Object.assign({}, currentPlantForImages, { images: all, imageUrl: all[0] });
-                window.supabaseDb.updatePlantInCatalog(id, updated);
-            }
+            deleteRemovedPlantImagesFromStorage(all).then(function() {
+                applyPlantImageResult(all);
+                if (supabase && window.supabaseDb && window.supabaseDb.updatePlantInCatalog) {
+                    var updated = Object.assign({}, currentPlantForImages, { images: all, imageUrl: all[0] });
+                    window.supabaseDb.updatePlantInCatalog(id, updated);
+                }
+            });
         }).catch(function () {
             plantImageSaveBtn.textContent = '💾 Save';
             plantImageSaveBtn.disabled = false;
@@ -5916,8 +5932,11 @@ function savePlantImages() {
             var all;
             if (result.success && result.savedPaths && result.savedPaths.length > 0) {
                 all = result.savedPaths;
-                applyPlantImageResult(all);
-                if (typeof updatePlantCardImage === 'function') updatePlantCardImage(id, currentPlantForImages.imageUrl);
+                deleteRemovedPlantImagesFromStorage(all).then(function() {
+                    applyPlantImageResult(all);
+                    if (supabase && window.supabaseDb && window.supabaseDb.updatePlantInCatalog) window.supabaseDb.updatePlantInCatalog(id, Object.assign({}, currentPlantForImages));
+                    if (typeof updatePlantCardImage === 'function') updatePlantCardImage(id, currentPlantForImages.imageUrl);
+                });
             } else {
                 var toDataUrl = (window.uploadUtils && window.uploadUtils.fileToDataUrl) || function(file) {
                     return new Promise(function(resolve, reject) {
@@ -5929,7 +5948,10 @@ function savePlantImages() {
                 };
                 Promise.all(files.map(toDataUrl)).then(function(dataUrls) {
                     all = urls.concat(dataUrls);
-                    applyPlantImageResult(all);
+                    deleteRemovedPlantImagesFromStorage(all).then(function() {
+                        applyPlantImageResult(all);
+                        if (supabase && window.supabaseDb && window.supabaseDb.updatePlantInCatalog) window.supabaseDb.updatePlantInCatalog(id, Object.assign({}, currentPlantForImages));
+                    });
                 });
             }
         }).catch(function() {
@@ -5950,7 +5972,10 @@ function savePlantImages() {
     };
     Promise.all(files.map(toDataUrl)).then(function(dataUrls) {
         var all = urls.concat(dataUrls);
-        applyPlantImageResult(all);
+        deleteRemovedPlantImagesFromStorage(all).then(function() {
+            applyPlantImageResult(all);
+            if (supabase && window.supabaseDb && window.supabaseDb.updatePlantInCatalog) window.supabaseDb.updatePlantInCatalog(id, Object.assign({}, currentPlantForImages));
+        });
     }).catch(function() {
         closePlantImageModal();
     });
