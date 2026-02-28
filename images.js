@@ -51,6 +51,7 @@ function resolvePlantImageUrl(path) {
     var out = path;
     if (path.startsWith('/storage/')) out = base + path;
     else if (path.startsWith('plants/')) out = storagePrefix + path;
+    else if (path.startsWith('images/plants/')) out = storagePrefix + path.slice(7);
     else if (path.indexOf('/') !== -1 && /\.(jpg|jpeg|png|gif|webp)$/i.test(path)) out = storagePrefix + 'plants/' + path;
     if (out !== path && _resolvePlantImageUrlLogCount < _resolvePlantImageUrlLogMax) {
         console.log('[plant-images] resolvePlantImageUrl:', { in: path, out: out });
@@ -69,12 +70,10 @@ function normalizePlantImagePath(path) {
     if (!path || typeof path !== 'string') return path;
     if (/^https?:\/\//i.test(path)) return path;
     var out;
-    if (path.startsWith('plants/') || path.startsWith('/storage/') || (path.indexOf('/') !== -1 && /\.(jpg|jpeg|png|gif|webp)$/i.test(path)))
+    if (path.startsWith('plants/') || path.startsWith('/storage/') || path.startsWith('images/plants/') || (path.indexOf('/') !== -1 && /\.(jpg|jpeg|png|gif|webp)$/i.test(path)))
         out = resolvePlantImageUrl(path);
     else if (!path.startsWith('images/'))
         out = resolvePlantImageUrl(path);
-    else if (path.startsWith('images/plants/'))
-        out = path;
     else if (path.startsWith('images/supplies/') || path.startsWith('images/vivariums/'))
         out = path;
     else {
@@ -204,6 +203,7 @@ async function discoverPlantImages(plant, knownImageCount = null) {
                 if (/^https?:\/\//i.test(u)) return u;
                 if (base && u.startsWith('/storage/')) return base + u;
                 if (storagePrefix && u.startsWith('plants/')) return storagePrefix + u;
+                if (storagePrefix && u.startsWith('images/plants/')) return storagePrefix + u.slice(7);
                 if (storagePrefix && u.indexOf('/') !== -1 && /\.(jpg|jpeg|png|gif|webp)$/i.test(u)) return storagePrefix + 'plants/' + u;
                 return u;
             };

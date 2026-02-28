@@ -100,12 +100,14 @@ async function loadAllPlants() {
                                 if (/^https?:\/\//i.test(u)) return u;
                                 if (u.startsWith('/storage/')) return base + u;
                                 if (u.startsWith('plants/')) return storagePrefix + u;
+                                if (u.startsWith('images/plants/')) return storagePrefix + u.slice(7);
                                 return u;
                             });
                         }
                         if (storagePrefix && p.imageUrl && typeof p.imageUrl === 'string' && !/^https?:\/\//i.test(p.imageUrl)) {
                             if (p.imageUrl.startsWith('/storage/')) p.imageUrl = base + p.imageUrl;
                             else if (p.imageUrl.startsWith('plants/')) p.imageUrl = storagePrefix + p.imageUrl;
+                            else if (p.imageUrl.startsWith('images/plants/')) p.imageUrl = storagePrefix + p.imageUrl.slice(7);
                         }
                     });
                     plantsDatabase.length = 0;
@@ -124,12 +126,14 @@ async function loadAllPlants() {
                                     if (/^https?:\/\//i.test(u)) return u;
                                     if (u.startsWith('/storage/')) return base + u;
                                     if (u.startsWith('plants/')) return storagePrefix + u;
+                                    if (u.startsWith('images/plants/')) return storagePrefix + u.slice(7);
                                     return u;
                                 });
                             }
                             if (p.imageUrl && typeof p.imageUrl === 'string' && !/^https?:\/\//i.test(p.imageUrl)) {
                                 if (p.imageUrl.startsWith('/storage/')) p.imageUrl = base + p.imageUrl;
                                 else if (p.imageUrl.startsWith('plants/')) p.imageUrl = storagePrefix + p.imageUrl;
+                                else if (p.imageUrl.startsWith('images/plants/')) p.imageUrl = storagePrefix + p.imageUrl.slice(7);
                             }
                         });
                     }
