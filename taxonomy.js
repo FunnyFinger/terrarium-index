@@ -663,7 +663,10 @@ function updateTreeLayout() {
                 if (!imagePath && plantData.plant) {
                     imagePath = getPlantImagePath(plantData.plant);
                 }
-                
+                // Resolve to Supabase storage URL when configured (so thumb.jpg and images load from bucket)
+                if (imagePath && typeof window !== 'undefined' && window.imageUtils && typeof window.imageUtils.resolvePlantImageUrl === 'function' && !/^https?:\/\//i.test(imagePath)) {
+                    imagePath = window.imageUtils.resolvePlantImageUrl(imagePath);
+                }
                 if (imagePath) {
                     // Center thumbnail in node
                     const thumbnail = nodeGroup.append('g')
@@ -701,8 +704,11 @@ function updateTreeLayout() {
                     thumbnail.attr('clip-path', `url(#${clipId})`);
                     
                     // Image element - thumbnail in node; full-size loads only in tooltip on hover
-                    const fullPathForFallback = plantData.plant ? getPlantImagePath(plantData.plant) : null;
-                    const isThumb = imagePath && imagePath.endsWith('/thumb.jpg');
+                    let fullPathForFallback = plantData.plant ? getPlantImagePath(plantData.plant) : null;
+                    if (fullPathForFallback && typeof window !== 'undefined' && window.imageUtils && typeof window.imageUtils.resolvePlantImageUrl === 'function' && !/^https?:\/\//i.test(fullPathForFallback)) {
+                        fullPathForFallback = window.imageUtils.resolvePlantImageUrl(fullPathForFallback);
+                    }
+                    const isThumb = imagePath && (imagePath.endsWith('/thumb.jpg') || imagePath.indexOf('/thumb.jpg') !== -1);
                     const imageElement = imageGroup.append('image')
                         .attr('href', imagePath)
                         .attr('width', thumbBaseSize)

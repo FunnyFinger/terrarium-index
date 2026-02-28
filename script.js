@@ -5961,6 +5961,13 @@ function savePlantImages() {
                 return;
             }
             var updatedPlant = Object.assign({}, currentPlantForImages, { images: all, imageUrl: all.length ? all[0] : '' });
+            // Generate and upload thumb.jpg for taxonomy tree (main image = thumbnail)
+            if (supabase && uploadToStorage && all.length > 0 && slug) {
+                generateThumbnailBlobFromUrl(all[0]).then(function (blob) {
+                    var file = new File([blob], 'thumb.jpg', { type: 'image/jpeg' });
+                    return uploadToStorage(file, 'plants/' + slug + '/thumb.jpg');
+                }).catch(function () { /* non-fatal */ });
+            }
             deleteRemovedPlantImagesFromStorage(all).then(function() {
                 var catalogPromise = (supabase && window.supabaseDb && window.supabaseDb.updatePlantInCatalog)
                     ? window.supabaseDb.updatePlantInCatalog(id, updatedPlant)
@@ -8494,6 +8501,37 @@ async function copyScientificNameToClipboard(scientificName, element) {
     }
 }
 
+// Generate 60x60 thumbnail blob from an image URL (for Supabase thumb.jpg upload; taxonomy tree uses main image as thumb)
+function generateThumbnailBlobFromUrl(imageUrl) {
+    if (!imageUrl || typeof imageUrl !== 'string') return Promise.reject(new Error('imageUrl required'));
+    return new Promise(function (resolve, reject) {
+        var img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = function () {
+            try {
+                var canvas = document.createElement('canvas');
+                canvas.width = 60;
+                canvas.height = 60;
+                var ctx = canvas.getContext('2d');
+                var scale = Math.max(60 / img.width, 60 / img.height);
+                var scaledWidth = img.width * scale;
+                var scaledHeight = img.height * scale;
+                var x = (60 - scaledWidth) / 2;
+                var y = (60 - scaledHeight) / 2;
+                ctx.drawImage(img, x, y, scaledWidth, scaledHeight);
+                canvas.toBlob(function (blob) {
+                    if (blob) resolve(blob);
+                    else reject(new Error('toBlob failed'));
+                }, 'image/jpeg', 0.85);
+            } catch (e) {
+                reject(e);
+            }
+        };
+        img.onerror = function () { reject(new Error('Image load failed')); };
+        img.src = imageUrl;
+    });
+}
+
 // Generate 60x60 thumbnail from an image blob (used during upload)
 async function generateThumbnailFromBlob(imageBlob, plantFolderHandle, plantFolderName) {
     try {
@@ -8749,7 +8787,15 @@ async function setAsMainImage(plantId, imageIndex) {
         
         // Generate thumbnail for the new main image
         await generateThumbnailForPlant(plant, plant.imageUrl);
-        
+        // When using Supabase, upload thumb.jpg so taxonomy tree shows the new main image
+        var supabaseUpload = window.supabaseDb && window.supabaseDb.isConfigured && window.supabaseDb.uploadToStorage;
+        if (supabaseUpload && plant.imageUrl) {
+            var slugSetMain = scientificNameToSlug(getScientificNameString(plant)) || ('plant-' + plantId);
+            generateThumbnailBlobFromUrl(plant.imageUrl).then(function (blob) {
+                var file = new File([blob], 'thumb.jpg', { type: 'image/jpeg' });
+                return window.supabaseDb.uploadToStorage(file, 'plants/' + slugSetMain + '/thumb.jpg');
+            }).catch(function () {});
+        }
         // Try to rename actual files using File System Access API
         if (imagesFolderHandle && mainParts.folder === selectedParts.folder) {
             try {
