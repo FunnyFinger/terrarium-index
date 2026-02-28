@@ -168,6 +168,13 @@
         return request('PATCH', '/plants_catalog?id=eq.' + id, payload).catch(function () {});
     }
 
+    function deleteFromPlantsCatalog(plantId) {
+        var id = Number(plantId);
+        if (!isFinite(id)) return Promise.resolve();
+        if (!isConfigured()) return Promise.resolve();
+        return request('DELETE', '/plants_catalog?id=eq.' + id).catch(function () {});
+    }
+
     // ---- Catalog helpers (read-only) ----
     function getPlantsCatalog() {
         if (!isConfigured()) return Promise.resolve([]);
@@ -350,6 +357,7 @@
         saveCustomVivariums: saveCustomVivariums,
         uploadToStorage: uploadToStorage,
         deleteFromStorage: deleteFromStorage,
-        updatePlantInCatalog: updatePlantInCatalog
+        updatePlantInCatalog: updatePlantInCatalog,
+        deleteFromPlantsCatalog: deleteFromPlantsCatalog
     };
 })(typeof window !== 'undefined' ? window : this);

@@ -567,21 +567,36 @@
             var invVivariumList = [];
             var invPerPage = 25;
             var invCurrentPage = 1;
-            /** Delete from inventory; if supply or vivarium, also remove from catalog so item disappears globally. */
+            /** Delete from inventory; if supply or vivarium, also remove from catalog. For plants with Supabase, also delete from plants_catalog so item disappears. */
             function deleteInventoryItemAndSyncCustom(id, category) {
                 var inv = window.inventoryDb;
                 if (!inv || !inv.deleteItem) return Promise.reject(new Error('Inventory not available'));
+                var numId = Number(id);
+                if (!isFinite(numId)) return Promise.reject(new Error('Invalid id'));
                 var isEquipment = category === 'equipment';
                 var isVivarium = category === 'vivariums';
+                var isPlant = category === 'plants';
                 var promise = inv.deleteItem(id);
                 if (window.supabaseDb && window.supabaseDb.isConfigured()) {
                     if (isEquipment && window.supabaseDb.deleteFromEquipmentCatalog) {
                         promise = promise.then(function() { return window.supabaseDb.deleteFromEquipmentCatalog(id); });
                     } else if (isVivarium && window.supabaseDb.deleteFromVivariumCatalog) {
                         promise = promise.then(function() { return window.supabaseDb.deleteFromVivariumCatalog(id); });
+                    } else if (isPlant && window.supabaseDb.deleteFromPlantsCatalog) {
+                        promise = promise.then(function() { return window.supabaseDb.deleteFromPlantsCatalog(id); });
                     }
                 }
-                return promise;
+                return promise.then(function() {
+                    if (isPlant && (window.plantsDatabase || window.allPlants)) {
+                        var arr = window.plantsDatabase || window.allPlants || [];
+                        var idx = arr.findIndex(function(p) { return p && Number(p.id) === numId; });
+                        if (idx !== -1) arr.splice(idx, 1);
+                        if (window.allPlants && window.allPlants !== arr) {
+                            var idxAll = window.allPlants.findIndex(function(p) { return p && Number(p.id) === numId; });
+                            if (idxAll !== -1) window.allPlants.splice(idxAll, 1);
+                        }
+                    }
+                });
             }
             function getRowMeta(p, invByPlantId) {
                 var inv = invByPlantId[p.id] || {};
