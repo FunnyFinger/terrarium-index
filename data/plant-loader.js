@@ -91,6 +91,23 @@ async function loadAllPlants() {
                 const cat = await window.supabaseDb.getPlantsCatalog();
                 if (Array.isArray(cat) && cat.length > 0) {
                     const sorted = cat.sort((a, b) => (a.id || 0) - (b.id || 0));
+                    const base = (typeof window !== 'undefined' && window.SUPABASE_URL) ? String(window.SUPABASE_URL).replace(/\/$/, '') : '';
+                    const storagePrefix = base ? base + '/storage/v1/object/public/vivarium-assets/' : '';
+                    sorted.forEach((p) => {
+                        if (storagePrefix && p.images && Array.isArray(p.images)) {
+                            p.images = p.images.map((u) => {
+                                if (!u || typeof u !== 'string') return u;
+                                if (/^https?:\/\//i.test(u)) return u;
+                                if (u.startsWith('/storage/')) return base + u;
+                                if (u.startsWith('plants/')) return storagePrefix + u;
+                                return u;
+                            });
+                        }
+                        if (storagePrefix && p.imageUrl && typeof p.imageUrl === 'string' && !/^https?:\/\//i.test(p.imageUrl)) {
+                            if (p.imageUrl.startsWith('/storage/')) p.imageUrl = base + p.imageUrl;
+                            else if (p.imageUrl.startsWith('plants/')) p.imageUrl = storagePrefix + p.imageUrl;
+                        }
+                    });
                     plantsDatabase.length = 0;
                     plantsDatabase.push(...sorted);
                     applyPlantEditOverlays(plantsDatabase);

@@ -144,9 +144,22 @@ async function discoverPlantImages(plant, knownImageCount = null) {
     // Use catalog images when present (e.g. from Supabase) so hosted site shows full gallery without 404 probes
     const catalogImages = plant.images;
     if (Array.isArray(catalogImages) && catalogImages.length > 0) {
-        const valid = catalogImages.filter(function (p) { return p && typeof p === 'string' && (p.startsWith('images/') || /^https?:\/\//i.test(p)); });
+        const valid = catalogImages.filter(function (p) {
+            return p && typeof p === 'string' && (p.startsWith('images/') || p.startsWith('plants/') || p.startsWith('/storage/') || /^https?:\/\//i.test(p));
+        });
         if (valid.length > 0) {
-            return { images: valid, imageUrl: plant.imageUrl || valid[0] };
+            const base = (typeof window !== 'undefined' && window.SUPABASE_URL) ? String(window.SUPABASE_URL).replace(/\/$/, '') : '';
+            const storagePrefix = base ? base + '/storage/v1/object/public/vivarium-assets/' : '';
+            const resolve = function (u) {
+                if (!u || typeof u !== 'string') return u;
+                if (/^https?:\/\//i.test(u)) return u;
+                if (base && u.startsWith('/storage/')) return base + u;
+                if (storagePrefix && u.startsWith('plants/')) return storagePrefix + u;
+                return u;
+            };
+            const resolved = valid.map(resolve);
+            const imageUrl = plant.imageUrl ? resolve(plant.imageUrl) : resolved[0];
+            return { images: resolved, imageUrl: imageUrl || resolved[0] };
         }
     }
 
