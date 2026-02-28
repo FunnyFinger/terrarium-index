@@ -6240,9 +6240,9 @@ function createPlantCard(plant) {
         const slug = scientificNameToSlug(getScientificNameString(plant));
         if (slug) displayImageUrl = `images/plants/${slug}/${slug}-1.jpg`;
     }
-    // Normalize legacy paths (images/slug/ -> images/plants/slug/) so cards show after move
-    if (displayImageUrl && imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') {
-        displayImageUrl = imageUtils.normalizePlantImagePath(displayImageUrl);
+    // Resolve to full Supabase URL so img src never hits wrong origin (fixes 400 on hosted site)
+    if (displayImageUrl && imageUtils && typeof imageUtils.resolvePlantImageUrl === 'function') {
+        displayImageUrl = imageUtils.resolvePlantImageUrl(displayImageUrl, plant);
     }
     
     // Create a unique identifier for this card to help with updates
@@ -6514,10 +6514,10 @@ async function showPlantModal(plant) {
         plant.images = ensureUniqueImages(plant.images);
     }
     
-    // Set display image (normalize legacy paths for plants folder)
+    // Set display image (resolve to full Supabase URL so images load on hosted site)
     let displayImageUrl = plant.imageUrl || (plant.images && plant.images.length > 0 ? plant.images[0] : null);
-    if (displayImageUrl && imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') {
-        displayImageUrl = imageUtils.normalizePlantImagePath(displayImageUrl);
+    if (displayImageUrl && imageUtils && typeof imageUtils.resolvePlantImageUrl === 'function') {
+        displayImageUrl = imageUtils.resolvePlantImageUrl(displayImageUrl, plant);
     }
     
     // Helper function to create enclosure size scale visualization
@@ -6944,7 +6944,7 @@ async function showPlantModal(plant) {
         <div id="modal-page-2" class="modal-page" style="display: none;" data-plant-id="${plant.id}">
             ${(function() {
                 const raw = (plant.images || []).filter(img => img && img.trim());
-                const valid = (imageUtils && imageUtils.normalizePlantImagePath) ? raw.map(img => imageUtils.normalizePlantImagePath(img)) : raw;
+                const valid = (imageUtils && imageUtils.resolvePlantImageUrl) ? raw.map(img => imageUtils.resolvePlantImageUrl(img, plant)) : raw;
                 const hasNumbered = valid.some(path => /-\d+\.(jpg|jpeg|png|webp)$/i.test(path));
                 const galleryImages = hasNumbered ? valid.filter(path => !/\/thumb\.(jpg|jpeg|png|webp)$/i.test(path)) : valid;
                 return galleryImages.length > 0 ? `
@@ -7460,8 +7460,8 @@ function updatePlantCardImage(plantId, imageUrl) {
         return;
     }
 
-    if (imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') {
-        imageUrl = imageUtils.normalizePlantImagePath(imageUrl);
+    if (imageUtils && typeof imageUtils.resolvePlantImageUrl === 'function') {
+        imageUrl = imageUtils.resolvePlantImageUrl(imageUrl, plant);
     }
     
     // Update the plant object
@@ -7774,10 +7774,12 @@ function openGalleryLightbox(plantId, imageIndex) {
     // Create lightbox
     const lightbox = document.createElement('div');
     lightbox.className = 'gallery-lightbox';
+    var lightboxImgUrl = plant.images[imageIndex];
+    if (imageUtils && typeof imageUtils.resolvePlantImageUrl === 'function') lightboxImgUrl = imageUtils.resolvePlantImageUrl(lightboxImgUrl, plant);
     lightbox.innerHTML = `
         <div class="lightbox-content">
             <span class="lightbox-close">&times;</span>
-            <img src="${plant.images[imageIndex]}" alt="${plant.name}">
+            <img src="${lightboxImgUrl}" alt="${plant.name}">
             <div class="lightbox-nav">
                 ${imageIndex > 0 ? `<button class="lightbox-btn lightbox-prev" onclick="changeGalleryImage(${plantId}, ${imageIndex - 1})">‹</button>` : ''}
                 <span class="lightbox-counter">${imageIndex + 1} / ${plant.images.length}</span>
@@ -7835,7 +7837,9 @@ function changeGalleryImage(plantId, imageIndex) {
     const counter = lightbox.querySelector('.lightbox-counter');
     const nav = lightbox.querySelector('.lightbox-nav');
     
-    img.src = plant.images[imageIndex];
+    var srcUrl = plant.images[imageIndex];
+    if (imageUtils && typeof imageUtils.resolvePlantImageUrl === 'function') srcUrl = imageUtils.resolvePlantImageUrl(srcUrl, plant);
+    img.src = srcUrl;
     counter.textContent = `${imageIndex + 1} / ${plant.images.length}`;
     
     // Update navigation buttons
@@ -8075,7 +8079,9 @@ async function deleteImageFromGallery(plantId, imageIndex, imgPath) {
         if (card) {
             const cardImg = card.querySelector('.plant-image');
             if (cardImg && plant.imageUrl) {
-                cardImg.src = plant.imageUrl + '?refresh=' + Date.now();
+                var resolvedUrl = plant.imageUrl;
+                if (imageUtils && typeof imageUtils.resolvePlantImageUrl === 'function') resolvedUrl = imageUtils.resolvePlantImageUrl(resolvedUrl, plant);
+                cardImg.src = resolvedUrl + '?refresh=' + Date.now();
             } else if (cardImg) {
                 cardImg.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2Y1ZjVmNSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7wn4y6PC90ZXh0Pjwvc3ZnPg==';
             }

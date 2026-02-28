@@ -42,6 +42,28 @@ function normalizePlantImagePath(path) {
     return path;
 }
 
+/**
+ * Resolve any plant image path to a full Supabase Storage URL so img src never hits the wrong origin.
+ * Use this whenever setting img.src for plant images on a hosted site.
+ */
+function resolvePlantImageUrl(url, plant) {
+    if (!url || typeof url !== 'string' || !url.trim()) return url;
+    const u = url.trim();
+    if (/^https?:\/\//i.test(u)) return u;
+    const base = (typeof window !== 'undefined' && window.SUPABASE_URL) ? String(window.SUPABASE_URL).replace(/\/$/, '') : '';
+    const storagePrefix = base ? base + '/storage/v1/object/public/vivarium-assets/' : '';
+    if (!storagePrefix) return u;
+    if (u.indexOf(storagePrefix) === 0) return u;
+    if (u.startsWith('plants/')) return storagePrefix + u;
+    if (u.startsWith('/storage/')) return base + u;
+    if (u.startsWith('images/plants/')) return storagePrefix + u.replace(/^images\/plants\//, 'plants/');
+    const folderName = plant && slugify(plant.scientificName);
+    if (folderName && u.match(/\.(jpg|jpeg|png|gif|webp)$/i) && !u.includes('/')) {
+        return storagePrefix + 'plants/' + folderName + '/' + u;
+    }
+    return u;
+}
+
 async function checkImageExists(imagePath) {
     if (!imagePath || !imagePath.startsWith('images/') || !imagePath.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
         return false;
@@ -142,10 +164,11 @@ async function discoverPlantImages(plant, knownImageCount = null) {
     }
 
     // Use catalog images when present (e.g. from Supabase) so hosted site shows full gallery without 404 probes
+    const folderName = slugify(plant.scientificName);
     const catalogImages = plant.images;
     if (Array.isArray(catalogImages) && catalogImages.length > 0) {
         const valid = catalogImages.filter(function (p) {
-            return p && typeof p === 'string' && (p.startsWith('images/') || p.startsWith('plants/') || p.startsWith('/storage/') || /^https?:\/\//i.test(p));
+            return p && typeof p === 'string' && (p.startsWith('images/') || p.startsWith('plants/') || p.startsWith('/storage/') || /^https?:\/\//i.test(p) || (p.match(/\.(jpg|jpeg|png|gif|webp)$/i) && !p.includes('/')));
         });
         if (valid.length > 0) {
             const base = (typeof window !== 'undefined' && window.SUPABASE_URL) ? String(window.SUPABASE_URL).replace(/\/$/, '') : '';
@@ -155,6 +178,8 @@ async function discoverPlantImages(plant, knownImageCount = null) {
                 if (/^https?:\/\//i.test(u)) return u;
                 if (base && u.startsWith('/storage/')) return base + u;
                 if (storagePrefix && u.startsWith('plants/')) return storagePrefix + u;
+                if (storagePrefix && folderName && u.match(/\.(jpg|jpeg|png|gif|webp)$/i) && !u.includes('/')) return storagePrefix + 'plants/' + folderName + '/' + u;
+                if (storagePrefix && u.startsWith('images/plants/')) return storagePrefix + u.replace(/^images\/plants\//, 'plants/');
                 return u;
             };
             const resolved = valid.map(resolve);
@@ -164,7 +189,6 @@ async function discoverPlantImages(plant, knownImageCount = null) {
     }
 
     const plantId = plant.id;
-    const folderName = slugify(plant.scientificName);
     if (!folderName) {
         return { images: [], imageUrl: null };
     }
@@ -619,6 +643,7 @@ const imageUtils = {
     init,
     ensureUniqueImages,
     normalizePlantImagePath,
+    resolvePlantImageUrl,
     loadImagesFromLocalStorage,
     getPlantImages,
     scanExistingImages,

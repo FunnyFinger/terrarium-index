@@ -93,19 +93,26 @@ async function loadAllPlants() {
                     const sorted = cat.sort((a, b) => (a.id || 0) - (b.id || 0));
                     const base = (typeof window !== 'undefined' && window.SUPABASE_URL) ? String(window.SUPABASE_URL).replace(/\/$/, '') : '';
                     const storagePrefix = base ? base + '/storage/v1/object/public/vivarium-assets/' : '';
+                    function slugFromPlant(plant) {
+                        const sn = plant && (plant.scientificName && (typeof plant.scientificName === 'string' ? plant.scientificName : (plant.scientificName.scientificName || plant.scientificName.name || ''))) || '';
+                        return String(sn).toLowerCase().trim().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-').replace(/^-|-$/g, '') || null;
+                    }
                     sorted.forEach((p) => {
+                        const slug = slugFromPlant(p);
                         if (storagePrefix && p.images && Array.isArray(p.images)) {
                             p.images = p.images.map((u) => {
                                 if (!u || typeof u !== 'string') return u;
                                 if (/^https?:\/\//i.test(u)) return u;
                                 if (u.startsWith('/storage/')) return base + u;
                                 if (u.startsWith('plants/')) return storagePrefix + u;
+                                if (slug && u.match(/\.(jpg|jpeg|png|gif|webp)$/i) && !u.includes('/')) return storagePrefix + 'plants/' + slug + '/' + u;
                                 return u;
                             });
                         }
                         if (storagePrefix && p.imageUrl && typeof p.imageUrl === 'string' && !/^https?:\/\//i.test(p.imageUrl)) {
                             if (p.imageUrl.startsWith('/storage/')) p.imageUrl = base + p.imageUrl;
                             else if (p.imageUrl.startsWith('plants/')) p.imageUrl = storagePrefix + p.imageUrl;
+                            else if (slug && p.imageUrl.match(/\.(jpg|jpeg|png|gif|webp)$/i) && !p.imageUrl.includes('/')) p.imageUrl = storagePrefix + 'plants/' + slug + '/' + p.imageUrl;
                         }
                     });
                     plantsDatabase.length = 0;
