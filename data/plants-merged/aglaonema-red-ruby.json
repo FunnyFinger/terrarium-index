@@ -50,6 +50,8 @@
   "salinityRange": { "min": null, "max": null, "ideal": null },
   "geographicOrigin": "Tropical Asia",
   "additionalInfo": null,
-  "images": [],
-  "imageUrl": null
+  "images": [
+    "plants/aglaonema-red-ruby/aglaonema-red-ruby-1.jpg"
+  ],
+  "imageUrl": "plants/aglaonema-red-ruby/aglaonema-red-ruby-1.jpg"
 }

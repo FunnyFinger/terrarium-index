@@ -655,15 +655,12 @@ function updateTreeLayout() {
             
             // Position thumbnail inside the node circle (centered)
             thumbnailsToShow.forEach((plantData, idx) => {
-                // Use thumbnail in node (thumb.jpg) for performance; full-size loads only in tooltip on hover
-                let imagePath = plantData.plant ? getPlantThumbnailPath(plantData.plant) : null;
-                if (!imagePath && plantData.imagePath) {
-                    imagePath = plantData.imagePath; // fallback to full image if thumbnail not generated yet
-                }
+                // Use the plant's actual image URL (full-size); thumb.jpg not reliably in storage
+                let imagePath = plantData.imagePath || null;
                 if (!imagePath && plantData.plant) {
                     imagePath = getPlantImagePath(plantData.plant);
                 }
-                // Resolve to Supabase storage URL when configured (so thumb.jpg and images load from bucket)
+                // Resolve to Supabase storage URL when configured
                 if (imagePath && typeof window !== 'undefined' && window.imageUtils && typeof window.imageUtils.resolvePlantImageUrl === 'function' && !/^https?:\/\//i.test(imagePath)) {
                     imagePath = window.imageUtils.resolvePlantImageUrl(imagePath);
                 }
@@ -759,7 +756,10 @@ function updateTreeLayout() {
                             const scientificNameToUse = freshPlant ? getScientificNameString(freshPlant) : plantData.scientificName;
                             
                             // Get full image path (not thumbnail) for hover preview
-                            const fullImagePath = getPlantImagePath(plantToUse);
+                            let fullImagePath = getPlantImagePath(plantToUse);
+                            if (fullImagePath && window.imageUtils && typeof window.imageUtils.resolvePlantImageUrl === 'function' && !/^https?:\/\//i.test(fullImagePath)) {
+                                fullImagePath = window.imageUtils.resolvePlantImageUrl(fullImagePath);
+                            }
                             
                             // Create a node data object with this specific plant for accurate tooltip
                             const specificNodeData = {
@@ -975,7 +975,10 @@ function updateTreeLayout() {
                             const scientificNameToUse = freshPlant ? getScientificNameString(freshPlant) : matchingPlant.scientificName;
                             
                             // Get full image path (not thumbnail) for hover preview
-                            const fullImagePath = getPlantImagePath(plantToUse);
+                            let fullImagePath = getPlantImagePath(plantToUse);
+                            if (fullImagePath && window.imageUtils && typeof window.imageUtils.resolvePlantImageUrl === 'function' && !/^https?:\/\//i.test(fullImagePath)) {
+                                fullImagePath = window.imageUtils.resolvePlantImageUrl(fullImagePath);
+                            }
                             
                             // Debug: log the path to help diagnose issues
                             if (d.data.name === 'Peperomia ferreyrae' || scientificNameToUse === 'Peperomia ferreyrae') {
@@ -1891,6 +1894,10 @@ function showTooltip(event, text, imagePath, nodeData = null) {
     
     // Add image if available (for species nodes)
     if (imagePath) {
+        // Resolve local paths to Supabase storage URLs before use
+        if (window.imageUtils && typeof window.imageUtils.resolvePlantImageUrl === 'function' && !/^https?:\/\//i.test(imagePath)) {
+            imagePath = window.imageUtils.resolvePlantImageUrl(imagePath);
+        }
         const img = document.createElement('img');
         // Add cache-busting timestamp to ensure latest image is loaded
         const separator = imagePath.includes('?') ? '&' : '?';
@@ -1919,25 +1926,31 @@ function showTooltip(event, text, imagePath, nodeData = null) {
                 // Try next image number if available (up to 3 attempts)
                 if (attemptCount <= 3) {
                     const nextNum = parseInt(imageNum) + attemptCount;
-                    const nextPath = `images/plants/${folderName}/${folderName}-${nextNum}.jpg`;
-                    const nextUrl = nextPath + separator + 'refresh=' + Date.now();
-                    if (!this.src.includes(nextPath)) {
+                    let nextPath = `images/plants/${folderName}/${folderName}-${nextNum}.jpg`;
+                    if (window.imageUtils && typeof window.imageUtils.resolvePlantImageUrl === 'function') {
+                        nextPath = window.imageUtils.resolvePlantImageUrl(nextPath);
+                    }
+                    const nextUrl = nextPath + (nextPath.includes('?') ? '&' : '?') + 'refresh=' + Date.now();
+                    if (!this.src.includes(folderName + '-' + nextNum)) {
                         console.log(`Trying alternative image: ${nextUrl}`);
                         this.src = nextUrl;
-                        return; // Try loading the next image
+                        return;
                     }
                 }
             } else {
                 // If path doesn't match expected pattern, try standard naming
-                const pathMatch2 = imagePath.match(/^images\/(?:plants\/)?([^\/]+)\//);
+                const pathMatch2 = imagePath.match(/^(?:https?:\/\/[^/]+\/)?(?:.*\/)?([^\/]+)\//);
                 if (pathMatch2 && attemptCount === 1) {
                     const folderName = pathMatch2[1];
-                    const standardPath = `images/plants/${folderName}/${folderName}-1.jpg`;
-                    const standardUrl = standardPath + separator + 'refresh=' + Date.now();
-                    if (!this.src.includes(standardPath)) {
+                    let standardPath = `images/plants/${folderName}/${folderName}-1.jpg`;
+                    if (window.imageUtils && typeof window.imageUtils.resolvePlantImageUrl === 'function') {
+                        standardPath = window.imageUtils.resolvePlantImageUrl(standardPath);
+                    }
+                    const standardUrl = standardPath + (standardPath.includes('?') ? '&' : '?') + 'refresh=' + Date.now();
+                    if (!this.src.includes(folderName + '-1')) {
                         console.log(`Trying standard image path: ${standardUrl}`);
                         this.src = standardUrl;
-                        return; // Try loading with standard naming
+                        return;
                     }
                 }
             }
