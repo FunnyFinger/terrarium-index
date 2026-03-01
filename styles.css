@@ -4219,6 +4219,47 @@ body.shopper-mode .gallery-set-main-btn {
     color: var(--text-light);
 }
 
+/* "Loading..." text shown while images are fetching */
+.plant-image-container::before,
+.plant-product-gallery::before {
+    content: 'Loading...';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.75rem;
+    font-style: italic;
+    color: rgba(100, 120, 100, 0.7);
+    pointer-events: none;
+    z-index: 0;
+}
+[data-theme="dark"] .plant-image-container::before,
+[data-theme="dark"] .plant-product-gallery::before {
+    color: rgba(180, 200, 180, 0.5);
+}
+/* Hide "Loading..." once the real image or placeholder is visible */
+.plant-image-container:has(.plant-image)::before,
+.plant-image-container:has(.image-placeholder)::before,
+.plant-product-gallery:has(.plant-product-image)::before,
+.plant-product-gallery:has(.plant-product-image-placeholder)::before {
+    display: none;
+}
+
+/* Gallery preview & fullscreen loading overlay */
+.gallery-img-loading {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-style: italic;
+    color: rgba(200, 200, 200, 0.7);
+    pointer-events: none;
+    z-index: 1;
+}
+.gallery-img-loading.hidden { display: none; }
+
 .image-placeholder .placeholder-icon-svg {
     width: 4rem;
     height: 4rem;

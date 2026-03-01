@@ -7022,9 +7022,10 @@ async function showPlantModal(plant) {
                     </header>
                     <div class="plant-gallery-stage" id="gallery-preview-${plant.id}">
                         <button type="button" class="plant-gallery-arrow plant-gallery-prev" onclick="galleryPrevNext(${plant.id}, -1)" aria-label="Previous image">‹</button>
-                        <div class="plant-gallery-stage-inner">
+                        <div class="plant-gallery-stage-inner" style="position:relative;">
+                            <div class="gallery-img-loading" id="gallery-preview-loading">Loading...</div>
                             ${displayImageUrl ? 
-                                `<img id="gallery-preview-img" data-current-index="0" src="${getCardThumbUrl(displayImageUrl, 1200, 85)}" data-original-src="${displayImageUrl}" alt="${plant.name}" class="gallery-preview-image">` :
+                                `<img id="gallery-preview-img" data-current-index="0" src="${getCardThumbUrl(displayImageUrl, 1200, 85)}" data-original-src="${displayImageUrl}" alt="${plant.name}" class="gallery-preview-image" onload="var l=document.getElementById('gallery-preview-loading');if(l)l.classList.add('hidden')" onerror="var l=document.getElementById('gallery-preview-loading');if(l)l.classList.add('hidden')">` :
                                 `<div class="plant-gallery-placeholder">🌿</div>`
                             }
                         </div>
@@ -7034,9 +7035,10 @@ async function showPlantModal(plant) {
                         <button type="button" class="plant-gallery-fullscreen-btn" onclick="openGalleryFullscreen(${plant.id})" aria-label="View fullscreen">⛶ Fullscreen</button>
                     </div>
                     <div class="gallery-fullscreen-overlay" id="gallery-fullscreen-overlay" role="dialog" aria-modal="true" aria-label="Fullscreen image view" onclick="if(event.target === this) closeGalleryFullscreen()">
+                        <div class="gallery-img-loading" id="gallery-fullscreen-loading">Loading...</div>
                         <button type="button" class="gallery-fullscreen-close" onclick="closeGalleryFullscreen()" aria-label="Close">×</button>
                         <button type="button" class="gallery-fullscreen-arrow gallery-fullscreen-prev" onclick="galleryFullscreenPrevNext(${plant.id}, -1)" aria-label="Previous">‹</button>
-                        <img id="gallery-fullscreen-img" src="${displayImageUrl || ''}" alt="${escapeHtml(plant.name)}" class="gallery-fullscreen-image">
+                        <img id="gallery-fullscreen-img" src="${displayImageUrl || ''}" alt="${escapeHtml(plant.name)}" class="gallery-fullscreen-image" onload="var l=document.getElementById('gallery-fullscreen-loading');if(l)l.classList.add('hidden')" onerror="var l=document.getElementById('gallery-fullscreen-loading');if(l)l.classList.add('hidden')">
                         <button type="button" class="gallery-fullscreen-arrow gallery-fullscreen-next" onclick="galleryFullscreenPrevNext(${plant.id}, 1)" aria-label="Next">›</button>
                         <div class="gallery-fullscreen-counter"><span id="gallery-fullscreen-num">1</span> / ${galleryImages.length}</div>
                     </div>
@@ -7432,6 +7434,10 @@ function selectGalleryImage(imagePath, plantId, imageIndex, event) {
     
     const previewImg = document.getElementById('gallery-preview-img');
     if (previewImg) {
+        var loadingEl = document.getElementById('gallery-preview-loading');
+        if (loadingEl) loadingEl.classList.remove('hidden');
+        previewImg.onload = function() { if (loadingEl) loadingEl.classList.add('hidden'); };
+        previewImg.onerror = function() { if (loadingEl) loadingEl.classList.add('hidden'); };
         previewImg.src = (typeof getCardThumbUrl === 'function') ? getCardThumbUrl(imagePath, 1200, 85) : imagePath;
         previewImg.setAttribute('data-original-src', imagePath);
         previewImg.setAttribute('data-current-index', imageIndex);
@@ -7471,6 +7477,10 @@ function openGalleryFullscreen(plantId) {
     const fsNum = document.getElementById('gallery-fullscreen-num');
     if (!overlay || !fsImg) return;
     if (previewImg && previewImg.src) {
+        var fsLoading = document.getElementById('gallery-fullscreen-loading');
+        if (fsLoading) fsLoading.classList.remove('hidden');
+        fsImg.onload = function() { if (fsLoading) fsLoading.classList.add('hidden'); };
+        fsImg.onerror = function() { if (fsLoading) fsLoading.classList.add('hidden'); };
         // Use original full-res URL for fullscreen if available
         fsImg.src = previewImg.getAttribute('data-original-src') || previewImg.src;
         fsImg.alt = previewImg.alt || '';
