@@ -7435,9 +7435,18 @@ function selectGalleryImage(imagePath, plantId, imageIndex, event) {
     const previewImg = document.getElementById('gallery-preview-img');
     if (previewImg) {
         var loadingEl = document.getElementById('gallery-preview-loading');
+        // Clear immediately so old image disappears before new one loads
+        previewImg.src = '';
+        previewImg.style.visibility = 'hidden';
         if (loadingEl) loadingEl.classList.remove('hidden');
-        previewImg.onload = function() { if (loadingEl) loadingEl.classList.add('hidden'); };
-        previewImg.onerror = function() { if (loadingEl) loadingEl.classList.add('hidden'); };
+        previewImg.onload = function() {
+            previewImg.style.visibility = 'visible';
+            if (loadingEl) loadingEl.classList.add('hidden');
+        };
+        previewImg.onerror = function() {
+            previewImg.style.visibility = 'visible';
+            if (loadingEl) loadingEl.classList.add('hidden');
+        };
         previewImg.src = (typeof getCardThumbUrl === 'function') ? getCardThumbUrl(imagePath, 1200, 85) : imagePath;
         previewImg.setAttribute('data-original-src', imagePath);
         previewImg.setAttribute('data-current-index', imageIndex);
@@ -7521,7 +7530,16 @@ function syncGalleryFullscreenImage() {
     const fsImg = document.getElementById('gallery-fullscreen-img');
     const fsNum = document.getElementById('gallery-fullscreen-num');
     const currNum = document.getElementById('gallery-current-num');
-    if (previewImg && fsImg) fsImg.src = previewImg.src;
+    if (previewImg && fsImg) {
+        var fsLoading = document.getElementById('gallery-fullscreen-loading');
+        // Clear immediately so old image doesn't linger
+        fsImg.style.visibility = 'hidden';
+        fsImg.src = '';
+        if (fsLoading) fsLoading.classList.remove('hidden');
+        fsImg.onload = function() { fsImg.style.visibility = 'visible'; if (fsLoading) fsLoading.classList.add('hidden'); };
+        fsImg.onerror = function() { fsImg.style.visibility = 'visible'; if (fsLoading) fsLoading.classList.add('hidden'); };
+        fsImg.src = previewImg.getAttribute('data-original-src') || previewImg.src;
+    }
     if (fsNum && currNum) fsNum.textContent = currNum.textContent;
 }
 
