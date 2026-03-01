@@ -7003,7 +7003,7 @@ async function showPlantModal(plant) {
                             <h2 class="plant-gallery-item-name">${escapeHtml(plant.name)}</h2>
                             ${plant.scientificName ? '<p class="plant-gallery-scientific-name">' + escapeHtml(plant.scientificName) + '</p>' : ''}
                         </div>
-                        <span class="plant-gallery-count">${galleryImages.length} photo${galleryImages.length !== 1 ? 's' : ''}</span>
+                        <span class="plant-gallery-count" id="gallery-photo-count-${plant.id}">${galleryImages.length} photo${galleryImages.length !== 1 ? 's' : ''}</span>
                     </header>
                     <div class="plant-gallery-stage" id="gallery-preview-${plant.id}">
                         <button type="button" class="plant-gallery-arrow plant-gallery-prev" onclick="galleryPrevNext(${plant.id}, -1)" aria-label="Previous image">‹</button>
@@ -7014,7 +7014,7 @@ async function showPlantModal(plant) {
                             }
                         </div>
                         <button type="button" class="plant-gallery-arrow plant-gallery-next" onclick="galleryPrevNext(${plant.id}, 1)" aria-label="Next image">›</button>
-                        <div class="plant-gallery-counter"><span id="gallery-current-num">1</span> / ${galleryImages.length}</div>
+                        <div class="plant-gallery-counter"><span id="gallery-current-num">1</span> / <span id="gallery-total-count-${plant.id}">${galleryImages.length}</span></div>
                         <button type="button" class="plant-gallery-set-main gallery-set-main-btn" onclick="event.preventDefault(); event.stopPropagation(); setAsMainImageFromPreview(${plant.id})" aria-label="Set as main image">⭐ Set as main</button>
                         <button type="button" class="plant-gallery-fullscreen-btn" onclick="openGalleryFullscreen(${plant.id})" aria-label="View fullscreen">⛶ Fullscreen</button>
                     </div>
@@ -7023,7 +7023,7 @@ async function showPlantModal(plant) {
                         <button type="button" class="gallery-fullscreen-arrow gallery-fullscreen-prev" onclick="galleryFullscreenPrevNext(${plant.id}, -1)" aria-label="Previous">‹</button>
                         <img id="gallery-fullscreen-img" src="${displayImageUrl || ''}" alt="${escapeHtml(plant.name)}" class="gallery-fullscreen-image">
                         <button type="button" class="gallery-fullscreen-arrow gallery-fullscreen-next" onclick="galleryFullscreenPrevNext(${plant.id}, 1)" aria-label="Next">›</button>
-                        <div class="gallery-fullscreen-counter"><span id="gallery-fullscreen-num">1</span> / ${galleryImages.length}</div>
+                        <div class="gallery-fullscreen-counter"><span id="gallery-fullscreen-num">1</span> / <span id="gallery-fullscreen-total-${plant.id}">${galleryImages.length}</span></div>
                     </div>
                     <div class="plant-gallery-thumbnails-wrap">
                         <div class="plant-gallery-thumbnails">
@@ -7032,7 +7032,7 @@ async function showPlantModal(plant) {
                                 const isMain = idx === 0;
                                 return `
                                 <button type="button" class="plant-gallery-thumb gallery-thumbnail ${idx === 0 ? 'selected' : ''}" data-img-index="${idx}" data-img-path="${escapedPath}" onclick="selectGalleryImage('${escapedPath}', ${plant.id}, ${idx}, event)" aria-label="Image ${idx + 1}">
-                                    <span class="plant-gallery-thumb-img"><img src="${img}" alt="" loading="lazy" onerror="this.style.display='none'" onload="this.style.display='block'"></span>
+                                    <span class="plant-gallery-thumb-img"><img src="${img}" alt="" loading="lazy" onerror="this.closest('.plant-gallery-thumb').style.display='none'; galleryUpdateCount(${plant.id})" onload="this.style.display='block'; galleryUpdateCount(${plant.id})"></span>
                                     ${isMain ? '<span class="plant-gallery-thumb-badge" title="Main image">⭐</span>' : ''}
                                     <button type="button" class="delete-image-btn plant-gallery-thumb-delete" onclick="event.stopPropagation(); event.preventDefault(); deleteImageFromGallery(${plant.id}, ${idx}, '${escapedPath}');" title="Remove image" aria-label="Remove image">×</button>
                                 </button>`;
@@ -7346,6 +7346,21 @@ function switchModalPage(pageNum, plantId) {
         targetPage.style.display = pageNum === 2 ? 'block' : 'contents';
         targetPage.classList.add('active');
     }
+}
+
+// Update gallery photo count after thumbnails load/fail (hides blank placeholders, corrects counter)
+function galleryUpdateCount(plantId) {
+    var gallery = document.getElementById('gallery-page-' + plantId);
+    if (!gallery) return;
+    var allThumbs = gallery.querySelectorAll('.plant-gallery-thumb');
+    var visible = 0;
+    allThumbs.forEach(function(btn) { if (btn.style.display !== 'none') visible++; });
+    var photoCountEl = document.getElementById('gallery-photo-count-' + plantId);
+    if (photoCountEl) photoCountEl.textContent = visible + ' photo' + (visible !== 1 ? 's' : '');
+    var totalEl = document.getElementById('gallery-total-count-' + plantId);
+    if (totalEl) totalEl.textContent = visible;
+    var fullscreenTotalEl = document.getElementById('gallery-fullscreen-total-' + plantId);
+    if (fullscreenTotalEl) fullscreenTotalEl.textContent = visible;
 }
 
 // Select gallery image to display in large preview
