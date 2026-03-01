@@ -12,6 +12,16 @@
     inv.getItem = function (plantId) { return sup.getInventoryItem(plantId); };
     inv.setItem = function (plantId, data) { return sup.setInventoryRow(plantId, data); };
     inv.deleteItem = function (plantId) { return sup.deleteInventoryRow(plantId); };
+
+    // Decrement stock in Supabase so all users see the updated quantity after an order
+    inv.decrementStock = function (plantId, quantity) {
+        return sup.getInventoryItem(plantId).then(function (row) {
+            if (!row || row.quantityInStock == null) return;
+            var next = Math.max(0, Number(row.quantityInStock) - Number(quantity));
+            return sup.setInventoryRow(plantId, { quantityInStock: next });
+        });
+    };
+
     inv.mergeInventoryIntoPlants = function (plants) {
         if (!plants || !plants.length) return Promise.resolve();
         return sup.getInventory().then(function (rows) {
