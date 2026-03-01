@@ -6535,28 +6535,38 @@ async function showPlantModal(plant) {
         plant.images = ensureUniqueImages(plant.images);
     }
     
-    // When catalog has only one image but storage may have more: expand to slug-2..20 so gallery can show all (e.g. Aglaonema Rotunda-Red tiger)
+    // Expand candidate URLs (slug-1..20) and probe which ones actually exist so gallery never shows blank placeholders
     if (plant.images && plant.images.length >= 1 && typeof window !== 'undefined' && window.SUPABASE_URL) {
         var firstImg = plant.images[0];
         if (typeof firstImg === 'string' && firstImg.length > 0) {
             var cleanFirst = firstImg.split('?')[0].split('#')[0];
-            var plantsPath = '/plants/';
-            var idxPl = cleanFirst.toLowerCase().indexOf(plantsPath);
-            if (idxPl !== -1) {
-                var afterPlants = cleanFirst.substring(idxPl + plantsPath.length);
-                var segs = afterPlants.split('/').filter(Boolean);
-                if (segs.length >= 1) {
-                    var slug = segs[0];
-                    var pathPrefix = cleanFirst.substring(0, idxPl + plantsPath.length);
-                    var ext = 'jpg';
-                    var extMatch = cleanFirst.match(/\.(jpg|jpeg|png|gif|webp)(?:\?|#|$)/i);
-                    if (extMatch) ext = extMatch[1].toLowerCase().replace('jpeg', 'jpg');
-                    var basePath = pathPrefix + slug;
-                    var expanded = plant.images.slice();
-                    for (var e = expanded.length + 1; e <= 20; e++) {
-                        expanded.push(basePath + '/' + slug + '-' + e + '.' + ext);
+            var plantsPathCheck = '/plants/';
+            var idxPlCheck = cleanFirst.toLowerCase().indexOf(plantsPathCheck);
+            if (idxPlCheck !== -1) {
+                var afterPlantsCheck = cleanFirst.substring(idxPlCheck + plantsPathCheck.length);
+                var segsCheck = afterPlantsCheck.split('/').filter(Boolean);
+                if (segsCheck.length >= 1) {
+                    var slugCheck = segsCheck[0];
+                    var pathPrefixCheck = cleanFirst.substring(0, idxPlCheck + plantsPathCheck.length);
+                    var extCheck = 'jpg';
+                    var extMatchCheck = cleanFirst.match(/\.(jpg|jpeg|png|gif|webp)(?:\?|#|$)/i);
+                    if (extMatchCheck) extCheck = extMatchCheck[1].toLowerCase().replace('jpeg', 'jpg');
+                    var basePathCheck = pathPrefixCheck + slugCheck;
+                    var candidates = plant.images.slice();
+                    for (var ci = candidates.length + 1; ci <= 20; ci++) {
+                        candidates.push(basePathCheck + '/' + slugCheck + '-' + ci + '.' + extCheck);
                     }
-                    plant.images = expanded;
+                    // Probe all candidates in parallel; keep only those that load
+                    var probed = await Promise.all(candidates.map(function(url) {
+                        return new Promise(function(resolve) {
+                            var img = new Image();
+                            img.onload = function() { resolve(url); };
+                            img.onerror = function() { resolve(null); };
+                            img.src = url;
+                        });
+                    }));
+                    plant.images = probed.filter(Boolean);
+                    if (plant.images.length > 0) plant.imageUrl = plant.images[0];
                 }
             }
         }
@@ -7003,7 +7013,7 @@ async function showPlantModal(plant) {
                             <h2 class="plant-gallery-item-name">${escapeHtml(plant.name)}</h2>
                             ${plant.scientificName ? '<p class="plant-gallery-scientific-name">' + escapeHtml(plant.scientificName) + '</p>' : ''}
                         </div>
-                        <span class="plant-gallery-count" id="gallery-photo-count-${plant.id}">${galleryImages.length} photo${galleryImages.length !== 1 ? 's' : ''}</span>
+                        <span class="plant-gallery-count">${galleryImages.length} photo${galleryImages.length !== 1 ? 's' : ''}</span>
                     </header>
                     <div class="plant-gallery-stage" id="gallery-preview-${plant.id}">
                         <button type="button" class="plant-gallery-arrow plant-gallery-prev" onclick="galleryPrevNext(${plant.id}, -1)" aria-label="Previous image">‹</button>
@@ -7014,7 +7024,7 @@ async function showPlantModal(plant) {
                             }
                         </div>
                         <button type="button" class="plant-gallery-arrow plant-gallery-next" onclick="galleryPrevNext(${plant.id}, 1)" aria-label="Next image">›</button>
-                        <div class="plant-gallery-counter"><span id="gallery-current-num">1</span> / <span id="gallery-total-count-${plant.id}">${galleryImages.length}</span></div>
+                        <div class="plant-gallery-counter"><span id="gallery-current-num">1</span> / ${galleryImages.length}</div>
                         <button type="button" class="plant-gallery-set-main gallery-set-main-btn" onclick="event.preventDefault(); event.stopPropagation(); setAsMainImageFromPreview(${plant.id})" aria-label="Set as main image">⭐ Set as main</button>
                         <button type="button" class="plant-gallery-fullscreen-btn" onclick="openGalleryFullscreen(${plant.id})" aria-label="View fullscreen">⛶ Fullscreen</button>
                     </div>
@@ -7023,7 +7033,7 @@ async function showPlantModal(plant) {
                         <button type="button" class="gallery-fullscreen-arrow gallery-fullscreen-prev" onclick="galleryFullscreenPrevNext(${plant.id}, -1)" aria-label="Previous">‹</button>
                         <img id="gallery-fullscreen-img" src="${displayImageUrl || ''}" alt="${escapeHtml(plant.name)}" class="gallery-fullscreen-image">
                         <button type="button" class="gallery-fullscreen-arrow gallery-fullscreen-next" onclick="galleryFullscreenPrevNext(${plant.id}, 1)" aria-label="Next">›</button>
-                        <div class="gallery-fullscreen-counter"><span id="gallery-fullscreen-num">1</span> / <span id="gallery-fullscreen-total-${plant.id}">${galleryImages.length}</span></div>
+                        <div class="gallery-fullscreen-counter"><span id="gallery-fullscreen-num">1</span> / ${galleryImages.length}</div>
                     </div>
                     <div class="plant-gallery-thumbnails-wrap">
                         <div class="plant-gallery-thumbnails">
@@ -7032,7 +7042,7 @@ async function showPlantModal(plant) {
                                 const isMain = idx === 0;
                                 return `
                                 <button type="button" class="plant-gallery-thumb gallery-thumbnail ${idx === 0 ? 'selected' : ''}" data-img-index="${idx}" data-img-path="${escapedPath}" onclick="selectGalleryImage('${escapedPath}', ${plant.id}, ${idx}, event)" aria-label="Image ${idx + 1}">
-                                    <span class="plant-gallery-thumb-img"><img src="${img}" alt="" loading="lazy" onerror="this.closest('.plant-gallery-thumb').style.display='none'; galleryUpdateCount(${plant.id})" onload="this.style.display='block'; galleryUpdateCount(${plant.id})"></span>
+                                    <span class="plant-gallery-thumb-img"><img src="${img}" alt="" loading="lazy" onerror="this.style.display='none'" onload="this.style.display='block'"></span>
                                     ${isMain ? '<span class="plant-gallery-thumb-badge" title="Main image">⭐</span>' : ''}
                                     <button type="button" class="delete-image-btn plant-gallery-thumb-delete" onclick="event.stopPropagation(); event.preventDefault(); deleteImageFromGallery(${plant.id}, ${idx}, '${escapedPath}');" title="Remove image" aria-label="Remove image">×</button>
                                 </button>`;
