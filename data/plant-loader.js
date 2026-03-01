@@ -194,10 +194,8 @@ async function loadAllPlants() {
                                         checkNext();
                                     };
                                     img.onerror = function () {
-                                        if (verified.length > 1) {
-                                            var payload = Object.assign({}, plant, { images: verified, imageUrl: verified[0] });
-                                            window.supabaseDb.updatePlantInCatalog(plantId, payload).catch(function () {});
-                                        }
+                                        idx++;
+                                        checkNext();
                                     };
                                     img.src = url;
                                 }
