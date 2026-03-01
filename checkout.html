@@ -108,11 +108,11 @@
             <div class="checkout-payment">
                 <h3 style="margin: 0 0 0.5rem 0; font-size: 1rem;">Payment method</h3>
                 <label><input type="radio" name="paymentMethod" value="cod" checked> Cash on delivery</label>
-                <label><input type="radio" name="paymentMethod" value="bank"> Bank transfer</label>
-                <label><input type="radio" name="paymentMethod" value="card"> Pay by card (Stripe)</label>
+                <label id="paymentOptionBank" style="display: none;"><input type="radio" name="paymentMethod" value="bank"> Bank transfer</label>
+                <label id="paymentOptionCard"><input type="radio" name="paymentMethod" value="card" id="cardPaymentRadio"> Pay by card (Stripe)</label>
                 <p class="checkout-payment-detail" id="paymentDetailCod">Pay when your order is delivered.</p>
-                <p class="checkout-payment-detail" id="paymentDetailBank" style="display: none;">Transfer to Account XXX / IBAN XXX. Reference: your order number after confirmation.</p>
-                <p class="checkout-payment-detail" id="paymentDetailCard" style="display: none;">You will be redirected to our secure payment page.</p>
+                <p class="checkout-payment-detail" id="paymentDetailBank" style="display: none;">Please transfer the order total and use your order number as the reference. We will send bank details to your email.</p>
+                <p class="checkout-payment-detail" id="paymentDetailCard" style="display: none; color: var(--text-light);">Card payments are not available at the moment. Please choose Cash on delivery.</p>
             </div>
             <p id="checkoutFormError" class="checkout-error" style="display: none;"></p>
         </div>
@@ -130,6 +130,17 @@
                 window.CHECKOUT_API_BASE = 'http://localhost:3000';
             else window.CHECKOUT_API_BASE = '';
         }
+        // Disable card payments when payment server is not configured
+        (function() {
+            var isLive = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+            var apiConfigured = typeof window.CHECKOUT_API_BASE === 'string' && window.CHECKOUT_API_BASE !== '';
+            if (isLive && !apiConfigured) {
+                var cardLabel = document.getElementById('paymentOptionCard');
+                var cardRadio = document.getElementById('cardPaymentRadio');
+                if (cardLabel) { cardLabel.style.opacity = '0.4'; cardLabel.title = 'Card payments are not available at the moment'; }
+                if (cardRadio) cardRadio.disabled = true;
+            }
+        })();
         (function() {
             var key = 'terrarium_cart';
             var el = document.getElementById('checkoutCartSummary');
