@@ -27,10 +27,8 @@ alwaysApply: false
 - [x] D3.js in taxonomy.html `<head>` now deferred (was the only truly render-blocking script)
 - Note: `inventory.html` skipped (900-line inline staff page, bottom-of-body, minimal risk)
 
-### Step 3 — Fix the Back button behavior across all sub-pages
-- [ ] Open `js/nav.js` and find the back button handler
-- [ ] Replace `window.location.href = 'index.html'` with `if (history.length > 1) { history.back(); } else { window.location.href = 'index.html'; }`
-- **Confirm before continuing:** "Step 3 complete — back button fixed. Ready for Step 4?"
+### ✅ Step 3 — Fix the Back button behavior across all sub-pages
+- [x] Updated `js/nav.js` — back button now calls `history.back()` with `index.html` as fallback
 
 ---
 
