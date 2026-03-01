@@ -111,6 +111,17 @@
                     </div>
                 </div>
             </div>
+            <!-- Optional account creation — shown only to non-logged-in users -->
+            <div id="checkoutGuestRegister" style="display:none; margin-top: 1.25rem; padding: 1rem; background: var(--bg-color); border-radius: 8px; border: 1px solid var(--border-color);">
+                <h3 style="margin: 0 0 0.5rem 0; font-size: 1rem;">Save your details for next time? <span style="font-weight:400; color:var(--text-light); font-size:0.9rem;">(optional)</span></h3>
+                <p style="font-size:0.875rem; color:var(--text-light); margin: 0 0 0.75rem 0;">Enter a password to create a free account using the details above — or leave it blank to check out as a guest.</p>
+                <label for="checkoutRegPassword" style="font-weight:600; font-size:0.9rem;">Choose a password</label>
+                <input type="password" id="checkoutRegPassword" placeholder="At least 6 characters (optional)" autocomplete="new-password" style="width:100%; padding:0.5rem 0.75rem; margin-top:0.25rem; border:1px solid var(--border-color); border-radius:6px; box-sizing:border-box; font-size:1rem;">
+                <label for="checkoutRegPassword2" style="font-weight:600; font-size:0.9rem; margin-top:0.5rem; display:block;">Confirm password</label>
+                <input type="password" id="checkoutRegPassword2" placeholder="Repeat password" autocomplete="new-password" style="width:100%; padding:0.5rem 0.75rem; margin-top:0.25rem; border:1px solid var(--border-color); border-radius:6px; box-sizing:border-box; font-size:1rem;">
+                <p id="checkoutRegError" style="color:#b91c1c; font-size:0.85rem; margin-top:0.4rem; display:none;"></p>
+            </div>
+
             <div class="checkout-payment">
                 <h3 style="margin: 0 0 0.5rem 0; font-size: 1rem;">Payment method</h3>
                 <label><input type="radio" name="paymentMethod" value="cod" checked> Cash on delivery</label>
@@ -204,6 +215,11 @@
                     }).join('');
                     el.innerHTML = '<h2>Order summary</h2><div class="checkout-order-table-wrap"><table class="checkout-order-table" role="grid"><thead><tr><th scope="col">Item</th><th scope="col" class="col-qty">Qty</th><th scope="col" class="col-price">Unit price</th><th scope="col" class="col-total">Line total</th></tr></thead><tbody>' + rows + '</tbody><tfoot><tr><td colspan="2"><strong>Total</strong> <span style="font-size:0.85rem;color:var(--text-light);">(' + totalQty + ' item' + (totalQty !== 1 ? 's' : '') + ')</span></td><td></td><td class="col-total">' + (hasPrice ? formatPrice(totalPrice) : '—') + '</td></tr></tfoot></table></div>';
                     formWrap.style.display = 'block';
+                    // Show optional guest registration section for non-logged-in users
+                    var guestRegWrap = document.getElementById('checkoutGuestRegister');
+                    if (guestRegWrap) {
+                        guestRegWrap.style.display = (window.auth && window.auth.getCurrentUser()) ? 'none' : 'block';
+                    }
                     if (window.auth && window.auth.getCurrentUser()) {
                         var u = window.auth.getCurrentUser();
                         var nameEl = document.getElementById('checkoutName');
@@ -246,11 +262,12 @@
             function confirmOrder() {
                 formError.style.display = 'none';
                 formError.textContent = '';
+                var regErrEl = document.getElementById('checkoutRegError');
+                if (regErrEl) { regErrEl.style.display = 'none'; regErrEl.textContent = ''; }
+
                 var cart = JSON.parse(localStorage.getItem(key) || '[]');
-                if (cart.length === 0) {
-                    renderCart();
-                    return;
-                }
+                if (cart.length === 0) { renderCart(); return; }
+
                 var name = (document.getElementById('checkoutName').value || '').trim();
                 var email = (document.getElementById('checkoutEmail').value || '').trim();
                 var phone = (document.getElementById('checkoutPhone').value || '').trim();
@@ -274,6 +291,35 @@
                     formError.style.display = 'block';
                     return;
                 }
+                // Optional guest account creation — only attempt if password is provided
+                var regPassword = (document.getElementById('checkoutRegPassword') || {}).value || '';
+                var regPassword2 = (document.getElementById('checkoutRegPassword2') || {}).value || '';
+                var isGuest = !(window.auth && window.auth.getCurrentUser());
+                if (isGuest && regPassword) {
+                    if (regPassword.length < 6) {
+                        if (regErrEl) { regErrEl.textContent = 'Password must be at least 6 characters.'; regErrEl.style.display = 'block'; }
+                        return;
+                    }
+                    if (regPassword !== regPassword2) {
+                        if (regErrEl) { regErrEl.textContent = 'Passwords do not match.'; regErrEl.style.display = 'block'; }
+                        return;
+                    }
+                    if (!window.auth || typeof window.auth.register !== 'function') {
+                        if (regErrEl) { regErrEl.textContent = 'Registration unavailable right now. You can still place your order as a guest.'; regErrEl.style.display = 'block'; }
+                        // Non-fatal: clear password fields and continue as guest
+                        document.getElementById('checkoutRegPassword').value = '';
+                        document.getElementById('checkoutRegPassword2').value = '';
+                    } else {
+                        // Register silently — if it fails, still place the order as guest
+                        window.auth.register(email, regPassword, name).catch(function(err) {
+                            if (regErrEl) {
+                                regErrEl.textContent = (err && err.message) ? err.message : 'Could not create account, but your order will still be placed.';
+                                regErrEl.style.display = 'block';
+                            }
+                        });
+                    }
+                }
+
                 var totalPrice = cart.reduce(function(s, i) { return s + (i.price != null ? i.price * i.quantity : 0); }, 0);
                 var paymentMethod = getPaymentMethod();
                 if (paymentMethod === 'card' && (!totalPrice || totalPrice <= 0)) {
