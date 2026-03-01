@@ -6319,12 +6319,6 @@ function createPlantCard(plant) {
     if (displayImageUrl && /supabase\.co\/storage\/v1\/object\/public\//i.test(displayImageUrl) && !window.SUPABASE_URL && !plantHasBucketImages(plant)) {
         displayImageUrl = null;
     }
-    if (typeof window._plantImageDebugCount === 'undefined') window._plantImageDebugCount = 0;
-    if (window._plantImageDebugCount < 5 && displayImageUrl) {
-        console.log('[plant-images] createPlantCard img src:', { plantId: plant.id, name: plant.name, displayImageUrl: displayImageUrl, isFullUrl: /^https?:/i.test(displayImageUrl) });
-        window._plantImageDebugCount++;
-    }
-    
     // Create a unique identifier for this card to help with updates
     card.dataset.plantId = plant.id;
     
@@ -7566,15 +7560,10 @@ function discoverImagesForCurrentPage() {
     const page = Math.max(1, Math.min(currentPlantsPage, totalPages));
     const start = (page - 1) * plantsPerPage;
     const pagePlants = filteredPlants.slice(start, start + plantsPerPage);
-    if (typeof window._discoverImagesDebugCount === 'undefined') window._discoverImagesDebugCount = 0;
     pagePlants.forEach(function (plant) {
         if (plant && (plant.imageUrl || (plant.images && plant.images.length))) {
             var url = plant.imageUrl || plant.images[0];
             if (url && /supabase\.co\/storage\/v1\/object\/public\//i.test(url) && !window.SUPABASE_URL && !plantHasBucketImages(plant)) url = null;
-            if (window._discoverImagesDebugCount < 3 && url) {
-                console.log('[plant-images] discoverImagesForCurrentPage -> updatePlantCardImage', { plantId: plant.id, url: url, isFullUrl: /^https?:/i.test(url) });
-                window._discoverImagesDebugCount++;
-            }
             updatePlantCardImage(plant.id, url);
         }
     });
@@ -7622,12 +7611,6 @@ function updatePlantCardImage(plantId, imageUrl) {
         });
         return;
     }
-    if (typeof window._plantImageUpdateDebugCount === 'undefined') window._plantImageUpdateDebugCount = 0;
-    if (window._plantImageUpdateDebugCount < 5) {
-        console.log('[plant-images] updatePlantCardImage:', { plantId: plantId, imageUrl: imageUrl, isFullUrl: /^https?:/i.test(imageUrl) });
-        window._plantImageUpdateDebugCount++;
-    }
-    
     // Update the plant object
     plant.imageUrl = imageUrl;
     if (!plant.images) {

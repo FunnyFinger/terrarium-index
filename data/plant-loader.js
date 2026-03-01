@@ -139,56 +139,7 @@ async function loadAllPlants() {
                             }
                         });
                     }
-                    // Background discovery: for plants with storage images, probe slug-2..20 to find extras,
-                    // then update catalog — but NEVER overwrite p.images with unverified candidates
                     if (typeof window !== 'undefined') window.plantsDatabase = plantsDatabase;
-                    if (storagePrefix && window.supabaseDb && window.supabaseDb.updatePlantInCatalog) {
-                        setTimeout(function passiveCatalogUpdate() {
-                            var plantsPath = '/plants/';
-                            plantsDatabase.forEach(function (plant) {
-                                if (!plant || !plant.images || !plant.images.length) return;
-                                var first = plant.images[0];
-                                if (typeof first !== 'string' || !first.length) return;
-                                var clean = first.split('?')[0].split('#')[0];
-                                var idxPl = clean.toLowerCase().indexOf(plantsPath);
-                                if (idxPl === -1) return;
-                                var afterPlants = clean.substring(idxPl + plantsPath.length);
-                                var segs = afterPlants.split('/').filter(Boolean);
-                                if (segs.length < 1) return;
-                                var slug = segs[0];
-                                var pathPrefix = clean.substring(0, idxPl + plantsPath.length);
-                                var ext = 'jpg';
-                                var extMatch = clean.match(/\.(jpg|jpeg|png|gif|webp)(?:\?|#|$)/i);
-                                if (extMatch) ext = extMatch[1].toLowerCase().replace('jpeg', 'jpg');
-                                var basePath = pathPrefix + slug;
-                                // Only probe candidates BEYOND what catalog already has
-                                var startIdx = plant.images.length + 1;
-                                var candidates = [];
-                                for (var i = startIdx; i <= 20; i++) {
-                                    candidates.push(basePath + '/' + slug + '-' + i + '.' + ext);
-                                }
-                                if (!candidates.length) return;
-                                var knownImages = plant.images.slice();
-                                var plantId = plant.id;
-                                Promise.all(candidates.map(function(url) {
-                                    return new Promise(function(resolve) {
-                                        var img = new Image();
-                                        img.onload = function() { resolve(url); };
-                                        img.onerror = function() { resolve(null); };
-                                        img.src = url;
-                                    });
-                                })).then(function(results) {
-                                    var newImages = results.filter(Boolean);
-                                    if (!newImages.length) return;
-                                    var allImages = knownImages.concat(newImages);
-                                    var p = plantsDatabase.find(function(x) { return x && x.id === plantId; });
-                                    if (p) p.images = allImages;
-                                    var payload = Object.assign({}, plant, { images: allImages, imageUrl: allImages[0] });
-                                    window.supabaseDb.updatePlantInCatalog(plantId, payload).catch(function() {});
-                                }).catch(function() {});
-                            });
-                        }, 4000);
-                    }
                     console.log('✅ Loaded ' + plantsDatabase.length + ' plants from Supabase plants_catalog');
                     var withImages = plantsDatabase.filter(function (p) { return p.images && p.images.length > 0; });
                     if (withImages.length > 0) {
