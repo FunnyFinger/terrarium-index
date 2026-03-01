@@ -89,10 +89,12 @@ alwaysApply: false
 - [ ] Add a short CSS animation (scale bounce or pulse) to the cart icon in the nav when the cart count updates
 - **Confirm before continuing:** "Step 12 complete — cart feedback added. Ready for Step 13?"
 
-### Step 13 — Explain disabled Add to Cart buttons to guests
-- [ ] When a guest (not logged in) sees a disabled "Add to cart" button, add a tooltip or small label: "Sign in to purchase"
-- [ ] Optionally: clicking the disabled button redirects to `auth.html` with a return URL
-- **Confirm before continuing:** "Step 13 complete — guest cart messaging added. Ready for Step 14?"
+### ✅ Step 13 — Guest checkout with optional account creation
+- [x] Add to Cart buttons already work for guests (disabled only for out-of-stock, not auth-gated)
+- [x] Checkout form works for guests — no login required to place an order
+- [x] Added optional "Create account with these details" section (guests only): password + confirm fields
+- [x] If password entered: registers using name/email already provided, non-fatal if fails
+- [x] If left blank: order placed as guest with no friction
 
 ### Step 14 — Add a skip-to-content link for accessibility
 - [ ] Add `<a href="#main-content" class="skip-link">Skip to main content</a>` as the very first element inside `<body>` on `index.html` and all sub-pages
