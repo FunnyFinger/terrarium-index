@@ -34,12 +34,8 @@ alwaysApply: false
 
 ## Phase 2 — SEO & Discoverability
 
-### Step 4 — Add SEO meta tags to index.html
-- [ ] Add `<meta name="description" content="...">` (plant store for vivarium enthusiasts in Kuwait)
-- [ ] Add Open Graph tags: `og:title`, `og:description`, `og:image`, `og:url`, `og:type`
-- [ ] Add Twitter Card tags: `twitter:card`, `twitter:title`, `twitter:description`, `twitter:image`
-- [ ] Add `<link rel="canonical" href="https://vivarium-store.netlify.app/">`
-- **Confirm before continuing:** "Step 4 complete — SEO meta tags added. Ready for Step 5?"
+### ✅ Step 4 — Add SEO meta tags to index.html
+- [x] meta description, Open Graph (type/url/title/description/image/locale/site_name), Twitter Card, canonical added
 
 ### Step 5 — Add SEO meta tags to all sub-pages
 - [ ] Add meta description + Open Graph + canonical to: `checkout.html`, `build-vivarium.html`, `auth.html`, `account.html`, `taxonomy.html`, `definitions.html`, `settings.html`
