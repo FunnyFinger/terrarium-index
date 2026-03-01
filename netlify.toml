@@ -1,6 +1,7 @@
 [build]
   # No build command needed - this is a static site
   publish = "."
+  functions = "netlify/functions"
 
 # Security headers for all pages
 [[headers]]

@@ -389,10 +389,24 @@
                         var total = cart.length;
                         function onAllDone() {
                             localStorage.setItem(key, '[]');
+
+                            // Send confirmation email (non-blocking — failure doesn't affect order)
+                            fetch('/.netlify/functions/send-order-email', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    orderId: orderId,
+                                    customer: order.customer,
+                                    items: orderItems,
+                                    totalAmount: totalPrice,
+                                    paymentMethod: paymentMethod
+                                })
+                            }).catch(function() { /* non-fatal */ });
+
                             var msg = '<strong style="color: var(--primary-color);">Order #' + orderId + ' confirmed. Thank you!</strong><br><br>';
-                            if (paymentMethod === 'cod') msg += 'Pay when your order is delivered. We will contact you at ' + (email || phone || 'the details provided') + '.';
-                            else if (paymentMethod === 'bank') msg += 'Please transfer <strong>' + formatPrice(totalPrice) + '</strong> to our bank account. Reference: Order #' + orderId + '. We will contact you at ' + (email || phone || '') + ' with account details.';
-                            else msg += 'We will contact you at ' + (email || phone || 'the details provided') + '.';
+                            if (paymentMethod === 'cod') msg += 'Pay when your order is delivered. A confirmation email has been sent to ' + (email || 'you') + '.';
+                            else if (paymentMethod === 'bank') msg += 'Please transfer <strong>' + formatPrice(totalPrice) + '</strong> using Order #' + orderId + ' as reference. Bank details will be sent to ' + (email || 'you') + '.';
+                            else msg += 'A confirmation email has been sent to ' + (email || 'the details provided') + '.';
                             confirmWrap.innerHTML = msg + '<br><br><a href="index.html">Continue shopping</a>';
                             formWrap.style.display = 'none';
                             el.innerHTML = '<p class="checkout-note"><a href="index.html">Continue shopping</a></p>';
