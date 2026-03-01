@@ -141,7 +141,7 @@ function getCardThumbUrl(url, width, quality) {
     // Supabase Storage object URL pattern
     var match = url.match(/^(https:\/\/[^/]+)(\/storage\/v1\/object\/public\/)(.+)$/i);
     if (!match) return url;
-    return match[1] + '/storage/v1/render/image/public/' + match[3] + '?width=' + w + '&quality=' + q + '&resize=cover';
+    return match[1] + '/storage/v1/render/image/public/' + match[3] + '?width=' + w + '&quality=' + q;
 }
 
 function plantHasBucketImages(plant) {
@@ -7030,7 +7030,7 @@ async function showPlantModal(plant) {
                         <button type="button" class="plant-gallery-arrow plant-gallery-prev" onclick="galleryPrevNext(${plant.id}, -1)" aria-label="Previous image">‹</button>
                         <div class="plant-gallery-stage-inner">
                             ${displayImageUrl ? 
-                                `<img id="gallery-preview-img" data-current-index="0" src="${displayImageUrl}" alt="${plant.name}" class="gallery-preview-image">` :
+                                `<img id="gallery-preview-img" data-current-index="0" src="${getCardThumbUrl(displayImageUrl, 1200, 85)}" data-original-src="${displayImageUrl}" alt="${plant.name}" class="gallery-preview-image">` :
                                 `<div class="plant-gallery-placeholder">🌿</div>`
                             }
                         </div>
@@ -7053,7 +7053,7 @@ async function showPlantModal(plant) {
                                 const isMain = idx === 0;
                                 return `
                                 <button type="button" class="plant-gallery-thumb gallery-thumbnail ${idx === 0 ? 'selected' : ''}" data-img-index="${idx}" data-img-path="${escapedPath}" onclick="selectGalleryImage('${escapedPath}', ${plant.id}, ${idx}, event)" aria-label="Image ${idx + 1}">
-                                    <span class="plant-gallery-thumb-img"><img src="${img}" alt="" loading="lazy" onerror="this.closest('.plant-gallery-thumb').style.display='none'" onload="this.style.display='block'"></span>
+                                    <span class="plant-gallery-thumb-img"><img src="${getCardThumbUrl(img, 200, 70)}" alt="" loading="lazy" onerror="this.closest('.plant-gallery-thumb').style.display='none'" onload="this.style.display='block'"></span>
                                     ${isMain ? '<span class="plant-gallery-thumb-badge" title="Main image">⭐</span>' : ''}
                                     <button type="button" class="delete-image-btn plant-gallery-thumb-delete" onclick="event.stopPropagation(); event.preventDefault(); deleteImageFromGallery(${plant.id}, ${idx}, '${escapedPath}');" title="Remove image" aria-label="Remove image">×</button>
                                 </button>`;
@@ -7438,7 +7438,8 @@ function selectGalleryImage(imagePath, plantId, imageIndex, event) {
     
     const previewImg = document.getElementById('gallery-preview-img');
     if (previewImg) {
-        previewImg.src = imagePath;
+        previewImg.src = (typeof getCardThumbUrl === 'function') ? getCardThumbUrl(imagePath, 1200, 85) : imagePath;
+        previewImg.setAttribute('data-original-src', imagePath);
         previewImg.setAttribute('data-current-index', imageIndex);
     }
     
@@ -7476,7 +7477,8 @@ function openGalleryFullscreen(plantId) {
     const fsNum = document.getElementById('gallery-fullscreen-num');
     if (!overlay || !fsImg) return;
     if (previewImg && previewImg.src) {
-        fsImg.src = previewImg.src;
+        // Use original full-res URL for fullscreen if available
+        fsImg.src = previewImg.getAttribute('data-original-src') || previewImg.src;
         fsImg.alt = previewImg.alt || '';
     }
     if (fsNum) {
