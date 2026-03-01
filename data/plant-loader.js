@@ -62,6 +62,8 @@ function applyPlantEditOverlaysFromRepo(plantsArray, editsById) {
             if (v === undefined || v === null) continue;
             if (k === 'description' && (v === '' || (typeof v === 'string' && !v.trim()))) continue;
             if (k === 'careTips' && (!Array.isArray(v) || v.length === 0)) continue;
+            if (k === 'images' && Array.isArray(base.images) && base.images.length > 0 && Array.isArray(v) && v.length < base.images.length) continue;
+            if (k === 'imageUrl' && Array.isArray(base.images) && base.images.length > 0 && !(Array.isArray(parsed.images) && parsed.images.length >= base.images.length)) continue;
             merged[k] = v;
         }
         plantsArray[i] = merged;
@@ -93,7 +95,6 @@ async function loadAllPlants() {
                     const sorted = cat.sort((a, b) => (a.id || 0) - (b.id || 0));
                     const base = (typeof window !== 'undefined' && window.SUPABASE_URL) ? String(window.SUPABASE_URL).replace(/\/$/, '') : '';
                     const storagePrefix = base ? base + '/storage/v1/object/public/vivarium-assets/' : '';
-                    const expandedIds = [];
                     sorted.forEach((p) => {
                         if (storagePrefix && p.images && Array.isArray(p.images)) {
                             p.images = p.images.map((u) => {
@@ -104,25 +105,6 @@ async function loadAllPlants() {
                                 if (u.startsWith('images/plants/')) return storagePrefix + u.slice(7);
                                 return u;
                             });
-                            // If catalog has only one image under plants/slug/, expand to slug-1..20 so gallery shows all storage images (any first filename accepted)
-                            if (p.images.length === 1 && storagePrefix) {
-                                const first = p.images[0];
-                                const pathMatch = (first && typeof first === 'string') && first.match(/^(.*\/plants\/)([^/]+)\/([^/]+)$/i);
-                                if (pathMatch) {
-                                    const pathPrefix = pathMatch[1];
-                                    const slug = pathMatch[2];
-                                    const firstFile = pathMatch[3];
-                                    const extMatch = firstFile.match(/\.(jpg|jpeg|png|gif|webp)$/i);
-                                    const ext = extMatch ? extMatch[1].toLowerCase().replace('jpeg', 'jpg') : 'jpg';
-                                    const basePath = pathPrefix + slug;
-                                    const expanded = [first];
-                                    for (let i = 2; i <= 20; i++) {
-                                        expanded.push(basePath + '/' + slug + '-' + i + '.' + ext);
-                                    }
-                                    p.images = expanded;
-                                    expandedIds.push(p.id);
-                                }
-                            }
                         }
                         if (storagePrefix && p.imageUrl && typeof p.imageUrl === 'string' && !/^https?:\/\//i.test(p.imageUrl)) {
                             if (p.imageUrl.startsWith('/storage/')) p.imageUrl = base + p.imageUrl;
@@ -132,41 +114,6 @@ async function loadAllPlants() {
                     });
                     plantsDatabase.length = 0;
                     plantsDatabase.push(...sorted);
-                    // Passively update catalog for plants we expanded: verify which URLs exist in storage, then save to Supabase
-                    if (typeof window !== 'undefined' && window.supabaseDb && window.supabaseDb.updatePlantInCatalog && expandedIds.length > 0) {
-                        setTimeout(function passiveCatalogUpdate() {
-                            expandedIds.forEach(function (plantId) {
-                                const plant = plantsDatabase.find(function (p) { return p && p.id === plantId; });
-                                if (!plant || !plant.images || plant.images.length <= 1) return;
-                                const verified = [plant.images[0]];
-                                let idx = 1;
-                                function checkNext() {
-                                    if (idx >= plant.images.length) {
-                                        if (verified.length > 1) {
-                                            const payload = Object.assign({}, plant, { images: verified, imageUrl: verified[0] });
-                                            window.supabaseDb.updatePlantInCatalog(plantId, payload).catch(function () {});
-                                        }
-                                        return;
-                                    }
-                                    const url = plant.images[idx];
-                                    const img = new Image();
-                                    img.onload = function () {
-                                        verified.push(url);
-                                        idx++;
-                                        checkNext();
-                                    };
-                                    img.onerror = function () {
-                                        if (verified.length > 1) {
-                                            const payload = Object.assign({}, plant, { images: verified, imageUrl: verified[0] });
-                                            window.supabaseDb.updatePlantInCatalog(plantId, payload).catch(function () {});
-                                        }
-                                    };
-                                    img.src = url;
-                                }
-                                checkNext();
-                            });
-                        }, 2000);
-                    }
                     applyPlantEditOverlays(plantsDatabase);
                     try {
                         const ovResp = await fetch('data/overrides/plant-edits.json?v=' + Date.now(), { cache: 'no-store' });
@@ -192,7 +139,79 @@ async function loadAllPlants() {
                             }
                         });
                     }
+                    // Expand single-image plants to slug-2..20 so gallery shows all storage images (after overlays so we are not overwritten)
+                    var expandedIds = [];
+                    if (storagePrefix) {
+                        plantsDatabase.forEach(function (p) {
+                            if (!p.images || p.images.length !== 1 || !storagePrefix) return;
+                            var first = p.images[0];
+                            if (typeof first !== 'string') return;
+                            var clean = first.split('?')[0].split('#')[0];
+                            var pathPrefix, slug, ext = 'jpg';
+                            var pathMatch = clean.match(/^(.*\/plants\/)([^/]+)\/([^/]+)$/i);
+                            if (pathMatch) {
+                                pathPrefix = pathMatch[1];
+                                slug = pathMatch[2];
+                                var firstFile = pathMatch[3];
+                                var extMatch = firstFile.match(/\.(jpg|jpeg|png|gif|webp)$/i);
+                                if (extMatch) ext = extMatch[1].toLowerCase().replace('jpeg', 'jpg');
+                            } else if (clean.indexOf('/plants/') !== -1) {
+                                var afterPlants = clean.split('/plants/')[1];
+                                if (afterPlants) {
+                                    var segs = afterPlants.split('/').filter(Boolean);
+                                    if (segs.length >= 1) {
+                                        slug = segs[0];
+                                        pathPrefix = clean.substring(0, clean.indexOf('/plants/') + 8);
+                                        var extMatch2 = clean.match(/\.(jpg|jpeg|png|gif|webp)(?:\?|#|$)/i);
+                                        if (extMatch2) ext = extMatch2[1].toLowerCase().replace('jpeg', 'jpg');
+                                    }
+                                }
+                            }
+                            if (!slug || !pathPrefix) return;
+                            var basePath = pathPrefix + slug;
+                            var expanded = [first];
+                            for (var i = 2; i <= 20; i++) {
+                                expanded.push(basePath + '/' + slug + '-' + i + '.' + ext);
+                            }
+                            p.images = expanded;
+                            expandedIds.push(p.id);
+                        });
+                    }
                     if (typeof window !== 'undefined') window.plantsDatabase = plantsDatabase;
+                    if (typeof window !== 'undefined' && window.supabaseDb && window.supabaseDb.updatePlantInCatalog && expandedIds.length > 0) {
+                        setTimeout(function passiveCatalogUpdate() {
+                            expandedIds.forEach(function (plantId) {
+                                var plant = plantsDatabase.find(function (p) { return p && p.id === plantId; });
+                                if (!plant || !plant.images || plant.images.length <= 1) return;
+                                var verified = [plant.images[0]];
+                                var idx = 1;
+                                function checkNext() {
+                                    if (idx >= plant.images.length) {
+                                        if (verified.length > 1) {
+                                            var payload = Object.assign({}, plant, { images: verified, imageUrl: verified[0] });
+                                            window.supabaseDb.updatePlantInCatalog(plantId, payload).catch(function () {});
+                                        }
+                                        return;
+                                    }
+                                    var url = plant.images[idx];
+                                    var img = new Image();
+                                    img.onload = function () {
+                                        verified.push(url);
+                                        idx++;
+                                        checkNext();
+                                    };
+                                    img.onerror = function () {
+                                        if (verified.length > 1) {
+                                            var payload = Object.assign({}, plant, { images: verified, imageUrl: verified[0] });
+                                            window.supabaseDb.updatePlantInCatalog(plantId, payload).catch(function () {});
+                                        }
+                                    };
+                                    img.src = url;
+                                }
+                                checkNext();
+                            });
+                        }, 3000);
+                    }
                     console.log('✅ Loaded ' + plantsDatabase.length + ' plants from Supabase plants_catalog');
                     var withImages = plantsDatabase.filter(function (p) { return p.images && p.images.length > 0; });
                     if (withImages.length > 0) {
