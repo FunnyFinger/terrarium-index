@@ -919,6 +919,8 @@ function initQuickAddOnCards() {
 
 function closePlantPanel() {
     document.removeEventListener('keydown', handlePlantPanelEscape);
+    var jsonLd = document.getElementById('product-jsonld');
+    if (jsonLd) jsonLd.remove();
     const navBackWrap = document.getElementById('navBackToListWrap');
     const navBackBtn = document.getElementById('navBackToList');
     if (navBackWrap) {
@@ -7148,6 +7150,39 @@ async function showPlantModal(plant) {
     }
     document.addEventListener('keydown', handlePlantPanelEscape);
     resetDetailPanelScroll();
+
+    // Inject JSON-LD Product structured data so search engines can index price,
+    // availability, and image for each plant viewed. Removed when panel closes.
+    (function injectProductJsonLd(p) {
+        var existing = document.getElementById('product-jsonld');
+        if (existing) existing.remove();
+        var price = (p.price != null && !isNaN(Number(p.price))) ? Number(p.price).toFixed(2) : null;
+        var availability = (typeof p.stockQuantity === 'number' && p.stockQuantity <= 0)
+            ? 'https://schema.org/OutOfStock'
+            : 'https://schema.org/InStock';
+        var img = p.imageUrl || (p.images && p.images[0]) || '';
+        var ld = {
+            '@context': 'https://schema.org',
+            '@type': 'Product',
+            name: p.name || '',
+            description: (p.description || '').slice(0, 500),
+            image: img ? [img] : [],
+            brand: { '@type': 'Brand', name: 'Vivarium Store' },
+            offers: {
+                '@type': 'Offer',
+                priceCurrency: 'KWD',
+                availability: availability,
+                url: 'https://vivarium-store.netlify.app/#' + (p.id || '')
+            }
+        };
+        if (price) ld.offers.price = price;
+        if (p.scientificName) ld.alternateName = p.scientificName;
+        var s = document.createElement('script');
+        s.type = 'application/ld+json';
+        s.id = 'product-jsonld';
+        s.textContent = JSON.stringify(ld);
+        document.head.appendChild(s);
+    })(plant);
 
     // Background gallery expansion: probe extra candidate URLs and patch gallery DOM without blocking modal open
     if (_galleryExpansionCandidates) {
