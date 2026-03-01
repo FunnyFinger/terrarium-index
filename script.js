@@ -6535,38 +6535,31 @@ async function showPlantModal(plant) {
         plant.images = ensureUniqueImages(plant.images);
     }
     
-    // Expand candidate URLs (slug-1..20) and probe which ones actually exist so gallery never shows blank placeholders
+    // Build candidate list for background gallery expansion (slug-1..20); do NOT await — modal opens instantly
+    var _galleryExpansionCandidates = null;
     if (plant.images && plant.images.length >= 1 && typeof window !== 'undefined' && window.SUPABASE_URL) {
-        var firstImg = plant.images[0];
-        if (typeof firstImg === 'string' && firstImg.length > 0) {
-            var cleanFirst = firstImg.split('?')[0].split('#')[0];
-            var plantsPathCheck = '/plants/';
-            var idxPlCheck = cleanFirst.toLowerCase().indexOf(plantsPathCheck);
-            if (idxPlCheck !== -1) {
-                var afterPlantsCheck = cleanFirst.substring(idxPlCheck + plantsPathCheck.length);
-                var segsCheck = afterPlantsCheck.split('/').filter(Boolean);
-                if (segsCheck.length >= 1) {
-                    var slugCheck = segsCheck[0];
-                    var pathPrefixCheck = cleanFirst.substring(0, idxPlCheck + plantsPathCheck.length);
-                    var extCheck = 'jpg';
-                    var extMatchCheck = cleanFirst.match(/\.(jpg|jpeg|png|gif|webp)(?:\?|#|$)/i);
-                    if (extMatchCheck) extCheck = extMatchCheck[1].toLowerCase().replace('jpeg', 'jpg');
-                    var basePathCheck = pathPrefixCheck + slugCheck;
-                    var candidates = plant.images.slice();
-                    for (var ci = candidates.length + 1; ci <= 20; ci++) {
-                        candidates.push(basePathCheck + '/' + slugCheck + '-' + ci + '.' + extCheck);
+        var _firstImg = plant.images[0];
+        if (typeof _firstImg === 'string' && _firstImg.length > 0) {
+            var _cleanFirst = _firstImg.split('?')[0].split('#')[0];
+            var _plantsPath = '/plants/';
+            var _idxPl = _cleanFirst.toLowerCase().indexOf(_plantsPath);
+            if (_idxPl !== -1) {
+                var _afterPlants = _cleanFirst.substring(_idxPl + _plantsPath.length);
+                var _segs = _afterPlants.split('/').filter(Boolean);
+                if (_segs.length >= 1) {
+                    var _slug = _segs[0];
+                    var _prefix = _cleanFirst.substring(0, _idxPl + _plantsPath.length);
+                    var _ext = 'jpg';
+                    var _extM = _cleanFirst.match(/\.(jpg|jpeg|png|gif|webp)(?:\?|#|$)/i);
+                    if (_extM) _ext = _extM[1].toLowerCase().replace('jpeg', 'jpg');
+                    var _basePath = _prefix + _slug;
+                    var _candidates = plant.images.slice();
+                    for (var _ci = _candidates.length + 1; _ci <= 20; _ci++) {
+                        _candidates.push(_basePath + '/' + _slug + '-' + _ci + '.' + _ext);
                     }
-                    // Probe all candidates in parallel; keep only those that load
-                    var probed = await Promise.all(candidates.map(function(url) {
-                        return new Promise(function(resolve) {
-                            var img = new Image();
-                            img.onload = function() { resolve(url); };
-                            img.onerror = function() { resolve(null); };
-                            img.src = url;
-                        });
-                    }));
-                    plant.images = probed.filter(Boolean);
-                    if (plant.images.length > 0) plant.imageUrl = plant.images[0];
+                    if (_candidates.length > plant.images.length) {
+                        _galleryExpansionCandidates = { plantId: plant.id, candidates: _candidates };
+                    }
                 }
             }
         }
@@ -7151,7 +7144,56 @@ async function showPlantModal(plant) {
     }
     document.addEventListener('keydown', handlePlantPanelEscape);
     resetDetailPanelScroll();
-    
+
+    // Background gallery expansion: probe extra candidate URLs and patch gallery DOM without blocking modal open
+    if (_galleryExpansionCandidates) {
+        (function(expansionData) {
+            var pId = expansionData.plantId;
+            var cands = expansionData.candidates;
+            Promise.all(cands.map(function(url) {
+                return new Promise(function(resolve) {
+                    var img = new Image();
+                    img.onload = function() { resolve(url); };
+                    img.onerror = function() { resolve(null); };
+                    img.src = url;
+                });
+            })).then(function(results) {
+                var verified = results.filter(Boolean);
+                var p = allPlants.find(function(x) { return x && x.id === pId; });
+                if (p) p.images = verified;
+                // Patch gallery thumbnails in the DOM (page 2)
+                var gallery = document.getElementById('gallery-page-' + pId);
+                if (!gallery || !verified.length) return;
+                var thumbsWrap = gallery.querySelector('.plant-gallery-thumbnails');
+                if (!thumbsWrap) return;
+                var existingPaths = Array.from(thumbsWrap.querySelectorAll('.plant-gallery-thumb[data-img-path]'))
+                    .map(function(b) { return b.getAttribute('data-img-path'); });
+                var added = 0;
+                verified.forEach(function(url, idx) {
+                    if (existingPaths.indexOf(url) !== -1) return;
+                    var escaped = url.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                    var btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'plant-gallery-thumb gallery-thumbnail';
+                    btn.setAttribute('data-img-index', idx);
+                    btn.setAttribute('data-img-path', escaped);
+                    btn.setAttribute('aria-label', 'Image ' + (idx + 1));
+                    btn.setAttribute('onclick', "selectGalleryImage('" + escaped + "', " + pId + ", " + idx + ", event)");
+                    btn.innerHTML = '<span class="plant-gallery-thumb-img"><img src="' + url + '" alt="" loading="lazy" onerror="this.style.display=\'none\'" onload="this.style.display=\'block\'"></span><button type="button" class="delete-image-btn plant-gallery-thumb-delete" onclick="event.stopPropagation(); event.preventDefault(); deleteImageFromGallery(' + pId + ', ' + idx + ', \'' + escaped + '\');" title="Remove image" aria-label="Remove image">×</button>';
+                    thumbsWrap.appendChild(btn);
+                    added++;
+                });
+                if (added > 0) {
+                    var countEl = gallery.querySelector('.plant-gallery-count');
+                    var total = thumbsWrap.querySelectorAll('.plant-gallery-thumb').length;
+                    if (countEl) countEl.textContent = total + ' photo' + (total !== 1 ? 's' : '');
+                    var totalCountEl = gallery.querySelector('#gallery-current-num');
+                    if (totalCountEl) { var counterDiv = totalCountEl.closest('.plant-gallery-counter'); if (counterDiv) counterDiv.innerHTML = '<span id="gallery-current-num">1</span> / ' + total; }
+                }
+            }).catch(function() {});
+        })(_galleryExpansionCandidates);
+    }
+
     // Load Catalogue of Life links for taxonomy hierarchy
     if (plant.taxonomy) {
         loadColTaxonomyLinks(plant.id);
