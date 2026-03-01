@@ -139,35 +139,25 @@ async function loadAllPlants() {
                             }
                         });
                     }
-                    // Expand single-image plants to slug-2..20 so gallery shows all storage images (after overlays so we are not overwritten)
+                    // Expand plants with at least one storage image to slug-1..20 so gallery shows all storage images (after overlays)
                     var expandedIds = [];
                     if (storagePrefix) {
+                        var plantsPath = '/plants/';
                         plantsDatabase.forEach(function (p) {
-                            if (!p.images || p.images.length !== 1 || !storagePrefix) return;
+                            if (!p.images || !p.images.length || !storagePrefix) return;
                             var first = p.images[0];
-                            if (typeof first !== 'string') return;
+                            if (typeof first !== 'string' || !first.length) return;
                             var clean = first.split('?')[0].split('#')[0];
-                            var pathPrefix, slug, ext = 'jpg';
-                            var pathMatch = clean.match(/^(.*\/plants\/)([^/]+)\/([^/]+)$/i);
-                            if (pathMatch) {
-                                pathPrefix = pathMatch[1];
-                                slug = pathMatch[2];
-                                var firstFile = pathMatch[3];
-                                var extMatch = firstFile.match(/\.(jpg|jpeg|png|gif|webp)$/i);
-                                if (extMatch) ext = extMatch[1].toLowerCase().replace('jpeg', 'jpg');
-                            } else if (clean.indexOf('/plants/') !== -1) {
-                                var afterPlants = clean.split('/plants/')[1];
-                                if (afterPlants) {
-                                    var segs = afterPlants.split('/').filter(Boolean);
-                                    if (segs.length >= 1) {
-                                        slug = segs[0];
-                                        pathPrefix = clean.substring(0, clean.indexOf('/plants/') + 8);
-                                        var extMatch2 = clean.match(/\.(jpg|jpeg|png|gif|webp)(?:\?|#|$)/i);
-                                        if (extMatch2) ext = extMatch2[1].toLowerCase().replace('jpeg', 'jpg');
-                                    }
-                                }
-                            }
-                            if (!slug || !pathPrefix) return;
+                            var idxPl = clean.toLowerCase().indexOf(plantsPath);
+                            if (idxPl === -1) return;
+                            var afterPlants = clean.substring(idxPl + plantsPath.length);
+                            var segs = afterPlants.split('/').filter(Boolean);
+                            if (segs.length < 1) return;
+                            var slug = segs[0];
+                            var pathPrefix = clean.substring(0, idxPl + plantsPath.length);
+                            var ext = 'jpg';
+                            var extMatch = clean.match(/\.(jpg|jpeg|png|gif|webp)(?:\?|#|$)/i);
+                            if (extMatch) ext = extMatch[1].toLowerCase().replace('jpeg', 'jpg');
                             var basePath = pathPrefix + slug;
                             var expanded = [first];
                             for (var i = 2; i <= 20; i++) {
@@ -176,6 +166,9 @@ async function loadAllPlants() {
                             p.images = expanded;
                             expandedIds.push(p.id);
                         });
+                        if (expandedIds.length > 0) {
+                            console.log('[plant-images] Expanded', expandedIds.length, 'plants to 2..20 for gallery');
+                        }
                     }
                     if (typeof window !== 'undefined') window.plantsDatabase = plantsDatabase;
                     if (typeof window !== 'undefined' && window.supabaseDb && window.supabaseDb.updatePlantInCatalog && expandedIds.length > 0) {
