@@ -141,7 +141,7 @@ function getCardThumbUrl(url, width, quality) {
     // Supabase Storage object URL pattern
     var match = url.match(/^(https:\/\/[^/]+)(\/storage\/v1\/object\/public\/)(.+)$/i);
     if (!match) return url;
-    return match[1] + '/storage/v1/render/image/public/' + match[3] + '?width=' + w + '&height=' + w + '&quality=' + q + '&resize=cover';
+    return match[1] + '/storage/v1/render/image/public/' + match[3] + '?width=' + w + '&quality=' + q;
 }
 
 function plantHasBucketImages(plant) {
@@ -7810,6 +7810,21 @@ function handleImageError(imgElement, plantId) {
     // Mark this image as failed
     failedImageCache.add(currentSrc);
     const plant = allPlants.find(p => p.id === plantId);
+
+    // If the failed src is a Supabase render/image transform URL, fall back to the original object/public URL
+    if (imgElement && currentSrc && /supabase\.co\/storage\/v1\/render\/image\/public\//i.test(currentSrc)) {
+        var originalUrl = (imgElement.getAttribute('data-full-src') || currentSrc)
+            .replace(/\/storage\/v1\/render\/image\/public\//i, '/storage/v1/object/public/')
+            .replace(/\?.*$/, '');
+        if (originalUrl && !failedImageCache.has(originalUrl)) {
+            imgElement.onerror = function () {
+                failedImageCache.add(originalUrl);
+                handleImageError(imgElement, plantId);
+            };
+            imgElement.src = originalUrl;
+            return;
+        }
+    }
 
     // 400 from Supabase often means object not found; catalog may list .jpg but bucket has .webp
     if (imgElement && currentSrc && /supabase\.co\/storage\/v1\/object\/public\//i.test(currentSrc) && /\.jpe?g$/i.test(currentSrc)) {
