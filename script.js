@@ -141,7 +141,7 @@ function getCardThumbUrl(url, width, quality) {
     // Supabase Storage object URL pattern
     var match = url.match(/^(https:\/\/[^/]+)(\/storage\/v1\/object\/public\/)(.+)$/i);
     if (!match) return url;
-    return match[1] + '/storage/v1/render/image/public/' + match[3] + '?width=' + w + '&quality=' + q;
+    return match[1] + '/storage/v1/render/image/public/' + match[3] + '?width=' + w + '&height=' + w + '&quality=' + q + '&resize=cover';
 }
 
 function plantHasBucketImages(plant) {
