@@ -53,26 +53,26 @@ alwaysApply: false
 
 ## Phase 3 — PWA & Performance
 
-### Step 8 — Create manifest.json and link it
+### ✅ Step 8 — Create manifest.json and link it
 - [ ] Create `manifest.json` with: `name`, `short_name`, `description`, `start_url`, `display: standalone`, `theme_color`, `background_color`, and an `icons` array (use an existing logo image)
 - [ ] Add `<link rel="manifest" href="/manifest.json">` to every HTML page's `<head>`
 - [ ] Add `<meta name="theme-color" content="...">` to every HTML page
 - **Confirm before continuing:** "Step 8 complete — PWA manifest added. Ready for Step 9?"
 
-### Step 9 — Fix service worker cache invalidation
+### ✅ Step 9 — Fix service worker cache invalidation
 - [ ] Open `sw.js`
 - [ ] Change HTML pages to use **network-first** (not cache-first) so new deployments are picked up immediately
 - [ ] Keep cache-first only for images (PNG, JPG, WEBP)
 - [ ] Add a cache-busting version comment at the top so it's easy to bump on deploy
 - **Confirm before continuing:** "Step 9 complete — service worker updated. Ready for Step 10?"
 
-### Step 10 — Fix the immutable cache header conflict in netlify.toml
+### ✅ Step 10 — Fix the immutable cache header conflict in netlify.toml
 - [ ] Open `netlify.toml`
 - [ ] Remove `immutable` from the `Cache-Control` for JS/CSS files that use `?v=` query strings
 - [ ] Either switch to hashed filenames OR use `max-age=3600` (1 hour) without `immutable` for these files
 - **Confirm before continuing:** "Step 10 complete — cache headers fixed. Ready for Step 11?"
 
-### Step 11 — Fix Google Fonts render-blocking
+### ✅ Step 11 — Fix Google Fonts render-blocking
 - [ ] In every HTML page, replace the synchronous Google Fonts `<link rel="stylesheet">` with the `media="print" onload` swap technique:
   ```html
   <link rel="preload" href="https://fonts.googleapis.com/css2?..." as="style" onload="this.onload=null;this.rel='stylesheet'">
