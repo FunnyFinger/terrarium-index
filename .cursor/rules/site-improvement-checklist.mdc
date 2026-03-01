@@ -37,20 +37,17 @@ alwaysApply: false
 ### ✅ Step 4 — Add SEO meta tags to index.html
 - [x] meta description, Open Graph (type/url/title/description/image/locale/site_name), Twitter Card, canonical added
 
-### Step 5 — Add SEO meta tags to all sub-pages
-- [ ] Add meta description + Open Graph + canonical to: `checkout.html`, `build-vivarium.html`, `auth.html`, `account.html`, `taxonomy.html`, `definitions.html`, `settings.html`
-- **Confirm before continuing:** "Step 5 complete — all pages have meta tags. Ready for Step 6?"
+### ✅ Step 5 — Add SEO meta tags to all sub-pages
+- [x] Public pages (build-vivarium, taxonomy, definitions): full OG + Twitter Card + canonical
+- [x] Private pages (checkout, auth, account, settings): noindex + canonical
 
-### Step 6 — Create robots.txt and sitemap.xml
-- [ ] Create `robots.txt` at the root — allow all crawlers, point to sitemap
-- [ ] Create `sitemap.xml` listing all public-facing pages with `<loc>` and `<lastmod>`
-- [ ] Exclude staff-only pages: `inventory.html`, `dashboard.html`, `access-control.html`
-- **Confirm before continuing:** "Step 6 complete — robots.txt and sitemap created. Ready for Step 7?"
+### ✅ Step 6 — Create robots.txt and sitemap.xml
+- [x] robots.txt: allows all crawlers, disallows staff pages, points to sitemap
+- [x] sitemap.xml: 4 public pages with priorities and changefreq
 
-### Step 7 — Add JSON-LD Product structured data to plant cards
-- [ ] When a plant detail panel opens, inject a `<script type="application/ld+json">` block with `@type: "Product"` including name, description, image, price, currency, and availability
-- [ ] Remove/update the block when the panel closes
-- **Confirm before continuing:** "Step 7 complete — JSON-LD structured data added. Ready for Step 8?"
+### ✅ Step 7 — Add JSON-LD Product structured data to plant cards
+- [x] Injected on panel open: name, description, image, price (KWD), availability, alternateName (scientific)
+- [x] Removed from `<head>` when panel closes
 
 ---
 
