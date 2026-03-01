@@ -45,13 +45,23 @@ const NUMERIC_SCALES = {
     }
 };
 
+/** Ensure a range object always has an ideal value. If missing, compute midpoint. */
+function ensureIdeal(range) {
+    if (!range || typeof range !== 'object') return range;
+    if (typeof range.ideal !== 'number' || isNaN(range.ideal)) {
+        const mid = (Number(range.min) + Number(range.max)) / 2;
+        return { ...range, ideal: Math.round(mid) };
+    }
+    return range;
+}
+
 function mapPlantToInputs(plant) {
     const inputs = {};
     
     // Humidity mapping - use standardized range if available, otherwise parse from text
     if (plant.humidityRange && typeof plant.humidityRange === 'object' && 
         typeof plant.humidityRange.min === 'number' && typeof plant.humidityRange.max === 'number') {
-        inputs.humidityRange = plant.humidityRange;
+        inputs.humidityRange = ensureIdeal(plant.humidityRange);
     } else {
         // Fallback: parse from text
     const humidityStr = (plant.humidity || '').toLowerCase();
@@ -84,7 +94,7 @@ function mapPlantToInputs(plant) {
     // Light mapping - use standardized range if available, otherwise parse from text
     if (plant.lightRange && typeof plant.lightRange === 'object' && 
         typeof plant.lightRange.min === 'number' && typeof plant.lightRange.max === 'number') {
-        inputs.lightRange = plant.lightRange;
+        inputs.lightRange = ensureIdeal(plant.lightRange);
     } else {
         // Fallback: parse from text
     const lightStr = (plant.lightRequirements || '').toLowerCase();
@@ -106,7 +116,7 @@ function mapPlantToInputs(plant) {
     // Air circulation - use standardized range if available, otherwise parse from text
     if (plant.airCirculationRange && typeof plant.airCirculationRange === 'object' && 
         typeof plant.airCirculationRange.min === 'number' && typeof plant.airCirculationRange.max === 'number') {
-        inputs.airCirculationRange = plant.airCirculationRange;
+        inputs.airCirculationRange = ensureIdeal(plant.airCirculationRange);
     } else {
         // Fallback: parse from text
     const airCircStr = (plant.airCirculation || '').toLowerCase();
@@ -214,7 +224,7 @@ function mapPlantToInputs(plant) {
     // Water needs mapping - use standardized range if available, otherwise parse from text
     if (plant.waterNeedsRange && typeof plant.waterNeedsRange === 'object' && 
         typeof plant.waterNeedsRange.min === 'number' && typeof plant.waterNeedsRange.max === 'number') {
-        inputs.waterNeedsRange = plant.waterNeedsRange;
+        inputs.waterNeedsRange = ensureIdeal(plant.waterNeedsRange);
     } else {
         // Fallback: parse from text
     const wateringStr = (plant.watering || '').toLowerCase();
@@ -243,7 +253,7 @@ function mapPlantToInputs(plant) {
     if (inputs.substrate === 'aquatic' || inputs.specialNeeds === 'aquatic') {
         if (plant.waterCirculationRange && typeof plant.waterCirculationRange === 'object' && 
             typeof plant.waterCirculationRange.min === 'number' && typeof plant.waterCirculationRange.max === 'number') {
-            inputs.waterCirculationRange = plant.waterCirculationRange;
+            inputs.waterCirculationRange = ensureIdeal(plant.waterCirculationRange);
         } else {
             // Fallback: parse from text
         const waterCircStr = (plant.waterCirculation || '').toLowerCase();
@@ -444,11 +454,7 @@ function mapPlantToInputs(plant) {
     // Scale: 0°C = 0%, 50°C = 100%
     // First check if plant already has temperatureRange object
     if (plant.temperatureRange && plant.temperatureRange.min !== undefined && plant.temperatureRange.max !== undefined) {
-        inputs.temperatureRange = {
-            min: plant.temperatureRange.min,
-            max: plant.temperatureRange.max,
-            ideal: plant.temperatureRange.ideal !== undefined ? plant.temperatureRange.ideal : (plant.temperatureRange.min + plant.temperatureRange.max) / 2
-        };
+        inputs.temperatureRange = ensureIdeal(plant.temperatureRange);
     } else {
         // Fall back to parsing temperature string
         const temperatureStr = plant.temperature || '';
@@ -558,7 +564,7 @@ function mapPlantToInputs(plant) {
     // Growth Rate mapping - use standardized range if available, otherwise parse from text
     if (plant.growthRateRange && typeof plant.growthRateRange === 'object' && 
         typeof plant.growthRateRange.min === 'number' && typeof plant.growthRateRange.max === 'number') {
-        inputs.growthRateRange = plant.growthRateRange;
+        inputs.growthRateRange = ensureIdeal(plant.growthRateRange);
     } else {
         // Fallback: parse from text
         const growthRateStr = (plant.growthRate || '').toLowerCase().trim();

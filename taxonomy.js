@@ -176,16 +176,22 @@ function buildTaxonomyTree(plants) {
     tree.children['Plantae'] = kingdoms['Plantae'];
     tree.children['Fungi'] = kingdoms['Fungi'];
     
+    // Generic kingdom name aliases — scientific synonyms that all map to the canonical name.
+    // Add new aliases here instead of adding new if-statements.
+    const KINGDOM_ALIASES = {
+        'Viridiplantae': 'Plantae',
+        'Archaeplastida': 'Plantae',
+        'Chloroplastida': 'Plantae',
+    };
+
     // Organize plants by kingdom
     plants.forEach(plant => {
-        if (!plant.taxonomy) return;
-        
-        const taxonomy = plant.taxonomy;
-        // Normalize kingdom names: Viridiplantae is the same as Plantae
+        // Plants with no taxonomy object are placed under 'Unclassified' so they are
+        // visible in the tree rather than silently excluded.
+        const taxonomy = plant.taxonomy || {};
+
         let kingdom = taxonomy.kingdom || 'Plantae';
-        if (kingdom === 'Viridiplantae') {
-            kingdom = 'Plantae';
-        }
+        kingdom = KINGDOM_ALIASES[kingdom] || kingdom;
         
         // Get or create the kingdom node
         if (!kingdoms[kingdom]) {
@@ -199,13 +205,13 @@ function buildTaxonomyTree(plants) {
         }
         
         // Species level: use cultivar-aware key so "Syngonium podophyllum" and "Syngonium podophyllum 'Pixie'" are separate nodes
-        const speciesKey = getSpeciesNodeKey(plant);
+        const speciesKey = getSpeciesNodeKey(plant) || plant.name || 'Unknown';
         const path = [
-            taxonomy.phylum || 'Unknown',
-            taxonomy.class || 'Unknown',
-            taxonomy.order || 'Unknown',
-            taxonomy.family || 'Unknown',
-            taxonomy.genus || 'Unknown',
+            taxonomy.phylum || 'Unclassified',
+            taxonomy.class  || 'Unclassified',
+            taxonomy.order  || 'Unclassified',
+            taxonomy.family || 'Unclassified',
+            taxonomy.genus  || 'Unclassified',
             speciesKey
         ];
         

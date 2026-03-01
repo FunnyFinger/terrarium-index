@@ -122,10 +122,6 @@ let plantsPerPage = 24;
 let currentPlantsPage = 1;
 let currentRenderToken = 0;
 
-// Plant slugs that have images in Supabase Storage bucket vivarium-assets/plants/
-// Only these get Supabase image URLs; others show placeholder to avoid 400s.
-var PLANT_SLUGS_WITH_BUCKET_IMAGES = ['aglaonema-commutatum-toms-pride', 'aglaonema-red-ruby', 'aglaonema-rotundum-red-tiger'];
-
 /**
  * Convert a Supabase storage object URL to a resized render URL for use in cards/thumbnails.
  * Falls back to original URL for non-Supabase URLs.
@@ -144,13 +140,6 @@ function getCardThumbUrl(url, width, quality) {
     return match[1] + '/storage/v1/render/image/public/' + match[3] + '?width=' + w + '&quality=' + q;
 }
 
-function plantHasBucketImages(plant) {
-    if (!plant) return false;
-    var slug = typeof scientificNameToSlug === 'function' && typeof getScientificNameString === 'function'
-        ? scientificNameToSlug(getScientificNameString(plant))
-        : (plant.scientificName && scientificNameToSlug(plant.scientificName));
-    return slug && PLANT_SLUGS_WITH_BUCKET_IMAGES.indexOf(slug) !== -1;
-}
 
 // Convert scientific name to slug (matching folder naming convention)
 function scientificNameToSlug(scientificName) {
@@ -4061,7 +4050,7 @@ function createEquipmentCard(equipment) {
     card.innerHTML = `
         <div class="plant-image-container" data-plant-id="${equipment.id}">
             ${displayImageUrl ?
-                `<img src="${displayImageUrl}" alt="${escapeHtml(equipment.name)}" class="plant-image" loading="lazy" data-plant-id="${equipment.id}">` :
+                `<img src="${displayImageUrl}" alt="${escapeHtml(equipment.name)}" class="plant-image" loading="lazy" data-plant-id="${equipment.id}" onerror="this.onerror=null;this.style.display='none';this.parentNode.insertAdjacentHTML('afterbegin','<div class=\\'image-placeholder\\'>${PLACEHOLDER_EQUIPMENT_SVG.replace(/'/g, "\\'")}</div>')">` :
                 '<div class="image-placeholder">' + PLACEHOLDER_EQUIPMENT_SVG + '</div>'
             }
             <div class="card-icons equipment-card-icons">
@@ -6315,8 +6304,9 @@ function createPlantCard(plant) {
     if (displayImageUrl && imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') {
         displayImageUrl = imageUtils.normalizePlantImagePath(displayImageUrl);
     }
-    // When Supabase is configured, all plant images load from storage — do not clear Supabase URLs
-    if (displayImageUrl && /supabase\.co\/storage\/v1\/object\/public\//i.test(displayImageUrl) && !window.SUPABASE_URL && !plantHasBucketImages(plant)) {
+    // If Supabase is not configured and this is a Supabase URL, clear it so handleImageError
+    // falls back to the placeholder — same behaviour for every plant.
+    if (displayImageUrl && /supabase\.co\/storage\//i.test(displayImageUrl) && !window.SUPABASE_URL) {
         displayImageUrl = null;
     }
     // Create a unique identifier for this card to help with updates
