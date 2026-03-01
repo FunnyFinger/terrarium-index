@@ -655,12 +655,15 @@ function updateTreeLayout() {
             
             // Position thumbnail inside the node circle (centered)
             thumbnailsToShow.forEach((plantData, idx) => {
-                // Use the plant's actual image URL (full-size); thumb.jpg not reliably in storage
-                let imagePath = plantData.imagePath || null;
+                // Use thumbnail (thumb.jpg) in node for performance; full-size loads only in tooltip on hover
+                let imagePath = plantData.plant ? getPlantThumbnailPath(plantData.plant) : null;
+                if (!imagePath && plantData.imagePath) {
+                    imagePath = plantData.imagePath;
+                }
                 if (!imagePath && plantData.plant) {
                     imagePath = getPlantImagePath(plantData.plant);
                 }
-                // Resolve to Supabase storage URL when configured
+                // Resolve to Supabase storage URL when configured (so thumb.jpg and images load from bucket)
                 if (imagePath && typeof window !== 'undefined' && window.imageUtils && typeof window.imageUtils.resolvePlantImageUrl === 'function' && !/^https?:\/\//i.test(imagePath)) {
                     imagePath = window.imageUtils.resolvePlantImageUrl(imagePath);
                 }
