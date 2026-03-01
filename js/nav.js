@@ -155,7 +155,7 @@
         var isIndex = (current === 'index.html' || current === '' || current === 'index');
         if (isIndex) return;
         var backBtn = document.getElementById('navBackToList');
-        if (backBtn) backBtn.addEventListener('click', function() { window.location.href = 'index.html'; });
+        if (backBtn) backBtn.addEventListener('click', function() { if (history.length > 1) { history.back(); } else { window.location.href = 'index.html'; } });
     }
 
     function initAuth() {
