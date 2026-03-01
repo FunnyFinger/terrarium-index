@@ -6535,6 +6535,33 @@ async function showPlantModal(plant) {
         plant.images = ensureUniqueImages(plant.images);
     }
     
+    // When catalog has only one image but storage may have more: expand to slug-2..20 so gallery can show all (e.g. Aglaonema Rotunda-Red tiger)
+    if (plant.images && plant.images.length >= 1 && typeof window !== 'undefined' && window.SUPABASE_URL) {
+        var firstImg = plant.images[0];
+        if (typeof firstImg === 'string' && firstImg.length > 0) {
+            var cleanFirst = firstImg.split('?')[0].split('#')[0];
+            var plantsPath = '/plants/';
+            var idxPl = cleanFirst.toLowerCase().indexOf(plantsPath);
+            if (idxPl !== -1) {
+                var afterPlants = cleanFirst.substring(idxPl + plantsPath.length);
+                var segs = afterPlants.split('/').filter(Boolean);
+                if (segs.length >= 1) {
+                    var slug = segs[0];
+                    var pathPrefix = cleanFirst.substring(0, idxPl + plantsPath.length);
+                    var ext = 'jpg';
+                    var extMatch = cleanFirst.match(/\.(jpg|jpeg|png|gif|webp)(?:\?|#|$)/i);
+                    if (extMatch) ext = extMatch[1].toLowerCase().replace('jpeg', 'jpg');
+                    var basePath = pathPrefix + slug;
+                    var expanded = plant.images.slice();
+                    for (var e = expanded.length + 1; e <= 20; e++) {
+                        expanded.push(basePath + '/' + slug + '-' + e + '.' + ext);
+                    }
+                    plant.images = expanded;
+                }
+            }
+        }
+    }
+    
     // Set display image (normalize legacy paths for plants folder)
     let displayImageUrl = plant.imageUrl || (plant.images && plant.images.length > 0 ? plant.images[0] : null);
     if (displayImageUrl && imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') {
