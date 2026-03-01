@@ -641,12 +641,14 @@ function addToCart(plant, quantity) {
         });
     }
     setCart(cart);
-    if (cartDrawer && !cartDrawer.classList.contains('open')) {
-        cartDrawer.classList.remove('hidden');
-        cartOverlay && cartOverlay.classList.remove('hidden');
-        cartDrawer.classList.add('open');
-        cartOverlay && cartOverlay.classList.add('open');
+    // Show toast instead of auto-opening the drawer — less disruptive,
+    // user can open the cart manually via the nav icon.
+    if (typeof quickAddShowToast === 'function') {
+        const label = plant.name ? '\u2713 ' + plant.name + ' added' : '\u2713 Added to cart';
+        quickAddShowToast(label);
     }
+    // Bounce the cart badge so users see the count update
+    if (typeof window.navBounceCartCount === 'function') window.navBounceCartCount();
 }
 var LABOUR_VIVARIUM_ID = 'labour-vivarium';
 var LABOUR_VIVARIUM_CHARGE_KD = 10;
@@ -688,12 +690,8 @@ function addVivariumBuildToCart(vivarium) {
     (bc.toolIds || []).forEach(addSupply);
     cart.push({ plantId: LABOUR_VIVARIUM_ID, name: 'Labour (Vivarium build)', scientificName: '', quantity: 1, price: LABOUR_VIVARIUM_CHARGE_KD });
     setCart(cart);
-    if (cartDrawer && !cartDrawer.classList.contains('open')) {
-        cartDrawer.classList.remove('hidden');
-        if (cartOverlay) cartOverlay.classList.remove('hidden');
-        cartDrawer.classList.add('open');
-        if (cartOverlay) cartOverlay.classList.add('open');
-    }
+    if (typeof quickAddShowToast === 'function') quickAddShowToast('\u2713 Vivarium build added to cart');
+    if (typeof window.navBounceCartCount === 'function') window.navBounceCartCount();
 }
 
 function removeFromCart(plantId) {

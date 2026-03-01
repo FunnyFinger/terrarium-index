@@ -124,6 +124,21 @@
         }
     }
 
+    // Called by addToCart to animate the cart badge on item add
+    window.navBounceCartCount = function() {
+        setCartCount();
+        var wrap = document.querySelector('.cart-icon-wrap');
+        if (!wrap) return;
+        wrap.classList.remove('cart-bounce');
+        // Trigger reflow so the class removal is processed before re-adding
+        void wrap.offsetWidth;
+        wrap.classList.add('cart-bounce');
+        wrap.addEventListener('animationend', function handler() {
+            wrap.classList.remove('cart-bounce');
+            wrap.removeEventListener('animationend', handler);
+        });
+    };
+
     function initToggle() {
         var navToggle = document.getElementById('navToggle');
         var navMenu = document.getElementById('navMenu');
