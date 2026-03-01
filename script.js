@@ -126,6 +126,24 @@ let currentRenderToken = 0;
 // Only these get Supabase image URLs; others show placeholder to avoid 400s.
 var PLANT_SLUGS_WITH_BUCKET_IMAGES = ['aglaonema-commutatum-toms-pride', 'aglaonema-red-ruby', 'aglaonema-rotundum-red-tiger'];
 
+/**
+ * Convert a Supabase storage object URL to a resized render URL for use in cards/thumbnails.
+ * Falls back to original URL for non-Supabase URLs.
+ * @param {string} url  - full image URL
+ * @param {number} width - desired width in px (default 480)
+ * @param {number} quality - JPEG/WebP quality 1-100 (default 75)
+ */
+function getCardThumbUrl(url, width, quality) {
+    if (!url || typeof url !== 'string') return url;
+    if (!/^https?:\/\//i.test(url)) return url;
+    var w = width || 480;
+    var q = quality || 75;
+    // Supabase Storage object URL pattern
+    var match = url.match(/^(https:\/\/[^/]+)(\/storage\/v1\/object\/public\/)(.+)$/i);
+    if (!match) return url;
+    return match[1] + '/storage/v1/render/image/public/' + match[3] + '?width=' + w + '&quality=' + q + '&resize=cover';
+}
+
 function plantHasBucketImages(plant) {
     if (!plant) return false;
     var slug = typeof scientificNameToSlug === 'function' && typeof getScientificNameString === 'function'
@@ -6333,7 +6351,7 @@ function createPlantCard(plant) {
                 </div>
             ` : ''}
             ${displayImageUrl ?
-                `<img src="${displayImageUrl}" alt="${plant.name}" class="plant-image" loading="lazy" onerror="this.onerror=null; handleImageError(this, ${plant.id})" data-plant-id="${plant.id}">` :
+                `<img src="${getCardThumbUrl(displayImageUrl, 480, 75)}" data-full-src="${displayImageUrl}" alt="${plant.name}" class="plant-image" loading="lazy" onerror="this.onerror=null; handleImageError(this, ${plant.id})" data-plant-id="${plant.id}">` :
                 `<div class="image-placeholder">${PLACEHOLDER_PLANT_SVG}</div>`
             }
             <div class="card-icons plant-card-icons">
@@ -7637,7 +7655,7 @@ function updatePlantCardImage(plantId, imageUrl) {
                 const quickAddDisabled = typeof plant.stockQuantity === 'number' && plant.stockQuantity <= 0 ? ' disabled' : '';
                 const quickAddMaxed = getAvailableToAdd(plantId) === 0 ? ' quick-add-btn-maxed' : '';
                 imgContainer.innerHTML = `${carnivorousHtml}
-            <img src="${imageUrl}" alt="${plant.name}" class="plant-image" loading="lazy" onerror="this.onerror=null; handleImageError(this, ${plantId})" data-plant-id="${plantId}">
+            <img src="${getCardThumbUrl(imageUrl, 480, 75)}" data-full-src="${imageUrl}" alt="${plant.name}" class="plant-image" loading="lazy" onerror="this.onerror=null; handleImageError(this, ${plantId})" data-plant-id="${plantId}">
             <div class="card-icons plant-card-icons">
                 <button type="button" class="card-edit-icon image-edit-icon" title="Edit details" aria-label="Edit details">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
