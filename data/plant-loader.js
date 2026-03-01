@@ -104,15 +104,18 @@ async function loadAllPlants() {
                                 if (u.startsWith('images/plants/')) return storagePrefix + u.slice(7);
                                 return u;
                             });
-                            // If catalog has only one image and it matches plants/slug/slug-1.ext, expand to slug-2..20 so gallery shows all storage images
+                            // If catalog has only one image under plants/slug/, expand to slug-1..20 so gallery shows all storage images (any first filename accepted)
                             if (p.images.length === 1 && storagePrefix) {
                                 const first = p.images[0];
-                                const match = (first && typeof first === 'string') && first.match(/^(.*\/plants\/)([^/]+)\/[^/]+-1\.(jpg|jpeg|png|gif|webp)$/i);
-                                if (match) {
-                                    const basePath = match[1] + match[2];
-                                    const slug = match[2];
-                                    const ext = match[3].toLowerCase().replace('jpeg', 'jpg');
-                                    const expanded = p.images.slice();
+                                const pathMatch = (first && typeof first === 'string') && first.match(/^(.*\/plants\/)([^/]+)\/([^/]+)$/i);
+                                if (pathMatch) {
+                                    const pathPrefix = pathMatch[1];
+                                    const slug = pathMatch[2];
+                                    const firstFile = pathMatch[3];
+                                    const extMatch = firstFile.match(/\.(jpg|jpeg|png|gif|webp)$/i);
+                                    const ext = extMatch ? extMatch[1].toLowerCase().replace('jpeg', 'jpg') : 'jpg';
+                                    const basePath = pathPrefix + slug;
+                                    const expanded = [first];
                                     for (let i = 2; i <= 20; i++) {
                                         expanded.push(basePath + '/' + slug + '-' + i + '.' + ext);
                                     }
@@ -146,23 +149,19 @@ async function loadAllPlants() {
                                         return;
                                     }
                                     const url = plant.images[idx];
-                                    fetch(url, { method: 'HEAD', mode: 'cors' }).then(function (r) {
-                                        if (r.ok) {
-                                            verified.push(url);
-                                            idx++;
-                                            checkNext();
-                                        } else {
-                                            if (verified.length > 1) {
-                                                const payload = Object.assign({}, plant, { images: verified, imageUrl: verified[0] });
-                                                window.supabaseDb.updatePlantInCatalog(plantId, payload).catch(function () {});
-                                            }
-                                        }
-                                    }).catch(function () {
+                                    const img = new Image();
+                                    img.onload = function () {
+                                        verified.push(url);
+                                        idx++;
+                                        checkNext();
+                                    };
+                                    img.onerror = function () {
                                         if (verified.length > 1) {
                                             const payload = Object.assign({}, plant, { images: verified, imageUrl: verified[0] });
                                             window.supabaseDb.updatePlantInCatalog(plantId, payload).catch(function () {});
                                         }
-                                    });
+                                    };
+                                    img.src = url;
                                 }
                                 checkNext();
                             });
