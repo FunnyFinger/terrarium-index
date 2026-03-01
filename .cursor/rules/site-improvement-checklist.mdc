@@ -84,7 +84,7 @@ alwaysApply: false
 
 ## Phase 4 — UX & Conversion
 
-### Step 12 — Add add-to-cart visual feedback
+### ✅ Step 12 — Add add-to-cart visual feedback
 - [ ] In `script.js`, after `addToCart()` is called, show a brief toast notification ("Added to cart!") using an existing or new toast/snackbar element
 - [ ] Add a short CSS animation (scale bounce or pulse) to the cart icon in the nav when the cart count updates
 - **Confirm before continuing:** "Step 12 complete — cart feedback added. Ready for Step 13?"
