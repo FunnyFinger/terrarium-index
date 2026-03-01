@@ -4590,7 +4590,7 @@ function showVivariumDetail(vivarium) {
         var thumbHtml = imgs.map(function(img, idx) {
             var escapedPath = img.replace(/'/g, "\\'").replace(/"/g, '&quot;');
             return '<button type="button" class="plant-gallery-thumb gallery-thumbnail ' + (idx === 0 ? 'selected' : '') + '" data-img-index="' + idx + '" data-img-path="' + escapedPath + '" onclick="selectGalleryImage(\'' + escapedPath + '\', ' + vivarium.id + ', ' + idx + ', event)" aria-label="Image ' + (idx + 1) + '">' +
-                '<span class="plant-gallery-thumb-img"><img src="' + img + '" alt="" loading="lazy" onerror="this.style.display=\'none\'" onload="this.style.display=\'block\'"></span>' +
+                '<span class="plant-gallery-thumb-img"><img src="' + img + '" alt="" loading="lazy" onerror="this.closest(\'.plant-gallery-thumb\').style.display=\'none\'" onload="this.style.display=\'block\'"></span>' +
                 '</button>';
         }).join('');
         return '<div class="plant-gallery-modern gallery-no-set-main" id="gallery-page-' + vivarium.id + '">' +
@@ -4858,7 +4858,7 @@ function showEquipmentDetail(equipment) {
                     ${imgs.map((img, idx) => {
                         const escapedPath = (img || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
                         return `<button type="button" class="plant-gallery-thumb gallery-thumbnail ${idx === 0 ? 'selected' : ''}" data-img-index="${idx}" data-img-path="${escapedPath}" onclick="selectGalleryImage('${escapedPath}', ${equipment.id}, ${idx}, event)" aria-label="Image ${idx + 1}">
-                        <span class="plant-gallery-thumb-img"><img src="${escapeHtml(img || '')}" alt="" loading="lazy" onerror="this.style.display='none'" onload="this.style.display='block'"></span>
+                        <span class="plant-gallery-thumb-img"><img src="${escapeHtml(img || '')}" alt="" loading="lazy" onerror="this.closest('.plant-gallery-thumb').style.display='none'" onload="this.style.display='block'"></span>
                     </button>`;
                     }).join('')}
                 </div>
@@ -7035,7 +7035,7 @@ async function showPlantModal(plant) {
                                 const isMain = idx === 0;
                                 return `
                                 <button type="button" class="plant-gallery-thumb gallery-thumbnail ${idx === 0 ? 'selected' : ''}" data-img-index="${idx}" data-img-path="${escapedPath}" onclick="selectGalleryImage('${escapedPath}', ${plant.id}, ${idx}, event)" aria-label="Image ${idx + 1}">
-                                    <span class="plant-gallery-thumb-img"><img src="${img}" alt="" loading="lazy" onerror="this.style.display='none'" onload="this.style.display='block'"></span>
+                                    <span class="plant-gallery-thumb-img"><img src="${img}" alt="" loading="lazy" onerror="this.closest('.plant-gallery-thumb').style.display='none'" onload="this.style.display='block'"></span>
                                     ${isMain ? '<span class="plant-gallery-thumb-badge" title="Main image">⭐</span>' : ''}
                                     <button type="button" class="delete-image-btn plant-gallery-thumb-delete" onclick="event.stopPropagation(); event.preventDefault(); deleteImageFromGallery(${plant.id}, ${idx}, '${escapedPath}');" title="Remove image" aria-label="Remove image">×</button>
                                 </button>`;
@@ -7179,7 +7179,7 @@ async function showPlantModal(plant) {
                     btn.setAttribute('data-img-path', escaped);
                     btn.setAttribute('aria-label', 'Image ' + (idx + 1));
                     btn.setAttribute('onclick', "selectGalleryImage('" + escaped + "', " + pId + ", " + idx + ", event)");
-                    btn.innerHTML = '<span class="plant-gallery-thumb-img"><img src="' + url + '" alt="" loading="lazy" onerror="this.style.display=\'none\'" onload="this.style.display=\'block\'"></span><button type="button" class="delete-image-btn plant-gallery-thumb-delete" onclick="event.stopPropagation(); event.preventDefault(); deleteImageFromGallery(' + pId + ', ' + idx + ', \'' + escaped + '\');" title="Remove image" aria-label="Remove image">×</button>';
+                    btn.innerHTML = '<span class="plant-gallery-thumb-img"><img src="' + url + '" alt="" loading="lazy" onerror="this.closest(\'.plant-gallery-thumb\').style.display=\'none\'" onload="this.style.display=\'block\'"></span><button type="button" class="delete-image-btn plant-gallery-thumb-delete" onclick="event.stopPropagation(); event.preventDefault(); deleteImageFromGallery(' + pId + ', ' + idx + ', \'' + escaped + '\');" title="Remove image" aria-label="Remove image">×</button>';
                     thumbsWrap.appendChild(btn);
                     added++;
                 });

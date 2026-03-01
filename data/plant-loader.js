@@ -139,69 +139,55 @@ async function loadAllPlants() {
                             }
                         });
                     }
-                    // Expand plants with at least one storage image to slug-1..20 so gallery shows all storage images (after overlays)
-                    var expandedIds = [];
-                    if (storagePrefix) {
-                        var plantsPath = '/plants/';
-                        plantsDatabase.forEach(function (p) {
-                            if (!p.images || !p.images.length || !storagePrefix) return;
-                            var first = p.images[0];
-                            if (typeof first !== 'string' || !first.length) return;
-                            var clean = first.split('?')[0].split('#')[0];
-                            var idxPl = clean.toLowerCase().indexOf(plantsPath);
-                            if (idxPl === -1) return;
-                            var afterPlants = clean.substring(idxPl + plantsPath.length);
-                            var segs = afterPlants.split('/').filter(Boolean);
-                            if (segs.length < 1) return;
-                            var slug = segs[0];
-                            var pathPrefix = clean.substring(0, idxPl + plantsPath.length);
-                            var ext = 'jpg';
-                            var extMatch = clean.match(/\.(jpg|jpeg|png|gif|webp)(?:\?|#|$)/i);
-                            if (extMatch) ext = extMatch[1].toLowerCase().replace('jpeg', 'jpg');
-                            var basePath = pathPrefix + slug;
-                            var expanded = [first];
-                            for (var i = 2; i <= 20; i++) {
-                                expanded.push(basePath + '/' + slug + '-' + i + '.' + ext);
-                            }
-                            p.images = expanded;
-                            expandedIds.push(p.id);
-                        });
-                        if (expandedIds.length > 0) {
-                            console.log('[plant-images] Expanded', expandedIds.length, 'plants to 2..20 for gallery');
-                        }
-                    }
+                    // Background discovery: for plants with storage images, probe slug-2..20 to find extras,
+                    // then update catalog — but NEVER overwrite p.images with unverified candidates
                     if (typeof window !== 'undefined') window.plantsDatabase = plantsDatabase;
-                    if (typeof window !== 'undefined' && window.supabaseDb && window.supabaseDb.updatePlantInCatalog && expandedIds.length > 0) {
+                    if (storagePrefix && window.supabaseDb && window.supabaseDb.updatePlantInCatalog) {
                         setTimeout(function passiveCatalogUpdate() {
-                            expandedIds.forEach(function (plantId) {
-                                var plant = plantsDatabase.find(function (p) { return p && p.id === plantId; });
-                                if (!plant || !plant.images || plant.images.length <= 1) return;
-                                var verified = [plant.images[0]];
-                                var idx = 1;
-                                function checkNext() {
-                                    if (idx >= plant.images.length) {
-                                        if (verified.length > 1) {
-                                            var payload = Object.assign({}, plant, { images: verified, imageUrl: verified[0] });
-                                            window.supabaseDb.updatePlantInCatalog(plantId, payload).catch(function () {});
-                                        }
-                                        return;
-                                    }
-                                    var url = plant.images[idx];
-                                    var img = new Image();
-                                    img.onload = function () {
-                                        verified.push(url);
-                                        idx++;
-                                        checkNext();
-                                    };
-                                    img.onerror = function () {
-                                        idx++;
-                                        checkNext();
-                                    };
-                                    img.src = url;
+                            var plantsPath = '/plants/';
+                            plantsDatabase.forEach(function (plant) {
+                                if (!plant || !plant.images || !plant.images.length) return;
+                                var first = plant.images[0];
+                                if (typeof first !== 'string' || !first.length) return;
+                                var clean = first.split('?')[0].split('#')[0];
+                                var idxPl = clean.toLowerCase().indexOf(plantsPath);
+                                if (idxPl === -1) return;
+                                var afterPlants = clean.substring(idxPl + plantsPath.length);
+                                var segs = afterPlants.split('/').filter(Boolean);
+                                if (segs.length < 1) return;
+                                var slug = segs[0];
+                                var pathPrefix = clean.substring(0, idxPl + plantsPath.length);
+                                var ext = 'jpg';
+                                var extMatch = clean.match(/\.(jpg|jpeg|png|gif|webp)(?:\?|#|$)/i);
+                                if (extMatch) ext = extMatch[1].toLowerCase().replace('jpeg', 'jpg');
+                                var basePath = pathPrefix + slug;
+                                // Only probe candidates BEYOND what catalog already has
+                                var startIdx = plant.images.length + 1;
+                                var candidates = [];
+                                for (var i = startIdx; i <= 20; i++) {
+                                    candidates.push(basePath + '/' + slug + '-' + i + '.' + ext);
                                 }
-                                checkNext();
+                                if (!candidates.length) return;
+                                var knownImages = plant.images.slice();
+                                var plantId = plant.id;
+                                Promise.all(candidates.map(function(url) {
+                                    return new Promise(function(resolve) {
+                                        var img = new Image();
+                                        img.onload = function() { resolve(url); };
+                                        img.onerror = function() { resolve(null); };
+                                        img.src = url;
+                                    });
+                                })).then(function(results) {
+                                    var newImages = results.filter(Boolean);
+                                    if (!newImages.length) return;
+                                    var allImages = knownImages.concat(newImages);
+                                    var p = plantsDatabase.find(function(x) { return x && x.id === plantId; });
+                                    if (p) p.images = allImages;
+                                    var payload = Object.assign({}, plant, { images: allImages, imageUrl: allImages[0] });
+                                    window.supabaseDb.updatePlantInCatalog(plantId, payload).catch(function() {});
+                                }).catch(function() {});
                             });
-                        }, 3000);
+                        }, 4000);
                     }
                     console.log('✅ Loaded ' + plantsDatabase.length + ' plants from Supabase plants_catalog');
                     var withImages = plantsDatabase.filter(function (p) { return p.images && p.images.length > 0; });
