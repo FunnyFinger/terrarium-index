@@ -31,12 +31,13 @@
             <p>Verifying payment…</p>
         </div>
     </main>
-    <script src="https://cdn.jsdelivr.net/npm/dexie@3/dist/dexie.min.js"></script>
-    <script src="js/auth-db.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/nav.js"></script>
-    <script src="js/inventory-db.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/dexie@3/dist/dexie.min.js"></script>
+    <script defer src="js/auth-db.js"></script>
+    <script defer src="js/auth.js"></script>
+    <script defer src="js/nav.js"></script>
+    <script defer src="js/inventory-db.js"></script>
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
         (function() {
             var params = new URLSearchParams(window.location.search);
             var sessionId = params.get('session_id');
@@ -80,6 +81,7 @@
                     content.innerHTML = '<p class="error">We could not verify the payment. Your card may have been charged. Please contact us with order #' + orderId + '.</p><p><a href="index.html">Return home</a></p>';
                 });
         })();
+        });
     </script>
 </body>
 </html>

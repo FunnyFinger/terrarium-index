@@ -157,12 +157,13 @@
         </div>
     </footer>
     <script>document.getElementById('footer-year') && (document.getElementById('footer-year').textContent = new Date().getFullYear());</script>
-    <script src="https://cdn.jsdelivr.net/npm/dexie@3/dist/dexie.min.js"></script>
-    <script src="js/auth-db.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/settings.js"></script>
-    <script src="js/nav.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/dexie@3/dist/dexie.min.js"></script>
+    <script defer src="js/auth-db.js"></script>
+    <script defer src="js/auth.js"></script>
+    <script defer src="js/settings.js"></script>
+    <script defer src="js/nav.js"></script>
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
         (function() {
             var user = (typeof window.auth !== 'undefined' && window.auth.getCurrentUser) ? window.auth.getCurrentUser() : null;
             var store = window.settingsStore;
@@ -256,6 +257,7 @@
                 });
             }
         })();
+        });
     </script>
 </body>
 </html>
