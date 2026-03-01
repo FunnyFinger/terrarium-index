@@ -1,0 +1,97 @@
+---
+description: Core architecture rule — what is PROVIDED vs GENERATED in the Vivarium Store, and the no-special-cases principle.
+alwaysApply: true
+---
+
+# Vivarium Store — Data-Driven Architecture
+
+## The Golden Rule
+
+**No special cases. No hardcoded overrides for specific items.**
+
+Every item (plant, supply, vivarium) is treated identically. The owner provides raw facts. The site generates everything else from those facts using generic algorithms. If something doesn't display correctly for one item, fix the algorithm — never add an `if (id === 410)` or `if (slug === 'aglaonema-red-ruby')` check.
+
+---
+
+## What the Owner PROVIDES
+
+These are the only inputs. They are stored in JSON files, Supabase `plants_catalog` / `inventory` / `equipment_catalog` / `vivariums_catalog`, and entered via the admin upload UI.
+
+### Plants
+- `id`, `name`, `scientificName`, `commonNames[]`
+- `taxonomy` object: `kingdom`, `phylum`, `class`, `order`, `family`, `genus`, `species`
+- `plantType`, `growthPattern`, `growthHabit`, `growthRate`, `substrate`, `substrateType`
+- `hazard`, `rarity`, `carnivorous`, `floweringPeriod`, `propagation`, `colors`
+- Care ranges (all `{ min, max, ideal }` on 0–100 scale): `humidityRange`, `lightRange`, `airCirculationRange`, `waterNeedsRange`, `temperatureRange`, `difficultyRange`, `soilPhRange`, `growthRateRange`
+- Aquatic-only ranges: `waterCirculationRange`, `waterTemperatureRange`, `waterPhRange`, `waterHardnessRange`, `salinityRange`
+- `description`, `careTips[]`, `specialNeeds`, `geographicOrigin`
+- `images[]`, `imageUrl` (first image path — relative or full Supabase URL)
+- `price`, `costPrice`, `stockQuantity`, `reorderLevel`, `unit`, `size`, `hidden`
+
+### Supplies / Equipment
+- `id`, `name`, `description`, `category`, `size`, `unit`
+- `images[]`, `imageUrl`, `price`, `costPrice`, `stockQuantity`, `reorderLevel`, `hidden`
+
+### Vivariums
+- `id`, `name`, `type`, `description`, `images[]`, `imageUrl`, `price`, `stockQuantity`, `hidden`
+
+---
+
+## What the Site GENERATES
+
+These are **never stored as overrides for individual items** — they are always computed from the provided data above.
+
+| Output | How It's Generated |
+|---|---|
+| **URL slug** | `scientificNameToSlug(plant.scientificName)` — lowercase, hyphenated |
+| **Image folder path** | `images/plants/{slug}/` — derived from slug |
+| **Thumbnail path** | `images/plants/{slug}/thumb.jpg` — generated automatically on image upload via `generateThumbnailBlobFromUrl()` and uploaded to Supabase Storage at `plants/{slug}/thumb.jpg` |
+| **`imageUrl` fallback** | If null: `images/plants/{slug}/{slug}-1.jpg` — then resolved to Supabase URL |
+| **Supabase image URL** | `resolvePlantImageUrl(path)` converts any relative path to full Supabase Storage URL |
+| **Vivarium type badges** | `calculatePlantVivariumTypes(plant)` — scores 9 vivarium types by weighted overlap of care ranges vs vivarium ideal ranges. Score ≥ 25 = badge shown. Never stored — always recomputed. |
+| **Hybrid badge** | Detected from `scientificName` containing ` x ` or ` × ` |
+| **Carnivorous badge** | From `plant.carnivorous === true` |
+| **Aquatic badge** | From `category`, `plantType`, `growthHabit`, or `specialNeeds` values |
+| **Taxonomy tree** | Built from `plant.taxonomy.*` fields — all nodes, edges, labels, thumbnails generated from taxonomy data |
+| **Filter matching** | `mapPlantToInputs(plant)` normalizes all ranges for filter comparisons |
+| **Price display** | `formatPrice()` → `"KD X.XX"` |
+| **Ideal value** | If owner enters min/max only: `ideal = (min + max) / 2` |
+| **Price from cost+margin** | `price = costPrice / (1 - marginPct / 100)` |
+| **Stock disabled state** | `stockQuantity <= 0` disables Add-to-cart at render time |
+| **Card thumbnail URL** | Supabase render URL with `?width=480&quality=75` appended |
+
+---
+
+## Image Upload Workflow (Auto-Generation)
+
+When the owner uploads images via the admin UI:
+1. Images are uploaded to Supabase Storage at `plants/{slug}/{slug}-1.jpg`, `-2.jpg`, etc.
+2. A 60×60 thumbnail is **automatically generated** from the first image and uploaded to `plants/{slug}/thumb.jpg`
+3. `imageUrl` and `images[]` are saved to both `inventory` and `plants_catalog` in Supabase
+4. `updatePlantInCatalog(id, updatedPlant)` ensures `plants_catalog` stays in sync
+
+Any page that displays plant images **must** call `inventoryDb.mergeInventoryIntoPlants(plants)` before rendering — this ensures `imageUrl` is populated from the inventory table for all plants, not just the ones that had their `plants_catalog` record updated.
+
+---
+
+## Known Technical Debt (Fix These — Don't Add More)
+
+These existing special cases violate the principle and should be removed when touched:
+
+| Location | Issue |
+|---|---|
+| `script.js:127` — `PLANT_SLUGS_WITH_BUCKET_IMAGES` | Hardcoded whitelist of 3 plant slugs for Supabase image routing. Should be removed — all plants with Supabase URLs should be detected generically via `resolvePlantImageUrl()` |
+| `build-vivarium.js:283` — `SMALL_ENCLOSURE_ID = 50001` | Single supply ID hardcoded to relax compatibility scoring. Should be driven by an `enclosureSize` or `maxVolume` field on the supply item |
+| `build-vivarium.js:64–68` — `DRAINAGE_COMBOS` | Supply IDs 50006/50007/50008 hardcoded as a drainage preset bundle. Should reference items by `category` + `name` pattern, not ID |
+| `script.js:3390–3404` — genus classification lists | Hardcoded genus arrays for "Succulent", "Tropical", etc. filter groups. Should be driven by `plantType` or `category` fields on the plant |
+| `taxonomy.js:186` — `"Viridiplantae" → "Plantae"` | Single hardcoded kingdom alias. Should be a generic normalization map or driven by taxonomy data |
+
+---
+
+## How to Add New Features Correctly
+
+- **New badge type?** Add a condition in `calculatePlantVivariumTypes()` or the badge rendering loop — do not add per-plant exceptions.
+- **New image size?** Add a parameter to `resolvePlantImageUrl()` or `getCardThumbUrl()` — not a plant-specific branch.
+- **New filter?** Add to `mapPlantToInputs()` and the filter UI — driven by the existing field on every plant.
+- **A specific plant/supply looks wrong?** Fix the data (the provided fields in the JSON/Supabase), or fix the algorithm — never add `if (id === X)`.
+- **A page is missing images?** Check whether `inventoryDb.mergeInventoryIntoPlants()` is called before rendering on that page.
