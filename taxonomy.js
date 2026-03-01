@@ -296,6 +296,18 @@ async function initializeTaxonomy() {
     // Use the same plantsDatabase reference so updates to plant objects are reflected
     // Check window.plantsDatabase first (updated by script.js), then fallback to plantsDatabase
     allPlants = (typeof window !== 'undefined' && window.plantsDatabase) || plantsDatabase || [];
+
+    // Merge inventory data (imageUrl, stockQuantity, price) so taxonomy tree uses the
+    // same image source as the main catalog — without this, plants uploaded via the admin
+    // UI have imageUrl: null in plants_catalog and their images won't appear in the tree.
+    if (typeof window !== 'undefined' && window.inventoryDb && typeof window.inventoryDb.mergeInventoryIntoPlants === 'function') {
+        try {
+            await window.inventoryDb.mergeInventoryIntoPlants(allPlants);
+        } catch (e) {
+            // Non-fatal: tree still renders, just without inventory-sourced image URLs
+        }
+    }
+
     console.log(`📊 Loaded ${allPlants.length} plants for taxonomy tree`);
     
     if (allPlants.length === 0) {
