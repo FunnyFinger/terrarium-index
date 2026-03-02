@@ -7170,7 +7170,7 @@ async function showPlantModal(plant) {
                 '@type': 'Offer',
                 priceCurrency: 'KWD',
                 availability: availability,
-                url: 'https://vivarium-store.netlify.app/#' + (p.id || '')
+                url: 'https://vivarium-store.com/#' + (p.id || '')
             }
         };
         if (price) ld.offers.price = price;

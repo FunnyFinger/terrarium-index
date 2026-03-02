@@ -139,7 +139,7 @@ function emailWrapper(title, content) {
         <td style="background:#f0f7ea;padding:20px 32px;text-align:center;border-top:1px solid #d4e8bc;">
           <p style="margin:0;font-size:0.82em;color:#6b9a5e;">
             Vivarium Store · Kuwait<br>
-            <a href="https://vivarium-store.netlify.app" style="color:#2d5016;text-decoration:none;">vivarium-store.netlify.app</a>
+            <a href="https://vivarium-store.com" style="color:#2d5016;text-decoration:none;">vivarium-store.com</a>
           </p>
         </td>
       </tr>
@@ -184,7 +184,7 @@ function buildCustomerEmail({ orderNum, customer, itemRows, totalRow, payLabel }
         </table>
 
         <div style="text-align:center;margin:28px 0 8px;">
-          <a href="https://vivarium-store.netlify.app" style="display:inline-block;background:#2d5016;color:#fff;text-decoration:none;padding:14px 32px;border-radius:999px;font-weight:700;font-size:1em;">Continue shopping →</a>
+          <a href="https://vivarium-store.com" style="display:inline-block;background:#2d5016;color:#fff;text-decoration:none;padding:14px 32px;border-radius:999px;font-weight:700;font-size:1em;">Continue shopping →</a>
         </div>
         <p style="margin:24px 0 0;font-size:0.9em;color:#888;text-align:center;">Questions? Reply to this email or visit our website.</p>`;
     return emailWrapper(`Order #${orderNum} confirmed`, content);
@@ -217,7 +217,7 @@ function buildOwnerEmail({ orderNum, customer, itemRows, totalRow, payLabel }) {
         </table>
 
         <div style="text-align:center;margin:16px 0;">
-          <a href="https://vivarium-store.netlify.app/dashboard.html" style="display:inline-block;background:#2d5016;color:#fff;text-decoration:none;padding:12px 28px;border-radius:999px;font-weight:700;font-size:0.95em;">View dashboard →</a>
+          <a href="https://vivarium-store.com/dashboard.html" style="display:inline-block;background:#2d5016;color:#fff;text-decoration:none;padding:12px 28px;border-radius:999px;font-weight:700;font-size:0.95em;">View dashboard →</a>
         </div>`;
     return emailWrapper(`New order #${orderNum}`, content);
 }
