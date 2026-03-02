@@ -4050,7 +4050,7 @@ function createEquipmentCard(equipment) {
     card.innerHTML = `
         <div class="plant-image-container" data-plant-id="${equipment.id}">
             ${displayImageUrl ?
-                `<img src="${displayImageUrl}" alt="${escapeHtml(equipment.name)}" class="plant-image" loading="lazy" data-plant-id="${equipment.id}" onerror="this.onerror=null;this.style.display='none';this.parentNode.insertAdjacentHTML('afterbegin','<div class=\\'image-placeholder\\'>${PLACEHOLDER_EQUIPMENT_SVG.replace(/'/g, "\\'")}</div>')">` :
+                `<img src="${displayImageUrl}" alt="${escapeHtml(equipment.name)}" class="plant-image" loading="lazy" data-plant-id="${equipment.id}" onerror="this.onerror=null;this.style.display='none';this.parentNode.insertAdjacentHTML('afterbegin','<div class=\\'image-placeholder\\'>${PLACEHOLDER_EQUIPMENT_SVG.replace(/'/g, "\\'").replace(/"/g, '&quot;')}</div>')">` :
                 '<div class="image-placeholder">' + PLACEHOLDER_EQUIPMENT_SVG + '</div>'
             }
             <div class="card-icons equipment-card-icons">
