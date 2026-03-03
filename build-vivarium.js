@@ -811,7 +811,20 @@
             var imgBlock = imgUrl
                 ? '<div class="build-plant-card-img-wrap"><img src="' + escapeHtml(imgUrl) + '" alt="" class="build-plant-card-img"></div>'
                 : '<div class="build-plant-card-img-wrap"><div class="build-plant-card-img"></div></div>';
-            return '<label class="build-plant-card' + selClass + (disabled ? ' build-plant-card-disabled' : '') + '" data-plant-id="' + pid + '">' +
+            var quickAddHtml = '';
+            if (typeof window.getQuickAddHtml === 'function') {
+                var stock = (typeof p.stockQuantity === 'number' && p.stockQuantity >= 0) ? p.stockQuantity : null;
+                var maxAvailable = (stock != null ? Math.min(999, stock) : 999);
+                quickAddHtml = window.getQuickAddHtml(p, {
+                    dataPlantId: pid,
+                    label: 'Add to cart',
+                    max: maxAvailable,
+                    disabled: stock !== null && stock <= 0,
+                    maxedClass: stock !== null && stock <= 0
+                });
+            }
+            return '<div class="build-plant-card' + selClass + (disabled ? ' build-plant-card-disabled' : '') + '" data-plant-id="' + pid + '">' +
+                '<label>' +
                 '<input type="checkbox" class="build-plant-card-input" data-plant-id="' + pid + '"' + (selected ? ' checked' : '') + (disabled ? ' disabled' : '') + ' aria-label="Select ' + escapeHtml(name) + '">' +
                 '<div class="build-plant-card-top">' +
                 '<span class="build-plant-card-check" aria-hidden="true">' + (selected ? '✓' : '') + '</span>' +
@@ -820,7 +833,10 @@
                 '<div class="build-plant-card-body">' +
                 '<span class="build-plant-card-name">' + nameHtml + '</span>' +
                 '<div class="build-plant-card-scientific">' + escapeHtml(sci) + '</div>' +
-                '</div></label>';
+                '</div>' +
+                '</label>' +
+                quickAddHtml +
+                '</div>';
         }).join('');
         if (paginationEl) {
             if (totalPages <= 1) {
