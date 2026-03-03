@@ -328,44 +328,6 @@ async function initializePlants() {
 async function initializeUI() {
     console.log('🎨 Initializing UI...');
     
-    const canSeeHidden = typeof auth !== 'undefined' && auth && (
-        (auth.isOwner && auth.isOwner()) ||
-        (auth.isAdmin && auth.isAdmin())
-    );
-    if (typeof window.loadEquipment === 'function') {
-        allEquipment = await window.loadEquipment();
-        window.allEquipment = allEquipment;
-        if (allEquipment.length && window.inventoryDb && window.inventoryDb.mergeInventoryIntoPlants) {
-            await window.inventoryDb.mergeInventoryIntoPlants(allEquipment);
-        }
-        filteredEquipment = allEquipment ? allEquipment.filter(function(eq) { return canSeeHidden ? true : !eq.hidden; }) : [];
-        mergeEquipmentImagesFromStorage();
-        mergeEquipmentEditsFromStorage();
-        console.log('📦 Supplies loaded:', allEquipment.length, 'items');
-    }
-    if (typeof window.loadVivariums === 'function') {
-        allVivariums = await window.loadVivariums();
-        try {
-            var customViv = [];
-            if (window.supabaseDb && window.supabaseDb.isConfigured()) {
-                customViv = await window.supabaseDb.getCustomVivariums();
-            } else {
-                customViv = JSON.parse(localStorage.getItem('custom_vivariums') || '[]');
-            }
-            if (Array.isArray(customViv) && customViv.length) allVivariums = (allVivariums || []).concat(customViv);
-        } catch (e) { /* ignore */ }
-        window.allVivariums = allVivariums;
-        if (allVivariums.length && window.inventoryDb && window.inventoryDb.mergeInventoryIntoPlants) {
-            await window.inventoryDb.mergeInventoryIntoPlants(allVivariums);
-        }
-        filteredVivariums = allVivariums ? allVivariums.filter(function(v) {
-            var t = (v.type || '').toLowerCase();
-            return (canSeeHidden ? true : !v.hidden) && t !== 'indoor' && t !== 'outdoor';
-        }) : [];
-        mergeVivariumImagesFromStorage();
-        mergeVivariumEditsFromStorage();
-        console.log('📦 Vivariums loaded:', allVivariums.length, 'items');
-    }
     setupShopTabs();
     
     // Read taxonomy filter from URL parameters
@@ -459,18 +421,24 @@ async function initializeUI() {
             const tabEl = tabParam === 'plants' ? tabPlantsEl : (tabParam === 'equipment' ? tabEquipmentEl : (tabParam === 'vivariums' ? tabVivariumsEl : null));
             if (tabEl) {
                 tabEl.click();
-                setTimeout(function() {
-                    if (tabParam === 'plants' && allPlants && allPlants.length) {
-                        const plant = allPlants.find(function(p) { return p.id === numId; });
-                        if (plant) showPlantModal(plant);
-                    } else if (tabParam === 'equipment' && allEquipment && allEquipment.length) {
+                if (tabParam === 'plants') {
+                    setTimeout(function() {
+                        if (allPlants && allPlants.length) {
+                            const plant = allPlants.find(function(p) { return p.id === numId; });
+                            if (plant) showPlantModal(plant);
+                        }
+                    }, 0);
+                } else if (tabParam === 'equipment') {
+                    ensureEquipmentLoaded().then(function() {
                         const equipment = allEquipment.find(function(e) { return e.id === numId; });
                         if (equipment) showEquipmentDetail(equipment);
-                    } else if (tabParam === 'vivariums' && allVivariums && allVivariums.length) {
+                    });
+                } else if (tabParam === 'vivariums') {
+                    ensureVivariumsLoaded().then(function() {
                         const vivarium = allVivariums.find(function(v) { return v.id === numId; });
                         if (vivarium) showVivariumDetail(vivarium);
-                    }
-                }, 0);
+                    });
+                }
             }
         }
     } else if (addParam === 'plant' || addParam === 'equipment' || addParam === 'vivarium') {
@@ -3844,6 +3812,54 @@ let currentVivariumPage = 1;
 let vivariumSortField = 'name';
 let vivariumSortDirection = 'asc';
 
+async function ensureEquipmentLoaded() {
+    if (allEquipment && allEquipment.length) return;
+    if (typeof window.loadEquipment !== 'function') return;
+    const canSeeHidden = typeof auth !== 'undefined' && auth && (
+        (auth.isOwner && auth.isOwner()) ||
+        (auth.isAdmin && auth.isAdmin())
+    );
+    allEquipment = await window.loadEquipment();
+    window.allEquipment = allEquipment;
+    if (allEquipment.length && window.inventoryDb && window.inventoryDb.mergeInventoryIntoPlants) {
+        await window.inventoryDb.mergeInventoryIntoPlants(allEquipment);
+    }
+    filteredEquipment = allEquipment ? allEquipment.filter(function(eq) { return canSeeHidden ? true : !eq.hidden; }) : [];
+    mergeEquipmentImagesFromStorage();
+    mergeEquipmentEditsFromStorage();
+    console.log('📦 Supplies loaded:', allEquipment.length, 'items');
+}
+
+async function ensureVivariumsLoaded() {
+    if (allVivariums && allVivariums.length) return;
+    if (typeof window.loadVivariums !== 'function') return;
+    const canSeeHidden = typeof auth !== 'undefined' && auth && (
+        (auth.isOwner && auth.isOwner()) ||
+        (auth.isAdmin && auth.isAdmin())
+    );
+    allVivariums = await window.loadVivariums();
+    try {
+        var customViv = [];
+        if (window.supabaseDb && window.supabaseDb.isConfigured()) {
+            customViv = await window.supabaseDb.getCustomVivariums();
+        } else {
+            customViv = JSON.parse(localStorage.getItem('custom_vivariums') || '[]');
+        }
+        if (Array.isArray(customViv) && customViv.length) allVivariums = (allVivariums || []).concat(customViv);
+    } catch (e) { /* ignore */ }
+    window.allVivariums = allVivariums;
+    if (allVivariums.length && window.inventoryDb && window.inventoryDb.mergeInventoryIntoPlants) {
+        await window.inventoryDb.mergeInventoryIntoPlants(allVivariums);
+    }
+    filteredVivariums = allVivariums ? allVivariums.filter(function(v) {
+        var t = (v.type || '').toLowerCase();
+        return (canSeeHidden ? true : !v.hidden) && t !== 'indoor' && t !== 'outdoor';
+    }) : [];
+    mergeVivariumImagesFromStorage();
+    mergeVivariumEditsFromStorage();
+    console.log('📦 Vivariums loaded:', allVivariums.length, 'items');
+}
+
 function setupShopTabs() {
     const tabPlants = document.getElementById('tabPlants');
     const tabEquipment = document.getElementById('tabEquipment');
@@ -3949,24 +3965,9 @@ function setupShopTabs() {
         setSortSelectOptions('equipment');
         updateSortDirectionButton();
         currentEquipmentPage = 1;
-        if (window.supabaseDb && window.supabaseDb.isConfigured() && typeof window.loadEquipment === 'function') {
-            window.loadEquipment().then(function(list) {
-                allEquipment = list || [];
-                window.allEquipment = allEquipment;
-                if (allEquipment.length && window.inventoryDb && window.inventoryDb.mergeInventoryIntoPlants) {
-                    return window.inventoryDb.mergeInventoryIntoPlants(allEquipment).then(function() { return list; });
-                }
-                return list;
-            }).then(function() {
-                var canSeeHidden = typeof auth !== 'undefined' && auth && ((auth.isOwner && auth.isOwner()) || (auth.isAdmin && auth.isAdmin()));
-                filteredEquipment = allEquipment ? allEquipment.filter(function(eq) { return canSeeHidden ? true : !eq.hidden; }) : [];
-                mergeEquipmentImagesFromStorage();
-                mergeEquipmentEditsFromStorage();
-                applyEquipmentFilters();
-            }).catch(function() { applyEquipmentFilters(); });
-        } else {
+        ensureEquipmentLoaded().then(function() {
             applyEquipmentFilters();
-        }
+        }).catch(function() { applyEquipmentFilters(); });
         if (typeof window.updateLegendButtonVisibility === 'function') window.updateLegendButtonVisibility();
     });
     if (tabVivariums) {
@@ -3985,28 +3986,9 @@ function setupShopTabs() {
             setSortSelectOptions('vivariums');
             updateSortDirectionButton();
             currentVivariumPage = 1;
-            if (window.supabaseDb && window.supabaseDb.isConfigured() && typeof window.loadVivariums === 'function') {
-                window.loadVivariums().then(function(baseList) {
-                    return window.supabaseDb.getCustomVivariums().then(function(customViv) {
-                        allVivariums = (baseList || []).concat(Array.isArray(customViv) ? customViv : []);
-                        window.allVivariums = allVivariums;
-                        if (allVivariums.length && window.inventoryDb && window.inventoryDb.mergeInventoryIntoPlants) {
-                            return window.inventoryDb.mergeInventoryIntoPlants(allVivariums).then(function() {});
-                        }
-                    });
-                }).then(function() {
-                    var canSeeHidden = typeof auth !== 'undefined' && auth && ((auth.isOwner && auth.isOwner()) || (auth.isAdmin && auth.isAdmin()));
-                    filteredVivariums = allVivariums ? allVivariums.filter(function(v) {
-                        var t = (v.type || '').toLowerCase();
-                        return (canSeeHidden ? true : !v.hidden) && t !== 'indoor' && t !== 'outdoor';
-                    }) : [];
-                    mergeVivariumImagesFromStorage();
-                    mergeVivariumEditsFromStorage();
-                    applyVivariumFilters();
-                }).catch(function() { applyVivariumFilters(); });
-            } else {
+            ensureVivariumsLoaded().then(function() {
                 applyVivariumFilters();
-            }
+            }).catch(function() { applyVivariumFilters(); });
             if (typeof window.updateLegendButtonVisibility === 'function') window.updateLegendButtonVisibility();
         });
     }
