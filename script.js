@@ -597,7 +597,7 @@ function getQuickAddHtml(item, opts) {
     opts = opts || {};
     const stock = typeof item !== 'undefined' && typeof item.stockQuantity === 'number' && item.stockQuantity >= 0 ? item.stockQuantity : 999;
     const max = opts.max != null ? opts.max : Math.min(999, stock);
-    const min = opts.min != null ? opts.min : (isIntegerUnitQuickAdd(item && item.unit) ? 1 : 0.001);
+    const min = opts.min != null ? opts.min : (isIntegerUnitQuickAdd(item && item.unit) ? 1 : 0);
     const step = opts.step != null ? opts.step : (isIntegerUnitQuickAdd(item && item.unit) ? 1 : 0.001);
     const value = opts.value != null ? opts.value : 1;
     const unit = (item && item.unit != null && String(item.unit).trim() !== '') ? String(item.unit).trim() : '';
@@ -895,7 +895,8 @@ function initQuickAddOnCards() {
         if (e.target.closest('.quick-add-minus')) {
             const qtyInput = wrap.querySelector('.quick-add-qty');
             if (qtyInput && !qtyInput.disabled) {
-                const min = parseFloat(qtyInput.getAttribute('min')) || 0.001;
+                const minAttr = parseFloat(qtyInput.getAttribute('min'));
+                const min = isNaN(minAttr) ? 0 : minAttr;
                 const v = Math.max(min, (parseFloat(qtyInput.value) || 1) - 1);
                 qtyInput.value = v;
             }
@@ -930,10 +931,11 @@ function initQuickAddOnCards() {
         if (!qtyInput) return;
         const wrap = qtyInput.closest('.quick-add-wrap');
         const max = parseFloat(qtyInput.getAttribute('max')) || 999;
-        const min = parseFloat(qtyInput.getAttribute('min')) || 0.001;
+        const minAttr = parseFloat(qtyInput.getAttribute('min'));
+        const min = isNaN(minAttr) ? 0 : minAttr;
         let v = parseFloat(qtyInput.value);
         if (isNaN(v) || v < 0) {
-            qtyInput.value = max >= min ? 1 : 0;
+            qtyInput.value = min;
             return;
         }
         if (v > max) {
@@ -946,7 +948,8 @@ function initQuickAddOnCards() {
         if (!qtyInput) return;
         const wrap = qtyInput.closest('.quick-add-wrap');
         const max = parseFloat(qtyInput.getAttribute('max')) || 999;
-        const min = parseFloat(qtyInput.getAttribute('min')) || 0.001;
+        const minAttr = parseFloat(qtyInput.getAttribute('min'));
+        const min = isNaN(minAttr) ? 0 : minAttr;
         let v = parseFloat(qtyInput.value);
         if (isNaN(v) || v < min) {
             qtyInput.value = max >= min ? min : 0;
