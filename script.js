@@ -606,7 +606,7 @@ function getQuickAddHtml(item, opts) {
     const disabled = opts.disabled ? ' disabled' : '';
     const maxedClass = opts.maxedClass ? ' quick-add-btn-maxed' : '';
     const unitEsc = unit ? escapeHtml(unit) : '';
-    return '<div class="quick-add-wrap" data-plant-id="' + dataPlantId + '" onclick="event.stopPropagation()">' +
+    return '<div class="quick-add-wrap" data-plant-id="' + dataPlantId + '">' +
         '<button type="button" class="quick-add-btn' + maxedClass + '" aria-label="' + escapeHtml(label) + '" data-plant-id="' + dataPlantId + '"' + disabled + '>' +
         '<span class="quick-add-icon" aria-hidden="true">' + CART_ICON_SVG + '</span>' +
         '<span class="quick-add-label">' + escapeHtml(label) + '</span></button>' +
