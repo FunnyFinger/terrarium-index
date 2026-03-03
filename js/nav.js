@@ -97,7 +97,7 @@
             backBtnHtml +
             '<div class="nav-logo-spacer"></div>' +
             '<div class="nav-logo">' +
-            '<a href="index.html" class="logo-link"><img src="assets/vivarium-store-logo.svg" alt="" class="logo-img" width="32" height="32"><span class="logo-text">Vivarium Store</span></a>' +
+            '<a href="index.html" class="logo-link"><img src="assets/vivarium-store-logo.svg" alt="" class="logo-img" width="32" height="32"><span class="logo-text"><span class="logo-text-main">Vivarium</span> <span class="logo-text-accent">Store</span></span></a>' +
             '</div>' +
             '<div class="nav-cart-wrap">' +
             '<button type="button" id="cartToggle" class="cart-toggle" aria-label="Open cart">' +
