@@ -320,6 +320,31 @@
     align-items: center;
     justify-content: center;
 }
+.build-review-qty-row {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.35rem;
+    flex-wrap: wrap;
+}
+.build-review-qty-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.75rem;
+    color: var(--text-light);
+}
+.build-review-qty-input {
+    width: 3.5rem;
+    padding: 0.2rem 0.35rem;
+    font-size: 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+}
+.build-review-qty-unit {
+    font-size: 0.7rem;
+    color: var(--text-light);
+}
 
 .build-options {
     display: grid;

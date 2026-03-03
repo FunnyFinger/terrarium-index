@@ -47,8 +47,31 @@
         plantIds: [],
         decorationIds: [],
         accessoryIds: [],
-        toolIds: []
+        toolIds: [],
+        /** Quantity per supply id (key = id, value = number). Uses item unit for step (integer vs float). */
+        supplyQuantities: {}
     };
+
+    /** Units that use whole numbers only (e.g. pcs, box). Others allow decimals (kg, L). */
+    var INTEGER_UNITS = /^(pcs?|piece[s]?|each|unit[s]?|box(?:es)?|pack[s]?|ct|no\.?|bag[s]?|set[s]?|pair[s]?|bottle[s]?|can[s]?|jar[s]?)$/i;
+
+    function isIntegerUnit(unit) {
+        if (!unit || typeof unit !== 'string') return false;
+        return INTEGER_UNITS.test(unit.trim());
+    }
+
+    function getSupplyQuantity(id) {
+        var k = id != null ? String(supplyIdNum(id)) : '';
+        var q = config.supplyQuantities && config.supplyQuantities[k];
+        return (q != null && !isNaN(Number(q)) && Number(q) > 0) ? Number(q) : 1;
+    }
+
+    function setSupplyQuantity(id, qty) {
+        if (!config.supplyQuantities) config.supplyQuantities = {};
+        var k = id != null ? String(supplyIdNum(id)) : '';
+        var n = Number(qty);
+        if (k && !isNaN(n) && n > 0) config.supplyQuantities[k] = n;
+    }
 
     function escapeHtml(s) {
         if (s == null) return '';
@@ -402,6 +425,7 @@
                 config.decorationIds = [];
                 config.accessoryIds = [];
                 config.toolIds = [];
+                config.supplyQuantities = {};
                 document.querySelectorAll('#buildTypeOptions .build-option-card').forEach(function (b) { b.classList.remove('build-option-selected'); });
                 btn.classList.add('build-option-selected');
                 document.querySelector('[data-next="2"]').disabled = false;
@@ -450,7 +474,14 @@
             btn.addEventListener('click', function () {
                 var comboId = btn.getAttribute('data-drainage-combo');
                 var combo = DRAINAGE_COMBOS.filter(function (c) { return c.id === comboId; })[0];
-                if (combo) config.drainageIds = combo.ids.slice();
+                if (combo) {
+                    config.drainageIds = combo.ids.slice();
+                    config.supplyQuantities = config.supplyQuantities || {};
+                    combo.ids.forEach(function (id) {
+                        var k = supplyIdNum(id);
+                        config.supplyQuantities[k] = (config.supplyQuantities[k] || 0) + 1;
+                    });
+                }
                 document.querySelectorAll('#buildDrainageOptions .build-drainage-combo').forEach(function (b) {
                     b.classList.remove('build-drainage-combo-selected');
                     var ch = b.querySelector('.build-drainage-combo-check');
@@ -481,8 +512,11 @@
         }).join('');
         el.querySelectorAll('.build-supply-card-single').forEach(function (btn) {
             btn.addEventListener('click', function () {
+                var oldId = config.enclosureId;
                 config.enclosureId = btn.getAttribute('data-id');
                 if (config.enclosureId) config.enclosureId = supplyIdNum(config.enclosureId);
+                if (config.supplyQuantities && oldId != null) delete config.supplyQuantities[String(supplyIdNum(oldId))];
+                if (config.enclosureId) setSupplyQuantity(config.enclosureId, 1);
                 document.querySelectorAll('#buildEnclosureOptions .build-supply-card').forEach(function (b) {
                     b.classList.remove('build-supply-card-selected');
                     var ch = b.querySelector('.build-supply-card-check');
@@ -518,8 +552,13 @@
                 var arr = config[configKey] || [];
                 var idx = -1;
                 for (var i = 0; i < arr.length; i++) { if (supplyIdNum(arr[i]) === id) { idx = i; break; } }
-                if (cb.checked && idx === -1) config[configKey].push(id);
-                else if (!cb.checked && idx !== -1) config[configKey].splice(idx, 1);
+                if (cb.checked && idx === -1) {
+                    config[configKey].push(id);
+                    setSupplyQuantity(id, 1);
+                } else if (!cb.checked && idx !== -1) {
+                    config[configKey].splice(idx, 1);
+                    if (config.supplyQuantities) delete config.supplyQuantities[String(id)];
+                }
                 var card = cb.closest('.build-supply-card');
                 if (card) {
                     card.classList.toggle('build-supply-card-selected', cb.checked);
@@ -736,14 +775,26 @@
             return 'KD ' + n.toFixed(2);
         }
         function supplyCard(e) {
+            var id = supplyIdNum(e.id);
+            var qty = getSupplyQuantity(id);
+            var unit = (e.unit != null && String(e.unit).trim() !== '') ? String(e.unit).trim() : '';
+            var isInt = isIntegerUnit(unit);
+            var min = isInt ? 1 : 0.001;
+            var step = isInt ? 1 : 0.001;
             var imgUrl = e.imageUrl || (e.images && e.images[0]) || '';
             var name = e.name || 'Item';
             var priceStr = e.price != null && e.price !== '' ? formatPrice(e.price) : 'Price on request';
-            return '<div class="plant-card equipment-card build-review-item-card">' +
+            var qtyLabel = unit ? escapeHtml(unit) : '';
+            return '<div class="plant-card equipment-card build-review-item-card" data-supply-id="' + id + '">' +
                 '<div class="plant-image-container">' +
                 (imgUrl ? '<img src="' + escapeHtml(imgUrl) + '" alt="" class="plant-image" loading="lazy">' : '<div class="image-placeholder"></div>') +
                 '<div class="card-price">' + escapeHtml(priceStr) + '</div></div>' +
-                '<div class="plant-info"><div class="plant-name">' + escapeHtml(name) + '</div></div></div>';
+                '<div class="plant-info">' +
+                '<div class="plant-name">' + escapeHtml(name) + '</div>' +
+                '<div class="build-review-qty-row" style="pointer-events:auto">' +
+                '<label class="build-review-qty-label">Qty <input type="number" class="build-review-qty-input" data-supply-id="' + id + '" value="' + escapeHtml(String(qty)) + '" min="' + min + '" max="9999" step="' + step + '" aria-label="Quantity' + (unit ? ' in ' + escapeHtml(unit) : '') + '"></label>' +
+                (qtyLabel ? '<span class="build-review-qty-unit">' + qtyLabel + '</span>' : '') +
+                '</div></div></div>';
         }
         function itemsForIds(ids) {
             var seen = {};
@@ -837,6 +888,18 @@
 
         html += '</div>';
         el.innerHTML = html;
+        el.querySelectorAll('.build-review-qty-input').forEach(function (input) {
+            var id = input.getAttribute('data-supply-id');
+            if (!id) return;
+            input.addEventListener('change', function () {
+                var val = input.value;
+                var num = parseFloat(val, 10);
+                if (!isNaN(num) && num > 0) {
+                    setSupplyQuantity(id, num);
+                    input.value = isIntegerUnit((eq.filter(function (x) { return supplyIdNum(x.id) === supplyIdNum(id); })[0] || {}).unit) ? Math.round(num) : num;
+                }
+            });
+        });
     }
 
     function getCart() {
@@ -851,15 +914,16 @@
         if (typeof window.updateCartUI === 'function') window.updateCartUI();
     }
 
-    function addSupplyToCart(cart, equipment, id) {
+    function addSupplyToCart(cart, equipment, id, quantity) {
+        var qty = (quantity != null && !isNaN(Number(quantity)) && Number(quantity) > 0) ? Number(quantity) : 1;
         var idN = supplyIdNum(id);
         var e = equipment.filter(function (x) { return supplyIdNum(x.id) === idN; })[0];
         if (!e) return;
         var price = (e.price !== undefined && e.price !== null && e.price !== '') ? Number(e.price) : null;
         var keyId = e.id != null ? e.id : idN;
         var existing = cart.filter(function (i) { return i.plantId == keyId || supplyIdNum(i.plantId) === idN; })[0];
-        if (existing) existing.quantity += 1;
-        else cart.push({ plantId: keyId, name: e.name || 'Item', scientificName: '', quantity: 1, price: price });
+        if (existing) existing.quantity += qty;
+        else cart.push({ plantId: keyId, name: e.name || 'Item', scientificName: '', quantity: qty, price: price, unit: e.unit || undefined });
     }
 
     var LABOUR_VIVARIUM_ID = 'labour-vivarium';
@@ -882,10 +946,19 @@
         var cart = cartBefore.slice();
         var plants = getPlants();
         var equipment = getEquipment();
-        if (config.enclosureId) addSupplyToCart(cart, equipment, config.enclosureId);
-        (config.drainageIds || []).forEach(function (id) { addSupplyToCart(cart, equipment, id); });
-        (config.substrateIds || []).forEach(function (id) { addSupplyToCart(cart, equipment, id); });
-        (config.hardscapeIds || []).forEach(function (id) { addSupplyToCart(cart, equipment, id); });
+        function addSuppliesOnce(ids) {
+            var seen = {};
+            (ids || []).forEach(function (id) {
+                var idn = supplyIdNum(id);
+                if (seen[idn]) return;
+                seen[idn] = true;
+                addSupplyToCart(cart, equipment, id, getSupplyQuantity(id));
+            });
+        }
+        if (config.enclosureId) addSupplyToCart(cart, equipment, config.enclosureId, getSupplyQuantity(config.enclosureId));
+        addSuppliesOnce(config.drainageIds);
+        addSuppliesOnce(config.substrateIds);
+        addSuppliesOnce(config.hardscapeIds);
         (config.plantIds || []).forEach(function (id) {
             var idN = plantIdNum(id);
             var p = plants.filter(function (x) { return plantIdNum(x.id) === idN; })[0];
@@ -897,9 +970,9 @@
             if (existing) existing.quantity += 1;
             else cart.push({ plantId: keyId, name: p.name || 'Plant', scientificName: scientificName, quantity: 1, price: price });
         });
-        (config.decorationIds || []).forEach(function (id) { addSupplyToCart(cart, equipment, id); });
-        (config.accessoryIds || []).forEach(function (id) { addSupplyToCart(cart, equipment, id); });
-        (config.toolIds || []).forEach(function (id) { addSupplyToCart(cart, equipment, id); });
+        addSuppliesOnce(config.decorationIds);
+        addSuppliesOnce(config.accessoryIds);
+        addSuppliesOnce(config.toolIds);
         cart.push({ plantId: LABOUR_VIVARIUM_ID, name: 'Labour (Vivarium build)', scientificName: '', quantity: 1, price: LABOUR_CHARGE_KD });
         setCart(cart);
 
