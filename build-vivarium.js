@@ -63,14 +63,23 @@
     function getSupplyQuantity(id) {
         var k = id != null ? String(supplyIdNum(id)) : '';
         var q = config.supplyQuantities && config.supplyQuantities[k];
-        return (q != null && !isNaN(Number(q)) && Number(q) > 0) ? Number(q) : 1;
+        if (q != null && !isNaN(Number(q)) && Number(q) >= 0) return Number(q);
+        return 1;
     }
 
     function setSupplyQuantity(id, qty) {
         if (!config.supplyQuantities) config.supplyQuantities = {};
         var k = id != null ? String(supplyIdNum(id)) : '';
         var n = Number(qty);
-        if (k && !isNaN(n) && n > 0) config.supplyQuantities[k] = n;
+        if (k && !isNaN(n) && n >= 0) config.supplyQuantities[k] = n;
+    }
+
+    /** Max quantity allowed for a supply (from stock). Returns undefined if no cap (treat as high number). */
+    function getSupplyStockMax(e) {
+        if (!e) return undefined;
+        var s = e.stockQuantity;
+        if (typeof s !== 'number' || isNaN(s) || s < 0) return undefined;
+        return s;
     }
 
     function escapeHtml(s) {
@@ -218,6 +227,7 @@
     function supplyCardHtml(e, options) {
         var name = escapeHtml(e.name || 'Item');
         var size = (e.size && String(e.size).trim()) ? escapeHtml(String(e.size).trim()) : '';
+        var unit = (e.unit != null && String(e.unit).trim() !== '') ? escapeHtml(String(e.unit).trim()) : '';
         var singleSelect = options && options.singleSelect;
         var checked = options && options.checked;
         var id = e.id;
@@ -235,6 +245,7 @@
         var cardBody = '<div class="build-supply-card-body">' +
             '<span class="build-supply-card-name">' + name + '</span>' +
             (size ? '<div class="build-supply-card-size">' + size + '</div>' : '') +
+            (unit ? '<div class="build-supply-card-unit">' + unit + '</div>' : '') +
             '</div>';
         if (singleSelect) {
             return '<button type="button" class="build-supply-card build-supply-card-single' + selClass + '" data-id="' + escapeHtml(String(id)) + '">' +
@@ -249,13 +260,15 @@
     function supplyCardDisplayHtml(e) {
         var name = escapeHtml(e.name || 'Item');
         var size = (e.size && String(e.size).trim()) ? escapeHtml(String(e.size).trim()) : '';
+        var unit = (e.unit != null && String(e.unit).trim() !== '') ? escapeHtml(String(e.unit).trim()) : '';
         var imgUrl = e.imageUrl || (e.images && e.images[0]);
         var imgBlock = imgUrl
             ? '<div class="build-supply-card-img-wrap"><img src="' + escapeHtml(imgUrl) + '" alt="" class="build-supply-card-img"></div>'
             : '<div class="build-supply-card-img-wrap"><div class="build-supply-card-img"></div></div>';
         var body = '<div class="build-supply-card-body">' +
             '<span class="build-supply-card-name">' + name + '</span>' +
-            (size ? '<div class="build-supply-card-size">' + size + '</div>' : '') + '</div>';
+            (size ? '<div class="build-supply-card-size">' + size + '</div>' : '') +
+            (unit ? '<div class="build-supply-card-unit">' + unit + '</div>' : '') + '</div>';
         return '<div class="build-supply-card build-supply-card-display">' +
             '<div class="build-supply-card-top">' + imgBlock + '</div>' + body + '</div>';
     }
@@ -776,15 +789,22 @@
         }
         function supplyCard(e) {
             var id = supplyIdNum(e.id);
+            var stockMax = getSupplyStockMax(e);
+            var effectiveMax = (stockMax != null && stockMax >= 0) ? stockMax : 9999;
             var qty = getSupplyQuantity(id);
+            if (effectiveMax < 9999 && qty > effectiveMax) {
+                setSupplyQuantity(id, effectiveMax);
+                qty = effectiveMax;
+            }
             var unit = (e.unit != null && String(e.unit).trim() !== '') ? String(e.unit).trim() : '';
             var isInt = isIntegerUnit(unit);
-            var min = isInt ? 1 : 0.001;
+            var min = (effectiveMax === 0) ? 0 : (isInt ? 1 : 0.001);
             var step = isInt ? 1 : 0.001;
             var imgUrl = e.imageUrl || (e.images && e.images[0]) || '';
             var name = e.name || 'Item';
             var priceStr = e.price != null && e.price !== '' ? formatPrice(e.price) : 'Price on request';
             var qtyLabel = unit ? escapeHtml(unit) : '';
+            var stockHint = (effectiveMax < 9999) ? ' <span class="build-review-stock-hint">(max ' + effectiveMax + ')</span>' : '';
             return '<div class="plant-card equipment-card build-review-item-card" data-supply-id="' + id + '">' +
                 '<div class="plant-image-container">' +
                 (imgUrl ? '<img src="' + escapeHtml(imgUrl) + '" alt="" class="plant-image" loading="lazy">' : '<div class="image-placeholder"></div>') +
@@ -792,8 +812,8 @@
                 '<div class="plant-info">' +
                 '<div class="plant-name">' + escapeHtml(name) + '</div>' +
                 '<div class="build-review-qty-row" style="pointer-events:auto">' +
-                '<label class="build-review-qty-label">Qty <input type="number" class="build-review-qty-input" data-supply-id="' + id + '" value="' + escapeHtml(String(qty)) + '" min="' + min + '" max="9999" step="' + step + '" aria-label="Quantity' + (unit ? ' in ' + escapeHtml(unit) : '') + '"></label>' +
-                (qtyLabel ? '<span class="build-review-qty-unit">' + qtyLabel + '</span>' : '') +
+                '<label class="build-review-qty-label">Qty <input type="number" class="build-review-qty-input" data-supply-id="' + id + '" data-max="' + effectiveMax + '" value="' + escapeHtml(String(qty)) + '" min="' + min + '" max="' + effectiveMax + '" step="' + step + '" aria-label="Quantity' + (unit ? ' in ' + escapeHtml(unit) : '') + (effectiveMax < 9999 ? ', max ' + effectiveMax + ' in stock' : '') + '"></label>' +
+                (qtyLabel ? '<span class="build-review-qty-unit">' + qtyLabel + '</span>' : '') + stockHint +
                 '</div></div></div>';
         }
         function itemsForIds(ids) {
@@ -890,14 +910,18 @@
         el.innerHTML = html;
         el.querySelectorAll('.build-review-qty-input').forEach(function (input) {
             var id = input.getAttribute('data-supply-id');
+            var dataMax = input.getAttribute('data-max');
+            var maxCap = (dataMax != null && dataMax !== '') ? parseFloat(dataMax, 10) : null;
             if (!id) return;
             input.addEventListener('change', function () {
                 var val = input.value;
                 var num = parseFloat(val, 10);
-                if (!isNaN(num) && num > 0) {
-                    setSupplyQuantity(id, num);
-                    input.value = isIntegerUnit((eq.filter(function (x) { return supplyIdNum(x.id) === supplyIdNum(id); })[0] || {}).unit) ? Math.round(num) : num;
-                }
+                if (isNaN(num) || num < 0) return;
+                if (maxCap != null && !isNaN(maxCap) && num > maxCap) num = maxCap;
+                var e = eq.filter(function (x) { return supplyIdNum(x.id) === supplyIdNum(id); })[0];
+                if (e && isIntegerUnit(e.unit)) num = Math.round(num);
+                setSupplyQuantity(id, num);
+                input.value = num;
             });
         });
     }
@@ -915,7 +939,8 @@
     }
 
     function addSupplyToCart(cart, equipment, id, quantity) {
-        var qty = (quantity != null && !isNaN(Number(quantity)) && Number(quantity) > 0) ? Number(quantity) : 1;
+        var qty = (quantity != null && !isNaN(Number(quantity)) && Number(quantity) > 0) ? Number(quantity) : 0;
+        if (qty <= 0) return;
         var idN = supplyIdNum(id);
         var e = equipment.filter(function (x) { return supplyIdNum(x.id) === idN; })[0];
         if (!e) return;

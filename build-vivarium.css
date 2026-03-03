@@ -345,6 +345,10 @@
     font-size: 0.7rem;
     color: var(--text-light);
 }
+.build-review-stock-hint {
+    font-size: 0.65rem;
+    color: var(--text-light);
+}
 
 .build-options {
     display: grid;
@@ -518,6 +522,11 @@
     color: var(--text-light);
     margin-top: 0.15rem;
 }
+.build-drainage-combo-cards .build-supply-card-display .build-supply-card-unit {
+    font-size: 0.7rem;
+    color: var(--text-light);
+    margin-top: 0.1rem;
+}
 
 /* Mobile: drainage step and build layout – avoid clipping, scale down */
 @media (max-width: 768px) {
@@ -551,6 +560,9 @@
         font-size: 0.75rem;
     }
     .build-drainage-combo-cards .build-supply-card-display .build-supply-card-size {
+        font-size: 0.65rem;
+    }
+    .build-drainage-combo-cards .build-supply-card-display .build-supply-card-unit {
         font-size: 0.65rem;
     }
     .build-supply-list {
@@ -966,6 +978,11 @@
     overflow-wrap: break-word;
     word-break: break-word;
     line-height: 1.25;
+}
+.build-supply-card-unit {
+    font-size: clamp(0.6rem, 3cqi, 0.7rem);
+    color: var(--text-light);
+    margin-top: 0.1rem;
 }
 
 /* Floating tooltip for supply card description */
