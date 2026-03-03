@@ -309,6 +309,10 @@
     cursor: default;
     pointer-events: none;
 }
+.build-review-summary .build-review-item-card .build-review-qty-row,
+.build-review-summary .build-review-item-card .build-review-qty-row * {
+    pointer-events: auto;
+}
 .build-review-summary .build-review-item-card .plant-image-container .card-price {
     font-size: 0.65rem;
     padding: 0.22rem 0.4rem;
