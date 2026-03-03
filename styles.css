@@ -1279,10 +1279,12 @@ html.detail-startup body {
 }
 .logo-text-main {
     color: #2c3e50;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
 }
 .logo-text-accent {
     color: #5b7c4b;
     font-weight: 700;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
 }
 
 /* Main menu drawer - all viewports */
