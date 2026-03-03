@@ -1591,12 +1591,12 @@ function setupEventListeners() {
         updateLegendSticky();
     }
 
-    // Card size: large (default), medium, small – persist in localStorage
+    // Card size: medium (default), small, large – persist in localStorage
     const CARD_SIZE_KEY = 'plantCardSize';
     const cardSizeBtns = document.querySelectorAll('.card-size-btn');
     if (plantsGrid && cardSizeBtns.length) {
         function setCardSize(size) {
-            const valid = ['large', 'medium', 'small'].includes(size) ? size : 'large';
+            const valid = ['large', 'medium', 'small'].includes(size) ? size : 'medium';
             plantsGrid.classList.remove('card-size-large', 'card-size-medium', 'card-size-small');
             plantsGrid.classList.add('card-size-' + valid);
             cardSizeBtns.forEach(btn => {
