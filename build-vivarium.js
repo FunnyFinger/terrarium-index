@@ -223,6 +223,23 @@
         return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     }
 
+    /** Quantity row HTML for a supply card (step cards). Stops propagation so clicking input does not trigger card select. */
+    function supplyCardQtyRowHtml(e) {
+        var id = supplyIdNum(e.id);
+        var qty = getSupplyQuantity(id);
+        var stockMax = getSupplyStockMax(e);
+        var effectiveMax = (stockMax != null && stockMax >= 0) ? stockMax : 9999;
+        var unit = (e.unit != null && String(e.unit).trim() !== '') ? String(e.unit).trim() : '';
+        var isInt = isIntegerUnit(unit);
+        var min = (effectiveMax === 0) ? 0 : (isInt ? 1 : 0.001);
+        var step = isInt ? 1 : 0.001;
+        var unitEsc = unit ? escapeHtml(unit) : '';
+        return '<div class="build-supply-card-qty-row" onclick="event.stopPropagation()" role="group" aria-label="Quantity">' +
+            '<label class="build-supply-card-qty-label">Qty <input type="number" class="build-supply-qty-input" data-supply-id="' + id + '" data-max="' + effectiveMax + '" value="' + escapeHtml(String(qty)) + '" min="' + min + '" max="' + effectiveMax + '" step="' + step + '" aria-label="Quantity' + (unit ? ' in ' + escapeHtml(unit) : '') + '"></label>' +
+            (unitEsc ? '<span class="build-supply-card-qty-unit">' + unitEsc + '</span>' : '') +
+            '</div>';
+    }
+
     /** Build HTML for one supply card (same visual as plant card). singleSelect: true = button with selected state, false = label + checkbox. */
     function supplyCardHtml(e, options) {
         var name = escapeHtml(e.name || 'Item');
@@ -242,11 +259,12 @@
         var cardTop = '<div class="build-supply-card-top">' +
             '<span class="build-supply-card-check" aria-hidden="true">' + checkContent + '</span>' +
             imgBlock + '</div>';
+        var qtyRow = supplyCardQtyRowHtml(e);
         var cardBody = '<div class="build-supply-card-body">' +
             '<span class="build-supply-card-name">' + name + '</span>' +
             (size ? '<div class="build-supply-card-size">' + size + '</div>' : '') +
             (unit ? '<div class="build-supply-card-unit">' + unit + '</div>' : '') +
-            '</div>';
+            qtyRow + '</div>';
         if (singleSelect) {
             return '<button type="button" class="build-supply-card build-supply-card-single' + selClass + '" data-id="' + escapeHtml(String(id)) + '">' +
                 cardTop + cardBody + '</button>';
@@ -479,9 +497,21 @@
                 return e ? supplyCardDisplayHtml(e) : '';
             }).filter(Boolean).join('');
             var checkContent = selected ? '✓' : '';
+            var comboQty = 1;
+            if (selected) {
+                var counts = {};
+                combo.ids.forEach(function (id) { var k = supplyIdNum(id); counts[k] = (counts[k] || 0) + 1; });
+                var sets = null;
+                Object.keys(counts).forEach(function (k) {
+                    var v = Math.floor((getSupplyQuantity(k) || 0) / counts[k]);
+                    sets = sets === null ? v : Math.min(sets, v);
+                });
+                comboQty = (sets != null && sets >= 1) ? sets : 1;
+            }
             return '<button type="button" class="build-drainage-combo' + selClass + '" data-drainage-combo="' + escapeHtml(combo.id) + '">' +
                 '<span class="build-drainage-combo-check" aria-hidden="true">' + checkContent + '</span>' +
-                '<div class="build-drainage-combo-cards">' + cardsHtml + '</div></button>';
+                '<div class="build-drainage-combo-cards">' + cardsHtml + '</div>' +
+                '<div class="build-drainage-combo-qty" onclick="event.stopPropagation()"><label class="build-supply-card-qty-label">Qty <input type="number" class="build-drainage-combo-qty-input" data-combo-id="' + escapeHtml(combo.id) + '" value="' + comboQty + '" min="1" max="999" step="1" aria-label="Quantity of set"></label></div></button>';
         }).join('');
         el.querySelectorAll('.build-drainage-combo').forEach(function (btn) {
             btn.addEventListener('click', function () {
@@ -505,6 +535,22 @@
                 if (ch) ch.textContent = '✓';
                 var nextBtn = document.querySelector('#buildPanel3 [data-next="4"]');
                 if (nextBtn) nextBtn.disabled = false;
+                updateSelectedDisplay();
+            });
+        });
+        el.querySelectorAll('.build-drainage-combo-qty-input').forEach(function (input) {
+            input.addEventListener('change', function () {
+                var comboId = input.getAttribute('data-combo-id');
+                var combo = DRAINAGE_COMBOS.filter(function (c) { return c.id === comboId; })[0];
+                if (!combo || !drainageIdsMatch(config.drainageIds || [], combo.ids)) return;
+                var num = parseInt(input.value, 10);
+                if (isNaN(num) || num < 1) num = 1;
+                if (num > 999) num = 999;
+                input.value = num;
+                config.supplyQuantities = config.supplyQuantities || {};
+                var counts = {};
+                combo.ids.forEach(function (id) { var k = supplyIdNum(id); counts[k] = (counts[k] || 0) + 1; });
+                Object.keys(counts).forEach(function (k) { config.supplyQuantities[k] = counts[k] * num; });
                 updateSelectedDisplay();
             });
         });
@@ -545,7 +591,29 @@
         });
         var nextBtn = document.querySelector('#buildPanel2 [data-next="3"]');
         if (nextBtn) nextBtn.disabled = list.length > 0 && !config.enclosureId;
+        bindSupplyQtyInputs(el);
         updateSelectedDisplay();
+    }
+
+    function bindSupplyQtyInputs(container) {
+        if (!container) return;
+        var eq = getEquipment();
+        container.querySelectorAll('.build-supply-qty-input').forEach(function (input) {
+            var id = input.getAttribute('data-supply-id');
+            var dataMax = input.getAttribute('data-max');
+            var maxCap = (dataMax != null && dataMax !== '') ? parseFloat(dataMax, 10) : null;
+            if (!id) return;
+            input.addEventListener('change', function () {
+                var val = input.value;
+                var num = parseFloat(val, 10);
+                if (isNaN(num) || num < 0) return;
+                if (maxCap != null && !isNaN(maxCap) && num > maxCap) num = maxCap;
+                var e = eq.filter(function (x) { return supplyIdNum(x.id) === supplyIdNum(id); })[0];
+                if (e && isIntegerUnit(e.unit)) num = Math.round(num);
+                setSupplyQuantity(id, num);
+                input.value = num;
+            });
+        });
     }
 
     function renderSupplyMulti(containerId, category, configKey) {
@@ -581,6 +649,7 @@
                 updateSelectedDisplay();
             });
         });
+        bindSupplyQtyInputs(el);
         updateSelectedDisplay();
     }
 
