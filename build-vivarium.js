@@ -38,6 +38,14 @@
 
     var CART_STORAGE_KEY = 'terrarium_cart';
 
+    /** Use resized thumbnail for card images when available (faster on mobile). */
+    function cardImageUrl(url) {
+        if (!url) return url;
+        if (typeof window.getCardThumbUrl === 'function' && typeof window.getCardThumbWidth === 'function')
+            return window.getCardThumbUrl(url, window.getCardThumbWidth(), 75);
+        return url;
+    }
+
     var config = {
         type: null,
         enclosureId: null,
@@ -239,8 +247,9 @@
         var selClass = checked ? ' build-supply-card-selected' : '';
         var checkContent = singleSelect ? (checked ? '✓' : '') : (checked ? '✓' : '');
         var imgUrl = e.imageUrl || (e.images && e.images[0]);
-        var imgBlock = imgUrl
-            ? '<div class="build-supply-card-img-wrap"><img src="' + escapeHtml(imgUrl) + '" alt="" class="build-supply-card-img"></div>'
+        var cardImgSrc = cardImageUrl(imgUrl) || imgUrl;
+        var imgBlock = cardImgSrc
+            ? '<div class="build-supply-card-img-wrap"><img src="' + escapeHtml(cardImgSrc) + '" alt="" class="build-supply-card-img" loading="lazy"></div>'
             : '<div class="build-supply-card-img-wrap"><div class="build-supply-card-img"></div></div>';
         var cardTop = '<div class="build-supply-card-top">' +
             '<span class="build-supply-card-check" aria-hidden="true">' + checkContent + '</span>' +
@@ -279,8 +288,9 @@
         var size = (e.size && String(e.size).trim()) ? escapeHtml(String(e.size).trim()) : '';
         var unit = (e.unit != null && String(e.unit).trim() !== '') ? escapeHtml(String(e.unit).trim()) : '';
         var imgUrl = e.imageUrl || (e.images && e.images[0]);
-        var imgBlock = imgUrl
-            ? '<div class="build-supply-card-img-wrap"><img src="' + escapeHtml(imgUrl) + '" alt="" class="build-supply-card-img"></div>'
+        var cardImgSrc = cardImageUrl(imgUrl) || imgUrl;
+        var imgBlock = cardImgSrc
+            ? '<div class="build-supply-card-img-wrap"><img src="' + escapeHtml(cardImgSrc) + '" alt="" class="build-supply-card-img" loading="lazy"></div>'
             : '<div class="build-supply-card-img-wrap"><div class="build-supply-card-img"></div></div>';
         var body = '<div class="build-supply-card-body">' +
             '<span class="build-supply-card-name">' + name + '</span>' +
@@ -797,6 +807,7 @@
             var name = p.name || (p.commonNames && p.commonNames[0]) || '—';
             var sci = typeof p.scientificName === 'string' ? (p.scientificName || '—') : (p.scientificName && p.scientificName.name ? p.scientificName.name : '—');
             var imgUrl = getPlantImageUrl(p);
+            var cardImgSrc = cardImageUrl(imgUrl) || imgUrl;
             var selected = config.plantIds.indexOf(pid) !== -1;
             var selClass = selected ? ' build-plant-card-selected' : '';
             var disabled = !selected && atLimit;
@@ -808,8 +819,8 @@
                 var link = 'index.html?tab=plants&id=' + encodeURIComponent(pid);
                 nameHtml = '<a href="' + escapeHtml(link) + '" class="build-plant-card-name-link" target="_blank" rel="noopener">' + escapeHtml(name) + '</a>';
             }
-            var imgBlock = imgUrl
-                ? '<div class="build-plant-card-img-wrap"><img src="' + escapeHtml(imgUrl) + '" alt="" class="build-plant-card-img"></div>'
+            var imgBlock = cardImgSrc
+                ? '<div class="build-plant-card-img-wrap"><img src="' + escapeHtml(cardImgSrc) + '" alt="" class="build-plant-card-img" loading="lazy"></div>'
                 : '<div class="build-plant-card-img-wrap"><div class="build-plant-card-img"></div></div>';
             var quickAddHtml = '';
             if (typeof window.getQuickAddHtml === 'function') {
@@ -926,6 +937,7 @@
             var id = supplyIdNum(e.id);
             var showQty = section && BUILD_QTY_CATEGORIES[section];
             var imgUrl = e.imageUrl || (e.images && e.images[0]) || '';
+            var cardImgSrc = cardImageUrl(imgUrl) || imgUrl;
             var name = e.name || 'Item';
             var priceStr = e.price != null && e.price !== '' ? formatPrice(e.price) : 'Price on request';
             var unit = (e.unit != null && String(e.unit).trim() !== '') ? String(e.unit).trim() : '';
@@ -949,7 +961,7 @@
             }
             return '<div class="plant-card equipment-card build-review-item-card" data-supply-id="' + id + '">' +
                 '<div class="plant-image-container">' +
-                (imgUrl ? '<img src="' + escapeHtml(imgUrl) + '" alt="" class="plant-image" loading="lazy">' : '<div class="image-placeholder"></div>') +
+                (cardImgSrc ? '<img src="' + escapeHtml(cardImgSrc) + '" alt="" class="plant-image" loading="lazy">' : '<div class="image-placeholder"></div>') +
                 '<div class="card-price">' + escapeHtml(priceStr) + '</div></div>' +
                 '<div class="plant-info">' +
                 '<div class="plant-name">' + escapeHtml(name) + '</div>' + qtyBlock +
@@ -1018,10 +1030,11 @@
             html += '<div class="build-review-items-grid plants-grid card-size-small">';
             plantItems.forEach(function (p) {
                 var imgUrl = getPlantImageUrl(p);
+                var cardImgSrc = cardImageUrl(imgUrl) || imgUrl;
                 var name = p.name || (p.commonNames && p.commonNames[0]) || '';
                 var sci = sciName(p);
                 html += '<div class="plant-card build-review-item-card"><div class="plant-image-container">';
-                html += imgUrl ? '<img src="' + escapeHtml(imgUrl) + '" alt="" class="plant-image" loading="lazy">' : '<div class="image-placeholder"></div>';
+                html += cardImgSrc ? '<img src="' + escapeHtml(cardImgSrc) + '" alt="" class="plant-image" loading="lazy">' : '<div class="image-placeholder"></div>';
                 html += '</div><div class="plant-info"><div class="plant-name">' + escapeHtml(name) + '</div>';
                 if (sci) html += '<div class="plant-scientific">' + escapeHtml(sci) + '</div>';
                 html += '</div></div>';

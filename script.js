@@ -140,6 +140,12 @@ function getCardThumbUrl(url, width, quality) {
     return match[1] + '/storage/v1/render/image/public/' + match[3] + '?width=' + w + '&quality=' + q;
 }
 
+/** Width in px for card thumbnails: smaller on mobile for faster load. */
+function getCardThumbWidth() {
+    if (typeof window === 'undefined' || !window.innerWidth) return 480;
+    return window.innerWidth <= 768 ? 360 : 480;
+}
+
 
 // Convert scientific name to slug (matching folder naming convention)
 function scientificNameToSlug(scientificName) {
@@ -390,17 +396,24 @@ async function initializeUI() {
     // Second: Apply filters and render IMMEDIATELY (images are now available)
     applyAllFilters();
     
-    // Third: Validate only current page's cached images (fast), then discover for current page
-    setTimeout(() => {
-        const start = (currentPlantsPage - 1) * plantsPerPage;
-        const pagePlants = (filteredPlants || []).slice(start, start + plantsPerPage);
-        loadImagesFromLocalStorage(pagePlants.length ? pagePlants : []).then(() => {
-            (pagePlants.length ? pagePlants : []).forEach(plant => {
+    // Third: Validate only current page's cached images (fast), then discover for current page.
+    // On mobile, defer until idle so initial paint isn't blocked (slower CPU + network).
+    var isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
+    var scheduleDiscovery = function () {
+        var start = (currentPlantsPage - 1) * plantsPerPage;
+        var pagePlants = (filteredPlants || []).slice(start, start + plantsPerPage);
+        loadImagesFromLocalStorage(pagePlants.length ? pagePlants : []).then(function () {
+            (pagePlants.length ? pagePlants : []).forEach(function (plant) {
                 if (plant && plant.imageUrl) updatePlantCardImage(plant.id, plant.imageUrl);
             });
             discoverImagesForCurrentPage();
-        }).catch(() => { discoverImagesForCurrentPage(); });
-    }, 200);
+        }).catch(function () { discoverImagesForCurrentPage(); });
+    };
+    if (isMobile && typeof window.requestIdleCallback === 'function') {
+        window.requestIdleCallback(scheduleDiscovery, { timeout: 1200 });
+    } else {
+        setTimeout(scheduleDiscovery, isMobile ? 400 : 200);
+    }
     
     // Note: Image scanning is now disabled on page load to prevent console flooding
     // Images will be checked only when:
@@ -591,6 +604,8 @@ if (typeof window !== 'undefined') {
     window.CART_ICON_SVG = CART_ICON_SVG;
     window.getQuickAddHtml = getQuickAddHtml;
     window.isIntegerUnitQuickAdd = isIntegerUnitQuickAdd;
+    window.getCardThumbUrl = getCardThumbUrl;
+    window.getCardThumbWidth = getCardThumbWidth;
 }
 
 const CART_STORAGE_KEY = 'terrarium_cart';
@@ -4075,6 +4090,7 @@ function createEquipmentCard(equipment) {
     });
     let displayImageUrl = equipment.imageUrl || (equipment.images && equipment.images[0]) || null;
     if (displayImageUrl && imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') displayImageUrl = imageUtils.normalizePlantImagePath(displayImageUrl);
+    var equipmentCardImgSrc = displayImageUrl && typeof getCardThumbUrl === 'function' ? getCardThumbUrl(displayImageUrl, getCardThumbWidth(), 75) : displayImageUrl;
     const priceStr = equipment.price != null ? formatPrice(equipment.price) : 'Price on request';
     const available = getAvailableToAdd(equipment.id);
     const quickAddHtml = getQuickAddHtml(equipment, {
@@ -4083,8 +4099,8 @@ function createEquipmentCard(equipment) {
     });
     card.innerHTML = `
         <div class="plant-image-container" data-plant-id="${equipment.id}">
-            ${displayImageUrl ?
-                `<img src="${displayImageUrl}" alt="${escapeHtml(equipment.name)}" class="plant-image" loading="lazy" data-plant-id="${equipment.id}" onerror="this.onerror=null;this.style.display='none';this.parentNode.insertAdjacentHTML('afterbegin','<div class=\\'image-placeholder\\'>${PLACEHOLDER_EQUIPMENT_SVG.replace(/'/g, "\\'").replace(/"/g, '&quot;')}</div>')">` :
+            ${equipmentCardImgSrc ?
+                `<img src="${equipmentCardImgSrc}" alt="${escapeHtml(equipment.name)}" class="plant-image" loading="lazy" data-plant-id="${equipment.id}" onerror="this.onerror=null;this.style.display='none';this.parentNode.insertAdjacentHTML('afterbegin','<div class=\\'image-placeholder\\'>${PLACEHOLDER_EQUIPMENT_SVG.replace(/'/g, "\\'").replace(/"/g, '&quot;')}</div>')">` :
                 '<div class="image-placeholder">' + PLACEHOLDER_EQUIPMENT_SVG + '</div>'
             }
             <div class="card-icons equipment-card-icons">
@@ -4381,12 +4397,13 @@ function createVivariumCard(vivarium) {
         showVivariumDetail(vivarium);
     });
     var displayImageUrl = vivarium.imageUrl || (vivarium.images && vivarium.images[0]) || null;
+    var vivariumCardImgSrc = displayImageUrl && typeof getCardThumbUrl === 'function' ? getCardThumbUrl(displayImageUrl, getCardThumbWidth(), 75) : displayImageUrl;
     var priceStr = vivarium.price != null ? formatPrice(vivarium.price) : 'Price on request';
     var typeLabel = (vivarium.type || '').replace(/-/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); });
     var editSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
     var imageSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>';
     card.innerHTML = '<div class="plant-image-container" data-plant-id="' + vivarium.id + '">' +
-        (displayImageUrl ? '<img src="' + escapeHtml(displayImageUrl) + '" alt="' + escapeHtml(vivarium.name) + '" class="plant-image" loading="lazy" data-plant-id="' + vivarium.id + '">' : '<div class="image-placeholder">' + PLACEHOLDER_EQUIPMENT_SVG + '</div>') +
+        (vivariumCardImgSrc ? '<img src="' + escapeHtml(vivariumCardImgSrc) + '" alt="' + escapeHtml(vivarium.name) + '" class="plant-image" loading="lazy" data-plant-id="' + vivarium.id + '">' : '<div class="image-placeholder">' + PLACEHOLDER_EQUIPMENT_SVG + '</div>') +
         '<div class="card-icons">' +
         '<button type="button" class="card-edit-icon" title="Edit details" aria-label="Edit details">' + editSvg + '</button>' +
         '<button type="button" class="card-image-icon" title="Add or edit images" aria-label="Add or edit images">' + imageSvg + '</button>' +
@@ -6328,6 +6345,10 @@ function createPlantCard(plant) {
     if (displayImageUrl && /supabase\.co\/storage\//i.test(displayImageUrl) && !window.SUPABASE_URL) {
         displayImageUrl = null;
     }
+    // Use resized thumbnail for card (much faster on mobile)
+    var cardImgSrc = displayImageUrl && typeof getCardThumbUrl === 'function'
+        ? getCardThumbUrl(displayImageUrl, getCardThumbWidth(), 75)
+        : displayImageUrl;
     // Create a unique identifier for this card to help with updates
     card.dataset.plantId = plant.id;
     
@@ -6353,8 +6374,8 @@ function createPlantCard(plant) {
                     <img src="images/carnivorous-icon.png" alt="Carnivorous" />
                 </div>
             ` : ''}
-            ${displayImageUrl ?
-                `<img src="${displayImageUrl}" alt="${plant.name}" class="plant-image" loading="lazy" onerror="this.onerror=null; handleImageError(this, ${plant.id})" data-plant-id="${plant.id}">` :
+            ${cardImgSrc ?
+                `<img src="${cardImgSrc}" alt="${plant.name}" class="plant-image" loading="lazy" onerror="this.onerror=null; handleImageError(this, ${plant.id})" data-plant-id="${plant.id}">` :
                 `<div class="image-placeholder">${PLACEHOLDER_PLANT_SVG}</div>`
             }
             <div class="card-icons plant-card-icons">
@@ -7685,8 +7706,9 @@ function updatePlantCardImage(plantId, imageUrl) {
             const imgElement = card.querySelector('.plant-image');
             const imgContainer = card.closest('.plant-image-container') || card.querySelector('.plant-image-container');
             
+            var thumbUrl = (typeof getCardThumbUrl === 'function' ? getCardThumbUrl(imageUrl, getCardThumbWidth(), 75) : null) || imageUrl;
             if (imgElement) {
-                imgElement.src = imageUrl;
+                imgElement.src = thumbUrl;
                 imgElement.style.display = 'block';
             } else if (imgContainer) {
                 // Replace placeholder with image and keep edit/details + image + care-card + quick-add (match createPlantCard)
@@ -7701,7 +7723,7 @@ function updatePlantCardImage(plantId, imageUrl) {
                     disabled: typeof plant.stockQuantity === 'number' && plant.stockQuantity <= 0
                 });
                 imgContainer.innerHTML = `${carnivorousHtml}
-            <img src="${imageUrl}" alt="${plant.name}" class="plant-image" loading="lazy" onerror="this.onerror=null; handleImageError(this, ${plantId})" data-plant-id="${plantId}">
+            <img src="${thumbUrl}" alt="${plant.name}" class="plant-image" loading="lazy" onerror="this.onerror=null; handleImageError(this, ${plantId})" data-plant-id="${plantId}">
             <div class="card-icons plant-card-icons">
                 <button type="button" class="card-edit-icon image-edit-icon" title="Edit details" aria-label="Edit details">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
