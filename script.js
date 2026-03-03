@@ -765,14 +765,16 @@ function updateCartUI() {
         const priceStr = item.price != null ? formatPrice(item.price) : 'Price on request';
         const lineStr = lineTotal != null ? formatPrice(lineTotal) : '—';
         const qtyDisplay = (item.quantity % 1 !== 0) ? Number(item.quantity) : item.quantity;
-        const unitLabel = item.unit ? ' ' + escapeHtml(item.unit) : '';
+        const unitRaw = item.unit != null ? String(item.unit).trim() : '';
+        const unitLabel = unitRaw ? ' ' + escapeHtml(unitRaw) : '';
+        const perUnitLabel = unitRaw ? ' per ' + escapeHtml(unitRaw) : ' each';
         return `
         <div class="cart-item" data-plant-id="${item.plantId}">
             <div class="cart-item-info">
                 <div class="cart-item-name">${escapeHtml(item.name)}</div>
                 <div class="cart-item-scientific">${escapeHtml(item.scientificName)}</div>
                 <div class="cart-item-qty">Qty: ${qtyDisplay}${unitLabel}</div>
-                <div class="cart-item-price">${priceStr} each · ${lineStr} total</div>
+                <div class="cart-item-price">${priceStr}${perUnitLabel} · ${lineStr} total</div>
             </div>
             <button type="button" class="cart-item-remove" aria-label="Remove from cart" data-plant-id="${item.plantId}">×</button>
         </div>`;
