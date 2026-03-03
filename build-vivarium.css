@@ -479,22 +479,6 @@
     min-height: 0;
 }
 
-.build-drainage-combo-qty {
-    padding: 0 0.75rem 0.5rem;
-    flex-shrink: 0;
-}
-.build-drainage-combo-qty .build-supply-card-qty-label {
-    font-size: 0.8rem;
-}
-.build-drainage-combo-qty-input {
-    width: 3.5rem;
-    padding: 0.2rem 0.3rem;
-    font-size: 0.8rem;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    background: var(--card-bg);
-}
-
 .build-drainage-combo-cards .build-supply-card-display {
     flex: 1;
     min-width: 160px;

@@ -223,22 +223,8 @@
         return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     }
 
-    /** Quantity row HTML for a supply card (step cards). Stops propagation so clicking input does not trigger card select. */
-    function supplyCardQtyRowHtml(e) {
-        var id = supplyIdNum(e.id);
-        var qty = getSupplyQuantity(id);
-        var stockMax = getSupplyStockMax(e);
-        var effectiveMax = (stockMax != null && stockMax >= 0) ? stockMax : 9999;
-        var unit = (e.unit != null && String(e.unit).trim() !== '') ? String(e.unit).trim() : '';
-        var isInt = isIntegerUnit(unit);
-        var min = (effectiveMax === 0) ? 0 : (isInt ? 1 : 0.001);
-        var step = isInt ? 1 : 0.001;
-        var unitEsc = unit ? escapeHtml(unit) : '';
-        return '<div class="build-supply-card-qty-row" onclick="event.stopPropagation()" role="group" aria-label="Quantity">' +
-            '<label class="build-supply-card-qty-label">Qty <input type="number" class="build-supply-qty-input" data-supply-id="' + id + '" data-max="' + effectiveMax + '" value="' + escapeHtml(String(qty)) + '" min="' + min + '" max="' + effectiveMax + '" step="' + step + '" aria-label="Quantity' + (unit ? ' in ' + escapeHtml(unit) : '') + '"></label>' +
-            (unitEsc ? '<span class="build-supply-card-qty-unit">' + unitEsc + '</span>' : '') +
-            '</div>';
-    }
+    /** Categories that show quantity/quick-add in the builder (excludes Vivarium type, Enclosure, Drainage, Substrate). */
+    var BUILD_QTY_CATEGORIES = { hardscape: true, decoration: true, accessories: true, tools: true };
 
     /** Build HTML for one supply card (same visual as plant card). singleSelect: true = button with selected state, false = label + checkbox. */
     function supplyCardHtml(e, options) {
@@ -259,12 +245,25 @@
         var cardTop = '<div class="build-supply-card-top">' +
             '<span class="build-supply-card-check" aria-hidden="true">' + checkContent + '</span>' +
             imgBlock + '</div>';
-        var qtyRow = supplyCardQtyRowHtml(e);
+        var showQty = !singleSelect && category && BUILD_QTY_CATEGORIES[category];
+        var qtyBlock = '';
+        if (showQty && typeof window.getQuickAddHtml === 'function') {
+            var stockMax = getSupplyStockMax(e);
+            var effectiveMax = (stockMax != null && stockMax >= 0) ? stockMax : 9999;
+            qtyBlock = window.getQuickAddHtml(e, {
+                dataPlantId: supplyIdNum(id),
+                label: 'Add',
+                value: getSupplyQuantity(id),
+                max: effectiveMax,
+                disabled: effectiveMax === 0,
+                maxedClass: effectiveMax === 0
+            });
+        }
         var cardBody = '<div class="build-supply-card-body">' +
             '<span class="build-supply-card-name">' + name + '</span>' +
             (size ? '<div class="build-supply-card-size">' + size + '</div>' : '') +
             (unit ? '<div class="build-supply-card-unit">' + unit + '</div>' : '') +
-            qtyRow + '</div>';
+            qtyBlock + '</div>';
         if (singleSelect) {
             return '<button type="button" class="build-supply-card build-supply-card-single' + selClass + '" data-id="' + escapeHtml(String(id)) + '">' +
                 cardTop + cardBody + '</button>';
@@ -497,21 +496,9 @@
                 return e ? supplyCardDisplayHtml(e) : '';
             }).filter(Boolean).join('');
             var checkContent = selected ? '✓' : '';
-            var comboQty = 1;
-            if (selected) {
-                var counts = {};
-                combo.ids.forEach(function (id) { var k = supplyIdNum(id); counts[k] = (counts[k] || 0) + 1; });
-                var sets = null;
-                Object.keys(counts).forEach(function (k) {
-                    var v = Math.floor((getSupplyQuantity(k) || 0) / counts[k]);
-                    sets = sets === null ? v : Math.min(sets, v);
-                });
-                comboQty = (sets != null && sets >= 1) ? sets : 1;
-            }
             return '<button type="button" class="build-drainage-combo' + selClass + '" data-drainage-combo="' + escapeHtml(combo.id) + '">' +
                 '<span class="build-drainage-combo-check" aria-hidden="true">' + checkContent + '</span>' +
-                '<div class="build-drainage-combo-cards">' + cardsHtml + '</div>' +
-                '<div class="build-drainage-combo-qty" onclick="event.stopPropagation()"><label class="build-supply-card-qty-label">Qty <input type="number" class="build-drainage-combo-qty-input" data-combo-id="' + escapeHtml(combo.id) + '" value="' + comboQty + '" min="1" max="999" step="1" aria-label="Quantity of set"></label></div></button>';
+                '<div class="build-drainage-combo-cards">' + cardsHtml + '</div></button>';
         }).join('');
         el.querySelectorAll('.build-drainage-combo').forEach(function (btn) {
             btn.addEventListener('click', function () {
@@ -535,22 +522,6 @@
                 if (ch) ch.textContent = '✓';
                 var nextBtn = document.querySelector('#buildPanel3 [data-next="4"]');
                 if (nextBtn) nextBtn.disabled = false;
-                updateSelectedDisplay();
-            });
-        });
-        el.querySelectorAll('.build-drainage-combo-qty-input').forEach(function (input) {
-            input.addEventListener('change', function () {
-                var comboId = input.getAttribute('data-combo-id');
-                var combo = DRAINAGE_COMBOS.filter(function (c) { return c.id === comboId; })[0];
-                if (!combo || !drainageIdsMatch(config.drainageIds || [], combo.ids)) return;
-                var num = parseInt(input.value, 10);
-                if (isNaN(num) || num < 1) num = 1;
-                if (num > 999) num = 999;
-                input.value = num;
-                config.supplyQuantities = config.supplyQuantities || {};
-                var counts = {};
-                combo.ids.forEach(function (id) { var k = supplyIdNum(id); counts[k] = (counts[k] || 0) + 1; });
-                Object.keys(counts).forEach(function (k) { config.supplyQuantities[k] = counts[k] * num; });
                 updateSelectedDisplay();
             });
         });
@@ -591,28 +562,106 @@
         });
         var nextBtn = document.querySelector('#buildPanel2 [data-next="3"]');
         if (nextBtn) nextBtn.disabled = list.length > 0 && !config.enclosureId;
-        bindSupplyQtyInputs(el);
         updateSelectedDisplay();
     }
 
-    function bindSupplyQtyInputs(container) {
-        if (!container) return;
+    function buildShowMaxStockToast() {
+        if (typeof window.quickAddShowToast === 'function') window.quickAddShowToast('Max stock reached');
+    }
+
+    function bindBuildQuickAdd(container, configKey) {
+        if (!container || !configKey) return;
         var eq = getEquipment();
-        container.querySelectorAll('.build-supply-qty-input').forEach(function (input) {
-            var id = input.getAttribute('data-supply-id');
-            var dataMax = input.getAttribute('data-max');
-            var maxCap = (dataMax != null && dataMax !== '') ? parseFloat(dataMax, 10) : null;
+        container.querySelectorAll('.quick-add-wrap').forEach(function (wrap) {
+            var id = wrap.getAttribute('data-plant-id');
             if (!id) return;
-            input.addEventListener('change', function () {
-                var val = input.value;
-                var num = parseFloat(val, 10);
-                if (isNaN(num) || num < 0) return;
-                if (maxCap != null && !isNaN(maxCap) && num > maxCap) num = maxCap;
-                var e = eq.filter(function (x) { return supplyIdNum(x.id) === supplyIdNum(id); })[0];
-                if (e && isIntegerUnit(e.unit)) num = Math.round(num);
-                setSupplyQuantity(id, num);
-                input.value = num;
-            });
+            id = supplyIdNum(id);
+            var btn = wrap.querySelector('.quick-add-btn');
+            var expanded = wrap.querySelector('.quick-add-expanded');
+            var qtyInput = wrap.querySelector('.quick-add-qty');
+            var confirmBtn = wrap.querySelector('.quick-add-confirm');
+            var plusBtn = wrap.querySelector('.quick-add-plus');
+            var minusBtn = wrap.querySelector('.quick-add-minus');
+            var card = wrap.closest('.build-supply-card');
+            var checkbox = card ? card.querySelector('.build-supply-card-input') : null;
+
+            function clampAndToast() {
+                var max = parseFloat(qtyInput.getAttribute('max')) || 999;
+                var min = parseFloat(qtyInput.getAttribute('min')) || 0.001;
+                var v = parseFloat(qtyInput.value);
+                if (isNaN(v) || v < 0) { qtyInput.value = min; return; }
+                if (v > max) {
+                    qtyInput.value = max;
+                    buildShowMaxStockToast();
+                }
+                var e = eq.filter(function (x) { return supplyIdNum(x.id) === id; })[0];
+                if (e && isIntegerUnit(e.unit)) qtyInput.value = Math.round(parseFloat(qtyInput.value) || 1);
+            }
+
+            if (btn && expanded && qtyInput) {
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    var eItem = eq.filter(function (x) { return supplyIdNum(x.id) === id; })[0];
+                    var stockMax = getSupplyStockMax(eItem);
+                    var maxVal = (stockMax != null && stockMax >= 0) ? stockMax : 999;
+                    qtyInput.max = maxVal;
+                    qtyInput.value = getSupplyQuantity(id) || 1;
+                    btn.classList.add('hidden');
+                    expanded.classList.remove('hidden');
+                    qtyInput.focus();
+                });
+            }
+            if (qtyInput) {
+                qtyInput.addEventListener('input', clampAndToast);
+                qtyInput.addEventListener('change', clampAndToast);
+            }
+            if (plusBtn && qtyInput) {
+                plusBtn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    var max = parseFloat(qtyInput.getAttribute('max')) || 999;
+                    var step = parseFloat(qtyInput.getAttribute('step')) || 1;
+                    var cur = parseFloat(qtyInput.value) || 0;
+                    var next = Math.min(cur + step, max);
+                    qtyInput.value = next;
+                    if (next >= max && max < 999) buildShowMaxStockToast();
+                });
+            }
+            if (minusBtn && qtyInput) {
+                minusBtn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    var min = parseFloat(qtyInput.getAttribute('min')) || 0.001;
+                    var step = parseFloat(qtyInput.getAttribute('step')) || 1;
+                    var cur = parseFloat(qtyInput.value) || 0;
+                    qtyInput.value = Math.max(min, cur - step);
+                });
+            }
+            if (confirmBtn && qtyInput) {
+                confirmBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    var num = parseFloat(qtyInput.value);
+                    if (isNaN(num) || num < 0) return;
+                    var max = parseFloat(qtyInput.getAttribute('max')) || 999;
+                    if (num > max) { qtyInput.value = max; num = max; buildShowMaxStockToast(); }
+                    var eItem = eq.filter(function (x) { return supplyIdNum(x.id) === id; })[0];
+                    if (eItem && isIntegerUnit(eItem.unit)) num = Math.round(num);
+                    setSupplyQuantity(id, num);
+                    var arr = config[configKey] || [];
+                    if (arr.indexOf(id) === -1) {
+                        config[configKey].push(id);
+                        if (checkbox) { checkbox.checked = true; }
+                        if (card) {
+                            card.classList.add('build-supply-card-selected');
+                            var ch = card.querySelector('.build-supply-card-check');
+                            if (ch) ch.textContent = '✓';
+                        }
+                    }
+                    if (btn) btn.classList.remove('hidden');
+                    if (expanded) expanded.classList.add('hidden');
+                    updateSelectedDisplay();
+                });
+            }
         });
     }
 
@@ -649,7 +698,7 @@
                 updateSelectedDisplay();
             });
         });
-        bindSupplyQtyInputs(el);
+        bindBuildQuickAdd(el, configKey);
         updateSelectedDisplay();
     }
 
@@ -837,6 +886,7 @@
                 updateSelectedDisplay();
             });
         });
+        bindBuildQuickAdd(el, 'accessoryIds');
         updateSelectedDisplay();
     }
 
@@ -856,34 +906,38 @@
             if (isNaN(n)) return 'Price on request';
             return 'KD ' + n.toFixed(2);
         }
-        function supplyCard(e) {
+        function supplyCard(e, section) {
             var id = supplyIdNum(e.id);
-            var stockMax = getSupplyStockMax(e);
-            var effectiveMax = (stockMax != null && stockMax >= 0) ? stockMax : 9999;
-            var qty = getSupplyQuantity(id);
-            if (effectiveMax < 9999 && qty > effectiveMax) {
-                setSupplyQuantity(id, effectiveMax);
-                qty = effectiveMax;
-            }
-            var unit = (e.unit != null && String(e.unit).trim() !== '') ? String(e.unit).trim() : '';
-            var isInt = isIntegerUnit(unit);
-            var min = (effectiveMax === 0) ? 0 : (isInt ? 1 : 0.001);
-            var step = isInt ? 1 : 0.001;
+            var showQty = section && BUILD_QTY_CATEGORIES[section];
             var imgUrl = e.imageUrl || (e.images && e.images[0]) || '';
             var name = e.name || 'Item';
             var priceStr = e.price != null && e.price !== '' ? formatPrice(e.price) : 'Price on request';
-            var qtyLabel = unit ? escapeHtml(unit) : '';
-            var stockHint = (effectiveMax < 9999) ? ' <span class="build-review-stock-hint">(max ' + effectiveMax + ')</span>' : '';
+            var unit = (e.unit != null && String(e.unit).trim() !== '') ? String(e.unit).trim() : '';
+            var qtyBlock = '';
+            if (showQty) {
+                var stockMax = getSupplyStockMax(e);
+                var effectiveMax = (stockMax != null && stockMax >= 0) ? stockMax : 9999;
+                var qty = getSupplyQuantity(id);
+                if (effectiveMax < 9999 && qty > effectiveMax) {
+                    setSupplyQuantity(id, effectiveMax);
+                    qty = effectiveMax;
+                }
+                var isInt = isIntegerUnit(unit);
+                var min = (effectiveMax === 0) ? 0 : (isInt ? 1 : 0.001);
+                var step = isInt ? 1 : 0.001;
+                var stockHint = (effectiveMax < 9999) ? ' <span class="build-review-stock-hint">(max ' + effectiveMax + ')</span>' : '';
+                qtyBlock = '<div class="build-review-qty-row" style="pointer-events:auto">' +
+                    '<label class="build-review-qty-label">Qty <input type="number" class="build-review-qty-input" data-supply-id="' + id + '" data-max="' + effectiveMax + '" value="' + escapeHtml(String(qty)) + '" min="' + min + '" max="' + effectiveMax + '" step="' + step + '" aria-label="Quantity' + (unit ? ' in ' + escapeHtml(unit) : '') + (effectiveMax < 9999 ? ', max ' + effectiveMax + ' in stock' : '') + '"></label>' +
+                    (unit ? '<span class="build-review-qty-unit">' + escapeHtml(unit) + '</span>' : '') + stockHint +
+                    '</div>';
+            }
             return '<div class="plant-card equipment-card build-review-item-card" data-supply-id="' + id + '">' +
                 '<div class="plant-image-container">' +
                 (imgUrl ? '<img src="' + escapeHtml(imgUrl) + '" alt="" class="plant-image" loading="lazy">' : '<div class="image-placeholder"></div>') +
                 '<div class="card-price">' + escapeHtml(priceStr) + '</div></div>' +
                 '<div class="plant-info">' +
-                '<div class="plant-name">' + escapeHtml(name) + '</div>' +
-                '<div class="build-review-qty-row" style="pointer-events:auto">' +
-                '<label class="build-review-qty-label">Qty <input type="number" class="build-review-qty-input" data-supply-id="' + id + '" data-max="' + effectiveMax + '" value="' + escapeHtml(String(qty)) + '" min="' + min + '" max="' + effectiveMax + '" step="' + step + '" aria-label="Quantity' + (unit ? ' in ' + escapeHtml(unit) : '') + (effectiveMax < 9999 ? ', max ' + effectiveMax + ' in stock' : '') + '"></label>' +
-                (qtyLabel ? '<span class="build-review-qty-unit">' + qtyLabel + '</span>' : '') + stockHint +
-                '</div></div></div>';
+                '<div class="plant-name">' + escapeHtml(name) + '</div>' + qtyBlock +
+                '</div></div>';
         }
         function itemsForIds(ids) {
             var seen = {};
@@ -924,22 +978,22 @@
         html += '</div></div>';
 
         html += '<div class="build-review-card"><h3 class="build-review-card-title">Enclosure</h3><div class="build-review-card-content build-review-items-grid plants-grid card-size-small">';
-        if (enclosureItem) html += supplyCard(enclosureItem);
+        if (enclosureItem) html += supplyCard(enclosureItem, 'enclosure');
         else html += '<span class="build-review-empty">—</span>';
         html += '</div></div>';
 
         html += '<div class="build-review-card"><h3 class="build-review-card-title">Drainage</h3><div class="build-review-card-content build-review-items-grid plants-grid card-size-small">';
-        if (drainageItems.length) drainageItems.forEach(function (e) { html += supplyCard(e); });
+        if (drainageItems.length) drainageItems.forEach(function (e) { html += supplyCard(e, 'drainage'); });
         else html += '<span class="build-review-empty">—</span>';
         html += '</div></div>';
 
         html += '<div class="build-review-card"><h3 class="build-review-card-title">Substrate</h3><div class="build-review-card-content build-review-items-grid plants-grid card-size-small">';
-        if (substrateItems.length) substrateItems.forEach(function (e) { html += supplyCard(e); });
+        if (substrateItems.length) substrateItems.forEach(function (e) { html += supplyCard(e, 'substrate'); });
         else html += '<span class="build-review-empty">—</span>';
         html += '</div></div>';
 
         html += '<div class="build-review-card"><h3 class="build-review-card-title">Hard scape</h3><div class="build-review-card-content build-review-items-grid plants-grid card-size-small">';
-        if (hardscapeItems.length) hardscapeItems.forEach(function (e) { html += supplyCard(e); });
+        if (hardscapeItems.length) hardscapeItems.forEach(function (e) { html += supplyCard(e, 'hardscape'); });
         else html += '<span class="build-review-empty">—</span>';
         html += '</div></div>';
 
@@ -961,17 +1015,17 @@
         html += '</div></div>';
 
         html += '<div class="build-review-card"><h3 class="build-review-card-title">Decorations</h3><div class="build-review-card-content build-review-items-grid plants-grid card-size-small">';
-        if (decorationItems.length) decorationItems.forEach(function (e) { html += supplyCard(e); });
+        if (decorationItems.length) decorationItems.forEach(function (e) { html += supplyCard(e, 'decoration'); });
         else html += '<span class="build-review-empty">—</span>';
         html += '</div></div>';
 
         html += '<div class="build-review-card"><h3 class="build-review-card-title">Accessories</h3><div class="build-review-card-content build-review-items-grid plants-grid card-size-small">';
-        if (accItems.length) accItems.forEach(function (e) { html += supplyCard(e); });
+        if (accItems.length) accItems.forEach(function (e) { html += supplyCard(e, 'accessories'); });
         else html += '<span class="build-review-empty">—</span>';
         html += '</div></div>';
 
         html += '<div class="build-review-card"><h3 class="build-review-card-title">Optional tools</h3><div class="build-review-card-content build-review-items-grid plants-grid card-size-small">';
-        if (toolItems.length) toolItems.forEach(function (e) { html += supplyCard(e); });
+        if (toolItems.length) toolItems.forEach(function (e) { html += supplyCard(e, 'tools'); });
         else html += '<span class="build-review-empty">—</span>';
         html += '</div></div>';
 
@@ -982,11 +1036,22 @@
             var dataMax = input.getAttribute('data-max');
             var maxCap = (dataMax != null && dataMax !== '') ? parseFloat(dataMax, 10) : null;
             if (!id) return;
+            input.addEventListener('input', function () {
+                var num = parseFloat(input.value, 10);
+                if (maxCap != null && !isNaN(maxCap) && !isNaN(num) && num > maxCap) {
+                    input.value = maxCap;
+                    buildShowMaxStockToast();
+                }
+            });
             input.addEventListener('change', function () {
                 var val = input.value;
                 var num = parseFloat(val, 10);
                 if (isNaN(num) || num < 0) return;
-                if (maxCap != null && !isNaN(maxCap) && num > maxCap) num = maxCap;
+                if (maxCap != null && !isNaN(maxCap) && num > maxCap) {
+                    num = maxCap;
+                    input.value = num;
+                    buildShowMaxStockToast();
+                }
                 var e = eq.filter(function (x) { return supplyIdNum(x.id) === supplyIdNum(id); })[0];
                 if (e && isIntegerUnit(e.unit)) num = Math.round(num);
                 setSupplyQuantity(id, num);

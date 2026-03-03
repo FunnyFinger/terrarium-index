@@ -582,6 +582,49 @@ const CART_ICON_SVG = '<svg class="cart-icon-svg" viewBox="0 0 24 24" fill="none
 const PLACEHOLDER_EQUIPMENT_SVG = '<svg class="placeholder-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>';
 const PLACEHOLDER_PLANT_SVG = '<svg class="placeholder-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.5 6c.5-2 1.5-3 3-3 1.5 0 2.5 1 3 3A7 7 0 0 1 13 20z"/></svg>';
 
+/** Units that use whole numbers only. Used for quick-add step (integer vs float). */
+const INTEGER_UNITS_QUICKADD = /^(pcs?|piece[s]?|each|unit[s]?|box(?:es)?|pack[s]?|ct|no\.?|bag[s]?|set[s]?|pair[s]?|bottle[s]?|can[s]?|jar[s]?)$/i;
+function isIntegerUnitQuickAdd(unit) {
+    if (!unit || typeof unit !== 'string') return false;
+    return INTEGER_UNITS_QUICKADD.test(unit.trim());
+}
+
+/**
+ * Unified quick-add HTML for main page and builder. item: { id, unit, stockQuantity }. opts: { dataPlantId, label, value, min, max, step, disabled, maxedClass }.
+ * Shows unit next to qty input when present. step derived from unit if not in opts.
+ */
+function getQuickAddHtml(item, opts) {
+    opts = opts || {};
+    const stock = typeof item !== 'undefined' && typeof item.stockQuantity === 'number' && item.stockQuantity >= 0 ? item.stockQuantity : 999;
+    const max = opts.max != null ? opts.max : Math.min(999, stock);
+    const min = opts.min != null ? opts.min : (isIntegerUnitQuickAdd(item && item.unit) ? 1 : 0.001);
+    const step = opts.step != null ? opts.step : (isIntegerUnitQuickAdd(item && item.unit) ? 1 : 0.001);
+    const value = opts.value != null ? opts.value : 1;
+    const unit = (item && item.unit != null && String(item.unit).trim() !== '') ? String(item.unit).trim() : '';
+    const dataPlantId = opts.dataPlantId != null ? opts.dataPlantId : (item && item.id);
+    const label = opts.label != null ? opts.label : 'Add to cart';
+    const disabled = opts.disabled ? ' disabled' : '';
+    const maxedClass = opts.maxedClass ? ' quick-add-btn-maxed' : '';
+    const unitEsc = unit ? escapeHtml(unit) : '';
+    return '<div class="quick-add-wrap" data-plant-id="' + dataPlantId + '" onclick="event.stopPropagation()">' +
+        '<button type="button" class="quick-add-btn' + maxedClass + '" aria-label="' + escapeHtml(label) + '" data-plant-id="' + dataPlantId + '"' + disabled + '>' +
+        '<span class="quick-add-icon" aria-hidden="true">' + CART_ICON_SVG + '</span>' +
+        '<span class="quick-add-label">' + escapeHtml(label) + '</span></button>' +
+        '<div class="quick-add-expanded hidden">' +
+        '<div class="quick-add-expanded-row">' +
+        '<input type="number" class="quick-add-qty" value="' + value + '" min="' + min + '" max="' + max + '" step="' + step + '" aria-label="Quantity' + (unit ? ' in ' + unitEsc : '') + '" data-plant-id="' + dataPlantId + '">' +
+        (unitEsc ? '<span class="quick-add-unit" aria-hidden="true">' + unitEsc + '</span>' : '') +
+        '<div class="quick-add-stepper" aria-label="Quantity stepper">' +
+        '<button type="button" class="quick-add-plus" aria-label="Increase quantity">+</button>' +
+        '<button type="button" class="quick-add-minus" aria-label="Decrease quantity">−</button></div>' +
+        '<button type="button" class="quick-add-confirm" data-plant-id="' + dataPlantId + '">Add</button></div></div></div>';
+}
+if (typeof window !== 'undefined') {
+    window.CART_ICON_SVG = CART_ICON_SVG;
+    window.getQuickAddHtml = getQuickAddHtml;
+    window.isIntegerUnitQuickAdd = isIntegerUnitQuickAdd;
+}
+
 const CART_STORAGE_KEY = 'terrarium_cart';
 const cartToggle = document.getElementById('cartToggle');
 const cartCountEl = document.getElementById('cartCount');
@@ -767,6 +810,7 @@ function quickAddShowToast(message) {
         toast.classList.remove('quick-add-toast-visible');
     }, 2500);
 }
+if (typeof window !== 'undefined') window.quickAddShowToast = quickAddShowToast;
 
 function getAvailableToAdd(itemId) {
     const plant = allPlants.find(p => p.id === itemId);
@@ -4046,7 +4090,10 @@ function createEquipmentCard(equipment) {
     if (displayImageUrl && imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') displayImageUrl = imageUtils.normalizePlantImagePath(displayImageUrl);
     const priceStr = equipment.price != null ? formatPrice(equipment.price) : 'Price on request';
     const available = getAvailableToAdd(equipment.id);
-    const maxedClass = available <= 0 ? ' quick-add-btn-maxed' : '';
+    const quickAddHtml = getQuickAddHtml(equipment, {
+        maxedClass: available <= 0,
+        disabled: typeof equipment.stockQuantity === 'number' && equipment.stockQuantity <= 0
+    });
     card.innerHTML = `
         <div class="plant-image-container" data-plant-id="${equipment.id}">
             ${displayImageUrl ?
@@ -4061,22 +4108,7 @@ function createEquipmentCard(equipment) {
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
                 </button>
             </div>
-            <div class="quick-add-wrap" data-plant-id="${equipment.id}">
-                <button type="button" class="quick-add-btn${maxedClass}" aria-label="Add to cart" data-plant-id="${equipment.id}" ${typeof equipment.stockQuantity === 'number' && equipment.stockQuantity <= 0 ? 'disabled' : ''}>
-                    <span class="quick-add-icon" aria-hidden="true">${CART_ICON_SVG}</span>
-                    <span class="quick-add-label">Add to cart</span>
-                </button>
-                <div class="quick-add-expanded hidden">
-                    <div class="quick-add-expanded-row">
-                        <input type="number" class="quick-add-qty" value="1" min="0.001" max="999" step="any" aria-label="Quantity" data-plant-id="${equipment.id}">
-                        <div class="quick-add-stepper" aria-label="Quantity stepper">
-                            <button type="button" class="quick-add-plus" aria-label="Increase quantity">+</button>
-                            <button type="button" class="quick-add-minus" aria-label="Decrease quantity">−</button>
-                        </div>
-                        <button type="button" class="quick-add-confirm" data-plant-id="${equipment.id}">Add</button>
-                    </div>
-                </div>
-            </div>
+            ${quickAddHtml}
             <div class="card-price">${priceStr}</div>
         </div>
         <div class="plant-info">
@@ -6353,22 +6385,10 @@ function createPlantCard(plant) {
                     <path d="M6 14h12v8H6z"/>
                 </svg>
             </div>
-            <div class="quick-add-wrap" data-plant-id="${plant.id}">
-                <button type="button" class="quick-add-btn ${getAvailableToAdd(plant.id) === 0 ? 'quick-add-btn-maxed' : ''}" aria-label="Add to cart" data-plant-id="${plant.id}" ${typeof plant.stockQuantity === 'number' && plant.stockQuantity <= 0 ? 'disabled' : ''}>
-                    <span class="quick-add-icon" aria-hidden="true">${CART_ICON_SVG}</span>
-                    <span class="quick-add-label">Add to cart</span>
-                </button>
-                <div class="quick-add-expanded hidden">
-                    <div class="quick-add-expanded-row">
-                        <input type="number" class="quick-add-qty" value="1" min="0.001" max="999" step="any" aria-label="Quantity" data-plant-id="${plant.id}">
-                        <div class="quick-add-stepper" aria-label="Quantity stepper">
-                            <button type="button" class="quick-add-plus" aria-label="Increase quantity">+</button>
-                            <button type="button" class="quick-add-minus" aria-label="Decrease quantity">−</button>
-                        </div>
-                        <button type="button" class="quick-add-confirm" data-plant-id="${plant.id}">Add</button>
-                    </div>
-                </div>
-            </div>
+            ${getQuickAddHtml(plant, {
+                maxedClass: getAvailableToAdd(plant.id) === 0,
+                disabled: typeof plant.stockQuantity === 'number' && plant.stockQuantity <= 0
+            })}
             <div class="card-price">${formatPlantPrice(plant)}</div>
         </div>
         <div class="plant-info">
@@ -7688,8 +7708,11 @@ function updatePlantCardImage(plantId, imageUrl) {
                     <img src="images/carnivorous-icon.png" alt="Carnivorous" />
                 </div>
             ` : '';
-                const quickAddDisabled = typeof plant.stockQuantity === 'number' && plant.stockQuantity <= 0 ? ' disabled' : '';
-                const quickAddMaxed = getAvailableToAdd(plantId) === 0 ? ' quick-add-btn-maxed' : '';
+                const quickAddHtml = getQuickAddHtml(plant, {
+                    dataPlantId: plantId,
+                    maxedClass: getAvailableToAdd(plantId) === 0,
+                    disabled: typeof plant.stockQuantity === 'number' && plant.stockQuantity <= 0
+                });
                 imgContainer.innerHTML = `${carnivorousHtml}
             <img src="${imageUrl}" alt="${plant.name}" class="plant-image" loading="lazy" onerror="this.onerror=null; handleImageError(this, ${plantId})" data-plant-id="${plantId}">
             <div class="card-icons plant-card-icons">
@@ -7707,22 +7730,7 @@ function updatePlantCardImage(plantId, imageUrl) {
                     <path d="M6 14h12v8H6z"/>
                 </svg>
             </div>
-            <div class="quick-add-wrap" data-plant-id="${plantId}">
-                <button type="button" class="quick-add-btn ${quickAddMaxed}" aria-label="Add to cart" data-plant-id="${plantId}" ${quickAddDisabled}>
-                    <span class="quick-add-icon" aria-hidden="true">${CART_ICON_SVG}</span>
-                    <span class="quick-add-label">Add to cart</span>
-                </button>
-                <div class="quick-add-expanded hidden">
-                    <div class="quick-add-expanded-row">
-                        <input type="number" class="quick-add-qty" value="1" min="0.001" max="999" step="any" aria-label="Quantity" data-plant-id="${plantId}">
-                        <div class="quick-add-stepper" aria-label="Quantity stepper">
-                            <button type="button" class="quick-add-plus" aria-label="Increase quantity">+</button>
-                            <button type="button" class="quick-add-minus" aria-label="Decrease quantity">−</button>
-                        </div>
-                        <button type="button" class="quick-add-confirm" data-plant-id="${plantId}">Add</button>
-                    </div>
-                </div>
-            </div>
+            ${quickAddHtml}
             <div class="card-price">${formatPlantPrice(plant)}</div>`;
                 var editBtn = imgContainer.querySelector('.card-edit-icon, .image-edit-icon');
                 if (editBtn) {

@@ -3877,6 +3877,13 @@ main {
     -webkit-appearance: none;
     margin: 0;
 }
+.quick-add-unit {
+    padding: 0 0.35rem;
+    font-size: 0.8rem;
+    color: var(--text-light);
+    align-self: center;
+    flex-shrink: 0;
+}
 .quick-add-stepper {
     display: flex;
     flex-direction: column;
