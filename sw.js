@@ -14,7 +14,7 @@
  */
 
 // ── Bump this on every deploy that changes JS/CSS/HTML ──
-const CACHE_VERSION = 4;
+const CACHE_VERSION = 5;
 const CACHE_NAME = `vivarium-v${CACHE_VERSION}`;
 
 self.addEventListener('install', (event) => {
@@ -70,7 +70,13 @@ self.addEventListener('fetch', (event) => {
       fetch(event.request)
         .then((res) => {
           if (res.ok && res.type === 'basic') {
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, res.clone()));
+            // Clone immediately so the browser's stream can be consumed separately
+            const resClone = res.clone();
+            caches.open(CACHE_NAME)
+              .then((cache) => cache.put(event.request, resClone))
+              .catch(() => {
+                // Ignore cache put errors (e.g. body already used); network response still succeeds
+              });
           }
           return res;
         })
