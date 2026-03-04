@@ -126,14 +126,14 @@ let currentRenderToken = 0;
  * Convert a Supabase storage object URL to a resized render URL for use in cards/thumbnails.
  * Falls back to original URL for non-Supabase URLs.
  * @param {string} url  - full image URL
- * @param {number} width - desired width in px (default 480)
- * @param {number} quality - JPEG/WebP quality 1-100 (default 75)
+ * @param {number} width - desired width in px (default 360; kept modest to reduce Supabase egress)
+ * @param {number} quality - JPEG/WebP quality 1-100 (default 60 for card thumbs to reduce egress)
  */
 function getCardThumbUrl(url, width, quality) {
     if (!url || typeof url !== 'string') return url;
     if (!/^https?:\/\//i.test(url)) return url;
-    var w = width || 480;
-    var q = quality || 75;
+    var w = width || 360;
+    var q = quality || 60;
     // Supabase Storage object URL pattern
     var match = url.match(/^(https:\/\/[^/]+)(\/storage\/v1\/object\/public\/)(.+)$/i);
     if (!match) return url;
@@ -141,10 +141,10 @@ function getCardThumbUrl(url, width, quality) {
     return match[1] + '/storage/v1/render/image/public/' + match[3] + '?width=' + w + '&quality=' + q + '&resize=contain';
 }
 
-/** Width in px for card thumbnails: smaller on mobile for faster load. */
+/** Width in px for card thumbnails; kept modest to reduce Supabase storage egress. */
 function getCardThumbWidth() {
-    if (typeof window === 'undefined' || !window.innerWidth) return 480;
-    return window.innerWidth <= 768 ? 360 : 480;
+    if (typeof window === 'undefined' || !window.innerWidth) return 360;
+    return window.innerWidth <= 768 ? 280 : 360;
 }
 
 
@@ -4091,7 +4091,7 @@ function createEquipmentCard(equipment) {
     });
     let displayImageUrl = equipment.imageUrl || (equipment.images && equipment.images[0]) || null;
     if (displayImageUrl && imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') displayImageUrl = imageUtils.normalizePlantImagePath(displayImageUrl);
-    var equipmentCardImgSrc = displayImageUrl && typeof getCardThumbUrl === 'function' ? getCardThumbUrl(displayImageUrl, getCardThumbWidth(), 75) : displayImageUrl;
+    var equipmentCardImgSrc = displayImageUrl && typeof getCardThumbUrl === 'function' ? getCardThumbUrl(displayImageUrl, getCardThumbWidth()) : displayImageUrl;
     const priceStr = equipment.price != null ? formatPrice(equipment.price) : 'Price on request';
     const available = getAvailableToAdd(equipment.id);
     const quickAddHtml = getQuickAddHtml(equipment, {
@@ -4398,7 +4398,7 @@ function createVivariumCard(vivarium) {
         showVivariumDetail(vivarium);
     });
     var displayImageUrl = vivarium.imageUrl || (vivarium.images && vivarium.images[0]) || null;
-    var vivariumCardImgSrc = displayImageUrl && typeof getCardThumbUrl === 'function' ? getCardThumbUrl(displayImageUrl, getCardThumbWidth(), 75) : displayImageUrl;
+    var vivariumCardImgSrc = displayImageUrl && typeof getCardThumbUrl === 'function' ? getCardThumbUrl(displayImageUrl, getCardThumbWidth()) : displayImageUrl;
     var priceStr = vivarium.price != null ? formatPrice(vivarium.price) : 'Price on request';
     var typeLabel = (vivarium.type || '').replace(/-/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); });
     var editSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
@@ -6348,7 +6348,7 @@ function createPlantCard(plant) {
     }
     // Use resized thumbnail for card (much faster on mobile)
     var cardImgSrc = displayImageUrl && typeof getCardThumbUrl === 'function'
-        ? getCardThumbUrl(displayImageUrl, getCardThumbWidth(), 75)
+        ? getCardThumbUrl(displayImageUrl, getCardThumbWidth())
         : displayImageUrl;
     // Create a unique identifier for this card to help with updates
     card.dataset.plantId = plant.id;
@@ -7707,7 +7707,7 @@ function updatePlantCardImage(plantId, imageUrl) {
             const imgElement = card.querySelector('.plant-image');
             const imgContainer = card.closest('.plant-image-container') || card.querySelector('.plant-image-container');
             
-            var thumbUrl = (typeof getCardThumbUrl === 'function' ? getCardThumbUrl(imageUrl, getCardThumbWidth(), 75) : null) || imageUrl;
+            var thumbUrl = (typeof getCardThumbUrl === 'function' ? getCardThumbUrl(imageUrl, getCardThumbWidth()) : null) || imageUrl;
             if (imgElement) {
                 imgElement.src = thumbUrl;
                 imgElement.style.display = 'block';
