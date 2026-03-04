@@ -129,7 +129,9 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
         (function() {
-            if (!window.auth || !window.auth.canManageInventory()) {
+            var authPromise = (window.auth && window.auth.getUser) ? window.auth.getUser() : Promise.resolve(null);
+            authPromise.then(function(user) {
+            if (!user || !window.auth.canManageInventory()) {
                 window.location.replace('index.html?msg=access_denied');
                 return;
             }
@@ -265,6 +267,7 @@
             }
 
             render();
+            }); // end authPromise.then
         })();
         });
     </script>

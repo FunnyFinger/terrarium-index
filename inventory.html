@@ -345,7 +345,9 @@
     <script src="images.js?v=11"></script>
     <script>
         (function() {
-            if (!window.auth || !window.auth.canManageStock()) {
+            var authPromise = (window.auth && window.auth.getUser) ? window.auth.getUser() : Promise.resolve(null);
+            authPromise.then(function(user) {
+            if (!user || !window.auth.canManageStock()) {
                 window.location.replace('index.html?msg=access_denied');
                 return;
             }
@@ -1246,6 +1248,7 @@
                 }, 3000);
             }
             waitForPlants();
+            }); // end authPromise.then
         })();
     </script>
 </body>
