@@ -1660,9 +1660,10 @@ html.detail-startup body {
     margin: 0;
     font-style: italic;
 }
-.product-review-by {
+.product-review-by,
+p.product-review-by.product-review-meta {
     font-weight: 600;
-    color: var(--primary-color);
+    color: var(--primary-color) !important;
     margin: 0 0 0.25rem 0 !important;
 }
 .product-review-date {
@@ -1675,6 +1676,11 @@ html.detail-startup body {
     padding: 0.75rem 1rem;
     margin-bottom: 0.5rem;
     border: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+[data-theme="dark"] .product-review-item {
+    background: #2a2e2a;
+    border-color: #404840;
 }
 .product-review-item-actions {
     position: absolute;
@@ -1703,6 +1709,7 @@ html.detail-startup body {
     margin: 0.35rem 0 0 0;
     font-size: 0.95rem;
     line-height: 1.4;
+    color: var(--text-color);
 }
 .product-review-meta {
     margin: 0.25rem 0 0 0;
