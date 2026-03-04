@@ -195,13 +195,14 @@
     }
 
     function logout() {
-        if (useSupabaseAuth()) {
-            global.supabaseAuth.signOut();
-        }
         clearSession();
-        if (global.dispatchEvent) {
-            global.dispatchEvent(new Event('authStateChange'));
+        if (useSupabaseAuth()) {
+            var p = global.supabaseAuth.signOut();
+            if (global.dispatchEvent) global.dispatchEvent(new Event('authStateChange'));
+            return p || Promise.resolve();
         }
+        if (global.dispatchEvent) global.dispatchEvent(new Event('authStateChange'));
+        return Promise.resolve();
     }
 
     function changePassword(currentPassword, newPassword) {

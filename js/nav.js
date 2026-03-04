@@ -175,8 +175,8 @@
 
     function initAuth() {
         function doLogout() {
-            if (typeof window.auth !== 'undefined') window.auth.logout();
-            window.location.reload();
+            var p = (typeof window.auth !== 'undefined') ? window.auth.logout() : null;
+            Promise.resolve(p).then(function () { window.location.reload(); });
         }
         var logoutBtn = document.getElementById('navLogout');
         if (logoutBtn) logoutBtn.addEventListener('click', doLogout);

@@ -136,8 +136,11 @@
     }
 
     function signOut() {
+        cachedUser = null;
+        cachedAccessToken = null;
         var supabase = getSupabase();
-        if (supabase) supabase.auth.signOut().catch(function () {});
+        if (supabase) return supabase.auth.signOut().catch(function () {});
+        return Promise.resolve();
     }
 
     /** Get current user for app (id, email, name, role). id is uuid string. */
