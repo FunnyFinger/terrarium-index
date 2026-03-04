@@ -246,15 +246,32 @@
         }).catch(function () {});
     }
 
+    var authReadyResolve;
+    var authReadyPromise = typeof Promise !== 'undefined' ? new Promise(function (r) { authReadyResolve = r; }) : null;
+
+    /** Resolves when the initial session restore (getSession) has completed. Use before reading getCurrentUserSync(). */
+    function whenReady() {
+        if (!isConfigured()) return Promise.resolve();
+        return authReadyPromise || Promise.resolve();
+    }
+
     /** Call once after Supabase client is ready to restore session and listen for auth changes. */
     function init() {
         var supabase = getSupabase();
-        if (!supabase) return;
+        if (!supabase) {
+            if (authReadyResolve) authReadyResolve();
+            return;
+        }
         recoverSessionFromHash().then(function () {
             return supabase.auth.getSession();
         }).then(function (res) {
             setSessionCache(res.data && res.data.session);
-        }).catch(function () { cachedUser = null; cachedAccessToken = null; });
+            if (authReadyResolve) authReadyResolve();
+        }).catch(function () {
+            cachedUser = null;
+            cachedAccessToken = null;
+            if (authReadyResolve) authReadyResolve();
+        });
         supabase.auth.onAuthStateChange(function (event, session) {
             if (event === 'SIGNED_OUT') {
                 cachedUser = null;
@@ -287,6 +304,7 @@
         getCurrentUserSync: getCurrentUserSync,
         refreshCachedUser: refreshCachedUser,
         init: init,
+        whenReady: whenReady,
         getAccessToken: getAccessToken,
         ensureProfile: ensureProfile,
         changePassword: changePassword

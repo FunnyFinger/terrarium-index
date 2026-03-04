@@ -218,11 +218,18 @@
         });
     }
 
+    function whenReady() {
+        if (useSupabaseAuth() && global.supabaseAuth && global.supabaseAuth.whenReady)
+            return global.supabaseAuth.whenReady();
+        return Promise.resolve();
+    }
+
     var auth = {
         register: register,
         login: login,
         logout: logout,
         getCurrentUser: getCurrentUser,
+        whenReady: whenReady,
         isLoggedIn: isLoggedIn,
         hasRole: hasRole,
         isOwner: isOwner,

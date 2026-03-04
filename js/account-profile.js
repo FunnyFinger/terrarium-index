@@ -1,6 +1,7 @@
 /**
  * Profile page: Overview, Addresses, Order history, Reviews.
  * Requires: auth, profileDb, inventoryDb (optional for orders).
+ * Waits for auth.whenReady() so session is restored before showing guest vs profile.
  */
 (function () {
     'use strict';
@@ -13,12 +14,23 @@
         return;
     }
 
-    var user = window.auth.getCurrentUser();
-    if (!user) {
+    function showGuest() {
         el.innerHTML = '<div class="profile-guest"><p>You are not signed in.</p><a href="auth.html">Login</a> or <a href="auth.html?mode=register">Register</a></div>';
-        return;
     }
 
+    function run() {
+        var whenReady = window.auth.whenReady ? window.auth.whenReady() : Promise.resolve();
+        whenReady.then(function () {
+            var user = window.auth.getCurrentUser();
+            if (!user) {
+                showGuest();
+                return;
+            }
+            runProfile(user);
+        });
+    }
+
+    function runProfile(user) {
     var name = (user.name || user.email || 'User').trim();
     var initials = name.split(/\s+/).map(function (w) { return (w[0] || '').toUpperCase(); }).slice(0, 2).join('') || (user.email ? user.email[0].toUpperCase() : '?');
     var roleLabel = (user.role === 'owner' ? 'Owner' : user.role === 'admin' ? 'Admin' : user.role === 'stock' ? 'Stock' : 'User');
@@ -413,4 +425,8 @@
     });
 
     loadAddresses();
+    }
+
+    run();
+    window.addEventListener('authStateChange', run);
 })();

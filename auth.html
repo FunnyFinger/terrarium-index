@@ -130,7 +130,7 @@
                 var password = document.getElementById('loginPassword').value;
                 btn.disabled = true;
                 window.auth.login(email, password).then(function() {
-                    window.location.href = getRedirect();
+                    setTimeout(function() { window.location.href = getRedirect(); }, 150);
                 }).catch(function(err) {
                     showError(err && err.message ? err.message : 'Invalid email or password. If you don\'t have an account, please register first.');
                 });
