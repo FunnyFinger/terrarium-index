@@ -5688,8 +5688,13 @@ body.shopper-mode .gallery-set-main-btn {
 .plant-detail-panel .product-reviews-widget .product-review-item {
     border-radius: 10px;
     padding: 0.85rem 1rem;
-    background: rgba(245, 247, 243, 0.8);
+    background: var(--bg-color);
     border: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+[data-theme="dark"] .plant-detail-panel .product-reviews-widget .product-review-item {
+    background: #2a2e2a;
+    border-color: #404840;
 }
 .plant-detail-panel .taxonomy-link {
     border-radius: 4px;
