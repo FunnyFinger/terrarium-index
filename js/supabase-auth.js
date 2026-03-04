@@ -199,24 +199,36 @@
         }
     }
 
-    /** Recover session from URL hash (e.g. after clicking "Confirm your mail" in email). */
-    function recoverSessionFromHash() {
-        var supabase = getSupabase();
-        if (!supabase || !global.location || !global.location.hash) return Promise.resolve();
-        var hash = global.location.hash.slice(1);
+    /** Parse access_token and refresh_token from hash or query (e.g. after "Confirm your mail" link). */
+    function parseTokensFromUrl() {
+        if (!global.location) return null;
         var params = {};
-        hash.split('&').forEach(function (pair) {
-            var i = pair.indexOf('=');
-            if (i !== -1) params[decodeURIComponent(pair.slice(0, i))] = decodeURIComponent((pair.slice(i + 1) || '').replace(/\+/g, ' '));
-        });
+        function parsePart(str) {
+            if (!str) return;
+            str.split('&').forEach(function (pair) {
+                var i = pair.indexOf('=');
+                if (i !== -1) params[decodeURIComponent(pair.slice(0, i))] = decodeURIComponent((pair.slice(i + 1) || '').replace(/\+/g, ' '));
+            });
+        }
+        if (global.location.hash) parsePart(global.location.hash.slice(1));
+        if (global.location.search) parsePart(global.location.search.slice(1));
         var access_token = params.access_token;
         var refresh_token = params.refresh_token;
-        if (!access_token || !refresh_token) return Promise.resolve();
-        return supabase.auth.setSession({ access_token: access_token, refresh_token: refresh_token }).then(function (res) {
+        return (access_token && refresh_token) ? { access_token: access_token, refresh_token: refresh_token } : null;
+    }
+
+    /** Recover session from URL hash/query (e.g. after clicking "Confirm your mail" in email). */
+    function recoverSessionFromHash() {
+        var tokens = parseTokensFromUrl();
+        if (!tokens) return Promise.resolve();
+        var supabase = getSupabase();
+        if (!supabase) return Promise.resolve();
+        return supabase.auth.setSession({ access_token: tokens.access_token, refresh_token: tokens.refresh_token }).then(function (res) {
             if (res.data && res.data.session) setSessionCache(res.data.session);
             try {
-                var cleanUrl = global.location.pathname + (global.location.search || '');
-                global.history.replaceState(null, '', cleanUrl);
+                var path = global.location.pathname || '/';
+                var search = (global.location.search || '').replace(/[?&]access_token=[^&]*/g, '').replace(/[?&]refresh_token=[^&]*/g, '').replace(/^&|&$/g, '').replace(/\?&/, '?').replace(/\?$/, '');
+                global.history.replaceState(null, '', path + (search || ''));
             } catch (e) {}
         }).catch(function () {});
     }
@@ -266,4 +278,5 @@
         ensureProfile: ensureProfile,
         changePassword: changePassword
     };
+    if (isConfigured()) { init(); }
 })(typeof window !== 'undefined' ? window : this);
