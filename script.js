@@ -137,7 +137,8 @@ function getCardThumbUrl(url, width, quality) {
     // Supabase Storage object URL pattern
     var match = url.match(/^(https:\/\/[^/]+)(\/storage\/v1\/object\/public\/)(.+)$/i);
     if (!match) return url;
-    return match[1] + '/storage/v1/render/image/public/' + match[3] + '?width=' + w + '&quality=' + q;
+    // resize=contain: server returns full image scaled to fit (no crop). We do the square crop in CSS (object-fit: cover).
+    return match[1] + '/storage/v1/render/image/public/' + match[3] + '?width=' + w + '&quality=' + q + '&resize=contain';
 }
 
 /** Width in px for card thumbnails: smaller on mobile for faster load. */
