@@ -14,8 +14,9 @@
         if (supabaseClient) return supabaseClient;
         var url = (global.SUPABASE_URL || '').toString().trim();
         var key = (global.SUPABASE_ANON_KEY || '').toString().trim();
-        if (!url || !key || typeof global.createClient !== 'function') return null;
-        supabaseClient = global.createClient(url, key);
+        var createClient = (global.supabase && global.supabase.createClient) || global.createClient;
+        if (!url || !key || typeof createClient !== 'function') return null;
+        supabaseClient = createClient(url, key);
         return supabaseClient;
     }
 
