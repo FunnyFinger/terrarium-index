@@ -170,7 +170,7 @@
         var isIndex = (current === 'index.html' || current === '' || current === 'index');
         if (isIndex) return;
         var backBtn = document.getElementById('navBackToList');
-        if (backBtn) backBtn.addEventListener('click', function() { if (history.length > 1) { history.back(); } else { window.location.href = 'index.html'; } });
+        if (backBtn) backBtn.addEventListener('click', function() { window.location.href = 'index.html'; });
     }
 
     function initAuth() {
@@ -215,11 +215,5 @@
     if (container) {
         renderNav();
         window.addEventListener('authStateChange', renderNav);
-        // Supabase session restore is async — proactively refresh nav once session is ready
-        if (typeof window.auth !== 'undefined' && window.auth.getUser) {
-            window.auth.getUser().then(function (u) {
-                if (u) renderNav();
-            }).catch(function () {});
-        }
     }
 })();
