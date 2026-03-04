@@ -841,9 +841,9 @@
                 '<div class="build-plant-card-body">' +
                 '<span class="build-plant-card-name">' + nameHtml + '</span>' +
                 '<div class="build-plant-card-scientific">' + escapeHtml(sci) + '</div>' +
+                (quickAddHtml ? '<div class="build-plant-card-add-wrap">' + quickAddHtml + '</div>' : '') +
                 '</div>' +
                 '</label>' +
-                quickAddHtml +
                 '</div>';
         }).join('');
         if (paginationEl) {
@@ -880,6 +880,89 @@
         }
         discoverImagesForBuildPlants(pagePlants);
         updateSelectedDisplay();
+        bindBuildPlantQuickAdd(container);
+    }
+
+    function bindBuildPlantQuickAdd(container) {
+        if (!container || container.getAttribute('data-plant-quickadd-bound') === 'true') return;
+        container.setAttribute('data-plant-quickadd-bound', 'true');
+        container.addEventListener('click', function (e) {
+            var wrap = e.target.closest('.quick-add-wrap');
+            if (!wrap) return;
+            e.preventDefault();
+            e.stopPropagation();
+            var pid = parseInt(wrap.getAttribute('data-plant-id'), 10);
+            if (isNaN(pid)) return;
+            var plant = getPlants().filter(function (p) { return plantIdNum(p.id) === pid; })[0];
+            if (!plant) return;
+            var btn = wrap.querySelector('.quick-add-btn');
+            var expanded = wrap.querySelector('.quick-add-expanded');
+            var qtyInput = wrap.querySelector('.quick-add-qty');
+            var confirmBtn = wrap.querySelector('.quick-add-confirm');
+            var plusBtn = wrap.querySelector('.quick-add-plus');
+            var minusBtn = wrap.querySelector('.quick-add-minus');
+            var stock = (typeof plant.stockQuantity === 'number' && plant.stockQuantity >= 0) ? plant.stockQuantity : 999;
+            var getAvailable = function () {
+                if (typeof window.getAvailableToAdd === 'function') return window.getAvailableToAdd(pid);
+                return stock;
+            };
+            if (e.target.closest('.quick-add-btn')) {
+                if (getAvailable() <= 0 && stock < 999) {
+                    if (typeof window.quickAddShowToast === 'function') window.quickAddShowToast('Max stock reached');
+                    return;
+                }
+                if (btn && expanded && qtyInput) {
+                    var max = Math.min(999, getAvailable());
+                    qtyInput.setAttribute('max', max);
+                    qtyInput.value = max > 0 ? 1 : 0;
+                    qtyInput.disabled = max === 0;
+                    if (confirmBtn) confirmBtn.disabled = max === 0;
+                    btn.classList.add('hidden');
+                    expanded.classList.remove('hidden');
+                    qtyInput.focus();
+                }
+                return;
+            }
+            if (e.target.closest('.quick-add-plus') && qtyInput && !qtyInput.disabled) {
+                var max = parseFloat(qtyInput.getAttribute('max')) || 999;
+                var cur = parseFloat(qtyInput.value) || 0;
+                var step = parseFloat(qtyInput.getAttribute('step')) || 1;
+                qtyInput.value = Math.min(cur + step, max);
+                if (parseFloat(qtyInput.value) >= max && max < 999 && typeof window.quickAddShowToast === 'function') window.quickAddShowToast('Max stock reached');
+                return;
+            }
+            if (e.target.closest('.quick-add-minus') && qtyInput && !qtyInput.disabled) {
+                var min = parseFloat(qtyInput.getAttribute('min')) || 0.001;
+                var cur = parseFloat(qtyInput.value) || 0;
+                var step = parseFloat(qtyInput.getAttribute('step')) || 1;
+                qtyInput.value = Math.max(min, cur - step);
+                return;
+            }
+            if (e.target.closest('.quick-add-confirm') && qtyInput) {
+                var qty = parseFloat(qtyInput.value);
+                if (isNaN(qty) || qty < 0.001) return;
+                var available = getAvailable();
+                if (stock < 999 && qty > available) qty = available;
+                if (qty < 0.001) {
+                    if (typeof window.quickAddShowToast === 'function') window.quickAddShowToast('Max stock reached');
+                    return;
+                }
+                if (typeof window.addToCart === 'function') window.addToCart(plant, qty);
+                if (btn) btn.classList.remove('hidden');
+                if (expanded) expanded.classList.add('hidden');
+                if (typeof window.navBounceCartCount === 'function') window.navBounceCartCount();
+            }
+        });
+        container.addEventListener('input', function (e) {
+            var qtyInput = e.target.closest('.quick-add-qty');
+            if (!qtyInput || !qtyInput.closest('.build-plant-card')) return;
+            var max = parseFloat(qtyInput.getAttribute('max')) || 999;
+            var minAttr = parseFloat(qtyInput.getAttribute('min'));
+            var min = isNaN(minAttr) ? 0.001 : minAttr;
+            var v = parseFloat(qtyInput.value);
+            if (isNaN(v) || v < 0) qtyInput.value = min;
+            else if (v > max) qtyInput.value = max;
+        });
     }
 
     function renderAccessoryList() {
