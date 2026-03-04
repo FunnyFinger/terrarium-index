@@ -230,6 +230,8 @@
                 var search = (global.location.search || '').replace(/[?&]access_token=[^&]*/g, '').replace(/[?&]refresh_token=[^&]*/g, '').replace(/^&|&$/g, '').replace(/\?&/, '?').replace(/\?$/, '');
                 global.history.replaceState(null, '', path + (search || ''));
             } catch (e) {}
+            if ((global.location.pathname || '').indexOf('auth') !== -1)
+                global.location.replace(global.location.origin + '/');
         }).catch(function () {});
     }
 
