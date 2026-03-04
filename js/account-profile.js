@@ -1,7 +1,6 @@
 /**
  * Profile page: Overview, Addresses, Order history, Reviews.
  * Requires: auth, profileDb, inventoryDb (optional for orders).
- * Waits for auth.whenReady() so session is restored before showing guest vs profile.
  */
 (function () {
     'use strict';
@@ -14,23 +13,33 @@
         return;
     }
 
-    function showGuest() {
-        el.innerHTML = '<div class="profile-guest"><p>You are not signed in.</p><a href="auth.html">Login</a> or <a href="auth.html?mode=register">Register</a></div>';
-    }
-
-    function run() {
-        var whenReady = window.auth.whenReady ? window.auth.whenReady() : Promise.resolve();
-        whenReady.then(function () {
-            var user = window.auth.getCurrentUser();
-            if (!user) {
-                showGuest();
-                return;
+    var user = window.auth.getCurrentUser();
+    if (!user) {
+        // Show loading briefly — session restore from Supabase is async
+        el.innerHTML = '<div class="profile-guest" style="opacity:0.5;"><p>Loading account…</p></div>';
+        var authWaitTimer = setTimeout(function () {
+            // If session still hasn't arrived after 3s, show the real guest state
+            if (!window.auth.getCurrentUser()) {
+                window.removeEventListener('authStateChange', onAuthReady);
+                el.innerHTML = '<div class="profile-guest"><p>You are not signed in.</p><a href="auth.html">Login</a> or <a href="auth.html?mode=register">Register</a></div>';
             }
-            runProfile(user);
-        });
+        }, 3000);
+        function onAuthReady() {
+            var u = window.auth && window.auth.getCurrentUser ? window.auth.getCurrentUser() : null;
+            if (u) {
+                clearTimeout(authWaitTimer);
+                window.removeEventListener('authStateChange', onAuthReady);
+                el.innerHTML = '';
+                initProfilePage(u);
+            }
+        }
+        window.addEventListener('authStateChange', onAuthReady);
+        return;
     }
 
-    function runProfile(user) {
+    initProfilePage(user);
+
+    function initProfilePage(user) {
     var name = (user.name || user.email || 'User').trim();
     var initials = name.split(/\s+/).map(function (w) { return (w[0] || '').toUpperCase(); }).slice(0, 2).join('') || (user.email ? user.email[0].toUpperCase() : '?');
     var roleLabel = (user.role === 'owner' ? 'Owner' : user.role === 'admin' ? 'Admin' : user.role === 'stock' ? 'Stock' : 'User');
@@ -425,8 +434,5 @@
     });
 
     loadAddresses();
-    }
-
-    run();
-    window.addEventListener('authStateChange', run);
+    } // end initProfilePage
 })();

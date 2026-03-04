@@ -218,18 +218,11 @@
         });
     }
 
-    function whenReady() {
-        if (useSupabaseAuth() && global.supabaseAuth && global.supabaseAuth.whenReady)
-            return global.supabaseAuth.whenReady();
-        return Promise.resolve();
-    }
-
     var auth = {
         register: register,
         login: login,
         logout: logout,
         getCurrentUser: getCurrentUser,
-        whenReady: whenReady,
         isLoggedIn: isLoggedIn,
         hasRole: hasRole,
         isOwner: isOwner,
@@ -246,8 +239,5 @@
         root.module.exports = auth;
     } else if (root) {
         root.auth = auth;
-    }
-    if (root && root.supabaseAuth && root.supabaseAuth.isConfigured && root.supabaseAuth.isConfigured()) {
-        root.supabaseAuth.init();
     }
 })(typeof window !== 'undefined' ? window : typeof self !== 'undefined' ? self : this);
