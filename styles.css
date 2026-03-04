@@ -3535,6 +3535,24 @@ main {
     color: var(--text-light);
 }
 
+/* Skeleton loading cards */
+@keyframes skeleton-shimmer {
+    0% { background-position: -400px 0; }
+    100% { background-position: 400px 0; }
+}
+.skeleton {
+    background: linear-gradient(90deg, var(--border-color) 25%, var(--bg-color) 50%, var(--border-color) 75%);
+    background-size: 800px 100%;
+    animation: skeleton-shimmer 1.4s infinite linear;
+    border-radius: 6px;
+}
+.skeleton-card { pointer-events: none; user-select: none; }
+.skeleton-card .skeleton-img { height: 180px; border-radius: 0; margin-bottom: 12px; }
+.skeleton-card .skeleton-line { height: 14px; margin: 8px 16px; }
+.skeleton-card .skeleton-line.wide { width: 75%; }
+.skeleton-card .skeleton-line.med { width: 50%; }
+.skeleton-card .skeleton-line.narrow { width: 40%; }
+
 .plant-card {
     position: relative;
     z-index: 0;

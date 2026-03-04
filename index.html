@@ -1334,7 +1334,7 @@
                         <button type="button" id="tabVivariums" class="shop-tab" role="tab" aria-selected="false" data-view="vivariums">Vivariums</button>
                     </div>
                     <div class="stats stats-row">
-                        <span id="plantCount">0 plants found</span>
+                        <span id="plantCount">Loading plants…</span>
                         <div class="stats-card-size" role="group" aria-label="Card size">
                             <button type="button" class="card-size-btn" data-size="small" title="Small cards">S</button>
                             <button type="button" class="card-size-btn active" data-size="medium" title="Medium cards">M</button>
@@ -1363,7 +1363,12 @@
                         </div>
                     </div>
                     <div id="plantsGrid" class="plants-grid card-size-medium">
-                        <!-- Plant cards will be dynamically inserted here -->
+                        <div class="plant-card skeleton-card" aria-hidden="true"><div class="skeleton skeleton-img"></div><div class="skeleton skeleton-line wide"></div><div class="skeleton skeleton-line narrow"></div><div class="skeleton skeleton-line med"></div></div>
+                        <div class="plant-card skeleton-card" aria-hidden="true"><div class="skeleton skeleton-img"></div><div class="skeleton skeleton-line wide"></div><div class="skeleton skeleton-line narrow"></div><div class="skeleton skeleton-line med"></div></div>
+                        <div class="plant-card skeleton-card" aria-hidden="true"><div class="skeleton skeleton-img"></div><div class="skeleton skeleton-line wide"></div><div class="skeleton skeleton-line narrow"></div><div class="skeleton skeleton-line med"></div></div>
+                        <div class="plant-card skeleton-card" aria-hidden="true"><div class="skeleton skeleton-img"></div><div class="skeleton skeleton-line wide"></div><div class="skeleton skeleton-line narrow"></div><div class="skeleton skeleton-line med"></div></div>
+                        <div class="plant-card skeleton-card" aria-hidden="true"><div class="skeleton skeleton-img"></div><div class="skeleton skeleton-line wide"></div><div class="skeleton skeleton-line narrow"></div><div class="skeleton skeleton-line med"></div></div>
+                        <div class="plant-card skeleton-card" aria-hidden="true"><div class="skeleton skeleton-img"></div><div class="skeleton skeleton-line wide"></div><div class="skeleton skeleton-line narrow"></div><div class="skeleton skeleton-line med"></div></div>
                     </div>
                     <div id="plantsPagination" class="plants-pagination hidden" aria-label="Pagination"></div>
                     <div id="loading" class="loading hidden">
