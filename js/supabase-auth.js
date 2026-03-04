@@ -54,6 +54,14 @@
             });
     }
 
+    /** Base URL for email confirmation redirect (so link goes to your site, not localhost). */
+    function getEmailRedirectUrl() {
+        var o = (typeof global.location !== 'undefined' && global.location.origin) ? global.location.origin : '';
+        var path = (typeof global.location !== 'undefined' && global.location.pathname) ? global.location.pathname : '';
+        if (o && path && path.indexOf('auth') !== -1) return o + path;
+        return o ? o + '/auth.html' : '';
+    }
+
     function signUp(email, password, name) {
         var supabase = getSupabase();
         if (!supabase) return Promise.reject(new Error('Supabase Auth not available'));
@@ -61,16 +69,23 @@
         if (!email) return Promise.reject(new Error('Email is required'));
         if (!password || password.length < 6) return Promise.reject(new Error('Password must be at least 6 characters'));
 
+        var redirectTo = getEmailRedirectUrl();
         return supabase.auth.signUp({
             email: email,
             password: password,
-            options: { data: { name: (name || '').trim() || email.split('@')[0] } }
+            options: {
+                data: { name: (name || '').trim() || email.split('@')[0] },
+                emailRedirectTo: redirectTo || undefined
+            }
         }).then(function (res) {
             if (res.error) return Promise.reject(new Error(res.error.message || 'Sign up failed'));
             var user = res.data && res.data.user;
             var session = res.data && res.data.session;
             if (!user) return Promise.reject(new Error('Sign up failed'));
-            if (session) cachedAccessToken = session.access_token || null;
+            if (!session) {
+                return Promise.resolve({ needsEmailConfirmation: true, email: user.email || email });
+            }
+            cachedAccessToken = session.access_token || null;
             return ensureProfile(user, (name || '').trim()).then(function (profile) {
                 var appUser = {
                     id: user.id,
@@ -175,11 +190,35 @@
         }
     }
 
+    /** Recover session from URL hash (e.g. after clicking "Confirm your mail" in email). */
+    function recoverSessionFromHash() {
+        var supabase = getSupabase();
+        if (!supabase || !global.location || !global.location.hash) return Promise.resolve();
+        var hash = global.location.hash.slice(1);
+        var params = {};
+        hash.split('&').forEach(function (pair) {
+            var i = pair.indexOf('=');
+            if (i !== -1) params[decodeURIComponent(pair.slice(0, i))] = decodeURIComponent((pair.slice(i + 1) || '').replace(/\+/g, ' '));
+        });
+        var access_token = params.access_token;
+        var refresh_token = params.refresh_token;
+        if (!access_token || !refresh_token) return Promise.resolve();
+        return supabase.auth.setSession({ access_token: access_token, refresh_token: refresh_token }).then(function (res) {
+            if (res.data && res.data.session) setSessionCache(res.data.session);
+            try {
+                var cleanUrl = global.location.pathname + (global.location.search || '');
+                global.history.replaceState(null, '', cleanUrl);
+            } catch (e) {}
+        }).catch(function () {});
+    }
+
     /** Call once after Supabase client is ready to restore session and listen for auth changes. */
     function init() {
         var supabase = getSupabase();
         if (!supabase) return;
-        supabase.auth.getSession().then(function (res) {
+        recoverSessionFromHash().then(function () {
+            return supabase.auth.getSession();
+        }).then(function (res) {
             setSessionCache(res.data && res.data.session);
         }).catch(function () { cachedUser = null; cachedAccessToken = null; });
         supabase.auth.onAuthStateChange(function (event, session) {

@@ -152,7 +152,13 @@
                 if (!window.auth) { errEl.textContent = 'Auth not loaded.'; errEl.style.display = 'block'; return; }
                 var btn = this.querySelector('button[type="submit"]');
                 btn.disabled = true;
-                window.auth.register(email, password, name).then(function() {
+                window.auth.register(email, password, name).then(function(result) {
+                    if (result && result.needsEmailConfirmation) {
+                        okEl.textContent = 'Please check your email (' + (result.email || email) + ') and click the confirmation link to activate your account. Then sign in here.';
+                        okEl.style.display = 'block';
+                        btn.disabled = false;
+                        return;
+                    }
                     okEl.textContent = 'Account created. Redirecting…';
                     okEl.style.display = 'block';
                     setTimeout(function() { window.location.href = getRedirect(); }, 500);

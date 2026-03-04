@@ -99,7 +99,10 @@ To store **accounts and profiles globally** (so users can log in from any device
 
 1. Run **`supabase-auth-schema.sql`** in the Supabase SQL Editor (after the main schema). This creates `profiles` and `product_reviews` tables and RLS policies.
 2. In Supabase: **Authentication → Providers** ensure **Email** is enabled.
-3. In `js/config.js` set **`SUPABASE_OWNER_EMAIL`** to your email so you get the owner role when you register (or set it later in the Access Control page).
+3. In **Authentication → URL Configuration** set:
+   - **Site URL** = your live site (e.g. `https://vivarium-store.com`). This is where “Confirm your mail” links in emails will send users.
+   - **Redirect URLs** = add `https://your-site.com/auth.html` (and your domain) so the confirmation link works.
+4. In `js/config.js` set **`SUPABASE_OWNER_EMAIL`** to your email so you get the owner role when you register (or set it later in the Access Control page).
 
 When `SUPABASE_URL` and `SUPABASE_ANON_KEY` are set, the site uses Supabase Auth for login/register and Supabase for profiles and reviews. When they are empty, it uses local auth (IndexedDB) as before.
 
