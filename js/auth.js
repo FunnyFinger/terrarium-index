@@ -1,6 +1,6 @@
 /**
- * Client-side auth: register, login, logout, session (localStorage).
- * Passwords hashed with PBKDF2-like derivation (SHA-256 + salt).
+ * Auth: when Supabase is configured uses Supabase Auth (global accounts).
+ * Otherwise uses local auth (IndexedDB + localStorage). Same API: register, login, logout, getCurrentUser.
  */
 (function (global) {
     'use strict';
@@ -12,6 +12,10 @@
     var SESSION_NAME = 'terrarium_auth_name';
     var SESSION_ROLE = 'terrarium_auth_role';
     var SESSION_CREATED_AT = 'terrarium_auth_createdAt';
+
+    function useSupabaseAuth() {
+        return global.supabaseAuth && global.supabaseAuth.isConfigured && global.supabaseAuth.isConfigured();
+    }
 
     function getAuthDb() {
         return global.authDb || null;
@@ -82,6 +86,10 @@
     }
 
     function getCurrentUser() {
+        if (useSupabaseAuth()) {
+            var u = global.supabaseAuth.getCurrentUserSync();
+            return u || null;
+        }
         try {
             if (localStorage.getItem(SESSION_KEY) !== '1') return null;
             var id = localStorage.getItem(SESSION_USER_ID);
@@ -131,6 +139,11 @@
     }
 
     function register(email, password, name) {
+        if (useSupabaseAuth()) {
+            return global.supabaseAuth.signUp(email, password, name).then(function (user) {
+                return user;
+            });
+        }
         var db = getAuthDb();
         if (!db) return Promise.reject(new Error('Auth not available'));
         email = (email || '').trim();
@@ -154,6 +167,11 @@
     }
 
     function login(email, password) {
+        if (useSupabaseAuth()) {
+            return global.supabaseAuth.signIn(email, password).then(function (user) {
+                return user;
+            });
+        }
         var db = getAuthDb();
         if (!db) return Promise.reject(new Error('Auth not available'));
         email = (email || '').trim();
@@ -169,6 +187,9 @@
     }
 
     function logout() {
+        if (useSupabaseAuth()) {
+            global.supabaseAuth.signOut();
+        }
         clearSession();
         if (global.dispatchEvent) {
             global.dispatchEvent(new Event('authStateChange'));
@@ -176,6 +197,10 @@
     }
 
     function changePassword(currentPassword, newPassword) {
+        if (useSupabaseAuth()) {
+            if (!newPassword || newPassword.length < 6) return Promise.reject(new Error('New password must be at least 6 characters'));
+            return global.supabaseAuth.changePassword(newPassword);
+        }
         var db = getAuthDb();
         if (!db) return Promise.reject(new Error('Auth not available'));
         var user = getCurrentUser();
@@ -214,5 +239,8 @@
         root.module.exports = auth;
     } else if (root) {
         root.auth = auth;
+    }
+    if (root && root.supabaseAuth && root.supabaseAuth.isConfigured && root.supabaseAuth.isConfigured()) {
+        root.supabaseAuth.init();
     }
 })(typeof window !== 'undefined' ? window : typeof self !== 'undefined' ? self : this);

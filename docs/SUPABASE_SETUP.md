@@ -93,8 +93,21 @@ In **index.html** and **build-vivarium.html**, include the config script **befor
 
 If you use a single `index.html`, add it there; add the same line to `build-vivarium.html` if the builder is a separate page.
 
+## Global auth (accounts, profiles, reviews)
+
+To store **accounts and profiles globally** (so users can log in from any device and data survives clearing the browser):
+
+1. Run **`supabase-auth-schema.sql`** in the Supabase SQL Editor (after the main schema). This creates `profiles` and `product_reviews` tables and RLS policies.
+2. In Supabase: **Authentication → Providers** ensure **Email** is enabled.
+3. In `js/config.js` set **`SUPABASE_OWNER_EMAIL`** to your email so you get the owner role when you register (or set it later in the Access Control page).
+
+When `SUPABASE_URL` and `SUPABASE_ANON_KEY` are set, the site uses Supabase Auth for login/register and Supabase for profiles and reviews. When they are empty, it uses local auth (IndexedDB) as before.
+
 ## What becomes global
 
+- **Accounts** – Register and login via Supabase Auth (when config is set).
+- **Profiles** – Addresses, billing, roles in `profiles` table.
+- **Reviews** – Product reviews in `product_reviews` table.
 - **Inventory** – stock, prices, visibility, **images**, and **plant details** for plants/supplies/vivariums (same for everyone).
 - **Custom equipment** – supplies added via the site, including **images** (visible to all).
 - **Custom vivariums** – custom builds saved from the vivarium builder, including **images** (visible to all).

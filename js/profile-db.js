@@ -1,6 +1,6 @@
 /**
- * User profile data (IndexedDB): saved addresses, billing address, reviews/ratings.
- * Requires Dexie and auth (current user id).
+ * User profile data: when Supabase Auth is configured uses Supabase (profiles + product_reviews).
+ * Otherwise uses IndexedDB (TerrariumProfiles). Same API for addresses, billing, reviews.
  */
 (function (global) {
     'use strict';
@@ -8,6 +8,11 @@
 
     var DB_NAME = 'TerrariumProfiles';
     var db = null;
+
+    function useSupabaseProfiles() {
+        return global.supabaseDb && global.supabaseDb.isConfigured && global.supabaseDb.isConfigured() &&
+            global.supabaseAuth && global.supabaseAuth.isConfigured && global.supabaseAuth.isConfigured();
+    }
 
     function getDb() {
         if (db) return db;
@@ -21,6 +26,11 @@
     }
 
     function getProfile(userId) {
+        if (useSupabaseProfiles() && userId != null) {
+            return global.supabaseDb.getProfile(userId).then(function (p) {
+                return p || { userId: userId, savedAddresses: [], billingAddress: null };
+            });
+        }
         var database = getDb();
         if (!database) return Promise.resolve(null);
         var id = Number(userId);
@@ -31,6 +41,9 @@
     }
 
     function saveProfile(userId, data) {
+        if (useSupabaseProfiles() && userId != null) {
+            return global.supabaseDb.updateProfile(userId, { savedAddresses: data.savedAddresses || [], billingAddress: data.billingAddress !== undefined ? data.billingAddress : undefined });
+        }
         var database = getDb();
         if (!database) return Promise.reject(new Error('Profile DB not available'));
         var id = Number(userId);
@@ -103,6 +116,16 @@
 
     /** Add or update a review. */
     function saveReview(userId, review) {
+        if (useSupabaseProfiles() && userId != null) {
+            return global.supabaseDb.saveReview(userId, {
+                userDisplayName: review.userDisplayName || '',
+                productType: review.productType || 'plant',
+                productId: review.productId,
+                productName: review.productName || '',
+                rating: review.rating,
+                comment: review.comment || ''
+            });
+        }
         var database = getDb();
         if (!database) return Promise.reject(new Error('Profile DB not available'));
         var rec = {
@@ -123,6 +146,9 @@
 
     /** Get average rating and count for a product. */
     function getAverageRating(productType, productId) {
+        if (useSupabaseProfiles()) {
+            return global.supabaseDb.getAverageRating(productType, productId);
+        }
         return getReviewsByProduct(productType, productId).then(function (reviews) {
             var count = (reviews || []).length;
             if (count === 0) return { average: 0, count: 0 };
@@ -132,6 +158,9 @@
     }
 
     function getReviewsByUser(userId, limit) {
+        if (useSupabaseProfiles() && userId != null) {
+            return global.supabaseDb.getReviewsByUser(userId, limit);
+        }
         var database = getDb();
         if (!database) return Promise.resolve([]);
         return database.reviews.where('userId').equals(Number(userId)).sortBy('createdAt').then(function (arr) {
@@ -142,6 +171,9 @@
 
     /** Get all reviews for a product (e.g. plant, supply, vivarium). */
     function getReviewsByProduct(productType, productId) {
+        if (useSupabaseProfiles()) {
+            return global.supabaseDb.getReviewsByProduct(productType, productId);
+        }
         var database = getDb();
         if (!database) return Promise.resolve([]);
         return database.reviews.where('productType').equals(String(productType)).toArray().then(function (arr) {
@@ -152,12 +184,18 @@
     }
 
     function getReviewById(reviewId) {
+        if (useSupabaseProfiles()) {
+            return global.supabaseDb.getReviewById(reviewId);
+        }
         var database = getDb();
         if (!database) return Promise.resolve(null);
         return database.reviews.get(Number(reviewId));
     }
 
     function deleteReview(reviewId) {
+        if (useSupabaseProfiles()) {
+            return global.supabaseDb.deleteReview(reviewId);
+        }
         var database = getDb();
         if (!database) return Promise.resolve();
         return database.reviews.delete(Number(reviewId));

@@ -69,6 +69,10 @@
         </div>
     </main>
     <script defer src="https://cdn.jsdelivr.net/npm/dexie@3/dist/dexie.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script defer src="js/config.js"></script>
+    <script defer src="js/supabase-db.js"></script>
+    <script defer src="js/supabase-auth.js"></script>
     <script defer src="js/auth-db.js"></script>
     <script defer src="js/auth.js"></script>
     <script defer src="js/nav.js"></script>
@@ -79,6 +83,9 @@
                 window.location.replace('account.html?msg=access_denied');
                 return;
             }
+            var useSupabase = window.supabaseAuth && window.supabaseAuth.isConfigured && window.supabaseAuth.isConfigured();
+            var getUsers = useSupabase ? function() { return window.supabaseDb.getProfiles(); } : function() { return window.authDb.getAllUsers(); };
+            var setRole = useSupabase ? function(id, role) { return window.supabaseDb.setProfileRole(id, role); } : function(id, role) { return window.authDb.setUserRole(id, role); };
             var tableBody = document.getElementById('accessTableBody');
             var saveBtn = document.getElementById('accessSave');
             var msgEl = document.getElementById('accessMsg');
@@ -135,7 +142,7 @@
                 var currentUserId = window.auth.getCurrentUser() && window.auth.getCurrentUser().id;
                 var promises = ids.map(function(id) {
                     var newRole = pendingRoles[id];
-                    return window.authDb.setUserRole(id, newRole);
+                    return setRole(id, newRole);
                 });
                 Promise.all(promises).then(function() {
                     pendingRoles = {};
@@ -150,7 +157,7 @@
             function load() {
                 loadingEl.style.display = 'block';
                 contentEl.style.display = 'none';
-                window.authDb.getAllUsers().then(function(users) {
+                getUsers().then(function(users) {
                     users.sort(function(a, b) {
                         var order = { owner: 0, admin: 1, user: 2 };
                         return (order[a.role] || 2) - (order[b.role] || 2) || (a.email || '').localeCompare(b.email || '');

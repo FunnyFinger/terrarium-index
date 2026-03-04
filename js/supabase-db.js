@@ -41,6 +41,21 @@
         });
     }
 
+    /** Authenticated request (uses Supabase Auth JWT for RLS). */
+    function requestAuth(method, path, body) {
+        var token = (global.supabaseAuth && global.supabaseAuth.getAccessToken) ? global.supabaseAuth.getAccessToken() : null;
+        var headers = { 'apikey': HEADERS.apikey, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
+        if (token) headers['Authorization'] = 'Bearer ' + token;
+        else headers['Authorization'] = HEADERS['Authorization'];
+        var opt = { method: method, headers: headers };
+        if (body !== undefined) opt.body = JSON.stringify(body);
+        return fetch(BASE + path, opt).then(function (res) {
+            if (!res.ok) return Promise.reject(new Error(res.status + ' ' + res.statusText));
+            if (res.status === 204 || res.headers.get('content-length') === '0') return [];
+            return res.json();
+        });
+    }
+
     /**
      * Upload a file to Supabase Storage. Bucket must exist and be public (see docs/SUPABASE_SETUP.md).
      * @param {File} file - the file to upload
@@ -333,6 +348,104 @@
         }).catch(function () {});
     }
 
+    // ---- Profiles (auth-scoped; use requestAuth) ----
+    function getProfile(userId) {
+        if (!isConfigured() || !userId) return Promise.resolve(null);
+        return requestAuth('GET', '/profiles?id=eq.' + encodeURIComponent(userId) + '&select=*').then(function (rows) {
+            if (!rows || rows.length === 0) return null;
+            var r = rows[0];
+            return { userId: userId, savedAddresses: r.saved_addresses || [], billingAddress: r.billing_address || null };
+        }).catch(function () { return null; });
+    }
+
+    function updateProfile(userId, data) {
+        if (!isConfigured() || !userId) return Promise.reject(new Error('Not configured'));
+        var payload = {
+            saved_addresses: data.savedAddresses || [],
+            billing_address: data.billingAddress !== undefined ? data.billingAddress : undefined,
+            updated_at: new Date().toISOString()
+        };
+        return requestAuth('PATCH', '/profiles?id=eq.' + encodeURIComponent(userId), payload).then(function () {});
+    }
+
+    /** List all profiles (for access control). Requires authenticated user; RLS allows read for authenticated. */
+    function getProfiles() {
+        if (!isConfigured()) return Promise.resolve([]);
+        return requestAuth('GET', '/profiles?select=id,email,display_name,role,created_at&order=created_at.desc').then(function (rows) {
+            return (rows || []).map(function (r) {
+                return { id: r.id, email: r.email || '', name: r.display_name || '', role: r.role || 'user', createdAt: r.created_at ? new Date(r.created_at).getTime() : null };
+            });
+        }).catch(function () { return []; });
+    }
+
+    /** Set role for a profile (owner only in practice; RLS must allow). */
+    function setProfileRole(userId, newRole) {
+        if (!isConfigured() || !userId) return Promise.reject(new Error('Not configured'));
+        var allowed = ['owner', 'admin', 'stock', 'user'];
+        if (allowed.indexOf(newRole) === -1) return Promise.reject(new Error('Invalid role'));
+        return requestAuth('PATCH', '/profiles?id=eq.' + encodeURIComponent(userId), { role: newRole, updated_at: new Date().toISOString() }).then(function () {});
+    }
+
+    // ---- Product reviews (read with request; write with requestAuth) ----
+    function getReviewsByProduct(productType, productId) {
+        if (!isConfigured()) return Promise.resolve([]);
+        return request('GET', '/product_reviews?product_type=eq.' + encodeURIComponent(productType) + '&product_id=eq.' + Number(productId) + '&order=created_at.desc').then(function (rows) {
+            return (rows || []).map(function (r) {
+                return { id: r.id, userId: r.user_id, userDisplayName: r.user_display_name, productType: r.product_type, productId: r.product_id, productName: r.product_name, rating: r.rating, comment: r.comment || '', createdAt: r.created_at ? new Date(r.created_at).getTime() : null };
+            });
+        }).catch(function () { return []; });
+    }
+
+    function getAverageRating(productType, productId) {
+        return getReviewsByProduct(productType, productId).then(function (reviews) {
+            var count = (reviews || []).length;
+            if (count === 0) return { average: 0, count: 0 };
+            var sum = reviews.reduce(function (s, r) { return s + (Number(r.rating) || 0); }, 0);
+            return { average: Math.round((sum / count) * 10) / 10, count: count };
+        });
+    }
+
+    function saveReview(userId, review) {
+        if (!isConfigured()) return Promise.reject(new Error('Not configured'));
+        var payload = {
+            user_id: userId,
+            user_display_name: (review.userDisplayName || '').trim() || undefined,
+            product_type: review.productType || 'plant',
+            product_id: Number(review.productId),
+            product_name: review.productName || null,
+            rating: Math.min(5, Math.max(1, Number(review.rating) || 5)),
+            comment: (review.comment || '').trim() || null
+        };
+        return requestAuth('POST', '/product_reviews', payload).then(function (rows) {
+            return (rows && rows[0] && rows[0].id) || null;
+        });
+    }
+
+    function getReviewsByUser(userId, limit) {
+        if (!isConfigured() || !userId) return Promise.resolve([]);
+        var path = '/product_reviews?user_id=eq.' + encodeURIComponent(userId) + '&order=created_at.desc';
+        if (limit) path += '&limit=' + Number(limit);
+        return requestAuth('GET', path).then(function (rows) {
+            return (rows || []).map(function (r) {
+                return { id: r.id, userId: r.user_id, userDisplayName: r.user_display_name, productType: r.product_type, productId: r.product_id, productName: r.product_name, rating: r.rating, comment: r.comment || '', createdAt: r.created_at ? new Date(r.created_at).getTime() : null };
+            });
+        }).catch(function () { return []; });
+    }
+
+    function getReviewById(reviewId) {
+        if (!isConfigured()) return Promise.resolve(null);
+        return request('GET', '/product_reviews?id=eq.' + Number(reviewId)).then(function (rows) {
+            if (!rows || rows.length === 0) return null;
+            var r = rows[0];
+            return { id: r.id, userId: r.user_id, userDisplayName: r.user_display_name, productType: r.product_type, productId: r.product_id, productName: r.product_name, rating: r.rating, comment: r.comment || '', createdAt: r.created_at ? new Date(r.created_at).getTime() : null };
+        }).catch(function () { return null; });
+    }
+
+    function deleteReview(reviewId) {
+        if (!isConfigured()) return Promise.resolve();
+        return requestAuth('DELETE', '/product_reviews?id=eq.' + Number(reviewId)).catch(function () {});
+    }
+
     configure();
     global.supabaseDb = {
         isConfigured: isConfigured,
@@ -358,6 +471,16 @@
         uploadToStorage: uploadToStorage,
         deleteFromStorage: deleteFromStorage,
         updatePlantInCatalog: updatePlantInCatalog,
-        deleteFromPlantsCatalog: deleteFromPlantsCatalog
+        deleteFromPlantsCatalog: deleteFromPlantsCatalog,
+        getProfile: getProfile,
+        updateProfile: updateProfile,
+        getProfiles: getProfiles,
+        setProfileRole: setProfileRole,
+        getReviewsByProduct: getReviewsByProduct,
+        getAverageRating: getAverageRating,
+        saveReview: saveReview,
+        getReviewsByUser: getReviewsByUser,
+        getReviewById: getReviewById,
+        deleteReview: deleteReview
     };
 })(typeof window !== 'undefined' ? window : this);
