@@ -106,16 +106,17 @@
         email = (email || '').trim();
         if (!email || !password) return Promise.reject(new Error('Email and password are required'));
 
+        var fallbackMsg = 'Invalid email or password. If you don\'t have an account, please register first.';
         return supabase.auth.signInWithPassword({ email: email, password: password }).then(function (res) {
             if (res.error) {
                 var msg = (res.error.message || '').toLowerCase();
                 if (msg.indexOf('invalid') !== -1 || msg.indexOf('credentials') !== -1 || msg.indexOf('email') !== -1)
-                    return Promise.reject(new Error('Invalid email or password. If you don\'t have an account, please register first.'));
-                return Promise.reject(new Error(res.error.message || 'Invalid email or password. If you don\'t have an account, please register first.'));
+                    return Promise.reject(new Error(fallbackMsg));
+                return Promise.reject(new Error(res.error.message || fallbackMsg));
             }
             var user = res.data && res.data.user;
             var session = res.data && res.data.session;
-            if (!user || !session) return Promise.reject(new Error('Invalid email or password. If you don\'t have an account, please register first.'));
+            if (!user || !session) return Promise.reject(new Error(fallbackMsg));
             cachedAccessToken = session.access_token || null;
             return ensureProfile(user).then(function (profile) {
                 var appUser = {
@@ -128,6 +129,9 @@
                 cachedUser = appUser;
                 return appUser;
             });
+        }).catch(function (err) {
+            if (err && err.message && err.message.indexOf('register') !== -1) return Promise.reject(err);
+            return Promise.reject(new Error(fallbackMsg));
         });
     }
 

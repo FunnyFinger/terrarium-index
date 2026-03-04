@@ -27,6 +27,7 @@
         .auth-form label { display: block; font-weight: 600; margin-top: 0.75rem; }
         .auth-form input { width: 100%; padding: 0.6rem; margin-top: 0.25rem; border: 1px solid var(--border-color); border-radius: 8px; box-sizing: border-box; font-size: 1rem; }
         .auth-form .auth-error { color: #b91c1c; font-size: 0.9rem; margin-top: 0.5rem; }
+        .auth-form .auth-error:not(:empty) { display: block !important; visibility: visible !important; }
         .auth-form .auth-success { color: var(--secondary-color); font-size: 0.9rem; margin-top: 0.5rem; }
         .auth-form button[type="submit"] { width: 100%; margin-top: 1.25rem; padding: 0.75rem; font-size: 1rem; font-weight: 600; border: none; border-radius: 8px; background: var(--primary-color); color: white; cursor: pointer; }
         .auth-form button[type="submit"]:hover { background: var(--secondary-color); }
@@ -111,23 +112,29 @@
 
             document.getElementById('authLoginForm').addEventListener('submit', function(e) {
                 e.preventDefault();
-                var email = document.getElementById('loginEmail').value.trim();
-                var password = document.getElementById('loginPassword').value;
+                e.stopPropagation();
                 var errEl = document.getElementById('loginError');
+                var btn = this.querySelector('button[type="submit"]');
+                function showError(msg) {
+                    errEl.textContent = msg || 'Invalid email or password. If you don\'t have an account, please register first.';
+                    errEl.style.setProperty('display', 'block');
+                    errEl.style.setProperty('visibility', 'visible');
+                    errEl.setAttribute('role', 'alert');
+                    if (errEl.scrollIntoView) errEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    btn.disabled = false;
+                }
                 errEl.style.display = 'none';
                 errEl.textContent = '';
-                if (!window.auth) { errEl.textContent = 'Auth not loaded.'; errEl.style.display = 'block'; return; }
-                var btn = this.querySelector('button[type="submit"]');
+                if (!window.auth) { showError('Auth not loaded.'); return false; }
+                var email = document.getElementById('loginEmail').value.trim();
+                var password = document.getElementById('loginPassword').value;
                 btn.disabled = true;
                 window.auth.login(email, password).then(function() {
                     window.location.href = getRedirect();
                 }).catch(function(err) {
-                    errEl.textContent = err && err.message ? err.message : 'Invalid email or password. If you don\'t have an account, please register first.';
-                    errEl.style.display = 'block';
-                    errEl.setAttribute('role', 'alert');
-                    if (errEl.scrollIntoView) errEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                    btn.disabled = false;
+                    showError(err && err.message ? err.message : 'Invalid email or password. If you don\'t have an account, please register first.');
                 });
+                return false;
             });
 
             document.getElementById('authRegisterForm').addEventListener('submit', function(e) {
