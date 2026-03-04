@@ -184,16 +184,27 @@
         cachedAccessToken = session.access_token || null;
         var user = session.user;
         if (user) {
+            var meta = user.user_metadata || {};
+            cachedUser = {
+                id: user.id,
+                email: user.email || '',
+                name: (meta.name || user.email || '').trim() || user.email || '',
+                role: 'user',
+                createdAt: user.created_at ? new Date(user.created_at).getTime() : null
+            };
+            if (global.dispatchEvent) global.dispatchEvent(new Event('authStateChange'));
             ensureProfile(user).then(function (profile) {
-                cachedUser = {
-                    id: user.id,
-                    email: user.email || '',
-                    name: (profile && profile.display_name) || (user.user_metadata && user.user_metadata.name) || user.email || '',
-                    role: (profile && profile.role) || 'user',
-                    createdAt: user.created_at ? new Date(user.created_at).getTime() : null
-                };
-                if (global.dispatchEvent) global.dispatchEvent(new Event('authStateChange'));
-            }).catch(function () { cachedUser = null; });
+                if (profile) {
+                    cachedUser = {
+                        id: user.id,
+                        email: user.email || '',
+                        name: (profile.display_name || meta.name || user.email || '').trim() || user.email || '',
+                        role: profile.role || 'user',
+                        createdAt: user.created_at ? new Date(user.created_at).getTime() : null
+                    };
+                    if (global.dispatchEvent) global.dispatchEvent(new Event('authStateChange'));
+                }
+            }).catch(function () {});
         } else {
             cachedUser = null;
         }

@@ -200,13 +200,20 @@
         }
     }
 
-    var container = document.getElementById('main-nav-container');
-    if (container) {
+    function renderNav() {
+        var container = document.getElementById('main-nav-container');
+        if (!container) return;
         container.innerHTML = buildNav();
         setCartCount();
         initToggle();
         initCartRedirect();
         initBackButton();
         initAuth();
+    }
+
+    var container = document.getElementById('main-nav-container');
+    if (container) {
+        renderNav();
+        window.addEventListener('authStateChange', renderNav);
     }
 })();
