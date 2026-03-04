@@ -271,7 +271,6 @@
         var cardBody = '<div class="build-supply-card-body">' +
             '<span class="build-supply-card-name">' + name + '</span>' +
             (size ? '<div class="build-supply-card-size">' + size + '</div>' : '') +
-            (unit ? '<div class="build-supply-card-unit">' + unit + '</div>' : '') +
             qtyBlock + '</div>';
         if (singleSelect) {
             return '<button type="button" class="build-supply-card build-supply-card-single' + selClass + '" data-id="' + escapeHtml(String(id)) + '">' +
@@ -286,7 +285,6 @@
     function supplyCardDisplayHtml(e) {
         var name = escapeHtml(e.name || 'Item');
         var size = (e.size && String(e.size).trim()) ? escapeHtml(String(e.size).trim()) : '';
-        var unit = (e.unit != null && String(e.unit).trim() !== '') ? escapeHtml(String(e.unit).trim()) : '';
         var imgUrl = e.imageUrl || (e.images && e.images[0]);
         var cardImgSrc = cardImageUrl(imgUrl) || imgUrl;
         var imgBlock = cardImgSrc
@@ -294,8 +292,7 @@
             : '<div class="build-supply-card-img-wrap"><div class="build-supply-card-img"></div></div>';
         var body = '<div class="build-supply-card-body">' +
             '<span class="build-supply-card-name">' + name + '</span>' +
-            (size ? '<div class="build-supply-card-size">' + size + '</div>' : '') +
-            (unit ? '<div class="build-supply-card-unit">' + unit + '</div>' : '') + '</div>';
+            (size ? '<div class="build-supply-card-size">' + size + '</div>' : '') + '</div>';
         return '<div class="build-supply-card build-supply-card-display">' +
             '<div class="build-supply-card-top">' + imgBlock + '</div>' + body + '</div>';
     }
