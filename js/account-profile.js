@@ -15,25 +15,19 @@
 
     var user = window.auth.getCurrentUser();
     if (!user) {
-        // Show loading briefly — session restore from Supabase is async
+        // Session restore from Supabase is async — use the async path
         el.innerHTML = '<div class="profile-guest" style="opacity:0.5;"><p>Loading account…</p></div>';
-        var authWaitTimer = setTimeout(function () {
-            // If session still hasn't arrived after 3s, show the real guest state
-            if (!window.auth.getCurrentUser()) {
-                window.removeEventListener('authStateChange', onAuthReady);
-                el.innerHTML = '<div class="profile-guest"><p>You are not signed in.</p><a href="auth.html">Login</a> or <a href="auth.html?mode=register">Register</a></div>';
-            }
-        }, 3000);
-        function onAuthReady() {
-            var u = window.auth && window.auth.getCurrentUser ? window.auth.getCurrentUser() : null;
+        var authPromise = (window.auth.getUser ? window.auth.getUser() : Promise.resolve(null));
+        authPromise.then(function (u) {
             if (u) {
-                clearTimeout(authWaitTimer);
-                window.removeEventListener('authStateChange', onAuthReady);
                 el.innerHTML = '';
                 initProfilePage(u);
+            } else {
+                el.innerHTML = '<div class="profile-guest"><p>You are not signed in.</p><a href="auth.html">Login</a> or <a href="auth.html?mode=register">Register</a></div>';
             }
-        }
-        window.addEventListener('authStateChange', onAuthReady);
+        }).catch(function () {
+            el.innerHTML = '<div class="profile-guest"><p>You are not signed in.</p><a href="auth.html">Login</a> or <a href="auth.html?mode=register">Register</a></div>';
+        });
         return;
     }
 

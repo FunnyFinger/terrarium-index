@@ -147,15 +147,19 @@
         return supabase.auth.getSession().then(function (res) {
             var session = res.data && res.data.session;
             var user = session && session.user;
-            if (!user) return null;
+            if (!user) { cachedUser = null; cachedAccessToken = null; return null; }
+            if (session.access_token) cachedAccessToken = session.access_token;
             return ensureProfile(user).then(function (profile) {
-                return {
+                var appUser = {
                     id: user.id,
                     email: user.email || '',
                     name: (profile && profile.display_name) || (user.user_metadata && user.user_metadata.name) || user.email || '',
                     role: (profile && profile.role) || 'user',
                     createdAt: user.created_at ? new Date(user.created_at).getTime() : null
                 };
+                cachedUser = appUser;
+                if (global.dispatchEvent) global.dispatchEvent(new Event('authStateChange'));
+                return appUser;
             });
         }).catch(function () { return null; });
     }
@@ -246,32 +250,15 @@
         }).catch(function () {});
     }
 
-    var authReadyResolve;
-    var authReadyPromise = typeof Promise !== 'undefined' ? new Promise(function (r) { authReadyResolve = r; }) : null;
-
-    /** Resolves when the initial session restore (getSession) has completed. Use before reading getCurrentUserSync(). */
-    function whenReady() {
-        if (!isConfigured()) return Promise.resolve();
-        return authReadyPromise || Promise.resolve();
-    }
-
     /** Call once after Supabase client is ready to restore session and listen for auth changes. */
     function init() {
         var supabase = getSupabase();
-        if (!supabase) {
-            if (authReadyResolve) authReadyResolve();
-            return;
-        }
+        if (!supabase) return;
         recoverSessionFromHash().then(function () {
             return supabase.auth.getSession();
         }).then(function (res) {
             setSessionCache(res.data && res.data.session);
-            if (authReadyResolve) authReadyResolve();
-        }).catch(function () {
-            cachedUser = null;
-            cachedAccessToken = null;
-            if (authReadyResolve) authReadyResolve();
-        });
+        }).catch(function () { cachedUser = null; cachedAccessToken = null; });
         supabase.auth.onAuthStateChange(function (event, session) {
             if (event === 'SIGNED_OUT') {
                 cachedUser = null;
@@ -304,7 +291,6 @@
         getCurrentUserSync: getCurrentUserSync,
         refreshCachedUser: refreshCachedUser,
         init: init,
-        whenReady: whenReady,
         getAccessToken: getAccessToken,
         ensureProfile: ensureProfile,
         changePassword: changePassword

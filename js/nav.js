@@ -215,5 +215,11 @@
     if (container) {
         renderNav();
         window.addEventListener('authStateChange', renderNav);
+        // Supabase session restore is async — proactively refresh nav once session is ready
+        if (typeof window.auth !== 'undefined' && window.auth.getUser) {
+            window.auth.getUser().then(function (u) {
+                if (u) renderNav();
+            }).catch(function () {});
+        }
     }
 })();

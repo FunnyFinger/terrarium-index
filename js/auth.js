@@ -85,6 +85,14 @@
         } catch (e) {}
     }
 
+    /** Async version — always resolves to the real user or null. Use on page load when session may not be cached yet. */
+    function getUser() {
+        if (useSupabaseAuth()) {
+            return global.supabaseAuth.getCurrentUser().catch(function () { return null; });
+        }
+        return Promise.resolve(getCurrentUser());
+    }
+
     function getCurrentUser() {
         if (useSupabaseAuth()) {
             var u = global.supabaseAuth.getCurrentUserSync();
@@ -222,6 +230,7 @@
         register: register,
         login: login,
         logout: logout,
+        getUser: getUser,
         getCurrentUser: getCurrentUser,
         isLoggedIn: isLoggedIn,
         hasRole: hasRole,
