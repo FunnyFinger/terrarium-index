@@ -104,6 +104,11 @@ To store **accounts and profiles globally** (so users can log in from any device
    - **Redirect URLs** = add `https://your-site.com/auth.html` (and your domain) so the confirmation link works.
 4. In `js/config.js` set **`SUPABASE_OWNER_EMAIL`** to your email so you get the owner role when you register (or set it later in the Access Control page).
 
+**Not receiving confirmation emails?**
+- In Supabase: **Authentication → Providers → Email** ensure **Confirm email** is enabled if you want confirmation emails. If you turn it **off**, new users are signed in immediately (no email).
+- Check the **spam/junk** folder; sender is `noreply@mail.app.supabase.io`.
+- To use your own domain and SMTP (fewer spam issues): **Project Settings → Auth → SMTP** and configure custom SMTP.
+
 When `SUPABASE_URL` and `SUPABASE_ANON_KEY` are set, the site uses Supabase Auth for login/register and Supabase for profiles and reviews. When they are empty, it uses local auth (IndexedDB) as before.
 
 ## What becomes global

@@ -177,9 +177,9 @@
         email = (email || '').trim();
         if (!email || !password) return Promise.reject(new Error('Email and password are required'));
         return db.getUserByEmail(email).then(function (user) {
-            if (!user) return Promise.reject(new Error('Invalid email or password'));
+            if (!user) return Promise.reject(new Error('Invalid email or password. If you don\'t have an account, please register first.'));
             return verifyPassword(password, user.passwordHash).then(function (ok) {
-                if (!ok) return Promise.reject(new Error('Invalid email or password'));
+                if (!ok) return Promise.reject(new Error('Invalid email or password. If you don\'t have an account, please register first.'));
                 setSession({ id: user.id, email: user.email, name: user.name, role: user.role || 'user', createdAt: user.createdAt });
                 return { id: user.id, email: user.email, name: user.name, role: user.role || 'user' };
             });

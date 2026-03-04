@@ -107,11 +107,16 @@
         if (!email || !password) return Promise.reject(new Error('Email and password are required'));
 
         return supabase.auth.signInWithPassword({ email: email, password: password }).then(function (res) {
-            if (res.error) return Promise.reject(new Error(res.error.message || 'Invalid email or password'));
+            if (res.error) {
+                var msg = (res.error.message || '').toLowerCase();
+                if (msg.indexOf('invalid') !== -1 || msg.indexOf('credentials') !== -1 || msg.indexOf('email') !== -1)
+                    return Promise.reject(new Error('Invalid email or password. If you don\'t have an account, please register first.'));
+                return Promise.reject(new Error(res.error.message || 'Invalid email or password. If you don\'t have an account, please register first.'));
+            }
             var user = res.data && res.data.user;
             var session = res.data && res.data.session;
-            if (!user) return Promise.reject(new Error('Invalid email or password'));
-            if (session) cachedAccessToken = session.access_token || null;
+            if (!user || !session) return Promise.reject(new Error('Invalid email or password. If you don\'t have an account, please register first.'));
+            cachedAccessToken = session.access_token || null;
             return ensureProfile(user).then(function (profile) {
                 var appUser = {
                     id: user.id,

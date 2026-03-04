@@ -122,8 +122,10 @@
                 window.auth.login(email, password).then(function() {
                     window.location.href = getRedirect();
                 }).catch(function(err) {
-                    errEl.textContent = err.message || 'Login failed';
+                    errEl.textContent = err && err.message ? err.message : 'Invalid email or password. If you don\'t have an account, please register first.';
                     errEl.style.display = 'block';
+                    errEl.setAttribute('role', 'alert');
+                    if (errEl.scrollIntoView) errEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                     btn.disabled = false;
                 });
             });
