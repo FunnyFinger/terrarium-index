@@ -6,7 +6,8 @@
     "add-plant-to-supabase": "node scripts/add-plant-to-supabase.js",
     "update-plant-in-supabase": "node scripts/update-plant-in-supabase.js",
     "fix-cultivar-scientific-names": "node scripts/fix-cultivar-scientific-names-supabase.js",
-    "fix-hybrid-scientific-names": "node scripts/fix-hybrid-scientific-names-supabase.js"
+    "fix-hybrid-scientific-names": "node scripts/fix-hybrid-scientific-names-supabase.js",
+    "fix-variety-scientific-names": "node scripts/fix-variety-scientific-names-supabase.js"
   },
   "dependencies": {
     "nodemailer": "^6.9.13"

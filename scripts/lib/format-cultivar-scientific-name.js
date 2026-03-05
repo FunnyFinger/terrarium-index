@@ -7,9 +7,11 @@
  */
 function formatCultivarScientificName(plant) {
   if (!plant || typeof plant !== 'object') return null;
+  const full = (plant.scientificName && String(plant.scientificName).trim()) || '';
+  // Botanical variety (var.): use variety convention, not cultivar quotes — do not change
+  if (/\s+var\.\s+/i.test(full)) return null;
   const species = (plant.taxonomy && plant.taxonomy.species && String(plant.taxonomy.species).trim()) || null;
   if (!species) return null;
-  const full = (plant.scientificName && String(plant.scientificName).trim()) || '';
   if (!full || full === species) return null;
 
   // Already in correct form: "Species 'Cultivar'"

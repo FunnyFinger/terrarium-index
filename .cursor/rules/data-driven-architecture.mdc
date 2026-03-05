@@ -45,7 +45,8 @@ These are **never stored as overrides for individual items** — they are always
 
 | Output | How It's Generated |
 |---|---|
-| **Cultivar scientific name** | Full species + 'Cultivar' (e.g. `Aglaonema commutatum 'Red Ruby'`). Normalized on add via `formatCultivarScientificName()`; fix existing with `npm run fix-cultivar-scientific-names`. |
+| **Cultivar scientific name** | Full species + 'Cultivar' (e.g. `Aglaonema commutatum 'Red Ruby'`). Cultivars use quotes; botanical varieties (var.) are not cultivars. Normalized on add via `formatCultivarScientificName()`; fix existing with `npm run fix-cultivar-scientific-names`. |
+| **Variety scientific name** | Botanical variety: `Genus species var. epithet` (full species, epithet lowercase, e.g. `Ananas comosus var. microstachys`). Normalized on add via `formatVarietyScientificName()`; fix existing with `npm run fix-variety-scientific-names`. |
 | **Hybrid scientific name** | Interspecific (same genus): `Genus Species1 × Species2` (second parent without repeated genus). Intergeneric (different genera): `Genus1 Species1 × Genus2 Species2`. Normalized on add via `formatHybridScientificName()`; fix existing with `npm run fix-hybrid-scientific-names`. |
 | **URL slug** | `scientificNameToSlug(plant.scientificName)` — lowercase, hyphenated |
 | **Image folder path** | `images/plants/{slug}/` — derived from slug |
