@@ -2189,6 +2189,34 @@ function getScientificNameString(plant) {
     return String(plant.scientificName);
 }
 
+// Cultivated variety: full species + quoted cultivar name (e.g. Aglaonema commutatum 'Red Ruby'). Stored override plant.isCultivar wins.
+function isPlantCultivar(plant) {
+    if (!plant) return false;
+    if (plant.isCultivar === true || plant.isCultivar === false) return plant.isCultivar === true;
+    const speciesBase = (plant.taxonomy && plant.taxonomy.species && String(plant.taxonomy.species).trim()) || '';
+    const full = getScientificNameString(plant).trim();
+    if (!speciesBase || full === speciesBase) return false;
+    return (/'[^']+'/.test(full) || /"[^"]+"/.test(full));
+}
+
+// Hybrid: scientific name contains " x " or " × " between two names. Stored override plant.isHybrid wins.
+function isPlantHybrid(plant) {
+    if (!plant) return false;
+    if (plant.isHybrid === true || plant.isHybrid === false) return plant.isHybrid === true;
+    return /\s+(x|×)\s+/i.test(getScientificNameString(plant));
+}
+
+// Parse hybrid parents from name (e.g. "Tillandsia brachycaulos × Tillandsia streptophylla" -> [parent1, parent2])
+function getHybridParentNames(plant) {
+    const full = getScientificNameString(plant).trim();
+    const match = full.match(/\s+(x|×)\s+/i);
+    if (!match) return null;
+    const idx = match.index;
+    const parent1 = full.slice(0, idx).trim();
+    const parent2 = full.slice(idx + match[0].length).trim();
+    return parent1 && parent2 ? [parent1, parent2] : null;
+}
+
 function sortPlants(plants) {
     if (!plants || plants.length === 0) return plants;
     
@@ -3653,10 +3681,10 @@ function applyAllFilters() {
                                           (calcTypes.includes('Aquarium') || calcTypes.includes('Paludarium') || calcTypes.includes('Riparium'));
                     
                     return !isEpiphytic && hasFloatingCharacteristics && isWaterRelated;
+                } else if (filterSpecial === 'Cultivar') {
+                    return typeof isPlantCultivar === 'function' ? isPlantCultivar(plant) : false;
                 } else if (filterSpecial === 'Hybrid') {
-                    // Hybrid plants: scientific names containing " x " or " × " with spaces
-                    const scientific = getScientificNameString(plant);
-                    return /\s+(x|×)\s+/i.test(scientific);
+                    return typeof isPlantHybrid === 'function' ? isPlantHybrid(plant) : /\s+(x|×)\s+/i.test(getScientificNameString(plant));
                 } else if (filterSpecial === 'Carnivorous') {
                     // Carnivorous plants - use explicit field from plant data
                     return plant.carnivorous === true;
@@ -6332,12 +6360,8 @@ function createPlantCard(plant) {
         showPlantModal(plant);
     });
     
-    // Detect hybrids: scientific names containing " x " or " × " with spaces before and after
-    // This ensures names like "rex" (which contains "x") are not incorrectly tagged
-    const scientific = getScientificNameString(plant);
-    // Only match " x " or " × " with spaces on both sides
-    const isHybrid = /\s+(x|×)\s+/i.test(scientific);
-    
+    const isHybrid = typeof isPlantHybrid === 'function' ? isPlantHybrid(plant) : /\s+(x|×)\s+/i.test(getScientificNameString(plant));
+    const isCultivar = typeof isPlantCultivar === 'function' ? isPlantCultivar(plant) : false;
     // Detect carnivorous plants - use explicit field from plant data
     const isCarnivorous = plant.carnivorous === true;
     
@@ -6374,7 +6398,10 @@ function createPlantCard(plant) {
         badgeArray.push(`<span class="badge ${cls}">${displayName}</span>`);
     });
     
-    // Add special badges (hybrid, carnivorous, aquatic) to the badges div
+    // Add special badges (cultivar, hybrid, carnivorous, aquatic) to the badges div
+    if (isCultivar) {
+        badgeArray.push(`<span class="badge cultivar">Cultivar</span>`);
+    }
     if (isHybrid) {
         badgeArray.push(`<span class="badge hybrid">Hybrid</span>`);
     }
@@ -6855,10 +6882,13 @@ async function showPlantModal(plant) {
                     <div class="plant-product-badges">
                         ${(() => {
                             const calculatedTypes = calculatePlantVivariumTypes(plant);
-                            return calculatedTypes.map(v => {
+                            let html = calculatedTypes.map(v => {
                                 const displayName = String(v).split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
                                 return `<span class="badge ${String(v).toLowerCase().replace(/\s+/g,'-')}">${displayName}</span>`;
                             }).join('');
+                            if (typeof isPlantCultivar === 'function' && isPlantCultivar(plant)) html += '<span class="badge cultivar">Cultivar</span>';
+                            if (typeof isPlantHybrid === 'function' && isPlantHybrid(plant)) html += '<span class="badge hybrid">Hybrid</span>';
+                            return html;
                         })()}
                     </div>
                     <div class="plant-product-enclosure">
@@ -6916,6 +6946,12 @@ async function showPlantModal(plant) {
                         </div>`);
                                 }
                             };
+                            const classification = (() => {
+                                if (typeof isPlantCultivar === 'function' && isPlantCultivar(plant)) return 'Cultivar';
+                                if (typeof isPlantHybrid === 'function' && isPlantHybrid(plant)) return 'Hybrid';
+                                return 'Species';
+                            })();
+                            addRow('Classification', classification);
                             addRow('Plant Type', plant.plantType);
                             addRow('Size', plant.size);
                             addRow('Substrate', plant.substrate);

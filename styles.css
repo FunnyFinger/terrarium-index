@@ -4467,6 +4467,11 @@ body.shopper-mode .gallery-set-main-btn {
     color: #fff !important;
 }
 
+.badge.cultivar {
+    background: linear-gradient(135deg, #2e7d32, #1b5e20) !important;
+    color: #fff !important;
+}
+
 .badge.carnivorous {
     background: linear-gradient(135deg, #efd700, #ff8001, #ff3700) !important;
     color: #fff !important;
