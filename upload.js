@@ -194,6 +194,8 @@ function readPlantDetailsFromForm() {
     var hybridP2 = elements.uploadHybridParent2;
     if (hybridP1) currentUploadPlant.hybridParent1 = hybridP1.value ? hybridP1.value.trim() : '';
     if (hybridP2) currentUploadPlant.hybridParent2 = hybridP2.value ? hybridP2.value.trim() : '';
+    var varietyEl = elements.uploadVariety;
+    if (varietyEl) currentUploadPlant.isVariety = varietyEl.checked;
     var colUrlEl = elements.uploadCatalogueOfLifeUrl;
     if (colUrlEl) {
         currentUploadPlant.catalogueOfLifeUrl = colUrlEl.value ? colUrlEl.value.trim() : '';
@@ -523,6 +525,14 @@ async function openImageUpload(plantId) {
     if (hybridWrap) hybridWrap.style.display = isHybrid ? 'block' : 'none';
     if (hybridP1) hybridP1.value = (currentUploadPlant.hybridParent1 && currentUploadPlant.hybridParent1.trim()) ? currentUploadPlant.hybridParent1.trim() : '';
     if (hybridP2) hybridP2.value = (currentUploadPlant.hybridParent2 && currentUploadPlant.hybridParent2.trim()) ? currentUploadPlant.hybridParent2.trim() : '';
+    var varietyEl = elements.uploadVariety;
+    if (varietyEl) {
+        var isVariety = currentUploadPlant.isVariety === true || (function () {
+            var sn = getScientificNameString(currentUploadPlant) || '';
+            return /\s+var\.\s+/i.test(sn);
+        })();
+        varietyEl.checked = !!isVariety;
+    }
     var colUrlEl = elements.uploadCatalogueOfLifeUrl;
     if (colUrlEl) {
         var colUrl = currentUploadPlant.catalogueOfLifeUrl || (currentUploadPlant.taxonomy && currentUploadPlant.taxonomy.catalogueOfLifeUrl) || '';

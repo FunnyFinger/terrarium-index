@@ -22,7 +22,7 @@ These are the only inputs. They are stored in JSON files, Supabase `plants_catal
 - `taxonomy` object: `kingdom`, `phylum`, `class`, `order`, `family`, `genus`, `species`
 - `plantType`, `growthPattern`, `growthHabit`, `growthRate`, `substrate`, `substrateType`
 - `hazard`, `rarity`, `carnivorous`, `floweringPeriod`, `propagation`, `colors`
-- Optional overrides: `isCultivar`, `isHybrid` (boolean; if omitted, derived from scientificName + taxonomy)
+- Optional overrides: `isCultivar`, `isVariety`, `isHybrid` (boolean; if omitted, derived from scientificName: cultivar = quoted name, variety = " var. ", hybrid = " × ")
 - Optional for hybrids: `hybridParent1`, `hybridParent2` (strings; parent species names; if omitted, parsed from scientificName; used for display and intergeneric vs interspecific)
 - Care ranges (all `{ min, max, ideal }` on 0–100 scale): `humidityRange`, `lightRange`, `airCirculationRange`, `waterNeedsRange`, `temperatureRange`, `difficultyRange`, `soilPhRange`, `growthRateRange`
 - Aquatic-only ranges: `waterCirculationRange`, `waterTemperatureRange`, `waterPhRange`, `waterHardnessRange`, `salinityRange`
@@ -57,7 +57,7 @@ These are **never stored as overrides for individual items** — they are always
 | **Hybrid badge** | Detected from `scientificName` containing ` x ` or ` × ` |
 | **Carnivorous badge** | From `plant.carnivorous === true` |
 | **Aquatic badge** | From `category`, `plantType`, `growthHabit`, or `specialNeeds` values |
-| **Taxonomy tree** | Built from `plant.taxonomy.*` fields — all nodes, edges, labels, thumbnails generated from taxonomy data |
+| **Taxonomy tree** | Built from `plant.taxonomy.*` fields. Cultivars and varieties are branches under their parent species (Genus → Species → Cultivar/Variety). Hybrids at genus level by type. |
 | **Filter matching** | `mapPlantToInputs(plant)` normalizes all ranges for filter comparisons |
 | **Price display** | `formatPrice()` → `"KD X.XX"` |
 | **Ideal value** | If owner enters min/max only: `ideal = (min + max) / 2` |

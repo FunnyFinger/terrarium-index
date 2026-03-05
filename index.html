@@ -709,6 +709,10 @@
                                 <span>Cultivar</span>
                             </label>
                             <label class="checkbox-label">
+                                <input type="checkbox" class="filter-checkbox" data-filter="special" value="Variety">
+                                <span>Variety</span>
+                            </label>
+                            <label class="checkbox-label">
                                 <input type="checkbox" class="filter-checkbox" data-filter="special" value="Hybrid">
                                 <span>Hybrid</span>
                             </label>
@@ -1415,6 +1419,7 @@
                             <li class="legend-item"><span class="legend-dot badge outdoor" aria-hidden="true"></span><span>Outdoor</span></li>
                             <li class="legend-item"><span class="legend-dot badge carnivorous" aria-hidden="true"></span><span>Carnivorous</span></li>
                             <li class="legend-item"><span class="legend-dot badge cultivar" aria-hidden="true"></span><span>Cultivar</span></li>
+                            <li class="legend-item"><span class="legend-dot badge variety" aria-hidden="true"></span><span>Variety</span></li>
                             <li class="legend-item"><span class="legend-dot badge hybrid" aria-hidden="true"></span><span>Hybrid</span></li>
                         </ul>
                     </div>
@@ -1499,6 +1504,13 @@
                         <label for="uploadHybridParent2" class="edit-plant-detail-label">Parent 2</label>
                         <input type="text" id="uploadHybridParent2" class="edit-plant-input edit-plant-text" placeholder="e.g. Tillandsia streptophylla">
                     </div>
+                </div>
+                <div class="edit-plant-name-row" style="margin-bottom: 0.5rem;">
+                    <label class="edit-plant-detail-label">Classification</label>
+                    <label class="checkbox-label" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                        <input type="checkbox" id="uploadVariety" aria-label="Botanical variety (var.)">
+                        <span>Botanical variety (var.)</span>
+                    </label>
                 </div>
                 <div class="edit-plant-name-row">
                     <label for="uploadCatalogueOfLifeUrl" class="edit-plant-detail-label">Catalogue of Life (taxon link)</label>

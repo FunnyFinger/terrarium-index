@@ -4472,6 +4472,11 @@ body.shopper-mode .gallery-set-main-btn {
     color: #fff !important;
 }
 
+.badge.variety {
+    background: linear-gradient(135deg, #1565c0, #0d47a1) !important;
+    color: #fff !important;
+}
+
 .badge.carnivorous {
     background: linear-gradient(135deg, #efd700, #ff8001, #ff3700) !important;
     color: #fff !important;

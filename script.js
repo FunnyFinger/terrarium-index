@@ -1104,6 +1104,7 @@ const uploadCommonNames = document.getElementById('uploadCommonNames');
 const uploadHybridParentsWrap = document.getElementById('uploadHybridParentsWrap');
 const uploadHybridParent1 = document.getElementById('uploadHybridParent1');
 const uploadHybridParent2 = document.getElementById('uploadHybridParent2');
+const uploadVariety = document.getElementById('uploadVariety');
 const uploadCatalogueOfLifeUrl = document.getElementById('uploadCatalogueOfLifeUrl');
 const uploadPlantDescription = document.getElementById('uploadPlantDescription');
 const uploadCareTips = document.getElementById('uploadCareTips');
@@ -1178,6 +1179,7 @@ uploadUtils.init({
         uploadHybridParentsWrap,
         uploadHybridParent1,
         uploadHybridParent2,
+        uploadVariety,
         uploadCatalogueOfLifeUrl,
         uploadPlantDescription,
         uploadCareTips,
@@ -2218,6 +2220,13 @@ function isPlantCultivar(plant) {
     const full = getScientificNameString(plant).trim();
     if (!speciesBase || full === speciesBase) return false;
     return (/'[^']+'/.test(full) || /"[^"]+"/.test(full));
+}
+
+// Botanical variety: scientific name contains " var. " (e.g. Ananas comosus var. microstachys). Stored override plant.isVariety wins.
+function isPlantVariety(plant) {
+    if (!plant) return false;
+    if (plant.isVariety === true || plant.isVariety === false) return plant.isVariety === true;
+    return /\s+var\.\s+/i.test(getScientificNameString(plant));
 }
 
 // Hybrid: scientific name contains " x " or " × " between two names. Stored override plant.isHybrid wins.
@@ -3734,6 +3743,8 @@ function applyAllFilters() {
                     return !isEpiphytic && hasFloatingCharacteristics && isWaterRelated;
                 } else if (filterSpecial === 'Cultivar') {
                     return typeof isPlantCultivar === 'function' ? isPlantCultivar(plant) : false;
+                } else if (filterSpecial === 'Variety') {
+                    return typeof isPlantVariety === 'function' ? isPlantVariety(plant) : false;
                 } else if (filterSpecial === 'Hybrid') {
                     return typeof isPlantHybrid === 'function' ? isPlantHybrid(plant) : /\s+(x|×)\s+/i.test(getScientificNameString(plant));
                 } else if (filterSpecial === 'Carnivorous') {
@@ -6413,6 +6424,7 @@ function createPlantCard(plant) {
     
     const isHybrid = typeof isPlantHybrid === 'function' ? isPlantHybrid(plant) : /\s+(x|×)\s+/i.test(getScientificNameString(plant));
     const isCultivar = typeof isPlantCultivar === 'function' ? isPlantCultivar(plant) : false;
+    const isVariety = typeof isPlantVariety === 'function' ? isPlantVariety(plant) : false;
     // Detect carnivorous plants - use explicit field from plant data
     const isCarnivorous = plant.carnivorous === true;
     
@@ -6452,6 +6464,9 @@ function createPlantCard(plant) {
     // Add special badges (cultivar, hybrid, carnivorous, aquatic) to the badges div
     if (isCultivar) {
         badgeArray.push(`<span class="badge cultivar">Cultivar</span>`);
+    }
+    if (isVariety) {
+        badgeArray.push(`<span class="badge variety">Variety</span>`);
     }
     if (isHybrid) {
         badgeArray.push(`<span class="badge hybrid">Hybrid</span>`);
@@ -6938,6 +6953,7 @@ async function showPlantModal(plant) {
                                 return `<span class="badge ${String(v).toLowerCase().replace(/\s+/g,'-')}">${displayName}</span>`;
                             }).join('');
                             if (typeof isPlantCultivar === 'function' && isPlantCultivar(plant)) html += '<span class="badge cultivar">Cultivar</span>';
+                            if (typeof isPlantVariety === 'function' && isPlantVariety(plant)) html += '<span class="badge variety">Variety</span>';
                             if (typeof isPlantHybrid === 'function' && isPlantHybrid(plant)) html += '<span class="badge hybrid">Hybrid</span>';
                             return html;
                         })()}
@@ -6999,6 +7015,7 @@ async function showPlantModal(plant) {
                             };
                             const classification = (() => {
                                 if (typeof isPlantCultivar === 'function' && isPlantCultivar(plant)) return 'Cultivar';
+                                if (typeof isPlantVariety === 'function' && isPlantVariety(plant)) return 'Variety';
                                 if (typeof isPlantHybrid === 'function' && isPlantHybrid(plant)) {
                                     if (typeof isIntergenericHybrid === 'function' && isIntergenericHybrid(plant)) return 'Hybrid (intergeneric)';
                                     if (typeof isInterspecificHybrid === 'function' && isInterspecificHybrid(plant)) return 'Hybrid (interspecific)';

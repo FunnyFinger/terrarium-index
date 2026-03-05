@@ -156,6 +156,12 @@ function isPlantCultivar(plant) {
     return (/'[^']+'/.test(full) || /"[^"]+"/.test(full));
 }
 
+function isPlantVariety(plant) {
+    if (!plant) return false;
+    if (plant.isVariety === true || plant.isVariety === false) return plant.isVariety === true;
+    return /\s+var\.\s+/i.test(getScientificNameString(plant));
+}
+
 function isPlantHybrid(plant) {
     if (!plant) return false;
     if (plant.isHybrid === true || plant.isHybrid === false) return plant.isHybrid === true;
@@ -259,7 +265,9 @@ function buildTaxonomyTree(plants) {
         const speciesBase = (taxonomy.species || '').trim();
         const scientificStr = getScientificNameString(plant).trim();
         const cultivar = isPlantCultivar(plant);
+        const variety = isPlantVariety(plant);
         const hybrid = isPlantHybrid(plant);
+        const baseSpeciesForVariety = variety && scientificStr ? scientificStr.replace(/\s+var\.\s+.*$/i, '').trim() : '';
 
         let current = kingdoms[kingdom];
         const pathToGenus = [
@@ -312,6 +320,27 @@ function buildTaxonomyTree(plants) {
                 };
             }
             speciesNode.children[cultivarKey].plants.push(plantData);
+        } else if (variety && (baseSpeciesForVariety || speciesBase)) {
+            const varietyParentSpecies = baseSpeciesForVariety || speciesBase;
+            if (!current.children[varietyParentSpecies]) {
+                current.children[varietyParentSpecies] = {
+                    name: varietyParentSpecies,
+                    rank: 'species',
+                    children: {},
+                    plants: []
+                };
+            }
+            const speciesNode = current.children[varietyParentSpecies];
+            const varietyKey = scientificStr;
+            if (!speciesNode.children[varietyKey]) {
+                speciesNode.children[varietyKey] = {
+                    name: varietyKey,
+                    rank: 'variety',
+                    children: {},
+                    plants: []
+                };
+            }
+            speciesNode.children[varietyKey].plants.push(plantData);
         } else if (hybrid) {
             // Hybrid: intergeneric (parents different genera) → rank species; interspecific (same genus) → rank cultivar
             const hybridKey = scientificStr || plant.name || 'Unknown';
@@ -348,7 +377,7 @@ function buildTaxonomyTree(plants) {
     // so the taxonomy thumbnail uses the base species image, not a cultivar.
     function sortSpeciesNodePlants(node) {
         if (!node) return;
-        if ((node.rank === 'species' || node.rank === 'cultivar') && Array.isArray(node.plants) && node.plants.length > 0) {
+        if ((node.rank === 'species' || node.rank === 'cultivar' || node.rank === 'variety') && Array.isArray(node.plants) && node.plants.length > 0) {
             if (node.rank === 'species') {
                 const nodeName = node.name;
                 node.plants.sort((a, b) => {
@@ -711,8 +740,8 @@ function updateTreeLayout() {
             
             // Set text content first (needed to measure text width)
             const hasPlants = d.data.plants && d.data.plants.length > 0;
-            const isSpeciesOrCultivarOrHybrid = (d.data.rank === 'species' || d.data.rank === 'cultivar' || d.data.rank === 'hybrid');
-            const text = (isSpeciesOrCultivarOrHybrid && hasPlants)
+            const isSpeciesOrCultivarOrVarietyOrHybrid = (d.data.rank === 'species' || d.data.rank === 'cultivar' || d.data.rank === 'variety' || d.data.rank === 'hybrid');
+            const text = (isSpeciesOrCultivarOrVarietyOrHybrid && hasPlants)
                 ? (d.data.plants.length > 1 ? `${d.data.name} (${d.data.plants.length})` : d.data.name)
                 : d.data.name;
             textElement.text(text);
@@ -748,7 +777,7 @@ function updateTreeLayout() {
             const fontSizePx = d.data.rank === 'domain' ? '16px' : d.data.rank === 'kingdom' ? '14px' :
                 d.data.rank === 'phylum' ? '13px' : d.data.rank === 'class' ? '12px' :
                 d.data.rank === 'order' ? '11px' : d.data.rank === 'family' ? '10px' :
-                d.data.rank === 'genus' ? '9px' : (d.data.rank === 'species' || d.data.rank === 'cultivar' || d.data.rank === 'hybrid') ? '8px' : '8px';
+                d.data.rank === 'genus' ? '9px' : (d.data.rank === 'species' || d.data.rank === 'cultivar' || d.data.rank === 'variety' || d.data.rank === 'hybrid') ? '8px' : '8px';
             textElement.attr('font-size', fontSizePx);
             if (isLeftSide) {
                 const tempText = treeSvg.append('text')
@@ -789,7 +818,7 @@ function updateTreeLayout() {
         });
     
     // Add plant thumbnails for species, cultivar, and hybrid nodes
-    nodes.filter(d => (d.data.rank === 'species' || d.data.rank === 'cultivar' || d.data.rank === 'hybrid') && d.data.plants && d.data.plants.length > 0)
+    nodes.filter(d => (d.data.rank === 'species' || d.data.rank === 'cultivar' || d.data.rank === 'variety' || d.data.rank === 'hybrid') && d.data.plants && d.data.plants.length > 0)
         .each(function(d) {
             const nodeGroup = d3.select(this);
             const nodeData = d; // Store node data for tooltip
@@ -1006,7 +1035,7 @@ function updateTreeLayout() {
     // - For other nodes: navigate with taxonomy filter
     nodes.on('click', function(event, d) {
         event.stopPropagation();
-        const hasPlants = (d.data.rank === 'species' || d.data.rank === 'cultivar' || d.data.rank === 'hybrid') && d.data.plants && d.data.plants.length > 0;
+        const hasPlants = (d.data.rank === 'species' || d.data.rank === 'cultivar' || d.data.rank === 'variety' || d.data.rank === 'hybrid') && d.data.plants && d.data.plants.length > 0;
         if (hasPlants) {
             const firstPlant = d.data.plants[0];
             const id = firstPlant && firstPlant.id;
@@ -1028,7 +1057,7 @@ function updateTreeLayout() {
         });
     
     // Add hover handlers for taxonomic (non-species/cultivar/hybrid) nodes to show taxonomic info
-    nodes.filter(d => d.data.rank !== 'species' && d.data.rank !== 'cultivar' && d.data.rank !== 'hybrid' && d.data.rank !== 'domain')
+    nodes.filter(d => d.data.rank !== 'species' && d.data.rank !== 'cultivar' && d.data.rank !== 'variety' && d.data.rank !== 'hybrid' && d.data.rank !== 'domain')
         .on('mouseover', function(event, d) {
             showTooltip(event, d.data.name, null, d);
         })
@@ -1037,7 +1066,7 @@ function updateTreeLayout() {
         });
     
     // Add hover and click handlers to labels as well (for non-species/cultivar/hybrid nodes)
-    nodes.filter(d => d.data.rank !== 'species' && d.data.rank !== 'cultivar' && d.data.rank !== 'hybrid' && d.data.rank !== 'domain')
+    nodes.filter(d => d.data.rank !== 'species' && d.data.rank !== 'cultivar' && d.data.rank !== 'variety' && d.data.rank !== 'hybrid' && d.data.rank !== 'domain')
         .each(function(d) {
             const nodeGroup = d3.select(this);
             const label = nodeGroup.select('text.tree-label');
@@ -1064,7 +1093,7 @@ function updateTreeLayout() {
         });
     
     // Add hover and click handlers to species, cultivar, and hybrid labels (nodes with plants)
-    nodes.filter(d => (d.data.rank === 'species' || d.data.rank === 'cultivar' || d.data.rank === 'hybrid') && d.data.plants && d.data.plants.length > 0)
+    nodes.filter(d => (d.data.rank === 'species' || d.data.rank === 'cultivar' || d.data.rank === 'variety' || d.data.rank === 'hybrid') && d.data.plants && d.data.plants.length > 0)
         .each(function(d) {
             const nodeGroup = d3.select(this);
             const label = nodeGroup.select('text.tree-label');
@@ -1189,7 +1218,7 @@ function updateTreeLayout() {
 // Get node radius (dot size) - fixed per rank, unchanged by collapse/expand
 function getNodeRadius(d) {
     const rank = d.data && d.data.rank;
-    const byRank = { domain: 8, kingdom: 6, phylum: 5, class: 4, order: 3.5, family: 3, genus: 3, species: 3, cultivar: 3, hybrid: 3 };
+    const byRank = { domain: 8, kingdom: 6, phylum: 5, class: 4, order: 3.5, family: 3, genus: 3, species: 3, cultivar: 3, variety: 3, hybrid: 3 };
     return byRank[rank] !== undefined ? byRank[rank] : 3;
 }
 
@@ -1943,8 +1972,8 @@ function showTooltip(event, text, imagePath, nodeData = null) {
     tooltip.innerHTML = '';
     
     // Determine if this is a species/cultivar/hybrid node or taxonomic node
-    const isSpecies = nodeData && nodeData.data && (nodeData.data.rank === 'species' || nodeData.data.rank === 'cultivar' || nodeData.data.rank === 'hybrid');
-    const isTaxonomic = nodeData && nodeData.data && nodeData.data.rank !== 'species' && nodeData.data.rank !== 'cultivar' && nodeData.data.rank !== 'hybrid' && nodeData.data.rank !== 'domain';
+    const isSpecies = nodeData && nodeData.data && (nodeData.data.rank === 'species' || nodeData.data.rank === 'cultivar' || nodeData.data.rank === 'variety' || nodeData.data.rank === 'hybrid');
+    const isTaxonomic = nodeData && nodeData.data && nodeData.data.rank !== 'species' && nodeData.data.rank !== 'cultivar' && nodeData.data.rank !== 'variety' && nodeData.data.rank !== 'hybrid' && nodeData.data.rank !== 'domain';
     const rank = nodeData && nodeData.data ? nodeData.data.rank : null;
     const name = nodeData && nodeData.data ? nodeData.data.name : text;
     
