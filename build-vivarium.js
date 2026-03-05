@@ -1174,15 +1174,28 @@
         if (plantItems.length) {
             html += '<div class="build-review-items-grid plants-grid card-size-small">';
             plantItems.forEach(function (p) {
+                var pid = plantIdNum(p.id);
                 var imgUrl = getPlantImageUrl(p);
                 var cardImgSrc = cardImageUrl(imgUrl) || imgUrl;
                 var name = p.name || (p.commonNames && p.commonNames[0]) || '';
                 var sci = sciName(p);
-                html += '<div class="plant-card build-review-item-card"><div class="plant-image-container">';
+                var qty = getCartQuantityForPlant(pid);
+                var unit = (p.unit != null && String(p.unit).trim() !== '') ? String(p.unit).trim() : '';
+                var isInt = isIntegerUnit(unit);
+                var step = isInt ? 1 : 0.001;
+                var min = isInt ? 1 : 0.001;
+                var stock = (typeof p.stockQuantity === 'number' && p.stockQuantity >= 0) ? p.stockQuantity : 999;
+                var effectiveMax = Math.min(999, stock);
+                var qtyVal = (qty > 0) ? qty : (isInt ? 1 : 0.001);
+                var qtyBlock = '<div class="build-review-qty-row" style="pointer-events:auto">' +
+                    '<label class="build-review-qty-label">Qty <input type="number" class="build-review-qty-input build-review-plant-qty-input" data-plant-id="' + pid + '" data-max="' + effectiveMax + '" value="' + escapeHtml(String(qtyVal)) + '" min="' + min + '" max="' + effectiveMax + '" step="' + step + '" aria-label="Quantity' + (unit ? ' in ' + escapeHtml(unit) : '') + '"></label>' +
+                    (unit ? '<span class="build-review-qty-unit">' + escapeHtml(unit) + '</span>' : '') +
+                    '</div>';
+                html += '<div class="plant-card build-review-item-card" data-plant-id="' + pid + '"><div class="plant-image-container">';
                 html += cardImgSrc ? '<img src="' + escapeHtml(cardImgSrc) + '" alt="" class="plant-image" loading="lazy">' : '<div class="image-placeholder"></div>';
                 html += '</div><div class="plant-info"><div class="plant-name">' + escapeHtml(name) + '</div>';
                 if (sci) html += '<div class="plant-scientific">' + escapeHtml(sci) + '</div>';
-                html += '</div></div>';
+                html += qtyBlock + '</div></div>';
             });
             html += '</div>';
         } else html += '<span class="build-review-empty">—</span>';
@@ -1205,7 +1218,7 @@
 
         html += '</div>';
         el.innerHTML = html;
-        el.querySelectorAll('.build-review-qty-input').forEach(function (input) {
+        el.querySelectorAll('.build-review-qty-input:not(.build-review-plant-qty-input)').forEach(function (input) {
             var id = input.getAttribute('data-supply-id');
             var dataMax = input.getAttribute('data-max');
             var maxCap = (dataMax != null && dataMax !== '') ? parseFloat(dataMax, 10) : null;
@@ -1229,6 +1242,35 @@
                 var e = eq.filter(function (x) { return supplyIdNum(x.id) === supplyIdNum(id); })[0];
                 if (e && isIntegerUnit(e.unit)) num = Math.round(num);
                 setSupplyQuantity(id, num);
+                input.value = num;
+            });
+        });
+        el.querySelectorAll('.build-review-plant-qty-input').forEach(function (input) {
+            var pid = parseInt(input.getAttribute('data-plant-id'), 10);
+            var dataMax = input.getAttribute('data-max');
+            var maxCap = (dataMax != null && dataMax !== '') ? parseFloat(dataMax, 10) : null;
+            if (isNaN(pid)) return;
+            var p = plants.filter(function (x) { return plantIdNum(x.id) === pid; })[0];
+            if (!p) return;
+            input.addEventListener('input', function () {
+                var num = parseFloat(input.value, 10);
+                if (maxCap != null && !isNaN(maxCap) && !isNaN(num) && num > maxCap) {
+                    input.value = maxCap;
+                    buildShowMaxStockToast();
+                }
+            });
+            input.addEventListener('change', function () {
+                var val = input.value;
+                var num = parseFloat(String(val).replace(',', '.'), 10);
+                if (isNaN(num) || num < 0) return;
+                if (maxCap != null && !isNaN(maxCap) && num > maxCap) {
+                    num = maxCap;
+                    input.value = num;
+                    buildShowMaxStockToast();
+                }
+                if (isIntegerUnit(p.unit)) num = Math.round(num);
+                else num = Math.max(0.001, num);
+                if (typeof window.setCartQuantityForItem === 'function') window.setCartQuantityForItem(p, num);
                 input.value = num;
             });
         });
