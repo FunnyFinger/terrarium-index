@@ -19,6 +19,7 @@ const https = require('https');
 
 const ROOT = path.resolve(__dirname, '..');
 const { formatCultivarScientificName } = require('./lib/format-cultivar-scientific-name.js');
+const { formatHybridScientificName } = require('./lib/format-hybrid-scientific-name.js');
 
 function getConfig() {
   let url = process.env.SUPABASE_URL || '';
@@ -141,6 +142,9 @@ function normalizePlant(data) {
   // Cultivar convention: full species name + 'Cultivar', e.g. "Aglaonema commutatum 'Red Ruby'"
   const cultivarName = formatCultivarScientificName(plant);
   if (cultivarName) plant.scientificName = cultivarName;
+  // Hybrid convention: interspecific = "Genus Species1 × Species2", intergeneric = "Genus1 Species1 × Genus2 Species2"
+  const hybridName = formatHybridScientificName(plant);
+  if (hybridName) plant.scientificName = hybridName;
   return plant;
 }
 
