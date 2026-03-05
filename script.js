@@ -818,14 +818,14 @@ function removeFromCart(plantId) {
 function clearCart() {
     setCart([]);
 }
-/** Nav badge: one integer per distinct item (no float). Cart drawer still shows real quantities. */
+/** Nav badge: integer = number of line items (each item counts as 1; float qty still shows in drawer). */
 function getCartCount() {
-    return getCart().length;
+    return Math.max(0, Math.floor(getCart().length));
 }
 function updateCartUI() {
     const cart = getCart();
     const count = getCartCount();
-    if (cartCountEl) cartCountEl.textContent = count;
+    if (cartCountEl) cartCountEl.textContent = String(count);
     if (cartEmptyMsg) cartEmptyMsg.classList.toggle('hidden', cart.length > 0);
     if (cartTotalEl) {
         const total = cart.reduce((sum, i) => sum + (i.price != null ? i.price * i.quantity : 0), 0);

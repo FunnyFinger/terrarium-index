@@ -117,8 +117,8 @@
         if (!el) return;
         try {
             var cart = JSON.parse(localStorage.getItem('terrarium_cart') || '[]');
-            var count = cart.length;
-            el.textContent = count;
+            var count = Math.max(0, Math.floor((cart && cart.length) ? cart.length : 0));
+            el.textContent = String(count);
         } catch (_) {
             el.textContent = '0';
         }

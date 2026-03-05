@@ -260,10 +260,10 @@
             var stockMax = getSupplyStockMax(e);
             var effectiveMax = (stockMax != null && stockMax >= 0) ? stockMax : 9999;
             var sid = supplyIdNum(id);
-            var cartQty = getCartQuantityForPlant(sid);
+            var buildQty = getSupplyQuantity(id);
             qtyBlock = window.getQuickAddHtml(e, {
                 dataPlantId: sid,
-                cartQuantity: cartQty,
+                cartQuantity: buildQty,
                 unit: e.unit,
                 value: getSupplyQuantity(id),
                 max: effectiveMax,
@@ -657,8 +657,6 @@
                     var eItem = eq.filter(function (x) { return supplyIdNum(x.id) === id; })[0];
                     if (eItem && isIntegerUnit(eItem.unit)) num = Math.round(num);
                     setSupplyQuantity(id, num);
-                    if (typeof window.addToCart === 'function') window.addToCart(eItem, num);
-                    if (typeof window.navBounceCartCount === 'function') window.navBounceCartCount();
                     updateBuildPlantQuickAddLabel(wrap, id);
                     var arr = config[configKey] || [];
                     if (arr.indexOf(id) === -1) {
@@ -811,8 +809,8 @@
             var sci = typeof p.scientificName === 'string' ? (p.scientificName || '—') : (p.scientificName && p.scientificName.name ? p.scientificName.name : '—');
             var imgUrl = getPlantImageUrl(p);
             var cardImgSrc = cardImageUrl(imgUrl) || imgUrl;
-            var inCart = getCartQuantityForPlant(pid) > 0;
-            var selected = config.plantIds.indexOf(pid) !== -1 || inCart;
+            var inBuild = getBuildQuantityForPlant(pid) > 0;
+            var selected = config.plantIds.indexOf(pid) !== -1 || inBuild;
             var selClass = selected ? ' build-plant-card-selected' : '';
             var disabled = !selected && atLimit;
             var nameHtml;
@@ -832,7 +830,7 @@
                 var maxAvailable = (stock != null ? Math.min(999, stock) : 999);
                 quickAddHtml = window.getQuickAddHtml(p, {
                     dataPlantId: pid,
-                    cartQuantity: getCartQuantityForPlant(pid),
+                    cartQuantity: getBuildQuantityForPlant(pid),
                     unit: p.unit,
                     max: maxAvailable,
                     disabled: stock !== null && stock <= 0,
@@ -892,11 +890,10 @@
         updateBuildPlantQuickAddLabels(container);
     }
 
-    function getCartQuantityForPlant(plantId) {
-        if (typeof window.getCart !== 'function') return 0;
-        var cart = window.getCart();
-        var item = cart.filter(function (i) { return Number(i.plantId) === Number(plantId); })[0];
-        return item && item.quantity ? parseFloat(item.quantity) : 0;
+    /** In builder, quantity comes from build config only (not cart). Each line item counts as 1 for nav badge. */
+    function getBuildQuantityForPlant(plantId) {
+        var idn = plantIdNum(plantId);
+        return (config.plantIds || []).filter(function (id) { return plantIdNum(id) === idn; }).length;
     }
 
     function updateBuildPlantQuickAddLabel(wrap, plantId) {
@@ -904,7 +901,7 @@
         var btn = wrap.querySelector('.quick-add-btn');
         var labelEl = wrap.querySelector('.quick-add-label');
         if (!btn || !labelEl) return;
-        var n = getCartQuantityForPlant(plantId);
+        var n = getBuildQuantityForPlant(plantId);
         var unit = (wrap.getAttribute && wrap.getAttribute('data-unit')) || '';
         if (n > 0) {
             btn.classList.add('quick-add-has-qty');
@@ -955,8 +952,8 @@
                 if (btn && expanded && qtyInput) {
                     var max = Math.min(999, getAvailable());
                     qtyInput.setAttribute('max', max);
-                    var currentInCart = getCartQuantityForPlant(pid);
-                    qtyInput.value = max > 0 ? (currentInCart > 0 ? currentInCart : 1) : 0;
+                    var currentInBuild = getBuildQuantityForPlant(pid);
+                    qtyInput.value = max > 0 ? (currentInBuild > 0 ? currentInBuild : 1) : 0;
                     qtyInput.disabled = max === 0;
                     if (confirmBtn) confirmBtn.disabled = max === 0;
                     btn.classList.add('hidden');
@@ -989,16 +986,17 @@
                     if (typeof window.quickAddShowToast === 'function') window.quickAddShowToast('Max stock reached');
                     return;
                 }
-                if (typeof window.setCartQuantityForItem === 'function') window.setCartQuantityForItem(plant, qty);
+                var maxPlants = getMaxPlants();
+                var arr = (config.plantIds || []).filter(function (id) { return plantIdNum(id) !== pid; });
+                var toAdd = Math.min(Math.floor(qty), Math.max(0, maxPlants - arr.length));
+                for (var i = 0; i < toAdd; i++) arr.push(pid);
+                config.plantIds = arr;
                 if (btn) btn.classList.remove('hidden');
                 if (expanded) expanded.classList.add('hidden');
-                if (typeof window.navBounceCartCount === 'function') window.navBounceCartCount();
                 updateBuildPlantQuickAddLabel(wrap, pid);
                 var card = wrap.closest('.build-plant-card');
                 var checkbox = card ? card.querySelector('.build-plant-card-input') : null;
-                var maxPlants = getMaxPlants();
                 if (qty > 0) {
-                    if (config.plantIds.indexOf(pid) === -1 && (config.plantIds || []).length < maxPlants) config.plantIds.push(pid);
                     if (checkbox) { checkbox.checked = true; }
                     if (card) {
                         card.classList.add('build-plant-card-selected');
@@ -1006,8 +1004,6 @@
                         if (checkEl) checkEl.textContent = '\u2713';
                     }
                 } else {
-                    var idx = (config.plantIds || []).indexOf(pid);
-                    if (idx !== -1) config.plantIds.splice(idx, 1);
                     if (checkbox) { checkbox.checked = false; }
                     if (card) {
                         card.classList.remove('build-plant-card-selected');
@@ -1179,7 +1175,7 @@
                 var cardImgSrc = cardImageUrl(imgUrl) || imgUrl;
                 var name = p.name || (p.commonNames && p.commonNames[0]) || '';
                 var sci = sciName(p);
-                var qty = getCartQuantityForPlant(pid);
+                var qty = getBuildQuantityForPlant(pid);
                 var unit = (p.unit != null && String(p.unit).trim() !== '') ? String(p.unit).trim() : '';
                 var isInt = isIntegerUnit(unit);
                 var step = isInt ? 1 : 0.001;
@@ -1270,8 +1266,12 @@
                 }
                 if (isIntegerUnit(p.unit)) num = Math.round(num);
                 else num = Math.max(0.001, num);
-                if (typeof window.setCartQuantityForItem === 'function') window.setCartQuantityForItem(p, num);
-                input.value = num;
+                var arr = (config.plantIds || []).filter(function (id) { return plantIdNum(id) !== pid; });
+                var maxPlants = getMaxPlants();
+                var toAdd = Math.min(Math.floor(num), Math.max(0, maxPlants - arr.length));
+                for (var i = 0; i < toAdd; i++) arr.push(pid);
+                config.plantIds = arr;
+                input.value = toAdd;
             });
         });
     }
@@ -1550,24 +1550,11 @@
                         return;
                     }
                     if (config.plantIds.indexOf(id) === -1) config.plantIds.push(id);
-                    if (plant && typeof window.addToCart === 'function') window.addToCart(plant, 1);
-                    if (typeof window.navBounceCartCount === 'function') window.navBounceCartCount();
                     var wrap = card ? card.querySelector('.quick-add-wrap') : null;
                     if (wrap) updateBuildPlantQuickAddLabel(wrap, id);
                 } else {
                     var idx = config.plantIds.indexOf(id);
                     if (idx !== -1) config.plantIds.splice(idx, 1);
-                    if (typeof window.getCart === 'function' && typeof window.setCart === 'function') {
-                        var cart = window.getCart();
-                        var item = cart.filter(function (i) { return Number(i.plantId) === Number(id); })[0];
-                        if (item) {
-                            item.quantity = (item.quantity || 1) - 1;
-                            if (item.quantity < 0.001) cart = cart.filter(function (i) { return Number(i.plantId) !== Number(id); });
-                            else item.quantity = Math.max(0.001, item.quantity);
-                            window.setCart(cart);
-                            if (typeof window.navBounceCartCount === 'function') window.navBounceCartCount();
-                        }
-                    }
                     var wrap = card ? card.querySelector('.quick-add-wrap') : null;
                     if (wrap) updateBuildPlantQuickAddLabel(wrap, id);
                 }
