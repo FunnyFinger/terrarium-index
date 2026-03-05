@@ -117,7 +117,7 @@
         if (!el) return;
         try {
             var cart = JSON.parse(localStorage.getItem('terrarium_cart') || '[]');
-            var count = cart.reduce(function(s, i) { return s + (i.quantity || 0); }, 0);
+            var count = cart.length;
             el.textContent = count;
         } catch (_) {
             el.textContent = '0';
