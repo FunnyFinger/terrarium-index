@@ -247,30 +247,32 @@
     display: none;
 }
 
-/* Nav bar: selected choice + Back/Next – stable position, no jump between steps */
+/* Nav bar: Back/Next at top of each panel */
 .build-panel-nav {
-    margin-top: 1.25rem;
-    margin-bottom: 1.5rem;
+    margin-top: 0;
+    margin-bottom: 1.25rem;
     padding: 1rem 1.25rem 1.25rem 1.25rem;
-    min-height: 4.5rem;
+    min-height: 3.5rem;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    gap: 0.75rem;
-    border-top: 1px solid var(--border-color);
+    gap: 0;
+    border-bottom: 1px solid var(--border-color);
     background: var(--card-bg);
     border-radius: 10px;
     border: 1px solid var(--border-color);
-}
-.build-panel-nav .build-selected-choice {
-    margin: 0;
-    flex-shrink: 0;
 }
 .build-panel-nav .build-panel-actions {
     margin-top: 0;
     padding-top: 0;
     border-top: none;
     flex-shrink: 0;
+}
+.build-panel-title {
+    margin-top: 0.5rem;
+}
+.build-panel .build-selected-choice {
+    margin-top: 0.25rem;
 }
 
 .build-review-summary {
