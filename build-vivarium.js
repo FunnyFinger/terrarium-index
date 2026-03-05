@@ -261,11 +261,10 @@
             var effectiveMax = (stockMax != null && stockMax >= 0) ? stockMax : 9999;
             var sid = supplyIdNum(id);
             var cartQty = getCartQuantityForPlant(sid);
-            var qtyLabel = (cartQty > 0) ? (cartQty % 1 === 0 ? String(Math.round(cartQty)) : String(cartQty)) : '';
             qtyBlock = window.getQuickAddHtml(e, {
                 dataPlantId: sid,
-                label: qtyLabel,
-                builderMode: true,
+                cartQuantity: cartQty,
+                unit: e.unit,
                 value: getSupplyQuantity(id),
                 max: effectiveMax,
                 disabled: effectiveMax === 0,
@@ -830,12 +829,10 @@
             if (typeof window.getQuickAddHtml === 'function') {
                 var stock = (typeof p.stockQuantity === 'number' && p.stockQuantity >= 0) ? p.stockQuantity : null;
                 var maxAvailable = (stock != null ? Math.min(999, stock) : 999);
-                var plantCartQty = getCartQuantityForPlant(pid);
-                var plantQtyLabel = (plantCartQty > 0) ? (plantCartQty % 1 === 0 ? String(Math.round(plantCartQty)) : String(plantCartQty)) : '';
                 quickAddHtml = window.getQuickAddHtml(p, {
                     dataPlantId: pid,
-                    label: plantQtyLabel,
-                    builderMode: true,
+                    cartQuantity: getCartQuantityForPlant(pid),
+                    unit: p.unit,
                     max: maxAvailable,
                     disabled: stock !== null && stock <= 0,
                     maxedClass: stock !== null && stock <= 0
@@ -903,10 +900,19 @@
 
     function updateBuildPlantQuickAddLabel(wrap, plantId) {
         if (!wrap) return;
+        var btn = wrap.querySelector('.quick-add-btn');
         var labelEl = wrap.querySelector('.quick-add-label');
-        if (!labelEl) return;
+        if (!btn || !labelEl) return;
         var n = getCartQuantityForPlant(plantId);
-        labelEl.textContent = n > 0 ? (n % 1 === 0 ? String(Math.round(n)) : String(n)) : '';
+        var unit = (wrap.getAttribute && wrap.getAttribute('data-unit')) || '';
+        if (n > 0) {
+            btn.classList.add('quick-add-has-qty');
+            labelEl.textContent = typeof window.formatQuickAddQtyUnit === 'function' ? window.formatQuickAddQtyUnit(n, unit) : (n % 1 === 0 ? String(Math.round(n)) : String(n)) + (unit ? ' ' + unit : '');
+        } else {
+            btn.classList.remove('quick-add-has-qty');
+            labelEl.textContent = 'Add to cart';
+        }
+        btn.setAttribute('aria-label', labelEl.textContent || 'Add to cart');
     }
 
     function updateBuildPlantQuickAddLabels(container) {

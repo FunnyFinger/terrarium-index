@@ -3852,6 +3852,15 @@ main {
     opacity: 0.7;
     filter: grayscale(0.6);
 }
+/* When quantity in cart: show only quantity + unit on button (no icon, no "Add to cart" text) */
+.quick-add-has-qty .quick-add-icon {
+    display: none;
+}
+.quick-add-has-qty .quick-add-label {
+    max-width: none;
+    opacity: 1;
+}
+
 .quick-add-icon {
     display: inline-flex;
     align-items: center;

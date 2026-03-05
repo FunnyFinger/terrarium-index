@@ -909,19 +909,7 @@
     opacity: 1;
 }
 
-/* Builder: cart button shows only quantity (no icon, no "Add to cart" text); label shows quantity after ADD */
-.quick-add-btn-builder .quick-add-icon {
-    display: none !important;
-}
-.quick-add-btn-builder .quick-add-label {
-    max-width: none;
-    opacity: 1;
-}
-.quick-add-btn-builder {
-    min-width: 2.25rem;
-}
-
-/* Supply cards: quantity-only label in builder */
+/* Supply cards: ensure label visible (same as main page) */
 .build-supply-card-body .quick-add-label {
     max-width: none;
     opacity: 1;

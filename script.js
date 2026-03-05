@@ -584,18 +584,17 @@ function getQuickAddHtml(item, opts) {
     const value = opts.value != null ? opts.value : 1;
     const unit = (item && item.unit != null && String(item.unit).trim() !== '') ? String(item.unit).trim() : '';
     const dataPlantId = opts.dataPlantId != null ? opts.dataPlantId : (item && item.id);
-    const label = opts.label != null ? opts.label : 'Add to cart';
+    const cartQty = opts.cartQuantity != null ? parseFloat(opts.cartQuantity) : 0;
+    const displayUnit = opts.unit != null ? String(opts.unit).trim() : unit;
+    const hasQty = cartQty > 0;
+    const label = hasQty ? formatQuickAddQtyUnit(cartQty, displayUnit) : (opts.label != null ? opts.label : 'Add to cart');
     const disabled = opts.disabled ? ' disabled' : '';
     const maxedClass = opts.maxedClass ? ' quick-add-btn-maxed' : '';
-    const builderMode = opts.builderMode === true;
+    const hasQtyClass = hasQty ? ' quick-add-has-qty' : '';
     const unitEsc = unit ? escapeHtml(unit) : '';
-    const btnContent = builderMode
-        ? '<span class="quick-add-label">' + escapeHtml(label) + '</span>'
-        : '<span class="quick-add-icon" aria-hidden="true">' + CART_ICON_SVG + '</span><span class="quick-add-label">' + escapeHtml(label) + '</span>';
-    const btnClass = 'quick-add-btn' + maxedClass + (builderMode ? ' quick-add-btn-builder' : '');
-    return '<div class="quick-add-wrap" data-plant-id="' + dataPlantId + '">' +
-        '<button type="button" class="' + btnClass + '" aria-label="' + escapeHtml(label || 'Quantity') + '" data-plant-id="' + dataPlantId + '"' + disabled + '>' +
-        btnContent + '</button>' +
+    return '<div class="quick-add-wrap" data-plant-id="' + dataPlantId + '" data-unit="' + escapeHtml(displayUnit) + '">' +
+        '<button type="button" class="quick-add-btn' + maxedClass + hasQtyClass + '" aria-label="' + escapeHtml(label || 'Add to cart') + '" data-plant-id="' + dataPlantId + '"' + disabled + '>' +
+        '<span class="quick-add-icon" aria-hidden="true">' + CART_ICON_SVG + '</span><span class="quick-add-label">' + escapeHtml(label) + '</span></button>' +
         '<div class="quick-add-expanded hidden">' +
         '<div class="quick-add-expanded-row">' +
         '<input type="number" class="quick-add-qty" value="' + value + '" min="' + min + '" max="' + max + '" step="' + step + '" aria-label="Quantity' + (unit ? ' in ' + unitEsc : '') + '" data-plant-id="' + dataPlantId + '">' +
@@ -608,6 +607,8 @@ function getQuickAddHtml(item, opts) {
 if (typeof window !== 'undefined') {
     window.CART_ICON_SVG = CART_ICON_SVG;
     window.getQuickAddHtml = getQuickAddHtml;
+    window.getCartQuantityForItem = getCartQuantityForItem;
+    window.formatQuickAddQtyUnit = formatQuickAddQtyUnit;
     window.isIntegerUnitQuickAdd = isIntegerUnitQuickAdd;
     window.getCardThumbUrl = getCardThumbUrl;
     window.getCardThumbWidth = getCardThumbWidth;
@@ -633,6 +634,20 @@ function getCart() {
         return [];
     }
 }
+
+function getCartQuantityForItem(itemId) {
+    const cart = getCart();
+    const item = cart.find(i => i.plantId == itemId);
+    return item && item.quantity != null ? parseFloat(item.quantity) : 0;
+}
+
+function formatQuickAddQtyUnit(qty, unit) {
+    if (qty <= 0) return '';
+    const q = (qty % 1 === 0) ? String(Math.round(qty)) : String(qty);
+    const u = (unit != null && String(unit).trim() !== '') ? ' ' + String(unit).trim() : '';
+    return q + u;
+}
+
 function setCart(items) {
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
     updateCartUI();
@@ -918,7 +933,15 @@ function initQuickAddOnCards() {
                 return;
             }
             addToCart(item, qty);
-            wrap.querySelector('.quick-add-btn').classList.remove('hidden');
+            const btn = wrap.querySelector('.quick-add-btn');
+            const labelEl = wrap.querySelector('.quick-add-label');
+            if (btn && labelEl) {
+                btn.classList.remove('hidden');
+                btn.classList.add('quick-add-has-qty');
+                const unitStr = (item && item.unit != null && String(item.unit).trim() !== '') ? String(item.unit).trim() : (wrap.getAttribute('data-unit') || '');
+                labelEl.textContent = formatQuickAddQtyUnit(qty, unitStr);
+                btn.setAttribute('aria-label', labelEl.textContent || 'Add to cart');
+            }
             wrap.querySelector('.quick-add-expanded').classList.add('hidden');
             e.preventDefault();
         }
@@ -4107,6 +4130,8 @@ function createEquipmentCard(equipment) {
     const priceStr = equipment.price != null ? formatPrice(equipment.price) : 'Price on request';
     const available = getAvailableToAdd(equipment.id);
     const quickAddHtml = getQuickAddHtml(equipment, {
+        cartQuantity: getCartQuantityForItem(equipment.id),
+        unit: equipment.unit,
         maxedClass: available <= 0,
         disabled: typeof equipment.stockQuantity === 'number' && equipment.stockQuantity <= 0
     });
@@ -6407,6 +6432,8 @@ function createPlantCard(plant) {
                 </svg>
             </div>
             ${getQuickAddHtml(plant, {
+                cartQuantity: getCartQuantityForItem(plant.id),
+                unit: plant.unit,
                 maxedClass: getAvailableToAdd(plant.id) === 0,
                 disabled: typeof plant.stockQuantity === 'number' && plant.stockQuantity <= 0
             })}
@@ -7732,6 +7759,8 @@ function updatePlantCardImage(plantId, imageUrl) {
             ` : '';
                 const quickAddHtml = getQuickAddHtml(plant, {
                     dataPlantId: plantId,
+                    cartQuantity: getCartQuantityForItem(plantId),
+                    unit: plant.unit,
                     maxedClass: getAvailableToAdd(plantId) === 0,
                     disabled: typeof plant.stockQuantity === 'number' && plant.stockQuantity <= 0
                 });
