@@ -799,14 +799,14 @@ function quickAddShowToast(message) {
 if (typeof window !== 'undefined') window.quickAddShowToast = quickAddShowToast;
 
 function getAvailableToAdd(itemId) {
-    const plant = allPlants.find(p => p.id === itemId);
-    const equipment = (typeof allEquipment !== 'undefined' && allEquipment.length) ? allEquipment.find(e => e.id === itemId) : null;
+    const plant = allPlants && allPlants.find(p => p.id == itemId);
+    const equipment = (typeof allEquipment !== 'undefined' && allEquipment.length) ? allEquipment.find(e => e.id == itemId) : null;
     const item = plant || equipment;
-    const stock = typeof item !== 'undefined' && typeof item.stockQuantity === 'number' && item.stockQuantity >= 0
+    const stock = (item != null && typeof item.stockQuantity === 'number' && item.stockQuantity >= 0)
         ? item.stockQuantity
-        : 99;
+        : 999;
     const cart = getCart();
-    const inCart = cart.filter(i => i.plantId === itemId).reduce((s, i) => s + i.quantity, 0);
+    const inCart = cart.filter(i => i.plantId == itemId).reduce((s, i) => s + i.quantity, 0);
     return Math.max(0, stock - inCart);
 }
 
