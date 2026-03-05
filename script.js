@@ -1086,6 +1086,9 @@ const uploadPlantName = document.getElementById('uploadPlantName');
 const uploadName = document.getElementById('uploadName');
 const uploadScientificName = document.getElementById('uploadScientificName');
 const uploadCommonNames = document.getElementById('uploadCommonNames');
+const uploadHybridParentsWrap = document.getElementById('uploadHybridParentsWrap');
+const uploadHybridParent1 = document.getElementById('uploadHybridParent1');
+const uploadHybridParent2 = document.getElementById('uploadHybridParent2');
 const uploadCatalogueOfLifeUrl = document.getElementById('uploadCatalogueOfLifeUrl');
 const uploadPlantDescription = document.getElementById('uploadPlantDescription');
 const uploadCareTips = document.getElementById('uploadCareTips');
@@ -1157,6 +1160,9 @@ uploadUtils.init({
         uploadName,
         uploadScientificName,
         uploadCommonNames,
+        uploadHybridParentsWrap,
+        uploadHybridParent1,
+        uploadHybridParent2,
         uploadCatalogueOfLifeUrl,
         uploadPlantDescription,
         uploadCareTips,
@@ -2206,8 +2212,12 @@ function isPlantHybrid(plant) {
     return /\s+(x|×)\s+/i.test(getScientificNameString(plant));
 }
 
-// Parse hybrid parents from name (e.g. "Tillandsia brachycaulos × Tillandsia streptophylla" -> [parent1, parent2])
+// Hybrid parents: use stored hybridParent1/hybridParent2 when present, else parse from scientificName
 function getHybridParentNames(plant) {
+    if (!plant) return null;
+    const p1 = (plant.hybridParent1 && String(plant.hybridParent1).trim()) || '';
+    const p2 = (plant.hybridParent2 && String(plant.hybridParent2).trim()) || '';
+    if (p1 && p2) return [p1, p2];
     const full = getScientificNameString(plant).trim();
     const match = full.match(/\s+(x|×)\s+/i);
     if (!match) return null;
@@ -2215,6 +2225,32 @@ function getHybridParentNames(plant) {
     const parent1 = full.slice(0, idx).trim();
     const parent2 = full.slice(idx + match[0].length).trim();
     return parent1 && parent2 ? [parent1, parent2] : null;
+}
+
+// Genus = first word of a parent name (e.g. "Tillandsia brachycaulos" -> "Tillandsia")
+function getGenusFromParentName(parentName) {
+    if (!parentName || typeof parentName !== 'string') return '';
+    return parentName.trim().split(/\s+/)[0] || '';
+}
+
+// Intergeneric hybrid: parents from different genera (rank = species-level)
+function isIntergenericHybrid(plant) {
+    if (!plant || !isPlantHybrid(plant)) return false;
+    const parents = getHybridParentNames(plant);
+    if (!parents || parents.length < 2) return false;
+    const g1 = getGenusFromParentName(parents[0]);
+    const g2 = getGenusFromParentName(parents[1]);
+    return g1 && g2 && g1.toLowerCase() !== g2.toLowerCase();
+}
+
+// Interspecific hybrid: parents from same genus (rank = cultivar-level)
+function isInterspecificHybrid(plant) {
+    if (!plant || !isPlantHybrid(plant)) return false;
+    const parents = getHybridParentNames(plant);
+    if (!parents || parents.length < 2) return false;
+    const g1 = getGenusFromParentName(parents[0]);
+    const g2 = getGenusFromParentName(parents[1]);
+    return g1 && g2 && g1.toLowerCase() === g2.toLowerCase();
 }
 
 function sortPlants(plants) {
@@ -6948,10 +6984,21 @@ async function showPlantModal(plant) {
                             };
                             const classification = (() => {
                                 if (typeof isPlantCultivar === 'function' && isPlantCultivar(plant)) return 'Cultivar';
-                                if (typeof isPlantHybrid === 'function' && isPlantHybrid(plant)) return 'Hybrid';
+                                if (typeof isPlantHybrid === 'function' && isPlantHybrid(plant)) {
+                                    if (typeof isIntergenericHybrid === 'function' && isIntergenericHybrid(plant)) return 'Hybrid (intergeneric)';
+                                    if (typeof isInterspecificHybrid === 'function' && isInterspecificHybrid(plant)) return 'Hybrid (interspecific)';
+                                    return 'Hybrid';
+                                }
                                 return 'Species';
                             })();
                             addRow('Classification', classification);
+                            if (typeof isPlantHybrid === 'function' && isPlantHybrid(plant) && typeof getHybridParentNames === 'function') {
+                                const parents = getHybridParentNames(plant);
+                                if (parents && parents.length >= 2) {
+                                    addRow('Parent 1', parents[0]);
+                                    addRow('Parent 2', parents[1]);
+                                }
+                            }
                             addRow('Plant Type', plant.plantType);
                             addRow('Size', plant.size);
                             addRow('Substrate', plant.substrate);

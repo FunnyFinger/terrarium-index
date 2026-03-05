@@ -1489,6 +1489,17 @@
                     <label for="uploadCommonNames" class="edit-plant-detail-label">Common names</label>
                     <input type="text" id="uploadCommonNames" class="edit-plant-input edit-plant-text" placeholder="Comma-separated, e.g. Name One, Name Two">
                 </div>
+                <div id="uploadHybridParentsWrap" class="edit-plant-section" style="display: none; margin-bottom: 0.75rem;">
+                    <p class="edit-plant-field-hint" style="margin-bottom: 0.5rem;">Store parent species for hybrids (optional; otherwise parsed from scientific name).</p>
+                    <div class="edit-plant-name-row" style="margin-bottom: 0.5rem;">
+                        <label for="uploadHybridParent1" class="edit-plant-detail-label">Parent 1</label>
+                        <input type="text" id="uploadHybridParent1" class="edit-plant-input edit-plant-text" placeholder="e.g. Tillandsia brachycaulos">
+                    </div>
+                    <div class="edit-plant-name-row">
+                        <label for="uploadHybridParent2" class="edit-plant-detail-label">Parent 2</label>
+                        <input type="text" id="uploadHybridParent2" class="edit-plant-input edit-plant-text" placeholder="e.g. Tillandsia streptophylla">
+                    </div>
+                </div>
                 <div class="edit-plant-name-row">
                     <label for="uploadCatalogueOfLifeUrl" class="edit-plant-detail-label">Catalogue of Life (taxon link)</label>
                     <input type="url" id="uploadCatalogueOfLifeUrl" class="edit-plant-input edit-plant-text" placeholder="https://www.catalogueoflife.org/data/taxon/...">

@@ -163,6 +163,10 @@ function isPlantHybrid(plant) {
 }
 
 function getHybridParentNames(plant) {
+    if (!plant) return null;
+    const p1 = (plant.hybridParent1 && String(plant.hybridParent1).trim()) || '';
+    const p2 = (plant.hybridParent2 && String(plant.hybridParent2).trim()) || '';
+    if (p1 && p2) return [p1, p2];
     const full = getScientificNameString(plant).trim();
     const match = full.match(/\s+(x|×)\s+/i);
     if (!match) return null;
@@ -170,6 +174,29 @@ function getHybridParentNames(plant) {
     const parent1 = full.slice(0, idx).trim();
     const parent2 = full.slice(idx + match[0].length).trim();
     return parent1 && parent2 ? [parent1, parent2] : null;
+}
+
+function getGenusFromParentName(parentName) {
+    if (!parentName || typeof parentName !== 'string') return '';
+    return parentName.trim().split(/\s+/)[0] || '';
+}
+
+function isIntergenericHybrid(plant) {
+    if (!plant || !isPlantHybrid(plant)) return false;
+    const parents = getHybridParentNames(plant);
+    if (!parents || parents.length < 2) return false;
+    const g1 = getGenusFromParentName(parents[0]);
+    const g2 = getGenusFromParentName(parents[1]);
+    return g1 && g2 && g1.toLowerCase() !== g2.toLowerCase();
+}
+
+function isInterspecificHybrid(plant) {
+    if (!plant || !isPlantHybrid(plant)) return false;
+    const parents = getHybridParentNames(plant);
+    if (!parents || parents.length < 2) return false;
+    const g1 = getGenusFromParentName(parents[0]);
+    const g2 = getGenusFromParentName(parents[1]);
+    return g1 && g2 && g1.toLowerCase() === g2.toLowerCase();
 }
 
 // Build hierarchical taxonomy structure
@@ -286,12 +313,14 @@ function buildTaxonomyTree(plants) {
             }
             speciesNode.children[cultivarKey].plants.push(plantData);
         } else if (hybrid) {
-            // Hybrid: node at genus level with key = full hybrid name; store two parents for display
+            // Hybrid: intergeneric (parents different genera) → rank species; interspecific (same genus) → rank cultivar
             const hybridKey = scientificStr || plant.name || 'Unknown';
+            const intergeneric = isIntergenericHybrid(plant);
+            const hybridRank = intergeneric ? 'species' : 'cultivar';
             if (!current.children[hybridKey]) {
                 current.children[hybridKey] = {
                     name: hybridKey,
-                    rank: 'hybrid',
+                    rank: hybridRank,
                     children: {},
                     plants: [],
                     parentSpecies: getHybridParentNames(plant)
@@ -668,8 +697,8 @@ function updateTreeLayout() {
             return 0.85 + (d.depth % 3) * 0.05;
         });
     
-    // Tooltip for hybrid nodes: show parent species
-    nodes.filter(d => d.data.rank === 'hybrid' && d.data.parentSpecies && d.data.parentSpecies.length >= 2)
+    // Tooltip for hybrid nodes (rank species or cultivar when intergeneric/interspecific): show parent species
+    nodes.filter(d => d.data.parentSpecies && d.data.parentSpecies.length >= 2)
         .append('title')
         .text(d => 'Parents: ' + d.data.parentSpecies.join(' × '));
     

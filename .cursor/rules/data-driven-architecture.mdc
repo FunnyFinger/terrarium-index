@@ -23,6 +23,7 @@ These are the only inputs. They are stored in JSON files, Supabase `plants_catal
 - `plantType`, `growthPattern`, `growthHabit`, `growthRate`, `substrate`, `substrateType`
 - `hazard`, `rarity`, `carnivorous`, `floweringPeriod`, `propagation`, `colors`
 - Optional overrides: `isCultivar`, `isHybrid` (boolean; if omitted, derived from scientificName + taxonomy)
+- Optional for hybrids: `hybridParent1`, `hybridParent2` (strings; parent species names; if omitted, parsed from scientificName; used for display and intergeneric vs interspecific)
 - Care ranges (all `{ min, max, ideal }` on 0–100 scale): `humidityRange`, `lightRange`, `airCirculationRange`, `waterNeedsRange`, `temperatureRange`, `difficultyRange`, `soilPhRange`, `growthRateRange`
 - Aquatic-only ranges: `waterCirculationRange`, `waterTemperatureRange`, `waterPhRange`, `waterHardnessRange`, `salinityRange`
 - `description`, `careTips[]`, `specialNeeds`, `geographicOrigin`
