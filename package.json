@@ -2,6 +2,9 @@
   "name": "vivarium-store",
   "version": "1.0.0",
   "description": "Vivarium Store — plant and terrarium shop",
+  "scripts": {
+    "add-plant-to-supabase": "node scripts/add-plant-to-supabase.js"
+  },
   "dependencies": {
     "nodemailer": "^6.9.13"
   }

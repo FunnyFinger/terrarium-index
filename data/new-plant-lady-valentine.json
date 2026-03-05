@@ -1,0 +1,57 @@
+{
+  "name": "Lady Valentine Aglaonema (Chinese Evergreen)",
+  "scientificName": "Aglaonema 'Lady Valentine'",
+  "commonNames": [
+    "Chinese Evergreen",
+    "Lady Valentine Chinese Evergreen",
+    "Pink Aglaonema Lady Valentine"
+  ],
+  "category": [
+    "aglaonema",
+    "leafy",
+    "tropical"
+  ],
+  "substrate": "Well Draining",
+  "size": "25-50 cm",
+  "growthRate": "Moderate",
+  "description": "Aglaonema 'Lady Valentine' is a striking pink-variegated cultivar of Chinese Evergreen (Aglaonema) prized for its broad leaves mottled with shades of pink, red, and green. Like other Aglaonema, it belongs to the Araceae family and has an upright, bushy growth habit, making it ideal for indoor collections, terrariums, and vivariums. Lady Valentine prefers warm, humid conditions and bright filtered light to maintain its strong pink coloration. It is tolerant of typical indoor conditions but is sensitive to cold drafts and soggy soil. As with other Chinese Evergreens, all parts of the plant are toxic if ingested due to calcium oxalate crystals, so it should be kept away from pets and children.",
+  "careTips": [
+    "Provide bright, indirect light to maintain strong pink leaf coloration; avoid harsh direct sun which can scorch leaves",
+    "Allow the top 1–2 cm of soil to dry slightly between waterings; keep soil evenly moist but never waterlogged",
+    "Use a well-draining peat-based or aroid mix with added perlite or pumice to prevent root rot",
+    "Maintain moderate to high humidity; group with other plants or use a pebble tray or humidifier in very dry rooms",
+    "Keep temperatures warm and stable, ideally between 22–29 °C and above 16 °C at night; avoid cold drafts and sudden temperature swings",
+    "Feed lightly during the growing season with a balanced, diluted fertilizer every 4–6 weeks",
+    "Wipe leaves occasionally to remove dust and check for common houseplant pests such as spider mites and mealybugs",
+    "Toxic if ingested – keep out of reach of pets and children"
+  ],
+  "taxonomy": {
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "class": "Liliopsida",
+    "order": "Alismatales",
+    "family": "Araceae",
+    "genus": "Aglaonema",
+    "species": "Aglaonema commutatum"
+  },
+  "growthPattern": "upright-bushy",
+  "hazard": "toxic-if-ingested",
+  "rarity": "uncommon",
+  "growthHabit": "ground-dwelling",
+  "plantType": "foliage-plant",
+  "floweringPeriod": "does-not-flower-in-cultivation",
+  "propagation": "Stem Cuttings, Division",
+  "colors": "Green, Pink, Red, Variegated",
+  "humidityRange": { "min": 50, "max": 85, "ideal": 70 },
+  "lightRange": { "min": 50, "max": 80, "ideal": 65 },
+  "airCirculationRange": { "min": 20, "max": 50, "ideal": 35 },
+  "waterNeedsRange": { "min": 40, "max": 60, "ideal": 50 },
+  "substrateType": "dry",
+  "specialNeeds": "none",
+  "temperatureRange": { "min": 36, "max": 48, "ideal": 42 },
+  "difficultyRange": { "min": 10, "max": 40, "ideal": 25 },
+  "soilPhRange": { "min": 42.9, "max": 50, "ideal": 46.4 },
+  "growthRateRange": { "min": 40, "max": 60, "ideal": 50 },
+  "carnivorous": false,
+  "geographicOrigin": "Tropical Asia"
+}
