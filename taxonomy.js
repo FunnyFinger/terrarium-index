@@ -242,7 +242,25 @@ function buildTaxonomyTree(plants) {
         };
         current.plants.push(plantData);
     });
-    
+
+    // For species nodes, put the plant that exactly matches the node name (base species) first,
+    // so the taxonomy thumbnail uses the base species image, not a cultivar.
+    function sortSpeciesNodePlants(node) {
+        if (!node) return;
+        if (node.rank === 'species' && Array.isArray(node.plants) && node.plants.length > 0) {
+            const nodeName = node.name;
+            node.plants.sort((a, b) => {
+                const aMatch = (a.plant && getSpeciesNodeKey(a.plant) === nodeName) ? 0 : 1;
+                const bMatch = (b.plant && getSpeciesNodeKey(b.plant) === nodeName) ? 0 : 1;
+                return aMatch - bMatch;
+            });
+        }
+        if (node.children && typeof node.children === 'object') {
+            Object.values(node.children).forEach(sortSpeciesNodePlants);
+        }
+    }
+    Object.values(tree.children).forEach(sortSpeciesNodePlants);
+
     // Convert to D3 hierarchy format
     function convertToD3(node) {
         const children = Object.values(node.children)
