@@ -874,6 +874,10 @@
     flex-direction: row-reverse;
     justify-content: flex-end;
 }
+.build-plant-card-add-wrap .quick-add-label {
+    max-width: none;
+    opacity: 1;
+}
 
 /* Supply cards (same layout as plant cards) – used in Enclosure, Drainage, Substrate, Hard scape, Decorations, Accessories, Tools */
 .build-supply-list {

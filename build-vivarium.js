@@ -881,6 +881,30 @@
         discoverImagesForBuildPlants(pagePlants);
         updateSelectedDisplay();
         bindBuildPlantQuickAdd(container);
+        updateBuildPlantQuickAddLabels(container);
+    }
+
+    function getCartQuantityForPlant(plantId) {
+        if (typeof window.getCart !== 'function') return 0;
+        var cart = window.getCart();
+        var item = cart.filter(function (i) { return Number(i.plantId) === Number(plantId); })[0];
+        return item && item.quantity ? parseFloat(item.quantity) : 0;
+    }
+
+    function updateBuildPlantQuickAddLabel(wrap, plantId) {
+        if (!wrap) return;
+        var labelEl = wrap.querySelector('.quick-add-label');
+        if (!labelEl) return;
+        var n = getCartQuantityForPlant(plantId);
+        labelEl.textContent = n > 0 ? 'Add to cart (' + (n % 1 === 0 ? Math.round(n) : n) + ')' : 'Add to cart';
+    }
+
+    function updateBuildPlantQuickAddLabels(container) {
+        if (!container) return;
+        container.querySelectorAll('.quick-add-wrap').forEach(function (wrap) {
+            var pid = parseInt(wrap.getAttribute('data-plant-id'), 10);
+            if (!isNaN(pid)) updateBuildPlantQuickAddLabel(wrap, pid);
+        });
     }
 
     function bindBuildPlantQuickAdd(container) {
@@ -951,6 +975,7 @@
                 if (btn) btn.classList.remove('hidden');
                 if (expanded) expanded.classList.add('hidden');
                 if (typeof window.navBounceCartCount === 'function') window.navBounceCartCount();
+                updateBuildPlantQuickAddLabel(wrap, pid);
             }
         });
         container.addEventListener('input', function (e) {
@@ -1439,6 +1464,8 @@
                     if (config.plantIds.indexOf(id) === -1) config.plantIds.push(id);
                     if (plant && typeof window.addToCart === 'function') window.addToCart(plant, 1);
                     if (typeof window.navBounceCartCount === 'function') window.navBounceCartCount();
+                    var wrap = card ? card.querySelector('.quick-add-wrap') : null;
+                    if (wrap) updateBuildPlantQuickAddLabel(wrap, id);
                 } else {
                     var idx = config.plantIds.indexOf(id);
                     if (idx !== -1) config.plantIds.splice(idx, 1);
@@ -1453,6 +1480,8 @@
                             if (typeof window.navBounceCartCount === 'function') window.navBounceCartCount();
                         }
                     }
+                    var wrap = card ? card.querySelector('.quick-add-wrap') : null;
+                    if (wrap) updateBuildPlantQuickAddLabel(wrap, id);
                 }
                 if (card) {
                     card.classList.toggle('build-plant-card-selected', config.plantIds.indexOf(id) !== -1);
