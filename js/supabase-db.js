@@ -67,20 +67,68 @@
         if (!isConfigured()) return Promise.reject(new Error('Supabase not configured'));
         if (!STORAGE_BASE) STORAGE_BASE = (global.SUPABASE_URL || '').toString().trim().replace(/\/$/, '');
         var url = STORAGE_BASE + '/storage/v1/object/vivarium-assets/' + objectPath;
+        var token = (global.supabaseAuth && global.supabaseAuth.getAccessToken) ? global.supabaseAuth.getAccessToken() : null;
         var headers = {
-            'Authorization': 'Bearer ' + (global.SUPABASE_ANON_KEY || HEADERS.apikey || ''),
-            'apikey': (global.SUPABASE_ANON_KEY || HEADERS.apikey || '')
+            'Authorization': 'Bearer ' + (token || global.SUPABASE_ANON_KEY || HEADERS.apikey || ''),
+            'apikey': (global.SUPABASE_ANON_KEY || HEADERS.apikey || ''),
+            'x-upsert': 'true'
         };
         if (file.type) headers['Content-Type'] = file.type;
         return fetch(url, { method: 'POST', headers: headers, body: file }).then(function (res) {
-            if (!res.ok) return Promise.reject(new Error('Storage upload failed: ' + res.status));
-            return res.json().then(function (data) {
-                var path = (data && data.path) ? data.path : objectPath;
-                return STORAGE_BASE + '/storage/v1/object/public/vivarium-assets/' + path;
+            if (!res.ok) {
+                return res.text().then(function (body) {
+                    return Promise.reject(new Error('Storage upload failed: ' + res.status + (body ? ' ' + body : '')));
+                });
+            }
+            var publicUrl = STORAGE_BASE + '/storage/v1/object/public/vivarium-assets/' + objectPath;
+            return res.text().then(function (text) {
+                if (!text || !text.trim()) return publicUrl;
+                try {
+                    var data = JSON.parse(text);
+                    var key = (data && (data.Key || data.path)) ? (data.Key || data.path) : objectPath;
+                    if (key.indexOf('vivarium-assets/') === 0) {
+                        return STORAGE_BASE + '/storage/v1/object/public/' + key;
+                    }
+                    return STORAGE_BASE + '/storage/v1/object/public/vivarium-assets/' + key;
+                } catch (e) {
+                    return publicUrl;
+                }
             }).catch(function () {
-                return STORAGE_BASE + '/storage/v1/object/public/vivarium-assets/' + objectPath;
+                return publicUrl;
             });
         });
+    }
+
+    /**
+     * List object names under a prefix in vivarium-assets (e.g. "plants/aglaonema-commutatum/").
+     * Returns full public URLs for each file so plant.images can be populated when catalog has none.
+     * @param {string} prefix - path prefix including trailing slash
+     * @returns {Promise<string[]>} full public URLs, or [] on error/empty
+     */
+    function listStoragePaths(prefix) {
+        if (!prefix || typeof prefix !== 'string') return Promise.resolve([]);
+        if (!isConfigured()) return Promise.resolve([]);
+        if (!STORAGE_BASE) STORAGE_BASE = (global.SUPABASE_URL || '').toString().trim().replace(/\/$/, '');
+        var url = STORAGE_BASE + '/storage/v1/object/list/vivarium-assets';
+        var headers = {
+            'Authorization': 'Bearer ' + (global.SUPABASE_ANON_KEY || HEADERS.apikey || ''),
+            'apikey': (global.SUPABASE_ANON_KEY || HEADERS.apikey || ''),
+            'Content-Type': 'application/json'
+        };
+        var body = JSON.stringify({ prefix: prefix, limit: 500 });
+        return fetch(url, { method: 'POST', headers: headers, body: body }).then(function (res) {
+            if (!res.ok) return [];
+            return res.json().then(function (arr) {
+                if (!Array.isArray(arr)) return [];
+                var base = STORAGE_BASE + '/storage/v1/object/public/vivarium-assets/';
+                return arr
+                    .filter(function (o) { return o && (o.name || o.path); })
+                    .map(function (o) {
+                        var path = o.path || (prefix + (o.name || ''));
+                        return base + (path.charAt(0) === '/' ? path.slice(1) : path);
+                    });
+            }).catch(function () { return []; });
+        }).catch(function () { return []; });
     }
 
     /**
@@ -469,6 +517,7 @@
         getCustomVivariums: getCustomVivariums,
         saveCustomVivariums: saveCustomVivariums,
         uploadToStorage: uploadToStorage,
+        listStoragePaths: listStoragePaths,
         deleteFromStorage: deleteFromStorage,
         updatePlantInCatalog: updatePlantInCatalog,
         deleteFromPlantsCatalog: deleteFromPlantsCatalog,

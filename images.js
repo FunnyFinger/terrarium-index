@@ -9,11 +9,15 @@ function init(deps = {}) {
     }
 }
 
+function stripBom(s) {
+    if (typeof s !== 'string') return s;
+    return s.charCodeAt(0) === 0xFEFF ? s.slice(1) : s;
+}
 function slugify(scientificName) {
     if (!scientificName) return null;
-    const nameStr = typeof scientificName === 'string'
+    const nameStr = stripBom(typeof scientificName === 'string'
         ? scientificName
-        : (scientificName.scientificName || scientificName.name || String(scientificName));
+        : (scientificName.scientificName || scientificName.name || String(scientificName)));
     if (!nameStr) return null;
     return nameStr
         .toLowerCase()
@@ -38,6 +42,8 @@ var _resolvePlantImageUrlLogCount = 0;
 var _resolvePlantImageUrlLogMax = 20;
 function resolvePlantImageUrl(path) {
     if (!path || typeof path !== 'string') return path;
+    path = stripBom(path.trim());
+    if (!path) return path;
     if (/^https?:\/\//i.test(path)) return path;
     const base = (typeof window !== 'undefined' && window.SUPABASE_URL) ? String(window.SUPABASE_URL).replace(/\/$/, '') : '';
     const storagePrefix = base ? base + '/storage/v1/object/public/vivarium-assets/' : '';

@@ -166,11 +166,12 @@ function getCardThumbWidth() {
 // Convert scientific name to slug (matching folder naming convention)
 function scientificNameToSlug(scientificName) {
     if (!scientificName) return null;
-    // Handle both string and object formats
-    const nameStr = typeof scientificName === 'string' 
-        ? scientificName 
+    // Handle both string and object formats; strip BOM so slugs/URLs are valid
+    let nameStr = typeof scientificName === 'string'
+        ? scientificName
         : (scientificName.scientificName || scientificName.name || String(scientificName));
     if (!nameStr) return null;
+    if (nameStr.charCodeAt(0) === 0xFEFF) nameStr = nameStr.slice(1);
     return nameStr
         .toLowerCase()
         .trim()
@@ -408,7 +409,30 @@ async function initializeUI() {
         }
     });
     console.log(supabaseOnly ? '📦 Plant images: Supabase only (single source)' : `📦 Quick-loaded ${imagesLoadedCount} plant images from localStorage`);
-    
+
+    // When Supabase-only and catalog has no images, discover from Storage (list bucket prefix) so gallery matches Storage
+    if (supabaseOnly && window.supabaseDb && typeof window.supabaseDb.listStoragePaths === 'function') {
+        var discoveryPromises = [];
+        allPlants.forEach(function (plant) {
+            if (Array.isArray(plant.images) && plant.images.length > 0) return;
+            var slug = scientificNameToSlug(getScientificNameString(plant));
+            if (!slug) return;
+            discoveryPromises.push(
+                window.supabaseDb.listStoragePaths('plants/' + slug + '/').then(function (urls) {
+                    if (urls && urls.length > 0) {
+                        plant.images = urls;
+                        plant.imageUrl = urls[0];
+                    }
+                })
+            );
+        });
+        if (discoveryPromises.length > 0) {
+            Promise.all(discoveryPromises).then(function () {
+                applyAllFilters();
+            }).catch(function () {});
+        }
+    }
+
     // Second: Apply filters and render IMMEDIATELY (images are now available)
     applyAllFilters();
     
@@ -8917,24 +8941,8 @@ async function generateThumbnailForPlant(plant, imagePath) {
     }
     
     try {
-        // Convert scientific name to slug
-        function scientificNameToSlug(scientificName) {
-            if (!scientificName) return null;
-            // Handle both string and object formats
-            const nameStr = typeof scientificName === 'string' 
-                ? scientificName 
-                : (scientificName.scientificName || scientificName.name || String(scientificName));
-            if (!nameStr) return null;
-            return nameStr
-                .toLowerCase()
-                .trim()
-                .replace(/\s+/g, '-')
-                .replace(/[^a-z0-9-]/g, '')
-                .replace(/-+/g, '-')
-                .replace(/^-|-$/g, '');
-        }
-        
-        const folderName = scientificNameToSlug(getScientificNameString(plant));
+        // Convert scientific name to slug (use global scientificNameToSlug)
+        const folderName = (typeof scientificNameToSlug === 'function' ? scientificNameToSlug(getScientificNameString(plant)) : null);
         if (!folderName) return;
         
         // Load the image
