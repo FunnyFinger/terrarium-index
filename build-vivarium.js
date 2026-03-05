@@ -657,7 +657,7 @@
                     var eItem = eq.filter(function (x) { return supplyIdNum(x.id) === id; })[0];
                     if (eItem && isIntegerUnit(eItem.unit)) num = Math.round(num);
                     setSupplyQuantity(id, num);
-                    updateBuildPlantQuickAddLabel(wrap, id);
+                    updateBuildPlantQuickAddLabel(wrap, id, getSupplyQuantity(id));
                     var arr = config[configKey] || [];
                     if (arr.indexOf(id) === -1) {
                         config[configKey].push(id);
@@ -896,12 +896,13 @@
         return (config.plantIds || []).filter(function (id) { return plantIdNum(id) === idn; }).length;
     }
 
-    function updateBuildPlantQuickAddLabel(wrap, plantId) {
+    function updateBuildPlantQuickAddLabel(wrap, plantId, quantityOverride) {
         if (!wrap) return;
         var btn = wrap.querySelector('.quick-add-btn');
         var labelEl = wrap.querySelector('.quick-add-label');
         if (!btn || !labelEl) return;
-        var n = getBuildQuantityForPlant(plantId);
+        var n = quantityOverride != null ? Number(quantityOverride) : (wrap.closest && wrap.closest('.build-supply-card') ? getSupplyQuantity(plantId) : getBuildQuantityForPlant(plantId));
+        if (isNaN(n) || n < 0) n = 0;
         var unit = (wrap.getAttribute && wrap.getAttribute('data-unit')) || '';
         if (n > 0) {
             btn.classList.add('quick-add-has-qty');
