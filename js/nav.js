@@ -156,12 +156,19 @@
     }
 
     function initCartRedirect() {
-        var current = getCurrentPage();
-        if (current === 'index.html') return;
         var btn = document.getElementById('cartToggle');
         if (!btn) return;
         btn.addEventListener('click', function() {
-            window.location.href = 'checkout.html';
+            var drawer = document.getElementById('cartDrawer');
+            var overlay = document.getElementById('cartOverlay');
+            if (drawer && overlay) {
+                drawer.classList.remove('hidden');
+                overlay.classList.remove('hidden');
+                drawer.classList.add('open');
+                overlay.classList.add('open');
+            } else {
+                window.location.href = 'index.html?openCart=1';
+            }
         });
     }
 

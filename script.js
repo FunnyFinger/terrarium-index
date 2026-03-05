@@ -778,6 +778,13 @@ function initCart() {
         cartClose && cartClose.addEventListener('click', closeCartDrawer);
         cartOverlay.addEventListener('click', closeCartDrawer);
         cartClearBtn && cartClearBtn.addEventListener('click', () => { clearCart(); });
+        if (typeof location !== 'undefined' && location.search && location.search.indexOf('openCart=1') !== -1) {
+            cartDrawer.classList.remove('hidden');
+            cartOverlay.classList.remove('hidden');
+            cartDrawer.classList.add('open');
+            cartOverlay.classList.add('open');
+            try { history.replaceState(null, '', location.pathname + (location.hash || '')); } catch (e) {}
+        }
     }
 }
 function closeCartDrawer() {
