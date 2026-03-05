@@ -261,10 +261,11 @@
             var effectiveMax = (stockMax != null && stockMax >= 0) ? stockMax : 9999;
             var sid = supplyIdNum(id);
             var cartQty = getCartQuantityForPlant(sid);
-            var addLabel = (cartQty > 0) ? ('Add to cart (' + (cartQty % 1 === 0 ? Math.round(cartQty) : cartQty) + ')') : 'Add to cart';
+            var qtyLabel = (cartQty > 0) ? (cartQty % 1 === 0 ? String(Math.round(cartQty)) : String(cartQty)) : '';
             qtyBlock = window.getQuickAddHtml(e, {
                 dataPlantId: sid,
-                label: addLabel,
+                label: qtyLabel,
+                builderMode: true,
                 value: getSupplyQuantity(id),
                 max: effectiveMax,
                 disabled: effectiveMax === 0,
@@ -829,9 +830,12 @@
             if (typeof window.getQuickAddHtml === 'function') {
                 var stock = (typeof p.stockQuantity === 'number' && p.stockQuantity >= 0) ? p.stockQuantity : null;
                 var maxAvailable = (stock != null ? Math.min(999, stock) : 999);
+                var plantCartQty = getCartQuantityForPlant(pid);
+                var plantQtyLabel = (plantCartQty > 0) ? (plantCartQty % 1 === 0 ? String(Math.round(plantCartQty)) : String(plantCartQty)) : '';
                 quickAddHtml = window.getQuickAddHtml(p, {
                     dataPlantId: pid,
-                    label: 'Add to cart',
+                    label: plantQtyLabel,
+                    builderMode: true,
                     max: maxAvailable,
                     disabled: stock !== null && stock <= 0,
                     maxedClass: stock !== null && stock <= 0
@@ -902,7 +906,7 @@
         var labelEl = wrap.querySelector('.quick-add-label');
         if (!labelEl) return;
         var n = getCartQuantityForPlant(plantId);
-        labelEl.textContent = n > 0 ? 'Add to cart (' + (n % 1 === 0 ? Math.round(n) : n) + ')' : 'Add to cart';
+        labelEl.textContent = n > 0 ? (n % 1 === 0 ? String(Math.round(n)) : String(n)) : '';
     }
 
     function updateBuildPlantQuickAddLabels(container) {

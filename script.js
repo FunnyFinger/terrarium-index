@@ -587,11 +587,15 @@ function getQuickAddHtml(item, opts) {
     const label = opts.label != null ? opts.label : 'Add to cart';
     const disabled = opts.disabled ? ' disabled' : '';
     const maxedClass = opts.maxedClass ? ' quick-add-btn-maxed' : '';
+    const builderMode = opts.builderMode === true;
     const unitEsc = unit ? escapeHtml(unit) : '';
+    const btnContent = builderMode
+        ? '<span class="quick-add-label">' + escapeHtml(label) + '</span>'
+        : '<span class="quick-add-icon" aria-hidden="true">' + CART_ICON_SVG + '</span><span class="quick-add-label">' + escapeHtml(label) + '</span>';
+    const btnClass = 'quick-add-btn' + maxedClass + (builderMode ? ' quick-add-btn-builder' : '');
     return '<div class="quick-add-wrap" data-plant-id="' + dataPlantId + '">' +
-        '<button type="button" class="quick-add-btn' + maxedClass + '" aria-label="' + escapeHtml(label) + '" data-plant-id="' + dataPlantId + '"' + disabled + '>' +
-        '<span class="quick-add-icon" aria-hidden="true">' + CART_ICON_SVG + '</span>' +
-        '<span class="quick-add-label">' + escapeHtml(label) + '</span></button>' +
+        '<button type="button" class="' + btnClass + '" aria-label="' + escapeHtml(label || 'Quantity') + '" data-plant-id="' + dataPlantId + '"' + disabled + '>' +
+        btnContent + '</button>' +
         '<div class="quick-add-expanded hidden">' +
         '<div class="quick-add-expanded-row">' +
         '<input type="number" class="quick-add-qty" value="' + value + '" min="' + min + '" max="' + max + '" step="' + step + '" aria-label="Quantity' + (unit ? ' in ' + unitEsc : '') + '" data-plant-id="' + dataPlantId + '">' +
@@ -727,8 +731,9 @@ function removeFromCart(plantId) {
 function clearCart() {
     setCart([]);
 }
+/** Nav badge: one integer per distinct item (no float). Cart drawer still shows real quantities. */
 function getCartCount() {
-    return getCart().reduce((sum, i) => sum + i.quantity, 0);
+    return getCart().length;
 }
 function updateCartUI() {
     const cart = getCart();
