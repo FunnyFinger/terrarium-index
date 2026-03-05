@@ -247,6 +247,32 @@
     display: none;
 }
 
+/* Nav bar: selected choice + Back/Next – stable position, no jump between steps */
+.build-panel-nav {
+    margin-top: 1.25rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.25rem 1.25rem 1.25rem;
+    min-height: 4.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0.75rem;
+    border-top: 1px solid var(--border-color);
+    background: var(--card-bg);
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+}
+.build-panel-nav .build-selected-choice {
+    margin: 0;
+    flex-shrink: 0;
+}
+.build-panel-nav .build-panel-actions {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+    flex-shrink: 0;
+}
+
 .build-review-summary {
     margin-bottom: 1.5rem;
     overflow: visible;
@@ -607,11 +633,13 @@
     align-items: center;
     margin-top: 1.75rem;
     padding-top: 1.25rem;
+    padding-left: 0;
+    padding-right: 0;
     border-top: 1px solid var(--border-color);
 }
 .build-panel-actions .btn {
     min-height: 44px;
-    padding: 0.6rem 1.1rem;
+    padding: 0.65rem 1.25rem;
     font-weight: 600;
     border-radius: 10px;
     transition: transform 0.2s, box-shadow 0.2s;
@@ -875,6 +903,12 @@
     justify-content: flex-end;
 }
 .build-plant-card-add-wrap .quick-add-label {
+    max-width: none;
+    opacity: 1;
+}
+
+/* Supply cards: show Add to cart label and quantity like plant cards */
+.build-supply-card-body .quick-add-label {
     max-width: none;
     opacity: 1;
 }

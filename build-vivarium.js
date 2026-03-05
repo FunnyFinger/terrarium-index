@@ -259,9 +259,12 @@
         if (showQty && typeof window.getQuickAddHtml === 'function') {
             var stockMax = getSupplyStockMax(e);
             var effectiveMax = (stockMax != null && stockMax >= 0) ? stockMax : 9999;
+            var sid = supplyIdNum(id);
+            var cartQty = getCartQuantityForPlant(sid);
+            var addLabel = (cartQty > 0) ? ('Add to cart (' + (cartQty % 1 === 0 ? Math.round(cartQty) : cartQty) + ')') : 'Add to cart';
             qtyBlock = window.getQuickAddHtml(e, {
-                dataPlantId: supplyIdNum(id),
-                label: 'Add',
+                dataPlantId: sid,
+                label: addLabel,
                 value: getSupplyQuantity(id),
                 max: effectiveMax,
                 disabled: effectiveMax === 0,
@@ -654,6 +657,9 @@
                     var eItem = eq.filter(function (x) { return supplyIdNum(x.id) === id; })[0];
                     if (eItem && isIntegerUnit(eItem.unit)) num = Math.round(num);
                     setSupplyQuantity(id, num);
+                    if (typeof window.addToCart === 'function') window.addToCart(eItem, num);
+                    if (typeof window.navBounceCartCount === 'function') window.navBounceCartCount();
+                    updateBuildPlantQuickAddLabel(wrap, id);
                     var arr = config[configKey] || [];
                     if (arr.indexOf(id) === -1) {
                         config[configKey].push(id);
@@ -1215,7 +1221,7 @@
         var price = (e.price !== undefined && e.price !== null && e.price !== '') ? Number(e.price) : null;
         var keyId = e.id != null ? e.id : idN;
         var existing = cart.filter(function (i) { return i.plantId == keyId || supplyIdNum(i.plantId) === idN; })[0];
-        if (existing) existing.quantity += qty;
+        if (existing) existing.quantity = qty;
         else cart.push({ plantId: keyId, name: e.name || 'Item', scientificName: '', quantity: qty, price: price, unit: e.unit || undefined });
     }
 
@@ -1252,16 +1258,22 @@
         addSuppliesOnce(config.drainageIds);
         addSuppliesOnce(config.substrateIds);
         addSuppliesOnce(config.hardscapeIds);
+        var plantCount = {};
         (config.plantIds || []).forEach(function (id) {
             var idN = plantIdNum(id);
+            plantCount[idN] = (plantCount[idN] || 0) + 1;
+        });
+        Object.keys(plantCount).forEach(function (idKey) {
+            var idN = parseInt(idKey, 10);
             var p = plants.filter(function (x) { return plantIdNum(x.id) === idN; })[0];
             if (!p) return;
+            var qty = plantCount[idN] || 1;
             var price = (p.price !== undefined && p.price !== null && p.price !== '') ? Number(p.price) : null;
             var scientificName = typeof p.scientificName === 'string' ? p.scientificName : (p.scientificName && p.scientificName.name ? p.scientificName.name : '');
             var keyId = p.id != null ? p.id : idN;
             var existing = cart.filter(function (i) { return i.plantId == keyId || plantIdNum(i.plantId) === idN; })[0];
-            if (existing) existing.quantity += 1;
-            else cart.push({ plantId: keyId, name: p.name || 'Plant', scientificName: scientificName, quantity: 1, price: price });
+            if (existing) existing.quantity = qty;
+            else cart.push({ plantId: keyId, name: p.name || 'Plant', scientificName: scientificName, quantity: qty, price: price });
         });
         addSuppliesOnce(config.decorationIds);
         addSuppliesOnce(config.accessoryIds);
