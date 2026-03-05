@@ -811,7 +811,8 @@
             var sci = typeof p.scientificName === 'string' ? (p.scientificName || '—') : (p.scientificName && p.scientificName.name ? p.scientificName.name : '—');
             var imgUrl = getPlantImageUrl(p);
             var cardImgSrc = cardImageUrl(imgUrl) || imgUrl;
-            var selected = config.plantIds.indexOf(pid) !== -1;
+            var inCart = getCartQuantityForPlant(pid) > 0;
+            var selected = config.plantIds.indexOf(pid) !== -1 || inCart;
             var selClass = selected ? ' build-plant-card-selected' : '';
             var disabled = !selected && atLimit;
             var nameHtml;
@@ -954,7 +955,8 @@
                 if (btn && expanded && qtyInput) {
                     var max = Math.min(999, getAvailable());
                     qtyInput.setAttribute('max', max);
-                    qtyInput.value = max > 0 ? 1 : 0;
+                    var currentInCart = getCartQuantityForPlant(pid);
+                    qtyInput.value = max > 0 ? (currentInCart > 0 ? currentInCart : 1) : 0;
                     qtyInput.disabled = max === 0;
                     if (confirmBtn) confirmBtn.disabled = max === 0;
                     btn.classList.add('hidden');
@@ -987,11 +989,33 @@
                     if (typeof window.quickAddShowToast === 'function') window.quickAddShowToast('Max stock reached');
                     return;
                 }
-                if (typeof window.addToCart === 'function') window.addToCart(plant, qty);
+                if (typeof window.setCartQuantityForItem === 'function') window.setCartQuantityForItem(plant, qty);
                 if (btn) btn.classList.remove('hidden');
                 if (expanded) expanded.classList.add('hidden');
                 if (typeof window.navBounceCartCount === 'function') window.navBounceCartCount();
                 updateBuildPlantQuickAddLabel(wrap, pid);
+                var card = wrap.closest('.build-plant-card');
+                var checkbox = card ? card.querySelector('.build-plant-card-input') : null;
+                var maxPlants = getMaxPlants();
+                if (qty > 0) {
+                    if (config.plantIds.indexOf(pid) === -1 && (config.plantIds || []).length < maxPlants) config.plantIds.push(pid);
+                    if (checkbox) { checkbox.checked = true; }
+                    if (card) {
+                        card.classList.add('build-plant-card-selected');
+                        var checkEl = card.querySelector('.build-plant-card-check');
+                        if (checkEl) checkEl.textContent = '\u2713';
+                    }
+                } else {
+                    var idx = (config.plantIds || []).indexOf(pid);
+                    if (idx !== -1) config.plantIds.splice(idx, 1);
+                    if (checkbox) { checkbox.checked = false; }
+                    if (card) {
+                        card.classList.remove('build-plant-card-selected');
+                        var checkEl = card.querySelector('.build-plant-card-check');
+                        if (checkEl) checkEl.textContent = '';
+                    }
+                }
+                updateSelectedDisplay();
             }
         });
         container.addEventListener('input', function (e) {

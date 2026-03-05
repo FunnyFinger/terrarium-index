@@ -608,6 +608,7 @@ if (typeof window !== 'undefined') {
     window.CART_ICON_SVG = CART_ICON_SVG;
     window.getQuickAddHtml = getQuickAddHtml;
     window.getCartQuantityForItem = getCartQuantityForItem;
+    window.setCartQuantityForItem = setCartQuantityForItem;
     window.formatQuickAddQtyUnit = formatQuickAddQtyUnit;
     window.isIntegerUnitQuickAdd = isIntegerUnitQuickAdd;
     window.getCardThumbUrl = getCardThumbUrl;
@@ -696,6 +697,38 @@ function addToCart(plant, quantity) {
     // Bounce the cart badge so users see the count update
     if (typeof window.navBounceCartCount === 'function') window.navBounceCartCount();
 }
+
+/** Set cart quantity for an item (replace, don't add). qty <= 0 removes the line. For builder quick-add so checkbox + cart stay in sync. */
+function setCartQuantityForItem(item, qty) {
+    const cart = getCart();
+    const id = item.id;
+    const existing = cart.find(i => i.plantId == id);
+    const num = parseFloat(qty);
+    if (num == null || isNaN(num) || num < 0) return;
+    if (num <= 0) {
+        const next = cart.filter(i => i.plantId != id);
+        setCart(next);
+    } else {
+        const quantity = num;
+        const price = getPlantPrice(item);
+        const unit = item.unit != null && item.unit !== '' ? item.unit : null;
+        if (existing) {
+            existing.quantity = quantity;
+        } else {
+            cart.push({
+                plantId: id,
+                name: item.name || 'Item',
+                scientificName: getScientificNameString(item) || '',
+                quantity: quantity,
+                price: price,
+                unit: unit || undefined
+            });
+        }
+        setCart(cart);
+    }
+    if (typeof window.navBounceCartCount === 'function') window.navBounceCartCount();
+}
+
 var LABOUR_VIVARIUM_ID = 'labour-vivarium';
 var LABOUR_VIVARIUM_CHARGE_KD = 10;
 
