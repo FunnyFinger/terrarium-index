@@ -16,6 +16,7 @@ When the user asks to **add** or **create** a new plant (e.g. "add [plant name]"
 ## 2. Build the plant JSON
 
 - Create a JSON object with at least: **name**, **scientificName**, **description**, **careTips** (array), **category** (array), **taxonomy** (object with family, genus, species). Do **not** set `id` (the script assigns it). Do **not** set `images`/`imageUrl` (script defaults to [] and '').
+- **Cultivar naming**: Use full species name followed by the cultivar in single quotes, e.g. `Aglaonema commutatum 'Red Ruby'` (not `Aglaonema 'Red Ruby'`). The add-plant script normalizes this if you provide taxonomy.species.
 - Optional but helpful: substrate, size, growthRate, propagation, colors, hazard, commonNames, growthPattern, growthHabit, plantType, floweringPeriod, substrateType, specialNeeds, rarity.
 
 ## 3. Write payload and run the script

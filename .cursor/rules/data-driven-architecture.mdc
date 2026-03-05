@@ -43,6 +43,7 @@ These are **never stored as overrides for individual items** — they are always
 
 | Output | How It's Generated |
 |---|---|
+| **Cultivar scientific name** | Full species + 'Cultivar' (e.g. `Aglaonema commutatum 'Red Ruby'`). Normalized on add via `formatCultivarScientificName()`; fix existing with `npm run fix-cultivar-scientific-names`. |
 | **URL slug** | `scientificNameToSlug(plant.scientificName)` — lowercase, hyphenated |
 | **Image folder path** | `images/plants/{slug}/` — derived from slug |
 | **Thumbnail path** | `images/plants/{slug}/thumb.jpg` — generated automatically on image upload via `generateThumbnailBlobFromUrl()` and uploaded to Supabase Storage at `plants/{slug}/thumb.jpg` |

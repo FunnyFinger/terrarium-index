@@ -18,6 +18,7 @@ const path = require('path');
 const https = require('https');
 
 const ROOT = path.resolve(__dirname, '..');
+const { formatCultivarScientificName } = require('./lib/format-cultivar-scientific-name.js');
 
 function getConfig() {
   let url = process.env.SUPABASE_URL || '';
@@ -137,6 +138,9 @@ function normalizePlant(data) {
   });
   if (!Array.isArray(plant.images)) plant.images = [];
   if (!plant.imageUrl) plant.imageUrl = plant.images[0] || '';
+  // Cultivar convention: full species name + 'Cultivar', e.g. "Aglaonema commutatum 'Red Ruby'"
+  const cultivarName = formatCultivarScientificName(plant);
+  if (cultivarName) plant.scientificName = cultivarName;
   return plant;
 }
 
