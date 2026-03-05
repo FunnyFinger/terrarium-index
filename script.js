@@ -4149,13 +4149,13 @@ function createEquipmentCard(equipment) {
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
                 </button>
             </div>
-            ${quickAddHtml}
             <div class="card-price">${priceStr}</div>
         </div>
         <div class="plant-info">
             <div class="plant-name">${escapeHtml(equipment.name)}</div>
             <div class="card-rating" data-product-type="equipment" data-product-id="${equipment.id}" aria-label="Average rating">—</div>
         </div>
+        <div class="card-add-wrap">${quickAddHtml}</div>
     `;
     const editBtn = card.querySelector('.equipment-edit-icon');
     if (editBtn) {
@@ -6431,12 +6431,6 @@ function createPlantCard(plant) {
                     <path d="M6 14h12v8H6z"/>
                 </svg>
             </div>
-            ${getQuickAddHtml(plant, {
-                cartQuantity: getCartQuantityForItem(plant.id),
-                unit: plant.unit,
-                maxedClass: getAvailableToAdd(plant.id) === 0,
-                disabled: typeof plant.stockQuantity === 'number' && plant.stockQuantity <= 0
-            })}
             <div class="card-price">${formatPlantPrice(plant)}</div>
         </div>
         <div class="plant-info">
@@ -6445,6 +6439,12 @@ function createPlantCard(plant) {
             <div class="card-rating" data-product-type="plant" data-product-id="${plant.id}" aria-label="Average rating">—</div>
             <div class="plant-badges">${badges}</div>
         </div>
+        <div class="card-add-wrap">${getQuickAddHtml(plant, {
+                cartQuantity: getCartQuantityForItem(plant.id),
+                unit: plant.unit,
+                maxedClass: getAvailableToAdd(plant.id) === 0,
+                disabled: typeof plant.stockQuantity === 'number' && plant.stockQuantity <= 0
+            })}</div>
     `;
     const editBtn = card.querySelector('.card-edit-icon, .image-edit-icon');
     if (editBtn) {
@@ -7751,19 +7751,12 @@ function updatePlantCardImage(plantId, imageUrl) {
                 imgElement.src = thumbUrl;
                 imgElement.style.display = 'block';
             } else if (imgContainer) {
-                // Replace placeholder with image and keep edit/details + image + care-card + quick-add (match createPlantCard)
+                // Replace placeholder with image and keep edit/details + care-card + price (quick-add is in card-add-wrap at card bottom)
                 const carnivorousHtml = plant.carnivorous ? `
                 <div class="carnivorous-icon" title="Carnivorous Plant">
                     <img src="images/carnivorous-icon.png" alt="Carnivorous" />
                 </div>
             ` : '';
-                const quickAddHtml = getQuickAddHtml(plant, {
-                    dataPlantId: plantId,
-                    cartQuantity: getCartQuantityForItem(plantId),
-                    unit: plant.unit,
-                    maxedClass: getAvailableToAdd(plantId) === 0,
-                    disabled: typeof plant.stockQuantity === 'number' && plant.stockQuantity <= 0
-                });
                 imgContainer.innerHTML = `${carnivorousHtml}
             <img src="${thumbUrl}" alt="${plant.name}" class="plant-image" loading="lazy" onerror="this.onerror=null; handleImageError(this, ${plantId})" data-plant-id="${plantId}">
             <div class="card-icons plant-card-icons">
@@ -7781,7 +7774,6 @@ function updatePlantCardImage(plantId, imageUrl) {
                     <path d="M6 14h12v8H6z"/>
                 </svg>
             </div>
-            ${quickAddHtml}
             <div class="card-price">${formatPlantPrice(plant)}</div>`;
                 var editBtn = imgContainer.querySelector('.card-edit-icon, .image-edit-icon');
                 if (editBtn) {

@@ -3380,6 +3380,9 @@ main {
 .plants-grid.card-size-medium .plant-info {
     padding: 0.5rem 0.75rem;
 }
+.plants-grid.card-size-medium .card-add-wrap {
+    padding: 0 0.75rem 0.5rem;
+}
 .plants-grid.card-size-medium .plant-name {
     font-size: 1.1rem;
 }
@@ -3430,6 +3433,9 @@ main {
 /* Small cards */
 .plants-grid.card-size-small .plant-info {
     padding: 0.4rem 0.6rem;
+}
+.plants-grid.card-size-small .card-add-wrap {
+    padding: 0 0.6rem 0.4rem;
 }
 .plants-grid.card-size-small .plant-name {
     font-size: 0.95rem;
@@ -3563,6 +3569,8 @@ main {
 .plant-card {
     position: relative;
     z-index: 0;
+    display: flex;
+    flex-direction: column;
     background: var(--card-bg);
     border-radius: 12px;
     overflow: hidden;
@@ -3570,6 +3578,21 @@ main {
     transition: transform 0.3s, box-shadow 0.3s, z-index 0s;
     cursor: pointer;
     border: 2px solid transparent;
+}
+.plant-card .plant-info {
+    flex: 1;
+}
+.plant-card .card-add-wrap {
+    margin-top: auto;
+    padding: 0 0.75rem 0.5rem;
+}
+.plant-card .card-add-wrap .quick-add-wrap {
+    position: static;
+    bottom: auto;
+    right: auto;
+    opacity: 1;
+    pointer-events: auto;
+    justify-content: flex-end;
 }
 
 /* Hidden products (for staff view only) */

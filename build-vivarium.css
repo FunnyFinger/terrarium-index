@@ -853,6 +853,7 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    flex: 1;
     gap: 0.1rem;
     container-type: inline-size;
 }
@@ -893,7 +894,7 @@
     line-height: 1.25;
 }
 .build-plant-card-add-wrap {
-    margin-top: 0.35rem;
+    margin-top: auto;
 }
 .build-plant-card-add-wrap .quick-add-wrap {
     position: static;
@@ -1015,6 +1016,7 @@
     overflow: visible;
     display: flex;
     flex-direction: column;
+    flex: 1;
     gap: 0.2rem;
 }
 
@@ -1045,7 +1047,7 @@
     position: static;
     bottom: auto;
     right: auto;
-    margin-top: 0.3rem;
+    margin-top: auto;
 }
 .build-supply-card .quick-add-btn {
     box-shadow: none;
