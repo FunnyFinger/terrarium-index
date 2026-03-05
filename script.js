@@ -1,6 +1,21 @@
-// Main application logic
-if (typeof window !== 'undefined' && window.auth && !window.auth.canManageInventory()) {
-    document.body.classList.add('shopper-mode');
+// Main application logic — shopper-mode hides edit buttons. Set after auth is ready (Supabase restores session async).
+function applyShopperMode() {
+    if (typeof window === 'undefined' || !document.body) return;
+    var canManage = (window.auth && typeof window.auth.canManageInventory === 'function' && window.auth.canManageInventory());
+    if (canManage) document.body.classList.remove('shopper-mode');
+    else document.body.classList.add('shopper-mode');
+}
+if (typeof window !== 'undefined') {
+    if (window.auth) {
+        if (typeof window.auth.getUser === 'function') {
+            window.auth.getUser().then(applyShopperMode).catch(function () { applyShopperMode(); });
+        } else {
+            applyShopperMode();
+        }
+        window.addEventListener('authStateChange', applyShopperMode);
+    } else {
+        document.body.classList.add('shopper-mode');
+    }
 }
 let allPlants = [];
 let filteredPlants = [];
