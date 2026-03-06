@@ -3584,7 +3584,7 @@ main {
 }
 .plant-card .card-add-wrap {
     margin-top: auto;
-    padding: 0 0.75rem 0.5rem;
+    padding: 0;
 }
 .plant-card .card-add-wrap .quick-add-wrap {
     position: static;
@@ -3592,7 +3592,18 @@ main {
     right: auto;
     opacity: 1;
     pointer-events: auto;
-    justify-content: flex-end;
+    justify-content: center;
+    width: 100%;
+}
+.plant-card .card-add-wrap .quick-add-btn {
+    width: 100%;
+    border-radius: 0;
+    justify-content: center;
+    padding: 0.55rem 1rem;
+}
+.plant-card .card-add-wrap .quick-add-label {
+    max-width: none;
+    opacity: 1;
 }
 
 /* Hidden products (for staff view only) */
