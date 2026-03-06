@@ -1101,9 +1101,9 @@
             var imgUrl = e.imageUrl || (e.images && e.images[0]) || '';
             var cardImgSrc = cardImageUrl(imgUrl) || imgUrl;
             var name = e.name || 'Item';
-            var priceStr = e.price != null && e.price !== '' ? formatPrice(e.price) : 'Price on request';
             var unit = (e.unit != null && String(e.unit).trim() !== '') ? String(e.unit).trim() : '';
             var qtyBlock = '';
+            var priceStr = e.price != null && e.price !== '' ? formatPrice(e.price) : 'Price on request';
             if (showQty) {
                 var stockMax = getSupplyStockMax(e);
                 var effectiveMax = (stockMax != null && stockMax >= 0) ? stockMax : 9999;
@@ -1120,6 +1120,11 @@
                     '<label class="build-review-qty-label">Qty <input type="number" class="build-review-qty-input" data-supply-id="' + id + '" data-max="' + effectiveMax + '" value="' + escapeHtml(String(qty)) + '" min="' + min + '" max="' + effectiveMax + '" step="' + step + '" aria-label="Quantity' + (unit ? ' in ' + escapeHtml(unit) : '') + (effectiveMax < 9999 ? ', max ' + effectiveMax + ' in stock' : '') + '"></label>' +
                     (unit ? '<span class="build-review-qty-unit">' + escapeHtml(unit) + '</span>' : '') + stockHint +
                     '</div>';
+                // Show line total (unit price × qty) instead of unit price alone
+                if (e.price != null && e.price !== '' && qty > 0) {
+                    var lineTotal = Number(e.price) * qty;
+                    priceStr = isNaN(lineTotal) ? priceStr : formatPrice(lineTotal);
+                }
             }
             return '<div class="plant-card equipment-card build-review-item-card" data-supply-id="' + id + '">' +
                 '<div class="plant-image-container">' +
