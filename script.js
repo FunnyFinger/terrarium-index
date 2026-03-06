@@ -832,7 +832,11 @@ function clearCart() {
 }
 /** Nav badge: integer = number of line items (each item counts as 1; float qty still shows in drawer). */
 function getCartCount() {
-    return Math.max(0, Math.floor(getCart().length));
+    return Math.max(0, getCart().reduce((sum, item) => {
+        const qty = parseFloat(item.quantity);
+        if (isNaN(qty) || qty <= 0) return sum;
+        return sum + (qty % 1 === 0 ? qty : 1);
+    }, 0));
 }
 function updateCartUI() {
     const cart = getCart();
