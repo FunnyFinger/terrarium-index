@@ -274,14 +274,15 @@
         var cardBody = '<div class="build-supply-card-body">' +
             '<span class="build-supply-card-name">' + name + '</span>' +
             (size ? '<div class="build-supply-card-size">' + size + '</div>' : '') +
-            qtyBlock + '</div>';
+            '</div>';
+        var addWrap = qtyBlock ? '<div class="build-supply-card-add-wrap">' + qtyBlock + '</div>' : '';
         if (singleSelect) {
             return '<button type="button" class="build-supply-card build-supply-card-single' + selClass + '" data-id="' + escapeHtml(String(id)) + '">' +
-                cardTop + cardBody + '</button>';
+                cardTop + cardBody + addWrap + '</button>';
         }
         return '<label class="build-supply-card' + selClass + '">' +
             '<input type="checkbox" class="build-supply-card-input" id="' + inputId + '" data-id="' + id + '"' + (checked ? ' checked' : '') + ' aria-label="Select ' + name + '">' +
-            cardTop + cardBody + '</label>';
+            cardTop + cardBody + addWrap + '</label>';
     }
 
     /** Display-only supply card (image + name) for use inside drainage combo blocks. */

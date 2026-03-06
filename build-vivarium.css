@@ -961,11 +961,6 @@
     min-width: 3.5rem;
 }
 
-/* Supply cards: ensure label visible (same as main page) */
-.build-supply-card-body .quick-add-label {
-    max-width: none;
-    opacity: 1;
-}
 
 /* Supply cards (same layout as plant cards) – used in Enclosure, Drainage, Substrate, Hard scape, Decorations, Accessories, Tools */
 .build-supply-list {
@@ -981,7 +976,7 @@
     flex-direction: column;
     padding: 0;
     min-width: 0;
-    overflow: visible;
+    overflow: hidden;
     background: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: 8px;
@@ -1096,20 +1091,61 @@
     color: var(--text-light);
     margin-top: 0.1rem;
 }
-.build-supply-card .quick-add-wrap {
+.build-supply-card-add-wrap {
+    margin-top: auto;
+    padding: 0;
+}
+.build-supply-card-add-wrap .quick-add-wrap {
     position: static;
     bottom: auto;
     right: auto;
-    margin-top: auto;
-}
-.build-supply-card .quick-add-btn {
-    box-shadow: none;
-    width: 100%;
+    opacity: 1;
+    pointer-events: auto;
     justify-content: center;
+    width: 100%;
 }
-.build-supply-card .quick-add-expanded {
-    position: static;
-    margin-top: 0.25rem;
+.build-supply-card-add-wrap .quick-add-btn {
+    width: 100%;
+    border-radius: 0;
+    justify-content: center;
+    padding: 0.45rem 0.75rem;
+    background: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+    box-shadow: none;
+}
+.build-supply-card-add-wrap .quick-add-btn:hover:not(:disabled) {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: #fff;
+    transform: none;
+    box-shadow: none;
+}
+.build-supply-card-add-wrap .quick-add-label {
+    max-width: none;
+    opacity: 1;
+}
+.build-supply-card-add-wrap .quick-add-expanded {
+    width: 100%;
+    border-radius: 0;
+    border: none;
+    border-top: 1px solid var(--border-color);
+    box-shadow: none;
+    background: var(--card-bg);
+}
+.build-supply-card-add-wrap .quick-add-expanded-row {
+    width: 100%;
+}
+.build-supply-card-add-wrap .quick-add-qty {
+    flex: 1;
+    width: auto;
+    min-width: 0;
+    background: var(--card-bg);
+    color: var(--text-color);
+}
+.build-supply-card-add-wrap .quick-add-confirm {
+    flex: 1;
+    min-width: 3.5rem;
 }
 .build-supply-card-qty-row {
     display: flex;
