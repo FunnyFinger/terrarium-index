@@ -142,6 +142,7 @@
                 <button type="button" class="inv-tab inv-category-tab active" role="tab" id="invCategoryPlants" data-category="plants" aria-selected="true">Plants</button>
                 <button type="button" class="inv-tab inv-category-tab" role="tab" id="invCategoryEquipment" data-category="equipment" aria-selected="false">Supplies</button>
                 <button type="button" class="inv-tab inv-category-tab" role="tab" id="invCategoryVivariums" data-category="vivariums" aria-selected="false">Vivariums</button>
+                <button type="button" class="inv-tab inv-category-tab inv-staff-only" role="tab" id="invCategoryCharges" data-category="charges" aria-selected="false">Charges</button>
             </div>
             <div class="inv-toolbar">
                 <p id="invSummary" class="inv-summary">Loading…</p>
@@ -215,6 +216,57 @@
                 </div>
             </div>
         </div>
+
+        <!-- Charges Panel -->
+        <div id="invChargesPanel" style="display:none; margin-top:0.5rem;">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.75rem; flex-wrap:wrap; gap:0.5rem;">
+                <p id="invChargesSummary" style="margin:0; color:var(--text-light); font-size:0.9rem;"></p>
+                <button type="button" class="inv-edit-btn inv-staff-only" id="invAddChargeBtn" style="background:var(--primary-color);">+ Add charge</button>
+            </div>
+            <div class="inv-table-wrap">
+                <table class="inv-table" id="invChargesTable" style="min-width:560px;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Price (KD)</th>
+                            <th>Description</th>
+                            <th>Active</th>
+                            <th class="inv-staff-only"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="invChargesBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Charges Edit Modal -->
+        <div id="invChargeModal" class="inv-editor hidden">
+            <div class="inv-editor-box" style="max-width:480px;">
+                <h3 id="invChargeModalTitle">Add charge</h3>
+                <label>Name <input type="text" id="invChargeName" placeholder="e.g. Delivery, Labour"></label>
+                <label>Category
+                    <select id="invChargeCategory" style="width:100%; padding:0.5rem; margin-top:0.25rem; border:1px solid var(--border-color); border-radius:6px; font:inherit; background:var(--card-bg); color:var(--text-color);">
+                        <option value="delivery">Delivery</option>
+                        <option value="labour">Labour</option>
+                        <option value="handling">Handling</option>
+                        <option value="other">Other</option>
+                    </select>
+                </label>
+                <label>Price (KD) <input type="number" id="invChargePrice" placeholder="0.00" min="0" step="0.001"></label>
+                <label>Description <input type="text" id="invChargeDesc" placeholder="Short description (optional)"></label>
+                <label style="display:flex; align-items:center; gap:0.5rem; margin-top:0.75rem; cursor:pointer;">
+                    <input type="checkbox" id="invChargeActive" checked style="width:1.1rem; height:1.1rem;"> Active (shown at checkout)
+                </label>
+                <p id="invChargeError" style="color:#b91c1c; font-size:0.85rem; margin-top:0.4rem; display:none;"></p>
+                <div class="inv-editor-actions">
+                    <button type="button" class="save" id="invChargeSaveBtn">Save</button>
+                    <button type="button" class="cancel" id="invChargeCancelBtn">Cancel</button>
+                    <button type="button" id="invChargeDeleteBtn" style="background:#b91c1c; color:#fff; border:none; border-radius:8px; padding:0.5rem 1rem; font-weight:600; cursor:pointer; margin-left:auto; display:none;">Delete</button>
+                </div>
+            </div>
+        </div>
+
         <div id="invPanelSales" class="inv-panel" role="tabpanel">
             <section class="inv-sales">
                 <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.75rem;">
@@ -394,18 +446,31 @@
                 var plantsTab = document.getElementById('invCategoryPlants');
                 var equipTab = document.getElementById('invCategoryEquipment');
                 var vivariumTab = document.getElementById('invCategoryVivariums');
-                if (plantsTab && equipTab) {
-                    plantsTab.classList.toggle('active', category === 'plants');
-                    plantsTab.setAttribute('aria-selected', category === 'plants' ? 'true' : 'false');
-                    equipTab.classList.toggle('active', category === 'equipment');
-                    equipTab.setAttribute('aria-selected', category === 'equipment' ? 'true' : 'false');
+                var chargesTab = document.getElementById('invCategoryCharges');
+                var isCharges = category === 'charges';
+                // Toggle main table areas
+                var tableWrap = document.getElementById('invTableWrap');
+                var pagination = document.getElementById('invPagination');
+                var toolbar = document.querySelector('.inv-toolbar');
+                var filters = document.querySelector('.inv-filters');
+                var batchBar = document.getElementById('invBatchBar');
+                var chargesPanel = document.getElementById('invChargesPanel');
+                if (tableWrap) tableWrap.style.display = isCharges ? 'none' : '';
+                if (pagination) pagination.style.display = isCharges ? 'none' : '';
+                if (toolbar) toolbar.style.display = isCharges ? 'none' : '';
+                if (filters) filters.style.display = isCharges ? 'none' : '';
+                if (batchBar && isCharges) batchBar.classList.add('hidden');
+                if (chargesPanel) chargesPanel.style.display = isCharges ? 'block' : 'none';
+                [plantsTab, equipTab, vivariumTab, chargesTab].forEach(function(t) {
+                    if (!t) return;
+                    var cat = t.getAttribute('data-category');
+                    t.classList.toggle('active', cat === category);
+                    t.setAttribute('aria-selected', cat === category ? 'true' : 'false');
+                });
+                if (!isCharges) {
+                    updateInvSecondColumnHeader();
+                    updateInvAddButton();
                 }
-                if (vivariumTab) {
-                    vivariumTab.classList.toggle('active', category === 'vivariums');
-                    vivariumTab.setAttribute('aria-selected', category === 'vivariums' ? 'true' : 'false');
-                }
-                updateInvSecondColumnHeader();
-                updateInvAddButton();
             }
             document.getElementById('invCategoryPlants').addEventListener('click', function() {
                 invCurrentCategory = 'plants';
@@ -425,6 +490,107 @@
                 setCategoryTabActive('vivariums');
                 if (invCachedById) renderTable(invVivariumList, invCachedById);
             });
+            document.getElementById('invCategoryCharges').addEventListener('click', function() {
+                invCurrentCategory = 'charges';
+                setCategoryTabActive('charges');
+                renderCharges();
+            });
+
+            // ── Charges CRUD ─────────────────────────────────────────────────────
+            var CHARGES_KEY = 'terrarium_charges';
+            var DEFAULT_CHARGES = [
+                { id: 'charge_labour_vivarium', name: 'Labour (Vivarium build)', category: 'labour', price: 10, description: 'Labour charge applied to every custom vivarium build', active: true },
+                { id: 'charge_delivery', name: 'Delivery', category: 'delivery', price: 2, description: 'Standard delivery fee', active: true }
+            ];
+            function getCharges() {
+                try {
+                    var raw = localStorage.getItem(CHARGES_KEY);
+                    var saved = raw ? JSON.parse(raw) : null;
+                    if (!saved || !saved.length) return DEFAULT_CHARGES.map(function(c) { return Object.assign({}, c); });
+                    return saved;
+                } catch(e) { return DEFAULT_CHARGES.map(function(c) { return Object.assign({}, c); }); }
+            }
+            function saveCharges(list) {
+                localStorage.setItem(CHARGES_KEY, JSON.stringify(list));
+            }
+            function renderCharges() {
+                var list = getCharges();
+                var tbody = document.getElementById('invChargesBody');
+                var summary = document.getElementById('invChargesSummary');
+                if (summary) summary.textContent = list.length + ' charge' + (list.length !== 1 ? 's' : '');
+                if (!tbody) return;
+                if (!list.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:var(--text-light); padding:1.5rem;">No charges defined.</td></tr>'; return; }
+                tbody.innerHTML = list.map(function(c) {
+                    var catLabel = { delivery:'Delivery', labour:'Labour', handling:'Handling', other:'Other' }[c.category] || c.category;
+                    var activeLabel = c.active ? '<span style="color:#16a34a; font-weight:600;">Active</span>' : '<span style="color:var(--text-light);">Inactive</span>';
+                    var price = (c.price != null && !isNaN(c.price)) ? 'KD ' + Number(c.price).toFixed(3) : '—';
+                    return '<tr>' +
+                        '<td style="font-weight:600;">' + (c.name || '').replace(/</g,'&lt;') + '</td>' +
+                        '<td>' + catLabel + '</td>' +
+                        '<td>' + price + '</td>' +
+                        '<td style="color:var(--text-light); font-size:0.88rem;">' + (c.description || '').replace(/</g,'&lt;') + '</td>' +
+                        '<td>' + activeLabel + '</td>' +
+                        '<td class="inv-staff-only"><button type="button" class="inv-edit-btn inv-charge-edit-btn" data-charge-id="' + (c.id || '') + '">Edit</button></td>' +
+                        '</tr>';
+                }).join('');
+                tbody.querySelectorAll('.inv-charge-edit-btn').forEach(function(btn) {
+                    btn.addEventListener('click', function() { openChargeModal(btn.getAttribute('data-charge-id')); });
+                });
+            }
+            var invChargeEditingId = null;
+            function openChargeModal(chargeId) {
+                var list = getCharges();
+                var charge = chargeId ? list.find(function(c) { return c.id === chargeId; }) : null;
+                invChargeEditingId = chargeId || null;
+                document.getElementById('invChargeModalTitle').textContent = charge ? 'Edit charge' : 'Add charge';
+                document.getElementById('invChargeName').value = charge ? (charge.name || '') : '';
+                document.getElementById('invChargeCategory').value = charge ? (charge.category || 'other') : 'delivery';
+                document.getElementById('invChargePrice').value = charge ? (charge.price != null ? charge.price : '') : '';
+                document.getElementById('invChargeDesc').value = charge ? (charge.description || '') : '';
+                document.getElementById('invChargeActive').checked = charge ? !!charge.active : true;
+                var errEl = document.getElementById('invChargeError');
+                if (errEl) { errEl.style.display = 'none'; errEl.textContent = ''; }
+                document.getElementById('invChargeDeleteBtn').style.display = charge ? 'inline-block' : 'none';
+                document.getElementById('invChargeModal').classList.remove('hidden');
+            }
+            function closeChargeModal() { document.getElementById('invChargeModal').classList.add('hidden'); invChargeEditingId = null; }
+            document.getElementById('invChargeCancelBtn').addEventListener('click', closeChargeModal);
+            document.getElementById('invAddChargeBtn').addEventListener('click', function() { openChargeModal(null); });
+            document.getElementById('invChargeSaveBtn').addEventListener('click', function() {
+                var name = (document.getElementById('invChargeName').value || '').trim();
+                var price = parseFloat(document.getElementById('invChargePrice').value);
+                var errEl = document.getElementById('invChargeError');
+                if (!name) { errEl.textContent = 'Name is required.'; errEl.style.display = 'block'; return; }
+                if (isNaN(price) || price < 0) { errEl.textContent = 'Enter a valid price (0 or more).'; errEl.style.display = 'block'; return; }
+                var list = getCharges();
+                var updated = {
+                    id: invChargeEditingId || ('charge_' + Date.now()),
+                    name: name,
+                    category: document.getElementById('invChargeCategory').value,
+                    price: price,
+                    description: (document.getElementById('invChargeDesc').value || '').trim(),
+                    active: document.getElementById('invChargeActive').checked
+                };
+                if (invChargeEditingId) {
+                    var idx = list.findIndex(function(c) { return c.id === invChargeEditingId; });
+                    if (idx !== -1) list[idx] = updated; else list.push(updated);
+                } else { list.push(updated); }
+                saveCharges(list);
+                closeChargeModal();
+                renderCharges();
+            });
+            document.getElementById('invChargeDeleteBtn').addEventListener('click', function() {
+                if (!invChargeEditingId) return;
+                if (!confirm('Delete this charge?')) return;
+                var list = getCharges().filter(function(c) { return c.id !== invChargeEditingId; });
+                saveCharges(list);
+                closeChargeModal();
+                renderCharges();
+            });
+            // expose charges so checkout/builder can read them
+            window.getOperationalCharges = function() { return getCharges().filter(function(c) { return c.active; }); };
+            // ─────────────────────────────────────────────────────────────────────
+
             updateInvAddButton();
             var invAddOverlay = document.getElementById('invAddOverlay');
             var invAddFrame = document.getElementById('invAddFrame');
