@@ -63,7 +63,9 @@
     }
 
     /**
-     * Upload a file to Supabase Storage. Prefers Supabase JS client when available (handles auth/format).
+     * Upload a file to Supabase Storage via raw fetch using the anon key.
+     * The vivarium-assets bucket has INSERT policy for anon role only. Using a JWT (authenticated role)
+     * would fail with 400 because there is no INSERT policy for authenticated users.
      * @param {File} file - the file to upload
      * @param {string} objectPath - path inside bucket, e.g. "plants/123/photo.jpg"
      * @returns {Promise<string>} public URL of the uploaded file
@@ -75,23 +77,11 @@
         var path = sanitizeStoragePath(objectPath);
         if (!path) return Promise.reject(new Error('Invalid storage path'));
 
-        var createClient = (global.supabase && global.supabase.createClient) || null;
-        var supabase = (createClient && global.SUPABASE_URL && global.SUPABASE_ANON_KEY) ? createClient(global.SUPABASE_URL, global.SUPABASE_ANON_KEY) : null;
-        if (supabase && supabase.storage) {
-            return supabase.storage.from('vivarium-assets').upload(path, file, { upsert: true, contentType: file.type || undefined })
-                .then(function (result) {
-                    if (result.error) return Promise.reject(new Error(result.error.message || 'Storage upload failed'));
-                    var key = (result.data && result.data.path) ? result.data.path : path;
-                    if (key.indexOf('vivarium-assets/') === 0) key = key.replace(/^vivarium-assets\/?/, '');
-                    return STORAGE_BASE + '/storage/v1/object/public/vivarium-assets/' + key;
-                });
-        }
-
+        var anonKey = global.SUPABASE_ANON_KEY || HEADERS.apikey || '';
         var url = STORAGE_BASE + '/storage/v1/object/vivarium-assets/' + path;
-        var token = (global.supabaseAuth && global.supabaseAuth.getAccessToken) ? global.supabaseAuth.getAccessToken() : null;
         var headers = {
-            'Authorization': 'Bearer ' + (token || global.SUPABASE_ANON_KEY || HEADERS.apikey || ''),
-            'apikey': (global.SUPABASE_ANON_KEY || HEADERS.apikey || ''),
+            'Authorization': 'Bearer ' + anonKey,
+            'apikey': anonKey,
             'x-upsert': 'true'
         };
         if (file.type) headers['Content-Type'] = file.type;
@@ -99,7 +89,7 @@
             if (!res.ok) {
                 return res.text().then(function (body) {
                     var msg = (body && body.trim()) ? (body.length > 200 ? body.slice(0, 200) + '…' : body) : ('HTTP ' + res.status);
-                    return Promise.reject(new Error('Storage upload failed: ' + msg));
+                    return Promise.reject(new Error('Upload failed (' + res.status + '): ' + msg));
                 });
             }
             var publicUrl = STORAGE_BASE + '/storage/v1/object/public/vivarium-assets/' + path;
