@@ -79,10 +79,13 @@
             <label for="checkoutPhone">Phone</label>
             <input type="tel" id="checkoutPhone" placeholder="e.g. +965 1234 5678">
             <div id="checkoutSavedAddressWrap" style="display: none; margin-bottom: 0.75rem;">
-                <label for="checkoutSavedAddress">Use saved address</label>
-                <select id="checkoutSavedAddress" style="width: 100%; padding: 0.5rem; margin-top: 0.25rem; border: 1px solid var(--border-color); border-radius: 6px;">
-                    <option value="">— Choose one —</option>
-                </select>
+                <button type="button" id="checkoutUseSavedBtn" style="display:none; width:100%; padding:0.5rem 0.75rem; background:var(--primary-color); color:#fff; border:none; border-radius:8px; font-size:0.95rem; font-weight:600; cursor:pointer; margin-bottom:0.4rem; text-align:left;">📍 Use my saved address</button>
+                <div id="checkoutSavedAddressSelectWrap" style="display:none;">
+                    <label for="checkoutSavedAddress" style="font-size:0.9rem; color:var(--text-light);">Or choose a saved address</label>
+                    <select id="checkoutSavedAddress" style="width: 100%; padding: 0.5rem; margin-top: 0.25rem; border: 1px solid var(--border-color); border-radius: 6px; background:var(--card-bg); color:var(--text-color);">
+                        <option value="">— Choose one —</option>
+                    </select>
+                </div>
             </div>
             <div class="checkout-address-section">
                 <h3 style="margin: 0 0 0.75rem 0; font-size: 1rem;">Delivery address</h3>
@@ -109,6 +112,17 @@
                         <label for="checkoutAddrCountry">Country</label>
                         <input type="text" id="checkoutAddrCountry" placeholder="Country">
                     </div>
+                </div>
+            </div>
+            <!-- Save address — shown only to logged-in users with no saved address -->
+            <div id="checkoutSaveAddressWrap" style="display:none; margin-top:0.75rem; padding:0.75rem 1rem; background:var(--bg-color); border-radius:8px; border:1px solid var(--border-color);">
+                <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer; font-size:0.95rem; font-weight:500;">
+                    <input type="checkbox" id="checkoutSaveAddressCheck" style="width:1.1rem; height:1.1rem; cursor:pointer;">
+                    Save this address for future orders
+                </label>
+                <div id="checkoutSaveAddressLabel" style="display:none; margin-top:0.5rem;">
+                    <label for="checkoutSaveAddressLabelInput" style="font-size:0.85rem; color:var(--text-light);">Label (e.g. Home, Work)</label>
+                    <input type="text" id="checkoutSaveAddressLabelInput" placeholder="Home" value="Home" style="width:100%; padding:0.4rem 0.6rem; margin-top:0.2rem; border:1px solid var(--border-color); border-radius:6px; font-size:0.9rem; background:var(--card-bg); color:var(--text-color); box-sizing:border-box;">
                 </div>
             </div>
             <!-- Optional account creation — shown only to non-logged-in users -->
@@ -217,52 +231,83 @@
                     }).join('');
                     el.innerHTML = '<h2>Order summary</h2><div class="checkout-order-table-wrap"><table class="checkout-order-table" role="grid"><thead><tr><th scope="col">Item</th><th scope="col" class="col-qty">Qty</th><th scope="col" class="col-price">Unit price</th><th scope="col" class="col-total">Line total</th></tr></thead><tbody>' + rows + '</tbody><tfoot><tr><td colspan="2"><strong>Total</strong> <span style="font-size:0.85rem;color:var(--text-light);">(' + totalQty + ' item' + (totalQty !== 1 ? 's' : '') + ')</span></td><td></td><td class="col-total">' + (hasPrice ? formatPrice(totalPrice) : '—') + '</td></tr></tfoot></table></div>';
                     formWrap.style.display = 'block';
-                    // Show optional guest registration section only after async auth resolves
+                    // Resolve auth async, then load saved addresses or show save-address prompt
                     var guestRegWrap = document.getElementById('checkoutGuestRegister');
                     var authPromise = (window.auth && typeof window.auth.getUser === 'function')
                         ? window.auth.getUser()
                         : Promise.resolve(window.auth && window.auth.getCurrentUser ? window.auth.getCurrentUser() : null);
                     authPromise.then(function(loggedInUser) {
                         if (guestRegWrap) guestRegWrap.style.display = loggedInUser ? 'none' : 'block';
-                        if (loggedInUser) {
-                            var nameEl = document.getElementById('checkoutName');
-                            var emailEl = document.getElementById('checkoutEmail');
-                            if (nameEl && loggedInUser.name) nameEl.value = loggedInUser.name;
-                            if (emailEl && loggedInUser.email) emailEl.value = loggedInUser.email;
-                        }
-                    });
-                    if (window.auth && window.auth.getCurrentUser()) {
-                        var u = window.auth.getCurrentUser();
+                        if (!loggedInUser) return;
                         var nameEl = document.getElementById('checkoutName');
                         var emailEl = document.getElementById('checkoutEmail');
-                        if (nameEl && u.name) nameEl.value = u.name;
-                        if (emailEl && u.email) emailEl.value = u.email;
-                        if (window.profileDb && u.id) {
-                            window.profileDb.getSavedAddresses(u.id).then(function(addrs) {
-                                var wrap = document.getElementById('checkoutSavedAddressWrap');
-                                var sel = document.getElementById('checkoutSavedAddress');
-                                if (!wrap || !sel || !addrs || addrs.length === 0) return;
-                                wrap.style.display = 'block';
-                                sel.innerHTML = '<option value="">— Choose one —</option>' + addrs.map(function(a) {
-                                    var label = (a.label || 'Address') + ' – ' + (a.line1 || a.city || '').substring(0, 30);
-                                    return '<option value="' + (a.id || '') + '">' + label.replace(/</g, '&lt;') + '</option>';
-                                }).join('');
-                                sel.addEventListener('change', function() {
-                                    var id = sel.value;
-                                    var a = addrs.find(function(x) { return x.id === id; });
-                                    if (!a) return;
-                                    if (nameEl) nameEl.value = a.name || nameEl.value;
-                                    document.getElementById('checkoutPhone').value = a.phone || '';
-                                    document.getElementById('checkoutAddrLine1').value = a.line1 || '';
-                                    document.getElementById('checkoutAddrLine2').value = a.line2 || '';
-                                    document.getElementById('checkoutAddrCity').value = a.city || '';
-                                    document.getElementById('checkoutAddrState').value = a.state || '';
-                                    document.getElementById('checkoutAddrPostal').value = a.postalCode || '';
-                                    document.getElementById('checkoutAddrCountry').value = a.country || '';
-                                });
-                            });
-                        }
-                    }
+                        if (nameEl && loggedInUser.name) nameEl.value = loggedInUser.name;
+                        if (emailEl && loggedInUser.email) emailEl.value = loggedInUser.email;
+                        if (!window.profileDb || !loggedInUser.id) return;
+                        window.profileDb.getSavedAddresses(loggedInUser.id).then(function(addrs) {
+                            var wrap = document.getElementById('checkoutSavedAddressWrap');
+                            var useSavedBtn = document.getElementById('checkoutUseSavedBtn');
+                            var selWrap = document.getElementById('checkoutSavedAddressSelectWrap');
+                            var sel = document.getElementById('checkoutSavedAddress');
+                            var saveWrap = document.getElementById('checkoutSaveAddressWrap');
+                            function fillAddress(a) {
+                                if (!a) return;
+                                if (nameEl && a.name) nameEl.value = a.name;
+                                var ph = document.getElementById('checkoutPhone'); if (ph) ph.value = a.phone || '';
+                                var l1 = document.getElementById('checkoutAddrLine1'); if (l1) l1.value = a.line1 || '';
+                                var l2 = document.getElementById('checkoutAddrLine2'); if (l2) l2.value = a.line2 || '';
+                                var ci = document.getElementById('checkoutAddrCity'); if (ci) ci.value = a.city || '';
+                                var st = document.getElementById('checkoutAddrState'); if (st) st.value = a.state || '';
+                                var po = document.getElementById('checkoutAddrPostal'); if (po) po.value = a.postalCode || '';
+                                var co = document.getElementById('checkoutAddrCountry'); if (co) co.value = a.country || '';
+                            }
+                            if (addrs && addrs.length > 0) {
+                                // User has saved addresses — show the use-address UI, hide save prompt
+                                if (wrap) wrap.style.display = 'block';
+                                if (saveWrap) saveWrap.style.display = 'none';
+                                var defaultAddr = addrs.find(function(a) { return a.isDefault; }) || addrs[0];
+                                if (addrs.length === 1) {
+                                    // Single saved address: show a button
+                                    if (useSavedBtn) {
+                                        var btnLabel = (defaultAddr.label || 'Saved address') + (defaultAddr.line1 ? ' — ' + defaultAddr.line1.substring(0, 28) : '');
+                                        useSavedBtn.textContent = '📍 ' + btnLabel;
+                                        useSavedBtn.style.display = 'block';
+                                        useSavedBtn.addEventListener('click', function() { fillAddress(defaultAddr); });
+                                    }
+                                } else {
+                                    // Multiple: show button for default + dropdown for others
+                                    if (useSavedBtn) {
+                                        var btnLabel = (defaultAddr.label || 'Default address') + (defaultAddr.line1 ? ' — ' + defaultAddr.line1.substring(0, 28) : '');
+                                        useSavedBtn.textContent = '📍 ' + btnLabel;
+                                        useSavedBtn.style.display = 'block';
+                                        useSavedBtn.addEventListener('click', function() { fillAddress(defaultAddr); });
+                                    }
+                                    if (selWrap && sel) {
+                                        selWrap.style.display = 'block';
+                                        sel.innerHTML = '<option value="">— Choose another —</option>' + addrs.map(function(a) {
+                                            var lbl = (a.label || 'Address') + ' – ' + (a.line1 || a.city || '').substring(0, 30);
+                                            return '<option value="' + (a.id || '') + '">' + lbl.replace(/</g, '&lt;') + '</option>';
+                                        }).join('');
+                                        sel.addEventListener('change', function() {
+                                            var a = addrs.find(function(x) { return x.id === sel.value; });
+                                            fillAddress(a);
+                                        });
+                                    }
+                                }
+                            } else {
+                                // No saved addresses — show save prompt for logged-in users
+                                if (wrap) wrap.style.display = 'none';
+                                if (saveWrap) saveWrap.style.display = 'block';
+                                var saveCheck = document.getElementById('checkoutSaveAddressCheck');
+                                var saveLabelWrap = document.getElementById('checkoutSaveAddressLabel');
+                                if (saveCheck && saveLabelWrap) {
+                                    saveCheck.addEventListener('change', function() {
+                                        saveLabelWrap.style.display = saveCheck.checked ? 'block' : 'none';
+                                    });
+                                }
+                            }
+                        });
+                    });
                     confirmWrap.innerHTML = '<div class="checkout-btn-wrap"><button type="button" id="checkoutConfirmBtn" class="checkout-btn-primary">Confirm order</button><a href="index.html" class="checkout-btn-secondary" id="checkoutSaveForLaterBtn">Save for later</a></div>';
                     document.getElementById('checkoutConfirmBtn').onclick = confirmOrder;
                     bindPaymentDetails();
@@ -295,6 +340,23 @@
                 var addrPostal = (addrPostalEl && addrPostalEl.value || '').trim();
                 var addrCountry = (addrCountryEl && addrCountryEl.value || '').trim();
                 var address = [addrLine1, addrLine2, addrCity, addrState, addrPostal, addrCountry].filter(Boolean).join(', ');
+
+                // Save address if checkbox is checked (logged-in user, no previous saved address)
+                var saveAddrCheck = document.getElementById('checkoutSaveAddressCheck');
+                if (saveAddrCheck && saveAddrCheck.checked && window.profileDb && window.auth) {
+                    var saveUser = window.auth.getCurrentUser();
+                    if (saveUser && saveUser.id) {
+                        var addrLabelInput = document.getElementById('checkoutSaveAddressLabelInput');
+                        window.profileDb.saveAddress(saveUser.id, {
+                            label: (addrLabelInput && addrLabelInput.value.trim()) || 'Home',
+                            name: name, phone: phone,
+                            line1: addrLine1, line2: addrLine2,
+                            city: addrCity, state: addrState,
+                            postalCode: addrPostal, country: addrCountry,
+                            isDefault: true
+                        }).catch(function() {});
+                    }
+                }
 
                 // Require full customer details and address
                 if (!name || !email || !phone || !addrLine1 || !addrCity || !addrCountry) {
