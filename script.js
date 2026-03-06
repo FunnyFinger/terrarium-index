@@ -948,7 +948,9 @@ function initQuickAddOnCards() {
         if (!item) return;
 
         if (e.target.closest('.quick-add-btn')) {
-            if (getAvailableToAdd(plantId) <= 0) {
+            const cartQty = getCartQuantityForItem(plantId);
+            const isInCart = cartQty > 0;
+            if (!isInCart && getAvailableToAdd(plantId) <= 0) {
                 quickAddShowToast('Max stock reached');
                 e.preventDefault();
                 return;
@@ -959,17 +961,26 @@ function initQuickAddOnCards() {
             const confirmBtn = wrap.querySelector('.quick-add-confirm');
             if (expanded && qtyInput) {
                 expanded.classList.remove('hidden');
-                const availableToAdd = getAvailableToAdd(plantId);
-                const max = Math.min(999, availableToAdd);
-                qtyInput.max = max;
-                qtyInput.disabled = availableToAdd === 0;
-                if (availableToAdd === 0) {
-                    qtyInput.value = 0;
-                    quickAddShowToast('Max stock reached');
-                    if (confirmBtn) confirmBtn.disabled = true;
+                if (isInCart) {
+                    const fullStock = typeof item.stockQuantity === 'number' ? item.stockQuantity : 999;
+                    qtyInput.max = Math.min(999, fullStock);
+                    qtyInput.min = 0;
+                    qtyInput.disabled = false;
+                    qtyInput.value = cartQty;
+                    if (confirmBtn) { confirmBtn.textContent = 'Update'; confirmBtn.disabled = false; }
                 } else {
-                    qtyInput.value = 1;
-                    if (confirmBtn) confirmBtn.disabled = false;
+                    const availableToAdd = getAvailableToAdd(plantId);
+                    const max = Math.min(999, availableToAdd);
+                    qtyInput.max = max;
+                    qtyInput.disabled = availableToAdd === 0;
+                    if (availableToAdd === 0) {
+                        qtyInput.value = 0;
+                        quickAddShowToast('Max stock reached');
+                        if (confirmBtn) confirmBtn.disabled = true;
+                    } else {
+                        qtyInput.value = 1;
+                        if (confirmBtn) { confirmBtn.textContent = 'Add'; confirmBtn.disabled = false; }
+                    }
                 }
                 qtyInput.focus();
             }
@@ -1002,29 +1013,58 @@ function initQuickAddOnCards() {
         }
         if (e.target.closest('.quick-add-confirm')) {
             const qtyInput = wrap.querySelector('.quick-add-qty');
-            const availableToAdd = getAvailableToAdd(plantId);
-            if (availableToAdd <= 0) {
-                quickAddShowToast('Max stock reached');
-                e.preventDefault();
-                return;
-            }
-            let qty = qtyInput ? parseFloat(qtyInput.value) : 0;
-            if (isNaN(qty) || qty < 0.001) qty = 0;
-            qty = Math.min(qty, availableToAdd);
-            if (qty < 0.001) {
-                quickAddShowToast('Max stock reached');
-                e.preventDefault();
-                return;
-            }
-            addToCart(item, qty);
+            const cartQtyBefore = getCartQuantityForItem(plantId);
+            const isInCart = cartQtyBefore > 0;
             const btn = wrap.querySelector('.quick-add-btn');
             const labelEl = wrap.querySelector('.quick-add-label');
-            if (btn && labelEl) {
-                btn.classList.remove('hidden');
-                btn.classList.add('quick-add-has-qty');
-                const unitStr = (item && item.unit != null && String(item.unit).trim() !== '') ? String(item.unit).trim() : (wrap.getAttribute('data-unit') || '');
-                labelEl.textContent = formatQuickAddQtyUnit(qty, unitStr);
-                btn.setAttribute('aria-label', labelEl.textContent || 'Add to cart');
+            const unitStr = (item && item.unit != null && String(item.unit).trim() !== '') ? String(item.unit).trim() : (wrap.getAttribute('data-unit') || '');
+            if (isInCart) {
+                // Update mode: set quantity directly (replace, don't add)
+                let qty = qtyInput ? parseFloat(qtyInput.value) : 0;
+                if (isNaN(qty) || qty < 0) qty = 0;
+                const fullStock = typeof item.stockQuantity === 'number' ? item.stockQuantity : 999;
+                qty = Math.min(qty, fullStock);
+                setCartQuantityForItem(item, qty);
+                if (btn && labelEl) {
+                    btn.classList.remove('hidden');
+                    if (qty > 0) {
+                        btn.classList.add('quick-add-has-qty');
+                        labelEl.textContent = formatQuickAddQtyUnit(qty, unitStr);
+                        btn.setAttribute('aria-label', labelEl.textContent);
+                    } else {
+                        btn.classList.remove('quick-add-has-qty');
+                        labelEl.textContent = 'Add to cart';
+                        btn.setAttribute('aria-label', 'Add to cart');
+                    }
+                }
+                if (typeof quickAddShowToast === 'function') {
+                    const toastMsg = qty > 0 ? '\u2713 ' + (item.name || 'Item') + ' updated' : (item.name || 'Item') + ' removed from cart';
+                    quickAddShowToast(toastMsg);
+                }
+            } else {
+                // Add mode: accumulate as before
+                const availableToAdd = getAvailableToAdd(plantId);
+                if (availableToAdd <= 0) {
+                    quickAddShowToast('Max stock reached');
+                    e.preventDefault();
+                    return;
+                }
+                let qty = qtyInput ? parseFloat(qtyInput.value) : 0;
+                if (isNaN(qty) || qty < 0.001) qty = 0;
+                qty = Math.min(qty, availableToAdd);
+                if (qty < 0.001) {
+                    quickAddShowToast('Max stock reached');
+                    e.preventDefault();
+                    return;
+                }
+                addToCart(item, qty);
+                if (btn && labelEl) {
+                    btn.classList.remove('hidden');
+                    btn.classList.add('quick-add-has-qty');
+                    const newTotal = getCartQuantityForItem(plantId);
+                    labelEl.textContent = formatQuickAddQtyUnit(newTotal, unitStr);
+                    btn.setAttribute('aria-label', labelEl.textContent || 'Add to cart');
+                }
             }
             wrap.querySelector('.quick-add-expanded').classList.add('hidden');
             e.preventDefault();
