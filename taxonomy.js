@@ -1970,7 +1970,7 @@ function showTooltip(event, text, imagePath, nodeData = null) {
     if (!tooltip) {
         tooltip = document.createElement('div');
         tooltip.className = 'plant-tooltip';
-        if (document.body) document.body.appendChild(tooltip);
+        document.body.appendChild(tooltip);
     }
     
     // Clear previous content
@@ -1986,14 +1986,14 @@ function showTooltip(event, text, imagePath, nodeData = null) {
     const nameDiv = document.createElement('div');
     nameDiv.className = 'tooltip-name';
     nameDiv.textContent = text;
-    if (tooltip) tooltip.appendChild(nameDiv);
+    tooltip.appendChild(nameDiv);
     
     // Fetch and display English vernacular name from Catalogue of Life API for all nodes (except domain)
     if (rank && rank !== 'domain') {
         const vernacularNameDiv = document.createElement('div');
         vernacularNameDiv.className = 'tooltip-common-name';
         vernacularNameDiv.textContent = 'Loading...';
-        if (tooltip) tooltip.appendChild(vernacularNameDiv);
+        tooltip.appendChild(vernacularNameDiv);
         
         // Get rank label for display
         const rankLabels = {
@@ -2058,7 +2058,7 @@ function showTooltip(event, text, imagePath, nodeData = null) {
         const descDiv = document.createElement('div');
         descDiv.className = 'tooltip-description';
         descDiv.textContent = 'Loading...';
-        if (tooltip) tooltip.appendChild(descDiv);
+        tooltip.appendChild(descDiv);
         
         // Fetch description asynchronously
         getTaxonomicDescription(rank, name, nodeData.data)
@@ -2149,7 +2149,7 @@ function showTooltip(event, text, imagePath, nodeData = null) {
             }
         };
         
-        if (tooltip) tooltip.appendChild(img);
+        tooltip.appendChild(img);
     } else {
         // Debug: log when no image path is available
         if (text === 'Peperomia ferreyrae') {
@@ -2412,7 +2412,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (taxonomySearchInput) taxonomySearchInput.value = '';
                 renderSearchResults([]);
             });
-            if (taxonomySearchResults) taxonomySearchResults.appendChild(item);
+            taxonomySearchResults.appendChild(item);
         });
     }
     

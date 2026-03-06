@@ -82,7 +82,7 @@ function renderSuitableForTags(selectedValues) {
         btn.addEventListener('click', function () {
             btn.classList.toggle('edit-plant-tag-selected');
         });
-        if (container) container.appendChild(btn);
+        container.appendChild(btn);
     });
 }
 
@@ -707,7 +707,7 @@ function updateUploadGallery() {
         item.appendChild(img);
         item.appendChild(numberBadge);
         item.appendChild(removeBtn);
-        if (uploadGalleryGrid) uploadGalleryGrid.appendChild(item);
+        if (uploadGalleryGrid && uploadGalleryGrid.parentNode) uploadGalleryGrid.appendChild(item);
     });
 }
 
@@ -792,7 +792,7 @@ function updateDragDropGallery() {
         item.appendChild(img);
         item.appendChild(numberBadge);
         item.appendChild(removeBtn);
-        if (dragDropGalleryGrid) dragDropGalleryGrid.appendChild(item);
+        if (dragDropGalleryGrid && dragDropGalleryGrid.parentNode) dragDropGalleryGrid.appendChild(item);
     });
 }
 

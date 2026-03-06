@@ -56,8 +56,14 @@
         });
     }
 
+    /** Sanitize storage path: no leading/trailing slashes, no backslashes, no double slashes. */
+    function sanitizeStoragePath(path) {
+        if (typeof path !== 'string') return '';
+        return path.replace(/\\/g, '/').replace(/\/+/g, '/').replace(/^\//, '').replace(/\/$/, '').trim();
+    }
+
     /**
-     * Upload a file to Supabase Storage. Bucket must exist and be public (see docs/SUPABASE_SETUP.md).
+     * Upload a file to Supabase Storage. Prefers Supabase JS client when available (handles auth/format).
      * @param {File} file - the file to upload
      * @param {string} objectPath - path inside bucket, e.g. "plants/123/photo.jpg"
      * @returns {Promise<string>} public URL of the uploaded file
@@ -66,8 +72,21 @@
         if (!file || !objectPath) return Promise.reject(new Error('file and path required'));
         if (!isConfigured()) return Promise.reject(new Error('Supabase not configured'));
         if (!STORAGE_BASE) STORAGE_BASE = (global.SUPABASE_URL || '').toString().trim().replace(/\/$/, '');
-        var path = String(objectPath).replace(/\\/g, '/').replace(/\/+/g, '/').replace(/^\//, '').trim();
-        if (!path) return Promise.reject(new Error('invalid object path'));
+        var path = sanitizeStoragePath(objectPath);
+        if (!path) return Promise.reject(new Error('Invalid storage path'));
+
+        var createClient = (global.supabase && global.supabase.createClient) || null;
+        var supabase = (createClient && global.SUPABASE_URL && global.SUPABASE_ANON_KEY) ? createClient(global.SUPABASE_URL, global.SUPABASE_ANON_KEY) : null;
+        if (supabase && supabase.storage) {
+            return supabase.storage.from('vivarium-assets').upload(path, file, { upsert: true, contentType: file.type || undefined })
+                .then(function (result) {
+                    if (result.error) return Promise.reject(new Error(result.error.message || 'Storage upload failed'));
+                    var key = (result.data && result.data.path) ? result.data.path : path;
+                    if (key.indexOf('vivarium-assets/') === 0) key = key.replace(/^vivarium-assets\/?/, '');
+                    return STORAGE_BASE + '/storage/v1/object/public/vivarium-assets/' + key;
+                });
+        }
+
         var url = STORAGE_BASE + '/storage/v1/object/vivarium-assets/' + path;
         var token = (global.supabaseAuth && global.supabaseAuth.getAccessToken) ? global.supabaseAuth.getAccessToken() : null;
         var headers = {
@@ -75,12 +94,12 @@
             'apikey': (global.SUPABASE_ANON_KEY || HEADERS.apikey || ''),
             'x-upsert': 'true'
         };
-        var mime = (file.type && String(file.type).trim()) ? String(file.type).trim() : '';
-        if (mime && /^[a-z]+\/[a-z0-9.+_-]+$/i.test(mime)) headers['Content-Type'] = mime;
+        if (file.type) headers['Content-Type'] = file.type;
         return fetch(url, { method: 'POST', headers: headers, body: file }).then(function (res) {
             if (!res.ok) {
                 return res.text().then(function (body) {
-                    return Promise.reject(new Error('Storage upload failed: ' + res.status + (body ? ' ' + body : '')));
+                    var msg = (body && body.trim()) ? (body.length > 200 ? body.slice(0, 200) + '…' : body) : ('HTTP ' + res.status);
+                    return Promise.reject(new Error('Storage upload failed: ' + msg));
                 });
             }
             var publicUrl = STORAGE_BASE + '/storage/v1/object/public/vivarium-assets/' + path;
@@ -89,9 +108,7 @@
                 try {
                     var data = JSON.parse(text);
                     var key = (data && (data.Key || data.path)) ? (data.Key || data.path) : path;
-                    if (key.indexOf('vivarium-assets/') === 0) {
-                        return STORAGE_BASE + '/storage/v1/object/public/' + key;
-                    }
+                    if (key.indexOf('vivarium-assets/') === 0) key = key.replace(/^vivarium-assets\/?/, '');
                     return STORAGE_BASE + '/storage/v1/object/public/vivarium-assets/' + key;
                 } catch (e) {
                     return publicUrl;
