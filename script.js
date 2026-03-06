@@ -1109,6 +1109,23 @@ function initQuickAddOnCards() {
             quickAddShowToast('Max stock reached');
         }
     });
+
+    // Collapse any open quick-add expanded panel when clicking outside a card
+    if (!window._quickAddOutsideClickBound) {
+        window._quickAddOutsideClickBound = true;
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.plant-card') || e.target.closest('.build-plant-card')) return;
+            document.querySelectorAll('.quick-add-expanded:not(.hidden)').forEach(expanded => {
+                expanded.classList.add('hidden');
+                const wrap = expanded.closest('.quick-add-wrap');
+                if (!wrap) return;
+                const btn = wrap.querySelector('.quick-add-btn');
+                if (btn) btn.classList.remove('hidden');
+                const confirmBtn = wrap.querySelector('.quick-add-confirm');
+                if (confirmBtn) confirmBtn.textContent = 'Add';
+            });
+        });
+    }
 }
 
 function closePlantPanel() {

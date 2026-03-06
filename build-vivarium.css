@@ -935,6 +935,29 @@
     max-width: none;
     opacity: 1;
 }
+/* Expanded state: full-width flush bar inside builder card */
+.build-plant-card-add-wrap .quick-add-expanded {
+    width: 100%;
+    border-radius: 0;
+    border: none;
+    border-top: 1px solid var(--border-color);
+    box-shadow: none;
+    background: var(--card-bg);
+}
+.build-plant-card-add-wrap .quick-add-expanded-row {
+    width: 100%;
+}
+.build-plant-card-add-wrap .quick-add-qty {
+    flex: 1;
+    width: auto;
+    min-width: 0;
+    background: var(--card-bg);
+    color: var(--text-color);
+}
+.build-plant-card-add-wrap .quick-add-confirm {
+    flex: 1;
+    min-width: 3.5rem;
+}
 
 /* Supply cards: ensure label visible (same as main page) */
 .build-supply-card-body .quick-add-label {

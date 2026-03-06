@@ -3625,6 +3625,29 @@ main {
     max-width: none;
     opacity: 1;
 }
+/* Expanded state: full-width flush bar inside card, no floating popup look */
+.plant-card .card-add-wrap .quick-add-expanded {
+    width: 100%;
+    border-radius: 0;
+    border: none;
+    border-top: 1px solid var(--border-color);
+    box-shadow: none;
+    background: var(--card-bg);
+}
+.plant-card .card-add-wrap .quick-add-expanded-row {
+    width: 100%;
+}
+.plant-card .card-add-wrap .quick-add-qty {
+    flex: 1;
+    width: auto;
+    min-width: 0;
+    background: var(--card-bg);
+    color: var(--text-color);
+}
+.plant-card .card-add-wrap .quick-add-confirm {
+    flex: 1;
+    min-width: 3.5rem;
+}
 
 /* Hidden products (for staff view only) */
 .plant-card.product-hidden {
