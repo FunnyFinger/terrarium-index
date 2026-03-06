@@ -616,7 +616,7 @@ const PLACEHOLDER_EQUIPMENT_SVG = '<svg class="placeholder-icon-svg" viewBox="0 
 const PLACEHOLDER_PLANT_SVG = '<svg class="placeholder-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.5 6c.5-2 1.5-3 3-3 1.5 0 2.5 1 3 3A7 7 0 0 1 13 20z"/></svg>';
 
 /** Units that use whole numbers only. Used for quick-add step (integer vs float). */
-const INTEGER_UNITS_QUICKADD = /^(pcs?|piece[s]?|each|unit[s]?|box(?:es)?|pack[s]?|ct|no\.?|bag[s]?|set[s]?|pair[s]?|bottle[s]?|can[s]?|jar[s]?)$/i;
+const INTEGER_UNITS_QUICKADD = /^(pcs?|piece[s]?|each|unit[s]?|box(?:es)?|pack[s]?|ct|no\.?|bag[s]?|set[s]?|pair[s]?|bottle[s]?|can[s]?|jar[s]?|pot[s]?)$/i;
 function isIntegerUnitQuickAdd(unit) {
     if (!unit || typeof unit !== 'string') return false;
     return INTEGER_UNITS_QUICKADD.test(unit.trim());
@@ -5097,8 +5097,8 @@ function showEquipmentDetail(equipment) {
     const priceStr = equipment.price != null ? formatPrice(equipment.price) : 'Price on request';
     const stock = equipment.stockQuantity;
     const stockHtml = typeof stock === 'number' ? (stock <= 0 ? '<div class="plant-product-stock plant-product-stock-out">Out of stock</div>' : '<div class="plant-product-stock plant-product-stock-ok">In stock: ' + stock + '</div>') : '<div class="plant-product-stock plant-product-stock-untracked">Stock not tracked</div>';
-    const maxQty = (typeof stock === 'number' && stock >= 0) ? Math.min(9, stock) : 9;
-    const optionsHtml = Array.from({ length: maxQty }, (_, i) => i + 1).map(n => `<option value="${n}">${n}</option>`).join('') || '<option value="1">1</option>';
+    const eqIsInt = isIntegerUnitQuickAdd(equipment.unit);
+    const eqStockMax = (typeof stock === 'number' && stock >= 0) ? stock : 999;
     const detailEditSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
     const detailImageSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>';
     const equipmentGalleryImages = (equipment.images || []).filter(img => img && img.trim());
@@ -5161,8 +5161,14 @@ function showEquipmentDetail(equipment) {
                     <div class="plant-product-shop">
                         <div class="plant-product-price">${priceStr}</div>
                         ${stockHtml}
-                        <label for="equipmentCartQty" class="plant-product-label">Quantity</label>
-                        <select id="equipmentCartQty" class="plant-product-qty" aria-label="Quantity">${optionsHtml}</select>
+                        <label for="equipmentCartQty" class="plant-product-label">Quantity${equipment.unit ? ' (' + escapeHtml(equipment.unit) + ')' : ''}</label>
+                        <input type="number" id="equipmentCartQty" class="plant-product-qty"
+                            value="${eqIsInt ? '1' : '0.1'}"
+                            min="${eqIsInt ? '1' : '0.001'}"
+                            max="${eqStockMax}"
+                            step="${eqIsInt ? '1' : '0.001'}"
+                            aria-label="Quantity"
+                            ${typeof stock === 'number' && stock <= 0 ? 'disabled' : ''}>
                         <button type="button" class="plant-product-add-cart btn-add-to-cart" data-plant-id="${equipment.id}" ${typeof stock === 'number' && stock <= 0 ? 'disabled' : ''}>Add to cart</button>
                     </div>
                 </div>
@@ -5217,7 +5223,9 @@ function showEquipmentDetail(equipment) {
     const qtySelect = modalBody.querySelector('#equipmentCartQty');
     if (addBtn && qtySelect) {
         addBtn.addEventListener('click', () => {
-            const qty = parseInt(qtySelect.value, 10) || 1;
+            const isInt = isIntegerUnitQuickAdd(equipment.unit);
+            const raw = parseFloat(qtySelect.value);
+            const qty = isNaN(raw) || raw <= 0 ? (isInt ? 1 : 0.1) : (isInt ? Math.round(raw) : raw);
             addToCart(equipment, qty);
         });
     }
@@ -7053,14 +7061,14 @@ async function showPlantModal(plant) {
                             else if (stock <= reorder) { status = 'low'; label = 'Low stock: ' + stock; }
                             return '<div class="plant-product-stock plant-product-stock-' + status + '">' + label + '</div>';
                         })()}
-                        <label for="modalCartQty" class="plant-product-label">Quantity</label>
-                        <select id="modalCartQty" class="plant-product-qty" aria-label="Quantity">
-                            ${(() => {
-                                const stock = plant.stockQuantity;
-                                const max = (typeof stock === 'number' && stock >= 0) ? Math.min(9, stock) : 9;
-                                return Array.from({ length: max }, (_, i) => i + 1).map(n => `<option value="${n}">${n}</option>`).join('') || '<option value="1">1</option>';
-                            })()}
-                        </select>
+                        <label for="modalCartQty" class="plant-product-label">Quantity${plant.unit ? ' (' + escapeHtml(plant.unit) + ')' : ''}</label>
+                        <input type="number" id="modalCartQty" class="plant-product-qty"
+                            value="${isIntegerUnitQuickAdd(plant.unit) ? '1' : '0.1'}"
+                            min="${isIntegerUnitQuickAdd(plant.unit) ? '1' : '0.001'}"
+                            max="${(typeof plant.stockQuantity === 'number' && plant.stockQuantity >= 0) ? plant.stockQuantity : 999}"
+                            step="${isIntegerUnitQuickAdd(plant.unit) ? '1' : '0.001'}"
+                            aria-label="Quantity"
+                            ${typeof plant.stockQuantity === 'number' && plant.stockQuantity <= 0 ? 'disabled' : ''}>
                         <button type="button" class="plant-product-add-cart btn-add-to-cart" data-plant-id="${plant.id}" ${typeof plant.stockQuantity === 'number' && plant.stockQuantity <= 0 ? 'disabled' : ''}>Add to cart</button>
                     </div>
                 </div>
@@ -7366,7 +7374,9 @@ async function showPlantModal(plant) {
     const modalCartQty = modalBody.querySelector('#modalCartQty');
     if (addToCartBtn && modalCartQty) {
         addToCartBtn.addEventListener('click', () => {
-            const qty = parseInt(modalCartQty.value, 10) || 1;
+            const isInt = isIntegerUnitQuickAdd(plant.unit);
+            const raw = parseFloat(modalCartQty.value);
+            const qty = isNaN(raw) || raw <= 0 ? (isInt ? 1 : 0.1) : (isInt ? Math.round(raw) : raw);
             addToCart(plant, qty);
         });
     }

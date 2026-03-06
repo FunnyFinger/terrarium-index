@@ -2934,6 +2934,15 @@ main {
     border: 1px solid var(--border-color);
     border-radius: 8px;
     font-size: 1rem;
+    background: var(--card-bg);
+    color: var(--text-color);
+    appearance: none;
+    -webkit-appearance: none;
+}
+.plant-product-qty:focus {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 1px;
+    border-color: var(--accent-color);
 }
 .plant-product-add-cart {
     padding: 0.65rem 1.25rem;
