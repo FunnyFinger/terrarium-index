@@ -217,11 +217,20 @@
                     }).join('');
                     el.innerHTML = '<h2>Order summary</h2><div class="checkout-order-table-wrap"><table class="checkout-order-table" role="grid"><thead><tr><th scope="col">Item</th><th scope="col" class="col-qty">Qty</th><th scope="col" class="col-price">Unit price</th><th scope="col" class="col-total">Line total</th></tr></thead><tbody>' + rows + '</tbody><tfoot><tr><td colspan="2"><strong>Total</strong> <span style="font-size:0.85rem;color:var(--text-light);">(' + totalQty + ' item' + (totalQty !== 1 ? 's' : '') + ')</span></td><td></td><td class="col-total">' + (hasPrice ? formatPrice(totalPrice) : '—') + '</td></tr></tfoot></table></div>';
                     formWrap.style.display = 'block';
-                    // Show optional guest registration section for non-logged-in users
+                    // Show optional guest registration section only after async auth resolves
                     var guestRegWrap = document.getElementById('checkoutGuestRegister');
-                    if (guestRegWrap) {
-                        guestRegWrap.style.display = (window.auth && window.auth.getCurrentUser()) ? 'none' : 'block';
-                    }
+                    var authPromise = (window.auth && typeof window.auth.getUser === 'function')
+                        ? window.auth.getUser()
+                        : Promise.resolve(window.auth && window.auth.getCurrentUser ? window.auth.getCurrentUser() : null);
+                    authPromise.then(function(loggedInUser) {
+                        if (guestRegWrap) guestRegWrap.style.display = loggedInUser ? 'none' : 'block';
+                        if (loggedInUser) {
+                            var nameEl = document.getElementById('checkoutName');
+                            var emailEl = document.getElementById('checkoutEmail');
+                            if (nameEl && loggedInUser.name) nameEl.value = loggedInUser.name;
+                            if (emailEl && loggedInUser.email) emailEl.value = loggedInUser.email;
+                        }
+                    });
                     if (window.auth && window.auth.getCurrentUser()) {
                         var u = window.auth.getCurrentUser();
                         var nameEl = document.getElementById('checkoutName');
