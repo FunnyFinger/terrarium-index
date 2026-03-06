@@ -707,7 +707,7 @@ function updateUploadGallery() {
         item.appendChild(img);
         item.appendChild(numberBadge);
         item.appendChild(removeBtn);
-        uploadGalleryGrid.appendChild(item);
+        if (uploadGalleryGrid) uploadGalleryGrid.appendChild(item);
     });
 }
 
@@ -792,7 +792,7 @@ function updateDragDropGallery() {
         item.appendChild(img);
         item.appendChild(numberBadge);
         item.appendChild(removeBtn);
-        dragDropGalleryGrid.appendChild(item);
+        if (dragDropGalleryGrid) dragDropGalleryGrid.appendChild(item);
     });
 }
 

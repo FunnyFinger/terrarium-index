@@ -66,26 +66,29 @@
         if (!file || !objectPath) return Promise.reject(new Error('file and path required'));
         if (!isConfigured()) return Promise.reject(new Error('Supabase not configured'));
         if (!STORAGE_BASE) STORAGE_BASE = (global.SUPABASE_URL || '').toString().trim().replace(/\/$/, '');
-        var url = STORAGE_BASE + '/storage/v1/object/vivarium-assets/' + objectPath;
+        var path = String(objectPath).replace(/\\/g, '/').replace(/\/+/g, '/').replace(/^\//, '').trim();
+        if (!path) return Promise.reject(new Error('invalid object path'));
+        var url = STORAGE_BASE + '/storage/v1/object/vivarium-assets/' + path;
         var token = (global.supabaseAuth && global.supabaseAuth.getAccessToken) ? global.supabaseAuth.getAccessToken() : null;
         var headers = {
             'Authorization': 'Bearer ' + (token || global.SUPABASE_ANON_KEY || HEADERS.apikey || ''),
             'apikey': (global.SUPABASE_ANON_KEY || HEADERS.apikey || ''),
             'x-upsert': 'true'
         };
-        if (file.type) headers['Content-Type'] = file.type;
+        var mime = (file.type && String(file.type).trim()) ? String(file.type).trim() : '';
+        if (mime && /^[a-z]+\/[a-z0-9.+_-]+$/i.test(mime)) headers['Content-Type'] = mime;
         return fetch(url, { method: 'POST', headers: headers, body: file }).then(function (res) {
             if (!res.ok) {
                 return res.text().then(function (body) {
                     return Promise.reject(new Error('Storage upload failed: ' + res.status + (body ? ' ' + body : '')));
                 });
             }
-            var publicUrl = STORAGE_BASE + '/storage/v1/object/public/vivarium-assets/' + objectPath;
+            var publicUrl = STORAGE_BASE + '/storage/v1/object/public/vivarium-assets/' + path;
             return res.text().then(function (text) {
                 if (!text || !text.trim()) return publicUrl;
                 try {
                     var data = JSON.parse(text);
-                    var key = (data && (data.Key || data.path)) ? (data.Key || data.path) : objectPath;
+                    var key = (data && (data.Key || data.path)) ? (data.Key || data.path) : path;
                     if (key.indexOf('vivarium-assets/') === 0) {
                         return STORAGE_BASE + '/storage/v1/object/public/' + key;
                     }

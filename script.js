@@ -6033,7 +6033,7 @@ function updatePlantImageGallery() {
     var galleryEl = document.getElementById('plantDragDropGallery');
     var countEl = document.getElementById('plantDragDropCount');
     var gridEl = document.getElementById('plantDragDropGalleryGrid');
-    if (!emptyEl || !galleryEl || !gridEl) return;
+    if (!emptyEl || !galleryEl || !countEl || !gridEl) return;
     var total = currentPlantImageFiles.length + currentPlantImageUrls.length;
     if (total === 0) {
         emptyEl.style.display = 'block';
@@ -6066,7 +6066,7 @@ function updatePlantImageGallery() {
         item.appendChild(img);
         item.appendChild(numBadge);
         item.appendChild(removeBtn);
-        gridEl.appendChild(item);
+        if (gridEl) gridEl.appendChild(item);
         index++;
     });
     currentPlantImageUrls.forEach(function(url) {
@@ -6088,7 +6088,7 @@ function updatePlantImageGallery() {
         item.appendChild(img);
         item.appendChild(numBadge);
         item.appendChild(removeBtn);
-        gridEl.appendChild(item);
+        if (gridEl) gridEl.appendChild(item);
         index++;
     });
 }
