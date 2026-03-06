@@ -57,7 +57,9 @@
         accessoryIds: [],
         toolIds: [],
         /** Quantity per supply id (key = id, value = number). Uses item unit for step (integer vs float). */
-        supplyQuantities: {}
+        supplyQuantities: {},
+        /** Quantity override for plants that use float units (kg, L, m2…). Key = plant id string. */
+        plantQuantities: {}
     };
 
     /** Units that use whole numbers only (e.g. pcs, box). Others allow decimals (kg, L). */
@@ -467,6 +469,7 @@
                 config.accessoryIds = [];
                 config.toolIds = [];
                 config.supplyQuantities = {};
+                config.plantQuantities = {};
                 document.querySelectorAll('#buildTypeOptions .build-option-card').forEach(function (b) { b.classList.remove('build-option-selected'); });
                 btn.classList.add('build-option-selected');
                 document.querySelector('[data-next="2"]').disabled = false;
@@ -894,6 +897,8 @@
     /** In builder, quantity comes from build config only (not cart). Each line item counts as 1 for nav badge. */
     function getBuildQuantityForPlant(plantId) {
         var idn = plantIdNum(plantId);
+        var k = String(idn);
+        if (config.plantQuantities && config.plantQuantities[k] != null) return config.plantQuantities[k];
         return (config.plantIds || []).filter(function (id) { return plantIdNum(id) === idn; }).length;
     }
 
@@ -990,15 +995,29 @@
                 }
                 var maxPlants = getMaxPlants();
                 var arr = (config.plantIds || []).filter(function (id) { return plantIdNum(id) !== pid; });
-                var toAdd = Math.min(Math.floor(qty), Math.max(0, maxPlants - arr.length));
-                for (var i = 0; i < toAdd; i++) arr.push(pid);
+                var isFloat = !isIntegerUnit(plant.unit);
+                if (isFloat) {
+                    // Float-unit plant (kg, L, m2…): one ID slot + store actual quantity
+                    if (qty > 0 && arr.length < maxPlants) {
+                        arr.push(pid);
+                        if (!config.plantQuantities) config.plantQuantities = {};
+                        config.plantQuantities[String(pid)] = qty;
+                    } else {
+                        if (config.plantQuantities) delete config.plantQuantities[String(pid)];
+                    }
+                } else {
+                    // Integer-unit plant: fill array with ID repeated qty times
+                    var toAdd = Math.min(Math.floor(qty), Math.max(0, maxPlants - arr.length));
+                    for (var i = 0; i < toAdd; i++) arr.push(pid);
+                    if (config.plantQuantities) delete config.plantQuantities[String(pid)];
+                }
                 config.plantIds = arr;
                 if (btn) btn.classList.remove('hidden');
                 if (expanded) expanded.classList.add('hidden');
                 updateBuildPlantQuickAddLabel(wrap, pid);
                 var card = wrap.closest('.build-plant-card');
                 var checkbox = card ? card.querySelector('.build-plant-card-input') : null;
-                if (qty > 0) {
+                if (qty > 0 && arr.indexOf(pid) !== -1) {
                     if (checkbox) { checkbox.checked = true; }
                     if (card) {
                         card.classList.add('build-plant-card-selected');
@@ -1266,14 +1285,25 @@
                     input.value = num;
                     buildShowMaxStockToast();
                 }
-                if (isIntegerUnit(p.unit)) num = Math.round(num);
-                else num = Math.max(0.001, num);
                 var arr = (config.plantIds || []).filter(function (id) { return plantIdNum(id) !== pid; });
                 var maxPlants = getMaxPlants();
-                var toAdd = Math.min(Math.floor(num), Math.max(0, maxPlants - arr.length));
-                for (var i = 0; i < toAdd; i++) arr.push(pid);
+                if (isIntegerUnit(p.unit)) {
+                    num = Math.round(num);
+                    var toAdd = Math.min(num, Math.max(0, maxPlants - arr.length));
+                    for (var i = 0; i < toAdd; i++) arr.push(pid);
+                    if (config.plantQuantities) delete config.plantQuantities[String(pid)];
+                    input.value = toAdd;
+                } else {
+                    num = Math.max(0.001, num);
+                    if (num > 0 && arr.length < maxPlants) {
+                        arr.push(pid);
+                        if (!config.plantQuantities) config.plantQuantities = {};
+                        config.plantQuantities[String(pid)] = num;
+                    } else {
+                        if (config.plantQuantities) delete config.plantQuantities[String(pid)];
+                    }
+                }
                 config.plantIds = arr;
-                input.value = toAdd;
             });
         });
     }
@@ -1345,7 +1375,8 @@
             var idN = parseInt(idKey, 10);
             var p = plants.filter(function (x) { return plantIdNum(x.id) === idN; })[0];
             if (!p) return;
-            var qty = plantCount[idN] || 1;
+            var floatQty = config.plantQuantities && config.plantQuantities[String(idN)];
+            var qty = (floatQty != null && !isNaN(floatQty)) ? Number(floatQty) : (plantCount[idN] || 1);
             var price = (p.price !== undefined && p.price !== null && p.price !== '') ? Number(p.price) : null;
             var scientificName = typeof p.scientificName === 'string' ? p.scientificName : (p.scientificName && p.scientificName.name ? p.scientificName.name : '');
             var keyId = p.id != null ? p.id : idN;
