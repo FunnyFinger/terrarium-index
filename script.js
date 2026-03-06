@@ -528,6 +528,10 @@ async function initializeUI() {
     }
     var editParam = urlParams.get('edit');
     var editIdParam = urlParams.get('id') || urlParams.get('editId');
+    if (editParam && window.self !== window.top) {
+        document.documentElement.classList.remove('embed-add-standby');
+        document.documentElement.classList.add('embed-add-active');
+    }
     if (editParam === 'equipment' && editIdParam) {
         var editId = parseInt(editIdParam, 10);
         if (!isNaN(editId)) setTimeout(function() {

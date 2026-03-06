@@ -5871,6 +5871,10 @@ body:has(.upload-modal.show) {
     display: flex;
     flex-direction: column;
 }
+/* Hide the modal's own × close button when loaded inside the inventory iframe */
+html.embed-add-active #closeUploadModal {
+    display: none !important;
+}
 
 .upload-modal-content {
     background-color: var(--bg-color);
