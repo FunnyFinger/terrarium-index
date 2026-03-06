@@ -1444,6 +1444,8 @@ async function saveSingleImage(imageFile, isUrl, imageIndex, totalImages, plantF
             return { success: false, nextNumber: startNumber + 1 };
         }
 
+        // Keep original blob for full-res fullscreen copy
+        const originalBlob = imageBlob;
         try {
             imageBlob = await resizeImageBlobToMaxDimension(imageBlob, 480);
         } catch (resizeErr) {
@@ -1498,6 +1500,17 @@ async function saveSingleImage(imageFile, isUrl, imageIndex, totalImages, plantF
             const writable = await fileHandle.createWritable();
             await writable.write(imageBlob);
             await writable.close();
+
+            // Save original full-resolution copy for fullscreen viewing
+            const fullFilename = filename.replace(/(-\d+)(\.jpg)$/i, '$1-full$2');
+            try {
+                const fullFileHandle = await plantFolderHandle.getFileHandle(fullFilename, { create: true });
+                const fullWritable = await fullFileHandle.createWritable();
+                await fullWritable.write(originalBlob);
+                await fullWritable.close();
+            } catch (fullSaveErr) {
+                console.warn('⚠️ Could not save original full-res image:', fullSaveErr.message);
+            }
 
             if (!currentUploadPlant.images) {
                 currentUploadPlant.images = [];

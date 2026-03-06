@@ -156,6 +156,18 @@ function getCardThumbUrl(url, width, quality) {
     return match[1] + '/storage/v1/render/image/public/' + match[3] + '?width=' + w + '&quality=' + q + '&resize=contain';
 }
 
+/**
+ * Returns the full-resolution URL for a given image URL.
+ * - Supabase URLs: returned as-is (Supabase serves full res without width params).
+ * - Local paths: appends "-full" before the extension (e.g. slug-1.jpg → slug-1-full.jpg).
+ *   Falls back to the original path if the full-res file doesn't exist (onerror on the img).
+ */
+function getFullResUrl(url) {
+    if (!url || typeof url !== 'string') return url;
+    if (/^https?:\/\//i.test(url)) return url;
+    return url.replace(/(-\d+)(\.jpe?g|\.png|\.gif|\.webp)$/i, '$1-full$2');
+}
+
 /** Width in px for card thumbnails; kept modest to reduce Supabase storage egress. */
 function getCardThumbWidth() {
     if (typeof window === 'undefined' || !window.innerWidth) return 360;
@@ -5819,10 +5831,7 @@ function saveEquipmentImages() {
             var fileName = nextNum + '.' + ext;
             usedNumbers.add(nextNum);
             nextNum++;
-            return resizeImageBlobToMaxDimension(file, 480).catch(function () { return file; }).then(function (resizedBlob) {
-                var resizedFile = new File([resizedBlob], file.name || fileName, { type: 'image/jpeg' });
-                return uploadToStorage(resizedFile, basePath + fileName);
-            });
+            return uploadToStorage(file, basePath + fileName);
         });
         Promise.all(uploads).then(function (uploadedUrls) {
             var existingHttp = urls.filter(isHttpUrl);
@@ -6184,10 +6193,7 @@ function savePlantImages() {
             var objectPath = 'plants/' + slug + '/' + slug + '-' + nextNum + '.' + ext;
             usedNumbers.add(nextNum);
             nextNum++;
-            return resizeImageBlobToMaxDimension(file, 480).catch(function () { return file; }).then(function (resizedBlob) {
-                var resizedFile = new File([resizedBlob], file.name || objectPath.split('/').pop(), { type: 'image/jpeg' });
-                return uploadToStorage(resizedFile, objectPath);
-            });
+            return uploadToStorage(file, objectPath);
         });
         Promise.all(uploads).then(function (result) {
             var uploadedUrls = Array.isArray(result) ? result.filter(function(u) { return typeof u === 'string' && u.length; }) : [];
@@ -7261,7 +7267,7 @@ async function showPlantModal(plant) {
                         <div class="plant-gallery-stage-inner" style="position:relative;">
                             <div class="gallery-img-loading" id="gallery-preview-loading">Loading...</div>
                             ${displayImageUrl ? 
-                                `<img id="gallery-preview-img" data-current-index="0" src="${getCardThumbUrl(displayImageUrl, 1200, 85)}" data-original-src="${displayImageUrl}" alt="${plant.name}" class="gallery-preview-image" onload="var l=document.getElementById('gallery-preview-loading');if(l)l.classList.add('hidden')" onerror="var l=document.getElementById('gallery-preview-loading');if(l)l.classList.add('hidden')">` :
+                                `<img id="gallery-preview-img" data-current-index="0" src="${getCardThumbUrl(displayImageUrl, 1200, 85)}" data-original-src="${getFullResUrl(displayImageUrl)}" alt="${plant.name}" class="gallery-preview-image" onload="var l=document.getElementById('gallery-preview-loading');if(l)l.classList.add('hidden')" onerror="var l=document.getElementById('gallery-preview-loading');if(l)l.classList.add('hidden')">` :
                                 `<div class="plant-gallery-placeholder">🌿</div>`
                             }
                         </div>
@@ -7717,7 +7723,7 @@ function selectGalleryImage(imagePath, plantId, imageIndex, event) {
             if (loadingEl) loadingEl.classList.add('hidden');
         };
         previewImg.src = (typeof getCardThumbUrl === 'function') ? getCardThumbUrl(imagePath, 1200, 85) : imagePath;
-        previewImg.setAttribute('data-original-src', imagePath);
+        previewImg.setAttribute('data-original-src', typeof getFullResUrl === 'function' ? getFullResUrl(imagePath) : imagePath);
         previewImg.setAttribute('data-current-index', imageIndex);
     }
     
@@ -7757,9 +7763,12 @@ function openGalleryFullscreen(plantId) {
     if (previewImg && previewImg.src) {
         var fsLoading = document.getElementById('gallery-fullscreen-loading');
         if (fsLoading) fsLoading.classList.remove('hidden');
+        var fsPreviewFallback = previewImg.src;
         fsImg.onload = function() { if (fsLoading) fsLoading.classList.add('hidden'); };
-        fsImg.onerror = function() { if (fsLoading) fsLoading.classList.add('hidden'); };
-        // Use original full-res URL for fullscreen if available
+        fsImg.onerror = function() {
+            if (fsLoading) fsLoading.classList.add('hidden');
+            if (fsImg.src !== fsPreviewFallback) fsImg.src = fsPreviewFallback;
+        };
         fsImg.src = previewImg.getAttribute('data-original-src') || previewImg.src;
         fsImg.alt = previewImg.alt || '';
     }
@@ -7802,11 +7811,16 @@ function syncGalleryFullscreenImage() {
     if (previewImg && fsImg) {
         var fsLoading = document.getElementById('gallery-fullscreen-loading');
         // Clear immediately so old image doesn't linger
+        var syncFallback = previewImg.src;
         fsImg.style.visibility = 'hidden';
         fsImg.src = '';
         if (fsLoading) fsLoading.classList.remove('hidden');
         fsImg.onload = function() { fsImg.style.visibility = 'visible'; if (fsLoading) fsLoading.classList.add('hidden'); };
-        fsImg.onerror = function() { fsImg.style.visibility = 'visible'; if (fsLoading) fsLoading.classList.add('hidden'); };
+        fsImg.onerror = function() {
+            fsImg.style.visibility = 'visible';
+            if (fsLoading) fsLoading.classList.add('hidden');
+            if (fsImg.src !== syncFallback) fsImg.src = syncFallback;
+        };
         fsImg.src = previewImg.getAttribute('data-original-src') || previewImg.src;
     }
     if (fsNum && currNum) fsNum.textContent = currNum.textContent;
