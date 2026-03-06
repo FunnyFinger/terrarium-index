@@ -804,16 +804,17 @@
 }
 
 .build-plant-card-top {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.35rem;
-    padding: 0.35rem 0.35rem 0 0.35rem;
+    position: relative;
+    padding: 0;
 }
 .build-plant-card-check {
-    flex-shrink: 0;
+    position: absolute;
+    top: 0.4rem;
+    left: 0.4rem;
+    z-index: 2;
     width: 1.25rem;
     height: 1.25rem;
-    border: 2px solid var(--border-color);
+    border: 2px solid rgba(255,255,255,0.8);
     border-radius: 3px;
     display: inline-flex;
     align-items: center;
@@ -821,6 +822,7 @@
     font-size: 0.7rem;
     font-weight: bold;
     color: transparent;
+    background: rgba(0,0,0,0.25);
     transition: border-color 0.2s, background 0.2s, color 0.2s;
 }
 .build-plant-card.build-plant-card-selected .build-plant-card-check {
@@ -829,9 +831,9 @@
     color: #fff;
 }
 .build-plant-card-img-wrap {
-    flex: 1;
+    width: 100%;
     min-width: 0;
-    border-radius: 6px;
+    border-radius: 0;
     overflow: hidden;
     background: var(--bg-color);
 }
