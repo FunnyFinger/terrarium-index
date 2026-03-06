@@ -2149,7 +2149,7 @@ function showTooltip(event, text, imagePath, nodeData = null) {
             }
         };
         
-        tooltip.appendChild(img);
+        if (tooltip) tooltip.appendChild(img);
     } else {
         // Debug: log when no image path is available
         if (text === 'Peperomia ferreyrae') {
@@ -2412,7 +2412,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (taxonomySearchInput) taxonomySearchInput.value = '';
                 renderSearchResults([]);
             });
-            taxonomySearchResults.appendChild(item);
+            if (taxonomySearchResults) taxonomySearchResults.appendChild(item);
         });
     }
     

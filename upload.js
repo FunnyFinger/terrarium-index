@@ -82,7 +82,7 @@ function renderSuitableForTags(selectedValues) {
         btn.addEventListener('click', function () {
             btn.classList.toggle('edit-plant-tag-selected');
         });
-        container.appendChild(btn);
+        if (container) container.appendChild(btn);
     });
 }
 
