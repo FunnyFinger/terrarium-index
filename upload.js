@@ -1388,6 +1388,32 @@ async function saveImage() {
     saveImageBtn.disabled = false;
 }
 
+async function resizeImageBlobToMaxDimension(blob, maxDim) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        const url = URL.createObjectURL(blob);
+        img.onload = function () {
+            URL.revokeObjectURL(url);
+            const w = img.naturalWidth;
+            const h = img.naturalHeight;
+            if (w <= maxDim && h <= maxDim) {
+                resolve(blob);
+                return;
+            }
+            const scale = maxDim / Math.max(w, h);
+            const newW = Math.round(w * scale);
+            const newH = Math.round(h * scale);
+            const canvas = document.createElement('canvas');
+            canvas.width = newW;
+            canvas.height = newH;
+            canvas.getContext('2d').drawImage(img, 0, 0, newW, newH);
+            canvas.toBlob(resized => resized ? resolve(resized) : reject(new Error('toBlob failed')), 'image/jpeg', 0.92);
+        };
+        img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Image load failed')); };
+        img.src = url;
+    });
+}
+
 async function saveSingleImage(imageFile, isUrl, imageIndex, totalImages, plantFolderName, folderPath, startNumber) {
     const { saveImageBtn, folderStatus, uploadModal } = elements;
     const allPlants = getAllPlants();
@@ -1416,6 +1442,12 @@ async function saveSingleImage(imageFile, isUrl, imageIndex, totalImages, plantF
 
         if (!imageBlob) {
             return { success: false, nextNumber: startNumber + 1 };
+        }
+
+        try {
+            imageBlob = await resizeImageBlobToMaxDimension(imageBlob, 480);
+        } catch (resizeErr) {
+            console.warn('⚠️ Could not resize image, using original:', resizeErr.message);
         }
 
         if (imageIndex === 0 && !getImagesFolderHandle() && 'showDirectoryPicker' in window) {

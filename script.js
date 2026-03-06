@@ -5819,7 +5819,10 @@ function saveEquipmentImages() {
             var fileName = nextNum + '.' + ext;
             usedNumbers.add(nextNum);
             nextNum++;
-            return uploadToStorage(file, basePath + fileName);
+            return resizeImageBlobToMaxDimension(file, 480).catch(function () { return file; }).then(function (resizedBlob) {
+                var resizedFile = new File([resizedBlob], file.name || fileName, { type: 'image/jpeg' });
+                return uploadToStorage(resizedFile, basePath + fileName);
+            });
         });
         Promise.all(uploads).then(function (uploadedUrls) {
             var existingHttp = urls.filter(isHttpUrl);
@@ -6181,7 +6184,10 @@ function savePlantImages() {
             var objectPath = 'plants/' + slug + '/' + slug + '-' + nextNum + '.' + ext;
             usedNumbers.add(nextNum);
             nextNum++;
-            return uploadToStorage(file, objectPath);
+            return resizeImageBlobToMaxDimension(file, 480).catch(function () { return file; }).then(function (resizedBlob) {
+                var resizedFile = new File([resizedBlob], file.name || objectPath.split('/').pop(), { type: 'image/jpeg' });
+                return uploadToStorage(resizedFile, objectPath);
+            });
         });
         Promise.all(uploads).then(function (result) {
             var uploadedUrls = Array.isArray(result) ? result.filter(function(u) { return typeof u === 'string' && u.length; }) : [];
@@ -8852,6 +8858,34 @@ async function copyScientificNameToClipboard(scientificName, element) {
 }
 
 // Generate 60x60 thumbnail blob from an image URL (for Supabase thumb.jpg upload; taxonomy tree uses main image as thumb)
+function resizeImageBlobToMaxDimension(blob, maxDim) {
+    return new Promise(function (resolve, reject) {
+        var img = new Image();
+        var url = URL.createObjectURL(blob);
+        img.onload = function () {
+            URL.revokeObjectURL(url);
+            var w = img.naturalWidth;
+            var h = img.naturalHeight;
+            if (w <= maxDim && h <= maxDim) {
+                resolve(blob);
+                return;
+            }
+            var scale = maxDim / Math.max(w, h);
+            var newW = Math.round(w * scale);
+            var newH = Math.round(h * scale);
+            var canvas = document.createElement('canvas');
+            canvas.width = newW;
+            canvas.height = newH;
+            canvas.getContext('2d').drawImage(img, 0, 0, newW, newH);
+            canvas.toBlob(function (resized) {
+                resized ? resolve(resized) : reject(new Error('toBlob failed'));
+            }, 'image/jpeg', 0.92);
+        };
+        img.onerror = function () { URL.revokeObjectURL(url); reject(new Error('Image load failed')); };
+        img.src = url;
+    });
+}
+
 function generateThumbnailBlobFromUrl(imageUrl) {
     if (!imageUrl || typeof imageUrl !== 'string') return Promise.reject(new Error('imageUrl required'));
     return new Promise(function (resolve, reject) {
