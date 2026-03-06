@@ -724,6 +724,8 @@
                     var reorder = inv.reorderLevel != null ? inv.reorderLevel : (p.reorderLevel != null ? p.reorderLevel : 0);
                     var status = statusClass({ quantityInStock: stock, reorderLevel: reorder });
                     var sizeVal = (inv.size != null ? String(inv.size) : (p.size != null ? String(p.size) : ''));
+                    // For plants: only show size if it contains a number (e.g. "5-20 cm"); filter out stale growth-habit text
+                    if (!isEquipment && !isVivarium && sizeVal && !/\d/.test(sizeVal)) sizeVal = '';
                     var unitVal = (inv.unit != null ? String(inv.unit) : (p.unit != null ? String(p.unit) : ''));
                     var checked = invSelectedIds[p.id] ? ' checked' : '';
                     var visibilityText = inv.hidden ? 'Hidden' : 'Visible';
@@ -840,6 +842,9 @@
                 var reorder = inv.reorderLevel != null ? inv.reorderLevel : (plant.reorderLevel != null ? plant.reorderLevel : 0);
                 var status = statusText({ quantityInStock: stock, reorderLevel: reorder });
                 var sizeVal = (inv.size != null ? String(inv.size) : (plant.size != null ? String(plant.size) : ''));
+                var isEquipmentDetail = invCurrentCategory === 'equipment';
+                var isVivariumDetail = invCurrentCategory === 'vivariums';
+                if (!isEquipmentDetail && !isVivariumDetail && sizeVal && !/\d/.test(sizeVal)) sizeVal = '';
                 document.getElementById('invDetailTitle').textContent = plant.name || ('Item #' + plantId);
                 var secondLabel = document.getElementById('invThSecondColLabel');
                 var secondLabelText = secondLabel ? secondLabel.textContent : 'Scientific name';
