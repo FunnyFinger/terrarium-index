@@ -1964,7 +1964,17 @@ function setupEventListeners() {
     }
 
     if (plantPanelBack) {
-        plantPanelBack.addEventListener('click', closePlantPanel);
+        plantPanelBack.addEventListener('click', function() {
+            const page2 = document.getElementById('modal-page-2');
+            if (page2 && page2.classList.contains('active')) {
+                const plantId = page2.getAttribute('data-plant-id');
+                closeGalleryFullscreen();
+                if (plantId) switchModalPage(1, plantId);
+                else closePlantPanel();
+            } else {
+                closePlantPanel();
+            }
+        });
     }
     const navBackToList = document.getElementById('navBackToList');
     if (navBackToList) {
