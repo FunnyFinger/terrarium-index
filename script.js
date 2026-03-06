@@ -165,7 +165,7 @@ function getCardThumbUrl(url, width, quality) {
 function getFullResUrl(url) {
     if (!url || typeof url !== 'string') return url;
     if (/^https?:\/\//i.test(url)) return url;
-    return url.replace(/(-\d+)(\.jpe?g|\.png|\.gif|\.webp)$/i, '$1-full$2');
+    return url.replace(/(\d+)(\.jpe?g|\.png|\.gif|\.webp)$/i, '$1-full$2');
 }
 
 /** Width in px for card thumbnails; kept modest to reduce Supabase storage egress. */
