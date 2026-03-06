@@ -847,9 +847,9 @@
                 '<div class="build-plant-card-body">' +
                 '<span class="build-plant-card-name">' + nameHtml + '</span>' +
                 '<div class="build-plant-card-scientific">' + escapeHtml(sci) + '</div>' +
-                (quickAddHtml ? '<div class="build-plant-card-add-wrap">' + quickAddHtml + '</div>' : '') +
                 '</div>' +
                 '</label>' +
+                (quickAddHtml ? '<div class="build-plant-card-add-wrap">' + quickAddHtml + '</div>' : '') +
                 '</div>';
         }).join('');
         if (paginationEl) {
