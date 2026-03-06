@@ -3886,15 +3886,20 @@ function renderPlants(plants) {
 
     const renderBatch = () => {
         if (renderToken !== currentRenderToken) return;
+        if (!plantsGrid) return;
 
         const fragment = document.createDocumentFragment();
         const batchLimit = Math.min(renderIndex + PLANT_RENDER_BATCH_SIZE, plants.length);
 
-        for (; renderIndex < batchLimit; renderIndex++) {
-            fragment.appendChild(createPlantCard(plants[renderIndex]));
+        try {
+            for (; renderIndex < batchLimit; renderIndex++) {
+                const child = createPlantCard(plants[renderIndex]);
+                if (child && fragment) fragment.appendChild(child);
+            }
+            if (fragment && plantsGrid) plantsGrid.appendChild(fragment);
+        } catch (err) {
+            console.warn('Plant grid render error:', err && err.message);
         }
-
-        if (plantsGrid) plantsGrid.appendChild(fragment);
 
         if (renderIndex < plants.length) {
             // Use setTimeout with 0 delay for faster rendering (allows browser to paint)
@@ -7419,7 +7424,7 @@ async function showPlantModal(plant) {
         s.type = 'application/ld+json';
         s.id = 'product-jsonld';
         s.textContent = JSON.stringify(ld);
-        document.head.appendChild(s);
+        if (document.head) document.head.appendChild(s);
     })(plant);
 
     // Background gallery expansion: probe extra candidate URLs and patch gallery DOM without blocking modal open
@@ -8262,7 +8267,7 @@ function openGalleryLightbox(plantId, imageIndex) {
         </div>
     `;
     
-    document.body.appendChild(lightbox);
+    if (document.body) document.body.appendChild(lightbox);
     
     // Store current index on lightbox element
     lightbox.dataset.currentIndex = imageIndex;
@@ -8368,9 +8373,7 @@ async function downloadGalleryImage(plantId, imageIndex) {
         const link = document.createElement('a');
         link.href = downloadUrl;
         link.download = filename;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        if (document.body) { document.body.appendChild(link); link.click(); document.body.removeChild(link); }
         URL.revokeObjectURL(downloadUrl);
         
         console.log(`✅ Downloaded: ${filename}`);
@@ -8833,7 +8836,7 @@ async function copyScientificNameToClipboard(scientificName, element) {
         textArea.value = scientificName;
         textArea.style.position = 'fixed';
         textArea.style.opacity = '0';
-        document.body.appendChild(textArea);
+        if (document.body) document.body.appendChild(textArea);
         textArea.select();
         try {
             document.execCommand('copy');

@@ -1970,7 +1970,7 @@ function showTooltip(event, text, imagePath, nodeData = null) {
     if (!tooltip) {
         tooltip = document.createElement('div');
         tooltip.className = 'plant-tooltip';
-        document.body.appendChild(tooltip);
+        if (document.body) document.body.appendChild(tooltip);
     }
     
     // Clear previous content
@@ -1986,14 +1986,14 @@ function showTooltip(event, text, imagePath, nodeData = null) {
     const nameDiv = document.createElement('div');
     nameDiv.className = 'tooltip-name';
     nameDiv.textContent = text;
-    tooltip.appendChild(nameDiv);
+    if (tooltip) tooltip.appendChild(nameDiv);
     
     // Fetch and display English vernacular name from Catalogue of Life API for all nodes (except domain)
     if (rank && rank !== 'domain') {
         const vernacularNameDiv = document.createElement('div');
         vernacularNameDiv.className = 'tooltip-common-name';
         vernacularNameDiv.textContent = 'Loading...';
-        tooltip.appendChild(vernacularNameDiv);
+        if (tooltip) tooltip.appendChild(vernacularNameDiv);
         
         // Get rank label for display
         const rankLabels = {
@@ -2058,7 +2058,7 @@ function showTooltip(event, text, imagePath, nodeData = null) {
         const descDiv = document.createElement('div');
         descDiv.className = 'tooltip-description';
         descDiv.textContent = 'Loading...';
-        tooltip.appendChild(descDiv);
+        if (tooltip) tooltip.appendChild(descDiv);
         
         // Fetch description asynchronously
         getTaxonomicDescription(rank, name, nodeData.data)
