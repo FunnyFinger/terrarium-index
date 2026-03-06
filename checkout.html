@@ -201,7 +201,7 @@
                         return;
                     }
                     document.querySelector('main.checkout-page').classList.remove('checkout-empty');
-                    var totalQty = cart.reduce(function(s, i) { return s + i.quantity; }, 0);
+                    var totalQty = cart.reduce(function(s, i) { var q = parseFloat(i.quantity); if (isNaN(q) || q <= 0) return s; return s + (q % 1 === 0 ? q : 1); }, 0);
                     var totalPrice = cart.reduce(function(s, i) { return s + (i.price != null ? i.price * i.quantity : 0); }, 0);
                     var hasPrice = cart.some(function(i) { return i.price != null; });
                     var rows = cart.map(function(i) {
