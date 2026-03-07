@@ -180,6 +180,15 @@
         })();
         (function() {
             var key = 'terrarium_cart';
+            if (typeof window.getOperationalCharges !== 'function') {
+                window.getOperationalCharges = function() {
+                    try {
+                        var raw = localStorage.getItem('terrarium_charges');
+                        var list = raw ? JSON.parse(raw) : [];
+                        return (Array.isArray(list) ? list : []).filter(function(c) { return c && c.active; });
+                    } catch(e) { return []; }
+                };
+            }
             var el = document.getElementById('checkoutCartSummary');
             var confirmWrap = document.getElementById('checkoutConfirmWrap');
             var formWrap = document.getElementById('checkoutFormWrap');
@@ -217,7 +226,10 @@
                     document.querySelector('main.checkout-page').classList.remove('checkout-empty');
                     var totalQty = cart.reduce(function(s, i) { var q = parseFloat(i.quantity); if (isNaN(q) || q <= 0) return s; return s + (q % 1 === 0 ? q : 1); }, 0);
                     var totalPrice = cart.reduce(function(s, i) { return s + (i.price != null ? i.price * i.quantity : 0); }, 0);
-                    var hasPrice = cart.some(function(i) { return i.price != null; });
+                    var deliveryCharges = (typeof window.getOperationalCharges === 'function' ? window.getOperationalCharges() : []).filter(function(c) { return (c.category || '').toLowerCase() === 'delivery'; });
+                    var deliveryTotal = deliveryCharges.reduce(function(s, c) { return s + (Number(c.price) || 0); }, 0);
+                    totalPrice += deliveryTotal;
+                    var hasPrice = cart.some(function(i) { return i.price != null; }) || deliveryTotal > 0;
                     var rows = cart.map(function(i) {
                         var lineTotal = i.price != null ? i.price * i.quantity : null;
                         var priceStr = i.price != null ? formatPrice(i.price) : 'Price on request';
@@ -229,7 +241,11 @@
                         var qtyDisplay = i.unit ? qtyNum + ' ' + (i.unit.replace(/</g, '&lt;').replace(/>/g, '&gt;')) : qtyNum;
                         return '<tr><td>' + itemCell + '</td><td class="col-qty">' + qtyDisplay + '</td><td class="col-price">' + priceStr + '</td><td class="col-total">' + lineStr + '</td></tr>';
                     }).join('');
-                    el.innerHTML = '<h2>Order summary</h2><div class="checkout-order-table-wrap"><table class="checkout-order-table" role="grid"><thead><tr><th scope="col">Item</th><th scope="col" class="col-qty">Qty</th><th scope="col" class="col-price">Unit price</th><th scope="col" class="col-total">Line total</th></tr></thead><tbody>' + rows + '</tbody><tfoot><tr><td colspan="2"><strong>Total</strong> <span style="font-size:0.85rem;color:var(--text-light);">(' + totalQty + ' item' + (totalQty !== 1 ? 's' : '') + ')</span></td><td></td><td class="col-total">' + (hasPrice ? formatPrice(totalPrice) : '—') + '</td></tr></tfoot></table></div>';
+                    var deliveryRows = deliveryCharges.length ? deliveryCharges.map(function(c) {
+                        var amt = Number(c.price) || 0;
+                        return '<tr><td>' + (c.name || 'Delivery').replace(/</g, '&lt;') + '</td><td class="col-qty">1</td><td class="col-price">' + formatPrice(amt) + '</td><td class="col-total">' + formatPrice(amt) + '</td></tr>';
+                    }).join('') : '';
+                    el.innerHTML = '<h2>Order summary</h2><div class="checkout-order-table-wrap"><table class="checkout-order-table" role="grid"><thead><tr><th scope="col">Item</th><th scope="col" class="col-qty">Qty</th><th scope="col" class="col-price">Unit price</th><th scope="col" class="col-total">Line total</th></tr></thead><tbody>' + rows + deliveryRows + '</tbody><tfoot><tr><td colspan="2"><strong>Total</strong> <span style="font-size:0.85rem;color:var(--text-light);">(' + totalQty + ' item' + (totalQty !== 1 ? 's' : '') + (deliveryTotal > 0 ? ' + delivery' : '') + ')</span></td><td></td><td class="col-total">' + (hasPrice ? formatPrice(totalPrice) : '—') + '</td></tr></tfoot></table></div>';
                     formWrap.style.display = 'block';
                     // Resolve auth async, then load saved addresses or show save-address prompt
                     var guestRegWrap = document.getElementById('checkoutGuestRegister');
@@ -394,6 +410,9 @@
                 }
 
                 var totalPrice = cart.reduce(function(s, i) { return s + (i.price != null ? i.price * i.quantity : 0); }, 0);
+                var deliveryCharges = (typeof window.getOperationalCharges === 'function' ? window.getOperationalCharges() : []).filter(function(c) { return (c.category || '').toLowerCase() === 'delivery'; });
+                var deliveryTotal = deliveryCharges.reduce(function(s, c) { return s + (Number(c.price) || 0); }, 0);
+                totalPrice += deliveryTotal;
                 var paymentMethod = getPaymentMethod();
                 if (paymentMethod === 'card' && (!totalPrice || totalPrice <= 0)) {
                     formError.textContent = 'Cart total must be greater than zero to pay by card.';
@@ -403,6 +422,10 @@
                 var orderItems = cart.map(function(i) {
                     var lineTotal = i.price != null ? i.price * i.quantity : 0;
                     return { plantId: i.plantId, name: i.name, scientificName: i.scientificName, quantity: Number(i.quantity), unit: i.unit || undefined, price: i.price, lineTotal: lineTotal };
+                });
+                deliveryCharges.forEach(function(c) {
+                    var amt = Number(c.price) || 0;
+                    orderItems.push({ plantId: 'charge_' + (c.id || 'delivery'), name: c.name || 'Delivery', scientificName: '', quantity: 1, unit: undefined, price: amt, lineTotal: amt });
                 });
                 var inv = window.inventoryDb;
                 var order = {
