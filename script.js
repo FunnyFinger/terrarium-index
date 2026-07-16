@@ -1976,28 +1976,27 @@ function setupEventListeners() {
             }
         });
     }
-    const navBackToList = document.getElementById('navBackToList');
-    if (navBackToList) {
-        navBackToList.addEventListener('click', function() {
-            if (navBackToList.disabled) return;
-            if (window._buildViewActive && typeof window._onNavBackFromBuildView === 'function') {
-                window._onNavBackFromBuildView();
-                return;
-            }
-            const page2 = document.getElementById('modal-page-2');
-            if (page2 && page2.classList.contains('active')) {
-                const plantId = page2.getAttribute('data-plant-id');
-                if (plantId) {
-                    closeGalleryFullscreen();
-                    switchModalPage(1, plantId);
-                } else {
-                    closePlantPanel();
-                }
+    document.addEventListener('click', function(e) {
+        const navBackToList = e.target && e.target.closest ? e.target.closest('#navBackToList') : null;
+        if (!navBackToList || navBackToList.disabled) return;
+        e.preventDefault();
+        if (window._buildViewActive && typeof window._onNavBackFromBuildView === 'function') {
+            window._onNavBackFromBuildView();
+            return;
+        }
+        const page2 = document.getElementById('modal-page-2');
+        if (page2 && page2.classList.contains('active')) {
+            const plantId = page2.getAttribute('data-plant-id');
+            if (plantId) {
+                closeGalleryFullscreen();
+                switchModalPage(1, plantId);
             } else {
                 closePlantPanel();
             }
-        });
-    }
+        } else {
+            closePlantPanel();
+        }
+    });
 
     // Edit supply modal
     const closeEquipmentEditModalBtn = document.getElementById('closeEquipmentEditModal');

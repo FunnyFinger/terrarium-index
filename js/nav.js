@@ -39,6 +39,16 @@
     function buildNav() {
         var current = getCurrentPage();
         var isIndex = (current === 'index.html' || current === '' || current === 'index');
+        var hasIndexBackTarget = false;
+        if (isIndex && typeof document !== 'undefined') {
+            hasIndexBackTarget = !!(
+                (document.querySelector && document.querySelector('.main-layout.detail-view-active')) ||
+                (document.querySelector && document.querySelector('.main-content.build-view-active')) ||
+                (document.querySelector && document.querySelector('#plantDetailPanel:not(.hidden)')) ||
+                window._buildViewActive
+            );
+        }
+        var disableBack = isIndex && !hasIndexBackTarget;
         var canManage = (typeof window.auth !== 'undefined' && window.auth.canManageInventory) ? window.auth.canManageInventory() : false;
         var canStock = (typeof window.auth !== 'undefined' && window.auth.canManageStock) ? window.auth.canManageStock() : false;
         var isOwner = (typeof window.auth !== 'undefined' && window.auth.isOwner) ? window.auth.isOwner() : false;
@@ -55,8 +65,8 @@
         }).join('');
 
         var backSvg = '<svg class="nav-back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><polyline points="12 19 5 12 12 5"/></svg><span class="nav-back-text">Back</span>';
-        var backWrapClass = 'nav-back-wrap' + (isIndex ? ' nav-back-disabled' : '');
-        var backDisabled = isIndex ? ' disabled' : '';
+        var backWrapClass = 'nav-back-wrap' + (disableBack ? ' nav-back-disabled' : '');
+        var backDisabled = disableBack ? ' disabled' : '';
         var backBtnHtml = '<div class="' + backWrapClass + '" id="navBackToListWrap"><button type="button" id="navBackToList" class="nav-back-btn" aria-label="Back to store" title="Back to store"' + backDisabled + '>' + backSvg + '</button></div>';
 
         var authHtml = '';
