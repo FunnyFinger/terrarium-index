@@ -10,8 +10,5 @@
     "fix-variety-scientific-names": "node scripts/fix-variety-scientific-names-supabase.js",
     "generate-preview-images": "node scripts/generate-preview-images.js",
     "generate-preview-images-dry": "node scripts/generate-preview-images.js --dry-run"
-  },
-  "dependencies": {
-    "nodemailer": "^6.9.13"
   }
 }

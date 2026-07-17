@@ -1,30 +1,26 @@
 /**
  * Netlify Function: send-order-email
  *
- * Sends order confirmation emails using your own Gmail account via SMTP.
- * No third-party email service or extra sign-up required.
+ * Sends order confirmation emails via Resend (free tier: 3,000 emails/month).
  *
  * Required environment variables (Netlify > Site configuration > Environment variables):
  *
- *   GMAIL_USER         — The Gmail address to send from  e.g. vivariumstore@gmail.com
- *   GMAIL_APP_PASSWORD — A Google App Password (16 chars, no spaces)
- *                        Generate one at: https://myaccount.google.com/apppasswords
- *                        (Requires 2-Step Verification to be enabled on the account)
- *   STORE_OWNER_EMAIL  — Email that receives a copy of every new order (can be same as GMAIL_USER)
+ *   RESEND_API_KEY     — API key from https://resend.com/api-keys
+ *   EMAIL_FROM         — Sender address, e.g. "Vivarium Store <orders@yourdomain.com>"
+ *                        (For first tests without a domain: "Vivarium Store <onboarding@resend.dev>")
+ *   STORE_OWNER_EMAIL  — Where you receive a copy of every new order
  */
-
-const nodemailer = require('nodemailer');
 
 exports.handler = async function (event) {
     if (event.httpMethod !== 'POST') {
         return { statusCode: 405, body: 'Method Not Allowed' };
     }
 
-    const gmailUser = process.env.GMAIL_USER;
-    const gmailPass = process.env.GMAIL_APP_PASSWORD;
+    const apiKey = process.env.RESEND_API_KEY;
+    const fromEmail = process.env.EMAIL_FROM || 'Vivarium Store <onboarding@resend.dev>';
 
-    if (!gmailUser || !gmailPass) {
-        console.warn('GMAIL_USER or GMAIL_APP_PASSWORD not set — skipping email');
+    if (!apiKey) {
+        console.warn('RESEND_API_KEY not set — skipping email');
         return { statusCode: 200, body: JSON.stringify({ skipped: true, reason: 'Email not configured' }) };
     }
 
@@ -37,12 +33,7 @@ exports.handler = async function (event) {
         return { statusCode: 400, body: 'Missing customer email' };
     }
 
-    const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: { user: gmailUser, pass: gmailPass }
-    });
-
-    const ownerEmail = process.env.STORE_OWNER_EMAIL || gmailUser;
+    const ownerEmail = process.env.STORE_OWNER_EMAIL;
     const orderNum   = orderId ? String(orderId) : 'N/A';
     const payLabel   = paymentMethod === 'bank' ? 'Bank transfer'
                      : paymentMethod === 'card' ? 'Card (Stripe)'
@@ -53,7 +44,6 @@ exports.handler = async function (event) {
         return isNaN(num) ? '—' : 'KD ' + num.toFixed(2);
     };
 
-    // Build items table rows (shared by both emails)
     const itemRows = (items || []).map(item => `
         <tr>
             <td style="padding:10px 12px;border-bottom:1px solid #e8f0e0;color:#1a3d08;">
@@ -80,19 +70,17 @@ exports.handler = async function (event) {
     const ownerHtml    = buildOwnerEmail({ orderNum, customer, itemRows, totalRow, payLabel });
 
     try {
-        // Send confirmation to customer
-        await transporter.sendMail({
-            from: `"Vivarium Store" <${gmailUser}>`,
-            to: customer.email,
+        await sendWithResend(apiKey, {
+            from: fromEmail,
+            to: [customer.email],
             subject: `Order #${orderNum} confirmed — Vivarium Store`,
             html: customerHtml
         });
 
-        // Send notification to store owner
         if (ownerEmail) {
-            await transporter.sendMail({
-                from: `"Vivarium Store Orders" <${gmailUser}>`,
-                to: ownerEmail,
+            await sendWithResend(apiKey, {
+                from: fromEmail,
+                to: [ownerEmail],
                 subject: `New order #${orderNum} from ${customer.name || customer.email}`,
                 html: ownerHtml
             });
@@ -105,7 +93,22 @@ exports.handler = async function (event) {
     }
 };
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
+async function sendWithResend(apiKey, payload) {
+    const res = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+            Authorization: 'Bearer ' + apiKey,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    });
+    const data = await res.json().catch(function () { return {}; });
+    if (!res.ok) {
+        const msg = (data && data.message) ? data.message : ('Resend error ' + res.status);
+        throw new Error(msg);
+    }
+    return data;
+}
 
 function escHtml(str) {
     return String(str || '')
