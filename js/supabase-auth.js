@@ -1,6 +1,6 @@
 /**
- * Supabase Auth: global accounts. When SUPABASE_URL and SUPABASE_ANON_KEY are set,
- * this module handles register, login, logout and session. auth.js uses it when available.
+ * Supabase Auth: sole auth backend for the site.
+ * Handles register, login, logout and session. auth.js wraps this API for the app.
  * Set SUPABASE_OWNER_EMAIL in config.js to your email to get owner role on register.
  */
 (function (global) {

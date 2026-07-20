@@ -73,7 +73,6 @@
     <script defer src="js/config.js"></script>
     <script defer src="js/supabase-db.js"></script>
     <script defer src="js/supabase-auth.js"></script>
-    <script defer src="js/auth-db.js"></script>
     <script defer src="js/auth.js"></script>
     <script defer src="js/nav.js"></script>
     <script>
@@ -85,9 +84,12 @@
                 window.location.replace('account.html?msg=access_denied');
                 return;
             }
-            var useSupabase = window.supabaseAuth && window.supabaseAuth.isConfigured && window.supabaseAuth.isConfigured();
-            var getUsers = useSupabase ? function() { return window.supabaseDb.getProfiles(); } : function() { return window.authDb.getAllUsers(); };
-            var setRole = useSupabase ? function(id, role) { return window.supabaseDb.setProfileRole(id, role); } : function(id, role) { return window.authDb.setUserRole(id, role); };
+            if (!window.supabaseAuth || !window.supabaseAuth.isConfigured || !window.supabaseAuth.isConfigured()) {
+                window.location.replace('account.html?msg=access_denied');
+                return;
+            }
+            var getUsers = function() { return window.supabaseDb.getProfiles(); };
+            var setRole = function(id, role) { return window.supabaseDb.setProfileRole(id, role); };
             var tableBody = document.getElementById('accessTableBody');
             var saveBtn = document.getElementById('accessSave');
             var msgEl = document.getElementById('accessMsg');
@@ -125,7 +127,7 @@
                 });
                 tableBody.querySelectorAll('.access-role-select').forEach(function(sel) {
                     sel.addEventListener('change', function() {
-                        var id = Number(sel.getAttribute('data-user-id'));
+                        var id = String(sel.getAttribute('data-user-id') || '');
                         var val = sel.value;
                         var orig = sel.getAttribute('data-original-role') || 'user';
                         if (val === orig) delete pendingRoles[id];

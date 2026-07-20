@@ -1,121 +1,45 @@
 /**
- * Auth: when Supabase is configured uses Supabase Auth (global accounts).
- * Otherwise uses local auth (IndexedDB + localStorage). Same API: register, login, logout, getCurrentUser.
+ * Auth API backed only by Supabase Auth (js/supabase-auth.js).
+ * Same surface: register, login, logout, getCurrentUser, roles, changePassword.
  */
 (function (global) {
     'use strict';
     if (!global) return;
 
-    var SESSION_KEY = 'terrarium_auth';
-    var SESSION_USER_ID = 'terrarium_auth_userId';
-    var SESSION_EMAIL = 'terrarium_auth_email';
-    var SESSION_NAME = 'terrarium_auth_name';
-    var SESSION_ROLE = 'terrarium_auth_role';
-    var SESSION_CREATED_AT = 'terrarium_auth_createdAt';
+    // Legacy local-auth session keys — clear on load so old IndexedDB sessions cannot linger.
+    var LEGACY_SESSION_KEYS = [
+        'terrarium_auth',
+        'terrarium_auth_userId',
+        'terrarium_auth_email',
+        'terrarium_auth_name',
+        'terrarium_auth_role',
+        'terrarium_auth_createdAt'
+    ];
 
-    function useSupabaseAuth() {
-        return global.supabaseAuth && global.supabaseAuth.isConfigured && global.supabaseAuth.isConfigured();
-    }
-
-    function getAuthDb() {
-        return global.authDb || null;
-    }
-
-    function toHex(buffer) {
-        return Array.from(new Uint8Array(buffer))
-            .map(function (b) { return ('0' + b.toString(16)).slice(-2); })
-            .join('');
-    }
-
-    function fromHex(hex) {
-        var bytes = new Uint8Array(hex.length / 2);
-        for (var i = 0; i < hex.length; i += 2) {
-            bytes[i / 2] = parseInt(hex.substr(i, 2), 16);
-        }
-        return bytes.buffer;
-    }
-
-    function randomSalt() {
-        var arr = new Uint8Array(16);
-        if (global.crypto && global.crypto.getRandomValues) {
-            global.crypto.getRandomValues(arr);
-        }
-        return toHex(arr);
-    }
-
-    function hashPassword(password, salt) {
-        if (!global.crypto || !global.crypto.subtle) {
-            return Promise.resolve(salt + ':' + btoa(unescape(encodeURIComponent(password))));
-        }
-        var enc = new TextEncoder();
-        var data = enc.encode(salt + password);
-        return global.crypto.subtle.digest('SHA-256', data).then(function (buffer) {
-            return salt + ':' + toHex(buffer);
-        });
-    }
-
-    function verifyPassword(password, storedHash) {
-        var parts = (storedHash || '').split(':');
-        var salt = parts[0] || '';
-        if (parts.length < 2) return Promise.resolve(false);
-        return hashPassword(password, salt).then(function (hash) {
-            return hash === storedHash;
-        });
-    }
-
-    function setSession(user) {
+    function clearLegacySession() {
         try {
-            localStorage.setItem(SESSION_USER_ID, String(user.id));
-            localStorage.setItem(SESSION_EMAIL, user.email || '');
-            localStorage.setItem(SESSION_NAME, user.name || '');
-            localStorage.setItem(SESSION_ROLE, (user.role || 'user'));
-            if (user.createdAt != null) localStorage.setItem(SESSION_CREATED_AT, String(user.createdAt));
-            localStorage.setItem(SESSION_KEY, '1');
+            LEGACY_SESSION_KEYS.forEach(function (k) { localStorage.removeItem(k); });
         } catch (e) {}
     }
 
-    function clearSession() {
-        try {
-            localStorage.removeItem(SESSION_KEY);
-            localStorage.removeItem(SESSION_USER_ID);
-            localStorage.removeItem(SESSION_EMAIL);
-            localStorage.removeItem(SESSION_NAME);
-            localStorage.removeItem(SESSION_ROLE);
-            localStorage.removeItem(SESSION_CREATED_AT);
-        } catch (e) {}
+    clearLegacySession();
+
+    function isConfigured() {
+        return !!(global.supabaseAuth && global.supabaseAuth.isConfigured && global.supabaseAuth.isConfigured());
     }
 
-    /** Async version — always resolves to the real user or null. Use on page load when session may not be cached yet. */
+    function notConfiguredError() {
+        return Promise.reject(new Error('Authentication is not available. Supabase must be configured.'));
+    }
+
     function getUser() {
-        if (useSupabaseAuth()) {
-            return global.supabaseAuth.getCurrentUser().catch(function () { return null; });
-        }
-        return Promise.resolve(getCurrentUser());
+        if (!isConfigured()) return Promise.resolve(null);
+        return global.supabaseAuth.getCurrentUser().catch(function () { return null; });
     }
 
     function getCurrentUser() {
-        if (useSupabaseAuth()) {
-            var u = global.supabaseAuth.getCurrentUserSync();
-            return u || null;
-        }
-        try {
-            if (localStorage.getItem(SESSION_KEY) !== '1') return null;
-            var id = localStorage.getItem(SESSION_USER_ID);
-            var email = localStorage.getItem(SESSION_EMAIL);
-            var name = localStorage.getItem(SESSION_NAME);
-            var role = localStorage.getItem(SESSION_ROLE) || 'user';
-            var createdAt = localStorage.getItem(SESSION_CREATED_AT);
-            if (!id) return null;
-            return {
-                id: Number(id),
-                email: email || '',
-                name: name || '',
-                role: role,
-                createdAt: createdAt ? Number(createdAt) : null
-            };
-        } catch (e) {
-            return null;
-        }
+        if (!isConfigured()) return null;
+        return global.supabaseAuth.getCurrentUserSync() || null;
     }
 
     function hasRole(roleName) {
@@ -147,56 +71,18 @@
     }
 
     function register(email, password, name) {
-        if (useSupabaseAuth()) {
-            return global.supabaseAuth.signUp(email, password, name).then(function (user) {
-                return user;
-            });
-        }
-        var db = getAuthDb();
-        if (!db) return Promise.reject(new Error('Auth not available'));
-        email = (email || '').trim();
-        if (!email) return Promise.reject(new Error('Email is required'));
-        if (!password || password.length < 6) return Promise.reject(new Error('Password must be at least 6 characters'));
-        return db.getUserByEmail(email).then(function (existing) {
-            if (existing) return Promise.reject(new Error('An account with this email already exists'));
-            var salt = randomSalt();
-            return hashPassword(password, salt).then(function (hash) {
-                return db.createUser(email, hash, name);
-            });
-        }).then(function (id) {
-            return db.getUserById(id);
-        }).then(function (user) {
-            if (user) {
-                setSession({ id: user.id, email: user.email, name: user.name, role: user.role || 'user', createdAt: user.createdAt });
-                return { id: user.id, email: user.email, name: user.name, role: user.role || 'user' };
-            }
-            return Promise.reject(new Error('Registration failed'));
-        });
+        if (!isConfigured()) return notConfiguredError();
+        return global.supabaseAuth.signUp(email, password, name);
     }
 
     function login(email, password) {
-        if (useSupabaseAuth()) {
-            return global.supabaseAuth.signIn(email, password).then(function (user) {
-                return user;
-            });
-        }
-        var db = getAuthDb();
-        if (!db) return Promise.reject(new Error('Auth not available'));
-        email = (email || '').trim();
-        if (!email || !password) return Promise.reject(new Error('Email and password are required'));
-        return db.getUserByEmail(email).then(function (user) {
-            if (!user) return Promise.reject(new Error('Invalid email or password. If you don\'t have an account, please register first.'));
-            return verifyPassword(password, user.passwordHash).then(function (ok) {
-                if (!ok) return Promise.reject(new Error('Invalid email or password. If you don\'t have an account, please register first.'));
-                setSession({ id: user.id, email: user.email, name: user.name, role: user.role || 'user', createdAt: user.createdAt });
-                return { id: user.id, email: user.email, name: user.name, role: user.role || 'user' };
-            });
-        });
+        if (!isConfigured()) return notConfiguredError();
+        return global.supabaseAuth.signIn(email, password);
     }
 
     function logout() {
-        clearSession();
-        if (useSupabaseAuth()) {
+        clearLegacySession();
+        if (isConfigured() && global.supabaseAuth.signOut) {
             var p = global.supabaseAuth.signOut();
             if (global.dispatchEvent) global.dispatchEvent(new Event('authStateChange'));
             return p || Promise.resolve();
@@ -206,24 +92,20 @@
     }
 
     function changePassword(currentPassword, newPassword) {
-        if (useSupabaseAuth()) {
-            if (!newPassword || newPassword.length < 6) return Promise.reject(new Error('New password must be at least 6 characters'));
-            return global.supabaseAuth.changePassword(newPassword);
+        if (!isConfigured()) return notConfiguredError();
+        if (!newPassword || newPassword.length < 6) {
+            return Promise.reject(new Error('New password must be at least 6 characters'));
         }
-        var db = getAuthDb();
-        if (!db) return Promise.reject(new Error('Auth not available'));
+        // Re-auth with current password, then update via Supabase.
         var user = getCurrentUser();
-        if (!user) return Promise.reject(new Error('You must be logged in to change password'));
-        if (!newPassword || newPassword.length < 6) return Promise.reject(new Error('New password must be at least 6 characters'));
-        return db.getUserById(user.id).then(function(u) {
-            if (!u || !u.passwordHash) return Promise.reject(new Error('Account not found'));
-            return verifyPassword(currentPassword, u.passwordHash).then(function(ok) {
-                if (!ok) return Promise.reject(new Error('Current password is incorrect'));
-                var salt = randomSalt();
-                return hashPassword(newPassword, salt).then(function(hash) {
-                    return db.updatePasswordHash(user.id, hash);
-                });
-            });
+        if (!user || !user.email) {
+            return Promise.reject(new Error('You must be logged in to change password'));
+        }
+        if (!currentPassword) {
+            return Promise.reject(new Error('Current password is required'));
+        }
+        return global.supabaseAuth.signIn(user.email, currentPassword).then(function () {
+            return global.supabaseAuth.changePassword(newPassword);
         });
     }
 
@@ -239,8 +121,6 @@
         isAdmin: isAdmin,
         canManageInventory: canManageInventory,
         canManageStock: canManageStock,
-        setSession: setSession,
-        clearSession: clearSession,
         changePassword: changePassword
     };
 
