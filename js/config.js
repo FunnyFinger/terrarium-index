@@ -14,5 +14,5 @@
     // Cloudflare Turnstile site key (public). Leave '' until you create a widget at
     // https://dash.cloudflare.com/ → Turnstile. Pair with TURNSTILE_SECRET_KEY on Netlify
     // and the same secret under Supabase → Authentication → Attack Protection → CAPTCHA.
-    window.TURNSTILE_SITE_KEY = window.TURNSTILE_SITE_KEY || '';
+    window.TURNSTILE_SITE_KEY = window.TURNSTILE_SITE_KEY || '0x4AAAAAAD6Cy3pzCik3miQZ';
 })();
