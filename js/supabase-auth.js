@@ -63,7 +63,7 @@
         return o ? o + '/auth.html' : '';
     }
 
-    function signUp(email, password, name) {
+    function signUp(email, password, name, captchaToken) {
         var supabase = getSupabase();
         if (!supabase) return Promise.reject(new Error('Supabase Auth not available'));
         email = (email || '').trim();
@@ -71,13 +71,15 @@
         if (!password || password.length < 6) return Promise.reject(new Error('Password must be at least 6 characters'));
 
         var redirectTo = getEmailRedirectUrl();
+        var options = {
+            data: { name: (name || '').trim() || email.split('@')[0] },
+            emailRedirectTo: redirectTo || undefined
+        };
+        if (captchaToken) options.captchaToken = captchaToken;
         return supabase.auth.signUp({
             email: email,
             password: password,
-            options: {
-                data: { name: (name || '').trim() || email.split('@')[0] },
-                emailRedirectTo: redirectTo || undefined
-            }
+            options: options
         }).then(function (res) {
             if (res.error) return Promise.reject(new Error(res.error.message || 'Sign up failed'));
             var user = res.data && res.data.user;
@@ -101,14 +103,16 @@
         });
     }
 
-    function signIn(email, password) {
+    function signIn(email, password, captchaToken) {
         var supabase = getSupabase();
         if (!supabase) return Promise.reject(new Error('Supabase Auth not available'));
         email = (email || '').trim();
         if (!email || !password) return Promise.reject(new Error('Email and password are required'));
 
         var fallbackMsg = 'Invalid email or password. If you don\'t have an account, please register first.';
-        return supabase.auth.signInWithPassword({ email: email, password: password }).then(function (res) {
+        var payload = { email: email, password: password };
+        if (captchaToken) payload.options = { captchaToken: captchaToken };
+        return supabase.auth.signInWithPassword(payload).then(function (res) {
             if (res.error) {
                 var msg = (res.error.message || '').toLowerCase();
                 if (msg.indexOf('invalid') !== -1 || msg.indexOf('credentials') !== -1 || msg.indexOf('email') !== -1)

@@ -54,6 +54,8 @@
                 '</div>' +
                 '<label for="product-review-comment">Comment (optional)</label>' +
                 '<textarea id="product-review-comment" class="product-review-comment" rows="3" placeholder="Share your experience..."></textarea>' +
+                '<div class="product-review-turnstile turnstile-slot" data-turnstile-slot="review" style="margin:0.75rem 0;"></div>' +
+                '<p class="product-review-error" style="display:none;color:#b91c1c;font-size:0.9rem;"></p>' +
                 '<button type="submit" class="product-review-submit">Submit review</button>' +
                 '</form>' : '<p class="product-reviews-login"> <a href="auth.html">Log in</a> to leave a review.</p>');
 
@@ -140,6 +142,12 @@
                 });
             }
 
+            var turnstileSlot = form.querySelector('.product-review-turnstile');
+            var reviewErrEl = form.querySelector('.product-review-error');
+            if (turnstileSlot && global.turnstileHelper && global.turnstileHelper.isEnabled()) {
+                global.turnstileHelper.render(turnstileSlot).catch(function () {});
+            }
+
             form.addEventListener('submit', function (e) {
                 e.preventDefault();
                 var commentEl = document.getElementById('product-review-comment');
@@ -147,18 +155,39 @@
                 if (rating < 1 || rating > 5) rating = 5;
                 var comment = commentEl ? commentEl.value.trim() : '';
                 var displayName = (user.name || user.email || 'User').trim();
-                global.profileDb.saveReview(user.id, {
-                    productType: productType,
-                    productId: productId,
-                    productName: productName || '',
-                    userDisplayName: displayName,
-                    rating: rating,
-                    comment: comment
+                var submitBtn = form.querySelector('.product-review-submit');
+                if (reviewErrEl) { reviewErrEl.style.display = 'none'; reviewErrEl.textContent = ''; }
+                if (submitBtn) submitBtn.disabled = true;
+
+                var captchaP = (global.turnstileHelper && global.turnstileHelper.isEnabled() && turnstileSlot)
+                    ? global.turnstileHelper.getToken(turnstileSlot).then(function (token) {
+                        return global.turnstileHelper.verifyOnServer(token);
+                    })
+                    : Promise.resolve(true);
+
+                captchaP.then(function () {
+                    return global.profileDb.saveReview(user.id, {
+                        productType: productType,
+                        productId: productId,
+                        productName: productName || '',
+                        userDisplayName: displayName,
+                        rating: rating,
+                        comment: comment
+                    });
                 }).then(function () {
                     if (ratingInput) ratingInput.value = '0';
                     updateStarsVisual(0);
                     if (commentEl) commentEl.value = '';
+                    if (turnstileSlot && global.turnstileHelper) global.turnstileHelper.reset(turnstileSlot);
+                    if (submitBtn) submitBtn.disabled = false;
                     load();
+                }).catch(function (err) {
+                    if (reviewErrEl) {
+                        reviewErrEl.textContent = (err && err.message) ? err.message : 'Could not submit review.';
+                        reviewErrEl.style.display = 'block';
+                    }
+                    if (turnstileSlot && global.turnstileHelper) global.turnstileHelper.reset(turnstileSlot);
+                    if (submitBtn) submitBtn.disabled = false;
                 });
             });
         }

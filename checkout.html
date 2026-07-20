@@ -150,6 +150,7 @@
                 <p class="checkout-payment-detail" id="paymentDetailBank" style="display: none;">Please transfer the order total and use your order number as the reference. We will send bank details to your email.</p>
                 <p class="checkout-payment-detail" id="paymentDetailCard" style="display: none; color: var(--text-light);">Card payments are not available at the moment. Please choose Cash on delivery.</p>
             </div>
+            <div id="checkoutTurnstile" class="turnstile-slot" style="margin: 1rem 0 0;" data-turnstile-slot="checkout"></div>
             <p id="checkoutFormError" class="checkout-error" style="display: none;"></p>
         </div>
         <p id="checkoutConfirmWrap" class="checkout-note" style="margin-top: 1rem;"></p>
@@ -157,6 +158,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/dexie@3/dist/dexie.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <script defer src="js/config.js"></script>
+    <script defer src="js/turnstile.js"></script>
     <script defer src="js/supabase-db.js"></script>
     <script defer src="js/supabase-auth.js"></script>
     <script defer src="js/auth.js"></script>
@@ -198,6 +200,11 @@
             var formWrap = document.getElementById('checkoutFormWrap');
             var formError = document.getElementById('checkoutFormError');
             var checkoutFormOpenedAt = Date.now();
+            function mountCheckoutCaptcha() {
+                if (!window.turnstileHelper || !window.turnstileHelper.isEnabled()) return;
+                window.turnstileHelper.render('checkoutTurnstile').catch(function() {});
+            }
+            mountCheckoutCaptcha();
             function formatPrice(amount) {
                 if (amount == null || isNaN(Number(amount))) return '—';
                 return 'KD ' + Number(amount).toFixed(2);
@@ -282,6 +289,7 @@
                     }).join('') : '';
                     el.innerHTML = '<h2>Order summary</h2><div class="checkout-order-table-wrap"><table class="checkout-order-table" role="grid"><thead><tr><th scope="col">Item</th><th scope="col" class="col-qty">Qty</th><th scope="col" class="col-price">Unit price</th><th scope="col" class="col-total">Line total</th></tr></thead><tbody>' + rows + deliveryRows + '</tbody><tfoot><tr><td colspan="2"><strong>Total</strong> <span style="font-size:0.85rem;color:var(--text-light);">(' + totalQty + ' item' + (totalQty !== 1 ? 's' : '') + (deliveryTotal > 0 ? ' + delivery' : '') + ')</span></td><td></td><td class="col-total">' + (hasPrice ? formatPrice(totalPrice) : '—') + '</td></tr></tfoot></table></div>';
                     formWrap.style.display = 'block';
+                    mountCheckoutCaptcha();
                     // Resolve auth async, then load saved addresses or show save-address prompt
                     var guestRegWrap = document.getElementById('checkoutGuestRegister');
                     var authPromise = (window.auth && typeof window.auth.getUser === 'function')
@@ -434,17 +442,9 @@
                     }
                     if (!window.auth || typeof window.auth.register !== 'function') {
                         if (regErrEl) { regErrEl.textContent = 'Registration unavailable right now. You can still place your order as a guest.'; regErrEl.style.display = 'block'; }
-                        // Non-fatal: clear password fields and continue as guest
                         document.getElementById('checkoutRegPassword').value = '';
                         document.getElementById('checkoutRegPassword2').value = '';
-                    } else {
-                        // Register silently — if it fails, still place the order as guest
-                        window.auth.register(email, regPassword, name).catch(function(err) {
-                            if (regErrEl) {
-                                regErrEl.textContent = (err && err.message) ? err.message : 'Could not create account, but your order will still be placed.';
-                                regErrEl.style.display = 'block';
-                            }
-                        });
+                        regPassword = '';
                     }
                 }
 
@@ -474,6 +474,21 @@
                     totalAmount: totalPrice,
                     paymentMethod: paymentMethod
                 };
+
+                var captchaPromise = (window.turnstileHelper && window.turnstileHelper.isEnabled())
+                    ? window.turnstileHelper.getToken('checkoutTurnstile')
+                    : Promise.resolve('');
+
+                captchaPromise.then(function(turnstileToken) {
+                if (isGuest && regPassword && window.auth && typeof window.auth.register === 'function') {
+                    window.auth.register(email, regPassword, name, turnstileToken).catch(function(err) {
+                        if (regErrEl) {
+                            regErrEl.textContent = (err && err.message) ? err.message : 'Could not create account, but your order will still be placed.';
+                            regErrEl.style.display = 'block';
+                        }
+                    });
+                }
+
                 if (paymentMethod === 'card') {
                     if (!inv || typeof inv.saveOrder !== 'function') {
                         formError.textContent = 'Card payments are not configured. Use Cash on delivery or Bank transfer, or set up the payment server.';
@@ -526,6 +541,7 @@
                             customer: order.customer,
                             paymentMethod: paymentMethod,
                             formOpenedAt: checkoutFormOpenedAt,
+                            turnstileToken: turnstileToken || '',
                             website: (document.getElementById('checkoutWebsite') || {}).value || '',
                             items: orderItems.map(function(i) {
                                 return {
@@ -577,10 +593,12 @@
                                 ? ('Order saved locally, but stock/email update failed: ' + err.message)
                                 : 'Order could not be fully processed. Please contact the store.';
                             formError.style.display = 'block';
+                            if (window.turnstileHelper) window.turnstileHelper.reset('checkoutTurnstile');
                         });
                     }).catch(function(err) {
                         formError.textContent = (err && err.message) ? err.message : 'Could not place order. Please try again.';
                         formError.style.display = 'block';
+                        if (window.turnstileHelper) window.turnstileHelper.reset('checkoutTurnstile');
                     });
                 } else {
                     localStorage.setItem(key, '[]');
@@ -588,6 +606,11 @@
                     formWrap.style.display = 'none';
                     el.innerHTML = '<p class="checkout-note">Your cart has been cleared. <a href="index.html">Continue shopping</a>.</p>';
                 }
+                }).catch(function(err) {
+                    formError.textContent = (err && err.message) ? err.message : 'Please complete the CAPTCHA.';
+                    formError.style.display = 'block';
+                    if (window.turnstileHelper) window.turnstileHelper.reset('checkoutTurnstile');
+                });
                 }); // enrichCartUnits
             }
             renderCart();

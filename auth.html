@@ -59,6 +59,7 @@
                 <input type="email" id="loginEmail" required placeholder="you@example.com" autocomplete="email">
                 <label for="loginPassword">Password</label>
                 <input type="password" id="loginPassword" required placeholder="••••••••" autocomplete="current-password">
+                <div id="loginTurnstile" class="turnstile-slot" style="margin: 0.75rem 0;" data-turnstile-slot="login"></div>
                 <p id="loginError" class="auth-error" style="display: none;"></p>
                 <button type="submit">Login</button>
             </form>
@@ -73,6 +74,7 @@
                 <input type="password" id="registerPassword" required placeholder="At least 6 characters" autocomplete="new-password" minlength="6">
                 <label for="registerPassword2">Confirm password</label>
                 <input type="password" id="registerPassword2" required placeholder="Repeat password" autocomplete="new-password">
+                <div id="registerTurnstile" class="turnstile-slot" style="margin: 0.75rem 0;" data-turnstile-slot="register"></div>
                 <p id="registerError" class="auth-error" style="display: none;"></p>
                 <p id="registerSuccess" class="auth-success" style="display: none;"></p>
                 <button type="submit">Create account</button>
@@ -83,6 +85,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/dexie@3/dist/dexie.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <script defer src="js/config.js"></script>
+    <script defer src="js/turnstile.js"></script>
     <script defer src="js/supabase-db.js"></script>
     <script defer src="js/supabase-auth.js"></script>
     <script defer src="js/auth.js"></script>
@@ -93,6 +96,11 @@
             function getRedirect() {
                 var p = new URLSearchParams(window.location.search);
                 return p.get('redirect') || 'index.html';
+            }
+            function mountCaptcha(which) {
+                if (!window.turnstileHelper || !window.turnstileHelper.isEnabled()) return;
+                var id = which === 'register' ? 'registerTurnstile' : 'loginTurnstile';
+                window.turnstileHelper.render(id).catch(function() {});
             }
             function switchTab(tab) {
                 var isLogin = tab === 'login';
@@ -105,6 +113,7 @@
                 document.getElementById('loginError').style.display = 'none';
                 document.getElementById('registerError').style.display = 'none';
                 document.getElementById('registerSuccess').style.display = 'none';
+                mountCaptcha(isLogin ? 'login' : 'register');
             }
             document.getElementById('authTabLogin').addEventListener('click', function() { switchTab('login'); });
             document.getElementById('authTabRegister').addEventListener('click', function() { switchTab('register'); });
@@ -121,6 +130,7 @@
                     errEl.setAttribute('role', 'alert');
                     if (errEl.scrollIntoView) errEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                     btn.disabled = false;
+                    if (window.turnstileHelper) window.turnstileHelper.reset('loginTurnstile');
                 }
                 errEl.style.display = 'none';
                 errEl.textContent = '';
@@ -128,7 +138,12 @@
                 var email = document.getElementById('loginEmail').value.trim();
                 var password = document.getElementById('loginPassword').value;
                 btn.disabled = true;
-                window.auth.login(email, password).then(function() {
+                var tokenPromise = (window.turnstileHelper && window.turnstileHelper.isEnabled())
+                    ? window.turnstileHelper.getToken('loginTurnstile')
+                    : Promise.resolve('');
+                tokenPromise.then(function(token) {
+                    return window.auth.login(email, password, token);
+                }).then(function() {
                     window.location.href = getRedirect();
                 }).catch(function(err) {
                     showError(err && err.message ? err.message : 'Invalid email or password. If you don\'t have an account, please register first.');
@@ -160,11 +175,17 @@
                 if (!window.auth) { errEl.textContent = 'Auth not loaded.'; errEl.style.display = 'block'; return; }
                 var btn = this.querySelector('button[type="submit"]');
                 btn.disabled = true;
-                window.auth.register(email, password, name).then(function(result) {
+                var tokenPromise = (window.turnstileHelper && window.turnstileHelper.isEnabled())
+                    ? window.turnstileHelper.getToken('registerTurnstile')
+                    : Promise.resolve('');
+                tokenPromise.then(function(token) {
+                    return window.auth.register(email, password, name, token);
+                }).then(function(result) {
                     if (result && result.needsEmailConfirmation) {
                         okEl.textContent = 'Please check your email (' + (result.email || email) + ') and click the confirmation link to activate your account. Then sign in here.';
                         okEl.style.display = 'block';
                         btn.disabled = false;
+                        if (window.turnstileHelper) window.turnstileHelper.reset('registerTurnstile');
                         return;
                     }
                     okEl.textContent = 'Account created. Redirecting…';
@@ -174,12 +195,14 @@
                     errEl.textContent = err.message || 'Registration failed';
                     errEl.style.display = 'block';
                     btn.disabled = false;
+                    if (window.turnstileHelper) window.turnstileHelper.reset('registerTurnstile');
                 });
             });
 
             var redirect = new URLSearchParams(window.location.search).get('redirect');
             var mode = new URLSearchParams(window.location.search).get('mode');
             if (mode === 'register') switchTab('register');
+            else mountCaptcha('login');
         })();
         });
     </script>

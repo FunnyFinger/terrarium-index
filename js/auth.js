@@ -70,14 +70,14 @@
         return getCurrentUser() !== null;
     }
 
-    function register(email, password, name) {
+    function register(email, password, name, captchaToken) {
         if (!isConfigured()) return notConfiguredError();
-        return global.supabaseAuth.signUp(email, password, name);
+        return global.supabaseAuth.signUp(email, password, name, captchaToken);
     }
 
-    function login(email, password) {
+    function login(email, password, captchaToken) {
         if (!isConfigured()) return notConfiguredError();
-        return global.supabaseAuth.signIn(email, password);
+        return global.supabaseAuth.signIn(email, password, captchaToken);
     }
 
     function logout() {

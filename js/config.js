@@ -11,4 +11,8 @@
     window.SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || window.SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_WpRHh9_NVxCkTzYHOFggTw_Z2VwHsvd';
     // Set to your email to get owner role when you register (global auth). Leave empty to assign owner via Supabase dashboard.
     window.SUPABASE_OWNER_EMAIL = window.SUPABASE_OWNER_EMAIL || 'the_fantasy_maker@hotmail.com';
+    // Cloudflare Turnstile site key (public). Leave '' until you create a widget at
+    // https://dash.cloudflare.com/ → Turnstile. Pair with TURNSTILE_SECRET_KEY on Netlify
+    // and the same secret under Supabase → Authentication → Attack Protection → CAPTCHA.
+    window.TURNSTILE_SITE_KEY = window.TURNSTILE_SITE_KEY || '';
 })();
