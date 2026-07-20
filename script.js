@@ -5350,7 +5350,12 @@ function openEquipmentEdit(equipment) {
         if (stockEl) stockEl.value = (inv && inv.quantityInStock != null) ? inv.quantityInStock : (equipmentEditing.stockQuantity != null ? equipmentEditing.stockQuantity : 0);
         if (reorderEl) reorderEl.value = (inv && inv.reorderLevel != null) ? inv.reorderLevel : (equipmentEditing.reorderLevel != null ? equipmentEditing.reorderLevel : '');
         var categoryEl = document.getElementById('equipmentEditCategory');
-        if (categoryEl) categoryEl.value = (equipmentEditing.category != null && equipmentEditing.category !== '') ? String(equipmentEditing.category) : '';
+        if (categoryEl) {
+            var cat = (inv && inv.category != null && inv.category !== '')
+                ? inv.category
+                : (equipmentEditing.category != null && equipmentEditing.category !== '' ? equipmentEditing.category : '');
+            categoryEl.value = String(cat);
+        }
     }
     function updateEquipmentPriceFromCostMargin() {
         var costEl = document.getElementById('equipmentEditCost');
@@ -5661,6 +5666,9 @@ function mergeVivariumEditsFromStorage() {
 
 function mergeEquipmentEditsFromStorage() {
     if (!allEquipment || !allEquipment.length) return;
+    // When Supabase catalog/inventory is the source of truth, do not let stale
+    // localStorage edits override category (that wrongly moved items between build steps).
+    var supabaseOwnsCategory = window.supabaseDb && window.supabaseDb.isConfigured && window.supabaseDb.isConfigured();
     allEquipment.forEach(function(eq) {
         var id = eq.id;
         if (id == null) return;
@@ -5672,7 +5680,7 @@ function mergeEquipmentEditsFromStorage() {
             if (edit.description != null) eq.description = edit.description;
             if (edit.size != null) eq.size = edit.size;
             if (edit.unit != null) eq.unit = edit.unit;
-            if (edit.category != null) eq.category = edit.category;
+            if (!supabaseOwnsCategory && edit.category != null) eq.category = edit.category;
             if (edit.price != null) eq.price = edit.price;
             if (edit.costPrice != null) eq.costPrice = edit.costPrice;
             if (edit.stockQuantity != null) eq.stockQuantity = edit.stockQuantity;

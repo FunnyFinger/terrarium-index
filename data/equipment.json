@@ -184,5 +184,38 @@
     ],
     "price": null,
     "category": "accessories"
+  },
+  {
+    "name": "Mini Pine Cone",
+    "description": "Natural mini pine cones for vivarium and terrarium hardscape. Add woodland texture and forest-floor realism to planted setups, mossariums, and bioactive enclosures. The layered scales create visual interest and can provide micro-hiding spots for cleanup-crew invertebrates and feeder insects.\n\nProduct Features:\n• Natural dried mini pine cones\n• Ideal accent for forest-floor and woodland-themed layouts\n• Lightweight and easy to place among moss, leaf litter, and substrate\n• Suitable for vivariums, terrariums, paludariums, and fairy gardens\n• Each cone is unique in shape, tone, and scale pattern\n\nSize:\nApprox. 2–4 cm (mini)\n\nIdeal For:\nNaturalistic forest floors, bioactive enrichment, miniature woodland scenes, and decorative hardscape accents.\n\nNote: Natural product — size and color may vary slightly. Spot-clean as needed; replace if mould develops in high-humidity setups.",
+    "category": "hardscape",
+    "size": "2–4 cm",
+    "unit": "each",
+    "price": 1,
+    "imageUrl": "",
+    "images": [],
+    "id": 50019
+  },
+  {
+    "name": "Naturally Dried Lotus Pod",
+    "description": "Naturally dried lotus seed pods for vivarium and terrarium hardscape. The distinctive honeycomb seed chambers add bold organic texture and a sculptural focal point to planted setups, mossariums, and woodland-themed layouts.\n\nProduct Features:\n• 100% natural dried lotus pod\n• Open seed chambers create unique visual depth and shadow\n• Lightweight and easy to place among moss, wood, and substrate\n• Ideal for vivariums, terrariums, paludariums, and decorative plant displays\n• Each pod is unique in shape, tone, and chamber pattern\n\nSize:\nDiameter approx. 8–10 cm\n\nIdeal For:\nNaturalistic hardscape accents, miniature forest scenes, and statement botanical décor inside planted enclosures.\n\nNote: Natural product — exact size, color, and form may vary slightly. Spot-clean as needed; replace if mould develops in high-humidity setups.",
+    "category": "hardscape",
+    "size": "8–10 cm diameter",
+    "unit": "each",
+    "price": null,
+    "imageUrl": "",
+    "images": [],
+    "id": 50020
+  },
+  {
+    "name": "Dried Longan Leaf",
+    "description": "Naturally dried longan leaves for vivarium and terrarium forest-floor litter. Scatter over substrate to create a realistic woodland surface, provide hiding cover for cleanup-crew invertebrates, and add gentle tannins that support a naturalistic bioactive environment.\n\nProduct Features:\n• 100% natural dried longan (Dimocarpus longan) leaves\n• Soft, thin leaf litter ideal for bioactive and planted setups\n• Helps create a layered forest-floor look with moss and hardscape\n• Suitable for vivariums, terrariums, and invertebrate enclosures\n• Natural color and shape variation from leaf to leaf\n\nIdeal For:\nBioactive forest floors, leaf-litter layers, isopod and springtail enrichment, and naturalistic planted displays.\n\nNote: Natural product — leaf size and tone may vary. Replace as leaves break down. Spot-clean if mould appears in high-humidity setups.",
+    "category": "hardscape",
+    "size": "",
+    "unit": "pack",
+    "price": null,
+    "imageUrl": "",
+    "images": [],
+    "id": 50021
   }
 ]
