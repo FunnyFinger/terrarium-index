@@ -168,23 +168,57 @@ async function sendOrderEmails({ orderId, customer, items, totalAmount, paymentM
     const customerHtml = buildCustomerEmail({ orderNum, customer, itemRows, totalRow, payLabel });
     const ownerHtml = buildOwnerEmail({ orderNum, customer, itemRows, totalRow, payLabel });
 
-    await sendWithResend(apiKey, {
-        from: fromEmail,
-        to: [customer.email],
-        subject: `Order #${orderNum} confirmed — Vivarium Store`,
-        html: customerHtml
-    });
+    // Send independently so owner still gets notified if customer send is blocked
+    // (e.g. Resend test domain only allows sending to your own inbox).
+    let customerSent = false;
+    let customerError = null;
+    let ownerSent = false;
+    let ownerError = null;
 
-    if (ownerEmail) {
+    try {
         await sendWithResend(apiKey, {
             from: fromEmail,
-            to: [ownerEmail],
-            subject: `New order #${orderNum} from ${customer.name || customer.email}`,
-            html: ownerHtml
+            to: [customer.email],
+            subject: `Order #${orderNum} confirmed — Vivarium Store`,
+            html: customerHtml
         });
+        customerSent = true;
+    } catch (err) {
+        customerError = err.message || 'Customer email failed';
+        console.error('Customer order email failed:', customerError);
     }
 
-    return { sent: true, orderId: orderNum };
+    if (ownerEmail) {
+        try {
+            await sendWithResend(apiKey, {
+                from: fromEmail,
+                to: [ownerEmail],
+                subject: `New order #${orderNum} from ${customer.name || customer.email}`,
+                html: ownerHtml
+            });
+            ownerSent = true;
+        } catch (err) {
+            ownerError = err.message || 'Owner email failed';
+            console.error('Owner order email failed:', ownerError);
+        }
+    }
+
+    if (!customerSent && !ownerSent) {
+        throw new Error(customerError || ownerError || 'Email send failed');
+    }
+
+    return {
+        sent: customerSent || ownerSent,
+        orderId: orderNum,
+        customerSent: customerSent,
+        ownerSent: ownerSent,
+        customerError: customerError,
+        ownerError: ownerError,
+        // Hint when using Resend's shared test sender
+        hint: (!customerSent && /own email|verify a domain|resend\.dev/i.test(String(customerError || '')))
+            ? 'Verify your domain in Resend and set EMAIL_FROM to an address on that domain (e.g. orders@vivarium-store.com). The free onboarding@resend.dev sender can only email your Resend account address.'
+            : undefined
+    };
 }
 
 module.exports = { sendOrderEmails, escHtml };
