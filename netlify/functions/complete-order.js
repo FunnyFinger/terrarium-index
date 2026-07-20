@@ -2,22 +2,27 @@
  * Netlify Function: complete-order
  *
  * Validates line prices against Supabase inventory (service role), decrements stock,
- * and sends confirmation emails. Call this from checkout instead of client-side
- * stock writes + the old open send-order-email relay.
+ * sends confirmation emails, and rate-limits abuse.
  *
- * Required env (Netlify → Environment variables):
+ * Required env:
  *   SUPABASE_URL
- *   SUPABASE_SERVICE_ROLE_KEY   — secret key (never put in client JS)
- *   RESEND_API_KEY             — for emails (optional; order still completes)
- *   EMAIL_FROM
- *   STORE_OWNER_EMAIL
+ *   SUPABASE_SERVICE_ROLE_KEY
+ * Optional:
+ *   RESEND_API_KEY, EMAIL_FROM, STORE_OWNER_EMAIL
+ *   TURNSTILE_SECRET_KEY — if set, requires body.turnstileToken
  */
 
 const { sendOrderEmails } = require('./lib/order-email');
 
 const MAX_DELIVERY_LINE = 50;
-const MAX_QTY_PER_LINE = 100;
+const MAX_QTY_PER_LINE = 30;
 const MAX_LINES = 40;
+const MIN_FORM_MS = 2500;
+
+// Limits: [max hits, window ms]
+const LIMIT_IP_SHORT = [8, 15 * 60 * 1000];      // 8 / 15 min
+const LIMIT_IP_DAY = [40, 24 * 60 * 60 * 1000];  // 40 / day
+const LIMIT_EMAIL = [6, 60 * 60 * 1000];         // 6 / hour
 
 function json(statusCode, body) {
     return {
@@ -35,7 +40,18 @@ function isChargeId(id) {
     return typeof id === 'string' && id.indexOf('charge_') === 0;
 }
 
-async function supabaseRest(method, path, body) {
+function clientIp(event) {
+    const h = event.headers || {};
+    return (
+        h['x-nf-client-connection-ip'] ||
+        h['x-forwarded-for'] ||
+        h['X-Forwarded-For'] ||
+        h['client-ip'] ||
+        ''
+    ).toString().split(',')[0].trim() || 'unknown';
+}
+
+async function supabaseRest(method, path, body, prefer) {
     const base = (process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || '').replace(/\/$/, '');
     const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY || '';
     if (!base || !key) {
@@ -51,7 +67,7 @@ async function supabaseRest(method, path, body) {
             apikey: key,
             Authorization: 'Bearer ' + key,
             'Content-Type': 'application/json',
-            Prefer: 'return=representation'
+            Prefer: prefer || 'return=representation'
         },
         body: body !== undefined ? JSON.stringify(body) : undefined
     });
@@ -61,6 +77,79 @@ async function supabaseRest(method, path, body) {
     }
     if (res.status === 204) return [];
     return res.json();
+}
+
+/**
+ * Sliding-window counter in checkout_rate_limits.
+ * Fails open (allows) if the table is missing so checkout still works before SQL is run.
+ */
+async function assertRateLimit(bucketKey, maxHits, windowMs) {
+    const now = Date.now();
+    let rows;
+    try {
+        rows = await supabaseRest(
+            'GET',
+            '/checkout_rate_limits?bucket_key=eq.' + encodeURIComponent(bucketKey) + '&select=bucket_key,hit_count,window_start'
+        );
+    } catch (err) {
+        console.warn('Rate limit table unavailable, allowing request:', err.message);
+        return;
+    }
+
+    const row = rows && rows[0];
+    if (!row) {
+        try {
+            await supabaseRest('POST', '/checkout_rate_limits', {
+                bucket_key: bucketKey,
+                hit_count: 1,
+                window_start: new Date(now).toISOString()
+            }, 'return=minimal,resolution=merge-duplicates');
+        } catch (err) {
+            console.warn('Rate limit insert failed:', err.message);
+        }
+        return;
+    }
+
+    const start = new Date(row.window_start).getTime();
+    if (!Number.isFinite(start) || now - start > windowMs) {
+        await supabaseRest(
+            'PATCH',
+            '/checkout_rate_limits?bucket_key=eq.' + encodeURIComponent(bucketKey),
+            { hit_count: 1, window_start: new Date(now).toISOString() },
+            'return=minimal'
+        );
+        return;
+    }
+
+    if (Number(row.hit_count) >= maxHits) {
+        const err = new Error('Too many orders from this device or email. Please try again later.');
+        err.statusCode = 429;
+        throw err;
+    }
+
+    await supabaseRest(
+        'PATCH',
+        '/checkout_rate_limits?bucket_key=eq.' + encodeURIComponent(bucketKey),
+        { hit_count: Number(row.hit_count) + 1 },
+        'return=minimal'
+    );
+}
+
+async function verifyTurnstile(token, ip) {
+    const secret = process.env.TURNSTILE_SECRET_KEY;
+    if (!secret) return true;
+    if (!token) return false;
+    const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+            secret: secret,
+            response: token,
+            remoteip: ip || ''
+        }).toString()
+    });
+    const data = await res.json().catch(function () { return {}; });
+    return !!(data && data.success);
 }
 
 async function fetchInventoryRows(plantIds) {
@@ -87,7 +176,7 @@ async function decrementStock(plantId, qty, rowData) {
     await supabaseRest('PATCH', '/inventory?plant_id=eq.' + Number(plantId), {
         data: updated,
         updated_at: new Date().toISOString()
-    });
+    }, 'return=minimal');
 }
 
 exports.handler = async function (event) {
@@ -105,14 +194,44 @@ exports.handler = async function (event) {
         return json(400, { error: 'Invalid JSON' });
     }
 
+    // Honeypot: real users leave this empty (hidden field on checkout)
+    if ((body.website || body.company || body.hp_field || '').toString().trim()) {
+        return json(400, { error: 'Invalid request' });
+    }
+
+    const formOpenedAt = Number(body.formOpenedAt);
+    if (Number.isFinite(formOpenedAt) && formOpenedAt > 0) {
+        const elapsed = Date.now() - formOpenedAt;
+        if (elapsed >= 0 && elapsed < MIN_FORM_MS) {
+            return json(400, { error: 'Please wait a moment and try again.' });
+        }
+    }
+
     const customer = body.customer || {};
     const email = (customer.email || '').trim().toLowerCase();
     if (!email || email.indexOf('@') === -1) {
         return json(400, { error: 'Valid customer email required' });
     }
-    // Block obviously fake/internal addresses used to probe the endpoint
     if (email.endsWith('.invalid') || email.endsWith('@example.com') || email.indexOf('stock-adjust') !== -1) {
         return json(400, { error: 'Valid customer email required' });
+    }
+
+    const ip = clientIp(event);
+    try {
+        if (process.env.TURNSTILE_SECRET_KEY) {
+            const ok = await verifyTurnstile(body.turnstileToken, ip);
+            if (!ok) return json(400, { error: 'Captcha verification failed. Please try again.' });
+        }
+
+        await assertRateLimit('ip:' + ip + ':short', LIMIT_IP_SHORT[0], LIMIT_IP_SHORT[1]);
+        await assertRateLimit('ip:' + ip + ':day', LIMIT_IP_DAY[0], LIMIT_IP_DAY[1]);
+        await assertRateLimit('email:' + email, LIMIT_EMAIL[0], LIMIT_EMAIL[1]);
+    } catch (limitErr) {
+        if (limitErr && limitErr.statusCode === 429) {
+            return json(429, { error: limitErr.message });
+        }
+        console.error('Rate limit / captcha check failed:', limitErr);
+        return json(500, { error: limitErr.message || 'Order check failed' });
     }
 
     const rawItems = Array.isArray(body.items) ? body.items : [];
