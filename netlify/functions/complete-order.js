@@ -36,9 +36,14 @@ function isChargeId(id) {
 }
 
 async function supabaseRest(method, path, body) {
-    const base = (process.env.SUPABASE_URL || '').replace(/\/$/, '');
-    const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-    if (!base || !key) throw new Error('Supabase service role not configured');
+    const base = (process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || '').replace(/\/$/, '');
+    const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY || '';
+    if (!base || !key) {
+        const missing = [];
+        if (!base) missing.push('SUPABASE_URL');
+        if (!key) missing.push('SUPABASE_SERVICE_ROLE_KEY');
+        throw new Error('Supabase not configured on server (missing ' + missing.join(', ') + '). Add env vars in Netlify and redeploy.');
+    }
 
     const res = await fetch(base + '/rest/v1' + path, {
         method,
@@ -46,7 +51,7 @@ async function supabaseRest(method, path, body) {
             apikey: key,
             Authorization: 'Bearer ' + key,
             'Content-Type': 'application/json',
-            Prefer: method === 'GET' ? 'return=representation' : 'return=representation'
+            Prefer: 'return=representation'
         },
         body: body !== undefined ? JSON.stringify(body) : undefined
     });

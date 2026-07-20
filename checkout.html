@@ -547,20 +547,28 @@
                                     if (!res.ok) throw new Error((data && data.error) || 'Order processing failed');
                                     return data;
                                 });
-                            }).catch(function(err) {
-                                console.warn('complete-order failed', err);
-                                return null;
                             });
                         }).then(function(result) {
                             localStorage.setItem(key, '[]');
                             var displayTotal = (result && result.totalAmount != null) ? result.totalAmount : totalPrice;
+                            var emailOk = result && result.email && (result.email.sent || result.email.skipped);
+                            var emailWarn = result && result.email && result.email.error
+                                ? '<br><br><span style="color:#b45309;">Order saved, but email failed: ' + String(result.email.error).replace(/</g, '&lt;') + '</span>'
+                                : (!emailOk && result && result.email && result.email.skipped
+                                    ? '<br><br><span style="color:#b45309;">Order saved. Email was skipped (RESEND_API_KEY not set on server).</span>'
+                                    : '');
                             var msg = '<strong style="color: var(--primary-color);">Order #' + orderId + ' confirmed. Thank you!</strong><br><br>';
-                            if (paymentMethod === 'cod') msg += 'Pay when your order is delivered. A confirmation email has been sent to ' + (email || 'you') + '.';
-                            else if (paymentMethod === 'bank') msg += 'Please transfer <strong>' + formatPrice(displayTotal) + '</strong> using Order #' + orderId + ' as reference. Bank details will be sent to ' + (email || 'you') + '.';
-                            else msg += 'A confirmation email has been sent to ' + (email || 'the details provided') + '.';
-                            confirmWrap.innerHTML = msg + '<br><br><a href="index.html">Continue shopping</a>';
+                            if (paymentMethod === 'cod') msg += 'Pay when your order is delivered.' + (emailOk && result.email.sent ? ' A confirmation email has been sent to ' + (email || 'you') + '.' : '');
+                            else if (paymentMethod === 'bank') msg += 'Please transfer <strong>' + formatPrice(displayTotal) + '</strong> using Order #' + orderId + ' as reference.';
+                            else msg += 'Your order is confirmed.';
+                            confirmWrap.innerHTML = msg + emailWarn + '<br><br><a href="index.html">Continue shopping</a>';
                             formWrap.style.display = 'none';
                             el.innerHTML = '<p class="checkout-note"><a href="index.html">Continue shopping</a></p>';
+                        }).catch(function(err) {
+                            formError.textContent = (err && err.message)
+                                ? ('Order saved locally, but stock/email update failed: ' + err.message)
+                                : 'Order could not be fully processed. Please contact the store.';
+                            formError.style.display = 'block';
                         });
                     }).catch(function(err) {
                         formError.textContent = (err && err.message) ? err.message : 'Could not place order. Please try again.';
