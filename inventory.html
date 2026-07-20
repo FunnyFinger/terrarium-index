@@ -1371,10 +1371,13 @@
                     var rows = items.map(function(i) {
                         var scientificName = (i.scientificName || i.name || '—').trim() || '—';
                         var qty = i.quantity != null ? Number(i.quantity) : 0;
-                        var qtyDisplay = i.unit ? (qty + ' ' + (i.unit.replace(/</g, '&lt;').replace(/>/g, '&gt;'))) : qty;
-                        return '<tr><td><em>' + scientificName + '</em></td><td>' + qtyDisplay + '</td><td>KD ' + (i.price != null ? Number(i.price).toFixed(2) : '—') + '</td><td>KD ' + (i.lineTotal != null ? Number(i.lineTotal).toFixed(2) : '—') + '</td></tr>';
+                        var unit = (i.unit != null && String(i.unit).trim() !== '') ? String(i.unit).trim() : '';
+                        var qtyDisplay = unit
+                            ? ((qty % 1 !== 0 ? qty : Math.round(qty)) + ' ' + unit.replace(/</g, '&lt;').replace(/>/g, '&gt;'))
+                            : (qty % 1 !== 0 ? qty : Math.round(qty));
+                        return '<tr><td><em>' + scientificName.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</em></td><td>' + qtyDisplay + '</td><td>KD ' + (i.price != null ? Number(i.price).toFixed(2) : '—') + '</td><td>KD ' + (i.lineTotal != null ? Number(i.lineTotal).toFixed(2) : '—') + '</td></tr>';
                     }).join('');
-                    var itemsTable = '<div class="inv-order-items"><table><thead><tr><th>Scientific name</th><th>Qty</th><th>Unit (KD)</th><th>Line (KD)</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
+                    var itemsTable = '<div class="inv-order-items"><table><thead><tr><th>Scientific name</th><th>Qty</th><th>Unit price (KD)</th><th>Line (KD)</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
                     var total = '<p class="inv-order-total">Total: KD ' + (o.totalAmount != null ? Number(o.totalAmount).toFixed(2) : '0.00') + '</p>';
                     document.getElementById('invOrderDetailBody').innerHTML = meta + itemsTable + total;
                     document.getElementById('invOrderDetail').classList.remove('hidden');

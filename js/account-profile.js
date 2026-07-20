@@ -305,7 +305,11 @@
             listEl.innerHTML = orders.map(function (o) {
                 var status = (o.status || 'confirmed').replace('_', ' ');
                 var items = (o.items || []).map(function (i) {
-                    return '<tr><td>' + esc(i.name || 'Item') + '</td><td>' + (i.quantity || 0) + '</td><td>' + formatPrice(i.lineTotal) + '</td></tr>';
+                    var qtyNum = i.quantity != null ? Number(i.quantity) : 0;
+                    var qtyDisplay = (!isNaN(qtyNum) && qtyNum % 1 !== 0) ? qtyNum : (isNaN(qtyNum) ? 0 : Math.round(qtyNum));
+                    var unit = (i.unit != null && String(i.unit).trim() !== '') ? String(i.unit).trim() : '';
+                    var qtyWithUnit = unit ? (qtyDisplay + ' ' + unit) : String(qtyDisplay);
+                    return '<tr><td>' + esc(i.name || 'Item') + '</td><td>' + esc(qtyWithUnit) + '</td><td>' + formatPrice(i.lineTotal) + '</td></tr>';
                 }).join('');
                 return '<div class="order-row" data-order-id="' + o.id + '">' +
                     '<span><strong>#' + o.id + '</strong> ' + formatDate(o.createdAt) + '</span>' +

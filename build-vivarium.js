@@ -1334,8 +1334,13 @@
         var price = (e.price !== undefined && e.price !== null && e.price !== '') ? Number(e.price) : null;
         var keyId = e.id != null ? e.id : idN;
         var existing = cart.filter(function (i) { return i.plantId == keyId || supplyIdNum(i.plantId) === idN; })[0];
-        if (existing) existing.quantity = qty;
-        else cart.push({ plantId: keyId, name: e.name || 'Item', scientificName: '', quantity: qty, price: price, unit: e.unit || undefined });
+        if (existing) {
+            existing.quantity = qty;
+            if (e.unit && !(existing.unit != null && String(existing.unit).trim())) existing.unit = e.unit;
+            else if (e.unit) existing.unit = e.unit;
+        } else {
+            cart.push({ plantId: keyId, name: e.name || 'Item', scientificName: '', quantity: qty, price: price, unit: e.unit || undefined });
+        }
     }
 
     var LABOUR_VIVARIUM_ID = 'labour-vivarium';

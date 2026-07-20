@@ -23,7 +23,7 @@
         .checkout-order-table th, .checkout-order-table td { padding: 0.65rem 0.75rem; text-align: left; border-bottom: 1px solid var(--border-color); }
         .checkout-order-table thead th { background: rgba(45, 80, 22, 0.08); font-weight: 700; color: var(--primary-color); }
         .checkout-order-table tbody tr:last-child td { border-bottom: none; }
-        .checkout-order-table .col-qty { text-align: center; width: 4rem; }
+        .checkout-order-table .col-qty { text-align: center; width: 6.5rem; white-space: nowrap; }
         .checkout-order-table .col-price, .checkout-order-table .col-total { text-align: right; white-space: nowrap; }
         .checkout-order-table tfoot td { padding: 0.85rem 0.75rem; font-weight: 700; font-size: 1.05rem; color: var(--primary-color); background: rgba(45, 80, 22, 0.06); border-top: 2px solid var(--primary-color); }
         .checkout-order-table tfoot .col-total { text-align: right; }
@@ -213,6 +213,34 @@
                     });
                 });
             }
+            function formatQtyWithUnitLocal(quantity, unit) {
+                var qty = Number(quantity);
+                var qtyDisplay = (!isNaN(qty) && qty % 1 !== 0) ? qty : (isNaN(qty) ? 0 : Math.round(qty));
+                var u = (unit != null && String(unit).trim() !== '') ? String(unit).trim() : '';
+                return u ? (qtyDisplay + ' ' + u) : String(qtyDisplay);
+            }
+            function enrichCartUnits(cart) {
+                if (!Array.isArray(cart) || !cart.length) return Promise.resolve(cart);
+                function applyFromRows(rows) {
+                    var byId = {};
+                    (rows || []).forEach(function(r) {
+                        if (!r || r.plantId == null) return;
+                        byId[r.plantId] = r;
+                        byId[Number(r.plantId)] = r;
+                    });
+                    cart.forEach(function(i) {
+                        if (i.unit != null && String(i.unit).trim() !== '') return;
+                        var inv = byId[i.plantId] || byId[Number(i.plantId)];
+                        if (inv && inv.unit != null && String(inv.unit).trim() !== '') i.unit = String(inv.unit).trim();
+                    });
+                    try { localStorage.setItem(key, JSON.stringify(cart)); } catch (e) { /* ignore */ }
+                    return cart;
+                }
+                if (window.inventoryDb && typeof window.inventoryDb.getAll === 'function') {
+                    return window.inventoryDb.getAll().then(applyFromRows).catch(function() { return applyFromRows([]); });
+                }
+                return Promise.resolve(applyFromRows([]));
+            }
             function renderCart() {
                 try {
                     var cart = JSON.parse(localStorage.getItem(key) || '[]');
@@ -223,6 +251,8 @@
                         formWrap.style.display = 'none';
                         return;
                     }
+                    enrichCartUnits(cart).then(function(enrichedCart) {
+                    cart = enrichedCart || cart;
                     document.querySelector('main.checkout-page').classList.remove('checkout-empty');
                     var totalQty = cart.reduce(function(s, i) { var q = parseFloat(i.quantity); if (isNaN(q) || q <= 0) return s; return s + (q % 1 === 0 ? q : 1); }, 0);
                     var totalPrice = cart.reduce(function(s, i) { return s + (i.price != null ? i.price * i.quantity : 0); }, 0);
@@ -237,9 +267,9 @@
                         var name = (i.name || 'Item').replace(/</g, '&lt;').replace(/>/g, '&gt;');
                         var sci = (i.scientificName || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
                         var itemCell = sci ? name + ' <span style="font-style:italic;color:var(--text-light);">' + sci + '</span>' : name;
-                        var qtyNum = (i.quantity % 1 !== 0) ? Number(i.quantity) : i.quantity;
-                        var qtyDisplay = i.unit ? qtyNum + ' ' + (i.unit.replace(/</g, '&lt;').replace(/>/g, '&gt;')) : qtyNum;
-                        return '<tr><td>' + itemCell + '</td><td class="col-qty">' + qtyDisplay + '</td><td class="col-price">' + priceStr + '</td><td class="col-total">' + lineStr + '</td></tr>';
+                        var unit = (i.unit != null && String(i.unit).trim() !== '') ? String(i.unit).trim() : '';
+                        var qtyWithUnit = formatQtyWithUnitLocal(i.quantity, unit).replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                        return '<tr><td>' + itemCell + '</td><td class="col-qty">' + qtyWithUnit + '</td><td class="col-price">' + priceStr + '</td><td class="col-total">' + lineStr + '</td></tr>';
                     }).join('');
                     var deliveryRows = deliveryCharges.length ? deliveryCharges.map(function(c) {
                         var amt = Number(c.price) || 0;
@@ -327,6 +357,7 @@
                     confirmWrap.innerHTML = '<div class="checkout-btn-wrap"><button type="button" id="checkoutConfirmBtn" class="checkout-btn-primary">Confirm order</button><a href="index.html" class="checkout-btn-secondary" id="checkoutSaveForLaterBtn">Save for later</a></div>';
                     document.getElementById('checkoutConfirmBtn').onclick = confirmOrder;
                     bindPaymentDetails();
+                    });
                 } catch (e) {
                     el.innerHTML = '<p class="checkout-note">Could not load cart.</p>';
                 }
@@ -339,6 +370,9 @@
 
                 var cart = JSON.parse(localStorage.getItem(key) || '[]');
                 if (cart.length === 0) { renderCart(); return; }
+
+                enrichCartUnits(cart).then(function(enrichedCart) {
+                cart = enrichedCart || cart;
 
                 var name = (document.getElementById('checkoutName').value || '').trim();
                 var email = (document.getElementById('checkoutEmail').value || '').trim();
@@ -421,7 +455,8 @@
                 }
                 var orderItems = cart.map(function(i) {
                     var lineTotal = i.price != null ? i.price * i.quantity : 0;
-                    return { plantId: i.plantId, name: i.name, scientificName: i.scientificName, quantity: Number(i.quantity), unit: i.unit || undefined, price: i.price, lineTotal: lineTotal };
+                    var unit = (i.unit != null && String(i.unit).trim() !== '') ? String(i.unit).trim() : undefined;
+                    return { plantId: i.plantId, name: i.name, scientificName: i.scientificName, quantity: Number(i.quantity), unit: unit, price: i.price, lineTotal: lineTotal };
                 });
                 deliveryCharges.forEach(function(c) {
                     var amt = Number(c.price) || 0;
@@ -527,6 +562,7 @@
                     formWrap.style.display = 'none';
                     el.innerHTML = '<p class="checkout-note">Your cart has been cleared. <a href="index.html">Continue shopping</a>.</p>';
                 }
+                }); // enrichCartUnits
             }
             renderCart();
         })();

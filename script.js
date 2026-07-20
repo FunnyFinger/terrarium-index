@@ -704,6 +704,55 @@ function formatQuickAddQtyUnit(qty, unit) {
     return q + u;
 }
 
+/** Normalize a product unit string; empty/whitespace → ''. */
+function normalizeProductUnit(unit) {
+    if (unit == null) return '';
+    const u = String(unit).trim();
+    return u;
+}
+
+/** Look up unit from plants/equipment catalogs when a cart/order line is missing it. */
+function resolveItemUnit(item) {
+    if (!item) return '';
+    const fromItem = normalizeProductUnit(item.unit);
+    if (fromItem) return fromItem;
+    const id = item.plantId != null ? item.plantId : item.id;
+    if (id == null) return '';
+    const idNum = Number(id);
+    const matchId = function (x) {
+        if (!x || x.id == null) return false;
+        return x.id == id || Number(x.id) === idNum;
+    };
+    const plants = (typeof allPlants !== 'undefined' && allPlants) ? allPlants
+        : (window.allPlants || window.plantsDatabase || []);
+    const equipment = (typeof allEquipment !== 'undefined' && allEquipment) ? allEquipment
+        : (window.allEquipment || window.equipmentData || []);
+    const vivariums = (typeof allVivariums !== 'undefined' && allVivariums) ? allVivariums
+        : (window.allVivariums || []);
+    const lists = [plants, equipment, vivariums];
+    for (let i = 0; i < lists.length; i++) {
+        const list = lists[i];
+        if (!Array.isArray(list)) continue;
+        const found = list.find(matchId);
+        if (found) {
+            const u = normalizeProductUnit(found.unit);
+            if (u) return u;
+        }
+    }
+    return '';
+}
+
+/** Display quantity with unit, e.g. "2 piece" or "1.5 kg". */
+function formatQtyWithUnit(quantity, unit) {
+    const qty = Number(quantity);
+    const qtyDisplay = (!isNaN(qty) && qty % 1 !== 0) ? qty : (isNaN(qty) ? 0 : Math.round(qty));
+    const u = normalizeProductUnit(unit);
+    return u ? (qtyDisplay + ' ' + u) : String(qtyDisplay);
+}
+window.resolveItemUnit = resolveItemUnit;
+window.formatQtyWithUnit = formatQtyWithUnit;
+window.normalizeProductUnit = normalizeProductUnit;
+
 function setCart(items) {
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
     updateCartUI();
@@ -729,9 +778,10 @@ function addToCart(plant, quantity) {
     const existing = cart.find(i => i.plantId === id);
     const qty = Math.max(0.001, parseFloat(quantity) || 1);
     const price = getPlantPrice(plant);
-    const unit = plant.unit != null && plant.unit !== '' ? plant.unit : null;
+    const unit = normalizeProductUnit(plant.unit) || null;
     if (existing) {
         existing.quantity += qty;
+        if (!normalizeProductUnit(existing.unit) && unit) existing.unit = unit;
     } else {
         cart.push({
             plantId: id,
@@ -766,9 +816,11 @@ function setCartQuantityForItem(item, qty) {
     } else {
         const quantity = num;
         const price = getPlantPrice(item);
-        const unit = item.unit != null && item.unit !== '' ? item.unit : null;
+        const unit = normalizeProductUnit(item.unit) || null;
         if (existing) {
             existing.quantity = quantity;
+            if (!normalizeProductUnit(existing.unit) && unit) existing.unit = unit;
+            else if (unit) existing.unit = unit;
         } else {
             cart.push({
                 plantId: id,
@@ -801,9 +853,14 @@ function addVivariumBuildToCart(vivarium) {
         var e = equipment.filter(function(x) { return x && (x.id === n || parseInt(x.id, 10) === n); })[0];
         if (!e) return;
         var price = (e.price !== undefined && e.price !== null && e.price !== '') ? Number(e.price) : null;
+        var unit = (typeof normalizeProductUnit === 'function' ? normalizeProductUnit(e.unit) : (e.unit || '')) || undefined;
         var existing = cart.filter(function(i) { return i.plantId == e.id || parseInt(i.plantId, 10) === n; })[0];
-        if (existing) existing.quantity += 1;
-        else cart.push({ plantId: e.id, name: e.name || 'Item', scientificName: '', quantity: 1, price: price });
+        if (existing) {
+            existing.quantity += 1;
+            if (!existing.unit && unit) existing.unit = unit;
+        } else {
+            cart.push({ plantId: e.id, name: e.name || 'Item', scientificName: '', quantity: 1, price: price, unit: unit });
+        }
     }
     if (bc.enclosureId) addSupply(bc.enclosureId);
     (bc.drainageIds || []).forEach(addSupply);
@@ -814,10 +871,15 @@ function addVivariumBuildToCart(vivarium) {
         var p = plants.filter(function(x) { return x && (x.id === n || parseInt(x.id, 10) === n); })[0];
         if (!p) return;
         var price = (p.price !== undefined && p.price !== null && p.price !== '') ? Number(p.price) : null;
+        var unit = (typeof normalizeProductUnit === 'function' ? normalizeProductUnit(p.unit) : (p.unit || '')) || undefined;
         var sci = typeof p.scientificName === 'string' ? p.scientificName : (p.scientificName && p.scientificName.name) ? p.scientificName.name : '';
         var existing = cart.filter(function(i) { return i.plantId == p.id || parseInt(i.plantId, 10) === n; })[0];
-        if (existing) existing.quantity += 1;
-        else cart.push({ plantId: p.id, name: p.name || 'Plant', scientificName: sci, quantity: 1, price: price });
+        if (existing) {
+            existing.quantity += 1;
+            if (!existing.unit && unit) existing.unit = unit;
+        } else {
+            cart.push({ plantId: p.id, name: p.name || 'Plant', scientificName: sci, quantity: 1, price: price, unit: unit });
+        }
     });
     (bc.decorationIds || []).forEach(addSupply);
     (bc.accessoryIds || []).forEach(addSupply);
@@ -860,21 +922,23 @@ function updateCartUI() {
         const lineTotal = item.price != null ? item.price * item.quantity : null;
         const priceStr = item.price != null ? formatPrice(item.price) : 'Price on request';
         const lineStr = lineTotal != null ? formatPrice(lineTotal) : '—';
-        const qtyDisplay = (item.quantity % 1 !== 0) ? Number(item.quantity) : item.quantity;
-        const unitRaw = item.unit != null ? String(item.unit).trim() : '';
-        const unitLabel = unitRaw ? ' ' + escapeHtml(unitRaw) : '';
+        const unitRaw = resolveItemUnit(item);
+        if (unitRaw && !normalizeProductUnit(item.unit)) item.unit = unitRaw;
+        const qtyWithUnit = formatQtyWithUnit(item.quantity, unitRaw);
         const perUnitLabel = unitRaw ? ' per ' + escapeHtml(unitRaw) : ' each';
         return `
         <div class="cart-item" data-plant-id="${item.plantId}">
             <div class="cart-item-info">
                 <div class="cart-item-name">${escapeHtml(item.name)}</div>
                 <div class="cart-item-scientific">${escapeHtml(item.scientificName)}</div>
-                <div class="cart-item-qty">Qty: ${qtyDisplay}${unitLabel}</div>
+                <div class="cart-item-qty">Qty: ${escapeHtml(qtyWithUnit)}</div>
                 <div class="cart-item-price">${priceStr}${perUnitLabel} · ${lineStr} total</div>
             </div>
             <button type="button" class="cart-item-remove" aria-label="Remove from cart" data-plant-id="${item.plantId}">×</button>
         </div>`;
     }).join('');
+    // Persist any units we backfilled from the catalog so checkout/orders keep them
+    try { localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart)); } catch (e) { /* ignore */ }
     cartItemsEl.querySelectorAll('.cart-item-remove').forEach(btn => {
         btn.addEventListener('click', () => { removeFromCart(btn.dataset.plantId); });
     });
