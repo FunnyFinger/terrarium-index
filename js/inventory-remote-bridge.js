@@ -32,7 +32,9 @@
                 var invRow = byId[p.id];
                 if (invRow) {
                     if (invRow.price != null) p.price = invRow.price;
+                    // costPrice only present for staff sessions (full inventory read)
                     if (invRow.costPrice != null) p.costPrice = invRow.costPrice;
+                    else delete p.costPrice;
                     p.stockQuantity = invRow.quantityInStock != null ? invRow.quantityInStock : 0;
                     if (invRow.reorderLevel != null) p.reorderLevel = invRow.reorderLevel;
                     if (invRow.size !== undefined && invRow.size !== null) p.size = invRow.size;

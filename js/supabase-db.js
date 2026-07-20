@@ -185,23 +185,57 @@
         });
     }
 
+    /** Staff may read full inventory (includes costPrice); everyone else uses inventory_public. */
+    function canReadFullInventory() {
+        var u = global.auth && global.auth.getCurrentUser ? global.auth.getCurrentUser() : null;
+        return !!(u && (u.role === 'owner' || u.role === 'admin' || u.role === 'stock'));
+    }
+
+    function mapInventoryRows(rows) {
+        return (rows || []).map(function (r) {
+            var d = r.data || {};
+            d.plantId = r.plant_id;
+            return d;
+        });
+    }
+
+    function stripCostFromObject(obj) {
+        if (!obj || typeof obj !== 'object') return obj;
+        var copy = Object.assign({}, obj);
+        delete copy.costPrice;
+        return copy;
+    }
+
     // ---- Inventory (same shape as IndexedDB: { plantId, name, price, ... }) ----
     function getInventory() {
         if (!isConfigured()) return Promise.resolve([]);
-        return request('GET', '/inventory?select=plant_id,data').then(function (rows) {
-            return (rows || []).map(function (r) {
-                var d = r.data || {};
-                d.plantId = r.plant_id;
-                return d;
-            });
-        }).catch(function () { return []; });
+        if (canReadFullInventory()) {
+            return requestAuth('GET', '/inventory?select=plant_id,data').then(mapInventoryRows).catch(function () { return []; });
+        }
+        return request('GET', '/inventory_public?select=plant_id,data').then(mapInventoryRows).catch(function () { return []; });
     }
 
     function getInventoryItem(plantId) {
         var id = Number(plantId);
         if (!isFinite(id)) return Promise.resolve(undefined);
         if (!isConfigured()) return Promise.resolve(undefined);
-        return request('GET', '/inventory?plant_id=eq.' + id + '&select=plant_id,data').then(function (rows) {
+        var path = (canReadFullInventory() ? '/inventory' : '/inventory_public') +
+            '?plant_id=eq.' + id + '&select=plant_id,data';
+        var req = canReadFullInventory() ? requestAuth('GET', path) : request('GET', path);
+        return req.then(function (rows) {
+            if (!rows || rows.length === 0) return undefined;
+            var d = rows[0].data || {};
+            d.plantId = rows[0].plant_id;
+            return d;
+        }).catch(function () { return undefined; });
+    }
+
+    /** Always loads full row (staff JWT) so merges never wipe costPrice. */
+    function getInventoryItemFull(plantId) {
+        var id = Number(plantId);
+        if (!isFinite(id)) return Promise.resolve(undefined);
+        if (!isConfigured()) return Promise.resolve(undefined);
+        return requestAuth('GET', '/inventory?plant_id=eq.' + id + '&select=plant_id,data').then(function (rows) {
             if (!rows || rows.length === 0) return undefined;
             var d = rows[0].data || {};
             d.plantId = rows[0].plant_id;
@@ -220,7 +254,7 @@
         var id = Number(plantId);
         if (!isFinite(id)) return Promise.resolve();
         if (!isConfigured()) return Promise.resolve();
-        return getInventoryItem(plantId).then(function (existing) {
+        return getInventoryItemFull(plantId).then(function (existing) {
             var row = existing || { plantId: id };
             if ('name' in data) row.name = data.name;
             if ('scientificName' in data) row.scientificName = data.scientificName;
@@ -246,14 +280,13 @@
 
     /**
      * Update one plant in plants_catalog (e.g. after adding images).
-     * @param {number} plantId - plant id
-     * @param {object} plantData - full plant object to store in data column (must include id, images, imageUrl, etc.)
+     * costPrice is never stored in catalog (inventory-only).
      */
     function updatePlantInCatalog(plantId, plantData) {
         var id = Number(plantId);
         if (!isFinite(id) || !plantData) return Promise.resolve();
         if (!isConfigured()) return Promise.resolve();
-        var payload = { data: plantData };
+        var payload = { data: stripCostFromObject(plantData) };
         return requestAuth('PATCH', '/plants_catalog?id=eq.' + id, payload).catch(function () {});
     }
 
@@ -269,7 +302,7 @@
         if (!isConfigured()) return Promise.resolve([]);
         return request('GET', '/plants_catalog?select=id,data&order=id.asc').then(function (rows) {
             return (rows || []).map(function (r) {
-                var d = r.data || {};
+                var d = stripCostFromObject(r.data || {});
                 d.id = r.id;
                 if (!Array.isArray(d.images) && d.imageUrl) d.images = [d.imageUrl];
                 if (!Array.isArray(d.images)) d.images = [];
@@ -282,7 +315,7 @@
         if (!isConfigured()) return Promise.resolve([]);
         return request('GET', '/equipment_catalog?select=id,data&order=id.asc').then(function (rows) {
             return (rows || []).map(function (r) {
-                var d = r.data || {};
+                var d = stripCostFromObject(r.data || {});
                 d.id = r.id;
                 return d;
             });
@@ -293,7 +326,7 @@
         if (!isConfigured()) return Promise.resolve([]);
         return request('GET', '/vivariums_catalog?select=id,data&order=id.asc').then(function (rows) {
             return (rows || []).map(function (r) {
-                var d = r.data || {};
+                var d = stripCostFromObject(r.data || {});
                 d.id = r.id;
                 return d;
             });
@@ -304,14 +337,14 @@
         var id = Number(equipmentId);
         if (!isFinite(id) || !itemData) return Promise.resolve();
         if (!isConfigured()) return Promise.resolve();
-        return requestAuth('PATCH', '/equipment_catalog?id=eq.' + id, { data: itemData }).catch(function () {});
+        return requestAuth('PATCH', '/equipment_catalog?id=eq.' + id, { data: stripCostFromObject(itemData) }).catch(function () {});
     }
 
     function updateVivariumInCatalog(vivariumId, itemData) {
         var id = Number(vivariumId);
         if (!isFinite(id) || !itemData) return Promise.resolve();
         if (!isConfigured()) return Promise.resolve();
-        return requestAuth('PATCH', '/vivariums_catalog?id=eq.' + id, { data: itemData }).catch(function () {});
+        return requestAuth('PATCH', '/vivariums_catalog?id=eq.' + id, { data: stripCostFromObject(itemData) }).catch(function () {});
     }
 
     function createEquipmentInCatalog(itemData) {
@@ -319,7 +352,7 @@
         if (!isConfigured()) return Promise.resolve();
         var id = Number(itemData.id);
         if (!isFinite(id)) return Promise.resolve();
-        return requestAuth('POST', '/equipment_catalog', { id: id, data: itemData }).catch(function () {});
+        return requestAuth('POST', '/equipment_catalog', { id: id, data: stripCostFromObject(itemData) }).catch(function () {});
     }
 
     function createVivariumInCatalog(itemData) {
@@ -327,7 +360,7 @@
         if (!isConfigured()) return Promise.resolve();
         var id = Number(itemData.id);
         if (!isFinite(id)) return Promise.resolve();
-        return requestAuth('POST', '/vivariums_catalog', { id: id, data: itemData }).catch(function () {});
+        return requestAuth('POST', '/vivariums_catalog', { id: id, data: stripCostFromObject(itemData) }).catch(function () {});
     }
 
     function deleteFromEquipmentCatalog(equipmentId) {

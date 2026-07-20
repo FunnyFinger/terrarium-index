@@ -125,10 +125,16 @@ drop policy if exists "Editors write custom_equipment" on public.custom_equipmen
 drop policy if exists "Public read custom_vivariums" on public.custom_vivariums;
 drop policy if exists "Editors write custom_vivariums" on public.custom_vivariums;
 
-create policy "Public read inventory" on public.inventory
-  for select using (true);
-create policy "Staff write inventory" on public.inventory
-  for all using (public.is_staff()) with check (public.is_staff());
+-- Full inventory (with costPrice) is staff-only. Public reads use view inventory_public
+-- (see supabase-hide-cost-price.sql).
+create policy "Staff read inventory" on public.inventory
+  for select using (public.is_staff());
+create policy "Staff insert inventory" on public.inventory
+  for insert with check (public.is_staff());
+create policy "Staff update inventory" on public.inventory
+  for update using (public.is_staff()) with check (public.is_staff());
+create policy "Staff delete inventory" on public.inventory
+  for delete using (public.is_staff());
 
 create policy "Public read plants_catalog" on public.plants_catalog
   for select using (true);
@@ -180,3 +186,15 @@ create policy "Staff update vivarium-assets"
 create policy "Staff delete vivarium-assets"
   on storage.objects for delete to authenticated
   using (bucket_id = 'vivarium-assets' and public.is_staff());
+
+-- Public inventory read without costPrice (security definer view)
+create or replace view public.inventory_public
+with (security_invoker = false)
+as
+select
+  plant_id,
+  (data - 'costPrice') as data,
+  updated_at
+from public.inventory;
+
+grant select on public.inventory_public to anon, authenticated;
