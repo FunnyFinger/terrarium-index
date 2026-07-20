@@ -219,8 +219,14 @@ exports.handler = async function (event) {
     const ip = clientIp(event);
     try {
         if (process.env.TURNSTILE_SECRET_KEY) {
-            const ok = await verifyTurnstile(body.turnstileToken, ip);
-            if (!ok) return json(400, { error: 'Captcha verification failed. Please try again.' });
+            const token = (body.turnstileToken || '').toString().trim();
+            if (!token) {
+                return json(400, {
+                    error: 'Security check missing. Refresh the page, complete the CAPTCHA, then try again. If you see no CAPTCHA, disable ad blockers and confirm vivarium-store.com is added in Cloudflare Turnstile.'
+                });
+            }
+            const ok = await verifyTurnstile(token, ip);
+            if (!ok) return json(400, { error: 'Captcha verification failed. Refresh and try again.' });
         }
 
         await assertRateLimit('ip:' + ip + ':short', LIMIT_IP_SHORT[0], LIMIT_IP_SHORT[1]);

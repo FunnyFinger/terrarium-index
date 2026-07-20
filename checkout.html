@@ -157,8 +157,8 @@
     </main>
     <script defer src="https://cdn.jsdelivr.net/npm/dexie@3/dist/dexie.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-    <script defer src="js/config.js"></script>
-    <script defer src="js/turnstile.js"></script>
+    <script defer src="js/config.js?v=turnstile1"></script>
+    <script defer src="js/turnstile.js?v=2"></script>
     <script defer src="js/supabase-db.js"></script>
     <script defer src="js/supabase-auth.js"></script>
     <script defer src="js/auth.js"></script>
@@ -475,11 +475,19 @@
                     paymentMethod: paymentMethod
                 };
 
-                var captchaPromise = (window.turnstileHelper && window.turnstileHelper.isEnabled())
-                    ? window.turnstileHelper.getToken('checkoutTurnstile')
-                    : Promise.resolve('');
+                if (!window.turnstileHelper || !window.turnstileHelper.isEnabled()) {
+                    formError.textContent = 'Security check failed to load. Hard-refresh the page (Ctrl+F5). If it still fails, disable ad blockers.';
+                    formError.style.display = 'block';
+                    mountCheckoutCaptcha();
+                    return;
+                }
+
+                var captchaPromise = window.turnstileHelper.getToken('checkoutTurnstile');
 
                 captchaPromise.then(function(turnstileToken) {
+                if (!turnstileToken) {
+                    throw new Error('Please complete the security check (CAPTCHA), then try again.');
+                }
                 if (isGuest && regPassword && window.auth && typeof window.auth.register === 'function') {
                     window.auth.register(email, regPassword, name, turnstileToken).catch(function(err) {
                         if (regErrEl) {
