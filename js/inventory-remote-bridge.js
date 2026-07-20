@@ -13,7 +13,8 @@
     inv.setItem = function (plantId, data) { return sup.setInventoryRow(plantId, data); };
     inv.deleteItem = function (plantId) { return sup.deleteInventoryRow(plantId); };
 
-    // Decrement stock in Supabase so all users see the updated quantity after an order
+    // Stock writes require staff JWT (RLS). Guest checkout uses
+    // /.netlify/functions/complete-order (service role) instead.
     inv.decrementStock = function (plantId, quantity) {
         return sup.getInventoryItem(plantId).then(function (row) {
             if (!row || row.quantityInStock == null) return;

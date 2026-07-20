@@ -1,14 +1,14 @@
 /**
  * Supabase Auth: sole auth backend for the site.
  * Handles register, login, logout and session. auth.js wraps this API for the app.
- * Set SUPABASE_OWNER_EMAIL in config.js to your email to get owner role on register.
+ * Owner role is assigned by the DB trigger in supabase-security-hardening.sql
+ * (matches SUPABASE_OWNER_EMAIL / store owner email) — not by the client.
  */
 (function (global) {
     'use strict';
     if (!global) return;
 
     var supabaseClient = null;
-    var OWNER_EMAIL = (global.SUPABASE_OWNER_EMAIL || '').toString().trim();
 
     function getSupabase() {
         if (supabaseClient) return supabaseClient;
@@ -33,7 +33,8 @@
         var id = user.id;
         var email = (user.email || '').toLowerCase().trim();
         var name = (displayName || (user.user_metadata && user.user_metadata.name) || email.split('@')[0] || '').trim();
-        var role = (OWNER_EMAIL && email === OWNER_EMAIL.toLowerCase()) ? 'owner' : 'user';
+        // Role is enforced server-side (trigger). Never trust client-supplied role.
+        var role = 'user';
 
         return supabase
             .from('profiles')

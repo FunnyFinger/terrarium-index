@@ -515,45 +515,56 @@
                 order.status = 'confirmed';
                 if (inv && inv.saveOrder) {
                     inv.saveOrder(order).then(function(orderId) {
-                        var done = 0;
-                        var total = cart.length;
-                        function onAllDone() {
-                            localStorage.setItem(key, '[]');
-
-                            // Send confirmation email (non-blocking — failure doesn't affect order)
-                            fetch('/.netlify/functions/send-order-email', {
+                        var completePayload = {
+                            orderId: orderId,
+                            customer: order.customer,
+                            paymentMethod: paymentMethod,
+                            items: orderItems.map(function(i) {
+                                return {
+                                    plantId: i.plantId,
+                                    name: i.name,
+                                    scientificName: i.scientificName,
+                                    quantity: i.quantity,
+                                    unit: i.unit,
+                                    price: i.price
+                                };
+                            })
+                        };
+                        var salesChain = Promise.resolve();
+                        cart.forEach(function(item) {
+                            var amount = item.price != null ? item.price * item.quantity : 0;
+                            salesChain = salesChain.then(function() {
+                                return inv.recordSale ? (inv.recordSale(item.plantId, item.quantity, amount, item.scientificName) || Promise.resolve()) : Promise.resolve();
+                            });
+                        });
+                        return salesChain.then(function() {
+                            return fetch('/.netlify/functions/complete-order', {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({
-                                    orderId: orderId,
-                                    customer: order.customer,
-                                    items: orderItems,
-                                    totalAmount: totalPrice,
-                                    paymentMethod: paymentMethod
-                                })
-                            }).catch(function() { /* non-fatal */ });
-
+                                body: JSON.stringify(completePayload)
+                            }).then(function(res) {
+                                return res.json().then(function(data) {
+                                    if (!res.ok) throw new Error((data && data.error) || 'Order processing failed');
+                                    return data;
+                                });
+                            }).catch(function(err) {
+                                console.warn('complete-order failed', err);
+                                return null;
+                            });
+                        }).then(function(result) {
+                            localStorage.setItem(key, '[]');
+                            var displayTotal = (result && result.totalAmount != null) ? result.totalAmount : totalPrice;
                             var msg = '<strong style="color: var(--primary-color);">Order #' + orderId + ' confirmed. Thank you!</strong><br><br>';
                             if (paymentMethod === 'cod') msg += 'Pay when your order is delivered. A confirmation email has been sent to ' + (email || 'you') + '.';
-                            else if (paymentMethod === 'bank') msg += 'Please transfer <strong>' + formatPrice(totalPrice) + '</strong> using Order #' + orderId + ' as reference. Bank details will be sent to ' + (email || 'you') + '.';
+                            else if (paymentMethod === 'bank') msg += 'Please transfer <strong>' + formatPrice(displayTotal) + '</strong> using Order #' + orderId + ' as reference. Bank details will be sent to ' + (email || 'you') + '.';
                             else msg += 'A confirmation email has been sent to ' + (email || 'the details provided') + '.';
                             confirmWrap.innerHTML = msg + '<br><br><a href="index.html">Continue shopping</a>';
                             formWrap.style.display = 'none';
                             el.innerHTML = '<p class="checkout-note"><a href="index.html">Continue shopping</a></p>';
-                        }
-                        if (total === 0) {
-                            onAllDone();
-                            return;
-                        }
-                        cart.forEach(function(item) {
-                            var amount = item.price != null ? item.price * item.quantity : 0;
-                            (inv.recordSale(item.plantId, item.quantity, amount, item.scientificName) || Promise.resolve())
-                                .then(function() { return inv.decrementStock ? inv.decrementStock(item.plantId, item.quantity) : Promise.resolve(); })
-                                .then(function() {
-                                    done++;
-                                    if (done === total) onAllDone();
-                                });
                         });
+                    }).catch(function(err) {
+                        formError.textContent = (err && err.message) ? err.message : 'Could not place order. Please try again.';
+                        formError.style.display = 'block';
                     });
                 } else {
                     localStorage.setItem(key, '[]');

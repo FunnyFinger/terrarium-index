@@ -74,11 +74,32 @@
                         order.items.forEach(function(item) {
                             chain = chain.then(function() {
                                 var amount = item.lineTotal != null ? item.lineTotal : 0;
-                                return (inv.recordSale(item.plantId, item.quantity, amount, item.scientificName) || Promise.resolve())
-                                    .then(function() { return inv.decrementStock ? inv.decrementStock(item.plantId, item.quantity) : Promise.resolve(); });
+                                return inv.recordSale ? (inv.recordSale(item.plantId, item.quantity, amount, item.scientificName) || Promise.resolve()) : Promise.resolve();
                             });
                         });
-                        return chain.then(function() { return data; });
+                        return chain.then(function() {
+                            return fetch('/.netlify/functions/complete-order', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    orderId: orderId,
+                                    customer: order.customer || {},
+                                    paymentMethod: 'card',
+                                    updateStock: true,
+                                    sendEmail: true,
+                                    items: (order.items || []).map(function(i) {
+                                        return {
+                                            plantId: i.plantId,
+                                            name: i.name,
+                                            scientificName: i.scientificName,
+                                            quantity: i.quantity,
+                                            unit: i.unit,
+                                            price: i.price
+                                        };
+                                    })
+                                })
+                            }).catch(function() { return null; });
+                        }).then(function() { return data; });
                     }).then(function() { return data; });
                 })
                 .then(function() {

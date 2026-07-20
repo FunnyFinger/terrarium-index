@@ -41,12 +41,23 @@
         });
     }
 
-    /** Authenticated request (uses Supabase Auth JWT for RLS). */
+    /** Current user JWT for RLS-protected writes. */
+    function getAuthToken() {
+        return (global.supabaseAuth && global.supabaseAuth.getAccessToken)
+            ? global.supabaseAuth.getAccessToken()
+            : null;
+    }
+
+    /** Authenticated request (uses Supabase Auth JWT for RLS). Never falls back to anon key. */
     function requestAuth(method, path, body) {
-        var token = (global.supabaseAuth && global.supabaseAuth.getAccessToken) ? global.supabaseAuth.getAccessToken() : null;
-        var headers = { 'apikey': HEADERS.apikey, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
-        if (token) headers['Authorization'] = 'Bearer ' + token;
-        else headers['Authorization'] = HEADERS['Authorization'];
+        var token = getAuthToken();
+        if (!token) return Promise.reject(new Error('Not authenticated'));
+        var headers = {
+            'apikey': HEADERS.apikey,
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=representation'
+        };
         var opt = { method: method, headers: headers };
         if (body !== undefined) opt.body = JSON.stringify(body);
         return fetch(BASE + path, opt).then(function (res) {
@@ -56,6 +67,19 @@
         });
     }
 
+    function storageAuthHeaders(extra) {
+        var token = getAuthToken();
+        if (!token) return null;
+        var headers = {
+            'Authorization': 'Bearer ' + token,
+            'apikey': HEADERS.apikey || global.SUPABASE_ANON_KEY || ''
+        };
+        if (extra) {
+            Object.keys(extra).forEach(function (k) { headers[k] = extra[k]; });
+        }
+        return headers;
+    }
+
     /** Sanitize storage path: no leading/trailing slashes, no backslashes, no double slashes. */
     function sanitizeStoragePath(path) {
         if (typeof path !== 'string') return '';
@@ -63,9 +87,7 @@
     }
 
     /**
-     * Upload a file to Supabase Storage via raw fetch using the anon key.
-     * The vivarium-assets bucket has INSERT policy for anon role only. Using a JWT (authenticated role)
-     * would fail with 400 because there is no INSERT policy for authenticated users.
+     * Upload a file to Supabase Storage (staff JWT required — RLS).
      * @param {File} file - the file to upload
      * @param {string} objectPath - path inside bucket, e.g. "plants/123/photo.jpg"
      * @returns {Promise<string>} public URL of the uploaded file
@@ -77,13 +99,9 @@
         var path = sanitizeStoragePath(objectPath);
         if (!path) return Promise.reject(new Error('Invalid storage path'));
 
-        var anonKey = global.SUPABASE_ANON_KEY || HEADERS.apikey || '';
+        var headers = storageAuthHeaders({ 'x-upsert': 'true' });
+        if (!headers) return Promise.reject(new Error('Not authenticated'));
         var url = STORAGE_BASE + '/storage/v1/object/vivarium-assets/' + path;
-        var headers = {
-            'Authorization': 'Bearer ' + anonKey,
-            'apikey': anonKey,
-            'x-upsert': 'true'
-        };
         if (file.type) headers['Content-Type'] = file.type;
         return fetch(url, { method: 'POST', headers: headers, body: file }).then(function (res) {
             if (!res.ok) {
@@ -159,14 +177,12 @@
         }
         if (!objectPath) return Promise.resolve();
         var url = STORAGE_BASE + '/storage/v1/object/vivarium-assets/' + objectPath;
-        var headers = {
-            'Authorization': 'Bearer ' + (global.SUPABASE_ANON_KEY || HEADERS.apikey || ''),
-            'apikey': (global.SUPABASE_ANON_KEY || HEADERS.apikey || '')
-        };
+        var headers = storageAuthHeaders();
+        if (!headers) return Promise.reject(new Error('Not authenticated'));
         return fetch(url, { method: 'DELETE', headers: headers }).then(function (res) {
             if (!res.ok) return Promise.reject(new Error('Storage delete failed: ' + res.status));
             return undefined;
-        }).catch(function () {});
+        });
     }
 
     // ---- Inventory (same shape as IndexedDB: { plantId, name, price, ... }) ----
@@ -197,7 +213,7 @@
         var id = Number(plantId);
         if (!isFinite(id)) return Promise.resolve();
         if (!isConfigured()) return Promise.resolve();
-        return request('DELETE', '/inventory?plant_id=eq.' + id).then(function () {});
+        return requestAuth('DELETE', '/inventory?plant_id=eq.' + id).then(function () {});
     }
 
     function setInventoryRow(plantId, data) {
@@ -221,9 +237,9 @@
             if ('imageUrl' in data) row.imageUrl = data.imageUrl;
             row.updatedAt = Date.now();
             var payload = { data: row, updated_at: new Date().toISOString() };
-            return request('PATCH', '/inventory?plant_id=eq.' + id, payload).then(function (updated) {
+            return requestAuth('PATCH', '/inventory?plant_id=eq.' + id, payload).then(function (updated) {
                 if (updated && updated.length > 0) return updated;
-                return request('POST', '/inventory', { plant_id: id, data: row, updated_at: new Date().toISOString() });
+                return requestAuth('POST', '/inventory', { plant_id: id, data: row, updated_at: new Date().toISOString() });
             });
         });
     }
@@ -238,14 +254,14 @@
         if (!isFinite(id) || !plantData) return Promise.resolve();
         if (!isConfigured()) return Promise.resolve();
         var payload = { data: plantData };
-        return request('PATCH', '/plants_catalog?id=eq.' + id, payload).catch(function () {});
+        return requestAuth('PATCH', '/plants_catalog?id=eq.' + id, payload).catch(function () {});
     }
 
     function deleteFromPlantsCatalog(plantId) {
         var id = Number(plantId);
         if (!isFinite(id)) return Promise.resolve();
         if (!isConfigured()) return Promise.resolve();
-        return request('DELETE', '/plants_catalog?id=eq.' + id).catch(function () {});
+        return requestAuth('DELETE', '/plants_catalog?id=eq.' + id).catch(function () {});
     }
 
     // ---- Catalog helpers (read-only) ----
@@ -288,14 +304,14 @@
         var id = Number(equipmentId);
         if (!isFinite(id) || !itemData) return Promise.resolve();
         if (!isConfigured()) return Promise.resolve();
-        return request('PATCH', '/equipment_catalog?id=eq.' + id, { data: itemData }).catch(function () {});
+        return requestAuth('PATCH', '/equipment_catalog?id=eq.' + id, { data: itemData }).catch(function () {});
     }
 
     function updateVivariumInCatalog(vivariumId, itemData) {
         var id = Number(vivariumId);
         if (!isFinite(id) || !itemData) return Promise.resolve();
         if (!isConfigured()) return Promise.resolve();
-        return request('PATCH', '/vivariums_catalog?id=eq.' + id, { data: itemData }).catch(function () {});
+        return requestAuth('PATCH', '/vivariums_catalog?id=eq.' + id, { data: itemData }).catch(function () {});
     }
 
     function createEquipmentInCatalog(itemData) {
@@ -303,7 +319,7 @@
         if (!isConfigured()) return Promise.resolve();
         var id = Number(itemData.id);
         if (!isFinite(id)) return Promise.resolve();
-        return request('POST', '/equipment_catalog', { id: id, data: itemData }).catch(function () {});
+        return requestAuth('POST', '/equipment_catalog', { id: id, data: itemData }).catch(function () {});
     }
 
     function createVivariumInCatalog(itemData) {
@@ -311,21 +327,21 @@
         if (!isConfigured()) return Promise.resolve();
         var id = Number(itemData.id);
         if (!isFinite(id)) return Promise.resolve();
-        return request('POST', '/vivariums_catalog', { id: id, data: itemData }).catch(function () {});
+        return requestAuth('POST', '/vivariums_catalog', { id: id, data: itemData }).catch(function () {});
     }
 
     function deleteFromEquipmentCatalog(equipmentId) {
         var id = Number(equipmentId);
         if (!isFinite(id)) return Promise.resolve();
         if (!isConfigured()) return Promise.resolve();
-        return request('DELETE', '/equipment_catalog?id=eq.' + id).catch(function () {});
+        return requestAuth('DELETE', '/equipment_catalog?id=eq.' + id).catch(function () {});
     }
 
     function deleteFromVivariumCatalog(vivariumId) {
         var id = Number(vivariumId);
         if (!isFinite(id)) return Promise.resolve();
         if (!isConfigured()) return Promise.resolve();
-        return request('DELETE', '/vivariums_catalog?id=eq.' + id).catch(function () {});
+        return requestAuth('DELETE', '/vivariums_catalog?id=eq.' + id).catch(function () {});
     }
 
     function getNextEquipmentId() {
@@ -358,16 +374,16 @@
         return request('GET', '/custom_equipment?select=id').then(function (existing) {
             var ids = (existing || []).map(function (r) { return r.id; });
             var toDelete = ids.filter(function (id) { return !items.some(function (it) { return Number(it.id) === Number(id); }); });
-            var promises = toDelete.map(function (id) { return request('DELETE', '/custom_equipment?id=eq.' + id); });
+            var promises = toDelete.map(function (id) { return requestAuth('DELETE', '/custom_equipment?id=eq.' + id); });
             items.forEach(function (item) {
                 var id = Number(item.id);
                 if (!isFinite(id)) return;
                 promises.push(
-                    request('PATCH', '/custom_equipment?id=eq.' + id, { data: item }).then(function (r) {
+                    requestAuth('PATCH', '/custom_equipment?id=eq.' + id, { data: item }).then(function (r) {
                         if (r && r.length > 0) return r;
-                        return request('POST', '/custom_equipment', { id: id, data: item });
+                        return requestAuth('POST', '/custom_equipment', { id: id, data: item });
                     }).catch(function () {
-                        return request('POST', '/custom_equipment', { id: id, data: item });
+                        return requestAuth('POST', '/custom_equipment', { id: id, data: item });
                     })
                 );
             });
@@ -389,16 +405,16 @@
         return request('GET', '/custom_vivariums?select=id').then(function (existing) {
             var ids = (existing || []).map(function (r) { return r.id; });
             var toDelete = ids.filter(function (id) { return !items.some(function (it) { return Number(it.id) === Number(id); }); });
-            var promises = toDelete.map(function (id) { return request('DELETE', '/custom_vivariums?id=eq.' + id); });
+            var promises = toDelete.map(function (id) { return requestAuth('DELETE', '/custom_vivariums?id=eq.' + id); });
             items.forEach(function (item) {
                 var id = Number(item.id);
                 if (!isFinite(id)) return;
                 promises.push(
-                    request('PATCH', '/custom_vivariums?id=eq.' + id, { data: item }).then(function (r) {
+                    requestAuth('PATCH', '/custom_vivariums?id=eq.' + id, { data: item }).then(function (r) {
                         if (r && r.length > 0) return r;
-                        return request('POST', '/custom_vivariums', { id: id, data: item });
+                        return requestAuth('POST', '/custom_vivariums', { id: id, data: item });
                     }).catch(function () {
-                        return request('POST', '/custom_vivariums', { id: id, data: item });
+                        return requestAuth('POST', '/custom_vivariums', { id: id, data: item });
                     })
                 );
             });
