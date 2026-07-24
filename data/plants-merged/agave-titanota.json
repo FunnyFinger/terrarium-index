@@ -33,7 +33,7 @@
   },
   "growthPattern": "rosette",
   "hazard": "toxic-if-ingested",
-  "rarity": "very-rare",
+  "rarity": "uncommon",
   "growthHabit": "ground-dwelling",
   "plantType": "flowering-plant",
   "floweringPeriod": "seasonal",

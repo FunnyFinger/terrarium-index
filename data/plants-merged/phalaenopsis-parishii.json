@@ -36,7 +36,7 @@
   },
   "growthPattern": "rosette",
   "hazard": "non-toxic",
-  "rarity": "uncommon",
+  "rarity": "common",
   "growthHabit": "tree-dwelling",
   "plantType": "flowering-plant",
   "floweringPeriod": "seasonal",

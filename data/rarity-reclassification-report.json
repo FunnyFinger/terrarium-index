@@ -1,0 +1,1972 @@
+{
+  "generatedAt": "2026-07-24T20:53:15.845Z",
+  "total": 422,
+  "changed": 244,
+  "unchanged": 178,
+  "countsBefore": {
+    "very-rare": 117,
+    "uncommon": 113,
+    "rare": 125,
+    "common": 67
+  },
+  "countsAfter": {
+    "common": 110,
+    "uncommon": 179,
+    "rare": 115,
+    "very-rare": 18
+  },
+  "changes": [
+    {
+      "id": 1,
+      "name": "Chenille Plant",
+      "scientificName": "Acalypha hispida",
+      "from": "very-rare",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 2,
+      "name": "Acanthostachys pitcairnioides",
+      "scientificName": "Acanthostachys pitcairnioides",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 4,
+      "name": "Cupid's Bower",
+      "scientificName": "Achimenes erecta",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 6,
+      "name": "Eyelash Fern",
+      "scientificName": "Actiniopteris australis",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 12,
+      "name": "Adenium variegated (grafted)",
+      "scientificName": "Adenium arabicum",
+      "from": "very-rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 16,
+      "name": "Maidenhair Fern",
+      "scientificName": "Adiantum raddianum",
+      "from": "uncommon",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 18,
+      "name": "Crinkle Leaf Plant",
+      "scientificName": "Adromischus marianiae",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 19,
+      "name": "Silver Vase",
+      "scientificName": "Aechmea fasciata",
+      "from": "rare",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 21,
+      "name": "Dinner Plate Aeonium",
+      "scientificName": "Aeonium tabuliforme",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 22,
+      "name": "Lipstick Plant",
+      "scientificName": "Aeschynanthus humilis",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 23,
+      "name": "Lipstick Plant",
+      "scientificName": "Aeschynanthus radicans",
+      "from": "rare",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 24,
+      "name": "Basket Plant",
+      "scientificName": "Aeschynanthus speciosus",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 25,
+      "name": "Thread Agave",
+      "scientificName": "Agave filifera",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 26,
+      "name": "Thorncrest Century Plant",
+      "scientificName": "Agave lophantha",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 27,
+      "name": "Century Plant",
+      "scientificName": "Agave macroacantha",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 28,
+      "name": "Agave stricta",
+      "scientificName": "Agave stricta var. nana",
+      "from": "very-rare",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 29,
+      "name": "Century Plant",
+      "scientificName": "Agave titanota",
+      "from": "very-rare",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 32,
+      "name": "Aglaonema commutatum 'Tom Pride' (Chinese Evergreen)",
+      "scientificName": "Aglaonema commutatum 'Tom Pride'",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override+cultivar"
+    },
+    {
+      "id": 34,
+      "name": "Aglaonema pumilum",
+      "scientificName": "Aglaonema pumilum",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 35,
+      "name": "Aglaonema Rotunda-Red tiger Variegated",
+      "scientificName": "Aglaonema rotundum 'Red Tiger'",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override+cultivar"
+    },
+    {
+      "id": 36,
+      "name": "Dwarf Albuca",
+      "scientificName": "Albuca humilis",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 37,
+      "name": "Corkscrew Albuca",
+      "scientificName": "Albuca spiralis",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 38,
+      "name": "Waterwheel Plant",
+      "scientificName": "Aldrovanda vesiculosa",
+      "from": "uncommon",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 40,
+      "name": "Jewel Alocasia",
+      "scientificName": "Alocasia azlanii",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 41,
+      "name": "Alocasia 'Dragon Scale'",
+      "scientificName": "Alocasia baginda",
+      "from": "very-rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 42,
+      "name": "Shattered Glass",
+      "scientificName": "Alocasia boyceana",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 43,
+      "name": "Pink Passion Alocasia",
+      "scientificName": "Alocasia brancifolia",
+      "from": "very-rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 45,
+      "name": "Buddha's Hand",
+      "scientificName": "Alocasia cucullata",
+      "from": "rare",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 46,
+      "name": "Red Secret",
+      "scientificName": "Alocasia cuprea",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 47,
+      "name": "California Alocasia",
+      "scientificName": "Alocasia gageana",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 48,
+      "name": "Corazon",
+      "scientificName": "Alocasia heterophylla",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 49,
+      "name": "Black Magic Alocasia",
+      "scientificName": "Alocasia infernalis",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 50,
+      "name": "Purple Sword",
+      "scientificName": "Alocasia lauterbachiana",
+      "from": "very-rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 51,
+      "name": "Long-Lobed Alocasia",
+      "scientificName": "Alocasia longiloba",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 52,
+      "name": "Giant Taro",
+      "scientificName": "Alocasia macrorrhizos",
+      "from": "uncommon",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 53,
+      "name": "Rhino Skin",
+      "scientificName": "Alocasia melo",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 54,
+      "name": "Green Velvet Alocasia",
+      "scientificName": "Alocasia micholitziana",
+      "from": "very-rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 55,
+      "name": "Purple Cloak Alocasia",
+      "scientificName": "Alocasia princeps",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 56,
+      "name": "Black Velvet Alocasia",
+      "scientificName": "Alocasia reginula",
+      "from": "very-rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 57,
+      "name": "Kris Plant",
+      "scientificName": "Alocasia sanderiana",
+      "from": "very-rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 58,
+      "name": "Samar Lance Alocasia",
+      "scientificName": "Alocasia scalprum",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 59,
+      "name": "Quilted Dreams Alocasia",
+      "scientificName": "Alocasia sinuata",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 60,
+      "name": "Aloe Vera",
+      "scientificName": "Aloe vera",
+      "from": "uncommon",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 62,
+      "name": "Anathallis minutalis",
+      "scientificName": "Anathallis minutalis",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 63,
+      "name": "Golden Jewel Orchid (Variegated)",
+      "scientificName": "Anoectochilus albolineatus",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 65,
+      "name": "Formosan Jewel Orchid",
+      "scientificName": "Anoectochilus formosanus",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 66,
+      "name": "Reinwardt's Jewel Orchid",
+      "scientificName": "Anoectochilus reinwardtii",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 67,
+      "name": "Marbled Jewel Orchid",
+      "scientificName": "Anoectochilus roxburghii",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 68,
+      "name": "Anthurium acaule",
+      "scientificName": "Anthurium acaule",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 69,
+      "name": "River Anthurium",
+      "scientificName": "Anthurium amnicola",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 70,
+      "name": "Anthurium andraeanum",
+      "scientificName": "Anthurium andraeanum",
+      "from": "uncommon",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 71,
+      "name": "Anthurium arisaemoides",
+      "scientificName": "Anthurium arisaemoides",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 73,
+      "name": "Anthurium balaloanum",
+      "scientificName": "Anthurium balaoanum",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 74,
+      "name": "Dark Velvet Anthurium",
+      "scientificName": "Anthurium besseae",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 75,
+      "name": "Velvet Cardboard Anthurium",
+      "scientificName": "Anthurium clarinervium",
+      "from": "very-rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 77,
+      "name": "Crystal Anthurium",
+      "scientificName": "Anthurium crystallinum",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 78,
+      "name": "Anthurium fornicifolium",
+      "scientificName": "Anthurium fornicifolium",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 79,
+      "name": "Anthurium friedrichsthalii",
+      "scientificName": "Anthurium friedrichsthalii",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 81,
+      "name": "Anthurium hookeri",
+      "scientificName": "Anthurium hookeri",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 83,
+      "name": "Anthurium lineolatum",
+      "scientificName": "Anthurium lineolatum",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 84,
+      "name": "Anthurium magnificum",
+      "scientificName": "Anthurium magnificum",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 85,
+      "name": "Anthurium mini",
+      "scientificName": "Anthurium minarum",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 88,
+      "name": "Anthurium papillilaminum",
+      "scientificName": "Anthurium papillilaminum",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 89,
+      "name": "Finger Anthurium",
+      "scientificName": "Anthurium pedatoradiatum",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 90,
+      "name": "Anthurium pentaphyllum",
+      "scientificName": "Anthurium pentaphyllum",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 91,
+      "name": "Anthurium plowmannii",
+      "scientificName": "Anthurium plowmanii",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 93,
+      "name": "Anthurium radicans",
+      "scientificName": "Anthurium radicans",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 94,
+      "name": "Anthurium ranchoanum",
+      "scientificName": "Anthurium ranchoanum",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 97,
+      "name": "Pigtail Anthurium",
+      "scientificName": "Anthurium scherzerianum",
+      "from": "rare",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 100,
+      "name": "Variegated Anthurium",
+      "scientificName": "Anthurium variegatum",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 101,
+      "name": "King Anthurium",
+      "scientificName": "Anthurium veitchii",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 102,
+      "name": "Anthurium vittariifolium",
+      "scientificName": "Anthurium vittariifolium",
+      "from": "very-rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 104,
+      "name": "Anthurium 'Dark Mama' (Indo Form)",
+      "scientificName": "Anthurium warocqueanum × papillilaminum",
+      "from": "very-rare",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 109,
+      "name": "Arisaema filiforme",
+      "scientificName": "Arisaema filiforme",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 110,
+      "name": "White-Veined Dutchman's Pipe",
+      "scientificName": "Aristolochia fimbriata",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 112,
+      "name": "Chinese Wild Ginger",
+      "scientificName": "Asarum splendens",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 113,
+      "name": "Asparagus Fern",
+      "scientificName": "Asparagus setaceus",
+      "from": "uncommon",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 115,
+      "name": "Japanese Bird's Nest Fern",
+      "scientificName": "Asplenium antiquum",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 117,
+      "name": "Norfolk Island Spleenwort",
+      "scientificName": "Asplenium dimorphum",
+      "from": "rare",
+      "to": "common",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 118,
+      "name": "Bird's Nest Fern",
+      "scientificName": "Asplenium nidus",
+      "from": "uncommon",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 119,
+      "name": "Mother Fern",
+      "scientificName": "Asplenium parvisorum",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 121,
+      "name": "Shieldleaf",
+      "scientificName": "Astilboides tabularis",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 124,
+      "name": "prickbegonia",
+      "scientificName": "Begonia albopicta",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 125,
+      "name": "Begonia amphioxus",
+      "scientificName": "Begonia amphioxus",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 126,
+      "name": "Begonia bipinnatifida",
+      "scientificName": "Begonia bipinnatifida",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 127,
+      "name": "Eyelash Begonia",
+      "scientificName": "Begonia bowerae",
+      "from": "very-rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 128,
+      "name": "Begonia burkillii",
+      "scientificName": "Begonia burkillii",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 130,
+      "name": "Begonia conchifolia",
+      "scientificName": "Begonia conchifolia",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 131,
+      "name": "Begonia convolvulvacea",
+      "scientificName": "Begonia convolvulacea",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 132,
+      "name": "Begonia dietrichiana",
+      "scientificName": "Begonia dietrichiana",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 133,
+      "name": "Maple Leaf Begonia",
+      "scientificName": "Begonia dregei",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 134,
+      "name": "Begonia schulzei",
+      "scientificName": "Begonia elaeagnifolia",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 135,
+      "name": "Begonia ferox",
+      "scientificName": "Begonia ferox",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 137,
+      "name": "Begonia hatacoa",
+      "scientificName": "Begonia hatacoa",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 138,
+      "name": "Begonia hemsleyana",
+      "scientificName": "Begonia hemsleyana",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 139,
+      "name": "Begonia kingiana",
+      "scientificName": "Begonia kingiana",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 140,
+      "name": "palmbegonia",
+      "scientificName": "Begonia luxurians",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 141,
+      "name": "Polka Dot Begonia",
+      "scientificName": "Begonia maculata",
+      "from": "rare",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 142,
+      "name": "Begonia mazae",
+      "scientificName": "Begonia mazae",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 144,
+      "name": "Rex Begonia",
+      "scientificName": "Begonia rex",
+      "from": "rare",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 145,
+      "name": "Begonia schmidtiana",
+      "scientificName": "Begonia schmidtiana",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 146,
+      "name": "Begonia subnummularifolia",
+      "scientificName": "Begonia subnummularifolia",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 147,
+      "name": "Begonia thelmae",
+      "scientificName": "Begonia thelmae",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 148,
+      "name": "Begonia turrialbae",
+      "scientificName": "Begonia turrialbae",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 152,
+      "name": "Mini Bolbitis",
+      "scientificName": "Bolbitis heteroclita 'Difformis'",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override+cultivar"
+    },
+    {
+      "id": 153,
+      "name": "Bulbophyllum depressum",
+      "scientificName": "Bulbophyllum depressum",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 156,
+      "name": "bromélia",
+      "scientificName": "Catopsis morreniana",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 160,
+      "name": "String of Hearts",
+      "scientificName": "Ceropegia woodii",
+      "from": "rare",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 162,
+      "name": "Parlor Palm",
+      "scientificName": "Chamaedorea elegans",
+      "from": "uncommon",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 165,
+      "name": "Lichens (Various)",
+      "scientificName": "Cladonia rangiferina",
+      "from": "common",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 166,
+      "name": "Goldfish Plant",
+      "scientificName": "Columnea gloriosa",
+      "from": "common",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 167,
+      "name": "Jade Plant",
+      "scientificName": "Crassula ovata",
+      "from": "uncommon",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 168,
+      "name": "Earth Star",
+      "scientificName": "Cryptanthus bivittatus",
+      "from": "very-rare",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 169,
+      "name": "Earth Star",
+      "scientificName": "Cryptanthus zonatus",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 171,
+      "name": "Wendt's Crypt",
+      "scientificName": "Cryptocoryne wendtii",
+      "from": "very-rare",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 173,
+      "name": "Cobra Lily",
+      "scientificName": "Darlingtonia californica",
+      "from": "uncommon",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 174,
+      "name": "Rabbit's Foot Fern",
+      "scientificName": "Davallia fejeensis",
+      "from": "rare",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 175,
+      "name": "Grass Orchid",
+      "scientificName": "Dendrochilum tenellum",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 177,
+      "name": "Tree Fern",
+      "scientificName": "Dicksonia antarctica",
+      "from": "common",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 179,
+      "name": "Venus Flytrap",
+      "scientificName": "Dionaea muscipula",
+      "from": "uncommon",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 182,
+      "name": "Antplant",
+      "scientificName": "Dischidia oiantha",
+      "from": "very-rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 184,
+      "name": "African spear sansevieria",
+      "scientificName": "Dracaena angolensis",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 185,
+      "name": "Whale Fin Snake Plant",
+      "scientificName": "Dracaena masoniana",
+      "from": "very-rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 187,
+      "name": "Moonshine Snake Plant",
+      "scientificName": "Dracaena trifasciata",
+      "from": "uncommon",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 188,
+      "name": "Cape Sundew",
+      "scientificName": "Drosera capensis",
+      "from": "uncommon",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 190,
+      "name": "Portuguese Sundew",
+      "scientificName": "Drosophyllum lusitanicum",
+      "from": "uncommon",
+      "to": "rare",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 191,
+      "name": "Brooks' Aglaomorpha",
+      "scientificName": "Drynaria brooksii",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 193,
+      "name": "Mexican Snowball",
+      "scientificName": "Echeveria elegans",
+      "from": "rare",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 194,
+      "name": "Amazon Sword",
+      "scientificName": "Echinodorus amazonicus",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 196,
+      "name": "Metallic Tongue Fern",
+      "scientificName": "Elaphoglossum metallicum",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 197,
+      "name": "Peltatum Fern",
+      "scientificName": "Elaphoglossum peltatum",
+      "from": "uncommon",
+      "to": "rare",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 201,
+      "name": "Golden Pothos",
+      "scientificName": "Epipremnum aureum",
+      "from": "uncommon",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 202,
+      "name": "Flame Violet",
+      "scientificName": "Episcia cupreata",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 203,
+      "name": "African Milk Tree",
+      "scientificName": "Euphorbia trigona",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 205,
+      "name": "Creeping Fig",
+      "scientificName": "Ficus pumila",
+      "from": "uncommon",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 213,
+      "name": "Hairy Jewel Orchid",
+      "scientificName": "Goodyera hispida",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 216,
+      "name": "Dragon's Tongue Algae",
+      "scientificName": "Halymenia durvillei",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 218,
+      "name": "Window Haworthia",
+      "scientificName": "Haworthia cooperi",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 223,
+      "name": "Hoya albiflora",
+      "scientificName": "Hoya albiflora",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 224,
+      "name": "Hoya archboldiana",
+      "scientificName": "Hoya archboldiana",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 225,
+      "name": "Hoya australis",
+      "scientificName": "Hoya australis",
+      "from": "uncommon",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 226,
+      "name": "Miniature Wax Plant",
+      "scientificName": "Hoya bella",
+      "from": "very-rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 227,
+      "name": "Hoya blashernaezii",
+      "scientificName": "Hoya blashernaezii",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 228,
+      "name": "Hoya brevialata",
+      "scientificName": "Hoya brevialata",
+      "from": "very-rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 229,
+      "name": "Hoya burtoniae",
+      "scientificName": "Hoya burtoniae",
+      "from": "very-rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 230,
+      "name": "Hoya callistophylla",
+      "scientificName": "Hoya callistophylla",
+      "from": "very-rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 231,
+      "name": "Hoya calycina",
+      "scientificName": "Hoya calycina",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 232,
+      "name": "Wax Plant",
+      "scientificName": "Hoya carnosa",
+      "from": "uncommon",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 233,
+      "name": "Hoya linearis",
+      "scientificName": "Hoya linearis",
+      "from": "very-rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 234,
+      "name": "Kipandi Hoya",
+      "scientificName": "Hoya waymaniae",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 236,
+      "name": "White Rabbit's Foot Fern",
+      "scientificName": "Humata tyermanii",
+      "from": "very-rare",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 237,
+      "name": "Water Wisteria",
+      "scientificName": "Hygrophila difformis",
+      "from": "rare",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 239,
+      "name": "Polka Dot Plant",
+      "scientificName": "Hypoestes phyllostachya",
+      "from": "uncommon",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 240,
+      "name": "Scarlet Kleinia",
+      "scientificName": "Kleinia grantii",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 241,
+      "name": "Golden Barrel Cactus",
+      "scientificName": "Kroenleinia grusonii",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 243,
+      "name": "Ant Fern",
+      "scientificName": "Lecanopteris sinuosa",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 252,
+      "name": "Jewel Orchid",
+      "scientificName": "Ludisia discolor",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 256,
+      "name": "Feather Cactus",
+      "scientificName": "Mammillaria plumosa",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 260,
+      "name": "Rainbow Marcgravia",
+      "scientificName": "Marcgravia sintenisii",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 262,
+      "name": "Masdevallia garciae",
+      "scientificName": "Masdevallia garciae",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 263,
+      "name": "Masdevallia guttulata",
+      "scientificName": "Masdevallia guttulata",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 266,
+      "name": "Masdevallia oreas",
+      "scientificName": "Masdevallia oreas",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 267,
+      "name": "Veitch's Masdevallia",
+      "scientificName": "Masdevallia veitchiana",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 268,
+      "name": "Rose Grape",
+      "scientificName": "Medinilla magnifica",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 270,
+      "name": "Kangaroo Paw Fern",
+      "scientificName": "Microsorum diversifolium",
+      "from": "common",
+      "to": "rare",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 272,
+      "name": "Java Fern",
+      "scientificName": "Microsorum pteropus",
+      "from": "rare",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 273,
+      "name": "Blue Oil Fern",
+      "scientificName": "Microsorum thailandicum",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 276,
+      "name": "Swiss Cheese Vine",
+      "scientificName": "Monstera adansonii",
+      "from": "uncommon",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 278,
+      "name": "Swiss Cheese Plant",
+      "scientificName": "Monstera deliciosa",
+      "from": "uncommon",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 282,
+      "name": "Monstera lechleriana",
+      "scientificName": "Monstera lechleriana",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 283,
+      "name": "Monstera obliqua",
+      "scientificName": "Monstera obliqua",
+      "from": "uncommon",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 284,
+      "name": "Monstera siltepecana",
+      "scientificName": "Monstera siltepecana",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 285,
+      "name": "Monstera standleyana",
+      "scientificName": "Monstera standleyana",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 289,
+      "name": "Blushing Bromeliad",
+      "scientificName": "Neoregelia carolinae",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 290,
+      "name": "Tropical Pitcher Plant",
+      "scientificName": "Nepenthes ventricosa",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 292,
+      "name": "Variegated Boston Fern",
+      "scientificName": "Nephrolepis exaltata",
+      "from": "uncommon",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 293,
+      "name": "Boston Fern",
+      "scientificName": "Nephrolepis hirsutula",
+      "from": "uncommon",
+      "to": "common",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 294,
+      "name": "Opuntia 'Jamaican Ghost'",
+      "scientificName": "Opuntia jamaicensis",
+      "from": "rare",
+      "to": "common",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 296,
+      "name": "Purple Shamrock",
+      "scientificName": "Oxalis triangularis",
+      "from": "uncommon",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 300,
+      "name": "Trailing Watermelon Begonia",
+      "scientificName": "Pellionia repens",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 304,
+      "name": "Happy Bean Peperomia",
+      "scientificName": "Peperomia ferreyrae",
+      "from": "uncommon",
+      "to": "common",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 307,
+      "name": "Moth Orchid",
+      "scientificName": "Phalaenopsis amabilis",
+      "from": "rare",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 308,
+      "name": "Parish's Phalaenopsis",
+      "scientificName": "Phalaenopsis parishii",
+      "from": "uncommon",
+      "to": "common",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 309,
+      "name": "Philodendron billietiae",
+      "scientificName": "Philodendron billietiae",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 310,
+      "name": "Philodendron bipinnatifidum",
+      "scientificName": "Philodendron bipinnatifidum",
+      "from": "rare",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 311,
+      "name": "Philodendron brandtianum",
+      "scientificName": "Philodendron brandtianum",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 312,
+      "name": "Philodendron Pink Princess",
+      "scientificName": "Philodendron erubescens",
+      "from": "rare",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 313,
+      "name": "Philodendron gloriosum",
+      "scientificName": "Philodendron gloriosum",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 315,
+      "name": "Philodendron 'Silver Sword'",
+      "scientificName": "Philodendron hastatum",
+      "from": "very-rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 316,
+      "name": "Velvet Philodendron",
+      "scientificName": "Philodendron hederaceum",
+      "from": "rare",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 318,
+      "name": "Philodendron mamei",
+      "scientificName": "Philodendron mamei",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 320,
+      "name": "Philodendron peltatum",
+      "scientificName": "Philodendron pastazanum",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 322,
+      "name": "Philodendron 'Sodiroi'",
+      "scientificName": "Philodendron sodiroi",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 323,
+      "name": "Philodendron squamiferum",
+      "scientificName": "Philodendron squamiferum",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 324,
+      "name": "Blue Star Fern",
+      "scientificName": "Phlebodium aureum",
+      "from": "uncommon",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 326,
+      "name": "Red Root Floater",
+      "scientificName": "Phyllanthus fluitans",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 327,
+      "name": "Aluminum Plant",
+      "scientificName": "Pilea cadierei",
+      "from": "uncommon",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 332,
+      "name": "Chinese Money Plant",
+      "scientificName": "Pilea peperomioides",
+      "from": "very-rare",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 333,
+      "name": "Alpine Butterwort",
+      "scientificName": "Pinguicula alpina",
+      "from": "common",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 334,
+      "name": "Ehlersiae Butterwort",
+      "scientificName": "Pinguicula ehlersiae",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 335,
+      "name": "Esseriana Butterwort",
+      "scientificName": "Pinguicula esseriana",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 336,
+      "name": "Gypsum Butterwort × Moctezumae",
+      "scientificName": "Pinguicula gypsicola × moctezumae",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 338,
+      "name": "Laueana Butterwort",
+      "scientificName": "Pinguicula laueana",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 340,
+      "name": "Moctezumae Butterwort",
+      "scientificName": "Pinguicula moctezumae",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 342,
+      "name": "Primrose Butterwort",
+      "scientificName": "Pinguicula primuliflora",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 345,
+      "name": "Staghorn Fern",
+      "scientificName": "Platycerium bifurcatum",
+      "from": "uncommon",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 347,
+      "name": "Pleurothallis rubella",
+      "scientificName": "Pleurothallis rubella",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 348,
+      "name": "Pleurothallis ruscifolia",
+      "scientificName": "Pleurothallis ruscifolia",
+      "from": "uncommon",
+      "to": "rare",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 352,
+      "name": "Racinaea dyeriana",
+      "scientificName": "Racinaea dyeriana",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 353,
+      "name": "Restrepia tsubatae",
+      "scientificName": "Restrepia tsubatae",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 358,
+      "name": "Roridula gorgonias",
+      "scientificName": "Roridula gorgonias",
+      "from": "rare",
+      "to": "very-rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 361,
+      "name": "African Violet",
+      "scientificName": "Saintpaulia ionantha",
+      "from": "rare",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 366,
+      "name": "Burro's Tail",
+      "scientificName": "Sedum morganianum",
+      "from": "rare",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 370,
+      "name": "String of Pearls",
+      "scientificName": "Senecio rowleyanus",
+      "from": "very-rare",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 372,
+      "name": "Pleurothallis",
+      "scientificName": "Specklinia grobyi",
+      "from": "uncommon",
+      "to": "rare",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 374,
+      "name": "Red Arrow",
+      "scientificName": "Syngonium erythrophyllum",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 375,
+      "name": "Arrowhead Plant",
+      "scientificName": "Syngonium podophyllum",
+      "from": "uncommon",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 376,
+      "name": "Syngonium Pixie",
+      "scientificName": "Syngonium podophyllum 'Pixie'",
+      "from": "uncommon",
+      "to": "common",
+      "reason": "species-override+cultivar"
+    },
+    {
+      "id": 378,
+      "name": "Arrowhead Plant",
+      "scientificName": "Syngonium steyermarkii",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 379,
+      "name": "Star Moss",
+      "scientificName": "Syntrichia ruralis",
+      "from": "common",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 381,
+      "name": "Fern Moss",
+      "scientificName": "Thuidium delicatulum",
+      "from": "common",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 382,
+      "name": "Abdita Air Plant",
+      "scientificName": "Tillandsia abdita",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 383,
+      "name": "Andreana Air Plant",
+      "scientificName": "Tillandsia andreana",
+      "from": "very-rare",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 386,
+      "name": "Capitata Air Plant",
+      "scientificName": "Tillandsia capitata",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 389,
+      "name": "Flabellata Air Plant",
+      "scientificName": "Tillandsia flabellata",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 390,
+      "name": "Sky Plant",
+      "scientificName": "Tillandsia ionantha",
+      "from": "uncommon",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 391,
+      "name": "Rush-leaved Air Plant",
+      "scientificName": "Tillandsia juncifolia",
+      "from": "common",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 393,
+      "name": "Melanocrater Air Plant",
+      "scientificName": "Tillandsia melanocrater",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 394,
+      "name": "Fuzzy Air Plant",
+      "scientificName": "Tillandsia pruinosa",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 395,
+      "name": "Seleriana Air Plant",
+      "scientificName": "Tillandsia seleriana",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 396,
+      "name": "Streptophylla Air Plant",
+      "scientificName": "Tillandsia streptophylla",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 399,
+      "name": "King of Air Plants",
+      "scientificName": "Tillandsia xerographica",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 400,
+      "name": "Wandering Jew",
+      "scientificName": "Tradescantia zebrina",
+      "from": "uncommon",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 402,
+      "name": "Utricularia (Bladderwort)",
+      "scientificName": "Utricularia gibba",
+      "from": "common",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 403,
+      "name": "Weeping Moss",
+      "scientificName": "Vesicularia ferriei",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 404,
+      "name": "Christmas Moss",
+      "scientificName": "Vesicularia montagnei",
+      "from": "uncommon",
+      "to": "common",
+      "reason": "species-override"
+    },
+    {
+      "id": 405,
+      "name": "Giant Vriesea",
+      "scientificName": "Vriesea gigantea",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 406,
+      "name": "Vriesea ospinae",
+      "scientificName": "Vriesea ospinae",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "heuristic-default"
+    },
+    {
+      "id": 407,
+      "name": "Pink Quill",
+      "scientificName": "Wallisia cyanea",
+      "from": "rare",
+      "to": "uncommon",
+      "reason": "species-override"
+    },
+    {
+      "id": 413,
+      "name": "Hedgehog Agave",
+      "scientificName": "Agave stricta",
+      "from": "common",
+      "to": "uncommon",
+      "reason": "genus-baseline"
+    },
+    {
+      "id": 415,
+      "name": "Red Vein Aglaonema",
+      "scientificName": "Aglaonema rotundum",
+      "from": "uncommon",
+      "to": "rare",
+      "reason": "species-override"
+    },
+    {
+      "id": 419,
+      "name": "Pepperspot Peperomia",
+      "scientificName": "Peperomia prostrata 'Pepperspot'",
+      "from": "common",
+      "to": "uncommon",
+      "reason": "species-override+cultivar"
+    },
+    {
+      "id": 420,
+      "name": "Piccolo Banda Peperomia",
+      "scientificName": "Peperomia albovittata 'Piccolo Banda'",
+      "from": "common",
+      "to": "uncommon",
+      "reason": "species-override+cultivar"
+    },
+    {
+      "id": 422,
+      "name": "Variegated Creeping Fig",
+      "scientificName": "Ficus pumila 'Variegata'",
+      "from": "common",
+      "to": "uncommon",
+      "reason": "species-override+cultivar"
+    }
+  ]
+}

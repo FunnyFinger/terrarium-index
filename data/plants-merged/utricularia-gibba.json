@@ -41,7 +41,7 @@
   },
   "growthPattern": "carpeting",
   "hazard": "non-toxic",
-  "rarity": "common",
+  "rarity": "uncommon",
   "carnivorous": true,
   "growthHabit": "fully-aquatic",
   "plantType": "flowering-plant",

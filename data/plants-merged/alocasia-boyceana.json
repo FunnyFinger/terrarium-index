@@ -38,7 +38,7 @@
   },
   "growthPattern": "upright-bushy",
   "hazard": "toxic-if-ingested",
-  "rarity": "very-rare",
+  "rarity": "rare",
   "growthHabit": "ground-dwelling",
   "plantType": "flowering-plant",
   "floweringPeriod": "does-not-flower-in-cultivation",

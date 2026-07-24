@@ -32,7 +32,7 @@
   },
   "growthPattern": "vining-trailing",
   "hazard": "toxic-if-ingested",
-  "rarity": "very-rare",
+  "rarity": "uncommon",
   "growthHabit": "tree-dwelling",
   "plantType": "flowering-plant",
   "floweringPeriod": "does-not-flower-in-cultivation",

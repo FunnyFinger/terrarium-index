@@ -45,7 +45,7 @@
   },
   "growthPattern": "upright-bushy",
   "hazard": "toxic-if-ingested",
-  "rarity": "uncommon",
+  "rarity": "common",
   "growthHabit": "ground-dwelling",
   "plantType": "flowering-plant",
   "floweringPeriod": "seasonal",

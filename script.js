@@ -2469,17 +2469,8 @@ function sortPlants(plants) {
                 bVal = getScientificNameString(b).toLowerCase();
                 break;
             case 'rarity':
-                // Handle both lowercase and capitalized rarity values
-                const rarityOrder = { 
-                    'common': 1, 'Common': 1,
-                    'uncommon': 2, 'Uncommon': 2,
-                    'rare': 3, 'Rare': 3,
-                    'very rare': 4, 'Very Rare': 4, 'veryrare': 4
-                };
-                const aRarity = (a.rarity || '').toLowerCase();
-                const bRarity = (b.rarity || '').toLowerCase();
-                aVal = rarityOrder[aRarity] || 0;
-                bVal = rarityOrder[bRarity] || 0;
+                aVal = raritySortRank(a.rarity);
+                bVal = raritySortRank(b.rarity);
                 break;
             case 'difficulty':
                 // Use difficultyRange if available, otherwise try difficulty string
@@ -3389,6 +3380,30 @@ function resetAllFilters() {
     console.log('After reset - filtered plants:', filteredPlants.length, 'total plants:', allPlants.length);
 }
 
+/** Canonical rarity: common | uncommon | rare | very-rare (null if unknown). */
+function normalizeRarityValue(value) {
+    if (value == null || value === '') return null;
+    const key = String(value).trim().toLowerCase().replace(/[\s_]+/g, '-').replace(/-+/g, '-');
+    if (key === 'veryrare') return 'very-rare';
+    if (key === 'common' || key === 'uncommon' || key === 'rare' || key === 'very-rare') return key;
+    return null;
+}
+
+/** Sort rank 1–4 for rarity; unknown = 0. */
+function raritySortRank(value) {
+    const n = normalizeRarityValue(value);
+    if (!n) return 0;
+    return ({ common: 1, uncommon: 2, rare: 3, 'very-rare': 4 })[n] || 0;
+}
+
+/** Display label: Very Rare, Common, etc. */
+function formatRarityLabel(value) {
+    const n = normalizeRarityValue(value);
+    if (!n) return value == null ? '' : String(value);
+    if (n === 'very-rare') return 'Very Rare';
+    return n.charAt(0).toUpperCase() + n.slice(1);
+}
+
 function applyAdvancedFilters() {
     // Collect checkbox values
     const checkboxes = document.querySelectorAll('.filter-checkbox');
@@ -3699,12 +3714,12 @@ function applyAllFilters() {
             }
         }
         
-        // Rarity filter
+        // Rarity filter — exact match after normalizing (common/uncommon/rare/very-rare)
         if (advancedFilters.rarity.length > 0) {
-            if (!plant.rarity) return false;
-            const plantRarity = String(plant.rarity).toLowerCase();
-            const matchesRarity = advancedFilters.rarity.some(filterR => 
-                plantRarity.includes(filterR.toLowerCase())
+            const plantRarity = normalizeRarityValue(plant.rarity);
+            if (!plantRarity) return false;
+            const matchesRarity = advancedFilters.rarity.some(filterR =>
+                normalizeRarityValue(filterR) === plantRarity
             );
             if (!matchesRarity) return false;
         }
@@ -7224,7 +7239,7 @@ async function showPlantModal(plant) {
                             addRow('Plant Type', plant.plantType);
                             addRow('Size', plant.size);
                             addRow('Substrate', plant.substrate);
-                            addRow('Rarity', plant.rarity);
+                            addRow('Rarity', formatRarityLabel(plant.rarity));
                             addRow('Hazard', plant.hazard);
                             addRow('Flowering Period', plant.floweringPeriod);
                             addRow('Colors', plant.colors);
@@ -9841,7 +9856,7 @@ function generateCareCard(plantId) {
     addDetail('Plant Type', plant.plantType);
     addDetail('Size', plant.size);
     addDetail('Substrate', plant.substrate);
-    addDetail('Rarity', plant.rarity);
+    addDetail('Rarity', formatRarityLabel(plant.rarity));
     addDetail('Hazard', plant.hazard);
     addDetail('Flowering Period', plant.floweringPeriod);
     addDetail('Colors', plant.colors);

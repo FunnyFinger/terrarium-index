@@ -29,7 +29,7 @@
   },
   "growthPattern": "upright-bushy",
   "hazard": "toxic-if-ingested",
-  "rarity": "rare",
+  "rarity": "uncommon",
   "growthHabit": "tree-dwelling",
   "plantType": "flowering-plant",
   "floweringPeriod": "seasonal",

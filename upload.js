@@ -30,11 +30,13 @@ var GROWTH_RATE_OPTIONS = ['Slow', 'Moderate', 'Fast'];
 
 var SUBSTRATE_OPTIONS = ['Well Draining', 'Moist', 'Epiphytic', 'Attached', 'None'];
 
+var RARITY_OPTIONS = ['common', 'uncommon', 'rare', 'very-rare'];
+
 var PLANT_DETAIL_FIELDS = [
     { el: 'uploadPlantType', field: 'plantType' },
     { el: 'uploadSubstrate', field: 'substrate', fixedOptions: SUBSTRATE_OPTIONS },
     { el: 'uploadGrowthRate', field: 'growthRate', fixedOptions: GROWTH_RATE_OPTIONS },
-    { el: 'uploadRarity', field: 'rarity' },
+    { el: 'uploadRarity', field: 'rarity', fixedOptions: RARITY_OPTIONS },
     { el: 'uploadGrowthPattern', field: 'growthPattern' },
     { el: 'uploadGrowthHabit', field: 'growthHabit' },
     { el: 'uploadHazard', field: 'hazard' },
