@@ -21,6 +21,11 @@ const ROOT = path.resolve(__dirname, '..');
 const { formatCultivarScientificName } = require('./lib/format-cultivar-scientific-name.js');
 const { formatVarietyScientificName } = require('./lib/format-variety-scientific-name.js');
 const { formatHybridScientificName } = require('./lib/format-hybrid-scientific-name.js');
+const {
+  isCultivarOrVarietyPlant,
+  getParentSpeciesName,
+  buildParentSpeciesPlant
+} = require('./lib/ensure-parent-species.js');
 
 function getConfig() {
   let url = process.env.SUPABASE_URL || '';
@@ -202,12 +207,58 @@ async function main() {
   const plant = normalizePlant(data);
   delete plant.id;
 
-  let nextId = 1;
-  try {
+  async function getNextId() {
     const rows = await request('GET', base, key, '/plants_catalog?select=id&order=id.desc&limit=1');
     if (Array.isArray(rows) && rows.length > 0 && rows[0].id != null) {
-      nextId = Number(rows[0].id) + 1;
+      return Number(rows[0].id) + 1;
     }
+    return 1;
+  }
+
+  async function findByScientificName(scientificName) {
+    const path = '/plants_catalog?select=id,data&data->>scientificName=eq.' + encodeURIComponent(scientificName);
+    try {
+      const rows = await request('GET', base, key, path);
+      return (rows && rows[0]) || null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  // Cultivars/varieties: ensure parent species plant exists so taxonomy filter nodes return results
+  if (isCultivarOrVarietyPlant(plant)) {
+    const parentName = getParentSpeciesName(plant);
+    if (parentName) {
+      const existingParent = await findByScientificName(parentName);
+      if (!existingParent) {
+        const parentRaw = buildParentSpeciesPlant(Object.assign({}, data, plant));
+        if (parentRaw) {
+          const parentPlant = normalizePlant(parentRaw);
+          delete parentPlant.id;
+          let parentId;
+          try {
+            parentId = await getNextId();
+          } catch (e) {
+            parentId = 1;
+          }
+          parentPlant.id = parentId;
+          try {
+            await request('POST', base, key, '/plants_catalog', [{ id: parentId, data: parentPlant }], 'resolution=merge-duplicates,return=representation');
+            console.log('Added parent species to Supabase:', parentPlant.name, '(id:', parentId, ', scientificName:', parentPlant.scientificName + ')');
+          } catch (e) {
+            console.error('Failed to add parent species:', e.message);
+            process.exit(1);
+          }
+        }
+      } else {
+        console.log('Parent species already exists:', parentName, '(id:', existingParent.id + ')');
+      }
+    }
+  }
+
+  let nextId = 1;
+  try {
+    nextId = await getNextId();
   } catch (e) {
     console.warn('Could not get max id from Supabase, using 1:', e.message);
   }

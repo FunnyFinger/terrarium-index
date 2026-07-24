@@ -17,19 +17,20 @@ When the user asks to **add** or **create** a new plant (e.g. "add [plant name]"
 
 - Create a JSON object with at least: **name**, **scientificName**, **description**, **careTips** (array), **category** (array), **taxonomy** (object with family, genus, species). Do **not** set `id` (the script assigns it). Do **not** set `images`/`imageUrl` (script defaults to [] and '').
 - **Cultivar naming**: Use full species name followed by the cultivar in single quotes, e.g. `Aglaonema commutatum 'Red Ruby'` (not `Aglaonema 'Red Ruby'`). The add-plant script normalizes this if you provide taxonomy.species.
+- **Parent species**: For cultivars/varieties, always ensure the parent species plant exists (`taxonomy.species` as `scientificName`, e.g. `Peperomia albovittata`). The add-plant script creates a parent row automatically if missing. Prefer providing a full `parentSpecies` object (or `parentDescription` / `parentSpeciesName` / `parentCommonNames`) for a proper species entry; otherwise the script derives a minimal parent from the cultivar.
 - Optional but helpful: substrate, size, growthRate, propagation, colors, hazard, commonNames, growthPattern, growthHabit, plantType, floweringPeriod, substrateType, specialNeeds, rarity.
 
 ## 3. Write payload and run the script
 
 - Write the JSON to a file, e.g. `data/new-plant.json` or `scripts/new-plant-payload.json`.
-- Run: `npm run add-plant-to-supabase -- <path-to-file>` (e.g. `npm run add-plant-to-supabase -- data/new-plant.json`).
-- The script reads config from `js/config.js`, gets the next plant ID from Supabase, normalizes missing fields, and POSTs to `plants_catalog`. It prints the new id and name on success.
+- Run: `npm run add-plant-to-supabase -- <path-to-file>` (requires `SUPABASE_SERVICE_ROLE_KEY` after RLS hardening). If the script cannot write, generate SQL (`insert into plants_catalog`) for parent + cultivar and have the user run it in Supabase SQL Editor.
+- The script reads config from `js/config.js`, gets the next plant ID from Supabase, normalizes missing fields, **ensures parent species exists for cultivars/varieties**, and POSTs to `plants_catalog`. It prints the new id and name on success.
 
 ## 4. Confirm to the user
 
-- Report that the plant was added to Supabase with id X, and that it will appear on the hosted site (no redeploy needed for catalog data). They can add images later via the app.
+- Report that the plant was added to Supabase with id X (and parent species id if created), and that it will appear on the hosted site (no redeploy needed for catalog data). They can add images later via the app.
 
 ## Summary
 
-- You do: web search → build JSON → write file → run `npm run add-plant-to-supabase -- <file>`.
-- User does: nothing. Redeploy is not required for new catalog entries; the site reads from Supabase.
+- You do: web search → build JSON (include parent species data for cultivars) → write file → run `npm run add-plant-to-supabase -- <file>` (or SQL fallback).
+- User does: nothing when service role is available; otherwise run generated SQL once. Redeploy is not required for new catalog entries; the site reads from Supabase.
