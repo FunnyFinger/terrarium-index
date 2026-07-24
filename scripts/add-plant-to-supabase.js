@@ -24,7 +24,12 @@ const { formatHybridScientificName } = require('./lib/format-hybrid-scientific-n
 
 function getConfig() {
   let url = process.env.SUPABASE_URL || '';
-  let key = process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_PUBLISHABLE_KEY || '';
+  // Writes require service role after RLS hardening (anon cannot INSERT into plants_catalog).
+  let key = process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.SUPABASE_ANON_KEY ||
+    process.env.SUPABASE_PUBLISHABLE_KEY ||
+    '';
+  let usedServiceRole = !!process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) {
     try {
       const configPath = path.join(ROOT, 'js', 'config.js');
@@ -33,12 +38,12 @@ function getConfig() {
       const keyMatch = content.match(/SUPABASE_ANON_KEY\s*=\s*[^'"]*['"]([^'"]+)['"]/) ||
         content.match(/SUPABASE_PUBLISHABLE_KEY\s*=\s*[^'"]*['"]([^'"]+)['"]/);
       if (urlMatch) url = urlMatch[1].trim();
-      if (keyMatch) key = keyMatch[1].trim();
+      if (!key && keyMatch) key = keyMatch[1].trim();
     } catch (e) { /* ignore */ }
   }
   url = (url || '').toString().trim().replace(/\/$/, '');
   key = (key || '').toString().trim();
-  return { url, key };
+  return { url, key, usedServiceRole };
 }
 
 function request(method, baseUrl, key, pathname, body, prefer) {
@@ -153,10 +158,13 @@ function normalizePlant(data) {
 }
 
 async function main() {
-  const { url, key } = getConfig();
+  const { url, key, usedServiceRole } = getConfig();
   if (!url || !key) {
-    console.error('Missing SUPABASE_URL or SUPABASE_ANON_KEY. Set env vars or update js/config.js.');
+    console.error('Missing SUPABASE_URL or key. Set SUPABASE_SERVICE_ROLE_KEY (required for catalog writes after RLS) or update js/config.js.');
     process.exit(1);
+  }
+  if (!usedServiceRole) {
+    console.warn('Warning: SUPABASE_SERVICE_ROLE_KEY not set. Catalog INSERT may fail under RLS. Set it from Netlify/Supabase (service_role secret).');
   }
 
   let raw;
