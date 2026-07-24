@@ -461,7 +461,12 @@
                 var orderItems = cart.map(function(i) {
                     var lineTotal = i.price != null ? i.price * i.quantity : 0;
                     var unit = (i.unit != null && String(i.unit).trim() !== '') ? String(i.unit).trim() : undefined;
-                    return { plantId: i.plantId, name: i.name, scientificName: i.scientificName, quantity: Number(i.quantity), unit: unit, price: i.price, lineTotal: lineTotal };
+                    // Labour / service lines are not inventory ids — send as charge_* for complete-order
+                    var pid = i.plantId;
+                    if (pid === 'labour-vivarium' || (typeof pid === 'string' && pid.indexOf('labour-') === 0 && !Number.isFinite(Number(pid)))) {
+                        pid = 'charge_' + String(pid).replace(/^charge_/, '');
+                    }
+                    return { plantId: pid, name: i.name, scientificName: i.scientificName, quantity: Number(i.quantity), unit: unit, price: i.price, lineTotal: lineTotal };
                 });
                 deliveryCharges.forEach(function(c) {
                     var amt = Number(c.price) || 0;

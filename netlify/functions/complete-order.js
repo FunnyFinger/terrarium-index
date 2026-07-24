@@ -37,7 +37,16 @@ function json(statusCode, body) {
 }
 
 function isChargeId(id) {
-    return typeof id === 'string' && id.indexOf('charge_') === 0;
+    if (id == null) return false;
+    // Delivery / operational lines use charge_* ; labour uses labour-vivarium
+    if (typeof id === 'string') {
+        if (id.indexOf('charge_') === 0) return true;
+        if (id === 'labour-vivarium' || id.indexOf('labour-') === 0) return true;
+        // Any non-numeric string id is a service line (not inventory stock)
+        var trimmed = id.trim();
+        if (trimmed !== '' && !Number.isFinite(Number(trimmed))) return true;
+    }
+    return false;
 }
 
 function clientIp(event) {
