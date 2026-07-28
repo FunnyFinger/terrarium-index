@@ -5272,8 +5272,8 @@ function showEquipmentDetail(equipment) {
                         ${stockHtml}
                         <label for="equipmentCartQty" class="plant-product-label">Quantity${equipment.unit ? ' (' + escapeHtml(equipment.unit) + ')' : ''}</label>
                         <input type="number" id="equipmentCartQty" class="plant-product-qty"
-                            value="${eqIsInt ? '1' : '0.1'}"
-                            min="${eqIsInt ? '1' : '0.001'}"
+                            value="${(typeof stock === 'number' && stock <= 0) ? '0' : (eqIsInt ? '1' : '0.1')}"
+                            min="${(typeof stock === 'number' && stock <= 0) ? '0' : (eqIsInt ? '1' : '0.001')}"
                             max="${eqStockMax}"
                             step="${eqIsInt ? '1' : '0.001'}"
                             aria-label="Quantity"
@@ -7180,8 +7180,8 @@ async function showPlantModal(plant) {
                         })()}
                         <label for="modalCartQty" class="plant-product-label">Quantity${plant.unit ? ' (' + escapeHtml(plant.unit) + ')' : ''}</label>
                         <input type="number" id="modalCartQty" class="plant-product-qty"
-                            value="${isIntegerUnitQuickAdd(plant.unit) ? '1' : '0.1'}"
-                            min="${isIntegerUnitQuickAdd(plant.unit) ? '1' : '0.001'}"
+                            value="${(typeof plant.stockQuantity === 'number' && plant.stockQuantity <= 0) ? '0' : (isIntegerUnitQuickAdd(plant.unit) ? '1' : '0.1')}"
+                            min="${(typeof plant.stockQuantity === 'number' && plant.stockQuantity <= 0) ? '0' : (isIntegerUnitQuickAdd(plant.unit) ? '1' : '0.001')}"
                             max="${(typeof plant.stockQuantity === 'number' && plant.stockQuantity >= 0) ? plant.stockQuantity : 999}"
                             step="${isIntegerUnitQuickAdd(plant.unit) ? '1' : '0.001'}"
                             aria-label="Quantity"
