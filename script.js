@@ -5569,7 +5569,7 @@ function openVivariumEdit(vivarium) {
         if (costEl) costEl.value = cost != null ? cost : '';
         var marginPct = (price != null && price > 0 && cost != null) ? ((price - cost) / price * 100) : '';
         if (marginPctEl) marginPctEl.value = marginPct !== '' ? Number(marginPct).toFixed(1) : '';
-        if (priceEl) priceEl.value = (price != null ? price : '');
+        if (priceEl) priceEl.value = (price != null ? Number(price).toFixed(2) : '');
     }
     function updateVivariumPriceFromCostMargin() {
         if (!priceEl) return;
