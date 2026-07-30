@@ -253,7 +253,7 @@
                         <option value="other">Other</option>
                     </select>
                 </label>
-                <label>Price (KD) <input type="number" id="invChargePrice" placeholder="0.00" min="0" step="0.001"></label>
+                <label>Price (KD) <input type="number" id="invChargePrice" placeholder="0.000" min="0" step="0.001"></label>
                 <label>Description <input type="text" id="invChargeDesc" placeholder="Short description (optional)"></label>
                 <label style="display:flex; align-items:center; gap:0.5rem; margin-top:0.75rem; cursor:pointer;">
                     <input type="checkbox" id="invChargeActive" checked style="width:1.1rem; height:1.1rem;"> Active (shown at checkout)
@@ -341,11 +341,11 @@
             <h3>Batch edit</h3>
             <p class="inv-batch-hint">Leave a field empty to keep current value for each item. If Margin % is set, sell price is calculated from cost (batch or current) for each item.</p>
             <label for="invBatchCost">Cost (KD)</label>
-            <input type="number" id="invBatchCost" min="0" step="0.01" placeholder="Leave empty to keep">
+            <input type="number" id="invBatchCost" min="0" step="0.001" placeholder="Leave empty to keep">
             <label for="invBatchMarginPct">Margin %</label>
             <input type="number" id="invBatchMarginPct" min="0" max="99.99" step="0.1" placeholder="Leave empty to keep">
             <label for="invBatchPrice">Sell price (KD)</label>
-            <input type="number" id="invBatchPrice" min="0" step="0.01" placeholder="Leave empty to keep">
+            <input type="number" id="invBatchPrice" min="0" step="0.001" placeholder="Leave empty to keep">
             <label for="invBatchStock">Quantity in stock</label>
             <input type="number" id="invBatchStock" min="0" step="any" placeholder="Leave empty to keep">
             <label for="invBatchReorder">Reorder when below</label>
@@ -648,7 +648,7 @@
                     orders.forEach(function(o) {
                         var d = new Date(o.createdAt);
                         var c = o.customer || {};
-                        rows.push([o.id, d.toISOString(), c.name || '', c.email || '', c.phone || '', (c.address || '').replace(/\r?\n/g, ' '), o.totalAmount != null ? Number(o.totalAmount).toFixed(2) : '', o.status || ''].map(escapeCsv).join(','));
+                        rows.push([o.id, d.toISOString(), c.name || '', c.email || '', c.phone || '', (c.address || '').replace(/\r?\n/g, ' '), o.totalAmount != null ? Number(o.totalAmount).toFixed(3) : '', o.status || ''].map(escapeCsv).join(','));
                     });
                     var blob = new Blob([rows.join('\r\n')], { type: 'text/csv;charset=utf-8' });
                     var a = document.createElement('a');
@@ -705,7 +705,7 @@
             }
             var formatPrice = function(n) {
                 if (n == null || isNaN(n)) return '—';
-                return 'KD ' + Number(n).toFixed(2);
+                return 'KD ' + Number(n).toFixed(3);
             };
             var statusClass = function(inv) {
                 var q = inv != null && inv.quantityInStock != null ? inv.quantityInStock : null;
@@ -1346,10 +1346,10 @@
                         if (profit != null) totalProfit += profit;
                         var d = new Date(s.createdAt);
                         var scientificName = (s.scientificName && s.scientificName.trim()) || scientificByPlantId[s.plantId] || ('ID ' + s.plantId);
-                        return '<tr><td><em>' + scientificName + '</em></td><td>' + s.quantity + '</td><td>KD ' + (s.amount != null ? Number(s.amount).toFixed(2) : '—') + '</td><td>' + (profit != null ? 'KD ' + profit.toFixed(2) : '—') + '</td><td>' + d.toLocaleString() + '</td></tr>';
+                        return '<tr><td><em>' + scientificName + '</em></td><td>' + s.quantity + '</td><td>KD ' + (s.amount != null ? Number(s.amount).toFixed(3) : '—') + '</td><td>' + (profit != null ? 'KD ' + profit.toFixed(3) : '—') + '</td><td>' + d.toLocaleString() + '</td></tr>';
                     });
                     tbody.innerHTML = rows.join('');
-                    if (summary) summary.textContent = 'Last ' + sales.length + ' sales · Total: KD ' + totalAmount.toFixed(2) + (totalProfit !== 0 ? ' · Profit: KD ' + totalProfit.toFixed(2) : '');
+                    if (summary) summary.textContent = 'Last ' + sales.length + ' sales · Total: KD ' + totalAmount.toFixed(3) + (totalProfit !== 0 ? ' · Profit: KD ' + totalProfit.toFixed(3) : '');
                 });
             }
             renderSales();
@@ -1376,10 +1376,10 @@
                         var qtyDisplay = unit
                             ? ((qty % 1 !== 0 ? qty : Math.round(qty)) + ' ' + unit.replace(/</g, '&lt;').replace(/>/g, '&gt;'))
                             : (qty % 1 !== 0 ? qty : Math.round(qty));
-                        return '<tr><td><em>' + scientificName.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</em></td><td>' + qtyDisplay + '</td><td>KD ' + (i.price != null ? Number(i.price).toFixed(2) : '—') + '</td><td>KD ' + (i.lineTotal != null ? Number(i.lineTotal).toFixed(2) : '—') + '</td></tr>';
+                        return '<tr><td><em>' + scientificName.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</em></td><td>' + qtyDisplay + '</td><td>KD ' + (i.price != null ? Number(i.price).toFixed(3) : '—') + '</td><td>KD ' + (i.lineTotal != null ? Number(i.lineTotal).toFixed(3) : '—') + '</td></tr>';
                     }).join('');
                     var itemsTable = '<div class="inv-order-items"><table><thead><tr><th>Scientific name</th><th>Qty</th><th>Unit price (KD)</th><th>Line (KD)</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
-                    var total = '<p class="inv-order-total">Total: KD ' + (o.totalAmount != null ? Number(o.totalAmount).toFixed(2) : '0.00') + '</p>';
+                    var total = '<p class="inv-order-total">Total: KD ' + (o.totalAmount != null ? Number(o.totalAmount).toFixed(3) : '0.000') + '</p>';
                     document.getElementById('invOrderDetailBody').innerHTML = meta + itemsTable + total;
                     document.getElementById('invOrderDetail').classList.remove('hidden');
                 });
@@ -1407,7 +1407,7 @@
                         var cust = o.customer || {};
                         var name = (cust.name || '—').trim() || '—';
                         var contact = [cust.email, cust.phone].filter(Boolean).join(' · ') || '—';
-                        var total = o.totalAmount != null ? 'KD ' + Number(o.totalAmount).toFixed(2) : '—';
+                        var total = o.totalAmount != null ? 'KD ' + Number(o.totalAmount).toFixed(3) : '—';
                         return '<tr data-order-id="' + o.id + '" role="button" tabindex="0"><td>' + o.id + '</td><td>' + d.toLocaleString() + '</td><td>' + name + '</td><td>' + contact + '</td><td>' + total + '</td><td>' + (o.status || 'confirmed') + '</td></tr>';
                     }).join('');
                     tbody.querySelectorAll('tr[data-order-id]').forEach(function(tr) {

@@ -9,7 +9,7 @@ function escHtml(str) {
 
 function formatKD(n) {
     const num = Number(n);
-    return isNaN(num) ? '—' : 'KD ' + num.toFixed(2);
+    return isNaN(num) ? '—' : 'KD ' + num.toFixed(3);
 }
 
 function emailWrapper(title, content) {

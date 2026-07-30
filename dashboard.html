@@ -57,7 +57,7 @@
             <div class="dashboard-kpis">
                 <div class="dashboard-kpi">
                     <div class="dashboard-kpi-label">Total revenue</div>
-                    <div class="dashboard-kpi-value" id="kpiRevenue">KD 0.00</div>
+                    <div class="dashboard-kpi-value" id="kpiRevenue">KD 0.000</div>
                 </div>
                 <div class="dashboard-kpi">
                     <div class="dashboard-kpi-label">Orders</div>
@@ -65,7 +65,7 @@
                 </div>
                 <div class="dashboard-kpi">
                     <div class="dashboard-kpi-label">Avg order value</div>
-                    <div class="dashboard-kpi-value" id="kpiAvgOrder">KD 0.00</div>
+                    <div class="dashboard-kpi-value" id="kpiAvgOrder">KD 0.000</div>
                 </div>
                 <div class="dashboard-kpi">
                     <div class="dashboard-kpi-label">Paid orders</div>
@@ -136,7 +136,7 @@
             }
             function formatPrice(amount) {
                 if (amount == null || isNaN(Number(amount))) return '—';
-                return 'KD ' + Number(amount).toFixed(2);
+                return 'KD ' + Number(amount).toFixed(3);
             }
             function formatDate(ts) {
                 if (!ts) return '—';

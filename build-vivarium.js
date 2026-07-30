@@ -1093,7 +1093,7 @@
             if (num == null || num === '') return 'Price on request';
             var n = Number(num);
             if (isNaN(n)) return 'Price on request';
-            return 'KD ' + n.toFixed(2);
+            return 'KD ' + n.toFixed(3);
         }
         function supplyCard(e, section) {
             var id = supplyIdNum(e.id);

@@ -767,7 +767,7 @@ function getPlantPrice(plant) {
 }
 function formatPrice(amount) {
     if (amount == null || isNaN(Number(amount))) return null;
-    return 'KD ' + Number(amount).toFixed(2);
+    return 'KD ' + Number(amount).toFixed(3);
 }
 function formatPlantPrice(plant) {
     return formatPrice(getPlantPrice(plant));
@@ -5443,7 +5443,7 @@ function openEquipmentEdit(equipment) {
         if (!priceEl) return;
         var c = costEl && costEl.value.trim() !== '' ? parseFloat(costEl.value) : NaN;
         var m = marginPctEl && marginPctEl.value.trim() !== '' ? parseFloat(marginPctEl.value) : NaN;
-        if (!isNaN(c) && !isNaN(m) && m < 100) priceEl.value = (c / (1 - m / 100)).toFixed(2);
+        if (!isNaN(c) && !isNaN(m) && m < 100) priceEl.value = (c / (1 - m / 100)).toFixed(3);
         else if (isNaN(c)) priceEl.value = '';
     }
     if (!isNew && window.inventoryDb) {
@@ -5568,7 +5568,7 @@ function openVivariumEdit(vivarium) {
         if (!priceEl) return;
         var c = costEl && costEl.value.trim() !== '' ? parseFloat(costEl.value) : NaN;
         var m = marginPctEl && marginPctEl.value.trim() !== '' ? parseFloat(marginPctEl.value) : NaN;
-        if (!isNaN(c) && !isNaN(m) && m < 100) priceEl.value = (c / (1 - m / 100)).toFixed(2);
+        if (!isNaN(c) && !isNaN(m) && m < 100) priceEl.value = (c / (1 - m / 100)).toFixed(3);
         else if (isNaN(c)) priceEl.value = '';
     }
     if (!isNew && window.inventoryDb && vivariumEditing.id != null) {
@@ -7577,7 +7577,7 @@ async function showPlantModal(plant) {
     (function injectProductJsonLd(p) {
         var existing = document.getElementById('product-jsonld');
         if (existing) existing.remove();
-        var price = (p.price != null && !isNaN(Number(p.price))) ? Number(p.price).toFixed(2) : null;
+        var price = (p.price != null && !isNaN(Number(p.price))) ? Number(p.price).toFixed(3) : null;
         var availability = (typeof p.stockQuantity === 'number' && p.stockQuantity <= 0)
             ? 'https://schema.org/OutOfStock'
             : 'https://schema.org/InStock';
