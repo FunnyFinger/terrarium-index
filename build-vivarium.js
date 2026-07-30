@@ -1432,7 +1432,7 @@
                 config.accessoryIds || [],
                 config.toolIds || []
             ),
-            price: buildTotal > 0 ? Number(buildTotal.toFixed(3)) : null,
+            price: buildTotal > 0 ? Number(buildTotal.toFixed(2)) : null,
             availability: 'in-stock',
             imageUrl: '',
             images: [],

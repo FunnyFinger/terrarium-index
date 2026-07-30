@@ -157,11 +157,14 @@ function readPlantDetailsFromForm() {
     if (!isNaN(cost)) currentUploadPlant.costPrice = cost;
     else currentUploadPlant.costPrice = undefined;
     if (!isNaN(cost) && !isNaN(marginPct) && marginPct < 100) {
-        var p = cost / (1 - marginPct / 100);
+        var p = (typeof roundSellPrice === 'function' ? roundSellPrice : function (x) { return Math.round(Number(x) * 100) / 100; })(cost / (1 - marginPct / 100));
         currentUploadPlant.price = p;
-        if (priceEl) priceEl.value = p.toFixed(3);
+        if (priceEl) priceEl.value = p.toFixed(2);
     } else {
-        currentUploadPlant.price = priceEl && priceEl.value.trim() !== '' ? (parseFloat(priceEl.value) || undefined) : undefined;
+        var rawP = priceEl && priceEl.value.trim() !== '' ? parseFloat(priceEl.value) : NaN;
+        currentUploadPlant.price = !isNaN(rawP)
+            ? ((typeof roundSellPrice === 'function' ? roundSellPrice : function (x) { return Math.round(Number(x) * 100) / 100; })(rawP))
+            : undefined;
     }
     if (unitEl && unitEl.value && unitEl.value.trim() !== '') {
         currentUploadPlant.unit = unitEl.value.trim();
@@ -293,7 +296,10 @@ function setupUploadListeners() {
             if (!priceEl) return;
             var c = costEl && costEl.value.trim() !== '' ? parseFloat(costEl.value) : NaN;
             var m = marginPctEl && marginPctEl.value.trim() !== '' ? parseFloat(marginPctEl.value) : NaN;
-            if (!isNaN(c) && !isNaN(m) && m < 100) priceEl.value = (c / (1 - m / 100)).toFixed(3);
+            if (!isNaN(c) && !isNaN(m) && m < 100) {
+                var sell = (typeof roundSellPrice === 'function' ? roundSellPrice : function (x) { return Math.round(Number(x) * 100) / 100; })(c / (1 - m / 100));
+                priceEl.value = sell.toFixed(2);
+            }
             else if (priceEl.value === '' && isNaN(c)) priceEl.value = '';
         }
         if (costEl) costEl.addEventListener('input', updatePriceFromCostAndMargin);
@@ -567,7 +573,7 @@ async function openImageUpload(plantId) {
     var cost = currentUploadPlant.costPrice != null && currentUploadPlant.costPrice !== '' ? currentUploadPlant.costPrice : null;
     var marginPct = (price != null && price > 0 && cost != null) ? ((price - cost) / price * 100) : '';
     if (marginPctEl) marginPctEl.value = marginPct !== '' ? Number(marginPct).toFixed(1) : '';
-    if (priceEl) priceEl.value = (price != null ? price : '');
+    if (priceEl) priceEl.value = (price != null ? Number(price).toFixed(2) : '');
     var defaultUnit = 'pot';
     var pt = (currentUploadPlant.plantType || '').toLowerCase();
     var nameStr = (getScientificNameString(currentUploadPlant) || '').toLowerCase() + ' ' + ((currentUploadPlant.commonNames || []).join(' ')).toLowerCase();

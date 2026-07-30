@@ -769,6 +769,13 @@ function formatPrice(amount) {
     if (amount == null || isNaN(Number(amount))) return null;
     return 'KD ' + Number(amount).toFixed(3);
 }
+/** Round sell price to 0.00 (fils not used on sell; cost may keep finer precision). */
+function roundSellPrice(amount) {
+    var n = Number(amount);
+    if (!isFinite(n)) return null;
+    return Math.round(n * 100) / 100;
+}
+if (typeof window !== 'undefined') window.roundSellPrice = roundSellPrice;
 function formatPlantPrice(plant) {
     return formatPrice(getPlantPrice(plant));
 }
@@ -5425,7 +5432,7 @@ function openEquipmentEdit(equipment) {
         if (costEl) costEl.value = cost != null ? cost : '';
         var marginPct = (price != null && price > 0 && cost != null) ? ((price - cost) / price * 100) : '';
         if (marginPctEl) marginPctEl.value = marginPct !== '' ? Number(marginPct).toFixed(1) : '';
-        if (priceEl) priceEl.value = (price != null ? price : '');
+        if (priceEl) priceEl.value = (price != null ? Number(price).toFixed(2) : '');
         if (stockEl) stockEl.value = (inv && inv.quantityInStock != null) ? inv.quantityInStock : (equipmentEditing.stockQuantity != null ? equipmentEditing.stockQuantity : 0);
         if (reorderEl) reorderEl.value = (inv && inv.reorderLevel != null) ? inv.reorderLevel : (equipmentEditing.reorderLevel != null ? equipmentEditing.reorderLevel : '');
         var categoryEl = document.getElementById('equipmentEditCategory');
@@ -5443,7 +5450,7 @@ function openEquipmentEdit(equipment) {
         if (!priceEl) return;
         var c = costEl && costEl.value.trim() !== '' ? parseFloat(costEl.value) : NaN;
         var m = marginPctEl && marginPctEl.value.trim() !== '' ? parseFloat(marginPctEl.value) : NaN;
-        if (!isNaN(c) && !isNaN(m) && m < 100) priceEl.value = (c / (1 - m / 100)).toFixed(3);
+        if (!isNaN(c) && !isNaN(m) && m < 100) priceEl.value = roundSellPrice(c / (1 - m / 100)).toFixed(2);
         else if (isNaN(c)) priceEl.value = '';
     }
     if (!isNew && window.inventoryDb) {
@@ -5568,7 +5575,7 @@ function openVivariumEdit(vivarium) {
         if (!priceEl) return;
         var c = costEl && costEl.value.trim() !== '' ? parseFloat(costEl.value) : NaN;
         var m = marginPctEl && marginPctEl.value.trim() !== '' ? parseFloat(marginPctEl.value) : NaN;
-        if (!isNaN(c) && !isNaN(m) && m < 100) priceEl.value = (c / (1 - m / 100)).toFixed(3);
+        if (!isNaN(c) && !isNaN(m) && m < 100) priceEl.value = roundSellPrice(c / (1 - m / 100)).toFixed(2);
         else if (isNaN(c)) priceEl.value = '';
     }
     if (!isNew && window.inventoryDb && vivariumEditing.id != null) {
@@ -5617,10 +5624,11 @@ function saveVivariumEdit() {
     var marginPct = marginPctEl && marginPctEl.value.trim() !== '' ? parseFloat(marginPctEl.value) : NaN;
     var price;
     if (cost != null && !isNaN(cost) && !isNaN(marginPct) && marginPct < 100) {
-        price = cost / (1 - marginPct / 100);
+        price = roundSellPrice(cost / (1 - marginPct / 100));
     } else {
         var priceNum = priceEl && priceEl.value.trim() !== '' ? parseFloat(priceEl.value) : null;
-        price = priceNum != null && !isNaN(priceNum) ? priceNum : vivariumEditing.price;
+        price = priceNum != null && !isNaN(priceNum) ? roundSellPrice(priceNum) : vivariumEditing.price;
+        if (price != null) price = roundSellPrice(price);
     }
     var type = typeEl && typeEl.value ? typeEl.value : vivariumEditing.type;
     var availability = availabilityEl && availabilityEl.value ? availabilityEl.value : 'in-stock';
@@ -6499,10 +6507,10 @@ function saveEquipmentEdit() {
     var marginPct = marginPctEl && marginPctEl.value.trim() !== '' ? parseFloat(marginPctEl.value) : NaN;
     var price;
     if (cost != null && !isNaN(cost) && !isNaN(marginPct) && marginPct < 100) {
-        price = cost / (1 - marginPct / 100);
+        price = roundSellPrice(cost / (1 - marginPct / 100));
     } else {
         var priceNum = priceEl && priceEl.value.trim() !== '' ? parseFloat(priceEl.value) : NaN;
-        price = !isNaN(priceNum) ? priceNum : (equipmentEditing.price != null ? equipmentEditing.price : undefined);
+        price = !isNaN(priceNum) ? roundSellPrice(priceNum) : (equipmentEditing.price != null ? roundSellPrice(equipmentEditing.price) : undefined);
     }
     var stock = stockEl && stockEl.value.trim() !== '' ? parseFloat(stockEl.value) : 0;
     var reorder = reorderEl && reorderEl.value.trim() !== '' ? parseFloat(reorderEl.value) : undefined;
@@ -7577,7 +7585,7 @@ async function showPlantModal(plant) {
     (function injectProductJsonLd(p) {
         var existing = document.getElementById('product-jsonld');
         if (existing) existing.remove();
-        var price = (p.price != null && !isNaN(Number(p.price))) ? Number(p.price).toFixed(3) : null;
+        var price = (p.price != null && !isNaN(Number(p.price))) ? Number(p.price).toFixed(2) : null;
         var availability = (typeof p.stockQuantity === 'number' && p.stockQuantity <= 0)
             ? 'https://schema.org/OutOfStock'
             : 'https://schema.org/InStock';
