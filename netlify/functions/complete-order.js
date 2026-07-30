@@ -182,6 +182,8 @@ async function decrementStock(plantId, qty, rowData) {
         quantityInStock: next,
         updatedAt: Date.now()
     });
+    // costPrice lives in inventory_costs — never write it into inventory.data
+    delete updated.costPrice;
     await supabaseRest('PATCH', '/inventory?plant_id=eq.' + Number(plantId), {
         data: updated,
         updated_at: new Date().toISOString()

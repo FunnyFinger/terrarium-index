@@ -32,7 +32,7 @@
                 var invRow = byId[p.id];
                 if (invRow) {
                     if (invRow.price != null) p.price = invRow.price;
-                    // costPrice only present for staff sessions (full inventory read)
+                    // costPrice only present for staff (merged from inventory_costs)
                     if (invRow.costPrice != null) p.costPrice = invRow.costPrice;
                     else delete p.costPrice;
                     p.stockQuantity = invRow.quantityInStock != null ? invRow.quantityInStock : 0;

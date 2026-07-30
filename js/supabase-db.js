@@ -185,7 +185,7 @@
         });
     }
 
-    /** Staff may read full inventory (includes costPrice); everyone else uses inventory_public. */
+    /** Staff may read costs from inventory_costs; everyone else never sees costPrice. */
     function canReadFullInventory() {
         var u = global.auth && global.auth.getCurrentUser ? global.auth.getCurrentUser() : null;
         return !!(u && (u.role === 'owner' || u.role === 'admin' || u.role === 'stock'));
@@ -195,6 +195,7 @@
         return (rows || []).map(function (r) {
             var d = r.data || {};
             d.plantId = r.plant_id;
+            delete d.costPrice;
             return d;
         });
     }
@@ -206,60 +207,111 @@
         return copy;
     }
 
+    function fetchInventoryCostsByPlantId() {
+        if (!canReadFullInventory()) return Promise.resolve({});
+        return requestAuth('GET', '/inventory_costs?select=plant_id,cost_price').then(function (rows) {
+            var byId = {};
+            (rows || []).forEach(function (r) {
+                if (r && r.plant_id != null && r.cost_price != null && r.cost_price !== '') {
+                    byId[r.plant_id] = Number(r.cost_price);
+                }
+            });
+            return byId;
+        }).catch(function () { return {}; });
+    }
+
+    function mergeCostsIntoRows(rows, costById) {
+        (rows || []).forEach(function (d) {
+            if (!d || d.plantId == null) return;
+            if (costById[d.plantId] != null) d.costPrice = costById[d.plantId];
+            else delete d.costPrice;
+        });
+        return rows;
+    }
+
+    function upsertInventoryCost(plantId, costPrice) {
+        var id = Number(plantId);
+        if (!isFinite(id)) return Promise.resolve();
+        if (costPrice == null || costPrice === '' || isNaN(Number(costPrice))) {
+            return requestAuth('DELETE', '/inventory_costs?plant_id=eq.' + id).catch(function () {});
+        }
+        var body = {
+            cost_price: Number(costPrice),
+            updated_at: new Date().toISOString()
+        };
+        return requestAuth('PATCH', '/inventory_costs?plant_id=eq.' + id, body).then(function (updated) {
+            if (updated && updated.length > 0) return updated;
+            return requestAuth('POST', '/inventory_costs', {
+                plant_id: id,
+                cost_price: Number(costPrice),
+                updated_at: new Date().toISOString()
+            });
+        }).catch(function () {
+            return requestAuth('POST', '/inventory_costs', {
+                plant_id: id,
+                cost_price: Number(costPrice),
+                updated_at: new Date().toISOString()
+            });
+        });
+    }
+
     // ---- Inventory (same shape as IndexedDB: { plantId, name, price, ... }) ----
     function getInventory() {
         if (!isConfigured()) return Promise.resolve([]);
-        if (canReadFullInventory()) {
-            return requestAuth('GET', '/inventory?select=plant_id,data').then(mapInventoryRows).catch(function () { return []; });
-        }
-        return request('GET', '/inventory_public?select=plant_id,data').then(mapInventoryRows).catch(function () { return []; });
+        // Public-safe inventory rows (no cost in data). Staff merge costs separately.
+        return request('GET', '/inventory_public?select=plant_id,data').then(mapInventoryRows).then(function (rows) {
+            if (!canReadFullInventory()) return rows;
+            return fetchInventoryCostsByPlantId().then(function (costById) {
+                return mergeCostsIntoRows(rows, costById);
+            });
+        }).catch(function () { return []; });
     }
 
     function getInventoryItem(plantId) {
         var id = Number(plantId);
         if (!isFinite(id)) return Promise.resolve(undefined);
         if (!isConfigured()) return Promise.resolve(undefined);
-        var path = (canReadFullInventory() ? '/inventory' : '/inventory_public') +
-            '?plant_id=eq.' + id + '&select=plant_id,data';
-        var req = canReadFullInventory() ? requestAuth('GET', path) : request('GET', path);
-        return req.then(function (rows) {
+        var path = '/inventory_public?plant_id=eq.' + id + '&select=plant_id,data';
+        return request('GET', path).then(function (rows) {
             if (!rows || rows.length === 0) return undefined;
             var d = rows[0].data || {};
             d.plantId = rows[0].plant_id;
-            return d;
+            delete d.costPrice;
+            if (!canReadFullInventory()) return d;
+            return requestAuth('GET', '/inventory_costs?plant_id=eq.' + id + '&select=plant_id,cost_price').then(function (costRows) {
+                if (costRows && costRows[0] && costRows[0].cost_price != null && costRows[0].cost_price !== '') {
+                    d.costPrice = Number(costRows[0].cost_price);
+                }
+                return d;
+            }).catch(function () { return d; });
         }).catch(function () { return undefined; });
     }
 
-    /** Always loads full row (staff JWT) so merges never wipe costPrice. */
+    /** Staff load of inventory row + cost (for merges that must not wipe cost). */
     function getInventoryItemFull(plantId) {
-        var id = Number(plantId);
-        if (!isFinite(id)) return Promise.resolve(undefined);
-        if (!isConfigured()) return Promise.resolve(undefined);
-        return requestAuth('GET', '/inventory?plant_id=eq.' + id + '&select=plant_id,data').then(function (rows) {
-            if (!rows || rows.length === 0) return undefined;
-            var d = rows[0].data || {};
-            d.plantId = rows[0].plant_id;
-            return d;
-        }).catch(function () { return undefined; });
+        return getInventoryItem(plantId);
     }
 
     function deleteInventoryRow(plantId) {
         var id = Number(plantId);
         if (!isFinite(id)) return Promise.resolve();
         if (!isConfigured()) return Promise.resolve();
-        return requestAuth('DELETE', '/inventory?plant_id=eq.' + id).then(function () {});
+        return requestAuth('DELETE', '/inventory_costs?plant_id=eq.' + id).catch(function () {}).then(function () {
+            return requestAuth('DELETE', '/inventory?plant_id=eq.' + id);
+        }).then(function () {});
     }
 
     function setInventoryRow(plantId, data) {
         var id = Number(plantId);
         if (!isFinite(id)) return Promise.resolve();
         if (!isConfigured()) return Promise.resolve();
+        var costProvided = data && Object.prototype.hasOwnProperty.call(data, 'costPrice');
+        var nextCost = costProvided ? data.costPrice : undefined;
         return getInventoryItemFull(plantId).then(function (existing) {
             var row = existing || { plantId: id };
             if ('name' in data) row.name = data.name;
             if ('scientificName' in data) row.scientificName = data.scientificName;
             if ('price' in data) row.price = data.price;
-            if ('costPrice' in data) row.costPrice = data.costPrice;
             if ('quantityInStock' in data) row.quantityInStock = data.quantityInStock;
             if ('reorderLevel' in data) row.reorderLevel = data.reorderLevel;
             if ('size' in data) row.size = data.size;
@@ -270,10 +322,14 @@
             if ('images' in data) row.images = data.images;
             if ('imageUrl' in data) row.imageUrl = data.imageUrl;
             row.updatedAt = Date.now();
-            var payload = { data: row, updated_at: new Date().toISOString() };
+            delete row.costPrice;
+            var payload = { data: stripCostFromObject(row), updated_at: new Date().toISOString() };
             return requestAuth('PATCH', '/inventory?plant_id=eq.' + id, payload).then(function (updated) {
                 if (updated && updated.length > 0) return updated;
-                return requestAuth('POST', '/inventory', { plant_id: id, data: row, updated_at: new Date().toISOString() });
+                return requestAuth('POST', '/inventory', { plant_id: id, data: stripCostFromObject(row), updated_at: new Date().toISOString() });
+            }).then(function (result) {
+                if (!costProvided) return result;
+                return upsertInventoryCost(id, nextCost).then(function () { return result; });
             });
         });
     }

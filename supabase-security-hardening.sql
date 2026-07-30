@@ -114,6 +114,10 @@ drop policy if exists "Allow all for vivariums_catalog" on public.vivariums_cata
 
 drop policy if exists "Public read inventory" on public.inventory;
 drop policy if exists "Staff write inventory" on public.inventory;
+drop policy if exists "Staff read inventory" on public.inventory;
+drop policy if exists "Staff insert inventory" on public.inventory;
+drop policy if exists "Staff update inventory" on public.inventory;
+drop policy if exists "Staff delete inventory" on public.inventory;
 drop policy if exists "Public read plants_catalog" on public.plants_catalog;
 drop policy if exists "Editors write plants_catalog" on public.plants_catalog;
 drop policy if exists "Public read equipment_catalog" on public.equipment_catalog;
@@ -125,10 +129,11 @@ drop policy if exists "Editors write custom_equipment" on public.custom_equipmen
 drop policy if exists "Public read custom_vivariums" on public.custom_vivariums;
 drop policy if exists "Editors write custom_vivariums" on public.custom_vivariums;
 
--- Full inventory (with costPrice) is staff-only. Public reads use view inventory_public
--- (see supabase-hide-cost-price.sql).
-create policy "Staff read inventory" on public.inventory
-  for select using (public.is_staff());
+-- Full inventory row data is publicly readable (costPrice lives in inventory_costs).
+-- Public shop uses view inventory_public (security_invoker; strips costPrice safety net).
+-- See also supabase-inventory-costs-split.sql.
+create policy "Public read inventory" on public.inventory
+  for select using (true);
 create policy "Staff insert inventory" on public.inventory
   for insert with check (public.is_staff());
 create policy "Staff update inventory" on public.inventory
@@ -187,9 +192,9 @@ create policy "Staff delete vivarium-assets"
   on storage.objects for delete to authenticated
   using (bucket_id = 'vivarium-assets' and public.is_staff());
 
--- Public inventory read without costPrice (security definer view)
+-- Public inventory read without costPrice (SECURITY INVOKER — uses caller RLS)
 create or replace view public.inventory_public
-with (security_invoker = false)
+with (security_invoker = true)
 as
 select
   plant_id,
@@ -198,3 +203,24 @@ select
 from public.inventory;
 
 grant select on public.inventory_public to anon, authenticated;
+
+-- Staff-only costs (run supabase-inventory-costs-split.sql on existing projects to migrate data)
+create table if not exists public.inventory_costs (
+  plant_id bigint primary key references public.inventory (plant_id) on delete cascade,
+  cost_price numeric,
+  updated_at timestamptz not null default now()
+);
+alter table public.inventory_costs enable row level security;
+drop policy if exists "Staff read inventory_costs" on public.inventory_costs;
+drop policy if exists "Staff insert inventory_costs" on public.inventory_costs;
+drop policy if exists "Staff update inventory_costs" on public.inventory_costs;
+drop policy if exists "Staff delete inventory_costs" on public.inventory_costs;
+create policy "Staff read inventory_costs" on public.inventory_costs
+  for select using (public.is_staff());
+create policy "Staff insert inventory_costs" on public.inventory_costs
+  for insert with check (public.is_staff());
+create policy "Staff update inventory_costs" on public.inventory_costs
+  for update using (public.is_staff()) with check (public.is_staff());
+create policy "Staff delete inventory_costs" on public.inventory_costs
+  for delete using (public.is_staff());
+grant select, insert, update, delete on public.inventory_costs to authenticated;
