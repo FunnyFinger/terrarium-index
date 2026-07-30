@@ -499,9 +499,8 @@
 
             var formatPrice = function(n) {
                 if (n == null || isNaN(n)) return '—';
-                var num = Number(n);
-                var s = num.toFixed(6).replace(/\.?0+$/, '');
-                return 'KD ' + s;
+                // Inventory: show full 0.000 precision (no rounding)
+                return 'KD ' + Number(n).toFixed(3);
             };
             var roundSellPrice = function(n) {
                 var x = Number(n);

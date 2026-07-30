@@ -69,7 +69,7 @@
 
     function formatPrice(amount) {
         if (amount == null || isNaN(Number(amount))) return '—';
-        return 'KD ' + Number(amount).toFixed(3);
+        return 'KD ' + (Math.round(Number(amount) * 100) / 100).toFixed(3);
     }
 
     function formatDate(ts) {

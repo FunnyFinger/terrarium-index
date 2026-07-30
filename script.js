@@ -767,15 +767,21 @@ function getPlantPrice(plant) {
 }
 function formatPrice(amount) {
     if (amount == null || isNaN(Number(amount))) return null;
-    return 'KD ' + Number(amount).toFixed(3);
+    // Round to 0.00, display as 0.000 (e.g. 2.222 → 2.220)
+    var rounded = roundSellPrice(amount);
+    if (rounded == null) return null;
+    return 'KD ' + rounded.toFixed(3);
 }
-/** Round sell price to 0.00 (fils not used on sell; cost may keep finer precision). */
+/** Round sell/display price to 0.00. */
 function roundSellPrice(amount) {
     var n = Number(amount);
     if (!isFinite(n)) return null;
     return Math.round(n * 100) / 100;
 }
-if (typeof window !== 'undefined') window.roundSellPrice = roundSellPrice;
+if (typeof window !== 'undefined') {
+    window.roundSellPrice = roundSellPrice;
+    window.formatPrice = formatPrice;
+}
 function formatPlantPrice(plant) {
     return formatPrice(getPlantPrice(plant));
 }
