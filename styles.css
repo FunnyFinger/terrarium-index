@@ -316,6 +316,11 @@ html.detail-startup body {
     overflow: hidden !important;
 }
 
+/* Mobile Filters button sits outside the sidebar — hide it on item detail too */
+.main-layout.detail-view-active .control-panel-reopen-btn {
+    display: none !important;
+}
+
 /* Filters Sidebar (control panel) - visible by default, fixed when scrolling (via JS), scrollable */
 .filters-sidebar {
     --filters-sidebar-width: 320px;

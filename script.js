@@ -1274,6 +1274,7 @@ function closePlantPanel() {
     }
     if (navBackBtn) navBackBtn.disabled = true;
     if (mainLayout) mainLayout.classList.remove('detail-view-active');
+    if (typeof window.syncFiltersUiForDetailView === 'function') window.syncFiltersUiForDetailView(false);
     if (filtersSidebarWrapper) {
         filtersSidebarWrapper.style.display = '';
         requestAnimationFrame(function() {
@@ -1729,8 +1730,12 @@ function setupEventListeners() {
     function isFiltersMobile() {
         return window.matchMedia('(max-width: 1024px)').matches;
     }
+    function isDetailViewActive() {
+        return !!(document.querySelector('.main-layout.detail-view-active'));
+    }
     function openFiltersPanel() {
         if (!filtersSidebar || !filtersSidebarWrapper) return;
+        if (isDetailViewActive()) return;
         filtersSidebar.classList.remove('control-panel-collapsed');
         filtersSidebarWrapper.classList.remove('filters-sidebar-wrapper-collapsed');
         filtersSidebar.style.display = '';
@@ -1746,11 +1751,29 @@ function setupEventListeners() {
         if (!filtersSidebar || !filtersSidebarWrapper) return;
         filtersSidebar.classList.add('control-panel-collapsed');
         filtersSidebarWrapper.classList.add('filters-sidebar-wrapper-collapsed');
-        controlPanelReopen.classList.remove('hidden');
+        if (!isDetailViewActive()) {
+            controlPanelReopen.classList.remove('hidden');
+        } else {
+            controlPanelReopen.classList.add('hidden');
+        }
         var overlay = document.getElementById('filtersOverlay');
         if (overlay) { overlay.classList.add('hidden'); overlay.setAttribute('aria-hidden', 'true'); }
         document.body.classList.remove('filters-drawer-open');
     }
+    function syncFiltersUiForDetailView(enteringDetail) {
+        var reopen = document.getElementById('controlPanelReopen');
+        var overlay = document.getElementById('filtersOverlay');
+        if (enteringDetail) {
+            if (reopen) reopen.classList.add('hidden');
+            if (overlay) { overlay.classList.add('hidden'); overlay.setAttribute('aria-hidden', 'true'); }
+            document.body.classList.remove('filters-drawer-open');
+            if (filtersSidebar) filtersSidebar.classList.add('control-panel-collapsed');
+            if (filtersSidebarWrapper) filtersSidebarWrapper.classList.add('filters-sidebar-wrapper-collapsed');
+        } else if (reopen && filtersSidebar && filtersSidebar.classList.contains('control-panel-collapsed') && isFiltersMobile()) {
+            reopen.classList.remove('hidden');
+        }
+    }
+    window.syncFiltersUiForDetailView = syncFiltersUiForDetailView;
 
     if (controlPanelCollapse && filtersSidebar && controlPanelReopen && filtersSidebarWrapper) {
         if (isFiltersMobile()) {
@@ -1778,6 +1801,13 @@ function setupEventListeners() {
         }
         window.addEventListener('resize', function() {
             updateEdgeActionsPosition();
+            if (isDetailViewActive()) {
+                controlPanelReopen.classList.add('hidden');
+                var ovDetail = document.getElementById('filtersOverlay');
+                if (ovDetail) { ovDetail.classList.add('hidden'); ovDetail.setAttribute('aria-hidden', 'true'); }
+                document.body.classList.remove('filters-drawer-open');
+                return;
+            }
             if (isFiltersMobile()) {
                 if (!filtersSidebar.classList.contains('control-panel-collapsed')) {
                     var o = document.getElementById('filtersOverlay');
@@ -1796,6 +1826,10 @@ function setupEventListeners() {
         });
         var mq = window.matchMedia('(max-width: 1024px)');
         mq.addEventListener('change', function() {
+            if (isDetailViewActive()) {
+                controlPanelReopen.classList.add('hidden');
+                return;
+            }
             if (mq.matches) closeFiltersPanel();
             else {
                 filtersSidebar.classList.remove('control-panel-collapsed');
@@ -5363,6 +5397,7 @@ function showVivariumDetail(vivarium) {
     if (navBackWrap) { navBackWrap.classList.remove('hidden'); navBackWrap.classList.remove('nav-back-disabled'); }
     if (navBackBtn) navBackBtn.disabled = false;
     if (mainLayout) mainLayout.classList.add('detail-view-active');
+    if (typeof window.syncFiltersUiForDetailView === 'function') window.syncFiltersUiForDetailView(true);
     if (filtersSidebarWrapper) filtersSidebarWrapper.style.display = 'none';
     if (mainContent && plantDetailPanel) {
         mainContent.classList.add('list-view-hidden');
@@ -5520,6 +5555,7 @@ function showEquipmentDetail(equipment) {
     if (navBackWrap) { navBackWrap.classList.remove('hidden'); navBackWrap.classList.remove('nav-back-disabled'); }
     if (navBackBtn) navBackBtn.disabled = false;
     if (mainLayout) mainLayout.classList.add('detail-view-active');
+    if (typeof window.syncFiltersUiForDetailView === 'function') window.syncFiltersUiForDetailView(true);
     if (filtersSidebarWrapper) filtersSidebarWrapper.style.display = 'none';
     if (mainContent && plantDetailPanel) {
         mainContent.classList.add('list-view-hidden');
@@ -7756,6 +7792,7 @@ async function showPlantModal(plant) {
     }
     if (navBackBtn) navBackBtn.disabled = false;
     if (mainLayout) mainLayout.classList.add('detail-view-active');
+    if (typeof window.syncFiltersUiForDetailView === 'function') window.syncFiltersUiForDetailView(true);
     if (filtersSidebarWrapper) filtersSidebarWrapper.style.display = 'none';
     if (mainContent && plantDetailPanel) {
         mainContent.classList.add('list-view-hidden');
