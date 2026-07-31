@@ -1836,24 +1836,29 @@ function setupEventListeners() {
         if (lo) { lo.classList.add('hidden'); lo.setAttribute('aria-hidden', 'true'); }
     }
     function updateLegendButtonVisibility() {
-        if (!legendSidebarReopen) return;
-        var mobile = window.innerWidth <= 1024;
-        var smallCard = plantsGrid && plantsGrid.classList.contains('card-size-small');
+        if (!legendSidebarReopen || !legendSidebar) return;
         var plantsView = currentView === 'plants';
-        var show = mobile && smallCard && plantsView;
-        legendSidebarReopen.classList.toggle('visible-on-mobile-small', show);
-        if (!show && legendSidebar && !legendSidebar.classList.contains('legend-sidebar-collapsed')) {
+        var mobile = window.innerWidth <= 1024;
+        // Legend only applies to the plant grid
+        if (!plantsView) {
             closeLegendPanel();
+            legendSidebarReopen.classList.add('hidden');
+            return;
         }
+        if (legendSidebar.classList.contains('legend-sidebar-collapsed')) {
+            legendSidebarReopen.classList.remove('hidden');
+        } else {
+            legendSidebarReopen.classList.add('hidden');
+        }
+        legendSidebarReopen.classList.toggle('is-mobile', mobile);
     }
     if (legendSidebarCollapse && legendSidebar && legendSidebarReopen && legendSidebarWrapper) {
         legendSidebarCollapse.addEventListener('click', closeLegendPanel);
         legendSidebarReopen.addEventListener('click', openLegendPanel);
         var legendOverlay = document.getElementById('legendOverlay');
         if (legendOverlay) legendOverlay.addEventListener('click', closeLegendPanel);
-        if (window.matchMedia('(max-width: 1024px)').matches) {
-            closeLegendPanel();
-        }
+        // Always start closed — plant grid first; users open Legend when they need it
+        closeLegendPanel();
         window.updateLegendButtonVisibility = updateLegendButtonVisibility;
         window.addEventListener('resize', updateLegendButtonVisibility);
         updateLegendButtonVisibility();

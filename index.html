@@ -65,7 +65,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"></noscript>
-    <link rel="stylesheet" href="styles.css?v=9">
+    <link rel="stylesheet" href="styles.css?v=10">
     <!-- build-vivarium.css loads only on build-vivarium.html (not needed for catalog) -->
     <style>
       html.embed-add-standby body { opacity: 0; pointer-events: none; }
@@ -1423,9 +1423,9 @@
                 </div>
             </div>
 
-            <!-- Legend panel (right): vivarium type colors - quick reference -->
-            <div class="legend-sidebar-wrapper" id="legendSidebarWrapper">
-                <aside class="legend-sidebar" id="legendSidebar" aria-label="Legends">
+            <!-- Legend panel (right): starts collapsed so the plant grid is unobstructed -->
+            <div class="legend-sidebar-wrapper legend-sidebar-wrapper-collapsed" id="legendSidebarWrapper">
+                <aside class="legend-sidebar legend-sidebar-collapsed" id="legendSidebar" aria-label="Legends">
                     <div class="legend-sidebar-header">
                         <h4 class="legend-sidebar-title">Legends</h4>
                         <button type="button" class="legend-sidebar-collapse-btn" id="legendSidebarCollapse" title="Hide legend" aria-label="Hide legend">
@@ -1452,8 +1452,7 @@
                     </div>
                 </aside>
             </div>
-            <!-- Legend reopen: right side, same height as Filters; only visible on mobile when card size is small -->
-            <button type="button" class="legend-sidebar-reopen-btn hidden" id="legendSidebarReopen" title="Show legend" aria-label="Show legend">
+            <button type="button" class="legend-sidebar-reopen-btn" id="legendSidebarReopen" title="Show legend" aria-label="Show legend">
                 <span class="legend-reopen-dots" aria-hidden="true">
                     <span class="legend-reopen-dot" style="background-color: #6b8e23"></span>
                     <span class="legend-reopen-dot" style="background-color: #1a4d7a"></span>
@@ -1462,7 +1461,7 @@
                 </span>
                 <span class="legend-sidebar-reopen-btn-text">Legend</span>
             </button>
-            <div id="legendOverlay" class="legend-overlay" aria-hidden="true" title="Close legend"></div>
+            <div id="legendOverlay" class="legend-overlay hidden" aria-hidden="true" title="Close legend"></div>
         </div>
     </main>
 
@@ -1824,25 +1823,14 @@
 
     <footer class="site-footer">
         <div class="container footer-container">
-            <div class="footer-grid">
+            <div class="footer-grid footer-grid--compact">
                 <div class="footer-col">
                     <h3 class="footer-heading">Explore</h3>
                     <ul class="footer-links">
-                        <li><a href="#about">About Us</a></li>
-                        <li><a href="#contact">Contact Us</a></li>
-                        <li><a href="#gift-cards">Gift Cards</a></li>
+                        <li><a href="/">Shop plants</a></li>
                         <li><a href="build-vivarium.html">Build your own vivarium</a></li>
-                        <li><a href="#">Shop All Plants</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h3 class="footer-heading">Plant Resources</h3>
-                    <ul class="footer-links">
+                        <li><a href="taxonomy.html">Taxonomy</a></li>
                         <li><a href="definitions.html">Plant Care &amp; Definitions</a></li>
-                        <li><a href="#faqs">FAQs</a></li>
-                        <li><a href="#plant-quiz">Plant Quiz</a></li>
-                        <li><a href="#affiliate">Become an Affiliate</a></li>
-                        <li><a href="#search">Search</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -1852,34 +1840,12 @@
                         <li><a href="https://www.gbif.org/" target="_blank" rel="noopener noreferrer">GBIF</a></li>
                     </ul>
                 </div>
-                <div class="footer-col">
-                    <h3 class="footer-heading">Policies</h3>
-                    <ul class="footer-links">
-                        <li><a href="#shipping">Shipping Policy</a></li>
-                        <li><a href="#returns">Return &amp; Refund Policy</a></li>
-                        <li><a href="#privacy">Privacy Policy</a></li>
-                        <li><a href="#terms">Terms of Service</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col footer-newsletter">
+                <div class="footer-col footer-brand-col">
                     <span class="footer-brand">Vivarium <strong>Store</strong></span>
-                    <p class="footer-tagline">Stay connected</p>
-                    <p class="footer-desc">Get plant care tips, new arrivals, and updates for your terrarium and vivarium plants.</p>
-                    <form class="footer-signup" action="#" method="post" aria-label="Newsletter signup">
-                        <input type="email" name="email" placeholder="Enter your email" class="footer-email" required>
-                        <button type="submit" class="footer-btn">Sign up</button>
-                    </form>
-                    <p class="footer-privacy-note">We won't spam you—just useful tips and news. Unsubscribe anytime.</p>
+                    <p class="footer-desc">Rare tropical plants, supplies, and vivarium setups in Kuwait.</p>
                 </div>
             </div>
             <div class="footer-bottom">
-                <div class="footer-social">
-                    <span class="footer-follow">Follow us</span>
-                    <span class="footer-social-link footer-social-link--soon" title="Coming soon">Facebook</span>
-                    <span class="footer-social-link footer-social-link--soon" title="Coming soon">Twitter</span>
-                    <span class="footer-social-link footer-social-link--soon" title="Coming soon">Instagram</span>
-                    <span class="footer-social-link footer-social-link--soon" title="Coming soon">Pinterest</span>
-                </div>
                 <p class="footer-copy">&copy; <span id="footer-year">2026</span> Vivarium Store &ndash; All rights reserved.</p>
                 <p class="footer-credit">Data sourced from various plant databases.</p>
             </div>
@@ -1914,7 +1880,7 @@
     <script defer src="images.js?v=11"></script>
     <!-- upload.js + build-vivarium.js lazy-loaded when needed (staff edit / builder page) -->
     <!-- Finally initialize the application -->
-    <script defer src="script.js?v=16"></script>
+    <script defer src="script.js?v=17"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
       (function () {
