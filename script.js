@@ -8443,9 +8443,12 @@ function updatePlantCardImage(plantId, imageUrl) {
 
 // Fetch plant image from multiple sources
 async function fetchPlantImage(plant) {
+    var sources = (typeof plantImageSources !== 'undefined' && plantImageSources)
+        || (typeof window !== 'undefined' && window.plantImageSources)
+        || { defaultImageSearchTerms: {}, directImageUrls: {} };
     // Method 1: Check for direct image URL first (if available)
-    if (plantImageSources.directImageUrls && plantImageSources.directImageUrls[plant.id]) {
-        const directUrl = plantImageSources.directImageUrls[plant.id];
+    if (sources.directImageUrls && sources.directImageUrls[plant.id]) {
+        const directUrl = sources.directImageUrls[plant.id];
         if (await testImageUrl(directUrl)) {
             return directUrl;
         }
@@ -8455,7 +8458,7 @@ async function fetchPlantImage(plant) {
     const searchTerms = [
         getScientificNameString(plant),
         `${plant.name} plant`,
-        plantImageSources.defaultImageSearchTerms[plant.id] || plant.name
+        (sources.defaultImageSearchTerms && sources.defaultImageSearchTerms[plant.id]) || plant.name
     ];
     
     for (const term of searchTerms) {

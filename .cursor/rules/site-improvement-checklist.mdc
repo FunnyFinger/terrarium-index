@@ -132,17 +132,18 @@ alwaysApply: false
 - [x] Coming soon treatment (icons + badge) until real Facebook, Instagram, X, and Pinterest URLs are available
 - [x] No dead `href="#"` links — non-interactive soon state with accessible labels
 
-### Step 20 — Remove redundant data.js load
-- [ ] In `index.html`, confirm that `data/plant-loader.js` fully replaces `data.js`
-- [ ] If confirmed, remove the `<script src="data.js?v=4">` tag from `index.html`
-- [ ] Test that plants still load correctly
-- **Confirm before continuing:** "Step 20 complete — redundant script removed. All checklist steps done!"
+### ✅ Step 20 — Remove redundant data.js load
+- [x] In `index.html`, confirm that `data/plant-loader.js` fully replaces `data.js`
+- [x] If confirmed, remove the `<script src="data.js?v=4">` tag from `index.html`
+- [x] Test that plants still load correctly
+- **Confirm:** "Step 20 complete — redundant script removed. All checklist steps done!"
 
 ---
 
 ## Completion
 
 Once all 20 steps are confirmed:
+- [x] Checklist steps 1–20 implemented (smoke-test / Lighthouse optional follow-up)
 - [ ] Do a full smoke test of the live site (https://vivarium-store.netlify.app/)
 - [ ] Verify Lighthouse scores for Performance, SEO, Accessibility, and Best Practices
 - [ ] Archive this checklist with all steps marked done

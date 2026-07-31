@@ -1,8 +1,142 @@
 // Plant Data Loader
-// Dynamically loads plant data from modular JSON files
-// Falls back to data.js if modular files are not available
+// Dynamically loads plant data from modular JSON files (bundle / plants-merged / category index).
+// Declares plantsDatabase and optional plantImageSources (formerly in data.js).
 
-// Note: plantsDatabase is declared in data.js, we'll just use it here
+var plantsDatabase = [];
+
+// Optional search terms for legacy external image fetch helpers in script.js
+var plantImageSources = (typeof plantImageSources !== 'undefined' && plantImageSources) || {
+    // Search terms optimized for image APIs
+    defaultImageSearchTerms: {
+        1: "Fittonia albivenis nerve plant",
+        2: "Soleirolia soleirolii baby tears",
+        3: "Pilea involucrata friendship plant",
+        4: "Ficus pumila creeping fig",
+        5: "Epipremnum aureum golden pothos",
+        6: "Bromeliad vivarium plant",
+        7: "Begonia vivarium species",
+        8: "Peperomia small variety",
+        9: "Microsorum pteropus Java fern aquarium",
+        10: "Anubias barteri aquarium plant",
+        11: "Echinodorus Amazon sword aquarium",
+        12: "Cryptocoryne aquarium plant",
+        13: "Taxiphyllum barbieri Java moss",
+        14: "Eleocharis parvula dwarf hairgrass",
+        15: "Aegagropila linnaei marimo moss ball",
+        16: "Selaginella clubmoss terrarium",
+        17: "Alocasia Amazonica dwarf",
+        18: "Pellionia repens terrarium",
+        19: "Hypoestes phyllostachya polka dot plant",
+        20: "Oxalis triangularis purple shamrock",
+        21: "Fittonia verschaffeltii mini",
+        22: "Hoya carnosa",
+        23: "Ceropegia woodii string of hearts",
+        24: "Pellaea rotundifolia button fern",
+        25: "Tradescantia zebrina",
+        26: "Pilea microphylla artillery fern",
+        27: "Saintpaulia ionantha mini African violet",
+        28: "Syngonium podophyllum dwarf",
+        29: "Rotala rotundifolia emersed",
+        30: "Micranthemum Monte Carlo emersed",
+        31: "Pilea cadierei aluminum plant",
+        32: "Nephrolepis cordifolia Duffii lemon button fern",
+        33: "Saxifraga stolonifera strawberry begonia",
+        34: "Adiantum raddianum Fragrans mini maidenhair",
+        35: "Dichondra argentea silver falls",
+        36: "Rotala rotundifolia aquarium",
+        37: "Hygrophila difformis water wisteria",
+        38: "Ceratophyllum demersum hornwort",
+        39: "Egeria densa anacharis",
+        40: "Vallisneria aquarium plant",
+        41: "Sagittaria subulata",
+        42: "Ludwigia repens",
+        43: "Bacopa caroliniana",
+        44: "Sagittaria subulata dwarf",
+        45: "Micranthemum Monte Carlo aquarium",
+        46: "Pistia stratiotes dwarf water lettuce",
+        47: "Phyllanthus fluitans red root floater",
+        48: "Riccia fluitans crystalwort",
+        49: "Limnobium laevigatum frogbit",
+        50: "Ceratopteris thalictroides water sprite",
+        51: "Hypnum sheet moss terrarium",
+        52: "Leucobryum glaucum cushion moss",
+        53: "Syntrichia ruralis star moss",
+        54: "Leucobryum albidum pillow moss",
+        55: "Dicranum scoparium mood moss",
+        56: "Thuidium delicatulum fern moss",
+        57: "Sphagnum moss terrarium",
+        58: "Taxiphyllum Flame moss terrarium",
+        59: "Vesicularia montagnei Christmas moss aquarium",
+        60: "Vesicularia ferriei weeping moss aquarium",
+        61: "Fissidens fontanus Phoenix moss aquarium",
+        62: "Taxiphyllum Flame moss aquarium",
+        63: "Chaetomorpha linum macroalgae",
+        64: "Halimeda macroalgae",
+        65: "Halymenia durvillei dragons tongue algae",
+        66: "Gracilaria macroalgae",
+        67: "Monosolenium tenerum mini pellia",
+        68: "Riccardia chamedryfolia liverwort",
+        69: "Lichens terrarium vivarium",
+        70: "Lemna minor duckweed",
+        71: "Salvinia minima floating fern",
+        72: "Azolla filiculoides water fern",
+        73: "Phalaenopsis miniature orchid",
+        74: "Masdevallia orchid terrarium",
+        75: "Pleurothallis orchid terrarium",
+        76: "Lepanthes mini orchid",
+        77: "Dracula orchid monkey face",
+        78: "Bulbophyllum miniature orchid",
+        79: "Ludisia discolor jewel orchid",
+        80: "Anthurium andraeanum miniature",
+        81: "Nepenthes pitcher plant mini",
+        82: "Dionaea muscipula venus flytrap",
+        83: "Tillandsia air plant miniature",
+        84: "Heliamphora sun pitcher",
+        85: "Utricularia bladderwort",
+        86: "Drosera sundew miniature",
+        87: "Myrmecodia ant plant",
+        88: "Dischidia epiphytic succulent",
+        89: "Medinilla magnifica dwarf",
+        90: "Rhipsalis mini epiphytic cactus",
+        91: "Nephrolepis exaltata Boston fern mini",
+        92: "Davallia fejeensis rabbits foot fern",
+        93: "Platycerium bifurcatum staghorn fern mini",
+        94: "Asplenium nidus birds nest fern mini",
+        95: "Microsorum diversifolium kangaroo paw fern",
+        96: "Phlebodium aureum blue star fern",
+        97: "Echeveria miniature succulent",
+        98: "Haworthia succulent",
+        99: "Senecio rowleyanus string of pearls",
+        100: "Lithops living stones",
+        101: "Aloe miniature",
+        102: "Crassula miniature jade",
+        103: "Sedum miniature stonecrop",
+        104: "Sarracenia pitcher plant",
+        105: "Pinguicula butterwort",
+        106: "Cephalotus follicularis Albany pitcher",
+        107: "Darlingtonia californica cobra lily",
+        108: "Tillandsia usneoides Spanish moss",
+        109: "Tillandsia ionantha air plant",
+        110: "Tillandsia xerographica",
+        111: "Tillandsia caput-medusae",
+        112: "Tillandsia brachycaulos"
+    },
+    
+    // Alternative: Direct image URLs from public plant databases (if available)
+    // These would be populated with actual URLs from:
+    // - iNaturalist API
+    // - PlantNet API  
+    // - Wikimedia Commons
+    // - Open source plant databases
+    directImageUrls: {
+        // Example format (would need actual URLs):
+        // 1: "https://example.com/fittonia.jpg"
+    }
+};
+if (typeof window !== 'undefined') {
+    window.plantsDatabase = plantsDatabase;
+    window.plantImageSources = plantImageSources;
+}
 
 function applyPlantEditOverlays(plantsArray) {
     if (!plantsArray || typeof localStorage === 'undefined') return;
@@ -80,13 +214,13 @@ const PLANTS_DATA_VERSION = 1;
 async function loadAllPlants() {
     // Check if running from file:// protocol (fetch won't work)
     if (typeof window !== 'undefined' && window.location.protocol === 'file:') {
-        console.warn('⚠️ Running from file:// protocol - fetch() will not work.');
+        console.warn('âš ï¸ Running from file:// protocol - fetch() will not work.');
         console.warn('Please serve the files from a web server (e.g., python -m http.server 8000)');
         return [];
     }
 
     try {
-        console.log('🌱 Loading plant data...');
+        console.log('ðŸŒ± Loading plant data...');
         // Prefer Supabase plants_catalog when configured (single source of truth)
         if (typeof window !== 'undefined' && window.supabaseDb && window.supabaseDb.isConfigured && window.supabaseDb.isConfigured() && (window.supabaseDb.getPlantsCatalogList || window.supabaseDb.getPlantsCatalog)) {
             try {
@@ -142,7 +276,7 @@ async function loadAllPlants() {
                         });
                     }
                     if (typeof window !== 'undefined') window.plantsDatabase = plantsDatabase;
-                    console.log('✅ Loaded ' + plantsDatabase.length + ' plants from Supabase plants_catalog');
+                    console.log('âœ… Loaded ' + plantsDatabase.length + ' plants from Supabase plants_catalog');
                     var withImages = plantsDatabase.filter(function (p) { return p.images && p.images.length > 0; });
                     if (withImages.length > 0) {
                         var sample = withImages[0];
@@ -198,18 +332,18 @@ async function loadAllPlants() {
                     if (ovResp.ok) applyPlantEditOverlaysFromRepo(plantsDatabase, await ovResp.json());
                 } catch (_) { /* ignore */ }
                 if (typeof window !== 'undefined') window.plantsDatabase = plantsDatabase;
-                console.log(`✅ Loaded ${plantsDatabase.length} plants from bundle (1 request)`);
+                console.log(`âœ… Loaded ${plantsDatabase.length} plants from bundle (1 request)`);
                 return plantsDatabase;
             }
         }
 
         // 2) Fallback: load from index + per-file (cache-friendly version)
-        console.log('📋 Bundle not found, loading from index...');
+        console.log('ðŸ“‹ Bundle not found, loading from index...');
         const mergedIndexResp = await fetch('data/plants-merged/index.json' + q, fetchOpts);
         if (mergedIndexResp.ok) {
             const mergedIndex = await mergedIndexResp.json();
             const files = mergedIndex.plants || [];
-            console.log(`📋 Index lists ${files.length} plant files`);
+            console.log(`ðŸ“‹ Index lists ${files.length} plant files`);
 
             const loadedPlants = [];
             let failedCount = 0;
@@ -225,10 +359,10 @@ async function loadAllPlants() {
                             const plant = await plantResp.json();
                             return { success: true, plant };
                         }
-                        if (failedCount < 5) console.warn(`⚠️ Failed to load ${file}: HTTP ${plantResp.status}`);
+                        if (failedCount < 5) console.warn(`âš ï¸ Failed to load ${file}: HTTP ${plantResp.status}`);
                         return { success: false };
                     } catch (err) {
-                        if (failedCount < 5) console.error(`❌ Error loading ${file}:`, err.message);
+                        if (failedCount < 5) console.error(`âŒ Error loading ${file}:`, err.message);
                         return { success: false };
                     }
                 });
@@ -251,10 +385,10 @@ async function loadAllPlants() {
                     if (ovResp.ok) applyPlantEditOverlaysFromRepo(plantsDatabase, await ovResp.json());
                 } catch (_) { /* ignore */ }
                 if (typeof window !== 'undefined') window.plantsDatabase = plantsDatabase;
-                console.log(`✅ Loaded ${plantsDatabase.length} plants from plants-merged${failedCount > 0 ? ` (${failedCount} failed)` : ''}`);
+                console.log(`âœ… Loaded ${plantsDatabase.length} plants from plants-merged${failedCount > 0 ? ` (${failedCount} failed)` : ''}`);
                 return plantsDatabase;
             }
-            if (failedCount > 0) console.warn(`⚠️ Failed to load ${failedCount} plant files`);
+            if (failedCount > 0) console.warn(`âš ï¸ Failed to load ${failedCount} plant files`);
         }
 
         // 3) Fallback: category-based modular structure
@@ -287,12 +421,12 @@ async function loadAllPlants() {
                     if (ovResp.ok) applyPlantEditOverlaysFromRepo(plantsDatabase, await ovResp.json());
                 } catch (_) { /* ignore */ }
                 if (typeof window !== 'undefined') window.plantsDatabase = plantsDatabase;
-                console.log(`✅ Loaded ${plantsDatabase.length} plants from category index`);
+                console.log(`âœ… Loaded ${plantsDatabase.length} plants from category index`);
                 return plantsDatabase;
             }
         }
     } catch (err) {
-        console.error('❌ Error loading modular plant files:', err);
+        console.error('âŒ Error loading modular plant files:', err);
         console.log('Falling back to data.js...');
     }
     
@@ -308,7 +442,7 @@ async function loadAllPlants() {
         if (typeof window !== 'undefined') {
             window.plantsDatabase = plantsDatabase;
         }
-        console.log(`✅ Using ${plantsDatabase.length} plants from data.js`);
+        console.log(`âœ… Using ${plantsDatabase.length} plants from data.js`);
         return plantsDatabase;
     }
     
@@ -328,7 +462,7 @@ async function loadAllPlants() {
                 if (typeof window !== 'undefined') {
                     window.plantsDatabase = plantsDatabase || globalPlants;
                 }
-                console.log(`✅ Loaded ${globalPlants.length} plants from data.js`);
+                console.log(`âœ… Loaded ${globalPlants.length} plants from data.js`);
                 resolve(plantsDatabase || globalPlants);
             }
         }, 100);
@@ -347,7 +481,7 @@ async function loadAllPlants() {
             }
             
             if (finalPlants.length === 0) {
-                console.warn('⚠️ No plant data loaded!');
+                console.warn('âš ï¸ No plant data loaded!');
             }
             resolve(finalPlants);
         }, 2000);
