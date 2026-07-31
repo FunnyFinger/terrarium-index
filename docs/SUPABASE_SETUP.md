@@ -48,40 +48,28 @@ The **Publishable** key is meant to be used in the browser, so it’s safe to be
 
 No extra deploy step.
 
-### Option B: Inject keys at deploy time (keys not in repo)
+### Option B: Inject keys from environment variables (keys not in repo) — preferred
 
-If you don’t want the key in the repo, generate `config.js` during deploy from environment variables or secrets.
+The committed `js/config.js` only has empty placeholders. Production loads config from a Netlify function that reads site env vars.
 
-**Example: GitHub Actions for GitHub Pages**
+#### Netlify (this project)
 
-1. Keep a template that is committed, e.g. `js/config.template.js`:
+1. In **Netlify → Site configuration → Environment variables**, set:
+   - `SUPABASE_URL` — Project URL  
+   - `SUPABASE_ANON_KEY` — Publishable / anon key (or `SUPABASE_PUBLISHABLE_KEY`)  
+   - `SUPABASE_OWNER_EMAIL` — (optional) your owner email  
+   - `TURNSTILE_SITE_KEY` — (optional) Cloudflare Turnstile site key  
 
-   ```js
-   (function () {
-     'use strict';
-     window.SUPABASE_URL = '{{SUPABASE_URL}}';
-     window.SUPABASE_ANON_KEY = '{{SUPABASE_ANON_KEY}}';
-   })();
-   ```
+   `SUPABASE_URL` and the anon/publishable key are already required for SEO/product functions (`catalog-seo.js`).
 
-2. In the repo: **Settings → Secrets and variables → Actions**. Add:
-   - `SUPABASE_URL` = your Project URL  
-   - `SUPABASE_ANON_KEY` = your Publishable key  
+2. Deploy. A rewrite maps `/js/config.js` → `/.netlify/functions/public-config`, which injects those values. No keys need to live in git.
 
-3. In your workflow that deploys the site (e.g. `.github/workflows/deploy.yml`), before deploying, run:
+3. **Rotate keys that were ever committed:** Supabase → Project Settings → API → reset the publishable/anon key, then update the Netlify env var. Old keys remain in git history until rotated.
 
-   ```yaml
-   - name: Inject Supabase config
-     run: |
-       sed -e "s|{{SUPABASE_URL}}|${{ secrets.SUPABASE_URL }}|g" \
-           -e "s|{{SUPABASE_ANON_KEY}}|${{ secrets.SUPABASE_ANON_KEY }}|g" \
-           js/config.template.js > js/config.js
-   ```
+#### Local development
 
-   So the workflow checks out the repo, builds/replaces placeholders from secrets, writes `js/config.js`, then deploys (e.g. with `peaceiris/actions-gh-pages`). The repo never contains the real keys; only the runner has them.
-
-**Other hosts (Netlify, Vercel, etc.)**  
-Use their “build” or “prebuild” step to run a similar command that reads env vars and writes `js/config.js` from a template. Your HTML already loads `js/config.js`; no code change needed.
+1. Copy `.env.example` → `.env` and fill in the same values (`.env` is gitignored).  
+2. Run `npm run generate-config` to write `js/config.js`, **or** use `netlify dev` so the function serves config.
 
 ## 6. Load config in your pages
 

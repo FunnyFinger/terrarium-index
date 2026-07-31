@@ -11,6 +11,7 @@
     "fix-variety-scientific-names": "node scripts/fix-variety-scientific-names-supabase.js",
     "reclassify-plant-rarity": "node scripts/reclassify-plant-rarity.js",
     "generate-preview-images": "node scripts/generate-preview-images.js",
-    "generate-preview-images-dry": "node scripts/generate-preview-images.js --dry-run"
+    "generate-preview-images-dry": "node scripts/generate-preview-images.js --dry-run",
+    "generate-config": "node scripts/generate-config.js"
   }
 }

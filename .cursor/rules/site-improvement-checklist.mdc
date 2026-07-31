@@ -113,17 +113,15 @@ alwaysApply: false
 
 ## Phase 5 — Security Hardening
 
-### Step 17 — Add Content-Security-Policy header
-- [ ] Open `netlify.toml` and add a `Content-Security-Policy` header to the `[[headers]]` block
-- [ ] Allow: `'self'`, `fonts.googleapis.com`, `fonts.gstatic.com`, `*.supabase.co`, `js.stripe.com`, `cdn.jsdelivr.net`
-- [ ] Start in report-only mode (`Content-Security-Policy-Report-Only`) to avoid breaking the site
-- **Confirm before continuing:** "Step 17 complete — CSP added in report-only mode. Ready for Step 18?"
+### ✅ Step 17 — Add Content-Security-Policy header
+- [x] Open `netlify.toml` and add a `Content-Security-Policy` header to the `[[headers]]` block
+- [x] Allow: `'self'`, `fonts.googleapis.com`, `fonts.gstatic.com`, `*.supabase.co`, `js.stripe.com`, `cdn.jsdelivr.net`
+- [x] Start in report-only mode (`Content-Security-Policy-Report-Only`) to avoid breaking the site
 
-### Step 18 — Move Supabase keys to environment variables
-- [ ] In `js/config.js`, change the hardcoded keys to read from a build-time injected variable or a Netlify serverless function endpoint
-- [ ] Document in README how to set `SUPABASE_URL` and `SUPABASE_ANON_KEY` in Netlify environment variables
-- [ ] Note: the anon key is already in Git history — advise the user to rotate it in the Supabase dashboard
-- **Confirm before continuing:** "Step 18 complete — keys moved to env vars. Ready for Step 19?"
+### ✅ Step 18 — Move Supabase keys to environment variables
+- [x] In `js/config.js`, change the hardcoded keys to read from a build-time injected variable or a Netlify serverless function endpoint
+- [x] Document in README/DEPLOY how to set `SUPABASE_URL` and `SUPABASE_ANON_KEY` in Netlify environment variables
+- [x] Note: the anon key is already in Git history — advise the user to rotate it in the Supabase dashboard
 
 ---
 

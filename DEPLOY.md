@@ -8,6 +8,13 @@ Your site is **static** (HTML, CSS, JS, JSON, images). No dedicated server neede
 2. Drag and drop your **entire project folder** (Terrarium_index) onto the Netlify deploy area.
 3. Netlify will serve `index.html` and all files. You get a URL like `random-name.netlify.app`.
 4. Optional: add a custom domain in Site settings → Domain management.
+5. **Environment variables** (Site configuration → Environment variables) — required for Supabase:
+   - `SUPABASE_URL`
+   - `SUPABASE_ANON_KEY` (publishable/anon key)
+   - Optional: `SUPABASE_OWNER_EMAIL`, `TURNSTILE_SITE_KEY`
+   - Server-only (already used by order functions): `SUPABASE_SERVICE_ROLE_KEY`, `TURNSTILE_SECRET_KEY`, etc.
+
+   Browser config is injected by `netlify/functions/public-config.js` (rewritten over `/js/config.js`). See `docs/SUPABASE_SETUP.md` Option B.
 
 All your files (data, images) are stored and served by Netlify.
 
