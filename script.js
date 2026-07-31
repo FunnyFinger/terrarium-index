@@ -147,8 +147,8 @@ let currentRenderToken = 0;
 function getCardThumbUrl(url, width, quality) {
     if (!url || typeof url !== 'string') return url;
     if (!/^https?:\/\//i.test(url)) return url;
-    var w = width || 360;
-    var q = quality || 60;
+    var w = width || 480;
+    var q = quality || 78;
     // Supabase Storage object URL pattern
     var match = url.match(/^(https:\/\/[^/]+)(\/storage\/v1\/object\/public\/)(.+)$/i);
     if (!match) return url;
@@ -159,8 +159,8 @@ function getCardThumbUrl(url, width, quality) {
 /** Responsive srcset for card images (Supabase render widths). Empty string if not transformable. */
 function getCardThumbSrcset(url, quality) {
     if (!url || typeof url !== 'string') return '';
-    var q = quality || 60;
-    var widths = [280, 360, 480];
+    var q = quality || 78;
+    var widths = [360, 480, 720, 960];
     var parts = [];
     for (var i = 0; i < widths.length; i++) {
         var u = getCardThumbUrl(url, widths[i], q);
@@ -172,7 +172,7 @@ function getCardThumbSrcset(url, quality) {
 
 /** sizes hint for catalog card grid — works for mobile (2-col) and desktop (multi-col). */
 function getCardThumbSizes() {
-    return '(max-width: 600px) 45vw, (max-width: 1024px) 30vw, 280px';
+    return '(max-width: 600px) 45vw, (max-width: 1024px) 30vw, 360px';
 }
 
 /**
@@ -187,10 +187,10 @@ function getFullResUrl(url) {
     return url.replace(/(\d+)(\.jpe?g|\.png|\.gif|\.webp)$/i, '$1-full$2');
 }
 
-/** Width in px for card thumbnails; kept modest to reduce Supabase storage egress. */
+/** Width in px for card thumbnails; sized for sharp retina displays. */
 function getCardThumbWidth() {
-    if (typeof window === 'undefined' || !window.innerWidth) return 360;
-    return window.innerWidth <= 768 ? 280 : 360;
+    if (typeof window === 'undefined' || !window.innerWidth) return 480;
+    return window.innerWidth <= 768 ? 360 : 480;
 }
 
 
@@ -7775,7 +7775,7 @@ async function showPlantModal(plant) {
                         <div class="plant-gallery-stage-inner" style="position:relative;">
                             <div class="gallery-img-loading" id="gallery-preview-loading">Loading...</div>
                             ${displayImageUrl ? 
-                                `<img id="gallery-preview-img" data-current-index="0" src="${getCardThumbUrl(displayImageUrl, 1200, 85)}" data-original-src="${getFullResUrl(displayImageUrl)}" alt="${plant.name}" class="gallery-preview-image" onload="var l=document.getElementById('gallery-preview-loading');if(l)l.classList.add('hidden')" onerror="var l=document.getElementById('gallery-preview-loading');if(l)l.classList.add('hidden')">` :
+                                `<img id="gallery-preview-img" data-current-index="0" src="${getCardThumbUrl(displayImageUrl, 1600, 88)}" data-original-src="${getFullResUrl(displayImageUrl)}" alt="${plant.name}" class="gallery-preview-image" onload="var l=document.getElementById('gallery-preview-loading');if(l)l.classList.add('hidden')" onerror="var l=document.getElementById('gallery-preview-loading');if(l)l.classList.add('hidden')">` :
                                 `<div class="plant-gallery-placeholder">🌿</div>`
                             }
                         </div>
@@ -7799,7 +7799,7 @@ async function showPlantModal(plant) {
                                 const isMain = idx === 0;
                                 return `
                                 <button type="button" class="plant-gallery-thumb gallery-thumbnail ${idx === 0 ? 'selected' : ''}" data-img-index="${idx}" data-img-path="${escapedPath}" onclick="selectGalleryImage('${escapedPath}', ${plant.id}, ${idx}, event)" aria-label="Image ${idx + 1}">
-                                    <span class="plant-gallery-thumb-img"><img src="${getCardThumbUrl(img, 200, 70)}" alt="" loading="lazy" onerror="this.closest('.plant-gallery-thumb').style.display='none'" onload="this.style.display='block'"></span>
+                                    <span class="plant-gallery-thumb-img"><img src="${getCardThumbUrl(img, 280, 82)}" alt="" loading="lazy" onerror="this.closest('.plant-gallery-thumb').style.display='none'" onload="this.style.display='block'"></span>
                                     ${isMain ? '<span class="plant-gallery-thumb-badge" title="Main image">⭐</span>' : ''}
                                     <button type="button" class="delete-image-btn plant-gallery-thumb-delete" onclick="event.stopPropagation(); event.preventDefault(); deleteImageFromGallery(${plant.id}, ${idx}, '${escapedPath}');" title="Remove image" aria-label="Remove image">×</button>
                                 </button>`;
@@ -8232,7 +8232,7 @@ function selectGalleryImage(imagePath, plantId, imageIndex, event) {
             previewImg.style.visibility = 'visible';
             if (loadingEl) loadingEl.classList.add('hidden');
         };
-        previewImg.src = (typeof getCardThumbUrl === 'function') ? getCardThumbUrl(imagePath, 1200, 85) : imagePath;
+        previewImg.src = (typeof getCardThumbUrl === 'function') ? getCardThumbUrl(imagePath, 1600, 88) : imagePath;
         previewImg.setAttribute('data-original-src', typeof getFullResUrl === 'function' ? getFullResUrl(imagePath) : imagePath);
         previewImg.setAttribute('data-current-index', imageIndex);
     }
