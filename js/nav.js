@@ -21,7 +21,7 @@
         account: '<svg class="nav-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>'
     };
     var NAV_LINKS = [
-        { href: 'index.html', label: 'Home', icon: 'home' },
+        { href: '/', label: 'Home', icon: 'home' },
         { href: 'build-vivarium.html', label: 'Build vivarium', icon: 'build' },
         { href: 'definitions.html', label: 'Definitions', icon: 'definitions' },
         { href: 'taxonomy.html', label: 'Taxonomy', icon: 'taxonomy' },
@@ -59,7 +59,7 @@
             return true;
         });
         var menuItems = links.map(function(link) {
-            var active = (link.href === current || (current === '' && link.href === 'index.html')) ? ' active' : '';
+            var active = (link.href === current || ((current === '' || current === 'index.html' || current === 'index') && (link.href === '/' || link.href === 'index.html'))) ? ' active' : '';
             var icon = (link.icon && NAV_ICONS[link.icon]) ? NAV_ICONS[link.icon] : '';
             return '<li class="nav-item"><a href="' + link.href + '" class="nav-link' + active + '"><span class="nav-link-inner">' + icon + '<span class="nav-link-text">' + link.label + '</span></span></a></li>';
         }).join('');
@@ -107,7 +107,7 @@
             backBtnHtml +
             '<div class="nav-logo-spacer"></div>' +
             '<div class="nav-logo">' +
-            '<a href="index.html" class="logo-link"><img src="assets/vivarium-store-logo.svg" alt="" class="logo-img" width="32" height="32"><span class="logo-text"><span class="logo-text-main">Vivarium</span> <span class="logo-text-accent">Store</span></span></a>' +
+            '<a href="/" class="logo-link"><img src="assets/vivarium-store-logo.svg" alt="" class="logo-img" width="32" height="32"><span class="logo-text"><span class="logo-text-main">Vivarium</span> <span class="logo-text-accent">Store</span></span></a>' +
             '</div>' +
             '<div class="nav-cart-wrap">' +
             '<button type="button" id="cartToggle" class="cart-toggle" aria-label="Open cart">' +
@@ -190,7 +190,7 @@
                 drawer.classList.add('open');
                 overlay.classList.add('open');
             } else {
-                window.location.href = 'index.html?openCart=1';
+                window.location.href = '/?openCart=1';
             }
         });
     }
@@ -200,7 +200,7 @@
         var isIndex = (current === 'index.html' || current === '' || current === 'index');
         if (isIndex) return;
         var backBtn = document.getElementById('navBackToList');
-        if (backBtn) backBtn.addEventListener('click', function() { window.location.href = 'index.html'; });
+        if (backBtn) backBtn.addEventListener('click', function() { window.location.href = '/'; });
     }
 
     function initAuth() {
