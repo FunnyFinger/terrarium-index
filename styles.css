@@ -1169,6 +1169,8 @@ html.detail-startup body {
     align-items: center;
     justify-content: center;
     width: 40px;
+    max-width: 40px;
+    min-width: 40px;
     height: 40px;
     padding: 0;
     border: none;
@@ -1177,7 +1179,7 @@ html.detail-startup body {
     background: transparent;
     color: var(--text-color);
     transition: background 0.2s, color 0.2s;
-    flex-shrink: 0;
+    flex: 0 0 40px;
 }
 .nav-search-toggle:hover,
 .nav-search-close:hover {
@@ -7898,14 +7900,6 @@ html.embed-add-active #closeUploadModal {
 
     .search-container {
         flex-direction: column;
-    }
-    
-    #searchInput {
-        width: 100%;
-    }
-    
-    #searchBtn {
-        width: 100%;
     }
 
     .filter-container {
