@@ -1500,7 +1500,13 @@ var checkStoredFolder = uploadCall('checkStoredFolder');
 var ensureFolderAccess = uploadCall('ensureFolderAccess');
 function openImageUpload(plantId) {
     return ensureUploadReady().then(function (u) {
-        return u.openImageUpload(plantId);
+        var plant = (typeof allPlants !== 'undefined' && allPlants)
+            ? allPlants.find(function (p) { return p && p.id == plantId; })
+            : null;
+        var hydrate = (plant && plant._catalogSlim && typeof hydratePlantFromCatalog === 'function')
+            ? hydratePlantFromCatalog(plant)
+            : Promise.resolve(plant);
+        return hydrate.then(function () { return u.openImageUpload(plantId); });
     }).catch(function (err) {
         console.error(err);
         alert('Could not load the editor. Please refresh and try again.');
@@ -6995,12 +7001,36 @@ function determineMinimumEnclosureSize(plant) {
     };
 }
 
+/** Fetch full plant blob when list payload was slim (missing gallery / description). */
+async function hydratePlantFromCatalog(plant) {
+    if (!plant || !plant._catalogSlim) return plant;
+    if (!window.supabaseDb || typeof window.supabaseDb.getPlantFromCatalog !== 'function') return plant;
+    try {
+        var full = await window.supabaseDb.getPlantFromCatalog(plant.id);
+        if (!full) return plant;
+        var keepPrice = plant.price;
+        var keepStock = plant.stockQuantity;
+        var keepUnit = plant.unit;
+        Object.keys(full).forEach(function (k) { plant[k] = full[k]; });
+        if (keepPrice != null && keepPrice !== '') plant.price = keepPrice;
+        if (keepStock != null && keepStock !== '') plant.stockQuantity = keepStock;
+        if (keepUnit != null && keepUnit !== '') plant.unit = keepUnit;
+        delete plant._catalogSlim;
+        if (window.inventoryDb && typeof window.inventoryDb.mergeInventoryIntoPlants === 'function') {
+            window.inventoryDb.mergeInventoryIntoPlants([plant]);
+        }
+    } catch (e) { /* keep slim plant */ }
+    return plant;
+}
+window.hydratePlantFromCatalog = hydratePlantFromCatalog;
+
 // Show plant modal with detailed information
 async function showPlantModal(plant) {
     // If we arrived via direct URL (tab=plants&id=...), remove startup-hiding class
     if (typeof document !== 'undefined') {
         document.documentElement.classList.remove('detail-startup');
     }
+    await hydratePlantFromCatalog(plant);
     // Check localStorage first for saved image order (user's preference)
     let savedImages = null;
     let savedImageUrl = null;

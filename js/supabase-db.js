@@ -354,17 +354,93 @@
     }
 
     // ---- Catalog helpers (read-only) ----
+
+    /**
+     * Fields needed for cards, filters, sort, and badges.
+     * Omits gallery arrays + long text (description/careTips) — those load on detail open.
+     */
+    var PLANT_LIST_JSON_KEYS = [
+        'name', 'scientificName', 'commonNames', 'imageUrl', 'price', 'unit', 'stockQuantity',
+        'hidden', 'rarity', 'size', 'carnivorous', 'category', 'plantType', 'growthHabit',
+        'growthPattern', 'substrate', 'substrateType', 'specialNeeds', 'isCultivar', 'isVariety',
+        'isHybrid', 'taxonomy', 'humidityRange', 'lightRange', 'airCirculationRange',
+        'waterNeedsRange', 'temperatureRange', 'growthRateRange', 'difficultyRange', 'difficulty',
+        'waterCirculationRange', 'waterTemperatureRange', 'waterPhRange', 'waterHardnessRange',
+        'salinityRange', 'soilPhRange', 'availability', 'humidity', 'lightRequirements',
+        'airCirculation', 'watering', 'temperature', 'growthRate', 'waterCirculation', 'type',
+        'topSeller', 'salesCount'
+    ];
+
+    function resolveAssetUrl(u) {
+        if (!u || typeof u !== 'string') return u;
+        if (/^https?:\/\//i.test(u)) return u;
+        var base = STORAGE_BASE || ((global.SUPABASE_URL || '').toString().replace(/\/$/, ''));
+        if (!base) return u;
+        var storagePrefix = base + '/storage/v1/object/public/vivarium-assets/';
+        if (u.startsWith('/storage/')) return base + u;
+        if (u.startsWith('plants/')) return storagePrefix + u;
+        if (u.startsWith('images/plants/')) return storagePrefix + u.slice(7);
+        return u;
+    }
+
+    function normalizeCatalogPlant(d, id, slim) {
+        d = stripCostFromObject(d || {});
+        d.id = id;
+        if (!Array.isArray(d.images) && d.imageUrl) d.images = [d.imageUrl];
+        if (!Array.isArray(d.images)) d.images = [];
+        if (slim) {
+            // List payload has no gallery — keep a single thumb slot for cards
+            if (d.imageUrl) d.images = [d.imageUrl];
+            else d.images = [];
+            d._catalogSlim = true;
+        }
+        if (Array.isArray(d.images)) d.images = d.images.map(resolveAssetUrl);
+        if (d.imageUrl) d.imageUrl = resolveAssetUrl(d.imageUrl);
+        return d;
+    }
+
+    /** Full plant blobs (admin tools / hydration). Prefer getPlantsCatalogList for the shop. */
     function getPlantsCatalog() {
         if (!isConfigured()) return Promise.resolve([]);
         return request('GET', '/plants_catalog?select=id,data&order=id.asc').then(function (rows) {
             return (rows || []).map(function (r) {
-                var d = stripCostFromObject(r.data || {});
-                d.id = r.id;
-                if (!Array.isArray(d.images) && d.imageUrl) d.images = [d.imageUrl];
-                if (!Array.isArray(d.images)) d.images = [];
-                return d;
+                return normalizeCatalogPlant(r.data, r.id, false);
             });
         }).catch(function () { return []; });
+    }
+
+    /**
+     * Lightweight catalog for the storefront grid (~half the full JSON payload).
+     * Falls back to full getPlantsCatalog if the projected select fails.
+     */
+    function getPlantsCatalogList() {
+        if (!isConfigured()) return Promise.resolve([]);
+        var select = 'id,' + PLANT_LIST_JSON_KEYS.map(function (k) { return 'data->' + k; }).join(',');
+        return request('GET', '/plants_catalog?select=' + encodeURIComponent(select) + '&order=id.asc')
+            .then(function (rows) {
+                if (!rows || !rows.length) return [];
+                // Guard: projected select should flatten keys onto the row (not nest under data)
+                var sample = rows[0];
+                if (sample && sample.data && typeof sample.data === 'object' && sample.name == null) {
+                    return getPlantsCatalog();
+                }
+                return rows.map(function (r) {
+                    var d = Object.assign({}, r);
+                    delete d.id;
+                    return normalizeCatalogPlant(d, r.id, true);
+                });
+            })
+            .catch(function () { return getPlantsCatalog(); });
+    }
+
+    /** Full single plant (detail panel / edit). */
+    function getPlantFromCatalog(plantId) {
+        var id = Number(plantId);
+        if (!isFinite(id) || !isConfigured()) return Promise.resolve(null);
+        return request('GET', '/plants_catalog?id=eq.' + id + '&select=id,data').then(function (rows) {
+            if (!rows || !rows[0]) return null;
+            return normalizeCatalogPlant(rows[0].data, rows[0].id, false);
+        }).catch(function () { return null; });
     }
 
     function getEquipmentCatalog() {
@@ -617,6 +693,8 @@
         setInventoryRow: setInventoryRow,
         deleteInventoryRow: deleteInventoryRow,
         getPlantsCatalog: getPlantsCatalog,
+        getPlantsCatalogList: getPlantsCatalogList,
+        getPlantFromCatalog: getPlantFromCatalog,
         getEquipmentCatalog: getEquipmentCatalog,
         getVivariumsCatalog: getVivariumsCatalog,
         updateEquipmentInCatalog: updateEquipmentInCatalog,

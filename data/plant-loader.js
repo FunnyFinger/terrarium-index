@@ -88,9 +88,11 @@ async function loadAllPlants() {
     try {
         console.log('🌱 Loading plant data...');
         // Prefer Supabase plants_catalog when configured (single source of truth)
-        if (typeof window !== 'undefined' && window.supabaseDb && window.supabaseDb.isConfigured && window.supabaseDb.isConfigured() && window.supabaseDb.getPlantsCatalog) {
+        if (typeof window !== 'undefined' && window.supabaseDb && window.supabaseDb.isConfigured && window.supabaseDb.isConfigured() && (window.supabaseDb.getPlantsCatalogList || window.supabaseDb.getPlantsCatalog)) {
             try {
-                const cat = await window.supabaseDb.getPlantsCatalog();
+                // Prefer slim list payload for the storefront (~50% smaller than full blobs)
+                const fetchCatalog = window.supabaseDb.getPlantsCatalogList || window.supabaseDb.getPlantsCatalog;
+                const cat = await fetchCatalog.call(window.supabaseDb);
                 if (Array.isArray(cat) && cat.length > 0) {
                     const sorted = cat.sort((a, b) => (a.id || 0) - (b.id || 0));
                     const base = (typeof window !== 'undefined' && window.SUPABASE_URL) ? String(window.SUPABASE_URL).replace(/\/$/, '') : '';
