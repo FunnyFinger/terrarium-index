@@ -1769,8 +1769,20 @@ function setupEventListeners() {
             document.body.classList.remove('filters-drawer-open');
             if (filtersSidebar) filtersSidebar.classList.add('control-panel-collapsed');
             if (filtersSidebarWrapper) filtersSidebarWrapper.classList.add('filters-sidebar-wrapper-collapsed');
+            document.body.classList.remove('legend-drawer-open');
+            var legendOverlay = document.getElementById('legendOverlay');
+            if (legendOverlay) { legendOverlay.classList.add('hidden'); legendOverlay.setAttribute('aria-hidden', 'true'); }
+            var legendSidebar = document.getElementById('legendSidebar');
+            var legendSidebarWrapper = document.getElementById('legendSidebarWrapper');
+            var legendSidebarReopen = document.getElementById('legendSidebarReopen');
+            if (legendSidebar) legendSidebar.classList.add('legend-sidebar-collapsed');
+            if (legendSidebarWrapper) legendSidebarWrapper.classList.add('legend-sidebar-wrapper-collapsed');
+            if (legendSidebarReopen) legendSidebarReopen.classList.add('hidden');
         } else if (reopen && filtersSidebar && filtersSidebar.classList.contains('control-panel-collapsed') && isFiltersMobile()) {
             reopen.classList.remove('hidden');
+        }
+        if (typeof window.updateLegendButtonVisibility === 'function') {
+            window.updateLegendButtonVisibility();
         }
     }
     window.syncFiltersUiForDetailView = syncFiltersUiForDetailView;
