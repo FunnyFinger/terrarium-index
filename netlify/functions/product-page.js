@@ -108,7 +108,7 @@ function buildProductHtml(opts) {
   <meta name="twitter:title" content="${escapeHtml(title)}">
   <meta name="twitter:description" content="${escapeHtml(desc)}">
   <meta name="twitter:image" content="${escapeHtml(absImage)}">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
   <link rel="stylesheet" href="/styles.css?v=9">
   <script type="application/ld+json">${JSON.stringify(productLd).replace(/</g, '\\u003c')}</script>
   <style>
