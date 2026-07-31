@@ -180,11 +180,20 @@
         
         .tree-label {
             font-family: 'Lato', sans-serif;
-            font-size: 8px; /* All ranks use same size as species */
+            /* font-size set in taxonomy.js (inline) so mobile can scale for readability */
             fill: var(--text-color);
             pointer-events: none;
             text-anchor: start;
             transition: none;
+        }
+
+        /* Collision culling (taxonomy.js) — denser rings on narrow viewports */
+        .tree-label.tree-label-culled {
+            display: none;
+        }
+        .tree-node.tree-node-highlight .tree-label,
+        .tree-node.tree-node-trail .tree-label {
+            display: inline;
         }
         
         /* Allow pointer events on labels for non-species, non-domain nodes */
@@ -198,44 +207,27 @@
         }
         
         .tree-label.domain {
-            font-size: 8px; /* Same as species */
             font-weight: 700;
             fill: #0d1805;
         }
         
         .tree-label.kingdom {
-            font-size: 8px; /* Same as species */
             font-weight: 700;
             fill: #1a3009;
         }
         
         .tree-label.phylum {
-            font-size: 8px; /* Same as species */
             font-weight: 600;
             fill: #2d5016;
         }
         
         .tree-label.class {
-            font-size: 8px; /* Same as species */
             font-weight: 500;
             fill: #4a7c2a;
         }
         
         .tree-label.order {
-            font-size: 8px; /* Same as species */
             font-weight: 500;
-        }
-        
-        .tree-label.family {
-            font-size: 8px; /* Same as species */
-        }
-        
-        .tree-label.genus {
-            font-size: 8px; /* Same as species */
-        }
-        
-        .tree-label.species {
-            font-size: 8px;
         }
         
         .plant-thumbnail {
@@ -710,6 +702,6 @@
     <script defer src="data.js?v=3"></script>
     <script defer src="data/plant-loader.js?v=6"></script>
     <script defer src="images.js?v=11"></script>
-    <script defer src="taxonomy.js?v=2"></script>
+    <script defer src="taxonomy.js?v=3"></script>
 </body>
 </html>

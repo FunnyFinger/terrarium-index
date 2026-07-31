@@ -15,9 +15,125 @@ let fullTreeNodePositions = new Map(); // path -> { x, y } from full tree; used 
 let savedZoomTransform = null; // Store zoom transform to preserve pan/zoom state
 let fixedRadiusByDepth = null; // Fixed radius (ring) per depth - set once from full tree, never changed
 let fixedRadiiLocked = false;
+let lastLayoutSizeKey = null; // Detect mobile↔desktop / large resizes so ring radii can recompute
+let labelCullRaf = null;
 let highlightedNodePathForTrail = null; // Path of node currently highlighted (for trail when not hovering a link)
 let hoveredLinkPath = null; // Path of last hovered link; trail stays until another link is hovered or highlight is cleared
 let lockedLinkPath = null; // When set, this link's trail is locked; only clicking empty space releases it
+
+function getTaxonomyLayoutSizeKey(width, height) {
+    const narrow = width < 768;
+    return `${narrow ? 'n' : 'w'}:${Math.round(width / 80)}x${Math.round(height / 80)}`;
+}
+
+/** Hide labels that would overlap neighbors in screen space; denser when zoomed out (esp. mobile). */
+function applyLabelCollisionCulling() {
+    if (!treeG || !treeSvg || !treeSvg.node()) return;
+    const k = d3.zoomTransform(treeSvg.node()).k || 1;
+    const narrow = (document.getElementById('taxonomyTree')?.clientWidth || window.innerWidth) < 768;
+    // Screen-space gap; stricter on phones / when zoomed out
+    const minGapPx = narrow ? (k < 0.4 ? 40 : 22) : 12;
+    // On narrow + zoomed-out views, only keep higher ranks so the outer ring isn't a solid text smear
+    const deepRanksHidden = narrow && k < 0.4;
+    const deepRankSet = new Set(['family', 'genus', 'species', 'cultivar', 'variety', 'hybrid']);
+
+    const byDepth = new Map();
+    treeG.selectAll('g.tree-node').each(function (d) {
+        if (!d || !d.data) return;
+        const label = d3.select(this).select('text.tree-label');
+        if (label.empty()) return;
+        const forceShow = d.data.name === 'Life' ||
+            d3.select(this).classed('tree-node-highlight') ||
+            d3.select(this).classed('tree-node-trail');
+        if (!forceShow && deepRanksHidden && deepRankSet.has(d.data.rank)) {
+            label.classed('tree-label-culled', true);
+            return;
+        }
+        const depth = d.depth;
+        if (!byDepth.has(depth)) byDepth.set(depth, []);
+        byDepth.get(depth).push({
+            label,
+            forceShow,
+            angle: d.x,
+            radius: Math.max(d.y, 1)
+        });
+    });
+
+    byDepth.forEach((group) => {
+        group.sort((a, b) => a.angle - b.angle);
+        let lastVisible = null;
+        const visibles = [];
+        group.forEach((n) => {
+            let show = n.forceShow;
+            if (!show && lastVisible == null) {
+                show = true;
+            } else if (!show && lastVisible) {
+                let dAngle = n.angle - lastVisible.angle;
+                if (dAngle < 0) dAngle += 2 * Math.PI;
+                const arcPx = dAngle * Math.max(n.radius, lastVisible.radius) * k;
+                show = arcPx >= minGapPx;
+            }
+            n.label.classed('tree-label-culled', !show);
+            if (show) {
+                lastVisible = n;
+                visibles.push(n);
+            }
+        });
+        // Wrap-around: last vs first visible on the ring
+        if (visibles.length >= 2) {
+            const first = visibles[0];
+            const last = visibles[visibles.length - 1];
+            if (!first.forceShow) {
+                let dAngle = (first.angle + 2 * Math.PI) - last.angle;
+                if (dAngle < 0) dAngle += 2 * Math.PI;
+                const arcPx = dAngle * Math.max(first.radius, last.radius) * k;
+                if (arcPx < minGapPx) {
+                    first.label.classed('tree-label-culled', true);
+                }
+            }
+        }
+    });
+
+    // Cross-depth: screen boxes of different ranks can still collide (common on mobile)
+    const candidates = [];
+    treeG.selectAll('g.tree-node').each(function (d) {
+        if (!d || !d.data) return;
+        const label = d3.select(this).select('text.tree-label');
+        if (label.empty() || label.classed('tree-label-culled')) return;
+        const el = label.node();
+        if (!el || typeof el.getBoundingClientRect !== 'function') return;
+        const box = el.getBoundingClientRect();
+        if (box.width <= 0 || box.height <= 0) return;
+        const forceShow = d.data.name === 'Life' ||
+            d3.select(this).classed('tree-node-highlight') ||
+            d3.select(this).classed('tree-node-trail');
+        candidates.push({ label, box, depth: d.depth, forceShow });
+    });
+    candidates.sort((a, b) => a.depth - b.depth || (b.forceShow - a.forceShow));
+    const kept = [];
+    const pad = narrow ? 3 : 1;
+    candidates.forEach((n) => {
+        const hits = kept.some((o) =>
+            n.box.x < o.box.x + o.box.width + pad &&
+            n.box.x + n.box.width + pad > o.box.x &&
+            n.box.y < o.box.y + o.box.height + pad &&
+            n.box.y + n.box.height + pad > o.box.y
+        );
+        if (hits && !n.forceShow) {
+            n.label.classed('tree-label-culled', true);
+        } else {
+            kept.push(n);
+        }
+    });
+}
+
+function scheduleLabelCollisionCulling() {
+    if (labelCullRaf != null) return;
+    labelCullRaf = requestAnimationFrame(() => {
+        labelCullRaf = null;
+        applyLabelCollisionCulling();
+    });
+}
 
 // Local vernacular names cache (loaded from JSON file)
 let localVernacularNames = null;
@@ -529,6 +645,7 @@ function updateTreeLayout() {
             treeG.attr('transform', event.transform);
             savedZoomTransform = event.transform;
             updateZoomIndicator();
+            scheduleLabelCollisionCulling();
         });
     
     treeSvg.call(zoom);
@@ -544,10 +661,27 @@ function updateTreeLayout() {
         const path = (d.ancestors() || []).map(a => (a.data && a.data.name) || '').reverse().join('|');
         return path ? path.trim() : '';
     }
+
+    const sizeKey = getTaxonomyLayoutSizeKey(width, height);
+    const isNarrow = width < 768;
+    if (lastLayoutSizeKey && lastLayoutSizeKey !== sizeKey) {
+        fixedRadiiLocked = false;
+        fixedRadiusByDepth = null;
+        if (lastLayoutSizeKey.charAt(0) !== sizeKey.charAt(0)) {
+            savedZoomTransform = null;
+        }
+    }
+    lastLayoutSizeKey = sizeKey;
+
     const visibleCount = root.descendants().length;
-    const maxRadius = Math.min(width, height) / 1.5;
+    const leafCount = Math.max(1, root.leaves().length);
+    // Layout radius from content (arc space per leaf), not only viewport — narrow screens
+    // previously crushed rings and made labels overlap. Fit/zoom still shows the full tree.
+    const viewportRadius = Math.min(width, height) / 1.5;
+    const contentRadius = (leafCount * 16) / (2 * Math.PI);
+    const maxRadius = Math.max(viewportRadius, Math.min(contentRadius, isNarrow ? 900 : 1200));
     // When fewer nodes visible, increase separation so they spread across available space
-    const separationFactor = Math.max(15, 50 / Math.log10(visibleCount + 1));
+    const separationFactor = Math.max(15, 50 / Math.log10(visibleCount + 1)) * (isNarrow ? 1.15 : 1);
     
     tree = d3.tree()
         .size([2 * Math.PI, maxRadius])
@@ -570,11 +704,12 @@ function updateTreeLayout() {
     });
     
     // Transform radius values to create increasing spacing with depth (quadratic)
+    const ringSpread = isNarrow ? 1.55 : 1.2;
     treeData.descendants().forEach(d => {
         const originalRadius = d.y;
         const depth = d.depth;
         const normalizedDepth = maxDepth > 0 ? depth / maxDepth : 0;
-        const spacingFactor = 1 + (normalizedDepth * normalizedDepth) * 1.2;
+        const spacingFactor = 1 + (normalizedDepth * normalizedDepth) * ringSpread;
         d.y = originalRadius * spacingFactor;
     });
     
@@ -750,9 +885,11 @@ function updateTreeLayout() {
             
             // Special handling for "Life" node - horizontal and below
             if (d.data.name === 'Life' && d.data.rank === 'domain') {
+                const lifeFont = `${Math.round(16 * (isNarrow ? 3.25 : 1))}px`;
+                textElement.style('font-size', lifeFont);
                 textElement.attr('text-anchor', 'middle');
                 textElement.attr('dx', 0);
-                textElement.attr('dy', 20);
+                textElement.attr('dy', isNarrow ? 28 : 20);
                 textElement.attr('transform', 'rotate(0)');
                 return;
             }
@@ -776,17 +913,21 @@ function updateTreeLayout() {
             
             // Calculate text width for left side positioning
             let textWidth = 0;
-            const fontSizePx = d.data.rank === 'domain' ? '16px' : d.data.rank === 'kingdom' ? '14px' :
-                d.data.rank === 'phylum' ? '13px' : d.data.rank === 'class' ? '12px' :
-                d.data.rank === 'order' ? '11px' : d.data.rank === 'family' ? '10px' :
-                d.data.rank === 'genus' ? '9px' : (d.data.rank === 'species' || d.data.rank === 'cultivar' || d.data.rank === 'variety' || d.data.rank === 'hybrid') ? '8px' : '8px';
-            textElement.attr('font-size', fontSizePx);
+            // Narrow viewports start more zoomed-out; enlarge layout fonts so labels stay readable on screen
+            const fontScale = isNarrow ? 3.25 : 1;
+            const baseFont =
+                d.data.rank === 'domain' ? 16 : d.data.rank === 'kingdom' ? 14 :
+                d.data.rank === 'phylum' ? 13 : d.data.rank === 'class' ? 12 :
+                d.data.rank === 'order' ? 11 : d.data.rank === 'family' ? 10 :
+                d.data.rank === 'genus' ? 9 : 8;
+            const fontSizePx = `${Math.round(baseFont * fontScale)}px`;
+            textElement.style('font-size', fontSizePx);
             if (isLeftSide) {
                 const tempText = treeSvg.append('text')
                     .attr('class', `tree-label ${d.data.rank || ''}`)
                     .attr('visibility', 'hidden')
                     .attr('font-family', 'Lato, sans-serif')
-                    .attr('font-size', fontSizePx)
+                    .style('font-size', fontSizePx)
                     .text(text);
                 const bbox = tempText.node().getBBox();
                 textWidth = bbox.width;
@@ -998,8 +1139,10 @@ function updateTreeLayout() {
             const fullHeight = bounds.height;
             const widthScale = width / fullWidth;
             const heightScale = height / fullHeight;
-            // Increase scale significantly to make nodes and thumbnails more visible
-            const scale = Math.min(widthScale, heightScale) * 1.5; // Increased from 0.9 to 1.5 for better visibility
+            // Zoom in past fit so mid-rank labels stay readable; collision culling
+            // hides overcrowded labels (especially on narrow viewports).
+            const fitBoost = isNarrow ? 2.4 : 1.5;
+            const scale = Math.min(widthScale, heightScale) * fitBoost;
             const translateX = width / 2 - scale * (bounds.x + bounds.width / 2);
             const translateY = height / 2 - scale * (bounds.y + bounds.height / 2);
             
@@ -1017,6 +1160,7 @@ function updateTreeLayout() {
         }
     }
     updateZoomIndicator();
+    applyLabelCollisionCulling();
     
     // Add click handlers for node expansion/collapse (for nodes with children)
     // Use double-click for expand/collapse to avoid conflict with navigation
@@ -1266,6 +1410,7 @@ function highlightTrailToRoot(nodePath) {
     treeG.selectAll('.tree-node').classed('tree-node-trail', function() {
         return set.has((d3.select(this).attr('data-tree-path') || '').trim());
     });
+    scheduleLabelCollisionCulling();
 }
 
 // Clear trail highlight only (links and nodes)
@@ -1274,6 +1419,7 @@ function clearTrailHighlight() {
         treeG.selectAll('.tree-link').classed('tree-link-trail', false);
         treeG.selectAll('.tree-node').classed('tree-node-trail', false);
     }
+    scheduleLabelCollisionCulling();
 }
 
 // Remove search highlight, pulse ring, and trail from the tree
