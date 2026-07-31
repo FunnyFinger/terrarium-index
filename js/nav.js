@@ -107,7 +107,7 @@
             backBtnHtml +
             '<div class="nav-logo-spacer"></div>' +
             '<div class="nav-logo">' +
-            '<a href="/" class="logo-link"><img src="assets/vivarium-store-logo.svg" alt="" class="logo-img" width="32" height="32"><span class="logo-text"><span class="logo-text-main">Vivarium</span> <span class="logo-text-accent">Store</span></span></a>' +
+            '<a href="/" class="logo-link"><img src="assets/vivarium-store-logo.svg?v=2" alt="" class="logo-img" width="32" height="32"><span class="logo-text"><span class="logo-text-main">Vivarium</span> <span class="logo-text-accent">Store</span></span></a>' +
             '</div>' +
             '<div class="nav-search" id="navSearch">' +
             '<button type="button" class="nav-search-toggle" id="navSearchToggle" aria-label="Open search" title="Search" aria-expanded="false">' +
