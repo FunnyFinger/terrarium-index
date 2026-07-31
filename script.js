@@ -1766,16 +1766,17 @@ function setupEventListeners() {
             return;
         }
         const rect = filtersSidebar.getBoundingClientRect();
-        const height = controlPanelEdgeActions.offsetHeight;
+        const height = controlPanelEdgeActions.offsetHeight || 0;
         const half = height / 2;
-        const minCenter = EDGE_ACTIONS_MIN_TOP + half;
-        const panelTopCenter = rect.top + half;
-        const panelBottomCenter = rect.bottom - half;
+        // Keep the stack's vertical center within the panel, preferring viewport center.
+        // `top` must be the center Y because CSS uses transform: translateY(-50%).
+        const minCenter = Math.max(EDGE_ACTIONS_MIN_TOP + half, rect.top + half);
+        const maxCenter = Math.max(minCenter, rect.bottom - half);
         const viewportCenter = window.innerHeight / 2;
-        const center = Math.max(minCenter, Math.min(panelBottomCenter, Math.max(panelTopCenter, viewportCenter)));
-        const top = center - half;
-        controlPanelEdgeActions.style.top = top + 'px';
+        const center = Math.min(maxCenter, Math.max(minCenter, viewportCenter));
+        controlPanelEdgeActions.style.top = center + 'px';
         controlPanelEdgeActions.style.transform = 'translateY(-50%)';
+        controlPanelEdgeActions.style.left = rect.right + 'px';
     }
 
     function isFiltersMobile() {
