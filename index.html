@@ -65,7 +65,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"></noscript>
-    <link rel="stylesheet" href="styles.css?v=16">
+    <link rel="stylesheet" href="styles.css?v=17">
     <!-- build-vivarium.css loads only on build-vivarium.html (not needed for catalog) -->
     <style>
       html.embed-add-standby body { opacity: 0; pointer-events: none; }
@@ -276,7 +276,7 @@
 
     <header>
         <div class="banner">
-            <img src="images/banner.jpg" alt="Water droplets on a tropical leaf — Vivarium Store" class="banner-image" decoding="async">
+            <img src="images/banner.jpg" alt="Water droplets on a tropical leaf - Vivarium Store" class="banner-image" decoding="async">
             <div id="main-nav-container"></div>
             <div class="banner-overlay">
                 <h1>Vivarium Store</h1>
@@ -1839,8 +1839,22 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p class="footer-copy">&copy; <span id="footer-year">2026</span> Vivarium Store &ndash; All rights reserved.</p>
-                <p class="footer-credit">Data sourced from various plant databases.</p>
+                <div class="footer-social" aria-label="Social media">
+                    <div class="footer-social-heading">
+                        <span class="footer-follow">Follow us</span>
+                        <span class="footer-soon-badge">Coming soon</span>
+                    </div>
+                    <ul class="footer-social-list">
+                        <li><span class="footer-social-link footer-social-link--soon" title="Instagram - coming soon" aria-label="Instagram - coming soon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span></li>
+                        <li><span class="footer-social-link footer-social-link--soon" title="Facebook - coming soon" aria-label="Facebook - coming soon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H7v3h3v7h3v-7h3l1-3h-4v-2c0-.6.4-1 1-1z"/></svg></span></li>
+                        <li><span class="footer-social-link footer-social-link--soon" title="X - coming soon" aria-label="X - coming soon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 3H21l-6.5 7.4L22 21h-6.2l-4.9-6.4L5.7 21H3.5l7-8L2 3h6.3l4.4 5.8L18.9 3zm-1.1 16.2h1.7L6.3 4.7H4.5l13.3 14.5z"/></svg></span></li>
+                        <li><span class="footer-social-link footer-social-link--soon" title="Pinterest - coming soon" aria-label="Pinterest - coming soon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.5 2 2 6.5 2 12c0 4.2 2.6 7.8 6.3 9.2-.1-.8-.2-2 0-2.9.2-.8 1.2-5 1.2-5s-.3-.6-.3-1.5c0-1.4.8-2.4 1.8-2.4.9 0 1.3.6 1.3 1.4 0 .9-.6 2.2-.9 3.4-.2 1 .5 1.8 1.5 1.8 1.8 0 3.1-1.9 3.1-4.6 0-2.4-1.7-4.1-4.2-4.1-2.9 0-4.6 2.1-4.6 4.4 0 .9.3 1.8.8 2.3.1.1.1.2.1.3l-.3 1.2c0 .2-.2.2-.3.1-1.3-.6-2.1-2.5-2.1-4 0-3.3 2.4-6.3 6.9-6.3 3.6 0 6.4 2.6 6.4 6 0 3.6-2.3 6.5-5.4 6.5-1.1 0-2.1-.6-2.4-1.2l-.7 2.5c-.2.9-.9 2-1.3 2.7.1 0 1.9.3 3 .3 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg></span></li>
+                    </ul>
+                </div>
+                <div class="footer-bottom-meta">
+                    <p class="footer-copy">&copy; <span id="footer-year">2026</span> Vivarium Store &ndash; All rights reserved.</p>
+                    <p class="footer-credit">Data sourced from various plant databases.</p>
+                </div>
             </div>
         </div>
     </footer>

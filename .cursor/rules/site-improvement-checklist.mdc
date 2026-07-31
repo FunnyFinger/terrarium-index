@@ -127,11 +127,10 @@ alwaysApply: false
 
 ## Phase 6 — Polish
 
-### Step 19 — Add social media links to the footer
-- [ ] Find the footer social link placeholders in `index.html` (and any shared nav/footer)
-- [ ] Ask the user for the real Facebook, Instagram, Twitter/X, and Pinterest URLs
-- [ ] Replace `href="#"` with the real URLs and add `target="_blank" rel="noopener noreferrer"`
-- **Confirm before continuing:** "Step 19 complete — social links updated. Ready for Step 20?"
+### ✅ Step 19 — Add social media links to the footer
+- [x] Find the footer social link placeholders in `index.html` (and any shared nav/footer)
+- [x] Coming soon treatment (icons + badge) until real Facebook, Instagram, X, and Pinterest URLs are available
+- [x] No dead `href="#"` links — non-interactive soon state with accessible labels
 
 ### Step 20 — Remove redundant data.js load
 - [ ] In `index.html`, confirm that `data/plant-loader.js` fully replaces `data.js`
