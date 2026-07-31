@@ -197,26 +197,17 @@
             pointer-events: all;
         }
         
-        .tree-label.domain {
-            font-weight: 700;
-            fill: #0d1805;
-        }
-        
+        /* Rank weight only — color stays theme-adaptive via --text-color */
+        .tree-label.domain,
         .tree-label.kingdom {
             font-weight: 700;
-            fill: #1a3009;
         }
         
         .tree-label.phylum {
             font-weight: 600;
-            fill: #2d5016;
         }
         
-        .tree-label.class {
-            font-weight: 500;
-            fill: #4a7c2a;
-        }
-        
+        .tree-label.class,
         .tree-label.order {
             font-weight: 500;
         }
@@ -468,7 +459,7 @@
         
         .tree-node.tree-node-highlight .tree-label {
             font-weight: 700;
-            fill: var(--accent-color);
+            fill: var(--primary-color);
         }
         
         .tree-node-pulse {
@@ -494,7 +485,7 @@
             filter: brightness(1.1);
         }
         .tree-node.tree-node-trail .tree-label {
-            fill: var(--accent-color);
+            fill: var(--primary-color);
             font-weight: 600;
         }
         
@@ -693,6 +684,6 @@
     <script defer src="data.js?v=3"></script>
     <script defer src="data/plant-loader.js?v=6"></script>
     <script defer src="images.js?v=11"></script>
-    <script defer src="taxonomy.js?v=4"></script>
+    <script defer src="taxonomy.js?v=5"></script>
 </body>
 </html>
