@@ -122,16 +122,15 @@
             '</nav>';
     }
 
-    /** Match storefront badge rules: whole qty adds by units; fractional line counts as 1. */
+    /** Unique line items only (qty of 3 of one plant still counts as 1). */
     function cartBadgeCount(cart) {
         if (!cart || !cart.length) return 0;
-        var sum = 0;
+        var n = 0;
         for (var i = 0; i < cart.length; i++) {
             var qty = parseFloat(cart[i].quantity);
-            if (isNaN(qty) || qty <= 0) continue;
-            sum += (qty % 1 === 0) ? qty : 1;
+            if (!isNaN(qty) && qty > 0) n += 1;
         }
-        return Math.max(0, sum);
+        return n;
     }
 
     function setCartCount() {

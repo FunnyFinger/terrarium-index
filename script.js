@@ -911,13 +911,12 @@ function removeFromCart(plantId) {
 function clearCart() {
     setCart([]);
 }
-/** Nav badge: integer = number of line items (each item counts as 1; float qty still shows in drawer). */
+/** Nav badge: number of unique line items (not total quantity). */
 function getCartCount() {
-    return Math.max(0, getCart().reduce((sum, item) => {
+    return getCart().filter((item) => {
         const qty = parseFloat(item.quantity);
-        if (isNaN(qty) || qty <= 0) return sum;
-        return sum + (qty % 1 === 0 ? qty : 1);
-    }, 0));
+        return !isNaN(qty) && qty > 0;
+    }).length;
 }
 function updateCartUI() {
     const cart = getCart();
