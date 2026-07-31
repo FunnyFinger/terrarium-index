@@ -156,6 +156,25 @@ function getCardThumbUrl(url, width, quality) {
     return match[1] + '/storage/v1/render/image/public/' + match[3] + '?width=' + w + '&quality=' + q + '&resize=contain';
 }
 
+/** Responsive srcset for card images (Supabase render widths). Empty string if not transformable. */
+function getCardThumbSrcset(url, quality) {
+    if (!url || typeof url !== 'string') return '';
+    var q = quality || 60;
+    var widths = [280, 360, 480];
+    var parts = [];
+    for (var i = 0; i < widths.length; i++) {
+        var u = getCardThumbUrl(url, widths[i], q);
+        if (!u || u === url) return '';
+        parts.push(u + ' ' + widths[i] + 'w');
+    }
+    return parts.join(', ');
+}
+
+/** sizes hint for catalog card grid — works for mobile (2-col) and desktop (multi-col). */
+function getCardThumbSizes() {
+    return '(max-width: 600px) 45vw, (max-width: 1024px) 30vw, 280px';
+}
+
 /**
  * Returns the full-resolution URL for a given image URL.
  * - Supabase URLs: returned as-is (Supabase serves full res without width params).
@@ -258,6 +277,7 @@ async function initializePlants() {
         if (window.inventoryDb && window.inventoryDb.mergeInventoryIntoPlants) {
             await window.inventoryDb.mergeInventoryIntoPlants(allPlants);
         }
+        clearPlantVivariumTypesCache();
         initializeUI();
         return;
     }
@@ -728,6 +748,8 @@ if (typeof window !== 'undefined') {
     window.isIntegerUnitQuickAdd = isIntegerUnitQuickAdd;
     window.getCardThumbUrl = getCardThumbUrl;
     window.getCardThumbWidth = getCardThumbWidth;
+    window.getCardThumbSrcset = getCardThumbSrcset;
+    window.getCardThumbSizes = getCardThumbSizes;
 }
 
 const CART_STORAGE_KEY = 'terrarium_cart';
@@ -2887,11 +2909,38 @@ function extractAirCirculation(plant) {
     return 'Moderate (Ventilated)';
 }
 
+/** Per-plant cache for vivarium type badges (cleared when catalog reloads). */
+const _plantVivariumTypesCache = new Map();
+function clearPlantVivariumTypesCache() {
+    _plantVivariumTypesCache.clear();
+}
+function invalidatePlantVivariumTypesCache(plantId) {
+    if (plantId != null) _plantVivariumTypesCache.delete(String(plantId));
+}
+
 // Calculate vivarium types for a plant using mathematical logic
 function calculatePlantVivariumTypes(plant) {
+    var cacheKey = plant && plant.id != null ? String(plant.id) : '';
+    if (cacheKey && _plantVivariumTypesCache.has(cacheKey)) {
+        var hit = _plantVivariumTypesCache.get(cacheKey);
+        window.__lastVivariumScores = hit.scores;
+        return hit.results.slice();
+    }
+    var computed = calculatePlantVivariumTypesUncached(plant);
+    if (cacheKey) {
+        _plantVivariumTypesCache.set(cacheKey, {
+            results: Array.isArray(computed) ? computed.slice() : [],
+            scores: window.__lastVivariumScores || {}
+        });
+    }
+    return computed;
+}
+
+function calculatePlantVivariumTypesUncached(plant) {
     try {
-        // Vivarium type definitions with natural language descriptions and numeric scales
-        const VIVARIUM_TYPES = {
+        // Build type config once — descriptions are unused for scoring but kept for parity
+        if (!calculatePlantVivariumTypesUncached._types) {
+        calculatePlantVivariumTypesUncached._types = {
             'open-terrarium': { 
                 name: 'Open Terrarium', 
                 description: 'Imagine a glass container with its top partially open, creating a delicate balance between humidity and fresh air. This is the open terrarium, where tropical plants find their perfect home. The design allows gentle air currents to flow through while maintaining that essential high humidity that many plants crave. You\'ll find terrestrial plants and epiphytes thriving here, their leaves glistening with moisture yet breathing freely. Hardscape elements like driftwood, rocks, and porous walls provide mounting surfaces for epiphytic plants, creating vertical interest and maximizing space utilization. The partially open design prevents the stagnant air conditions that can lead to mold and fungal issues, while still providing the elevated moisture levels that tropical species require. This setup is particularly well-suited for plants that benefit from some air movement, such as those prone to rot in completely still environments. Since the open design allows humidity to escape more readily than closed systems, humidity levels can be restored or maintained through manual misting or automatic water spraying and fogging systems. The increased ventilation also makes open terrariums more forgiving for beginners, as they\'re less prone to overwatering issues and allow for easier adjustment of environmental conditions.',
@@ -3026,6 +3075,8 @@ function calculatePlantVivariumTypes(plant) {
                 waterBody: false
             }
         };
+        }
+        const VIVARIUM_TYPES = calculatePlantVivariumTypesUncached._types;
         
         // Use global NUMERIC_SCALES and mapPlantToInputs
         // (removed duplicate definitions - they're defined at module level)
@@ -4692,6 +4743,8 @@ function createEquipmentCard(equipment) {
     let displayImageUrl = equipment.imageUrl || (equipment.images && equipment.images[0]) || null;
     if (displayImageUrl && imageUtils && typeof imageUtils.normalizePlantImagePath === 'function') displayImageUrl = imageUtils.normalizePlantImagePath(displayImageUrl);
     var equipmentCardImgSrc = displayImageUrl && typeof getCardThumbUrl === 'function' ? getCardThumbUrl(displayImageUrl, getCardThumbWidth()) : displayImageUrl;
+    var equipmentCardSrcset = displayImageUrl && typeof getCardThumbSrcset === 'function' ? getCardThumbSrcset(displayImageUrl) : '';
+    var equipmentCardSizes = equipmentCardSrcset && typeof getCardThumbSizes === 'function' ? getCardThumbSizes() : '';
     const priceStr = equipment.price != null ? formatPrice(equipment.price) : 'Price on request';
     const available = getAvailableToAdd(equipment.id);
     const quickAddHtml = getQuickAddHtml(equipment, {
@@ -4703,7 +4756,7 @@ function createEquipmentCard(equipment) {
     card.innerHTML = `
         <div class="plant-image-container" data-plant-id="${equipment.id}">
             ${equipmentCardImgSrc ?
-                `<img src="${equipmentCardImgSrc}" alt="${escapeHtml(equipment.name)}" class="plant-image" loading="lazy" data-plant-id="${equipment.id}" onerror="this.onerror=null;this.style.display='none';this.parentNode.insertAdjacentHTML('afterbegin','<div class=\\'image-placeholder\\'>${PLACEHOLDER_EQUIPMENT_SVG.replace(/'/g, "\\'").replace(/"/g, '&quot;')}</div>')">` :
+                `<img src="${equipmentCardImgSrc}"${equipmentCardSrcset ? ` srcset="${equipmentCardSrcset}" sizes="${equipmentCardSizes}"` : ''} alt="${escapeHtml(equipment.name)}" class="plant-image" loading="lazy" decoding="async" data-plant-id="${equipment.id}" onerror="this.onerror=null;this.style.display='none';this.parentNode.insertAdjacentHTML('afterbegin','<div class=\\'image-placeholder\\'>${PLACEHOLDER_EQUIPMENT_SVG.replace(/'/g, "\\'").replace(/"/g, '&quot;')}</div>')">` :
                 '<div class="image-placeholder">' + PLACEHOLDER_EQUIPMENT_SVG + '</div>'
             }
             <div class="card-icons equipment-card-icons">
@@ -5001,12 +5054,14 @@ function createVivariumCard(vivarium) {
     });
     var displayImageUrl = vivarium.imageUrl || (vivarium.images && vivarium.images[0]) || null;
     var vivariumCardImgSrc = displayImageUrl && typeof getCardThumbUrl === 'function' ? getCardThumbUrl(displayImageUrl, getCardThumbWidth()) : displayImageUrl;
+    var vivariumCardSrcset = displayImageUrl && typeof getCardThumbSrcset === 'function' ? getCardThumbSrcset(displayImageUrl) : '';
+    var vivariumCardSizes = vivariumCardSrcset && typeof getCardThumbSizes === 'function' ? getCardThumbSizes() : '';
     var priceStr = vivarium.price != null ? formatPrice(vivarium.price) : 'Price on request';
     var typeLabel = (vivarium.type || '').replace(/-/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); });
     var editSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
     var imageSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>';
     card.innerHTML = '<div class="plant-image-container" data-plant-id="' + vivarium.id + '">' +
-        (vivariumCardImgSrc ? '<img src="' + escapeHtml(vivariumCardImgSrc) + '" alt="' + escapeHtml(vivarium.name) + '" class="plant-image" loading="lazy" data-plant-id="' + vivarium.id + '">' : '<div class="image-placeholder">' + PLACEHOLDER_EQUIPMENT_SVG + '</div>') +
+        (vivariumCardImgSrc ? '<img src="' + escapeHtml(vivariumCardImgSrc) + '"' + (vivariumCardSrcset ? ' srcset="' + escapeHtml(vivariumCardSrcset) + '" sizes="' + escapeHtml(vivariumCardSizes) + '"' : '') + ' alt="' + escapeHtml(vivarium.name) + '" class="plant-image" loading="lazy" decoding="async" data-plant-id="' + vivarium.id + '">' : '<div class="image-placeholder">' + PLACEHOLDER_EQUIPMENT_SVG + '</div>') +
         '<div class="card-icons">' +
         '<button type="button" class="card-edit-icon" title="Edit details" aria-label="Edit details">' + editSvg + '</button>' +
         '<button type="button" class="card-image-icon" title="Add or edit images" aria-label="Add or edit images">' + imageSvg + '</button>' +
@@ -6974,6 +7029,10 @@ function createPlantCard(plant) {
     var cardImgSrc = displayImageUrl && typeof getCardThumbUrl === 'function'
         ? getCardThumbUrl(displayImageUrl, getCardThumbWidth())
         : displayImageUrl;
+    var cardImgSrcset = displayImageUrl && typeof getCardThumbSrcset === 'function'
+        ? getCardThumbSrcset(displayImageUrl)
+        : '';
+    var cardImgSizes = cardImgSrcset && typeof getCardThumbSizes === 'function' ? getCardThumbSizes() : '';
     // Create a unique identifier for this card to help with updates
     card.dataset.plantId = plant.id;
     
@@ -7000,7 +7059,7 @@ function createPlantCard(plant) {
                 </div>
             ` : ''}
             ${cardImgSrc ?
-                `<img src="${cardImgSrc}" alt="${plant.name}" class="plant-image" loading="lazy" onerror="this.onerror=null; handleImageError(this, ${plant.id})" data-plant-id="${plant.id}">` :
+                `<img src="${cardImgSrc}"${cardImgSrcset ? ` srcset="${cardImgSrcset}" sizes="${cardImgSizes}"` : ''} alt="${plant.name}" class="plant-image" loading="lazy" decoding="async" onerror="this.onerror=null; handleImageError(this, ${plant.id})" data-plant-id="${plant.id}">` :
                 `<div class="image-placeholder">${PLACEHOLDER_PLANT_SVG}</div>`
             }
             <div class="card-icons plant-card-icons">

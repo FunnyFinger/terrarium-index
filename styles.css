@@ -235,7 +235,7 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Lato', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
     line-height: 1.6;
@@ -3756,6 +3756,8 @@ main {
     transition: transform 0.3s, box-shadow 0.3s, z-index 0s;
     cursor: pointer;
     border: 2px solid transparent;
+    content-visibility: auto;
+    contain-intrinsic-size: auto 360px;
 }
 .plant-card .plant-info {
     flex: 1;

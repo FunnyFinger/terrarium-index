@@ -6,12 +6,13 @@
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#2d5016" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#1a2e0a" media="(prefers-color-scheme: dark)">
-    <title>Inventory ? Vivarium Store</title>
+    <title>Inventory â€“ Vivarium Store</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://wftupkrpgwdewnytlgms.supabase.co" crossorigin>
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"></noscript>
-    <link rel="stylesheet" href="styles.css?v=17">
+    <link rel="stylesheet" href="styles.css?v=18">
     <style>
         body.inventory-page { overflow-x: hidden; box-sizing: border-box; }
         body.inventory-page * { box-sizing: border-box; }
@@ -124,7 +125,10 @@
     </div>
     <header>
         <div class="banner">
-            <img src="images/banner.jpg" alt="Water droplets on a tropical leaf ? Vivarium Store" class="banner-image">
+            <picture>
+                <source type="image/webp" srcset="images/banner-800.webp 800w, images/banner.webp 1200w, images/banner-1600.webp 1600w" sizes="100vw">
+                <img src="images/banner.jpg" srcset="images/banner-800.jpg 800w, images/banner.jpg 1200w, images/banner-1600.jpg 1600w" sizes="100vw" alt="Water droplets on a tropical leaf - Vivarium Store" class="banner-image" decoding="async" fetchpriority="high" width="1200" height="839">
+            </picture>
             <div id="main-nav-container"></div>
             <div class="banner-overlay">
                 <h1>Inventory</h1>
@@ -326,7 +330,7 @@
         <div class="inv-editor-box inv-order-detail-box">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
                 <h3 id="invDetailTitle" style="margin: 0; color: var(--primary-color);"></h3>
-                <button type="button" class="cancel" id="invDetailClose" aria-label="Close">×</button>
+                <button type="button" class="cancel" id="invDetailClose" aria-label="Close">Ã—</button>
             </div>
             <div id="invDetailBody" style="font-size: 0.95rem; line-height: 1.5;"></div>
             <div class="inv-editor-actions inv-staff-only" style="margin-top: 1rem;">
@@ -358,10 +362,10 @@
                 <option value="piece">1 piece</option>
                 <option value="KG">1 KG</option>
                 <option value="L">1 L</option>
-                <option value="m3">1 m³</option>
-                <option value="m2">1 m²</option>
+                <option value="m3">1 mÂ³</option>
+                <option value="m2">1 mÂ²</option>
                 <option value="cm">1 cm</option>
-                <option value="cm2">1 cm²</option>
+                <option value="cm2">1 cmÂ²</option>
                 <option value="bag">1 bag</option>
                 <option value="set">1 set</option>
             </select>
@@ -377,7 +381,7 @@
                 <h3 id="invOrderDetailTitle" style="margin: 0; color: var(--primary-color);">Order #0</h3>
                 <div style="display: flex; gap: 0.5rem; align-items: center;">
                     <button type="button" class="inv-edit-btn" id="invOrderDetailPrint" style="margin: 0;">Print</button>
-                    <button type="button" class="cancel" id="invOrderDetailClose" aria-label="Close">×</button>
+                    <button type="button" class="cancel" id="invOrderDetailClose" aria-label="Close">Ã—</button>
                 </div>
             </div>
             <div id="invOrderDetailBody"></div>
@@ -1355,7 +1359,7 @@
                         return '<tr><td><em>' + scientificName + '</em></td><td>' + s.quantity + '</td><td>' + (s.amount != null ? formatPrice(s.amount) : '?') + '</td><td>' + (profit != null ? formatPrice(profit) : '?') + '</td><td>' + d.toLocaleString() + '</td></tr>';
                     });
                     tbody.innerHTML = rows.join('');
-                    if (summary) summary.textContent = 'Last ' + sales.length + ' sales · Total: ' + formatPrice(totalAmount) + (totalProfit !== 0 ? ' · Profit: ' + formatPrice(totalProfit) : '');
+                    if (summary) summary.textContent = 'Last ' + sales.length + ' sales Â· Total: ' + formatPrice(totalAmount) + (totalProfit !== 0 ? ' Â· Profit: ' + formatPrice(totalProfit) : '');
                 });
             }
             renderSales();
@@ -1407,12 +1411,12 @@
                         return;
                     }
                     empty.classList.add('hidden');
-                    if (summary) summary.textContent = orders.length + ' order(s) · Click a row to view details';
+                    if (summary) summary.textContent = orders.length + ' order(s) Â· Click a row to view details';
                     tbody.innerHTML = orders.map(function(o) {
                         var d = new Date(o.createdAt);
                         var cust = o.customer || {};
                         var name = (cust.name || '?').trim() || '?';
-                        var contact = [cust.email, cust.phone].filter(Boolean).join(' · ') || '?';
+                        var contact = [cust.email, cust.phone].filter(Boolean).join(' Â· ') || '?';
                         var total = o.totalAmount != null ? formatPrice(o.totalAmount) : '?';
                         return '<tr data-order-id="' + o.id + '" role="button" tabindex="0"><td>' + o.id + '</td><td>' + d.toLocaleString() + '</td><td>' + name + '</td><td>' + contact + '</td><td>' + total + '</td><td>' + (o.status || 'confirmed') + '</td></tr>';
                     }).join('');

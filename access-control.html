@@ -6,12 +6,13 @@
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#2d5016" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#1a2e0a" media="(prefers-color-scheme: dark)">
-    <title>Access control ù Vivarium Store</title>
+    <title>Access control ‚Äî Vivarium Store</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://wftupkrpgwdewnytlgms.supabase.co" crossorigin>
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"></noscript>
-    <link rel="stylesheet" href="styles.css?v=17">
+    <link rel="stylesheet" href="styles.css?v=18">
     <style>
         .access-page { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
         .access-page h1 { color: var(--primary-color); margin-bottom: 0.5rem; }
@@ -90,7 +91,10 @@
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <header>
         <div class="banner">
-            <img src="images/banner.jpg" alt="Water droplets on a tropical leaf ù Vivarium Store" class="banner-image">
+            <picture>
+                <source type="image/webp" srcset="images/banner-800.webp 800w, images/banner.webp 1200w, images/banner-1600.webp 1600w" sizes="100vw">
+                <img src="images/banner.jpg" srcset="images/banner-800.jpg 800w, images/banner.jpg 1200w, images/banner-1600.jpg 1600w" sizes="100vw" alt="Water droplets on a tropical leaf ‚Äî Vivarium Store" class="banner-image" decoding="async" fetchpriority="high" width="1200" height="839">
+            </picture>
             <div id="main-nav-container"></div>
             <div class="banner-overlay">
                 <h1>Access control</h1>
@@ -100,7 +104,7 @@
     </header>
     <main id="main-content" class="access-page" tabindex="-1">
         <p class="sub">Change roles for admins and users. Only the owner can access this page. Promoting someone to Owner requires your password and confirmation.</p>
-        <div id="accessLoading" class="access-loading">Loading usersù</div>
+        <div id="accessLoading" class="access-loading">Loading users‚Äî</div>
         <div id="accessContent" style="display: none;">
             <div class="access-table-wrap">
                 <table class="access-table">
@@ -241,7 +245,7 @@
                     return;
                 }
                 ownerConfirmBtn.disabled = true;
-                ownerErrorEl.textContent = 'Verifying passwordù';
+                ownerErrorEl.textContent = 'Verifying password‚Äî';
                 window.supabaseAuth.signIn(me.email, password).then(function() {
                     closeOwnerModal(true);
                 }).catch(function(err) {

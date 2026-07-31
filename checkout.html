@@ -11,9 +11,10 @@
     <link rel="canonical" href="https://vivarium-store.com/checkout.html">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://wftupkrpgwdewnytlgms.supabase.co" crossorigin>
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"></noscript>
-    <link rel="stylesheet" href="styles.css?v=17">
+    <link rel="stylesheet" href="styles.css?v=18">
     <style>
         .checkout-page { max-width: 720px; margin: 2rem auto; padding: 0 1rem; display: flex; flex-direction: column; gap: 2rem; }
         .checkout-page h1, .checkout-page h2 { color: var(--primary-color); margin-bottom: 0.75rem; }
@@ -60,7 +61,10 @@
     <header>
         <div class="banner">
             <div id="main-nav-container"></div>
-            <img src="images/banner.jpg" alt="Water droplets on a tropical leaf — Vivarium Store" class="banner-image">
+            <picture>
+                <source type="image/webp" srcset="images/banner-800.webp 800w, images/banner.webp 1200w, images/banner-1600.webp 1600w" sizes="100vw">
+                <img src="images/banner.jpg" srcset="images/banner-800.jpg 800w, images/banner.jpg 1200w, images/banner-1600.jpg 1600w" sizes="100vw" alt="Water droplets on a tropical leaf â€” Vivarium Store" class="banner-image" decoding="async" fetchpriority="high" width="1200" height="839">
+            </picture>
             <div class="banner-overlay">
                 <h1>Checkout</h1>
                 <p class="subtitle">Complete your order</p>

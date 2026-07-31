@@ -6,18 +6,18 @@
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#2d5016" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#1a2e0a" media="(prefers-color-scheme: dark)">
-    <title>Build Your Own Vivarium â€“ Vivarium Store</title>
+    <title>Build Your Own Vivarium – Vivarium Store</title>
     <meta name="description" content="Step-by-step vivarium builder. Choose your enclosure type, substrate, plants, and accessories to create the perfect open terrarium, paludarium, or closed terrarium.">
     <link rel="canonical" href="https://vivarium-store.com/build-vivarium.html">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://vivarium-store.com/build-vivarium.html">
-    <meta property="og:title" content="Build Your Own Vivarium â€“ Vivarium Store">
+    <meta property="og:title" content="Build Your Own Vivarium – Vivarium Store">
     <meta property="og:description" content="Step-by-step vivarium builder. Choose your enclosure type, substrate, plants, and accessories to create the perfect setup.">
     <meta property="og:image" content="https://vivarium-store.com/images/banner.jpg">
     <meta property="og:site_name" content="Vivarium Store">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Build Your Own Vivarium â€“ Vivarium Store">
-    <meta name="twitter:description" content="Step-by-step vivarium builder â€” choose enclosure, plants and accessories for your perfect setup.">
+    <meta name="twitter:title" content="Build Your Own Vivarium – Vivarium Store">
+    <meta name="twitter:description" content="Step-by-step vivarium builder — choose enclosure, plants and accessories for your perfect setup.">
     <meta name="twitter:image" content="https://vivarium-store.com/images/banner.jpg">
     <script>
       (function() {
@@ -32,9 +32,10 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg?v=2">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://wftupkrpgwdewnytlgms.supabase.co" crossorigin>
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"></noscript>
-    <link rel="stylesheet" href="styles.css?v=17">
+    <link rel="stylesheet" href="styles.css?v=18">
     <link rel="stylesheet" href="build-vivarium.css?v=26">
 </head>
 <body>
@@ -42,11 +43,14 @@
     <div id="quickAddToast" class="quick-add-toast" aria-live="polite" role="status"></div>
     <header>
         <div class="banner">
-            <img src="images/banner.jpg" alt="Water droplets on a tropical leaf - Vivarium Store" class="banner-image">
+            <picture>
+                <source type="image/webp" srcset="images/banner-800.webp 800w, images/banner.webp 1200w, images/banner-1600.webp 1600w" sizes="100vw">
+                <img src="images/banner.jpg" srcset="images/banner-800.jpg 800w, images/banner.jpg 1200w, images/banner-1600.jpg 1600w" sizes="100vw" alt="Water droplets on a tropical leaf - Vivarium Store" class="banner-image" decoding="async" fetchpriority="high" width="1200" height="839">
+            </picture>
             <div id="main-nav-container"></div>
             <div class="banner-overlay">
                 <h1>Build Your Own Vivarium</h1>
-                <p class="subtitle">Design a living landscape step by stepâ€”enclosure, drainage, substrate, hard scape, plants, decorations, accessories, and tools, then add your build to the cart.</p>
+                <p class="subtitle">Design a living landscape step by step—enclosure, drainage, substrate, hard scape, plants, decorations, accessories, and tools, then add your build to the cart.</p>
             </div>
         </div>
     </header>
@@ -205,7 +209,7 @@
                 <p id="buildSelected6" class="build-selected-choice" aria-live="polite"></p>
                 <p class="build-panel-desc">Choose plants that match your vivarium type. Click a name for full details.</p>
                 <div class="build-plants-toolbar">
-                    <input type="text" id="buildPlantSearch" class="build-search-input" placeholder="Search by name or scientific nameâ€¦" autocomplete="off">
+                    <input type="text" id="buildPlantSearch" class="build-search-input" placeholder="Search by name or scientific name…" autocomplete="off">
                     <p id="buildPlantLimitHint" class="build-plant-limit-hint" aria-live="polite"></p>
                 </div>
                 <div id="buildPlantList" class="build-plant-list"></div>
@@ -330,7 +334,7 @@
     <script defer src="filters.js?v=1"></script>
     <script defer src="images.js?v=11"></script>
     <!-- upload.js lazy-loaded by script.js only if staff opens the editor -->
-    <script defer src="script.js?v=22"></script>
+    <script defer src="script.js?v=23"></script>
     <script defer src="build-vivarium.js?v=31"></script>
 </body>
 </html>
