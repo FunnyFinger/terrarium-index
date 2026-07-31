@@ -5477,7 +5477,7 @@ function showVivariumDetail(vivarium) {
                 }
                 hideBtn.title = nextHidden ? 'Show this vivarium in the shop' : 'Hide this vivarium from shoppers';
                 hideBtn.setAttribute('aria-label', nextHidden ? 'Show vivarium in shop' : 'Hide vivarium from shoppers');
-                hideBtn.innerHTML = '<span>' + (nextHidden ? 'Show in shop' : 'Hide from shoppers') + '</span>';
+                hideBtn.innerHTML = detailHideButtonHtml(nextHidden, 'Show in shop', 'Hide from shoppers');
             }
         } : null
     });
@@ -5655,7 +5655,7 @@ function showEquipmentDetail(equipment) {
                 }
                 hideBtn.title = nextHidden ? 'Show this supply in the shop' : 'Hide this supply from shoppers';
                 hideBtn.setAttribute('aria-label', nextHidden ? 'Show supply in shop' : 'Hide supply from shoppers');
-                hideBtn.innerHTML = '<span>' + (nextHidden ? 'Show in shop' : 'Hide from shoppers') + '</span>';
+                hideBtn.innerHTML = detailHideButtonHtml(nextHidden, 'Show in shop', 'Hide from shoppers');
             }
         } : null
     });
@@ -7257,6 +7257,14 @@ window.hydratePlantFromCatalog = hydratePlantFromCatalog;
 var DETAIL_EDIT_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
 var DETAIL_IMAGE_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>';
 var DETAIL_STAR_SVG = '<svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+var DETAIL_EYE_OFF_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+var DETAIL_EYE_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+
+function detailHideButtonHtml(isHidden, showText, hideText) {
+    var icon = isHidden ? DETAIL_EYE_SVG : DETAIL_EYE_OFF_SVG;
+    var label = isHidden ? (showText || 'Show in shop') : (hideText || 'Hide from shoppers');
+    return icon + '<span>' + label + '</span>';
+}
 
 /** Build staff "Manage" control panel (Edit / Image / optional Set as main / Hide). */
 function createDetailControlPanel(options) {
@@ -7293,7 +7301,7 @@ function createDetailControlPanel(options) {
         hideBtn.className = 'detail-btn detail-hide ' + (hc.className || '');
         hideBtn.title = hc.isHidden ? hc.showTitle : hc.hideTitle;
         hideBtn.setAttribute('aria-label', hc.isHidden ? hc.showLabel : hc.hideLabel);
-        hideBtn.innerHTML = '<span>' + (hc.isHidden ? hc.showText : hc.hideText) + '</span>';
+        hideBtn.innerHTML = detailHideButtonHtml(!!hc.isHidden, hc.showText, hc.hideText);
         hideBtn.addEventListener('click', function () {
             if (typeof hc.onToggle === 'function') hc.onToggle(hideBtn);
         });
