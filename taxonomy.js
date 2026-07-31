@@ -774,11 +774,11 @@ function updateTreeLayout() {
             
             // Special handling for "Life" node - horizontal and below
             if (d.data.name === 'Life' && d.data.rank === 'domain') {
-                const lifeFont = `${Math.round(16 * (isNarrow ? 3.25 : 1))}px`;
+                const lifeFont = `${Math.round(16 * (isNarrow ? 1.75 : 1))}px`;
                 textElement.style('font-size', lifeFont);
                 textElement.attr('text-anchor', 'middle');
                 textElement.attr('dx', 0);
-                textElement.attr('dy', isNarrow ? 28 : 20);
+                textElement.attr('dy', isNarrow ? 22 : 20);
                 textElement.attr('transform', 'rotate(0)');
                 return;
             }
@@ -802,8 +802,8 @@ function updateTreeLayout() {
             
             // Calculate text width for left side positioning
             let textWidth = 0;
-            // Narrow viewports start more zoomed-out; enlarge layout fonts so labels stay readable on screen
-            const fontScale = isNarrow ? 3.25 : 1;
+            // Narrow viewports start zoomed-out; mild enlarge keeps labels readable without heavy overlap
+            const fontScale = isNarrow ? 1.75 : 1;
             const baseFont =
                 d.data.rank === 'domain' ? 16 : d.data.rank === 'kingdom' ? 14 :
                 d.data.rank === 'phylum' ? 13 : d.data.rank === 'class' ? 12 :
