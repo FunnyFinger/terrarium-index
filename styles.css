@@ -1251,11 +1251,17 @@ html.detail-startup body {
 }
 
 @media (max-width: 768px) {
+    /* Let the open panel position against .main-nav, not the tiny icon wrap */
+    .nav-search {
+        position: static;
+        margin-left: 0;
+    }
     .nav-search.open .nav-search-panel {
-        position: fixed;
-        top: 0;
+        position: absolute;
         left: 0;
         right: 0;
+        top: 0;
+        width: auto;
         height: var(--main-nav-height);
         padding: 0 0.5rem;
         display: flex;
@@ -1265,11 +1271,18 @@ html.detail-startup body {
         border-bottom: 1px solid var(--border-color);
         box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
         z-index: 1100;
+        box-sizing: border-box;
+    }
+    .nav-search.open .nav-search-input {
+        flex: 1 1 auto;
+        width: 100%;
+        min-width: 0;
     }
     .nav-search-toggle {
         width: 36px;
         height: 36px;
         min-width: 36px;
+        margin-left: auto;
     }
 }
 
