@@ -11,6 +11,15 @@
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
+    # Report-Only: browsers log violations but do NOT block anything (safe to deploy).
+    # Tighten and switch to Content-Security-Policy after reviewing reports.
+    Content-Security-Policy-Report-Only = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://d3js.org https://js.stripe.com https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://*.supabase.co https://vivarium-store.com https://vivarium-store.netlify.app; connect-src 'self' https://*.supabase.co https://challenges.cloudflare.com https://api.stripe.com; frame-src 'self' https://js.stripe.com https://challenges.cloudflare.com; worker-src 'self'; base-uri 'self'; object-src 'none'"
+
+# Custom 404 — only used when no matching file/function exists (does not override real pages)
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404
 
 # Service worker must never be cached — browser checks for SW updates on every page load
 [[headers]]

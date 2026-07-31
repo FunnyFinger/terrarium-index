@@ -6,4 +6,4 @@ Disallow: /inventory.html
 Disallow: /dashboard.html
 Disallow: /access-control.html
 
-Sitemap: https://vivarium-store.netlify.app/sitemap.xml
+Sitemap: https://vivarium-store.com/sitemap.xml

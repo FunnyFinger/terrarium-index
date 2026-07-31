@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"></noscript>
-    <link rel="stylesheet" href="styles.css?v=6">
+    <link rel="stylesheet" href="styles.css?v=9">
     <style>
         body.inventory-page { overflow-x: hidden; box-sizing: border-box; }
         body.inventory-page * { box-sizing: border-box; }
@@ -114,6 +114,7 @@
     </style>
 </head>
 <body class="inventory-page">
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <div id="invAddOverlay" class="inv-add-overlay hidden" aria-hidden="true">
         <div class="inv-add-overlay-bar">
             <h2 id="invAddOverlayTitle">Add new</h2>
@@ -131,7 +132,7 @@
             </div>
         </div>
     </header>
-    <main class="inv-page">
+    <main id="main-content" class="inv-page" tabindex="-1">
         <div class="inv-tabs" role="tablist">
             <button type="button" class="inv-tab active" role="tab" id="invTabInventory" aria-selected="true" aria-controls="invPanelInventory">Inventory &amp; prices</button>
             <button type="button" class="inv-tab inv-staff-only inv-full-only" role="tab" id="invTabSales" aria-selected="false" aria-controls="invPanelSales">Sales tracking</button>

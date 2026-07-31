@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#2d5016" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#1a2e0a" media="(prefers-color-scheme: dark)">
+    <title>Page not found – Vivarium Store</title>
+    <meta name="description" content="This page could not be found. Browse plants and supplies at Vivarium Store.">
+    <link rel="canonical" href="https://vivarium-store.com/404.html">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"></noscript>
+    <link rel="stylesheet" href="styles.css?v=9">
+    <style>
+        .not-found-page {
+            max-width: 36rem;
+            margin: 4rem auto 6rem;
+            padding: 0 1.5rem;
+            text-align: center;
+        }
+        .not-found-page h1 {
+            font-family: "DM Serif Display", Georgia, serif;
+            font-size: clamp(2rem, 5vw, 2.75rem);
+            color: var(--primary-color, #2d5016);
+            margin: 0 0 0.75rem;
+        }
+        .not-found-page p {
+            color: var(--text-light, #666);
+            margin: 0 0 1.75rem;
+            line-height: 1.55;
+        }
+        .not-found-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: center;
+        }
+        .not-found-actions a {
+            display: inline-block;
+            padding: 0.7rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .not-found-actions a.primary {
+            background: var(--primary-color, #2d5016);
+            color: #fff;
+        }
+        .not-found-actions a.secondary {
+            border: 1px solid var(--border-color, #ccc);
+            color: var(--text-color, #222);
+            background: transparent;
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <header>
+        <div class="banner">
+            <img src="images/banner.jpg" alt="Water droplets on a tropical leaf — Vivarium Store" class="banner-image">
+            <div id="main-nav-container"></div>
+            <div class="banner-overlay">
+                <h1>Vivarium Store</h1>
+                <p class="subtitle">Find plants and supplies for your vivarium.</p>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content" class="not-found-page" tabindex="-1">
+        <h1>Page not found</h1>
+        <p>That link doesn’t match anything in the shop. Head back to the catalog or try the vivarium builder.</p>
+        <div class="not-found-actions">
+            <a class="primary" href="index.html">Browse plants</a>
+            <a class="secondary" href="build-vivarium.html">Build a vivarium</a>
+        </div>
+    </main>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script defer src="js/config.js"></script>
+    <script defer src="js/supabase-auth.js"></script>
+    <script defer src="js/auth.js"></script>
+    <script defer src="js/nav.js?v=2"></script>
+</body>
+</html>

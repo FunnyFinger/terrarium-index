@@ -34,7 +34,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"></noscript>
-    <link rel="stylesheet" href="styles.css?v=6">
+    <link rel="stylesheet" href="styles.css?v=9">
     <style>
         .definitions-wrapper {
             display: flex;
@@ -352,6 +352,7 @@
     </style>
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <header>
         <div class="banner">
             <img src="images/banner.jpg" alt="Vivarium Store banner" class="banner-image">
@@ -363,7 +364,7 @@
         </div>
     </header>
 
-    <main class="container">
+    <main id="main-content" class="container" tabindex="-1">
         <a href="index.html" class="back-link" style="display: inline-block; margin: 2rem 2rem 1rem; color: var(--primary-color); text-decoration: none; font-weight: 600; transition: color 0.3s;">← Back to Store</a>
         
         <div class="definitions-wrapper">
@@ -445,10 +446,10 @@
             <div class="footer-bottom">
                 <div class="footer-social">
                     <span class="footer-follow">Follow us</span>
-                    <a href="#" class="footer-social-link" aria-label="Facebook">Facebook</a>
-                    <a href="#" class="footer-social-link" aria-label="Twitter">Twitter</a>
-                    <a href="#" class="footer-social-link" aria-label="Instagram">Instagram</a>
-                    <a href="#" class="footer-social-link" aria-label="Pinterest">Pinterest</a>
+                    <span class="footer-social-link footer-social-link--soon" title="Coming soon">Facebook</span>
+                    <span class="footer-social-link footer-social-link--soon" title="Coming soon">Twitter</span>
+                    <span class="footer-social-link footer-social-link--soon" title="Coming soon">Instagram</span>
+                    <span class="footer-social-link footer-social-link--soon" title="Coming soon">Pinterest</span>
                 </div>
                 <p class="footer-copy">&copy; <span id="footer-year">2026</span> Vivarium Store &ndash; All rights reserved.</p>
                 <p class="footer-credit">Data sourced from various plant databases.</p>

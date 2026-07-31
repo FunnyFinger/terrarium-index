@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"></noscript>
-    <link rel="stylesheet" href="styles.css?v=6">
+    <link rel="stylesheet" href="styles.css?v=9">
     <style>
         .dashboard-page { max-width: 1200px; margin: 0 auto; padding: 1.5rem 1rem; }
         .dashboard-page h1 { color: var(--primary-color); margin-bottom: 1rem; }
@@ -41,6 +41,7 @@
     </style>
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <header>
         <div class="banner">
             <img src="images/banner.jpg" alt="Vivarium Store banner" class="banner-image">
@@ -51,7 +52,7 @@
             </div>
         </div>
     </header>
-    <main class="dashboard-page">
+    <main id="main-content" class="dashboard-page" tabindex="-1">
         <div id="dashboardLoading" class="dashboard-loading">Loading…</div>
         <div id="dashboardContent" style="display: none;">
             <div class="dashboard-kpis">
