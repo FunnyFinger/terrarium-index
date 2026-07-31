@@ -50,6 +50,29 @@ grant execute on function public.is_staff() to authenticated, anon;
 grant execute on function public.is_catalog_editor() to authenticated, anon;
 grant execute on function public.is_owner_user() to authenticated, anon;
 
+-- ---- App settings: owner email (synced from Netlify SUPABASE_OWNER_EMAIL) ----
+create table if not exists public.app_settings (
+  id int primary key default 1 check (id = 1),
+  owner_email text,
+  updated_at timestamptz not null default now()
+);
+alter table public.app_settings enable row level security;
+insert into public.app_settings (id, owner_email)
+values (1, 'the_fantasy_maker@hotmail.com')
+on conflict (id) do nothing;
+
+create or replace function public.store_owner_email()
+returns text
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select nullif(lower(trim(coalesce((select owner_email from public.app_settings where id = 1), ''))), '');
+$$;
+revoke all on function public.store_owner_email() from public;
+grant execute on function public.store_owner_email() to postgres;
+
 -- ---- Profiles: lock role on insert/update ----
 create or replace function public.profiles_enforce_role()
 returns trigger
@@ -57,10 +80,13 @@ language plpgsql
 security definer
 set search_path = public
 as $$
+declare
+  owner_addr text;
 begin
   if tg_op = 'INSERT' then
-    -- Match js/config.js SUPABASE_OWNER_EMAIL; everyone else is always 'user'
-    if lower(coalesce(new.email, '')) = 'the_fantasy_maker@hotmail.com' then
+    -- Match app_settings.owner_email (Netlify SUPABASE_OWNER_EMAIL / STORE_OWNER_EMAIL)
+    owner_addr := public.store_owner_email();
+    if owner_addr is not null and lower(coalesce(new.email, '')) = owner_addr then
       new.role := 'owner';
     else
       new.role := 'user';

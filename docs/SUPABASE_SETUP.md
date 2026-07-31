@@ -90,7 +90,11 @@ To store **accounts and profiles globally** (so users can log in from any device
 3. In **Authentication → URL Configuration** set:
    - **Site URL** = your live site (e.g. `https://vivarium-store.com`). This is where “Confirm your mail” links in emails will send users.
    - **Redirect URLs** = add `https://your-site.com/auth.html` (and your domain) so the confirmation link works.
-4. In `js/config.js` set **`SUPABASE_OWNER_EMAIL`** to your email so you get the owner role when you register (or set it later in the Access Control page).
+4. **Owner role from env (not hardcoded in the client):**
+   - In Netlify → Environment variables set **`SUPABASE_OWNER_EMAIL`** (or reuse **`STORE_OWNER_EMAIL`**) to your login email.
+   - Run **`supabase-owner-email-config.sql`** once in the Supabase SQL Editor (creates `app_settings` + updates the role trigger).
+   - After deploy, loading the site syncs that email into Supabase via `public-config`. Registering with that email gets **owner**; everyone else starts as **user**. Existing owners can promote others in Access Control.
+   - Changing the env email does **not** auto-demote an old owner — update roles in Access Control or Supabase if needed.
 
 **Not receiving confirmation emails?**
 - In Supabase: **Authentication → Providers → Email** ensure **Confirm email** is enabled if you want confirmation emails. If you turn it **off**, new users are signed in immediately (no email).

@@ -11,8 +11,10 @@ Your site is **static** (HTML, CSS, JS, JSON, images). No dedicated server neede
 5. **Environment variables** (Site configuration → Environment variables) — required for Supabase:
    - `SUPABASE_URL`
    - `SUPABASE_ANON_KEY` (publishable/anon key)
-   - Optional: `SUPABASE_OWNER_EMAIL`, `TURNSTILE_SITE_KEY`
+   - `SUPABASE_OWNER_EMAIL` (or `STORE_OWNER_EMAIL`) — email that gets **owner** on register
+   - Optional: `TURNSTILE_SITE_KEY`
    - Server-only (already used by order functions): `SUPABASE_SERVICE_ROLE_KEY`, `TURNSTILE_SECRET_KEY`, etc.
+   - After setting owner email: run `supabase-owner-email-config.sql` once in Supabase SQL Editor (see `docs/SUPABASE_SETUP.md`).
 
    Browser config is injected by `netlify/functions/public-config.js` (rewritten over `/js/config.js`). See `docs/SUPABASE_SETUP.md` Option B.
 

@@ -1,8 +1,8 @@
 /**
  * Supabase Auth: sole auth backend for the site.
  * Handles register, login, logout and session. auth.js wraps this API for the app.
- * Owner role is assigned by the DB trigger in supabase-security-hardening.sql
- * (matches SUPABASE_OWNER_EMAIL / store owner email) — not by the client.
+ * Owner role is assigned by the DB trigger (app_settings.owner_email),
+ * kept in sync from Netlify SUPABASE_OWNER_EMAIL / STORE_OWNER_EMAIL via public-config.
  */
 (function (global) {
     'use strict';
