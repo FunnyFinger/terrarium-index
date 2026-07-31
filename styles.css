@@ -2027,6 +2027,31 @@ header h1 {
     overflow: hidden;
     border-bottom: 4px solid rgba(255, 255, 255, 0.2);
     min-height: 220px;
+    transition: height 0.25s ease, min-height 0.25s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+/* Product details / gallery: hide hero image + title; keep nav bar unchanged */
+body:has(.main-layout.detail-view-active) .banner,
+body:has(#plantDetailPanel:not(.hidden)) .banner {
+    height: var(--main-nav-height);
+    min-height: var(--main-nav-height);
+    border-bottom: 1px solid var(--border-color);
+    background: var(--card-bg);
+}
+body:has(.main-layout.detail-view-active) .banner > picture,
+body:has(.main-layout.detail-view-active) .banner-overlay,
+body:has(#plantDetailPanel:not(.hidden)) .banner > picture,
+body:has(#plantDetailPanel:not(.hidden)) .banner-overlay {
+    display: none !important;
+}
+body:has(.main-layout.detail-view-active) .main-nav,
+body:has(#plantDetailPanel:not(.hidden)) .main-nav {
+    background: rgba(255, 255, 255, 0.95);
+    border-bottom-color: var(--border-color);
+}
+[data-theme="dark"] body:has(.main-layout.detail-view-active) .main-nav,
+[data-theme="dark"] body:has(#plantDetailPanel:not(.hidden)) .main-nav {
+    background: rgba(37, 40, 37, 0.95);
 }
 
 .banner-image {
