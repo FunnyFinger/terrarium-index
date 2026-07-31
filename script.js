@@ -1335,123 +1335,202 @@ let plantsMergedFolderHandle = null; // Stored folder handle for saving plant JS
 
 initImageUtils({ getImagesFolderHandle: () => imagesFolderHandle });
 
-const uploadUtils = window.uploadUtils;
-if (!uploadUtils) {
-    throw new Error('upload.js must be loaded before script.js');
+// upload.js (~67KB) is lazy-loaded for staff/edit only — guests never download it.
+const UPLOAD_SCRIPT_SRC = 'upload.js?v=2';
+let _uploadInitPromise = null;
+let _uploadBound = false;
+
+function getUploadInitOptions() {
+    return {
+        elements: {
+            uploadModal,
+            closeUploadModal,
+            fileInput,
+            imageUrlInput,
+            loadUrlBtn,
+            dragDropArea,
+            dragPreview,
+            saveImageBtn,
+            cancelUploadBtn,
+            selectFolderBtn,
+            folderStatus,
+            uploadPlantName,
+            uploadName,
+            uploadScientificName,
+            uploadCommonNames,
+            uploadHybridParentsWrap,
+            uploadHybridParent1,
+            uploadHybridParent2,
+            uploadVariety,
+            uploadCatalogueOfLifeUrl,
+            uploadPlantDescription,
+            uploadCareTips,
+            uploadPlantType,
+            uploadSizeMin,
+            uploadSizeMax,
+            uploadSubstrate,
+            uploadGrowthRate,
+            uploadPrice,
+            uploadCost,
+            uploadMarginPct,
+            uploadUnit,
+            uploadInventory,
+            uploadReorder,
+            uploadRarity,
+            uploadGrowthPattern,
+            uploadGrowthHabit,
+            uploadHazard,
+            uploadFloweringPeriod,
+            uploadSuitableForTags,
+            uploadHumidityMin,
+            uploadHumidityMax,
+            uploadLightMin,
+            uploadLightMax,
+            uploadTempMin,
+            uploadTempMax,
+            uploadAirCircMin,
+            uploadAirCircMax,
+            uploadWaterNeedsMin,
+            uploadWaterNeedsMax,
+            uploadDifficultyMin,
+            uploadDifficultyMax,
+            uploadGrowthRateMin,
+            uploadGrowthRateMax,
+            uploadSoilPhMin,
+            uploadSoilPhMax,
+            uploadGallery,
+            uploadGalleryGrid,
+            uploadGalleryCount,
+            dragDropEmpty,
+            dragDropGallery,
+            dragDropGalleryGrid,
+            dragDropCount,
+            plantModal
+        },
+        getAllPlants: () => allPlants,
+        getFilteredPlants: () => filteredPlants,
+        renderPlants: (plants) => renderPlants(plants),
+        showPlantModal: (plant) => showPlantModal(plant),
+        scientificNameToSlug,
+        ensureUniqueImages,
+        scanExistingImages,
+        generateThumbnailFromBlob,
+        generateThumbnailForPlant,
+        getImagesFolderHandle: () => imagesFolderHandle,
+        setImagesFolderHandle: (handle) => { imagesFolderHandle = handle; },
+        getPlantsMergedFolderHandle: () => plantsMergedFolderHandle,
+        setPlantsMergedFolderHandle: (handle) => { plantsMergedFolderHandle = handle; },
+        getScientificNameString: (plant) => getScientificNameString(plant),
+        savePlantToJsonFile: (plant) => savePlantToJsonFile(plant),
+        getColTaxonId: (name, rank) => getColTaxonId(name, rank),
+        getCalculatedVivariumTypes: (plant) => calculatePlantVivariumTypes(plant)
+    };
 }
 
-uploadUtils.init({
-    elements: {
-        uploadModal,
-        closeUploadModal,
-        fileInput,
-        imageUrlInput,
-        loadUrlBtn,
-        dragDropArea,
-        dragPreview,
-        saveImageBtn,
-        cancelUploadBtn,
-        selectFolderBtn,
-        folderStatus,
-        uploadPlantName,
-        uploadName,
-        uploadScientificName,
-        uploadCommonNames,
-        uploadHybridParentsWrap,
-        uploadHybridParent1,
-        uploadHybridParent2,
-        uploadVariety,
-        uploadCatalogueOfLifeUrl,
-        uploadPlantDescription,
-        uploadCareTips,
-        uploadPlantType,
-        uploadSizeMin,
-        uploadSizeMax,
-        uploadSubstrate,
-        uploadGrowthRate,
-        uploadPrice,
-        uploadCost,
-        uploadMarginPct,
-        uploadUnit,
-        uploadInventory,
-        uploadReorder,
-        uploadRarity,
-        uploadGrowthPattern,
-        uploadGrowthHabit,
-        uploadHazard,
-        uploadFloweringPeriod,
-        uploadSuitableForTags,
-        uploadHumidityMin,
-        uploadHumidityMax,
-        uploadLightMin,
-        uploadLightMax,
-        uploadTempMin,
-        uploadTempMax,
-        uploadAirCircMin,
-        uploadAirCircMax,
-        uploadWaterNeedsMin,
-        uploadWaterNeedsMax,
-        uploadDifficultyMin,
-        uploadDifficultyMax,
-        uploadGrowthRateMin,
-        uploadGrowthRateMax,
-        uploadSoilPhMin,
-        uploadSoilPhMax,
-        uploadGallery,
-        uploadGalleryGrid,
-        uploadGalleryCount,
-        dragDropEmpty,
-        dragDropGallery,
-        dragDropGalleryGrid,
-        dragDropCount,
-        plantModal
-    },
-    getAllPlants: () => allPlants,
-    getFilteredPlants: () => filteredPlants,
-    renderPlants: (plants) => renderPlants(plants),
-    showPlantModal: (plant) => showPlantModal(plant),
-    scientificNameToSlug,
-    ensureUniqueImages,
-    scanExistingImages,
-    generateThumbnailFromBlob,
-    generateThumbnailForPlant,
-    getImagesFolderHandle: () => imagesFolderHandle,
-    setImagesFolderHandle: (handle) => { imagesFolderHandle = handle; },
-    getPlantsMergedFolderHandle: () => plantsMergedFolderHandle,
-    setPlantsMergedFolderHandle: (handle) => { plantsMergedFolderHandle = handle; },
-    getScientificNameString: (plant) => getScientificNameString(plant),
-    savePlantToJsonFile: (plant) => savePlantToJsonFile(plant),
-    getColTaxonId: (name, rank) => getColTaxonId(name, rank),
-    getCalculatedVivariumTypes: (plant) => calculatePlantVivariumTypes(plant)
-});
+function loadScriptOnce(src) {
+    return new Promise(function (resolve, reject) {
+        var existing = document.querySelector('script[data-lazy-src="' + src.replace(/"/g, '') + '"]');
+        if (existing) {
+            if (window.uploadUtils) return resolve();
+            existing.addEventListener('load', function () { resolve(); });
+            existing.addEventListener('error', function () { reject(new Error('Failed to load ' + src)); });
+            return;
+        }
+        var s = document.createElement('script');
+        s.src = src;
+        s.async = true;
+        s.dataset.lazySrc = src;
+        s.onload = function () { resolve(); };
+        s.onerror = function () { reject(new Error('Failed to load ' + src)); };
+        document.head.appendChild(s);
+    });
+}
 
-const {
-    setupUploadListeners,
-    selectImagesFolder,
-    checkStoredFolder,
-    ensureFolderAccess,
-    openImageUpload,
-    updateUploadGallery,
-    removeImageFromUploadGallery,
-    updateDragDropGallery,
-    clearDragDropGallery,
-    closeUploadModalFunc,
-    handleFileSelect,
-    handleDragOver,
-    handleDragLeave,
-    handleDrop,
-    handlePaste,
-    loadImageFromUrl,
-    saveImage,
-    saveSingleImage,
-    savePlantImageFilesToFolder,
-    saveEquipmentImageFilesToFolder,
-    saveVivariumImageFilesToFolder,
-    fileToDataUrl,
-    blobToDataUrl
-} = uploadUtils;
+function bindUploadUtils(u) {
+    if (!u) return null;
+    if (!_uploadBound) {
+        u.init(getUploadInitOptions());
+        _uploadBound = true;
+        window.closeUploadModalFunc = u.closeUploadModalFunc;
+    }
+    return u;
+}
+
+function ensureUploadReady() {
+    if (_uploadBound && window.uploadUtils) return Promise.resolve(window.uploadUtils);
+    if (_uploadInitPromise) return _uploadInitPromise;
+    _uploadInitPromise = Promise.resolve()
+        .then(function () {
+            if (window.uploadUtils) return;
+            return loadScriptOnce(UPLOAD_SCRIPT_SRC);
+        })
+        .then(function () {
+            if (!window.uploadUtils) throw new Error('upload.js failed to expose uploadUtils');
+            return bindUploadUtils(window.uploadUtils);
+        })
+        .catch(function (err) {
+            _uploadInitPromise = null;
+            throw err;
+        });
+    return _uploadInitPromise;
+}
+
+function needsUploadOnStartup() {
+    try {
+        var params = new URLSearchParams(window.location.search || '');
+        if (params.get('add') || params.get('edit')) return true;
+    } catch (e) { /* ignore */ }
+    return !!(window.auth && typeof window.auth.canManageInventory === 'function' && window.auth.canManageInventory());
+}
+
+function uploadCall(name) {
+    return function () {
+        var args = arguments;
+        return ensureUploadReady().then(function (u) {
+            return u[name].apply(u, args);
+        });
+    };
+}
+
+function setupUploadListeners() {
+    if (window.uploadUtils && _uploadBound) window.uploadUtils.setupUploadListeners();
+}
+var selectImagesFolder = uploadCall('selectImagesFolder');
+var checkStoredFolder = uploadCall('checkStoredFolder');
+var ensureFolderAccess = uploadCall('ensureFolderAccess');
+function openImageUpload(plantId) {
+    return ensureUploadReady().then(function (u) {
+        return u.openImageUpload(plantId);
+    }).catch(function (err) {
+        console.error(err);
+        alert('Could not load the editor. Please refresh and try again.');
+    });
+}
+var updateUploadGallery = uploadCall('updateUploadGallery');
+var removeImageFromUploadGallery = uploadCall('removeImageFromUploadGallery');
+var updateDragDropGallery = uploadCall('updateDragDropGallery');
+var clearDragDropGallery = uploadCall('clearDragDropGallery');
+function closeUploadModalFunc() {
+    if (window.uploadUtils && window.uploadUtils.closeUploadModalFunc) {
+        return window.uploadUtils.closeUploadModalFunc();
+    }
+}
+var handleFileSelect = uploadCall('handleFileSelect');
+var handleDragOver = uploadCall('handleDragOver');
+var handleDragLeave = uploadCall('handleDragLeave');
+var handleDrop = uploadCall('handleDrop');
+var handlePaste = uploadCall('handlePaste');
+var loadImageFromUrl = uploadCall('loadImageFromUrl');
+var saveImage = uploadCall('saveImage');
+var saveSingleImage = uploadCall('saveSingleImage');
+var savePlantImageFilesToFolder = uploadCall('savePlantImageFilesToFolder');
+var saveEquipmentImageFilesToFolder = uploadCall('saveEquipmentImageFilesToFolder');
+var saveVivariumImageFilesToFolder = uploadCall('saveVivariumImageFilesToFolder');
+var fileToDataUrl = uploadCall('fileToDataUrl');
+var blobToDataUrl = uploadCall('blobToDataUrl');
 
 window.openImageUpload = openImageUpload;
+window.ensureUploadReady = ensureUploadReady;
 
 // Initialize (nav menu is unified in js/nav.js)
 document.addEventListener('DOMContentLoaded', async () => {
@@ -1469,7 +1548,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     } catch (e) { /* ignore */ }
     setupEventListeners();
-    setupUploadListeners();
+    async function maybeInitUpload() {
+        if (!needsUploadOnStartup()) return;
+        try {
+            await ensureUploadReady();
+            setupUploadListeners();
+        } catch (err) {
+            console.error('Upload module failed to load', err);
+        }
+    }
+    await maybeInitUpload();
+    window.addEventListener('authStateChange', function () { maybeInitUpload(); });
     initCart();
     initQuickAddOnCards();
 
