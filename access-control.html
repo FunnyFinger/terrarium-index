@@ -6,7 +6,7 @@
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#2d5016" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#1a2e0a" media="(prefers-color-scheme: dark)">
-    <title>Access control ‚Äì Vivarium Store</title>
+    <title>Access control ñ Vivarium Store</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -34,13 +34,63 @@
         .access-msg.success { background: #dcfce7; color: #166534; }
         .access-msg.error { background: #fee2e2; color: #991b1b; }
         .access-loading { text-align: center; padding: 2rem; color: var(--text-light); }
+        .access-owner-modal {
+            position: fixed; inset: 0; z-index: 10050;
+            display: flex; align-items: center; justify-content: center;
+            padding: 1rem; background: rgba(0, 0, 0, 0.45);
+        }
+        .access-owner-modal[hidden] { display: none !important; }
+        .access-owner-dialog {
+            width: 100%; max-width: 26rem;
+            background: var(--card-bg, #fff);
+            color: var(--text-color, #222);
+            border: 1px solid var(--border-color, #ccc);
+            border-radius: 12px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+            padding: 1.25rem 1.35rem;
+        }
+        .access-owner-dialog h2 {
+            margin: 0 0 0.5rem; font-size: 1.2rem; color: var(--primary-color, #2d5016);
+        }
+        .access-owner-dialog p { margin: 0 0 0.75rem; font-size: 0.92rem; line-height: 1.45; color: var(--text-light, #555); }
+        .access-owner-dialog ul {
+            margin: 0 0 1rem; padding-left: 1.2rem; font-size: 0.9rem;
+        }
+        .access-owner-dialog label {
+            display: block; font-weight: 600; font-size: 0.9rem; margin: 0.75rem 0 0.35rem;
+        }
+        .access-owner-dialog input[type="password"] {
+            width: 100%; box-sizing: border-box;
+            padding: 0.55rem 0.7rem; border: 1px solid var(--border-color, #ccc);
+            border-radius: 8px; font-size: 1rem; background: var(--bg-color, #fff);
+            color: var(--text-color, #222);
+        }
+        .access-owner-confirm {
+            display: flex; gap: 0.55rem; align-items: flex-start;
+            margin: 1rem 0 0.25rem; font-size: 0.88rem; line-height: 1.4;
+        }
+        .access-owner-confirm input { margin-top: 0.2rem; flex-shrink: 0; }
+        .access-owner-actions {
+            display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: flex-end;
+            margin-top: 1.15rem;
+        }
+        .access-owner-actions button {
+            padding: 0.5rem 0.95rem; border-radius: 8px; font-weight: 600; cursor: pointer;
+            border: 1px solid var(--border-color, #ccc); background: transparent;
+            color: var(--text-color, #222);
+        }
+        .access-owner-actions .access-owner-confirm-btn {
+            background: var(--primary-color, #2d5016); color: #fff; border-color: transparent;
+        }
+        .access-owner-actions .access-owner-confirm-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+        .access-owner-error { color: #991b1b; font-size: 0.85rem; margin: 0.5rem 0 0; min-height: 1.2em; }
     </style>
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <header>
         <div class="banner">
-            <img src="images/banner.jpg" alt="Water droplets on a tropical leaf ó Vivarium Store" class="banner-image">
+            <img src="images/banner.jpg" alt="Water droplets on a tropical leaf ù Vivarium Store" class="banner-image">
             <div id="main-nav-container"></div>
             <div class="banner-overlay">
                 <h1>Access control</h1>
@@ -49,8 +99,8 @@
         </div>
     </header>
     <main id="main-content" class="access-page" tabindex="-1">
-        <p class="sub">Change roles for admins and users. Only the owner can access this page.</p>
-        <div id="accessLoading" class="access-loading">Loading users‚Ä¶</div>
+        <p class="sub">Change roles for admins and users. Only the owner can access this page. Promoting someone to Owner requires your password and confirmation.</p>
+        <div id="accessLoading" class="access-loading">Loading usersù</div>
         <div id="accessContent" style="display: none;">
             <div class="access-table-wrap">
                 <table class="access-table">
@@ -69,6 +119,26 @@
             <div id="accessMsg"></div>
         </div>
     </main>
+
+    <div id="accessOwnerModal" class="access-owner-modal" hidden>
+        <div class="access-owner-dialog" role="dialog" aria-modal="true" aria-labelledby="accessOwnerTitle">
+            <h2 id="accessOwnerTitle">Confirm owner promotion</h2>
+            <p>You are about to grant <strong>full owner access</strong> to:</p>
+            <ul id="accessOwnerList"></ul>
+            <p>Owners can manage all roles, inventory, and catalog. This cannot be undone by the promoted user alone.</p>
+            <label for="accessOwnerPassword">Your password</label>
+            <input type="password" id="accessOwnerPassword" autocomplete="current-password" placeholder="Enter your account password">
+            <label class="access-owner-confirm" for="accessOwnerAck">
+                <input type="checkbox" id="accessOwnerAck">
+                <span>I understand and want to promote the user(s) listed above to Owner.</span>
+            </label>
+            <p class="access-owner-error" id="accessOwnerError" aria-live="polite"></p>
+            <div class="access-owner-actions">
+                <button type="button" id="accessOwnerCancel">Cancel</button>
+                <button type="button" class="access-owner-confirm-btn" id="accessOwnerConfirm" disabled>Promote to owner</button>
+            </div>
+        </div>
+    </div>
     <script defer src="https://cdn.jsdelivr.net/npm/dexie@3/dist/dexie.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <script defer src="js/config.js"></script>
@@ -97,6 +167,15 @@
             var loadingEl = document.getElementById('accessLoading');
             var contentEl = document.getElementById('accessContent');
             var pendingRoles = {}; // id -> role
+            var usersById = {};
+            var ownerModal = document.getElementById('accessOwnerModal');
+            var ownerListEl = document.getElementById('accessOwnerList');
+            var ownerPasswordEl = document.getElementById('accessOwnerPassword');
+            var ownerAckEl = document.getElementById('accessOwnerAck');
+            var ownerErrorEl = document.getElementById('accessOwnerError');
+            var ownerConfirmBtn = document.getElementById('accessOwnerConfirm');
+            var ownerCancelBtn = document.getElementById('accessOwnerCancel');
+            var ownerConfirmResolver = null;
 
             function showMsg(text, isError) {
                 msgEl.innerHTML = '<span class="access-msg ' + (isError ? 'error' : 'success') + '">' + (text || '').replace(/</g, '&lt;') + '</span>';
@@ -105,9 +184,95 @@
                 msgEl.innerHTML = '';
             }
 
+            function syncOwnerConfirmEnabled() {
+                var hasPw = !!(ownerPasswordEl.value || '').trim();
+                ownerConfirmBtn.disabled = !(hasPw && ownerAckEl.checked);
+            }
+
+            function closeOwnerModal(result) {
+                ownerModal.hidden = true;
+                ownerPasswordEl.value = '';
+                ownerAckEl.checked = false;
+                ownerErrorEl.textContent = '';
+                ownerConfirmBtn.disabled = true;
+                var resolve = ownerConfirmResolver;
+                ownerConfirmResolver = null;
+                if (resolve) resolve(result);
+            }
+
+            function promptOwnerPromotion(promoteIds) {
+                ownerListEl.innerHTML = '';
+                promoteIds.forEach(function(id) {
+                    var u = usersById[id] || {};
+                    var li = document.createElement('li');
+                    li.textContent = (u.email || id) + (u.name ? ' (' + u.name + ')' : '');
+                    ownerListEl.appendChild(li);
+                });
+                ownerPasswordEl.value = '';
+                ownerAckEl.checked = false;
+                ownerErrorEl.textContent = '';
+                ownerConfirmBtn.disabled = true;
+                ownerModal.hidden = false;
+                setTimeout(function() { ownerPasswordEl.focus(); }, 0);
+                return new Promise(function(resolve) {
+                    ownerConfirmResolver = resolve;
+                });
+            }
+
+            ownerPasswordEl.addEventListener('input', syncOwnerConfirmEnabled);
+            ownerAckEl.addEventListener('change', syncOwnerConfirmEnabled);
+            ownerCancelBtn.addEventListener('click', function() { closeOwnerModal(false); });
+            ownerModal.addEventListener('click', function(e) {
+                if (e.target === ownerModal) closeOwnerModal(false);
+            });
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && !ownerModal.hidden) closeOwnerModal(false);
+            });
+            ownerConfirmBtn.addEventListener('click', function() {
+                var password = (ownerPasswordEl.value || '');
+                if (!password || !ownerAckEl.checked) return;
+                var me = window.auth.getCurrentUser();
+                if (!me || !me.email) {
+                    ownerErrorEl.textContent = 'Could not verify your session. Please log in again.';
+                    return;
+                }
+                if (!window.supabaseAuth || typeof window.supabaseAuth.signIn !== 'function') {
+                    ownerErrorEl.textContent = 'Password verification unavailable.';
+                    return;
+                }
+                ownerConfirmBtn.disabled = true;
+                ownerErrorEl.textContent = 'Verifying passwordÖ';
+                window.supabaseAuth.signIn(me.email, password).then(function() {
+                    closeOwnerModal(true);
+                }).catch(function(err) {
+                    ownerErrorEl.textContent = (err && err.message) ? err.message : 'Incorrect password.';
+                    syncOwnerConfirmEnabled();
+                });
+            });
+
+            function applyRoleChanges() {
+                var ids = Object.keys(pendingRoles);
+                if (ids.length === 0) return;
+                saveBtn.disabled = true;
+                clearMsg();
+                var promises = ids.map(function(id) {
+                    return setRole(id, pendingRoles[id]);
+                });
+                Promise.all(promises).then(function() {
+                    pendingRoles = {};
+                    showMsg('Roles updated. Users may need to log out and log in again for changes to apply.', false);
+                    load();
+                }).catch(function(err) {
+                    showMsg(err && err.message ? err.message : 'Failed to save', true);
+                    saveBtn.disabled = false;
+                });
+            }
+
             function render(users) {
+                usersById = {};
                 tableBody.innerHTML = '';
                 users.forEach(function(u) {
+                    usersById[String(u.id)] = u;
                     var tr = document.createElement('tr');
                     var emailEsc = (u.email || '').replace(/</g, '&lt;').replace(/"/g, '&quot;');
                     var nameEsc = (u.name || '').replace(/</g, '&lt;').replace(/"/g, '&quot;');
@@ -142,20 +307,23 @@
             saveBtn.addEventListener('click', function() {
                 var ids = Object.keys(pendingRoles);
                 if (ids.length === 0) return;
-                saveBtn.disabled = true;
-                clearMsg();
-                var currentUserId = window.auth.getCurrentUser() && window.auth.getCurrentUser().id;
-                var promises = ids.map(function(id) {
-                    var newRole = pendingRoles[id];
-                    return setRole(id, newRole);
+                var promoteToOwner = ids.filter(function(id) {
+                    var sel = tableBody.querySelector('.access-role-select[data-user-id="' + id + '"]');
+                    var orig = (sel && sel.getAttribute('data-original-role')) || 'user';
+                    return pendingRoles[id] === 'owner' && orig !== 'owner';
                 });
-                Promise.all(promises).then(function() {
-                    pendingRoles = {};
-                    showMsg('Roles updated. Users may need to log out and log in again for changes to apply.', false);
-                    load();
-                }).catch(function(err) {
-                    showMsg(err && err.message ? err.message : 'Failed to save', true);
-                    saveBtn.disabled = false;
+                if (promoteToOwner.length === 0) {
+                    applyRoleChanges();
+                    return;
+                }
+                saveBtn.disabled = true;
+                promptOwnerPromotion(promoteToOwner).then(function(ok) {
+                    if (!ok) {
+                        saveBtn.disabled = Object.keys(pendingRoles).length === 0;
+                        showMsg('Owner promotion cancelled. No roles were changed.', true);
+                        return;
+                    }
+                    applyRoleChanges();
                 });
             });
 
