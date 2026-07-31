@@ -774,11 +774,10 @@ function updateTreeLayout() {
             
             // Special handling for "Life" node - horizontal and below
             if (d.data.name === 'Life' && d.data.rank === 'domain') {
-                const lifeFont = `${Math.round(16 * (isNarrow ? 1.75 : 1))}px`;
-                textElement.style('font-size', lifeFont);
+                textElement.style('font-size', '16px');
                 textElement.attr('text-anchor', 'middle');
                 textElement.attr('dx', 0);
-                textElement.attr('dy', isNarrow ? 22 : 20);
+                textElement.attr('dy', 20);
                 textElement.attr('transform', 'rotate(0)');
                 return;
             }
@@ -802,14 +801,13 @@ function updateTreeLayout() {
             
             // Calculate text width for left side positioning
             let textWidth = 0;
-            // Narrow viewports start zoomed-out; mild enlarge keeps labels readable without heavy overlap
-            const fontScale = isNarrow ? 1.75 : 1;
+            // Same label sizes as desktop (no mobile scale-up)
             const baseFont =
                 d.data.rank === 'domain' ? 16 : d.data.rank === 'kingdom' ? 14 :
                 d.data.rank === 'phylum' ? 13 : d.data.rank === 'class' ? 12 :
                 d.data.rank === 'order' ? 11 : d.data.rank === 'family' ? 10 :
                 d.data.rank === 'genus' ? 9 : 8;
-            const fontSizePx = `${Math.round(baseFont * fontScale)}px`;
+            const fontSizePx = `${baseFont}px`;
             textElement.style('font-size', fontSizePx);
             if (isLeftSide) {
                 const tempText = treeSvg.append('text')
