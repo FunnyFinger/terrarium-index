@@ -3354,26 +3354,37 @@ main {
     top: auto;
     right: auto;
     display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+    margin: 0 !important;
+    max-width: none;
+    padding: 1rem 0.85rem;
+    z-index: 25;
+    background: var(--bg-color);
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}
+/* Details page (non-gallery): compact top bar */
+.detail-control-panel-page1,
+#modal-page-1 > .detail-control-panel {
+    flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.75rem 1rem;
-    margin: 0 auto 1rem !important;
-    max-width: 900px;
+    gap: 0.65rem 0.75rem;
+    margin: 0 0 1rem !important;
+    max-width: 100%;
     padding: 0.7rem 1rem;
-    z-index: 25;
     background: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: 12px;
     box-shadow: var(--shadow);
 }
-.plant-gallery-modern > .detail-control-panel {
-    margin: 0 !important;
-    max-width: none;
-    border-radius: 0;
-    border-left: none;
-    border-right: none;
-    border-top: none;
-    box-shadow: none;
+.detail-control-panel-page1 .detail-control-panel-actions,
+#modal-page-1 > .detail-control-panel .detail-control-panel-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 .detail-control-panel-label {
     font-size: 0.7rem;
@@ -3385,8 +3396,8 @@ main {
 }
 .detail-control-panel-actions {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+    flex-direction: column;
+    align-items: stretch;
     gap: 0.5rem;
     flex: 1;
     min-width: 0;
@@ -3395,18 +3406,24 @@ main {
     display: inline-flex;
     align-items: center;
     gap: 0.45rem;
-    padding: 0.45rem 0.85rem;
+    width: 100%;
+    justify-content: flex-start;
+    padding: 0.55rem 0.75rem;
     background: rgba(255, 255, 255, 0.95);
     border: 2px solid var(--accent-color);
     border-radius: 8px;
     font: inherit;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     color: var(--accent-color);
     cursor: pointer;
     appearance: none;
     -webkit-appearance: none;
     transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+.detail-control-panel-page1 .detail-btn,
+#modal-page-1 > .detail-control-panel .detail-btn {
+    width: auto;
 }
 .detail-actions .detail-btn:hover {
     background: var(--accent-color);
@@ -3419,7 +3436,9 @@ main {
     flex-shrink: 0;
 }
 .detail-actions .detail-btn span {
-    white-space: nowrap;
+    white-space: normal;
+    line-height: 1.25;
+    text-align: left;
 }
 .detail-actions .detail-btn-set-main,
 .detail-control-panel .gallery-set-main-btn {
@@ -3439,26 +3458,22 @@ main {
     color: #1a1a1a;
     transform: none;
 }
-@media (max-width: 600px) {
-    .detail-control-panel,
-    .detail-actions-fixed {
+/* Set as main only in gallery view */
+#modal-page-1 .gallery-view-only,
+#modal-page-1 .detail-btn-set-main,
+.detail-control-panel-page1 .gallery-view-only,
+.detail-control-panel-page1 .detail-btn-set-main {
+    display: none !important;
+}
+@media (max-width: 900px) {
+    .detail-control-panel-page1,
+    #modal-page-1 > .detail-control-panel {
         padding: 0.65rem 0.75rem;
-        gap: 0.5rem;
     }
-    .detail-control-panel-actions {
-        width: 100%;
-    }
-    .detail-actions .detail-btn {
+    .detail-control-panel-page1 .detail-btn,
+    #modal-page-1 > .detail-control-panel .detail-btn {
         flex: 1 1 calc(50% - 0.5rem);
         justify-content: center;
-        min-width: 0;
-        padding: 0.5rem 0.6rem;
-        font-size: 0.8rem;
-    }
-    .detail-actions .detail-btn span {
-        white-space: normal;
-        text-align: center;
-        line-height: 1.2;
     }
 }
 
@@ -5015,11 +5030,12 @@ body.shopper-mode .gallery-set-main-btn {
 }
 .plant-detail-panel #modal-page-2.active {
     display: block !important;
-    max-width: 900px;
+    max-width: min(1200px, 100%);
     margin: 0 auto;
+    width: 100%;
 }
 
-/* Modern gallery */
+/* Modern gallery — left header | center stage | right manage rail */
 .plant-gallery-modern {
     background: var(--card-bg);
     border-radius: 14px;
@@ -5027,18 +5043,49 @@ body.shopper-mode .gallery-set-main-btn {
     box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     border: 1px solid var(--border-color);
 }
+.plant-gallery-main-row {
+    display: grid;
+    grid-template-columns: minmax(150px, 210px) minmax(0, 1fr);
+    align-items: stretch;
+    min-height: 420px;
+}
+.plant-gallery-main-row:has(> .detail-control-panel) {
+    grid-template-columns: minmax(150px, 210px) minmax(0, 1fr) minmax(150px, 200px);
+}
+.plant-gallery-empty .plant-gallery-main-row:has(> .detail-control-panel) {
+    grid-template-columns: minmax(150px, 210px) minmax(0, 1fr) minmax(150px, 200px);
+}
+.plant-gallery-empty .plant-gallery-empty-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.25rem;
+    text-align: center;
+    background: #1a1a1a;
+    color: var(--text-light);
+    min-height: 280px;
+}
 .plant-gallery-header {
     display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem 1.25rem;
-    border-bottom: 1px solid var(--border-color);
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0.75rem;
+    padding: 1.1rem 1rem;
+    border-bottom: none;
+    border-right: 1px solid var(--border-color);
+    background: var(--bg-color);
+    min-width: 0;
+}
+.plant-gallery-main-row > .detail-control-panel {
+    border-left: 1px solid var(--border-color);
     background: var(--bg-color);
 }
 .plant-gallery-header-main {
     display: flex;
     flex-direction: column;
-    gap: 0.2rem;
+    gap: 0.35rem;
     flex: 1;
     min-width: 0;
 }
@@ -5050,19 +5097,21 @@ body.shopper-mode .gallery-set-main-btn {
     color: var(--text-light);
 }
 .plant-gallery-item-name {
-    font-size: 1.35rem;
+    font-size: 1.15rem;
     font-weight: 800;
     margin: 0;
     line-height: 1.25;
     color: var(--text-color);
     letter-spacing: -0.02em;
+    word-break: break-word;
 }
 .plant-gallery-scientific-name {
-    font-size: 0.95rem;
+    font-size: 0.88rem;
     font-style: italic;
     margin: 0;
     color: var(--text-light);
     font-weight: 500;
+    word-break: break-word;
 }
 .plant-gallery-back {
     padding: 0.4rem 0.75rem;
@@ -5088,12 +5137,13 @@ body.shopper-mode .gallery-set-main-btn {
 .plant-gallery-count {
     font-size: 0.85rem;
     color: var(--text-light);
-    margin-left: auto;
+    margin-left: 0;
+    margin-top: 0.35rem;
 }
 .plant-gallery-stage {
     position: relative;
     background: #1a1a1a;
-    min-height: 320px;
+    min-height: 420px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -5103,16 +5153,56 @@ body.shopper-mode .gallery-set-main-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1.5rem;
-    min-height: 320px;
+    padding: 1.25rem;
+    min-height: 420px;
 }
 .plant-gallery-stage .gallery-preview-image {
     max-width: 100%;
-    max-height: 420px;
+    max-height: min(68vh, 560px);
     width: auto;
     height: auto;
     object-fit: contain;
     display: block;
+}
+@media (max-width: 900px) {
+    .plant-gallery-main-row,
+    .plant-gallery-empty .plant-gallery-main-row {
+        grid-template-columns: 1fr;
+        min-height: 0;
+    }
+    .plant-gallery-header {
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        flex-direction: row;
+        padding: 0.85rem 1rem;
+    }
+    .plant-gallery-header-main {
+        flex-direction: column;
+    }
+    .plant-gallery-main-row > .detail-control-panel {
+        border-left: none;
+        border-top: 1px solid var(--border-color);
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        padding: 0.75rem;
+    }
+    .plant-gallery-main-row > .detail-control-panel .detail-control-panel-actions {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .plant-gallery-main-row > .detail-control-panel .detail-btn {
+        width: auto;
+        flex: 1 1 calc(50% - 0.5rem);
+        justify-content: center;
+    }
+    .plant-gallery-stage,
+    .plant-gallery-stage-inner {
+        min-height: 280px;
+    }
+    .plant-gallery-stage .gallery-preview-image {
+        max-height: min(50vh, 380px);
+    }
 }
 .plant-gallery-placeholder {
     font-size: 5rem;

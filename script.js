@@ -5280,11 +5280,12 @@ function showVivariumDetail(vivarium) {
     var galleryPage2Html = (function() {
         if (vivariumGalleryImages.length === 0) {
             return '<div class="plant-gallery-modern plant-gallery-empty gallery-no-set-main">' +
+                '<div class="plant-gallery-main-row">' +
                 '<header class="plant-gallery-header">' +
                 '<div class="plant-gallery-header-main"><span class="plant-gallery-label">Gallery</span><h2 class="plant-gallery-item-name">' + escapeHtml(vivarium.name) + '</h2></div>' +
                 '</header>' +
                 '<div class="plant-gallery-empty-message"><p>No photos yet.</p><p>Use Image in the Manage panel to add photos.</p></div>' +
-                '</div>';
+                '</div></div>';
         }
         var imgs = vivariumGalleryImages;
         var mainUrl = displayImageUrl || imgs[0];
@@ -5295,9 +5296,10 @@ function showVivariumDetail(vivarium) {
                 '</button>';
         }).join('');
         return '<div class="plant-gallery-modern gallery-no-set-main" id="gallery-page-' + vivarium.id + '">' +
+            '<div class="plant-gallery-main-row">' +
             '<header class="plant-gallery-header">' +
-            '<div class="plant-gallery-header-main"><span class="plant-gallery-label">Gallery</span><h2 class="plant-gallery-item-name">' + escapeHtml(vivarium.name) + '</h2></div>' +
-            '<span class="plant-gallery-count">' + imgs.length + ' photo' + (imgs.length !== 1 ? 's' : '') + '</span>' +
+            '<div class="plant-gallery-header-main"><span class="plant-gallery-label">Gallery</span><h2 class="plant-gallery-item-name">' + escapeHtml(vivarium.name) + '</h2>' +
+            '<span class="plant-gallery-count">' + imgs.length + ' photo' + (imgs.length !== 1 ? 's' : '') + '</span></div>' +
             '</header>' +
             '<div class="plant-gallery-stage" id="gallery-preview-' + vivarium.id + '">' +
             '<button type="button" class="plant-gallery-arrow plant-gallery-prev" onclick="galleryPrevNext(' + vivarium.id + ', -1)" aria-label="Previous image">‹</button>' +
@@ -5307,6 +5309,7 @@ function showVivariumDetail(vivarium) {
             '<button type="button" class="plant-gallery-arrow plant-gallery-next" onclick="galleryPrevNext(' + vivarium.id + ', 1)" aria-label="Next image">›</button>' +
             '<div class="plant-gallery-counter"><span id="gallery-current-num">1</span> / ' + imgs.length + '</div>' +
             '<button type="button" class="plant-gallery-fullscreen-btn" onclick="openGalleryFullscreen(' + vivarium.id + ')" aria-label="View fullscreen">⛶ Fullscreen</button>' +
+            '</div>' +
             '</div>' +
             '<div class="gallery-fullscreen-overlay" id="gallery-fullscreen-overlay" role="dialog" aria-modal="true" aria-label="Fullscreen image view" onclick="if(event.target === this) closeGalleryFullscreen()">' +
             '<button type="button" class="gallery-fullscreen-close" onclick="closeGalleryFullscreen()" aria-label="Close">×</button>' +
@@ -5532,25 +5535,32 @@ function showEquipmentDetail(equipment) {
     const galleryPage2Html = (() => {
         if (equipmentGalleryImages.length === 0) {
             return `<div class="plant-gallery-modern plant-gallery-empty gallery-no-set-main">
-                <header class="plant-gallery-header"><div class="plant-gallery-header-main"><span class="plant-gallery-label">Gallery</span><h2 class="plant-gallery-item-name">${escapeHtml(equipment.name)}</h2></div></header>
-                <div class="plant-gallery-empty-message"><p>No photos yet.</p><p>Use Image in the Manage panel to add photos.</p></div>
+                <div class="plant-gallery-main-row">
+                    <header class="plant-gallery-header"><div class="plant-gallery-header-main"><span class="plant-gallery-label">Gallery</span><h2 class="plant-gallery-item-name">${escapeHtml(equipment.name)}</h2></div></header>
+                    <div class="plant-gallery-empty-message"><p>No photos yet.</p><p>Use Image in the Manage panel to add photos.</p></div>
+                </div>
             </div>`;
         }
         const imgs = normalizedGalleryUrls;
         const mainUrl = displayImageUrl || imgs[0];
         return `<div class="plant-gallery-modern gallery-no-set-main" id="gallery-page-${equipment.id}">
-            <header class="plant-gallery-header">
-                <div class="plant-gallery-header-main"><span class="plant-gallery-label">Gallery</span><h2 class="plant-gallery-item-name">${escapeHtml(equipment.name)}</h2></div>
-                <span class="plant-gallery-count">${imgs.length} photo${imgs.length !== 1 ? 's' : ''}</span>
-            </header>
-            <div class="plant-gallery-stage" id="gallery-preview-${equipment.id}">
-                <button type="button" class="plant-gallery-arrow plant-gallery-prev" onclick="galleryPrevNext(${equipment.id}, -1)" aria-label="Previous image">‹</button>
-                <div class="plant-gallery-stage-inner">
-                    <img id="gallery-preview-img" data-current-index="0" src="${mainUrl}" alt="${escapeHtml(equipment.name)}" class="gallery-preview-image">
+            <div class="plant-gallery-main-row">
+                <header class="plant-gallery-header">
+                    <div class="plant-gallery-header-main">
+                        <span class="plant-gallery-label">Gallery</span>
+                        <h2 class="plant-gallery-item-name">${escapeHtml(equipment.name)}</h2>
+                        <span class="plant-gallery-count">${imgs.length} photo${imgs.length !== 1 ? 's' : ''}</span>
+                    </div>
+                </header>
+                <div class="plant-gallery-stage" id="gallery-preview-${equipment.id}">
+                    <button type="button" class="plant-gallery-arrow plant-gallery-prev" onclick="galleryPrevNext(${equipment.id}, -1)" aria-label="Previous image">‹</button>
+                    <div class="plant-gallery-stage-inner">
+                        <img id="gallery-preview-img" data-current-index="0" src="${mainUrl}" alt="${escapeHtml(equipment.name)}" class="gallery-preview-image">
+                    </div>
+                    <button type="button" class="plant-gallery-arrow plant-gallery-next" onclick="galleryPrevNext(${equipment.id}, 1)" aria-label="Next image">›</button>
+                    <div class="plant-gallery-counter"><span id="gallery-current-num">1</span> / ${imgs.length}</div>
+                    <button type="button" class="plant-gallery-fullscreen-btn" onclick="openGalleryFullscreen(${equipment.id})" aria-label="View fullscreen">⛶ Fullscreen</button>
                 </div>
-                <button type="button" class="plant-gallery-arrow plant-gallery-next" onclick="galleryPrevNext(${equipment.id}, 1)" aria-label="Next image">›</button>
-                <div class="plant-gallery-counter"><span id="gallery-current-num">1</span> / ${imgs.length}</div>
-                <button type="button" class="plant-gallery-fullscreen-btn" onclick="openGalleryFullscreen(${equipment.id})" aria-label="View fullscreen">⛶ Fullscreen</button>
             </div>
             <div class="gallery-fullscreen-overlay" id="gallery-fullscreen-overlay" role="dialog" aria-modal="true" aria-label="Fullscreen image view" onclick="if(event.target === this) closeGalleryFullscreen()">
                 <button type="button" class="gallery-fullscreen-close" onclick="closeGalleryFullscreen()" aria-label="Close">×</button>
@@ -7254,9 +7264,10 @@ function createDetailControlPanel(options) {
     if (options.setMainPlantId != null) {
         var setMainBtn = document.createElement('button');
         setMainBtn.type = 'button';
-        setMainBtn.className = 'detail-btn detail-btn-set-main plant-detail-set-main gallery-set-main-btn';
+        setMainBtn.className = 'detail-btn detail-btn-set-main plant-detail-set-main gallery-set-main-btn gallery-view-only';
         setMainBtn.title = 'Set the currently previewed gallery image as the main photo';
         setMainBtn.setAttribute('aria-label', 'Set as main image');
+        setMainBtn.setAttribute('data-gallery-only', 'true');
         setMainBtn.innerHTML = DETAIL_STAR_SVG + '<span>Set as main</span>';
         setMainBtn.addEventListener('click', function (e) {
             e.preventDefault();
@@ -7284,8 +7295,8 @@ function createDetailControlPanel(options) {
 }
 
 /**
- * Place control panel inside the gallery card (under its header) when present,
- * and mirror a linked clone at the top of the details page so Manage stays available on both views.
+ * Place control panel as the right rail of the gallery row when present,
+ * and mirror a linked clone (without Set as main) on the details page.
  */
 function mountDetailControlPanel(modalBody, panel) {
     if (!modalBody || !panel) return;
@@ -7295,15 +7306,15 @@ function mountDetailControlPanel(modalBody, panel) {
     function wireClonedPanel(clone) {
         var edit = clone.querySelector('.card-edit-icon, .plant-detail-edit, .vivarium-detail-edit');
         var image = clone.querySelector('.card-image-icon, .plant-detail-image, .vivarium-detail-image');
-        var setMain = clone.querySelector('.plant-detail-set-main, .detail-btn-set-main');
         var hide = clone.querySelector('.detail-hide');
+        var care = clone.querySelector('.vivarium-detail-care-card');
         var srcEdit = panel.querySelector('.card-edit-icon, .plant-detail-edit, .vivarium-detail-edit');
         var srcImage = panel.querySelector('.card-image-icon, .plant-detail-image, .vivarium-detail-image');
-        var srcSetMain = panel.querySelector('.plant-detail-set-main, .detail-btn-set-main');
         var srcHide = panel.querySelector('.detail-hide');
+        var srcCare = panel.querySelector('.vivarium-detail-care-card');
         if (edit && srcEdit) edit.addEventListener('click', function () { srcEdit.click(); });
         if (image && srcImage) image.addEventListener('click', function () { srcImage.click(); });
-        if (setMain && srcSetMain) setMain.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); srcSetMain.click(); });
+        if (care && srcCare) care.addEventListener('click', function () { srcCare.click(); });
         if (hide && srcHide) hide.addEventListener('click', function () {
             srcHide.click();
             hide.title = srcHide.title;
@@ -7313,11 +7324,19 @@ function mountDetailControlPanel(modalBody, panel) {
     }
 
     if (gallery) {
-        var header = gallery.querySelector('.plant-gallery-header');
-        if (header) header.insertAdjacentElement('afterend', panel);
-        else gallery.insertBefore(panel, gallery.firstChild);
+        var mainRow = gallery.querySelector('.plant-gallery-main-row');
+        if (mainRow) mainRow.appendChild(panel);
+        else {
+            var header = gallery.querySelector('.plant-gallery-header');
+            if (header) header.insertAdjacentElement('afterend', panel);
+            else gallery.insertBefore(panel, gallery.firstChild);
+        }
         if (page1) {
             var clone = panel.cloneNode(true);
+            clone.classList.add('detail-control-panel-page1');
+            clone.querySelectorAll('.gallery-view-only, [data-gallery-only="true"]').forEach(function (el) {
+                el.remove();
+            });
             page1.insertBefore(clone, page1.firstChild);
             wireClonedPanel(clone);
         }
@@ -7865,26 +7884,28 @@ async function showPlantModal(plant) {
                 const galleryImages = hasNumbered ? valid.filter(path => !/\/thumb\.(jpg|jpeg|png|webp)$/i.test(path)) : valid;
                 return galleryImages.length > 0 ? `
                 <div class="plant-gallery-modern" id="gallery-page-${plant.id}">
-                    <header class="plant-gallery-header">
-                        <div class="plant-gallery-header-main">
-                            <span class="plant-gallery-label">Gallery</span>
-                            <h2 class="plant-gallery-item-name">${escapeHtml(plant.name)}</h2>
-                            ${plant.scientificName ? '<p class="plant-gallery-scientific-name">' + escapeHtml(plant.scientificName) + '</p>' : ''}
+                    <div class="plant-gallery-main-row">
+                        <header class="plant-gallery-header">
+                            <div class="plant-gallery-header-main">
+                                <span class="plant-gallery-label">Gallery</span>
+                                <h2 class="plant-gallery-item-name">${escapeHtml(plant.name)}</h2>
+                                ${plant.scientificName ? '<p class="plant-gallery-scientific-name">' + escapeHtml(plant.scientificName) + '</p>' : ''}
+                                <span class="plant-gallery-count">${galleryImages.length} photo${galleryImages.length !== 1 ? 's' : ''}</span>
+                            </div>
+                        </header>
+                        <div class="plant-gallery-stage" id="gallery-preview-${plant.id}">
+                            <button type="button" class="plant-gallery-arrow plant-gallery-prev" onclick="galleryPrevNext(${plant.id}, -1)" aria-label="Previous image">‹</button>
+                            <div class="plant-gallery-stage-inner" style="position:relative;">
+                                <div class="gallery-img-loading" id="gallery-preview-loading">Loading...</div>
+                                ${displayImageUrl ? 
+                                    `<img id="gallery-preview-img" data-current-index="0" src="${getCardThumbUrl(displayImageUrl, 1600, 88)}" data-original-src="${getFullResUrl(displayImageUrl)}" alt="${plant.name}" class="gallery-preview-image" onload="var l=document.getElementById('gallery-preview-loading');if(l)l.classList.add('hidden')" onerror="var l=document.getElementById('gallery-preview-loading');if(l)l.classList.add('hidden')">` :
+                                    `<div class="plant-gallery-placeholder">🌿</div>`
+                                }
+                            </div>
+                            <button type="button" class="plant-gallery-arrow plant-gallery-next" onclick="galleryPrevNext(${plant.id}, 1)" aria-label="Next image">›</button>
+                            <div class="plant-gallery-counter"><span id="gallery-current-num">1</span> / ${galleryImages.length}</div>
+                            <button type="button" class="plant-gallery-fullscreen-btn" onclick="openGalleryFullscreen(${plant.id})" aria-label="View fullscreen">⛶ Fullscreen</button>
                         </div>
-                        <span class="plant-gallery-count">${galleryImages.length} photo${galleryImages.length !== 1 ? 's' : ''}</span>
-                    </header>
-                    <div class="plant-gallery-stage" id="gallery-preview-${plant.id}">
-                        <button type="button" class="plant-gallery-arrow plant-gallery-prev" onclick="galleryPrevNext(${plant.id}, -1)" aria-label="Previous image">‹</button>
-                        <div class="plant-gallery-stage-inner" style="position:relative;">
-                            <div class="gallery-img-loading" id="gallery-preview-loading">Loading...</div>
-                            ${displayImageUrl ? 
-                                `<img id="gallery-preview-img" data-current-index="0" src="${getCardThumbUrl(displayImageUrl, 1600, 88)}" data-original-src="${getFullResUrl(displayImageUrl)}" alt="${plant.name}" class="gallery-preview-image" onload="var l=document.getElementById('gallery-preview-loading');if(l)l.classList.add('hidden')" onerror="var l=document.getElementById('gallery-preview-loading');if(l)l.classList.add('hidden')">` :
-                                `<div class="plant-gallery-placeholder">🌿</div>`
-                            }
-                        </div>
-                        <button type="button" class="plant-gallery-arrow plant-gallery-next" onclick="galleryPrevNext(${plant.id}, 1)" aria-label="Next image">›</button>
-                        <div class="plant-gallery-counter"><span id="gallery-current-num">1</span> / ${galleryImages.length}</div>
-                        <button type="button" class="plant-gallery-fullscreen-btn" onclick="openGalleryFullscreen(${plant.id})" aria-label="View fullscreen">⛶ Fullscreen</button>
                     </div>
                     <div class="gallery-fullscreen-overlay" id="gallery-fullscreen-overlay" role="dialog" aria-modal="true" aria-label="Fullscreen image view" onclick="if(event.target === this) closeGalleryFullscreen()">
                         <div class="gallery-img-loading" id="gallery-fullscreen-loading">Loading...</div>
@@ -7911,16 +7932,18 @@ async function showPlantModal(plant) {
                 </div>
             ` : `
                 <div class="plant-gallery-modern plant-gallery-empty">
-                    <header class="plant-gallery-header">
-                        <div class="plant-gallery-header-main">
-                            <span class="plant-gallery-label">Gallery</span>
-                            <h2 class="plant-gallery-item-name">${escapeHtml(plant.name)}</h2>
-                            ${plant.scientificName ? '<p class="plant-gallery-scientific-name">' + escapeHtml(plant.scientificName) + '</p>' : ''}
+                    <div class="plant-gallery-main-row">
+                        <header class="plant-gallery-header">
+                            <div class="plant-gallery-header-main">
+                                <span class="plant-gallery-label">Gallery</span>
+                                <h2 class="plant-gallery-item-name">${escapeHtml(plant.name)}</h2>
+                                ${plant.scientificName ? '<p class="plant-gallery-scientific-name">' + escapeHtml(plant.scientificName) + '</p>' : ''}
+                            </div>
+                        </header>
+                        <div class="plant-gallery-empty-message">
+                            <p>No photos yet.</p>
+                            <p>Use Image in the Manage panel to add photos.</p>
                         </div>
-                    </header>
-                    <div class="plant-gallery-empty-message">
-                        <p>No photos yet.</p>
-                        <p>Use Image in the Manage panel to add photos.</p>
                     </div>
                 </div>
             `;
