@@ -1855,6 +1855,7 @@ function setupEventListeners() {
     function openLegendPanel() {
         // Legend UI is mobile-only
         if (!legendSidebar || !legendSidebarWrapper || !isLegendMobile()) return;
+        if (document.querySelector('.main-layout.detail-view-active')) return;
         legendSidebar.classList.remove('legend-sidebar-collapsed');
         legendSidebarWrapper.classList.remove('legend-sidebar-wrapper-collapsed');
         if (legendSidebarReopen) legendSidebarReopen.classList.add('hidden');
@@ -1869,9 +1870,10 @@ function setupEventListeners() {
         document.body.classList.remove('legend-drawer-open');
         var lo = document.getElementById('legendOverlay');
         if (lo) { lo.classList.add('hidden'); lo.setAttribute('aria-hidden', 'true'); }
-        // Reopen control only on mobile + plants tab
+        // Reopen control only on mobile + plants tab + not on item detail
         if (legendSidebarReopen) {
-            var show = isLegendMobile() && currentView === 'plants';
+            var show = isLegendMobile() && currentView === 'plants' &&
+                !document.querySelector('.main-layout.detail-view-active');
             legendSidebarReopen.classList.toggle('hidden', !show);
         }
     }
@@ -1879,7 +1881,8 @@ function setupEventListeners() {
         if (!legendSidebarReopen || !legendSidebar) return;
         var mobile = isLegendMobile();
         var plantsView = currentView === 'plants';
-        if (!mobile || !plantsView) {
+        var detailActive = !!document.querySelector('.main-layout.detail-view-active');
+        if (!mobile || !plantsView || detailActive) {
             closeLegendPanel();
             legendSidebarReopen.classList.add('hidden');
             return;

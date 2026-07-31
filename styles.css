@@ -321,6 +321,11 @@ html.detail-startup body {
     display: none !important;
 }
 
+/* Mobile Legend button sits outside the sidebar — hide it on item detail too */
+.main-layout.detail-view-active .legend-sidebar-reopen-btn {
+    display: none !important;
+}
+
 /* Filters Sidebar (control panel) - visible by default, fixed when scrolling (via JS), scrollable */
 .filters-sidebar {
     --filters-sidebar-width: 320px;
