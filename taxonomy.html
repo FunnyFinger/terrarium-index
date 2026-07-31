@@ -224,7 +224,7 @@
         }
         
         .plant-tooltip {
-            position: absolute;
+            position: fixed;
             background: rgba(0, 0, 0, 0.95);
             color: white;
             padding: 0.75rem;
@@ -232,14 +232,20 @@
             font-size: 0.875rem;
             pointer-events: none;
             z-index: 1000;
-            max-width: 600px;
+            max-width: min(600px, calc(100vw - 24px));
             width: auto;
-            min-width: 300px;
+            min-width: min(280px, calc(100vw - 24px));
             word-wrap: break-word;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             display: none;
             max-height: 80vh;
             overflow-y: auto;
+            box-sizing: border-box;
+        }
+
+        .plant-tooltip .tooltip-image {
+            max-width: 100%;
+            max-height: min(560px, 55vh);
         }
         
         .tooltip-name {
@@ -684,6 +690,6 @@
     <script defer src="data.js?v=3"></script>
     <script defer src="data/plant-loader.js?v=6"></script>
     <script defer src="images.js?v=11"></script>
-    <script defer src="taxonomy.js?v=5"></script>
+    <script defer src="taxonomy.js?v=6"></script>
 </body>
 </html>

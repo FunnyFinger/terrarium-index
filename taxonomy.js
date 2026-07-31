@@ -995,9 +995,7 @@ function updateTreeLayout() {
                         })
                         .style('cursor', 'pointer')
                         .on('click', function() {
-                            if (plantData.id != null) {
-                                window.open(`index.html?tab=plants&id=${encodeURIComponent(plantData.id)}`, '_blank');
-                            }
+                            openPlantFromTaxonomy(plantData.id);
                         });
                 }
             });
@@ -1077,7 +1075,7 @@ function updateTreeLayout() {
             const firstPlant = d.data.plants[0];
             const id = firstPlant && firstPlant.id;
             if (id != null) {
-                window.open(`index.html?tab=plants&id=${encodeURIComponent(id)}`, '_blank');
+                openPlantFromTaxonomy(id);
                 return;
             }
         }
@@ -1218,8 +1216,9 @@ function updateTreeLayout() {
                             event.stopPropagation();
                             const targetId = matchingPlant && matchingPlant.id != null ? matchingPlant.id : null;
                             if (targetId != null) {
-                                window.open(`index.html?tab=plants&id=${encodeURIComponent(targetId)}`, '_blank');
+                                openPlantFromTaxonomy(targetId);
                             } else {
+                                hideTooltip();
                                 navigateToTaxonomyFilter(d);
                             }
                         })
@@ -1996,8 +1995,16 @@ function formatVernacularNameWithRank(vernacularName, rank) {
     return `${vernacularName} ${rankLabel}`;
 }
 
+function isHoverCapableDevice() {
+    return !!(window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches);
+}
+
 // Show tooltip with image preview (for species) or taxonomic info (for non-species)
 function showTooltip(event, text, imagePath, nodeData = null) {
+    // Touch / coarse pointers fire synthetic mouseover on tap; keep tooltips desktop-hover only
+    // so mobile taps don't leave a clipped tooltip open after navigating to a plant.
+    if (!isHoverCapableDevice()) return;
+
     let tooltip = document.querySelector('.plant-tooltip');
     if (!tooltip) {
         tooltip = document.createElement('div');
@@ -2191,26 +2198,30 @@ function showTooltip(event, text, imagePath, nodeData = null) {
     
     tooltip.style.display = 'block';
     
-    // Position tooltip near cursor, but keep it within viewport
-    // Adjust size based on content type
-    const tooltipWidth = imagePath ? 600 : 450; // Wider for longer taxonomic descriptions
-    const tooltipHeight = imagePath ? 650 : (isTaxonomic ? 300 : 100); // Taller for descriptions
-    const padding = 20;
-    
-    let left = event.pageX + 15;
-    let top = event.pageY - 10;
-    
-    // Adjust if tooltip would go off screen
-    if (left + tooltipWidth > window.innerWidth) {
-        left = event.pageX - tooltipWidth - 15;
+    // Position with fixed coords so scroll/back-navigation can't leave it clipped oddly
+    const padding = 12;
+    const maxW = Math.min(imagePath ? 600 : 450, window.innerWidth - padding * 2);
+    tooltip.style.maxWidth = maxW + 'px';
+    tooltip.style.minWidth = Math.min(280, maxW) + 'px';
+
+    const rect = tooltip.getBoundingClientRect();
+    const tooltipWidth = rect.width || maxW;
+    const tooltipHeight = rect.height || (imagePath ? 320 : (isTaxonomic ? 200 : 80));
+    const clientX = event.clientX != null ? event.clientX : (event.pageX - window.scrollX);
+    const clientY = event.clientY != null ? event.clientY : (event.pageY - window.scrollY);
+
+    let left = clientX + 15;
+    let top = clientY - 10;
+
+    if (left + tooltipWidth > window.innerWidth - padding) {
+        left = clientX - tooltipWidth - 15;
     }
-    if (top + tooltipHeight > window.innerHeight) {
+    if (left < padding) left = padding;
+    if (top + tooltipHeight > window.innerHeight - padding) {
         top = window.innerHeight - tooltipHeight - padding;
     }
-    if (top < padding) {
-        top = padding;
-    }
-    
+    if (top < padding) top = padding;
+
     tooltip.style.left = left + 'px';
     tooltip.style.top = top + 'px';
 }
@@ -2220,7 +2231,14 @@ function hideTooltip() {
     const tooltip = document.querySelector('.plant-tooltip');
     if (tooltip) {
         tooltip.style.display = 'none';
+        tooltip.innerHTML = '';
     }
+}
+
+function openPlantFromTaxonomy(plantId) {
+    hideTooltip();
+    if (plantId == null) return;
+    window.open(`index.html?tab=plants&id=${encodeURIComponent(plantId)}`, '_blank');
 }
 
 // Collapse one level: collapse only the deepest nodes that have visible children
@@ -2498,6 +2516,16 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialize when plants are loaded
     initializeTaxonomy();
+
+    // Clear sticky hover tooltips when leaving/returning (mobile back, bfcache, tab switch)
+    window.addEventListener('pagehide', hideTooltip);
+    window.addEventListener('pageshow', hideTooltip);
+    window.addEventListener('focus', hideTooltip);
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden' || document.visibilityState === 'visible') {
+            hideTooltip();
+        }
+    });
 });
 
 // Handle window resize
