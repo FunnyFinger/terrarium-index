@@ -1760,6 +1760,7 @@ function setupEventListeners() {
     const controlPanelReset = document.getElementById('controlPanelReset');
     const filtersSidebarWrapper = document.getElementById('filtersSidebarWrapper');
     const EDGE_ACTIONS_MIN_TOP = 72;
+    const EDGE_ACTIONS_PANEL_INSET = 10; // keep stack inside rounded panel edges
 
     function updateEdgeActionsPosition() {
         if (!controlPanelEdgeActions || !filtersSidebar || filtersSidebar.classList.contains('control-panel-collapsed') || filtersSidebar.style.display === 'none') {
@@ -1768,12 +1769,18 @@ function setupEventListeners() {
         const rect = filtersSidebar.getBoundingClientRect();
         const height = controlPanelEdgeActions.offsetHeight || 0;
         const half = height / 2;
-        // Keep the stack's vertical center within the panel, preferring viewport center.
-        // `top` must be the center Y because CSS uses transform: translateY(-50%).
-        const minCenter = Math.max(EDGE_ACTIONS_MIN_TOP + half, rect.top + half);
-        const maxCenter = Math.max(minCenter, rect.bottom - half);
-        const viewportCenter = window.innerHeight / 2;
-        const center = Math.min(maxCenter, Math.max(minCenter, viewportCenter));
+        const inset = EDGE_ACTIONS_PANEL_INSET;
+        // `top` is the center Y because CSS uses transform: translateY(-50%).
+        // Inset so the stack never sits past the panel's top/bottom (incl. border-radius).
+        var minCenter = Math.max(EDGE_ACTIONS_MIN_TOP + half, rect.top + half + inset);
+        var maxCenter = rect.bottom - half - inset;
+        var center;
+        if (maxCenter < minCenter) {
+            center = rect.top + rect.height / 2;
+        } else {
+            const viewportCenter = window.innerHeight / 2;
+            center = Math.min(maxCenter, Math.max(minCenter, viewportCenter));
+        }
         controlPanelEdgeActions.style.top = center + 'px';
         controlPanelEdgeActions.style.transform = 'translateY(-50%)';
         controlPanelEdgeActions.style.left = rect.right + 'px';
@@ -2079,6 +2086,8 @@ function setupEventListeners() {
                 filtersSidebar.style.removeProperty('--filters-sticky-left');
                 filtersSidebar.style.removeProperty('--filters-sticky-top');
             }
+            // Reposition edge buttons after sticky top changes (avoids bottom overhang near footer)
+            if (typeof updateEdgeActionsPosition === 'function') updateEdgeActionsPosition();
         }
         window.addEventListener('scroll', updateFiltersSticky, { passive: true });
         window.addEventListener('resize', updateFiltersSticky);
