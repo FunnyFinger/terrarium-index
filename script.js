@@ -5283,7 +5283,7 @@ function showVivariumDetail(vivarium) {
                 '<header class="plant-gallery-header">' +
                 '<div class="plant-gallery-header-main"><span class="plant-gallery-label">Gallery</span><h2 class="plant-gallery-item-name">' + escapeHtml(vivarium.name) + '</h2></div>' +
                 '</header>' +
-                '<div class="plant-gallery-empty-message"><p>No photos yet.</p><p>Use the Image button above to add photos.</p></div>' +
+                '<div class="plant-gallery-empty-message"><p>No photos yet.</p><p>Use Image in the Manage panel to add photos.</p></div>' +
                 '</div>';
         }
         var imgs = vivariumGalleryImages;
@@ -5436,35 +5436,39 @@ function showVivariumDetail(vivarium) {
         '<div class="product-reviews-widget" data-product-type="vivarium" data-product-id="' + vivarium.id + '" data-product-name="' + escapeHtml(vivarium.name) + '"></div>' +
         '</section></div>' +
         '<div id="modal-page-2" class="modal-page" style="display: none;" data-plant-id="' + vivarium.id + '">' + galleryPage2Html + '</div>';
-    var vivariumDetailActions = document.createElement('div');
-    vivariumDetailActions.className = 'detail-actions detail-actions-fixed';
-    var printCareCardSvgV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>';
-    vivariumDetailActions.innerHTML = '<button type="button" class="detail-btn card-edit-icon vivarium-detail-edit" title="Edit details" aria-label="Edit details">' + detailEditSvgV + '<span>Edit details</span></button><button type="button" class="detail-btn card-image-icon vivarium-detail-image" title="Add or edit images" aria-label="Add or edit images">' + detailImageSvgV + '<span>Image</span></button><button type="button" class="detail-btn vivarium-detail-care-card" title="Print care card" aria-label="Print care card">' + printCareCardSvgV + '<span>Print care card</span></button>';
+    var printCareCardSvgV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>';
     var canManageVisibility = typeof auth !== 'undefined' && auth && ((auth.isOwner && auth.isOwner()) || (auth.isAdmin && auth.isAdmin()));
-    if (canManageVisibility) {
-        var vivHideBtn = document.createElement('button');
-        vivHideBtn.type = 'button';
-        vivHideBtn.className = 'detail-btn detail-hide vivarium-detail-hide';
-        vivHideBtn.title = vivarium.hidden ? 'Show this vivarium in the shop' : 'Hide this vivarium from shoppers';
-        vivHideBtn.setAttribute('aria-label', vivarium.hidden ? 'Show vivarium in shop' : 'Hide vivarium from shoppers');
-        vivHideBtn.innerHTML = '<span>' + (vivarium.hidden ? 'Show in shop' : 'Hide from shoppers') + '</span>';
-        vivariumDetailActions.appendChild(vivHideBtn);
-        vivHideBtn.addEventListener('click', function () {
-            var nextHidden = !vivarium.hidden;
-            vivarium.hidden = nextHidden;
-            if (window.inventoryDb && window.inventoryDb.setItem) {
-                window.inventoryDb.setItem(vivarium.id, { hidden: nextHidden }).then(function () {
-                    if (typeof applyVivariumFilters === 'function') applyVivariumFilters();
-                });
-            } else if (typeof applyVivariumFilters === 'function') {
-                applyVivariumFilters();
+    var vivariumDetailActions = createDetailControlPanel({
+        buttonsHtml:
+            '<button type="button" class="detail-btn card-edit-icon vivarium-detail-edit" title="Edit details" aria-label="Edit details">' + detailEditSvgV + '<span>Edit details</span></button>' +
+            '<button type="button" class="detail-btn card-image-icon vivarium-detail-image" title="Add or edit images" aria-label="Add or edit images">' + detailImageSvgV + '<span>Image</span></button>' +
+            '<button type="button" class="detail-btn vivarium-detail-care-card" title="Print care card" aria-label="Print care card">' + printCareCardSvgV + '<span>Print care card</span></button>',
+        hideConfig: canManageVisibility ? {
+            className: 'vivarium-detail-hide',
+            isHidden: !!vivarium.hidden,
+            showTitle: 'Show this vivarium in the shop',
+            hideTitle: 'Hide this vivarium from shoppers',
+            showLabel: 'Show vivarium in shop',
+            hideLabel: 'Hide vivarium from shoppers',
+            showText: 'Show in shop',
+            hideText: 'Hide from shoppers',
+            onToggle: function (hideBtn) {
+                var nextHidden = !vivarium.hidden;
+                vivarium.hidden = nextHidden;
+                if (window.inventoryDb && window.inventoryDb.setItem) {
+                    window.inventoryDb.setItem(vivarium.id, { hidden: nextHidden }).then(function () {
+                        if (typeof applyVivariumFilters === 'function') applyVivariumFilters();
+                    });
+                } else if (typeof applyVivariumFilters === 'function') {
+                    applyVivariumFilters();
+                }
+                hideBtn.title = nextHidden ? 'Show this vivarium in the shop' : 'Hide this vivarium from shoppers';
+                hideBtn.setAttribute('aria-label', nextHidden ? 'Show vivarium in shop' : 'Hide vivarium from shoppers');
+                hideBtn.innerHTML = '<span>' + (nextHidden ? 'Show in shop' : 'Hide from shoppers') + '</span>';
             }
-            vivHideBtn.title = nextHidden ? 'Show this vivarium in the shop' : 'Hide this vivarium from shoppers';
-            vivHideBtn.setAttribute('aria-label', nextHidden ? 'Show vivarium in shop' : 'Hide vivarium from shoppers');
-            vivHideBtn.innerHTML = '<span>' + (nextHidden ? 'Show in shop' : 'Hide from shoppers') + '</span>';
-        });
-    }
-    modalBody.appendChild(vivariumDetailActions);
+        } : null
+    });
+    mountDetailControlPanel(modalBody, vivariumDetailActions);
     var addBtn = modalBody.querySelector('.btn-add-to-cart');
     if (addBtn) addBtn.addEventListener('click', function() {
         if (vivarium._buildConfig && typeof addVivariumBuildToCart === 'function') addVivariumBuildToCart(vivarium);
@@ -5483,11 +5487,11 @@ function showVivariumDetail(vivarium) {
             });
         });
     }
-    var vivariumDetailEditBtn = modalBody.querySelector('.vivarium-detail-edit');
-    var vivariumDetailImageBtn = modalBody.querySelector('.vivarium-detail-image');
+    var vivariumDetailEditBtn = vivariumDetailActions.querySelector('.vivarium-detail-edit');
+    var vivariumDetailImageBtn = vivariumDetailActions.querySelector('.vivarium-detail-image');
     if (vivariumDetailEditBtn) vivariumDetailEditBtn.addEventListener('click', function() { if (window.openVivariumEdit) openVivariumEdit(vivarium); });
     if (vivariumDetailImageBtn) vivariumDetailImageBtn.addEventListener('click', function() { openVivariumImageUpload(vivarium); });
-    var vivariumCareCardBtn = modalBody.querySelector('.vivarium-detail-care-card');
+    var vivariumCareCardBtn = vivariumDetailActions.querySelector('.vivarium-detail-care-card');
     if (vivariumCareCardBtn) vivariumCareCardBtn.addEventListener('click', function() { if (typeof generateVivariumCareCard === 'function') generateVivariumCareCard(vivarium); });
     var vivariumReviewsWidget = modalBody.querySelector('.product-reviews-widget');
     if (vivariumReviewsWidget && typeof window.initProductReviewsWidget === 'function') window.initProductReviewsWidget(vivariumReviewsWidget);
@@ -5529,7 +5533,7 @@ function showEquipmentDetail(equipment) {
         if (equipmentGalleryImages.length === 0) {
             return `<div class="plant-gallery-modern plant-gallery-empty gallery-no-set-main">
                 <header class="plant-gallery-header"><div class="plant-gallery-header-main"><span class="plant-gallery-label">Gallery</span><h2 class="plant-gallery-item-name">${escapeHtml(equipment.name)}</h2></div></header>
-                <div class="plant-gallery-empty-message"><p>No photos yet.</p><p>Use the Image button above to add photos.</p></div>
+                <div class="plant-gallery-empty-message"><p>No photos yet.</p><p>Use Image in the Manage panel to add photos.</p></div>
             </div>`;
         }
         const imgs = normalizedGalleryUrls;
@@ -5603,38 +5607,41 @@ function showEquipmentDetail(equipment) {
             ${galleryPage2Html}
         </div>
     `;
-    const equipmentDetailActions = document.createElement('div');
-    equipmentDetailActions.className = 'detail-actions detail-actions-fixed';
-    equipmentDetailActions.innerHTML = '<button type="button" class="detail-btn card-edit-icon" title="Edit details" aria-label="Edit details">' + detailEditSvg + '<span>Edit details</span></button><button type="button" class="detail-btn card-image-icon" title="Add or edit images" aria-label="Add or edit images">' + detailImageSvg + '<span>Image</span></button>';
     var canManageVisibilityEq = typeof auth !== 'undefined' && auth && ((auth.isOwner && auth.isOwner()) || (auth.isAdmin && auth.isAdmin()));
-    if (canManageVisibilityEq) {
-        const equipHideBtn = document.createElement('button');
-        equipHideBtn.type = 'button';
-        equipHideBtn.className = 'detail-btn detail-hide equipment-detail-hide';
-        equipHideBtn.title = equipment.hidden ? 'Show this supply in the shop' : 'Hide this supply from shoppers';
-        equipHideBtn.setAttribute('aria-label', equipment.hidden ? 'Show supply in shop' : 'Hide supply from shoppers');
-        equipHideBtn.innerHTML = '<span>' + (equipment.hidden ? 'Show in shop' : 'Hide from shoppers') + '</span>';
-        equipmentDetailActions.appendChild(equipHideBtn);
-        equipHideBtn.addEventListener('click', function () {
-            var nextHidden = !equipment.hidden;
-            equipment.hidden = nextHidden;
-            if (window.inventoryDb && window.inventoryDb.setItem) {
-                window.inventoryDb.setItem(equipment.id, { hidden: nextHidden }).then(function () {
+    const equipmentDetailActions = createDetailControlPanel({
+        buttonsHtml:
+            '<button type="button" class="detail-btn card-edit-icon" title="Edit details" aria-label="Edit details">' + detailEditSvg + '<span>Edit details</span></button>' +
+            '<button type="button" class="detail-btn card-image-icon" title="Add or edit images" aria-label="Add or edit images">' + detailImageSvg + '<span>Image</span></button>',
+        hideConfig: canManageVisibilityEq ? {
+            className: 'equipment-detail-hide',
+            isHidden: !!equipment.hidden,
+            showTitle: 'Show this supply in the shop',
+            hideTitle: 'Hide this supply from shoppers',
+            showLabel: 'Show supply in shop',
+            hideLabel: 'Hide supply from shoppers',
+            showText: 'Show in shop',
+            hideText: 'Hide from shoppers',
+            onToggle: function (hideBtn) {
+                var nextHidden = !equipment.hidden;
+                equipment.hidden = nextHidden;
+                if (window.inventoryDb && window.inventoryDb.setItem) {
+                    window.inventoryDb.setItem(equipment.id, { hidden: nextHidden }).then(function () {
+                        if (typeof applyEquipmentFilters === 'function') applyEquipmentFilters();
+                        if (typeof updateQuickAddButtonsState === 'function') updateQuickAddButtonsState();
+                    });
+                } else {
                     if (typeof applyEquipmentFilters === 'function') applyEquipmentFilters();
                     if (typeof updateQuickAddButtonsState === 'function') updateQuickAddButtonsState();
-                });
-            } else {
-                if (typeof applyEquipmentFilters === 'function') applyEquipmentFilters();
-                if (typeof updateQuickAddButtonsState === 'function') updateQuickAddButtonsState();
+                }
+                hideBtn.title = nextHidden ? 'Show this supply in the shop' : 'Hide this supply from shoppers';
+                hideBtn.setAttribute('aria-label', nextHidden ? 'Show supply in shop' : 'Hide supply from shoppers');
+                hideBtn.innerHTML = '<span>' + (nextHidden ? 'Show in shop' : 'Hide from shoppers') + '</span>';
             }
-            equipHideBtn.title = nextHidden ? 'Show this supply in the shop' : 'Hide this supply from shoppers';
-            equipHideBtn.setAttribute('aria-label', nextHidden ? 'Show supply in shop' : 'Hide supply from shoppers');
-            equipHideBtn.innerHTML = '<span>' + (nextHidden ? 'Show in shop' : 'Hide from shoppers') + '</span>';
-        });
-    }
-    modalBody.appendChild(equipmentDetailActions);
-    const equipmentDetailEditBtn = modalBody.querySelector('.detail-actions-fixed .card-edit-icon');
-    const equipmentDetailImageBtn = modalBody.querySelector('.detail-actions-fixed .card-image-icon');
+        } : null
+    });
+    mountDetailControlPanel(modalBody, equipmentDetailActions);
+    const equipmentDetailEditBtn = equipmentDetailActions.querySelector('.card-edit-icon');
+    const equipmentDetailImageBtn = equipmentDetailActions.querySelector('.card-image-icon');
     if (equipmentDetailEditBtn) equipmentDetailEditBtn.addEventListener('click', function() { openEquipmentEdit(equipment); });
     if (equipmentDetailImageBtn) equipmentDetailImageBtn.addEventListener('click', function() { openEquipmentImageUpload(equipment); });
     const addBtn = modalBody.querySelector('.btn-add-to-cart');
@@ -7227,6 +7234,102 @@ async function hydratePlantFromCatalog(plant) {
 }
 window.hydratePlantFromCatalog = hydratePlantFromCatalog;
 
+var DETAIL_EDIT_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
+var DETAIL_IMAGE_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>';
+var DETAIL_STAR_SVG = '<svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+
+/** Build staff "Manage" control panel (Edit / Image / optional Set as main / Hide). */
+function createDetailControlPanel(options) {
+    options = options || {};
+    var panel = document.createElement('div');
+    panel.className = 'detail-control-panel detail-actions detail-actions-fixed';
+    panel.setAttribute('role', 'region');
+    panel.setAttribute('aria-label', 'Staff controls');
+    var label = document.createElement('span');
+    label.className = 'detail-control-panel-label';
+    label.textContent = 'Manage';
+    var actions = document.createElement('div');
+    actions.className = 'detail-control-panel-actions';
+    actions.innerHTML = options.buttonsHtml || '';
+    if (options.setMainPlantId != null) {
+        var setMainBtn = document.createElement('button');
+        setMainBtn.type = 'button';
+        setMainBtn.className = 'detail-btn detail-btn-set-main plant-detail-set-main gallery-set-main-btn';
+        setMainBtn.title = 'Set the currently previewed gallery image as the main photo';
+        setMainBtn.setAttribute('aria-label', 'Set as main image');
+        setMainBtn.innerHTML = DETAIL_STAR_SVG + '<span>Set as main</span>';
+        setMainBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (typeof setAsMainImageFromPreview === 'function') setAsMainImageFromPreview(options.setMainPlantId);
+        });
+        actions.appendChild(setMainBtn);
+    }
+    if (options.hideConfig) {
+        var hc = options.hideConfig;
+        var hideBtn = document.createElement('button');
+        hideBtn.type = 'button';
+        hideBtn.className = 'detail-btn detail-hide ' + (hc.className || '');
+        hideBtn.title = hc.isHidden ? hc.showTitle : hc.hideTitle;
+        hideBtn.setAttribute('aria-label', hc.isHidden ? hc.showLabel : hc.hideLabel);
+        hideBtn.innerHTML = '<span>' + (hc.isHidden ? hc.showText : hc.hideText) + '</span>';
+        hideBtn.addEventListener('click', function () {
+            if (typeof hc.onToggle === 'function') hc.onToggle(hideBtn);
+        });
+        actions.appendChild(hideBtn);
+    }
+    panel.appendChild(label);
+    panel.appendChild(actions);
+    return panel;
+}
+
+/**
+ * Place control panel inside the gallery card (under its header) when present,
+ * and mirror a linked clone at the top of the details page so Manage stays available on both views.
+ */
+function mountDetailControlPanel(modalBody, panel) {
+    if (!modalBody || !panel) return;
+    var page1 = modalBody.querySelector('#modal-page-1');
+    var gallery = modalBody.querySelector('.plant-gallery-modern');
+
+    function wireClonedPanel(clone) {
+        var edit = clone.querySelector('.card-edit-icon, .plant-detail-edit, .vivarium-detail-edit');
+        var image = clone.querySelector('.card-image-icon, .plant-detail-image, .vivarium-detail-image');
+        var setMain = clone.querySelector('.plant-detail-set-main, .detail-btn-set-main');
+        var hide = clone.querySelector('.detail-hide');
+        var srcEdit = panel.querySelector('.card-edit-icon, .plant-detail-edit, .vivarium-detail-edit');
+        var srcImage = panel.querySelector('.card-image-icon, .plant-detail-image, .vivarium-detail-image');
+        var srcSetMain = panel.querySelector('.plant-detail-set-main, .detail-btn-set-main');
+        var srcHide = panel.querySelector('.detail-hide');
+        if (edit && srcEdit) edit.addEventListener('click', function () { srcEdit.click(); });
+        if (image && srcImage) image.addEventListener('click', function () { srcImage.click(); });
+        if (setMain && srcSetMain) setMain.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); srcSetMain.click(); });
+        if (hide && srcHide) hide.addEventListener('click', function () {
+            srcHide.click();
+            hide.title = srcHide.title;
+            hide.setAttribute('aria-label', srcHide.getAttribute('aria-label') || '');
+            hide.innerHTML = srcHide.innerHTML;
+        });
+    }
+
+    if (gallery) {
+        var header = gallery.querySelector('.plant-gallery-header');
+        if (header) header.insertAdjacentElement('afterend', panel);
+        else gallery.insertBefore(panel, gallery.firstChild);
+        if (page1) {
+            var clone = panel.cloneNode(true);
+            page1.insertBefore(clone, page1.firstChild);
+            wireClonedPanel(clone);
+        }
+        return;
+    }
+    if (page1) {
+        page1.insertBefore(panel, page1.firstChild);
+        return;
+    }
+    modalBody.insertBefore(panel, modalBody.firstChild);
+}
+
 // Show plant modal with detailed information
 async function showPlantModal(plant) {
     // If we arrived via direct URL (tab=plants&id=...), remove startup-hiding class
@@ -7781,7 +7884,6 @@ async function showPlantModal(plant) {
                         </div>
                         <button type="button" class="plant-gallery-arrow plant-gallery-next" onclick="galleryPrevNext(${plant.id}, 1)" aria-label="Next image">›</button>
                         <div class="plant-gallery-counter"><span id="gallery-current-num">1</span> / ${galleryImages.length}</div>
-                        <button type="button" class="plant-gallery-set-main gallery-set-main-btn" onclick="event.preventDefault(); event.stopPropagation(); setAsMainImageFromPreview(${plant.id})" aria-label="Set as main image">⭐ Set as main</button>
                         <button type="button" class="plant-gallery-fullscreen-btn" onclick="openGalleryFullscreen(${plant.id})" aria-label="View fullscreen">⛶ Fullscreen</button>
                     </div>
                     <div class="gallery-fullscreen-overlay" id="gallery-fullscreen-overlay" role="dialog" aria-modal="true" aria-label="Fullscreen image view" onclick="if(event.target === this) closeGalleryFullscreen()">
@@ -7818,7 +7920,7 @@ async function showPlantModal(plant) {
                     </header>
                     <div class="plant-gallery-empty-message">
                         <p>No photos yet.</p>
-                        <p>Use the Image button above to add photos.</p>
+                        <p>Use Image in the Manage panel to add photos.</p>
                     </div>
                 </div>
             `;
@@ -7836,36 +7938,41 @@ async function showPlantModal(plant) {
             addToCart(plant, qty);
         });
     }
-    const plantDetailActions = document.createElement('div');
-    plantDetailActions.className = 'detail-actions detail-actions-fixed';
-    plantDetailActions.innerHTML = '<button type="button" class="detail-btn card-edit-icon plant-detail-edit" title="Edit details" aria-label="Edit details"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg><span>Edit details</span></button><button type="button" class="detail-btn card-image-icon plant-detail-image" title="Add or edit images" aria-label="Add or edit images"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Image</span></button>';
     const canManageVisibilityPlant = typeof auth !== 'undefined' && auth && ((auth.isOwner && auth.isOwner()) || (auth.isAdmin && auth.isAdmin()));
-    if (canManageVisibilityPlant) {
-        const plantHideBtn = document.createElement('button');
-        plantHideBtn.type = 'button';
-        plantHideBtn.className = 'detail-btn detail-hide plant-detail-hide';
-        plantHideBtn.title = plant.hidden ? 'Show this plant in the shop' : 'Hide this plant from shoppers';
-        plantHideBtn.setAttribute('aria-label', plant.hidden ? 'Show plant in shop' : 'Hide plant from shoppers');
-        plantHideBtn.innerHTML = '<span>' + (plant.hidden ? 'Show in shop' : 'Hide from shoppers') + '</span>';
-        plantDetailActions.appendChild(plantHideBtn);
-        plantHideBtn.addEventListener('click', function () {
-            var nextHidden = !plant.hidden;
-            plant.hidden = nextHidden;
-            if (window.inventoryDb && window.inventoryDb.setItem) {
-                window.inventoryDb.setItem(plant.id, { hidden: nextHidden }).then(function () {
-                    if (typeof applyAllFilters === 'function') applyAllFilters();
-                });
-            } else if (typeof applyAllFilters === 'function') {
-                applyAllFilters();
+    const plantHasGalleryImages = !!(plant.images && plant.images.filter(function (img) { return img && String(img).trim(); }).length);
+    const plantDetailActions = createDetailControlPanel({
+        buttonsHtml:
+            '<button type="button" class="detail-btn card-edit-icon plant-detail-edit" title="Edit details" aria-label="Edit details">' + DETAIL_EDIT_SVG + '<span>Edit details</span></button>' +
+            '<button type="button" class="detail-btn card-image-icon plant-detail-image" title="Add or edit images" aria-label="Add or edit images">' + DETAIL_IMAGE_SVG + '<span>Image</span></button>',
+        setMainPlantId: plantHasGalleryImages ? plant.id : null,
+        hideConfig: canManageVisibilityPlant ? {
+            className: 'plant-detail-hide',
+            isHidden: !!plant.hidden,
+            showTitle: 'Show this plant in the shop',
+            hideTitle: 'Hide this plant from shoppers',
+            showLabel: 'Show plant in shop',
+            hideLabel: 'Hide plant from shoppers',
+            showText: 'Show in shop',
+            hideText: 'Hide from shoppers',
+            onToggle: function (hideBtn) {
+                var nextHidden = !plant.hidden;
+                plant.hidden = nextHidden;
+                if (window.inventoryDb && window.inventoryDb.setItem) {
+                    window.inventoryDb.setItem(plant.id, { hidden: nextHidden }).then(function () {
+                        if (typeof applyAllFilters === 'function') applyAllFilters();
+                    });
+                } else if (typeof applyAllFilters === 'function') {
+                    applyAllFilters();
+                }
+                hideBtn.title = nextHidden ? 'Show this plant in the shop' : 'Hide this plant from shoppers';
+                hideBtn.setAttribute('aria-label', nextHidden ? 'Show plant in shop' : 'Hide plant from shoppers');
+                hideBtn.innerHTML = '<span>' + (nextHidden ? 'Show in shop' : 'Hide from shoppers') + '</span>';
             }
-            plantHideBtn.title = nextHidden ? 'Show this plant in the shop' : 'Hide this plant from shoppers';
-            plantHideBtn.setAttribute('aria-label', nextHidden ? 'Show plant in shop' : 'Hide plant from shoppers');
-            plantHideBtn.innerHTML = '<span>' + (nextHidden ? 'Show in shop' : 'Hide from shoppers') + '</span>';
-        });
-    }
-    modalBody.appendChild(plantDetailActions);
-    const plantDetailEditBtn = modalBody.querySelector('.plant-detail-edit');
-    const plantDetailImageBtn = modalBody.querySelector('.plant-detail-image');
+        } : null
+    });
+    mountDetailControlPanel(modalBody, plantDetailActions);
+    const plantDetailEditBtn = plantDetailActions.querySelector('.plant-detail-edit');
+    const plantDetailImageBtn = plantDetailActions.querySelector('.plant-detail-image');
     if (plantDetailEditBtn) plantDetailEditBtn.addEventListener('click', () => { openImageUpload(plant.id); });
     if (plantDetailImageBtn) plantDetailImageBtn.addEventListener('click', () => { openPlantImageUpload(plant); });
     const plantReviewsWidget = modalBody.querySelector('.product-reviews-widget');
