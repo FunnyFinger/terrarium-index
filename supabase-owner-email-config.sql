@@ -56,6 +56,13 @@ begin
     if not public.is_owner_user() then
       new.role := old.role;
     end if;
+    -- Never allow demoting the last remaining owner
+    if old.role = 'owner' and new.role is distinct from 'owner' then
+      if (select count(*)::int from public.profiles
+          where role = 'owner' and id is distinct from old.id) < 1 then
+        raise exception 'Cannot demote the last owner. Promote another owner first.';
+      end if;
+    end if;
     return new;
   end if;
 
