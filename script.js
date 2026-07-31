@@ -1815,49 +1815,53 @@ function setupEventListeners() {
     var legendSidebarWrapper = document.getElementById('legendSidebarWrapper');
     var legendSidebarCollapse = document.getElementById('legendSidebarCollapse');
     var legendSidebarReopen = document.getElementById('legendSidebarReopen');
+    function isLegendMobile() {
+        return window.matchMedia('(max-width: 1024px)').matches;
+    }
     function openLegendPanel() {
-        if (!legendSidebar || !legendSidebarWrapper) return;
+        // Legend UI is mobile-only
+        if (!legendSidebar || !legendSidebarWrapper || !isLegendMobile()) return;
         legendSidebar.classList.remove('legend-sidebar-collapsed');
         legendSidebarWrapper.classList.remove('legend-sidebar-wrapper-collapsed');
         if (legendSidebarReopen) legendSidebarReopen.classList.add('hidden');
-        if (window.matchMedia('(max-width: 1024px)').matches) {
-            document.body.classList.add('legend-drawer-open');
-            var lo = document.getElementById('legendOverlay');
-            if (lo) { lo.classList.remove('hidden'); lo.setAttribute('aria-hidden', 'false'); }
-        }
+        document.body.classList.add('legend-drawer-open');
+        var lo = document.getElementById('legendOverlay');
+        if (lo) { lo.classList.remove('hidden'); lo.setAttribute('aria-hidden', 'false'); }
     }
     function closeLegendPanel() {
         if (!legendSidebar || !legendSidebarWrapper) return;
         legendSidebar.classList.add('legend-sidebar-collapsed');
         legendSidebarWrapper.classList.add('legend-sidebar-wrapper-collapsed');
-        if (legendSidebarReopen) legendSidebarReopen.classList.remove('hidden');
         document.body.classList.remove('legend-drawer-open');
         var lo = document.getElementById('legendOverlay');
         if (lo) { lo.classList.add('hidden'); lo.setAttribute('aria-hidden', 'true'); }
+        // Reopen control only on mobile + plants tab
+        if (legendSidebarReopen) {
+            var show = isLegendMobile() && currentView === 'plants';
+            legendSidebarReopen.classList.toggle('hidden', !show);
+        }
     }
     function updateLegendButtonVisibility() {
         if (!legendSidebarReopen || !legendSidebar) return;
+        var mobile = isLegendMobile();
         var plantsView = currentView === 'plants';
-        var mobile = window.innerWidth <= 1024;
-        // Legend only applies to the plant grid
-        if (!plantsView) {
+        if (!mobile || !plantsView) {
             closeLegendPanel();
             legendSidebarReopen.classList.add('hidden');
             return;
         }
+        // Mobile plants view: closed by default, reopen when collapsed
         if (legendSidebar.classList.contains('legend-sidebar-collapsed')) {
             legendSidebarReopen.classList.remove('hidden');
         } else {
             legendSidebarReopen.classList.add('hidden');
         }
-        legendSidebarReopen.classList.toggle('is-mobile', mobile);
     }
     if (legendSidebarCollapse && legendSidebar && legendSidebarReopen && legendSidebarWrapper) {
         legendSidebarCollapse.addEventListener('click', closeLegendPanel);
         legendSidebarReopen.addEventListener('click', openLegendPanel);
         var legendOverlay = document.getElementById('legendOverlay');
         if (legendOverlay) legendOverlay.addEventListener('click', closeLegendPanel);
-        // Always start closed — plant grid first; users open Legend when they need it
         closeLegendPanel();
         window.updateLegendButtonVisibility = updateLegendButtonVisibility;
         window.addEventListener('resize', updateLegendButtonVisibility);

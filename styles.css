@@ -454,6 +454,16 @@ html.detail-startup body {
     display: none;
 }
 
+/* Legend: mobile-only drawer (hidden on desktop) */
+@media (min-width: 1025px) {
+    .legend-sidebar-wrapper,
+    .legend-sidebar,
+    .legend-sidebar-reopen-btn,
+    .legend-overlay {
+        display: none !important;
+    }
+}
+
 /* Legend sidebar (right) - vivarium types quick reference */
 .legend-sidebar-wrapper {
     --legend-sidebar-width: 200px;
@@ -594,16 +604,15 @@ html.detail-startup body {
     display: inline-block;
 }
 
-/* Legend reopen: right edge — available on desktop and mobile when legend is collapsed */
+/* Legend reopen: mobile only (desktop rule above hides it) */
 .legend-sidebar-reopen-btn {
     position: fixed;
     right: 0;
-    top: 50%;
-    transform: translateY(-50%);
+    bottom: 5rem;
     width: 36px;
     height: 40px;
     padding: 0;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     background: var(--accent-color);
@@ -617,10 +626,8 @@ html.detail-startup body {
 }
 
 @media (max-width: 1024px) {
-    .legend-sidebar-reopen-btn.is-mobile:not(.hidden) {
-        top: auto;
-        bottom: 5rem;
-        transform: none;
+    .legend-sidebar-reopen-btn:not(.hidden) {
+        display: flex;
     }
 }
 
