@@ -26,6 +26,30 @@
     <meta name="twitter:title" content="Vivarium Store — Plants & Supplies for Terrariums in Kuwait">
     <meta name="twitter:description" content="Shop rare tropical plants, vivarium supplies, and complete terrarium setups in Kuwait.">
     <meta name="twitter:image" content="https://vivarium-store.com/images/banner.jpg">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "name": "Vivarium Store",
+          "url": "https://vivarium-store.com/",
+          "logo": "https://vivarium-store.com/assets/vivarium-store-logo.svg",
+          "description": "Shop rare tropical plants, vivarium supplies, and complete terrarium setups in Kuwait."
+        },
+        {
+          "@type": "WebSite",
+          "name": "Vivarium Store",
+          "url": "https://vivarium-store.com/",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://vivarium-store.com/?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }
+      ]
+    }
+    </script>
     <script>
       (function() {
         var path = window.location.pathname;
@@ -1890,7 +1914,7 @@
     <script defer src="images.js?v=11"></script>
     <!-- upload.js + build-vivarium.js lazy-loaded when needed (staff edit / builder page) -->
     <!-- Finally initialize the application -->
-    <script defer src="script.js?v=15"></script>
+    <script defer src="script.js?v=16"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
       (function () {

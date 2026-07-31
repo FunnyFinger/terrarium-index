@@ -193,6 +193,56 @@ function scientificNameToSlug(scientificName) {
         .replace(/^-|-$/g, '');
 }
 
+/** Generic slug for names (supplies / vivariums). */
+function nameToSlug(name) {
+    if (!name) return '';
+    return String(name)
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, '-')
+        .replace(/[^a-z0-9-]/g, '')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+}
+
+/**
+ * Public SEO path for a catalog item. Collision-safe (appends -id when needed).
+ * Matches netlify/functions/lib/catalog-seo.js so new catalog rows get stable URLs.
+ */
+function getCatalogSeoPath(type, item, list) {
+    if (!item || item.id == null) return '/';
+    const slugFn = (type === 'plant')
+        ? function (p) { return scientificNameToSlug(p && p.scientificName) || nameToSlug(p && p.name) || String(p.id); }
+        : function (p) { return nameToSlug(p && p.name) || String(p.id); };
+    const used = new Set();
+    const items = Array.isArray(list) ? list : [item];
+    let chosen = '';
+    for (let i = 0; i < items.length; i++) {
+        const it = items[i];
+        if (!it || it.hidden) continue;
+        let base = slugFn(it) || String(it.id);
+        let slug = base;
+        if (used.has(slug)) slug = base + '-' + it.id;
+        used.add(slug);
+        if (it.id == item.id) chosen = slug;
+    }
+    if (!chosen) {
+        chosen = slugFn(item) || String(item.id);
+    }
+    if (type === 'plant') return '/plants/' + chosen;
+    if (type === 'supply') return '/supplies/' + chosen;
+    return '/vivariums/' + chosen;
+}
+
+function setCatalogSeoUrl(type, item, list) {
+    if (!history.replaceState) return;
+    try {
+        history.replaceState(null, '', getCatalogSeoPath(type, item, list));
+    } catch (e) { /* ignore */ }
+}
+
+window.getCatalogSeoPath = getCatalogSeoPath;
+
 // Load plants from modular structure or fallback to data.js
 async function initializePlants() {
     console.log('Initializing plants...');
@@ -1237,7 +1287,12 @@ function closePlantPanel() {
         plantDetailPanel.setAttribute('aria-hidden', 'true');
     }
     if (history.replaceState) {
-        try { history.replaceState(null, '', location.pathname || '/'); } catch (e) {}
+        try {
+            var path = location.pathname || '/';
+            // Leaving a pretty SEO URL returns to the shop root
+            if (/^\/(plants|supplies|vivariums)\//i.test(path)) path = '/';
+            history.replaceState(null, '', path);
+        } catch (e) { /* ignore */ }
     }
     if (typeof document !== 'undefined') {
         document.documentElement.classList.remove('detail-startup');
@@ -5306,7 +5361,7 @@ function showVivariumDetail(vivarium) {
         plantDetailPanel.setAttribute('aria-hidden', 'false');
     }
     if (plantModal) plantModal.classList.add('hidden');
-    if (history.replaceState) try { history.replaceState(null, '', '#' + vivarium.id); } catch (e) {}
+    setCatalogSeoUrl('vivarium', vivarium, typeof allVivariums !== 'undefined' ? allVivariums : (window.allVivariums || []));
     document.addEventListener('keydown', handlePlantPanelEscape);
     resetDetailPanelScroll();
 }
@@ -5463,7 +5518,7 @@ function showEquipmentDetail(equipment) {
         plantDetailPanel.setAttribute('aria-hidden', 'false');
     }
     if (plantModal) plantModal.classList.add('hidden');
-    if (history.replaceState) try { history.replaceState(null, '', '#' + equipment.id); } catch (e) {}
+    setCatalogSeoUrl('supply', equipment, typeof allEquipment !== 'undefined' ? allEquipment : (window.allEquipment || []));
     document.addEventListener('keydown', handlePlantPanelEscape);
     resetDetailPanelScroll();
 }
@@ -7702,9 +7757,7 @@ async function showPlantModal(plant) {
         plantModal.classList.add('hidden');
         plantModal.setAttribute('aria-hidden', 'true');
     }
-    if (history.replaceState) {
-        try { history.replaceState(null, '', '#' + (plant.id || 'plant')); } catch (e) {}
-    }
+    setCatalogSeoUrl('plant', plant, typeof allPlants !== 'undefined' ? allPlants : []);
     document.addEventListener('keydown', handlePlantPanelEscape);
     resetDetailPanelScroll();
 
@@ -7718,6 +7771,7 @@ async function showPlantModal(plant) {
             ? 'https://schema.org/OutOfStock'
             : 'https://schema.org/InStock';
         var img = p.imageUrl || (p.images && p.images[0]) || '';
+        var seoPath = getCatalogSeoPath('plant', p, typeof allPlants !== 'undefined' ? allPlants : []);
         var ld = {
             '@context': 'https://schema.org',
             '@type': 'Product',
@@ -7729,7 +7783,7 @@ async function showPlantModal(plant) {
                 '@type': 'Offer',
                 priceCurrency: 'KWD',
                 availability: availability,
-                url: 'https://vivarium-store.com/#' + (p.id || '')
+                url: 'https://vivarium-store.com' + seoPath
             }
         };
         if (price) ld.offers.price = price;
