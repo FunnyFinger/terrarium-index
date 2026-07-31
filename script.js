@@ -7256,7 +7256,7 @@ window.hydratePlantFromCatalog = hydratePlantFromCatalog;
 
 var DETAIL_EDIT_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
 var DETAIL_IMAGE_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>';
-var DETAIL_STAR_SVG = '<svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+var DETAIL_STAR_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
 var DETAIL_EYE_OFF_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
 var DETAIL_EYE_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
 
@@ -7282,7 +7282,7 @@ function createDetailControlPanel(options) {
     if (options.setMainPlantId != null) {
         var setMainBtn = document.createElement('button');
         setMainBtn.type = 'button';
-        setMainBtn.className = 'detail-btn detail-btn-set-main plant-detail-set-main gallery-set-main-btn gallery-view-only';
+        setMainBtn.className = 'detail-btn plant-detail-set-main gallery-view-only';
         setMainBtn.title = 'Set the currently previewed gallery image as the main photo';
         setMainBtn.setAttribute('aria-label', 'Set as main image');
         setMainBtn.setAttribute('data-gallery-only', 'true');
@@ -7302,11 +7302,17 @@ function createDetailControlPanel(options) {
         hideBtn.title = hc.isHidden ? hc.showTitle : hc.hideTitle;
         hideBtn.setAttribute('aria-label', hc.isHidden ? hc.showLabel : hc.hideLabel);
         hideBtn.innerHTML = detailHideButtonHtml(!!hc.isHidden, hc.showText, hc.hideText);
-        hideBtn.addEventListener('click', function () {
+        hideBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
             if (typeof hc.onToggle === 'function') hc.onToggle(hideBtn);
         });
         actions.appendChild(hideBtn);
     }
+    // Keep manage clicks from bubbling into the gallery/card
+    actions.addEventListener('click', function (e) {
+        if (e.target && e.target.closest && e.target.closest('.detail-btn')) e.stopPropagation();
+    });
     panel.appendChild(label);
     panel.appendChild(actions);
     return panel;
@@ -8007,7 +8013,7 @@ async function showPlantModal(plant) {
                 }
                 hideBtn.title = nextHidden ? 'Show this plant in the shop' : 'Hide this plant from shoppers';
                 hideBtn.setAttribute('aria-label', nextHidden ? 'Show plant in shop' : 'Hide plant from shoppers');
-                hideBtn.innerHTML = '<span>' + (nextHidden ? 'Show in shop' : 'Hide from shoppers') + '</span>';
+                hideBtn.innerHTML = detailHideButtonHtml(nextHidden, 'Show in shop', 'Hide from shoppers');
             }
         } : null
     });

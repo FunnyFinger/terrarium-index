@@ -98,29 +98,25 @@
     background: rgba(26, 29, 26, 0.95);
     border-color: var(--accent-color);
     color: var(--accent-color);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    box-shadow: none;
 }
 [data-theme="dark"] .detail-actions .detail-btn:hover,
-[data-theme="dark"] .detail-actions-fixed .detail-btn:hover {
+[data-theme="dark"] .detail-actions-fixed .detail-btn:hover,
+[data-theme="dark"] .detail-actions .detail-btn:focus-visible,
+[data-theme="dark"] .detail-actions-fixed .detail-btn:focus-visible {
     background: var(--accent-color);
     color: #1a1d1a;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    box-shadow: none;
+}
+[data-theme="dark"] .detail-actions .detail-btn:active,
+[data-theme="dark"] .detail-actions-fixed .detail-btn:active {
+    background: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: #1a1d1a;
 }
 [data-theme="dark"] .detail-actions .detail-btn svg,
 [data-theme="dark"] .detail-actions-fixed .detail-btn svg {
     color: inherit;
-}
-[data-theme="dark"] .detail-actions .detail-btn-set-main,
-[data-theme="dark"] .detail-control-panel .gallery-set-main-btn {
-    background: #c9a227;
-    border-color: #c9a227;
-    color: #1a1a1a;
-}
-[data-theme="dark"] .detail-actions .detail-btn-set-main:hover,
-[data-theme="dark"] .detail-control-panel .gallery-set-main-btn:hover {
-    background: #dbb42f;
-    border-color: #dbb42f;
-    color: #1a1a1a;
 }
 
 /* Plant card overlay: Edit / Image icons – dark mode */
@@ -3429,64 +3425,64 @@ main {
 .detail-actions .detail-btn {
     display: inline-flex;
     align-items: center;
-    gap: 0.45rem;
+    gap: 0.5rem;
     width: 100%;
     justify-content: flex-start;
+    min-height: 2.5rem;
     padding: 0.55rem 0.75rem;
-    background: rgba(255, 255, 255, 0.95);
+    background: var(--card-bg);
     border: 2px solid var(--accent-color);
     border-radius: 8px;
     font: inherit;
     font-size: 0.82rem;
+    font-weight: 600;
+    line-height: 1.25;
     color: var(--accent-color);
     cursor: pointer;
     appearance: none;
     -webkit-appearance: none;
-    transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    box-shadow: none;
+    transform: none;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 .detail-control-panel-page1 .detail-btn,
 #modal-page-1 > .detail-control-panel .detail-btn {
     width: auto;
 }
-.detail-actions .detail-btn:hover {
+.detail-actions .detail-btn:hover,
+.detail-actions .detail-btn:focus-visible {
     background: var(--accent-color);
+    border-color: var(--accent-color);
     color: #fff;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
+    outline: none;
+    box-shadow: none;
+    transform: none;
+}
+.detail-actions .detail-btn:active {
+    background: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: #fff;
+    transform: none;
 }
 .detail-actions .detail-btn svg {
     width: 18px;
     height: 18px;
     flex-shrink: 0;
+    stroke: currentColor;
+    fill: none;
 }
 .detail-actions .detail-btn span {
     white-space: normal;
     line-height: 1.25;
     text-align: left;
-}
-.detail-actions .detail-btn-set-main,
-.detail-control-panel .gallery-set-main-btn {
-    position: static;
-    bottom: auto;
-    right: auto;
-    background: #c9a227;
-    border-color: #c9a227;
-    color: #1a1a1a;
-    font-weight: 700;
-    box-shadow: 0 2px 8px rgba(201, 162, 39, 0.35);
-}
-.detail-actions .detail-btn-set-main:hover,
-.detail-control-panel .gallery-set-main-btn:hover {
-    background: #dbb42f;
-    border-color: #dbb42f;
-    color: #1a1a1a;
-    transform: none;
+    font-weight: 600;
 }
 /* Set as main only in gallery view */
 #modal-page-1 .gallery-view-only,
-#modal-page-1 .detail-btn-set-main,
+#modal-page-1 .plant-detail-set-main,
 .detail-control-panel-page1 .gallery-view-only,
-.detail-control-panel-page1 .detail-btn-set-main {
+.detail-control-panel-page1 .plant-detail-set-main {
     display: none !important;
 }
 @media (max-width: 900px) {
@@ -4595,7 +4591,8 @@ body.shopper-mode .detail-actions-fixed,
 body.shopper-mode .detail-control-panel,
 body.shopper-mode .detail-actions-fixed .card-edit-icon,
 body.shopper-mode .delete-image-btn,
-body.shopper-mode .gallery-set-main-btn {
+body.shopper-mode .gallery-set-main-btn,
+body.shopper-mode .plant-detail-set-main {
     display: none !important;
 }
 
@@ -5015,8 +5012,8 @@ body.shopper-mode .gallery-set-main-btn {
     transition: outline 0.2s ease;
 }
 
-/* Set as Main button on large preview */
-.gallery-set-main-btn {
+/* Legacy overlay "Set as main" (if any remain outside Manage panel) */
+.plant-gallery-stage > .gallery-set-main-btn {
     position: absolute;
     bottom: 20px;
     right: 20px;
@@ -5028,20 +5025,18 @@ body.shopper-mode .gallery-set-main-btn {
     font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     z-index: 10;
 }
-
-.gallery-set-main-btn:hover {
-    background: var(--secondary-color);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
-}
-
-/* Equipment/vivarium gallery: no "Set as main" */
 .gallery-no-set-main .gallery-set-main-btn {
     display: none;
+}
+/* Manage-panel buttons always use the shared .detail-btn look */
+.detail-control-panel .gallery-set-main-btn,
+.detail-control-panel .detail-btn-set-main,
+.detail-control-panel .plant-detail-set-main {
+    position: static;
+    bottom: auto;
+    right: auto;
 }
 
 /* Modal Pages */
