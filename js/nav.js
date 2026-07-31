@@ -122,17 +122,31 @@
             '</nav>';
     }
 
+    /** Match storefront badge rules: whole qty adds by units; fractional line counts as 1. */
+    function cartBadgeCount(cart) {
+        if (!cart || !cart.length) return 0;
+        var sum = 0;
+        for (var i = 0; i < cart.length; i++) {
+            var qty = parseFloat(cart[i].quantity);
+            if (isNaN(qty) || qty <= 0) continue;
+            sum += (qty % 1 === 0) ? qty : 1;
+        }
+        return Math.max(0, sum);
+    }
+
     function setCartCount() {
         var el = document.getElementById('cartCount');
         if (!el) return;
         try {
             var cart = JSON.parse(localStorage.getItem('terrarium_cart') || '[]');
-            var count = Math.max(0, Math.floor((cart && cart.length) ? cart.length : 0));
-            el.textContent = String(count);
+            el.textContent = String(cartBadgeCount(cart));
         } catch (_) {
             el.textContent = '0';
         }
     }
+
+    // Keep badge in sync after clear/checkout/auth re-render (fresh DOM query)
+    window.updateNavCartCount = setCartCount;
 
     // Called by addToCart to animate the cart badge on item add
     window.navBounceCartCount = function() {

@@ -757,6 +757,8 @@ function setCart(items) {
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
     updateCartUI();
     updateQuickAddButtonsState();
+    // Nav may have re-rendered (auth), so always refresh the live badge node
+    if (typeof window.updateNavCartCount === 'function') window.updateNavCartCount();
 }
 const DEFAULT_SELL_PRICE_KD = 2;
 function getPlantPrice(plant) {
@@ -920,7 +922,9 @@ function getCartCount() {
 function updateCartUI() {
     const cart = getCart();
     const count = getCartCount();
-    if (cartCountEl) cartCountEl.textContent = String(count);
+    // Re-query: #cartCount is rebuilt when nav.js re-renders after auth changes
+    const badge = document.getElementById('cartCount') || cartCountEl;
+    if (badge) badge.textContent = String(count);
     if (cartEmptyMsg) cartEmptyMsg.classList.toggle('hidden', cart.length > 0);
     if (cartTotalEl) {
         const total = cart.reduce((sum, i) => sum + (i.price != null ? i.price * i.quantity : 0), 0);

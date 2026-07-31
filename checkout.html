@@ -164,7 +164,7 @@
     <script defer src="js/supabase-auth.js"></script>
     <script defer src="js/auth.js"></script>
     <script defer src="js/profile-db.js"></script>
-    <script defer src="js/nav.js"></script>
+    <script defer src="js/nav.js?v=3"></script>
     <script defer src="js/inventory-db.js"></script>
     <script defer src="js/inventory-remote-bridge.js"></script>
     <script>
@@ -537,6 +537,7 @@
                     }).then(function(data) {
                         if (data.url) {
                             localStorage.setItem(key, '[]');
+                            if (typeof window.updateNavCartCount === 'function') window.updateNavCartCount();
                             window.location.href = data.url;
                         } else throw new Error('No redirect URL');
                     }).catch(function(err) {
@@ -588,6 +589,7 @@
                             });
                         }).then(function(result) {
                             localStorage.setItem(key, '[]');
+                            if (typeof window.updateNavCartCount === 'function') window.updateNavCartCount();
                             var displayTotal = (result && result.totalAmount != null) ? result.totalAmount : totalPrice;
                             var emailInfo = result && result.email ? result.email : null;
                             var customerGotEmail = !!(emailInfo && emailInfo.customerSent);
@@ -621,6 +623,7 @@
                     });
                 } else {
                     localStorage.setItem(key, '[]');
+                    if (typeof window.updateNavCartCount === 'function') window.updateNavCartCount();
                     confirmWrap.innerHTML = '<strong style="color: var(--primary-color);">Order confirmed. Thank you!</strong>';
                     formWrap.style.display = 'none';
                     el.innerHTML = '<p class="checkout-note">Your cart has been cleared. <a href="index.html">Continue shopping</a>.</p>';
