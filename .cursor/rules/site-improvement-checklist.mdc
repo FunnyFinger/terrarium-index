@@ -96,21 +96,18 @@ alwaysApply: false
 - [x] If password entered: registers using name/email already provided, non-fatal if fails
 - [x] If left blank: order placed as guest with no friction
 
-### Step 14 — Add a skip-to-content link for accessibility
-- [ ] Add `<a href="#main-content" class="skip-link">Skip to main content</a>` as the very first element inside `<body>` on `index.html` and all sub-pages
-- [ ] Add `id="main-content"` to the main content wrapper element on each page
-- [ ] Style `.skip-link` to be visually hidden until focused (standard pattern)
-- **Confirm before continuing:** "Step 14 complete — skip-to-content added. Ready for Step 15?"
+### ✅ Step 14 — Add a skip-to-content link for accessibility
+- [x] Add `<a href="#main-content" class="skip-link">Skip to main content</a>` as the very first element inside `<body>` on `index.html` and all sub-pages
+- [x] Add `id="main-content"` to the main content wrapper element on each page
+- [x] Style `.skip-link` to be visually hidden until focused (standard pattern)
 
-### Step 15 — Add alt text to all banner images
-- [ ] Find every `<img src="images/banner.jpg" alt="">` across all HTML pages
-- [ ] Replace empty `alt=""` with a meaningful description (e.g., `alt="Water droplets on a tropical leaf — Vivarium Store"`)
-- **Confirm before continuing:** "Step 15 complete — alt text added. Ready for Step 16?"
+### ✅ Step 15 — Add alt text to all banner images
+- [x] Find every `<img src="images/banner.jpg" alt="">` across all HTML pages
+- [x] Replace empty `alt=""` with a meaningful description (e.g., `alt="Water droplets on a tropical leaf — Vivarium Store"`)
 
-### Step 16 — Create a branded 404 page
-- [ ] Create `404.html` with the site's navigation, a friendly "Page not found" message, and a link back to the catalog
-- [ ] Add `[[redirects]] from = "/*" to = "/404.html" status = 404` in `netlify.toml`
-- **Confirm before continuing:** "Step 16 complete — 404 page created. Ready for Step 17?"
+### ✅ Step 16 — Create a branded 404 page
+- [x] Create `404.html` with the site's navigation, a friendly "Page not found" message, and a link back to the catalog
+- [x] Add `[[redirects]] from = "/*" to = "/404.html" status = 404` in `netlify.toml`
 
 ---
 
