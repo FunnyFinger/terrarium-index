@@ -16,7 +16,6 @@ let savedZoomTransform = null; // Store zoom transform to preserve pan/zoom stat
 let fixedRadiusByDepth = null; // Fixed radius (ring) per depth - set once from full tree, never changed
 let fixedRadiiLocked = false;
 let lastLayoutSizeKey = null; // Detect mobile↔desktop / large resizes so ring radii can recompute
-let labelCullRaf = null;
 let highlightedNodePathForTrail = null; // Path of node currently highlighted (for trail when not hovering a link)
 let hoveredLinkPath = null; // Path of last hovered link; trail stays until another link is hovered or highlight is cleared
 let lockedLinkPath = null; // When set, this link's trail is locked; only clicking empty space releases it
@@ -24,115 +23,6 @@ let lockedLinkPath = null; // When set, this link's trail is locked; only clicki
 function getTaxonomyLayoutSizeKey(width, height) {
     const narrow = width < 768;
     return `${narrow ? 'n' : 'w'}:${Math.round(width / 80)}x${Math.round(height / 80)}`;
-}
-
-/** Hide labels that would overlap neighbors in screen space; denser when zoomed out (esp. mobile). */
-function applyLabelCollisionCulling() {
-    if (!treeG || !treeSvg || !treeSvg.node()) return;
-    const k = d3.zoomTransform(treeSvg.node()).k || 1;
-    const narrow = (document.getElementById('taxonomyTree')?.clientWidth || window.innerWidth) < 768;
-    // Screen-space gap; stricter on phones / when zoomed out
-    const minGapPx = narrow ? (k < 0.4 ? 40 : 22) : 12;
-    // On narrow + zoomed-out views, only keep higher ranks so the outer ring isn't a solid text smear
-    const deepRanksHidden = narrow && k < 0.4;
-    const deepRankSet = new Set(['family', 'genus', 'species', 'cultivar', 'variety', 'hybrid']);
-
-    const byDepth = new Map();
-    treeG.selectAll('g.tree-node').each(function (d) {
-        if (!d || !d.data) return;
-        const label = d3.select(this).select('text.tree-label');
-        if (label.empty()) return;
-        const forceShow = d.data.name === 'Life' ||
-            d3.select(this).classed('tree-node-highlight') ||
-            d3.select(this).classed('tree-node-trail');
-        if (!forceShow && deepRanksHidden && deepRankSet.has(d.data.rank)) {
-            label.classed('tree-label-culled', true);
-            return;
-        }
-        const depth = d.depth;
-        if (!byDepth.has(depth)) byDepth.set(depth, []);
-        byDepth.get(depth).push({
-            label,
-            forceShow,
-            angle: d.x,
-            radius: Math.max(d.y, 1)
-        });
-    });
-
-    byDepth.forEach((group) => {
-        group.sort((a, b) => a.angle - b.angle);
-        let lastVisible = null;
-        const visibles = [];
-        group.forEach((n) => {
-            let show = n.forceShow;
-            if (!show && lastVisible == null) {
-                show = true;
-            } else if (!show && lastVisible) {
-                let dAngle = n.angle - lastVisible.angle;
-                if (dAngle < 0) dAngle += 2 * Math.PI;
-                const arcPx = dAngle * Math.max(n.radius, lastVisible.radius) * k;
-                show = arcPx >= minGapPx;
-            }
-            n.label.classed('tree-label-culled', !show);
-            if (show) {
-                lastVisible = n;
-                visibles.push(n);
-            }
-        });
-        // Wrap-around: last vs first visible on the ring
-        if (visibles.length >= 2) {
-            const first = visibles[0];
-            const last = visibles[visibles.length - 1];
-            if (!first.forceShow) {
-                let dAngle = (first.angle + 2 * Math.PI) - last.angle;
-                if (dAngle < 0) dAngle += 2 * Math.PI;
-                const arcPx = dAngle * Math.max(first.radius, last.radius) * k;
-                if (arcPx < minGapPx) {
-                    first.label.classed('tree-label-culled', true);
-                }
-            }
-        }
-    });
-
-    // Cross-depth: screen boxes of different ranks can still collide (common on mobile)
-    const candidates = [];
-    treeG.selectAll('g.tree-node').each(function (d) {
-        if (!d || !d.data) return;
-        const label = d3.select(this).select('text.tree-label');
-        if (label.empty() || label.classed('tree-label-culled')) return;
-        const el = label.node();
-        if (!el || typeof el.getBoundingClientRect !== 'function') return;
-        const box = el.getBoundingClientRect();
-        if (box.width <= 0 || box.height <= 0) return;
-        const forceShow = d.data.name === 'Life' ||
-            d3.select(this).classed('tree-node-highlight') ||
-            d3.select(this).classed('tree-node-trail');
-        candidates.push({ label, box, depth: d.depth, forceShow });
-    });
-    candidates.sort((a, b) => a.depth - b.depth || (b.forceShow - a.forceShow));
-    const kept = [];
-    const pad = narrow ? 3 : 1;
-    candidates.forEach((n) => {
-        const hits = kept.some((o) =>
-            n.box.x < o.box.x + o.box.width + pad &&
-            n.box.x + n.box.width + pad > o.box.x &&
-            n.box.y < o.box.y + o.box.height + pad &&
-            n.box.y + n.box.height + pad > o.box.y
-        );
-        if (hits && !n.forceShow) {
-            n.label.classed('tree-label-culled', true);
-        } else {
-            kept.push(n);
-        }
-    });
-}
-
-function scheduleLabelCollisionCulling() {
-    if (labelCullRaf != null) return;
-    labelCullRaf = requestAnimationFrame(() => {
-        labelCullRaf = null;
-        applyLabelCollisionCulling();
-    });
 }
 
 // Local vernacular names cache (loaded from JSON file)
@@ -645,7 +535,6 @@ function updateTreeLayout() {
             treeG.attr('transform', event.transform);
             savedZoomTransform = event.transform;
             updateZoomIndicator();
-            scheduleLabelCollisionCulling();
         });
     
     treeSvg.call(zoom);
@@ -1160,7 +1049,6 @@ function updateTreeLayout() {
         }
     }
     updateZoomIndicator();
-    applyLabelCollisionCulling();
     
     // Add click handlers for node expansion/collapse (for nodes with children)
     // Use double-click for expand/collapse to avoid conflict with navigation
@@ -1410,7 +1298,6 @@ function highlightTrailToRoot(nodePath) {
     treeG.selectAll('.tree-node').classed('tree-node-trail', function() {
         return set.has((d3.select(this).attr('data-tree-path') || '').trim());
     });
-    scheduleLabelCollisionCulling();
 }
 
 // Clear trail highlight only (links and nodes)
@@ -1419,7 +1306,6 @@ function clearTrailHighlight() {
         treeG.selectAll('.tree-link').classed('tree-link-trail', false);
         treeG.selectAll('.tree-node').classed('tree-node-trail', false);
     }
-    scheduleLabelCollisionCulling();
 }
 
 // Remove search highlight, pulse ring, and trail from the tree

@@ -186,15 +186,6 @@
             text-anchor: start;
             transition: none;
         }
-
-        /* Collision culling (taxonomy.js) — denser rings on narrow viewports */
-        .tree-label.tree-label-culled {
-            display: none;
-        }
-        .tree-node.tree-node-highlight .tree-label,
-        .tree-node.tree-node-trail .tree-label {
-            display: inline;
-        }
         
         /* Allow pointer events on labels for non-species, non-domain nodes */
         .tree-label:not(.species):not(.domain) {
@@ -702,6 +693,6 @@
     <script defer src="data.js?v=3"></script>
     <script defer src="data/plant-loader.js?v=6"></script>
     <script defer src="images.js?v=11"></script>
-    <script defer src="taxonomy.js?v=3"></script>
+    <script defer src="taxonomy.js?v=4"></script>
 </body>
 </html>
