@@ -65,7 +65,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"></noscript>
-    <link rel="stylesheet" href="styles.css?v=13">
+    <link rel="stylesheet" href="styles.css?v=14">
     <!-- build-vivarium.css loads only on build-vivarium.html (not needed for catalog) -->
     <style>
       html.embed-add-standby body { opacity: 0; pointer-events: none; }
@@ -310,13 +310,6 @@
                                 <button type="button" id="filtersMobileReset" class="filters-mobile-reset-btn" aria-label="Reset all filters">Reset</button>
                                 <button type="button" id="filtersMobileClose" class="filters-mobile-close-btn" aria-label="Close filters">Close</button>
                             </div>
-                        </div>
-                        <div class="control-panel-search">
-                            <label for="searchInput" class="visually-hidden">Search plants</label>
-                            <input type="text" id="searchInput" class="control-panel-search-input" placeholder="Search plants...">
-                            <button id="searchBtn" class="control-panel-search-btn" type="button" aria-label="Search">
-                                <svg class="search-btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                            </button>
                         </div>
                     </div>
 
@@ -1861,7 +1854,7 @@
     <script defer src="js/supabase-auth.js"></script>
     <script defer src="js/auth.js"></script>
     <script defer src="js/profile-db.js"></script>
-    <script defer src="js/nav.js?v=5"></script>
+    <script defer src="js/nav.js?v=6"></script>
     <script defer src="js/inventory-db.js"></script>
     <script defer src="js/inventory-remote-bridge.js"></script>
     <script defer src="js/turnstile.js?v=2"></script>
@@ -1880,7 +1873,7 @@
     <script defer src="images.js?v=11"></script>
     <!-- upload.js + build-vivarium.js lazy-loaded when needed (staff edit / builder page) -->
     <!-- Finally initialize the application -->
-    <script defer src="script.js?v=20"></script>
+    <script defer src="script.js?v=21"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
       (function () {

@@ -109,6 +109,21 @@
             '<div class="nav-logo">' +
             '<a href="/" class="logo-link"><img src="assets/vivarium-store-logo.svg" alt="" class="logo-img" width="32" height="32"><span class="logo-text"><span class="logo-text-main">Vivarium</span> <span class="logo-text-accent">Store</span></span></a>' +
             '</div>' +
+            '<div class="nav-search" id="navSearch">' +
+            '<button type="button" class="nav-search-toggle" id="navSearchToggle" aria-label="Open search" title="Search" aria-expanded="false">' +
+            '<svg class="nav-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>' +
+            '</button>' +
+            '<div class="nav-search-panel" id="navSearchPanel" role="search">' +
+            '<label for="searchInput" class="visually-hidden">Search catalog</label>' +
+            '<input type="search" id="searchInput" class="nav-search-input" placeholder="Search…" autocomplete="off" enterkeyhint="search">' +
+            '<button type="button" id="searchBtn" class="nav-search-submit" aria-label="Search">' +
+            '<svg class="nav-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>' +
+            '</button>' +
+            '<button type="button" class="nav-search-close" id="navSearchClose" aria-label="Close search">' +
+            '<svg class="nav-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' +
+            '</button>' +
+            '</div>' +
+            '</div>' +
             '<div class="nav-cart-wrap">' +
             '<button type="button" id="cartToggle" class="cart-toggle" aria-label="Open cart">' +
             '<span class="cart-icon-wrap">' +
@@ -195,6 +210,71 @@
         });
     }
 
+    function isShopIndexPage() {
+        var current = getCurrentPage();
+        return current === 'index.html' || current === '' || current === 'index';
+    }
+
+    function initNavSearch() {
+        var wrap = document.getElementById('navSearch');
+        var toggle = document.getElementById('navSearchToggle');
+        var closeBtn = document.getElementById('navSearchClose');
+        var input = document.getElementById('searchInput');
+        var submit = document.getElementById('searchBtn');
+        if (!wrap || !input) return;
+
+        function setOpen(open) {
+            wrap.classList.toggle('open', open);
+            if (toggle) toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+            if (open) {
+                setTimeout(function() { input.focus(); }, 0);
+            }
+        }
+
+        if (toggle) {
+            toggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                setOpen(!wrap.classList.contains('open'));
+            });
+        }
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                setOpen(false);
+            });
+        }
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && wrap.classList.contains('open')) setOpen(false);
+        });
+
+        function goSearchFromOtherPage() {
+            var q = (input.value || '').trim();
+            var url = q ? ('/?q=' + encodeURIComponent(q)) : '/';
+            window.location.href = url;
+        }
+
+        if (!isShopIndexPage()) {
+            if (submit) {
+                submit.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    goSearchFromOtherPage();
+                });
+            }
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    goSearchFromOtherPage();
+                }
+            });
+        }
+
+        if (typeof window.bindShopNavSearch === 'function') {
+            window.bindShopNavSearch();
+        }
+    }
+
     function initBackButton() {
         var current = getCurrentPage();
         var isIndex = (current === 'index.html' || current === '' || current === 'index');
@@ -239,6 +319,7 @@
         initCartRedirect();
         initBackButton();
         initAuth();
+        initNavSearch();
     }
 
     var container = document.getElementById('main-nav-container');

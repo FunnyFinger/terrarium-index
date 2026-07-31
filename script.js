@@ -419,11 +419,21 @@ async function initializeUI() {
     const urlParams = new URLSearchParams(window.location.search);
     const taxonomyRank = urlParams.get('taxonomyRank');
     const taxonomyName = urlParams.get('taxonomyName');
+    const urlSearchQ = urlParams.get('q');
     
     if (taxonomyRank && taxonomyName) {
         advancedFilters.taxonomy.rank = taxonomyRank;
         advancedFilters.taxonomy.name = taxonomyName;
         console.log(`🌳 Taxonomy filter applied: ${taxonomyRank} = ${taxonomyName}`);
+    }
+
+    if (urlSearchQ) {
+        searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.value = urlSearchQ;
+            var navSearch = document.getElementById('navSearch');
+            if (navSearch) navSearch.classList.add('open');
+        }
     }
     
     console.log(`📊 Plants ready: ${allPlants.length} plants`);
@@ -639,8 +649,8 @@ const VIVARIUM_SORT_OPTIONS = [
 
 // DOM Elements
 const plantsGrid = document.getElementById('plantsGrid');
-const searchInput = document.getElementById('searchInput');
-const searchBtn = document.getElementById('searchBtn');
+let searchInput = document.getElementById('searchInput');
+let searchBtn = document.getElementById('searchBtn');
 const sortSelect = document.getElementById('sortSelect');
 const sortDirectionBtn = document.getElementById('sortDirectionBtn');
 const filterToggle = document.getElementById('filterToggle');
@@ -1678,19 +1688,38 @@ async function scanAllPlantImages() {
     */
 }
 
-// Event Listeners
-function setupEventListeners() {
-    if (searchBtn) {
+var _shopSearchDebounced = null;
+
+/** Re-bind catalog search after nav re-renders (auth state changes replace the DOM). */
+function bindShopNavSearch() {
+    searchInput = document.getElementById('searchInput');
+    searchBtn = document.getElementById('searchBtn');
+    if (!searchInput) return;
+
+    if (!_shopSearchDebounced) {
+        _shopSearchDebounced = debounce(handleSearch, 300);
+    }
+
+    // Avoid stacking duplicate listeners on the same node if called twice before re-render
+    if (searchInput.dataset.shopSearchBound === '1') return;
+    searchInput.dataset.shopSearchBound = '1';
+
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') handleSearch();
+    });
+    searchInput.addEventListener('input', _shopSearchDebounced);
+
+    if (searchBtn && searchBtn.dataset.shopSearchBound !== '1') {
+        searchBtn.dataset.shopSearchBound = '1';
         searchBtn.addEventListener('click', handleSearch);
     }
-    if (searchInput) {
-        searchInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') handleSearch();
-        });
-        // Also add real-time search on input change
-        searchInput.addEventListener('input', debounce(handleSearch, 300));
-    }
-    
+}
+window.bindShopNavSearch = bindShopNavSearch;
+
+// Event Listeners
+function setupEventListeners() {
+    bindShopNavSearch();
+
     // Sort select
     if (sortSelect) {
         sortSelect.addEventListener('change', handleSort);
