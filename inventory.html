@@ -84,9 +84,9 @@
         .inv-th-sort { cursor: pointer; user-select: none; white-space: nowrap; padding-right: 1.25rem !important; position: relative; }
         .inv-th-sort:hover { background: rgba(0,0,0,0.05); }
         .inv-th-sort .sort-arrow { position: absolute; right: 0.25rem; opacity: 0.6; font-size: 0.75rem; }
-        .inv-th-sort.asc .sort-arrow::after { content: '?'; }
-        .inv-th-sort.desc .sort-arrow::after { content: '?'; }
-        .inv-th-sort .sort-arrow:empty::after { content: '?'; opacity: 0.3; }
+        .inv-th-sort.asc .sort-arrow::after { content: '▲'; }
+        .inv-th-sort.desc .sort-arrow::after { content: '▼'; }
+        .inv-th-sort .sort-arrow:empty::after { content: '⇅'; opacity: 0.3; }
         .inv-table .inv-checkbox { width: 1.25rem; height: 1.25rem; cursor: pointer; }
         .inv-batch-hint { font-size: 0.9rem; color: var(--text-light); margin: 0 0 0.75rem 0; }
         .inv-category-tabs { display: flex; gap: 0.25rem; }
@@ -150,7 +150,7 @@
                 <button type="button" class="inv-tab inv-category-tab inv-staff-only" role="tab" id="invCategoryCharges" data-category="charges" aria-selected="false">Charges</button>
             </div>
             <div class="inv-toolbar">
-                <p id="invSummary" class="inv-summary">Loading?</p>
+                <p id="invSummary" class="inv-summary">Loading…</p>
                 <div class="inv-add-buttons inv-add-only" style="display: none;">
                     <button type="button" class="inv-edit-btn inv-add-btn-category" id="invAddPlant" data-category="plants" data-add-url="index.html?add=plant" style="display: none;">Add new plant</button>
                     <button type="button" class="inv-edit-btn inv-add-btn-category" id="invAddEquipment" data-category="equipment" data-add-url="index.html?add=equipment" style="display: none;">Add new supply</button>
@@ -159,7 +159,7 @@
             </div>
             <div class="inv-filters">
                 <label for="invSearch">Search</label>
-                <input type="search" id="invSearch" placeholder="Name or scientific name?" aria-label="Filter by name">
+                <input type="search" id="invSearch" placeholder="Name or scientific name…" aria-label="Filter by name">
                 <label for="invStatusFilter">Status</label>
                 <select id="invStatusFilter" aria-label="Filter by status">
                     <option value="all">All</option>
@@ -182,7 +182,7 @@
                 <button type="button" class="inv-edit-btn" id="invBatchDeleteFromInventory" style="background: #b91c1c;">Delete from inventory</button>
             </div>
             <div id="invTableWrap" class="inv-table-wrap">
-                <div id="invLoading" class="inv-loading">Loading plants and inventory?</div>
+                <div id="invLoading" class="inv-loading">Loading plants and inventory…</div>
                 <table id="invTable" class="inv-table hidden">
                     <thead>
                         <tr>
@@ -357,7 +357,7 @@
             <input type="number" id="invBatchReorder" min="0" step="any" placeholder="Leave empty to keep">
             <label for="invBatchUnit">Unit</label>
             <select id="invBatchUnit" class="inv-batch-select" aria-label="Unit of measure">
-                <option value="">? Keep current ?</option>
+                <option value="">— Keep current —</option>
                 <option value="pot">1 pot</option>
                 <option value="piece">1 piece</option>
                 <option value="KG">1 KG</option>
@@ -502,7 +502,7 @@
             });
 
             var formatPrice = function(n) {
-                if (n == null || isNaN(n)) return '?';
+                if (n == null || isNaN(n)) return '—';
                 // Inventory: show full 0.000 precision (no rounding)
                 return 'KD ' + Number(n).toFixed(3);
             };
@@ -511,7 +511,7 @@
                 if (!isFinite(x)) return null;
                 return Math.round(x * 100) / 100;
             };
-            // ?? Charges CRUD ?????????????????????????????????????????????????????
+            // ——— Charges CRUD ———————————————————————————————————————————————
             var CHARGES_KEY = 'terrarium_charges';
             var DEFAULT_CHARGES = [
                 { id: 'charge_labour_vivarium', name: 'Labour (Vivarium build)', category: 'labour', price: 10, description: 'Labour charge applied to every custom vivarium build', active: true },
@@ -538,7 +538,7 @@
                 tbody.innerHTML = list.map(function(c) {
                     var catLabel = { delivery:'Delivery', labour:'Labour', handling:'Handling', other:'Other' }[c.category] || c.category;
                     var activeLabel = c.active ? '<span style="color:#16a34a; font-weight:600;">Active</span>' : '<span style="color:var(--text-light);">Inactive</span>';
-                    var price = (c.price != null && !isNaN(c.price)) ? formatPrice(c.price) : '?';
+                    var price = (c.price != null && !isNaN(c.price)) ? formatPrice(c.price) : '—';
                     return '<tr>' +
                         '<td style="font-weight:600;">' + (c.name || '').replace(/</g,'&lt;') + '</td>' +
                         '<td>' + catLabel + '</td>' +
@@ -604,7 +604,7 @@
             });
             // expose charges so checkout/builder can read them
             window.getOperationalCharges = function() { return getCharges().filter(function(c) { return c.active; }); };
-            // ?????????????????????????????????????????????????????????????????????
+            // ————————————————————————————————————————————————————————————————
 
             updateInvAddButton();
             var invAddOverlay = document.getElementById('invAddOverlay');
@@ -744,11 +744,11 @@
             function formatSizeDisplay(raw) {
                 if (!raw) return '';
                 var s = String(raw).trim();
-                var range = s.match(/(\d+(?:\.\d+)?)\s*[-?]\s*(\d+(?:\.\d+)?)/);
-                if (range) return range[1] + '?' + range[2] + ' cm';
+                var range = s.match(/(\d+(?:\.\d+)?)\s*[-\u2013\u2014]\s*(\d+(?:\.\d+)?)/);
+                if (range) return range[1] + '–' + range[2] + ' cm';
                 var single = s.match(/(\d+(?:\.\d+)?)/);
                 if (single) return single[1] + ' cm';
-                return ''; // non-numeric text (e.g. stale growth-habit value) ? blank
+                return ''; // non-numeric text (e.g. stale growth-habit value) — blank
             }
             var invFilterQuery = '';
             var invFilterStatus = 'all';
@@ -916,24 +916,24 @@
                     var checked = invSelectedIds[p.id] ? ' checked' : '';
                     var visibilityText = inv.hidden ? 'Hidden' : 'Visible';
                     var tr = document.createElement('tr');
-                    var nameEsc = (p.name || '?').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+                    var nameEsc = (p.name || '—').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
                     var imgUrl = getItemImageUrl(p);
                     var imgAttr = imgUrl ? (' data-image-url="' + imgUrl.replace(/"/g, '&quot;') + '"') : '';
                     var selectTd = invCanEdit ? ('<td><input type="checkbox" class="inv-checkbox inv-row-select" data-plant-id="' + p.id + '" aria-label="Select row"' + checked + '></td>') : '';
                     var editTd = invCanEdit ? ('<td><button type="button" class="inv-edit-btn" data-plant-id="' + p.id + '">Edit</button></td>') : '';
                     tr.innerHTML =
                         selectTd +
-                        '<td>' + (p.id != null ? String(p.id) : '?') + '</td>' +
+                        '<td>' + (p.id != null ? String(p.id) : '—') + '</td>' +
                         '<td><a href="index.html?tab=' + invCurrentCategory + '&id=' + p.id + '" class="inv-name-btn" data-plant-id="' + p.id + '"' + imgAttr + '>' + nameEsc + '</a></td>' +
                         '<td><em>' + getScientific(p) + '</em></td>' +
-                        '<td>' + (sizeVal || '?') + '</td>' +
-                        '<td>' + (unitVal || '?') + '</td>' +
-                        '<td>' + (m.cost != null ? formatPrice(m.cost) : '?') + '</td>' +
+                        '<td>' + (sizeVal || '—') + '</td>' +
+                        '<td>' + (unitVal || '—') + '</td>' +
+                        '<td>' + (m.cost != null ? formatPrice(m.cost) : '—') + '</td>' +
                         '<td>' + formatPrice(m.sell) + '</td>' +
-                        '<td>' + (m.margin != null ? formatPrice(m.margin) : '?') + '</td>' +
-                        '<td>' + (m.marginPct != null ? m.marginPct.toFixed(1) + '%' : '?') + '</td>' +
+                        '<td>' + (m.margin != null ? formatPrice(m.margin) : '—') + '</td>' +
+                        '<td>' + (m.marginPct != null ? m.marginPct.toFixed(1) + '%' : '—') + '</td>' +
                         '<td>' + stock + '</td>' +
-                        '<td>' + (reorder != null ? reorder : '?') + '</td>' +
+                        '<td>' + (reorder != null ? reorder : '—') + '</td>' +
                         '<td><span class="inv-status ' + status + '">' + statusText({ quantityInStock: stock, reorderLevel: reorder }) + '</span></td>' +
                         '<td>' + visibilityText + '</td>' +
                         editTd;
@@ -952,7 +952,7 @@
                 if (paginationEl && totalFiltered > 0) {
                     paginationEl.classList.remove('hidden');
                     var end = Math.min(start + invPerPage, totalFiltered);
-                    if (paginationInfo) paginationInfo.textContent = 'Showing ' + (start + 1) + '?' + end + ' of ' + totalFiltered;
+                    if (paginationInfo) paginationInfo.textContent = 'Showing ' + (start + 1) + '–' + end + ' of ' + totalFiltered;
                     if (pageNumEl) pageNumEl.textContent = 'Page ' + invCurrentPage + ' of ' + totalPages;
                     if (pagePrevBtn) { pagePrevBtn.disabled = invCurrentPage <= 1; pagePrevBtn.style.visibility = pagePrevBtn.disabled ? 'hidden' : 'visible'; }
                     if (pageNextBtn) { pageNextBtn.disabled = invCurrentPage >= totalPages; pageNextBtn.style.visibility = pageNextBtn.disabled ? 'hidden' : 'visible'; }
@@ -1035,14 +1035,14 @@
                 var secondLabel = document.getElementById('invThSecondColLabel');
                 var secondLabelText = secondLabel ? secondLabel.textContent : 'Scientific name';
                 document.getElementById('invDetailBody').innerHTML =
-                    '<p style="margin: 0.25rem 0;"><strong>' + secondLabelText + ':</strong> <em>' + (getScientific(plant) || '?') + '</em></p>' +
-                    '<p style="margin: 0.25rem 0;"><strong>Size:</strong> ' + (sizeVal || '?') + '</p>' +
-                    '<p style="margin: 0.25rem 0;"><strong>Cost (KD):</strong> ' + (m.cost != null ? formatPrice(m.cost) : '?') + '</p>' +
+                    '<p style="margin: 0.25rem 0;"><strong>' + secondLabelText + ':</strong> <em>' + (getScientific(plant) || '—') + '</em></p>' +
+                    '<p style="margin: 0.25rem 0;"><strong>Size:</strong> ' + (sizeVal || '—') + '</p>' +
+                    '<p style="margin: 0.25rem 0;"><strong>Cost (KD):</strong> ' + (m.cost != null ? formatPrice(m.cost) : '—') + '</p>' +
                     '<p style="margin: 0.25rem 0;"><strong>Sell price (KD):</strong> ' + formatPrice(m.sell) + '</p>' +
-                    '<p style="margin: 0.25rem 0;"><strong>Margin (KD):</strong> ' + (m.margin != null ? formatPrice(m.margin) : '?') + '</p>' +
-                    '<p style="margin: 0.25rem 0;"><strong>Margin %:</strong> ' + (m.marginPct != null ? m.marginPct.toFixed(1) + '%' : '?') + '</p>' +
+                    '<p style="margin: 0.25rem 0;"><strong>Margin (KD):</strong> ' + (m.margin != null ? formatPrice(m.margin) : '—') + '</p>' +
+                    '<p style="margin: 0.25rem 0;"><strong>Margin %:</strong> ' + (m.marginPct != null ? m.marginPct.toFixed(1) + '%' : '—') + '</p>' +
                     '<p style="margin: 0.25rem 0;"><strong>Stock:</strong> ' + stock + '</p>' +
-                    '<p style="margin: 0.25rem 0;"><strong>Reorder at:</strong> ' + (reorder != null ? reorder : '?') + '</p>' +
+                    '<p style="margin: 0.25rem 0;"><strong>Reorder at:</strong> ' + (reorder != null ? reorder : '—') + '</p>' +
                     '<p style="margin: 0.25rem 0;"><strong>Status:</strong> <span class="inv-status ' + statusClass({ quantityInStock: stock, reorderLevel: reorder }) + '">' + status + '</span></p>';
                 document.getElementById('invDetailModal').classList.remove('hidden');
                 window.invDetailPlantId = plantId;
@@ -1356,7 +1356,7 @@
                         if (profit != null) totalProfit += profit;
                         var d = new Date(s.createdAt);
                         var scientificName = (s.scientificName && s.scientificName.trim()) || scientificByPlantId[s.plantId] || ('ID ' + s.plantId);
-                        return '<tr><td><em>' + scientificName + '</em></td><td>' + s.quantity + '</td><td>' + (s.amount != null ? formatPrice(s.amount) : '?') + '</td><td>' + (profit != null ? formatPrice(profit) : '?') + '</td><td>' + d.toLocaleString() + '</td></tr>';
+                        return '<tr><td><em>' + scientificName + '</em></td><td>' + s.quantity + '</td><td>' + (s.amount != null ? formatPrice(s.amount) : '—') + '</td><td>' + (profit != null ? formatPrice(profit) : '—') + '</td><td>' + d.toLocaleString() + '</td></tr>';
                     });
                     tbody.innerHTML = rows.join('');
                     if (summary) summary.textContent = 'Last ' + sales.length + ' sales · Total: ' + formatPrice(totalAmount) + (totalProfit !== 0 ? ' · Profit: ' + formatPrice(totalProfit) : '');
@@ -1372,21 +1372,21 @@
                     var cust = o.customer || {};
                     var meta = '<div class="inv-order-meta">' +
                         '<p><strong>Date:</strong> ' + d.toLocaleString() + '</p>' +
-                        '<p><strong>Name:</strong> ' + (cust.name || '?') + '</p>' +
-                        '<p><strong>Email:</strong> ' + (cust.email || '?') + '</p>' +
-                        '<p><strong>Phone:</strong> ' + (cust.phone || '?') + '</p>' +
+                        '<p><strong>Name:</strong> ' + (cust.name || '—') + '</p>' +
+                        '<p><strong>Email:</strong> ' + (cust.email || '—') + '</p>' +
+                        '<p><strong>Phone:</strong> ' + (cust.phone || '—') + '</p>' +
                         (cust.address ? '<p><strong>Address:</strong> ' + cust.address + '</p>' : '') +
                         '<p><strong>Status:</strong> ' + (o.status || 'confirmed') + '</p>' +
                         '</div>';
                     var items = (o.items || []);
                     var rows = items.map(function(i) {
-                        var scientificName = (i.scientificName || i.name || '?').trim() || '?';
+                        var scientificName = (i.scientificName || i.name || '—').trim() || '—';
                         var qty = i.quantity != null ? Number(i.quantity) : 0;
                         var unit = (i.unit != null && String(i.unit).trim() !== '') ? String(i.unit).trim() : '';
                         var qtyDisplay = unit
                             ? ((qty % 1 !== 0 ? qty : Math.round(qty)) + ' ' + unit.replace(/</g, '&lt;').replace(/>/g, '&gt;'))
                             : (qty % 1 !== 0 ? qty : Math.round(qty));
-                        return '<tr><td><em>' + scientificName.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</em></td><td>' + qtyDisplay + '</td><td>' + (i.price != null ? formatPrice(i.price) : '?') + '</td><td>' + (i.lineTotal != null ? formatPrice(i.lineTotal) : '?') + '</td></tr>';
+                        return '<tr><td><em>' + scientificName.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</em></td><td>' + qtyDisplay + '</td><td>' + (i.price != null ? formatPrice(i.price) : '—') + '</td><td>' + (i.lineTotal != null ? formatPrice(i.lineTotal) : '—') + '</td></tr>';
                     }).join('');
                     var itemsTable = '<div class="inv-order-items"><table><thead><tr><th>Scientific name</th><th>Qty</th><th>Unit price (KD)</th><th>Line (KD)</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
                     var total = '<p class="inv-order-total">Total: ' + (o.totalAmount != null ? formatPrice(o.totalAmount) : 'KD 0') + '</p>';
@@ -1415,9 +1415,9 @@
                     tbody.innerHTML = orders.map(function(o) {
                         var d = new Date(o.createdAt);
                         var cust = o.customer || {};
-                        var name = (cust.name || '?').trim() || '?';
+                        var name = (cust.name || '—').trim() || '—';
                         var contact = [cust.email, cust.phone].filter(Boolean).join(' · ') || '?';
-                        var total = o.totalAmount != null ? formatPrice(o.totalAmount) : '?';
+                        var total = o.totalAmount != null ? formatPrice(o.totalAmount) : '—';
                         return '<tr data-order-id="' + o.id + '" role="button" tabindex="0"><td>' + o.id + '</td><td>' + d.toLocaleString() + '</td><td>' + name + '</td><td>' + contact + '</td><td>' + total + '</td><td>' + (o.status || 'confirmed') + '</td></tr>';
                     }).join('');
                     tbody.querySelectorAll('tr[data-order-id]').forEach(function(tr) {
