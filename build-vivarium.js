@@ -37,6 +37,12 @@
     })();
 
     var CART_STORAGE_KEY = 'terrarium_cart';
+    /** Mid-build draft so refresh / leaving the page does not wipe progress. */
+    var BUILD_DRAFT_KEY = 'terrarium_build_draft';
+    var BUILD_DRAFT_VERSION = 1;
+    var currentStep = 1;
+    var draftSaveTimer = null;
+    var restoringDraft = false;
 
     /** Use resized thumbnail for card images when available (faster on mobile). */
     function cardImageUrl(url) {
@@ -46,21 +52,265 @@
         return url;
     }
 
-    var config = {
-        type: null,
-        enclosureId: null,
-        drainageIds: [],
-        substrateIds: [],
-        hardscapeIds: [],
-        plantIds: [],
-        decorationIds: [],
-        accessoryIds: [],
-        toolIds: [],
-        /** Quantity per supply id (key = id, value = number). Uses item unit for step (integer vs float). */
-        supplyQuantities: {},
-        /** Quantity override for plants that use float units (kg, L, m2…). Key = plant id string. */
-        plantQuantities: {}
-    };
+    function emptyConfig() {
+        return {
+            type: null,
+            enclosureId: null,
+            drainageIds: [],
+            substrateIds: [],
+            hardscapeIds: [],
+            plantIds: [],
+            decorationIds: [],
+            accessoryIds: [],
+            toolIds: [],
+            /** Quantity per supply id (key = id, value = number). Uses item unit for step (integer vs float). */
+            supplyQuantities: {},
+            /** Quantity override for plants that use float units (kg, L, m2…). Key = plant id string. */
+            plantQuantities: {}
+        };
+    }
+
+    var config = emptyConfig();
+
+    function cloneIdList(arr) {
+        return (Array.isArray(arr) ? arr : []).map(function (id) {
+            var n = parseInt(id, 10);
+            return isNaN(n) ? id : n;
+        }).filter(function (id) { return id != null && id !== ''; });
+    }
+
+    function cloneQtyMap(map) {
+        var out = {};
+        if (!map || typeof map !== 'object') return out;
+        Object.keys(map).forEach(function (k) {
+            var n = Number(map[k]);
+            if (!isNaN(n) && n >= 0) out[String(k)] = n;
+        });
+        return out;
+    }
+
+    function hasBuildProgress(cfg) {
+        var c = cfg || config;
+        if (!c) return false;
+        if (c.type) return true;
+        if (c.enclosureId != null && c.enclosureId !== '') return true;
+        if ((c.drainageIds && c.drainageIds.length) || (c.substrateIds && c.substrateIds.length) ||
+            (c.hardscapeIds && c.hardscapeIds.length) || (c.plantIds && c.plantIds.length) ||
+            (c.decorationIds && c.decorationIds.length) || (c.accessoryIds && c.accessoryIds.length) ||
+            (c.toolIds && c.toolIds.length)) return true;
+        return false;
+    }
+
+    function getCurrentStepFromDom() {
+        var el = document.querySelector('.build-step[aria-current="step"]');
+        if (!el) return currentStep || 1;
+        var n = parseInt(el.getAttribute('data-step'), 10);
+        return (!isNaN(n) && n >= 1 && n <= 10) ? n : (currentStep || 1);
+    }
+
+    function saveBuildDraft(immediate) {
+        if (restoringDraft) return;
+        function write() {
+            try {
+                // Never auto-delete here: early init renders with an empty config would
+                // wipe a saved draft before restoreBuildDraft runs.
+                if (!hasBuildProgress(config)) return;
+                var searchEl = document.getElementById('buildPlantSearch');
+                var payload = {
+                    version: BUILD_DRAFT_VERSION,
+                    savedAt: Date.now(),
+                    currentStep: getCurrentStepFromDom(),
+                    buildPlantPage: typeof buildPlantPage === 'number' ? buildPlantPage : 1,
+                    plantSearch: searchEl ? String(searchEl.value || '') : '',
+                    config: {
+                        type: config.type || null,
+                        enclosureId: config.enclosureId != null ? supplyIdNum(config.enclosureId) : null,
+                        drainageIds: cloneIdList(config.drainageIds),
+                        substrateIds: cloneIdList(config.substrateIds),
+                        hardscapeIds: cloneIdList(config.hardscapeIds),
+                        plantIds: cloneIdList(config.plantIds),
+                        decorationIds: cloneIdList(config.decorationIds),
+                        accessoryIds: cloneIdList(config.accessoryIds),
+                        toolIds: cloneIdList(config.toolIds),
+                        supplyQuantities: cloneQtyMap(config.supplyQuantities),
+                        plantQuantities: cloneQtyMap(config.plantQuantities)
+                    }
+                };
+                localStorage.setItem(BUILD_DRAFT_KEY, JSON.stringify(payload));
+            } catch (e) { /* quota / private mode */ }
+        }
+        if (immediate) {
+            if (draftSaveTimer) { clearTimeout(draftSaveTimer); draftSaveTimer = null; }
+            write();
+            return;
+        }
+        if (draftSaveTimer) clearTimeout(draftSaveTimer);
+        draftSaveTimer = setTimeout(function () {
+            draftSaveTimer = null;
+            write();
+        }, 200);
+    }
+
+    function clearBuildDraft() {
+        if (draftSaveTimer) { clearTimeout(draftSaveTimer); draftSaveTimer = null; }
+        try { localStorage.removeItem(BUILD_DRAFT_KEY); } catch (e) { /* ignore */ }
+    }
+
+    function loadBuildDraftRaw() {
+        try {
+            var raw = localStorage.getItem(BUILD_DRAFT_KEY);
+            if (!raw) return null;
+            var data = JSON.parse(raw);
+            if (!data || data.version !== BUILD_DRAFT_VERSION || !data.config) return null;
+            if (!hasBuildProgress(data.config)) return null;
+            return data;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    function sanitizeDraftConfig(draftCfg) {
+        var next = emptyConfig();
+        if (!draftCfg || typeof draftCfg !== 'object') return next;
+        var validTypes = {};
+        BUILD_TYPES.forEach(function (t) { validTypes[t.id] = true; });
+        if (draftCfg.type && validTypes[draftCfg.type]) next.type = draftCfg.type;
+
+        var equipById = {};
+        getEquipment().forEach(function (e) {
+            equipById[String(supplyIdNum(e.id))] = e;
+        });
+        var plantById = {};
+        getPlants().forEach(function (p) {
+            plantById[String(plantIdNum(p.id))] = p;
+        });
+
+        function keepSupplyIds(ids) {
+            return cloneIdList(ids).filter(function (id) { return !!equipById[String(supplyIdNum(id))]; });
+        }
+
+        if (draftCfg.enclosureId != null && equipById[String(supplyIdNum(draftCfg.enclosureId))]) {
+            next.enclosureId = supplyIdNum(draftCfg.enclosureId);
+        }
+        // Drainage combos may include duplicate ids for quantity; keep as saved if every id exists.
+        next.drainageIds = cloneIdList(draftCfg.drainageIds).filter(function (id) {
+            return !!equipById[String(supplyIdNum(id))];
+        });
+        next.substrateIds = keepSupplyIds(draftCfg.substrateIds);
+        next.hardscapeIds = keepSupplyIds(draftCfg.hardscapeIds);
+        next.decorationIds = keepSupplyIds(draftCfg.decorationIds);
+        next.accessoryIds = keepSupplyIds(draftCfg.accessoryIds);
+        next.toolIds = keepSupplyIds(draftCfg.toolIds);
+        next.plantIds = cloneIdList(draftCfg.plantIds).filter(function (id) {
+            return !!plantById[String(plantIdNum(id))];
+        });
+        var maxPlants = getMaxPlants();
+        if (next.plantIds.length > maxPlants) next.plantIds = next.plantIds.slice(0, maxPlants);
+
+        next.supplyQuantities = cloneQtyMap(draftCfg.supplyQuantities);
+        Object.keys(next.supplyQuantities).forEach(function (k) {
+            if (!equipById[String(supplyIdNum(k))]) delete next.supplyQuantities[k];
+        });
+        next.plantQuantities = cloneQtyMap(draftCfg.plantQuantities);
+        Object.keys(next.plantQuantities).forEach(function (k) {
+            if (!plantById[String(plantIdNum(k))]) delete next.plantQuantities[k];
+        });
+        return next;
+    }
+
+    function applyConfig(next) {
+        config.type = next.type;
+        config.enclosureId = next.enclosureId;
+        config.drainageIds = next.drainageIds || [];
+        config.substrateIds = next.substrateIds || [];
+        config.hardscapeIds = next.hardscapeIds || [];
+        config.plantIds = next.plantIds || [];
+        config.decorationIds = next.decorationIds || [];
+        config.accessoryIds = next.accessoryIds || [];
+        config.toolIds = next.toolIds || [];
+        config.supplyQuantities = next.supplyQuantities || {};
+        config.plantQuantities = next.plantQuantities || {};
+    }
+
+    function syncRequiredNextButtons() {
+        var next2 = document.querySelector('#buildPanel1 [data-next="2"]');
+        if (next2) next2.disabled = !config.type;
+        var next3 = document.querySelector('#buildPanel2 [data-next="3"]');
+        if (next3) {
+            var encList = getEquipmentByCategory(SUPPLY_CATEGORIES.enclosures);
+            next3.disabled = encList.length > 0 && !config.enclosureId;
+        }
+        var next4 = document.querySelector('#buildPanel3 [data-next="4"]');
+        if (next4) next4.disabled = !(config.drainageIds && config.drainageIds.length);
+    }
+
+    function rerenderAllBuildSteps() {
+        renderTypeOptions();
+        renderEnclosureOptions();
+        renderDrainageOptions();
+        renderSupplyMulti('buildSubstrateOptions', SUPPLY_CATEGORIES.soil, 'substrateIds');
+        renderSupplyMulti('buildHardscapeOptions', SUPPLY_CATEGORIES.hardscape, 'hardscapeIds');
+        renderPlantList();
+        renderSupplyMulti('buildDecorationOptions', SUPPLY_CATEGORIES.decoration, 'decorationIds');
+        renderAccessoryList();
+        renderSupplyMulti('buildToolsOptions', SUPPLY_CATEGORIES.tools, 'toolIds');
+        syncRequiredNextButtons();
+        updateSelectedDisplay();
+    }
+
+    function setBuildDraftBanner(visible) {
+        var banner = document.getElementById('buildDraftBanner');
+        if (!banner) return;
+        banner.hidden = !visible;
+    }
+
+    function restoreBuildDraft() {
+        var data = loadBuildDraftRaw();
+        if (!data) {
+            setBuildDraftBanner(false);
+            return false;
+        }
+        restoringDraft = true;
+        try {
+            var sanitized = sanitizeDraftConfig(data.config);
+            if (!hasBuildProgress(sanitized)) {
+                clearBuildDraft();
+                setBuildDraftBanner(false);
+                return false;
+            }
+            applyConfig(sanitized);
+            if (typeof data.buildPlantPage === 'number' && data.buildPlantPage >= 1) {
+                buildPlantPage = data.buildPlantPage;
+            }
+            var searchEl = document.getElementById('buildPlantSearch');
+            if (searchEl && typeof data.plantSearch === 'string') searchEl.value = data.plantSearch;
+            rerenderAllBuildSteps();
+            var step = parseInt(data.currentStep, 10);
+            if (isNaN(step) || step < 1 || step > 10) step = 1;
+            goToStep(step);
+            setBuildDraftBanner(true);
+            return true;
+        } finally {
+            restoringDraft = false;
+            saveBuildDraft(true);
+        }
+    }
+
+    function resetBuildToStart() {
+        restoringDraft = true;
+        try {
+            applyConfig(emptyConfig());
+            buildPlantPage = 1;
+            var searchEl = document.getElementById('buildPlantSearch');
+            if (searchEl) searchEl.value = '';
+            clearBuildDraft();
+            setBuildDraftBanner(false);
+            rerenderAllBuildSteps();
+            goToStep(1);
+        } finally {
+            restoringDraft = false;
+        }
+    }
 
     /** Units that use whole numbers only (e.g. pcs, box). Others allow decimals (kg, L). */
     var INTEGER_UNITS = /^(pcs?|piece[s]?|each|unit[s]?|box(?:es)?|pack[s]?|ct|no\.?|bag[s]?|set[s]?|pair[s]?|bottle[s]?|can[s]?|jar[s]?)$/i;
@@ -81,7 +331,10 @@
         if (!config.supplyQuantities) config.supplyQuantities = {};
         var k = id != null ? String(supplyIdNum(id)) : '';
         var n = Number(qty);
-        if (k && !isNaN(n) && n >= 0) config.supplyQuantities[k] = n;
+        if (k && !isNaN(n) && n >= 0) {
+            config.supplyQuantities[k] = n;
+            saveBuildDraft();
+        }
     }
 
     /** Max quantity allowed for a supply (from stock). Returns undefined if no cap (treat as high number). */
@@ -446,6 +699,7 @@
         }
         var limitHint = document.getElementById('buildPlantLimitHint');
         if (limitHint) limitHint.textContent = (config.plantIds || []).length + ' / ' + getMaxPlants() + ' plants selected';
+        saveBuildDraft();
     }
 
     function renderTypeOptions() {
@@ -1310,6 +1564,7 @@
                     }
                 }
                 config.plantIds = arr;
+                saveBuildDraft();
             });
         });
     }
@@ -1450,6 +1705,7 @@
             }
         };
         function finishAndRedirect() {
+            clearBuildDraft();
             try {
                 var custom = JSON.parse(localStorage.getItem('custom_vivariums') || '[]');
                 if (!Array.isArray(custom)) custom = [];
@@ -1485,6 +1741,9 @@
 
     function goToStep(step) {
         step = parseInt(step, 10);
+        if (isNaN(step) || step < 1) step = 1;
+        if (step > 10) step = 10;
+        currentStep = step;
         document.querySelectorAll('.build-panel').forEach(function (p) {
             p.classList.remove('build-panel-active');
             p.hidden = true;
@@ -1517,6 +1776,7 @@
             renderReviewSummary();
         }
         updateSelectedDisplay();
+        saveBuildDraft(true);
     }
 
     function bindStepNav() {
@@ -1536,27 +1796,72 @@
 
     function init() {
         logBuildStepSupplies(true);
-        renderTypeOptions();
-        renderEnclosureOptions();
-        renderDrainageOptions();
-        renderSupplyMulti('buildSubstrateOptions', SUPPLY_CATEGORIES.soil, 'substrateIds');
-        renderSupplyMulti('buildHardscapeOptions', SUPPLY_CATEGORIES.hardscape, 'hardscapeIds');
-        renderPlantList();
-        renderSupplyMulti('buildDecorationOptions', SUPPLY_CATEGORIES.decoration, 'decorationIds');
-        renderAccessoryList();
-        renderSupplyMulti('buildToolsOptions', SUPPLY_CATEGORIES.tools, 'toolIds');
+        // Apply draft before first paint so refresh lands on the saved step.
+        var draft = loadBuildDraftRaw();
+        var restoredStep = 1;
+        if (draft) {
+            restoringDraft = true;
+            try {
+                var sanitized = sanitizeDraftConfig(draft.config);
+                if (hasBuildProgress(sanitized)) {
+                    applyConfig(sanitized);
+                    if (typeof draft.buildPlantPage === 'number' && draft.buildPlantPage >= 1) {
+                        buildPlantPage = draft.buildPlantPage;
+                    }
+                    var searchElEarly = document.getElementById('buildPlantSearch');
+                    if (searchElEarly && typeof draft.plantSearch === 'string') {
+                        searchElEarly.value = draft.plantSearch;
+                    }
+                    restoredStep = parseInt(draft.currentStep, 10);
+                    if (isNaN(restoredStep) || restoredStep < 1 || restoredStep > 10) restoredStep = 1;
+                    setBuildDraftBanner(true);
+                } else {
+                    clearBuildDraft();
+                    draft = null;
+                    setBuildDraftBanner(false);
+                }
+            } finally {
+                restoringDraft = false;
+            }
+        } else {
+            setBuildDraftBanner(false);
+        }
+        rerenderAllBuildSteps();
+        if (draft && hasBuildProgress(config)) goToStep(restoredStep);
+        else goToStep(1);
+
         window.addEventListener('plantsLoaded', function onPlantsLoaded() {
             window.removeEventListener('plantsLoaded', onPlantsLoaded);
-            renderPlantList();
+            // Catalog may arrive after first paint — re-apply draft so plant/supply ids resolve.
+            if (loadBuildDraftRaw()) restoreBuildDraft();
+            else renderPlantList();
             var panel10 = document.getElementById('buildPanel10');
             if (panel10 && panel10.classList.contains('build-panel-active')) renderReviewSummary();
         });
+        window.addEventListener('pagehide', function () { saveBuildDraft(true); });
+        document.addEventListener('visibilitychange', function () {
+            if (document.visibilityState === 'hidden') saveBuildDraft(true);
+        });
+
+        var startOverBtn = document.getElementById('buildStartOverBtn');
+        if (startOverBtn) {
+            startOverBtn.addEventListener('click', function () {
+                if (!hasBuildProgress(config)) {
+                    resetBuildToStart();
+                    return;
+                }
+                if (window.confirm('Start a new build? Your current progress will be cleared.')) {
+                    resetBuildToStart();
+                }
+            });
+        }
 
         var searchInput = document.getElementById('buildPlantSearch');
         if (searchInput) {
             searchInput.addEventListener('input', function () {
                 buildPlantPage = 1;
                 renderPlantList();
+                saveBuildDraft();
             });
         }
         var plantListContainer = document.getElementById('buildPlantList');
