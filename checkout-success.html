@@ -48,6 +48,11 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
         (function() {
+            var CART_KEY = 'terrarium_cart';
+            function clearCheckoutCart() {
+                try { localStorage.setItem(CART_KEY, '[]'); } catch (e) { /* ignore */ }
+                if (typeof window.updateNavCartCount === 'function') window.updateNavCartCount();
+            }
             var params = new URLSearchParams(window.location.search);
             var sessionId = params.get('session_id');
             var orderId = params.get('order_id');
@@ -60,6 +65,7 @@
             if (!apiBase && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'))
                 apiBase = 'http://localhost:3000';
             if (!apiBase) {
+                clearCheckoutCart();
                 content.innerHTML = '<p>Payment completed. Order #' + orderId + '.</p><p><a href="index.html">Continue shopping</a></p>';
                 return;
             }
@@ -105,9 +111,12 @@
                     }).then(function() { return data; });
                 })
                 .then(function() {
+                    clearCheckoutCart();
                     content.innerHTML = '<div class="success-icon">✓</div><h1>Thank you</h1><p>Your payment was successful. Order #' + orderId + ' is confirmed.</p><p><a href="index.html">Continue shopping</a> · <a href="dashboard.html">Dashboard</a></p>';
                 })
                 .catch(function() {
+                    // Still clear: Stripe already charged and redirected here from a successful checkout start.
+                    clearCheckoutCart();
                     content.innerHTML = '<p class="error">We could not verify the payment. Your card may have been charged. Please contact us with order #' + orderId + '.</p><p><a href="index.html">Return home</a></p>';
                 });
         })();

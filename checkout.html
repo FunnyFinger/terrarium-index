@@ -191,6 +191,12 @@
         })();
         (function() {
             var key = 'terrarium_cart';
+            function clearCheckoutCart() {
+                try {
+                    localStorage.setItem(key, '[]');
+                } catch (e) { /* ignore */ }
+                if (typeof window.updateNavCartCount === 'function') window.updateNavCartCount();
+            }
             if (typeof window.getOperationalCharges !== 'function') {
                 window.getOperationalCharges = function() {
                     try {
@@ -540,8 +546,7 @@
                         return res.json();
                     }).then(function(data) {
                         if (data.url) {
-                            localStorage.setItem(key, '[]');
-                            if (typeof window.updateNavCartCount === 'function') window.updateNavCartCount();
+                            clearCheckoutCart();
                             window.location.href = data.url;
                         } else throw new Error('No redirect URL');
                     }).catch(function(err) {
@@ -555,6 +560,8 @@
                 order.status = 'confirmed';
                 if (inv && inv.saveOrder) {
                     inv.saveOrder(order).then(function(orderId) {
+                        // Clear immediately once the order is recorded — do not wait on stock/email.
+                        clearCheckoutCart();
                         var completePayload = {
                             orderId: orderId,
                             customer: order.customer,
@@ -592,8 +599,7 @@
                                 });
                             });
                         }).then(function(result) {
-                            localStorage.setItem(key, '[]');
-                            if (typeof window.updateNavCartCount === 'function') window.updateNavCartCount();
+                            clearCheckoutCart();
                             var displayTotal = (result && result.totalAmount != null) ? result.totalAmount : totalPrice;
                             var emailInfo = result && result.email ? result.email : null;
                             var customerGotEmail = !!(emailInfo && emailInfo.customerSent);
@@ -626,8 +632,7 @@
                         if (window.turnstileHelper) window.turnstileHelper.reset('checkoutTurnstile');
                     });
                 } else {
-                    localStorage.setItem(key, '[]');
-                    if (typeof window.updateNavCartCount === 'function') window.updateNavCartCount();
+                    clearCheckoutCart();
                     confirmWrap.innerHTML = '<strong style="color: var(--primary-color);">Order confirmed. Thank you!</strong>';
                     formWrap.style.display = 'none';
                     el.innerHTML = '<p class="checkout-note">Your cart has been cleared. <a href="index.html">Continue shopping</a>.</p>';
