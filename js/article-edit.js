@@ -331,6 +331,27 @@
         setStatus('Link inserted.');
     }
 
+    function looksLikeHtml(text) {
+        var t = String(text || '').trim();
+        return /^<[a-z][\s\S]*>/i.test(t) && /<\/[a-z][^>]*>/i.test(t);
+    }
+
+    function insertHtmlBlock(html, replaceSelection) {
+        if (!quill || !html) return;
+        html = sanitizeArticleBodyHtml(html);
+        var range = quill.getSelection(true);
+        var index = range ? range.index : Math.max(0, quill.getLength() - 1);
+        if (replaceSelection && range && range.length > 0) {
+            quill.deleteText(range.index, range.length, 'user');
+            index = range.index;
+        }
+        var delta = quill.clipboard.convert({ html: html });
+        var Delta = window.Quill.import('delta');
+        quill.updateContents(new Delta().retain(index).concat(delta), 'user');
+        quill.setSelection(index + delta.length(), 0);
+        setStatus('HTML inserted.');
+    }
+
     function bindQuillDragDrop() {
         if (!quill || !quill.root) return;
         var host = quill.root.closest('.article-quill-host') || quill.root;
@@ -398,6 +419,11 @@
             }
 
             var pasted = (clipboard.getData('text/plain') || '').trim();
+            if (looksLikeHtml(pasted)) {
+                e.preventDefault();
+                insertHtmlBlock(pasted, !!(quill.getSelection(true) || { length: 0 }).length);
+                return;
+            }
             if (isHttpUrl(pasted) && !(quill.getSelection(true) || { length: 0 }).length) {
                 e.preventDefault();
                 var linkIndex = (quill.getSelection(true) || { index: Math.max(0, quill.getLength() - 1) }).index;
@@ -597,6 +623,36 @@
             e.preventDefault();
             saveArticle();
         });
+        var htmlPasteEl = document.getElementById('articleHtmlPaste');
+        var htmlInsertBtn = document.getElementById('articleHtmlInsertBtn');
+        var htmlReplaceBtn = document.getElementById('articleHtmlReplaceBtn');
+        if (htmlInsertBtn && htmlPasteEl) {
+            htmlInsertBtn.addEventListener('click', function () {
+                var html = (htmlPasteEl.value || '').trim();
+                if (!html) {
+                    setStatus('Paste HTML into the box first.', true);
+                    return;
+                }
+                insertHtmlBlock(html, false);
+                htmlPasteEl.value = '';
+            });
+        }
+        if (htmlReplaceBtn && htmlPasteEl) {
+            htmlReplaceBtn.addEventListener('click', function () {
+                var html = (htmlPasteEl.value || '').trim();
+                if (!html) {
+                    setStatus('Paste HTML into the box first.', true);
+                    return;
+                }
+                var range = quill && quill.getSelection(true);
+                if (!range || !range.length) {
+                    setStatus('Select the broken text in the body first, then click Replace selection.', true);
+                    return;
+                }
+                insertHtmlBlock(html, true);
+                htmlPasteEl.value = '';
+            });
+        }
     }
 
     var articleLoaded = false;

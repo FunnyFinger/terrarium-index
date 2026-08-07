@@ -4431,7 +4431,32 @@ a.shop-tab.active:visited {
     margin-top: 0.5rem;
     flex-wrap: wrap;
 }
-.article-quill-host {
+.article-html-insert {
+    margin: 0.65rem 0 0.35rem;
+    padding: 0.65rem 0.85rem;
+    border: 1px dashed var(--border-color);
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--card-bg) 90%, var(--bg-color));
+}
+.article-html-insert summary {
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+.article-html-paste {
+    width: 100%;
+    margin: 0.65rem 0 0.5rem;
+    padding: 0.65rem 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.82rem;
+    line-height: 1.45;
+    resize: vertical;
+    box-sizing: border-box;
+}
     background: var(--bg-color);
     color: var(--text-color);
     border-radius: 0 0 8px 8px;

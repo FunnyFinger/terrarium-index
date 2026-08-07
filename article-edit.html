@@ -22,7 +22,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css">
-    <link rel="stylesheet" href="styles.css?v=37">
+    <link rel="stylesheet" href="styles.css?v=38">
 </head>
 <body class="article-edit-page">
     <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -91,6 +91,15 @@
             <div class="article-edit-field">
                 <span>Body</span>
                 <div id="articleEditor" class="article-quill-host"></div>
+                <details class="article-html-insert">
+                    <summary>Paste HTML block</summary>
+                    <p class="article-edit-hint">Paste HTML from chat or docs here if the body field shows tags as plain text.</p>
+                    <textarea id="articleHtmlPaste" class="article-html-paste" rows="8" placeholder="Paste HTML here…"></textarea>
+                    <div class="article-cover-actions">
+                        <button type="button" id="articleHtmlInsertBtn" class="btn btn-secondary">Insert at cursor</button>
+                        <button type="button" id="articleHtmlReplaceBtn" class="btn btn-secondary">Replace selection</button>
+                    </div>
+                </details>
                 <p class="article-edit-hint">Drag images or links into the body, paste images from clipboard, or use the toolbar. Click an image to resize it with the corner handles.</p>
             </div>
         </form>
@@ -108,6 +117,6 @@
     <script defer src="js/images.js"></script>
     <script defer src="js/article-images.js?v=1"></script>
     <script defer src="js/nav.js?v=8"></script>
-    <script defer src="js/article-edit.js?v=7"></script>
+    <script defer src="js/article-edit.js?v=8"></script>
 </body>
 </html>
