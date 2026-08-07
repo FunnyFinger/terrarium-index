@@ -9,7 +9,8 @@
         'vivarium-substrate-guide': 70002,
         'humidity-and-airflow': 70003,
         'lighting-tropical-plants': 70004,
-        'paludarium-intro': 70005
+        'paludarium-intro': 70005,
+        'life-inside-a-terrarium': 70006
     };
 
     function resolvePath(path) {

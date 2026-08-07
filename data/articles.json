@@ -118,6 +118,56 @@
         { "type": "h2", "text": "Plant ideas by zone" },
         { "type": "p", "text": "Aquatic and marginal plants belong near the waterline. Keep moisture-loving terrestrials on the bank, and reserve drier shelves for species that dislike wet feet." }
       ]
+    },
+    {
+      "slug": "life-inside-a-terrarium",
+      "title": "Beyond Soil and Plants: What Really Lives in a Terrarium",
+      "excerpt": "Springtails, mushrooms, algae, and invisible microbes—healthy terrariums are small ecosystems. Here is what may appear besides the plants you chose, and what is normal.",
+      "category": "Guides",
+      "publishedAt": "2026-08-07",
+      "readMinutes": 8,
+      "body": [
+        { "type": "p", "text": "Many people picture a terrarium as a neat jar of soil and pretty leaves—a miniature garden sealed behind glass. That image is not wrong, but it is incomplete. A healthy terrarium is a small ecosystem. Alongside the plants you chose on purpose, other living things often appear: tiny arthropods, fungi, bacteria, and algae. Most are normal. Some are even desirable. Understanding what they are—and what they do—helps you enjoy the enclosure instead of worrying about every speck you see." },
+        { "type": "h2", "text": "The cleaning crew: nature's maintenance team" },
+        { "type": "p", "text": "In bioactive and closed setups, keepers deliberately add—or soon discover—microfauna that break down organic waste. These cleanup crews recycle dead leaves, dropped petals, and leftover organic matter before mold takes over." },
+        { "type": "ul", "items": [
+          "Springtails — Pinhead-sized white or gray jumpers that thrive in moist substrate. They eat decaying matter and fungal spores.",
+          "Isopods — Small roly-polies that graze on leaf litter and soft debris. Different species suit tropical versus temperate humidity.",
+          "Other detritivores — Millipedes, certain worms, and small beetles may appear in larger vivariums. They play the same recycling role at a slightly larger scale."
+        ]},
+        { "type": "p", "text": "Seeing a few springtails on the glass or after watering is usually a good sign, not an infestation." },
+        { "type": "h2", "text": "Mushrooms and other fungi" },
+        { "type": "p", "text": "Fungi are everywhere—in potting mixes, on bark, and floating as invisible spores in the air. When humidity and warmth align, mushrooms or fuzzy patches can pop up overnight. That can startle owners who expected only green plants." },
+        { "type": "p", "text": "Many mushroom fruiting bodies are harmless to healthy plants and fade once conditions shift. Persistent gray or white mold on living leaves, however, signals excess moisture, poor airflow, or decay that should be removed. Brief ventilation and trimming affected material usually resolves the issue in closed jars." },
+        { "type": "h2", "text": "Microbes beneath the surface" },
+        { "type": "p", "text": "Bioactive substrate is not sterile dirt. Bacteria and fungi form a living web that helps break down waste, cycle nutrients, and keep roots healthy—similar to soil outdoors. Activated charcoal and drainage layers manage excess moisture; the microbial layer handles the rest over time." },
+        { "type": "p", "text": "This is why experienced builders avoid drenching a new terrarium with fungicides or boiling every component. You would remove the helpers along with the problems." },
+        { "type": "h2", "text": "Algae, biofilm, and glass stains" },
+        { "type": "p", "text": "Green or brown film on glass, hardscape, or the water feature in a paludarium is algae or bacterial biofilm. It appears when light and nutrients are available—especially near windows or strong grow lights." },
+        { "type": "ul", "items": [
+          "Light algae on glass: wipe during maintenance or reduce light slightly",
+          "Slime on driftwood or stones: common in humid setups; usually cosmetic",
+          "Thick green mats on soil: often too much light or over-fertilizing—adjust before it smothers small plants"
+        ]},
+        { "type": "h2", "text": "Guests you did not order" },
+        { "type": "p", "text": "Even carefully built terrariums occasionally host uninvited visitors:" },
+        { "type": "ul", "items": [
+          "Fungus gnats — Small flies whose larvae live in damp soil. Usually harmless in small numbers; dry the surface slightly or add springtails to compete.",
+          "Nematodes and micro-worms — Invisible or barely visible; often part of healthy soil food webs.",
+          "Snails or mites — Can hitchhike on plants or moss. Remove individuals if they eat prized foliage; otherwise monitor population size."
+        ]},
+        { "type": "p", "text": "In animal vivariums, additional species may be intentional—fruit flies as feeders, for example—but plant-only terrariums rarely need any of these." },
+        { "type": "h2", "text": "Normal versus worth acting on" },
+        { "type": "p", "text": "Use this quick guide when something new appears:" },
+        { "type": "ul", "items": [
+          "Usually fine: a few springtails, one short-lived mushroom, light glass algae, leaf litter slowly disappearing",
+          "Investigate: soft mushy stems, leaves coated in thick mold, sour smell, plants declining despite good light",
+          "Act soon: rapid pest explosion, animal distress in a vivarium, standing water with anaerobic smell"
+        ]},
+        { "type": "h2", "text": "What to expect from a living terrarium" },
+        { "type": "p", "text": "Well-built terrariums and bioactive kits are designed around living systems—not plastic-perfect dioramas. You may see evidence of a healthy cleanup crew, seasonal fungal fruiting, or a faint biofilm after setup. That is ecology working as intended. The goal is to balance humidity, light, and maintenance for indoor conditions—not to sterilize the glass." },
+        { "type": "p", "text": "If you prefer a cleaner, minimal look, open terrariums with fewer organic inputs stay visually simpler—but even then, microscopic life is part of the story. Knowing that upfront turns \"what is that?\" into \"oh, that is the terrarium doing its job.\"" }
+      ]
     }
   ]
 }
