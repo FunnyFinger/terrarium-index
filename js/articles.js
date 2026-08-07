@@ -331,7 +331,7 @@
         var backBtn = document.getElementById('articleBackBtn');
         if (backBtn) {
             backBtn.addEventListener('click', function () {
-                showList(article.category || '', false);
+                showList('', false);
             });
         }
         window.scrollTo({ top: 0, behavior: 'smooth' });
