@@ -3761,11 +3761,33 @@ function applyAdvancedFilters() {
     rangeInputs.forEach(({ min, max, filter }) => {
         const minInput = document.getElementById(min);
         const maxInput = document.getElementById(max);
-        advancedFilters[filter].min = minInput && minInput.value ? parseInt(minInput.value) : null;
-        advancedFilters[filter].max = maxInput && maxInput.value ? parseInt(maxInput.value) : null;
+        advancedFilters[filter].min = minInput && minInput.value !== '' ? parseFloat(minInput.value) : null;
+        advancedFilters[filter].max = maxInput && maxInput.value !== '' ? parseFloat(maxInput.value) : null;
     });
     
     applyAllFilters();
+}
+
+/**
+ * Environmental range filters: plant must tolerate the FULL selected range
+ * (plant.min <= filter.min AND plant.max >= filter.max).
+ * If only one bound is set, the plant must cover that point.
+ * Trait filters (difficulty / growth rate) still use overlap via plantRangeOverlapsFilter().
+ */
+function plantCoversSelectedRange(plantRange, filterMin, filterMax) {
+    if (!plantRange || typeof plantRange.min !== 'number' || typeof plantRange.max !== 'number') return false;
+    if (filterMin === null && filterMax === null) return true;
+    const selectedMin = filterMin !== null ? filterMin : filterMax;
+    const selectedMax = filterMax !== null ? filterMax : filterMin;
+    return plantRange.min <= selectedMin && plantRange.max >= selectedMax;
+}
+
+/** Overlap match: plant range intersects the selected band (used for difficulty / growth rate). */
+function plantRangeOverlapsFilter(plantRange, filterMin, filterMax) {
+    if (!plantRange || typeof plantRange.min !== 'number' || typeof plantRange.max !== 'number') return false;
+    if (filterMin !== null && plantRange.max < filterMin) return false;
+    if (filterMax !== null && plantRange.min > filterMax) return false;
+    return true;
 }
 
 function applyAllFilters() {
@@ -3818,217 +3840,95 @@ function applyAllFilters() {
             inputsCache.set(plant.id, inputs);
         }
         
-        // Humidity filter (numeric range)
+        // Environmental condition filters: plant must tolerate the FULL selected range
         if (advancedFilters.humidity.min !== null || advancedFilters.humidity.max !== null) {
-            const plantHumidity = inputs.humidityRange || plant.humidityRange;
-            if (!plantHumidity) return false;
-            const plantMin = plantHumidity.min;
-            const plantMax = plantHumidity.max;
-            
-            if (advancedFilters.humidity.min !== null && plantMax < advancedFilters.humidity.min) {
-                return false;
-            }
-            if (advancedFilters.humidity.max !== null && plantMin > advancedFilters.humidity.max) {
+            if (!plantCoversSelectedRange(inputs.humidityRange || plant.humidityRange, advancedFilters.humidity.min, advancedFilters.humidity.max)) {
                 return false;
             }
         }
         
-        // Light filter (numeric range)
         if (advancedFilters.light.min !== null || advancedFilters.light.max !== null) {
-            const plantLight = inputs.lightRange || plant.lightRange;
-            if (!plantLight) return false;
-            const plantMin = plantLight.min;
-            const plantMax = plantLight.max;
-            
-            if (advancedFilters.light.min !== null && plantMax < advancedFilters.light.min) {
-                return false;
-            }
-            if (advancedFilters.light.max !== null && plantMin > advancedFilters.light.max) {
+            if (!plantCoversSelectedRange(inputs.lightRange || plant.lightRange, advancedFilters.light.min, advancedFilters.light.max)) {
                 return false;
             }
         }
         
-        // Temperature filter (numeric range, °C)
         if (advancedFilters.temperature.min !== null || advancedFilters.temperature.max !== null) {
-            const plantTemp = inputs.temperatureRange || plant.temperatureRange;
+            let plantTemp = inputs.temperatureRange || plant.temperatureRange;
             if (plantTemp) {
-                const coerced = normalizeTemperatureRangeToCelsius(plantTemp) || plantTemp;
-                const plantMin = coerced.min;
-                const plantMax = coerced.max;
-                
-                if (advancedFilters.temperature.min !== null && plantMax < advancedFilters.temperature.min) {
-                    return false;
+                plantTemp = normalizeTemperatureRangeToCelsius(plantTemp) || plantTemp;
+            } else if (plant.temperature) {
+                const tempMatch = String(plant.temperature).match(/(-?\d+)\s*[-–]\s*(-?\d+)\s*°?C/i);
+                if (tempMatch) {
+                    plantTemp = { min: parseInt(tempMatch[1], 10), max: parseInt(tempMatch[2], 10) };
                 }
-                if (advancedFilters.temperature.max !== null && plantMin > advancedFilters.temperature.max) {
-                    return false;
-                }
-            } else {
-                // Fallback to text parsing if numeric range not available
-            if (!plant.temperature) return false;
-            const tempMatch = plant.temperature.match(/(-?\d+)\s*[-–]\s*(-?\d+)\s*°C/);
-            if (tempMatch) {
-                const plantMinTemp = parseInt(tempMatch[1], 10);
-                const plantMaxTemp = parseInt(tempMatch[2], 10);
-                
-                if (advancedFilters.temperature.min !== null && plantMaxTemp < advancedFilters.temperature.min) {
-                    return false;
-                }
-                if (advancedFilters.temperature.max !== null && plantMinTemp > advancedFilters.temperature.max) {
-                    return false;
-                }
-            } else {
-                    return false; // No valid temperature format found
-                }
+            }
+            if (!plantCoversSelectedRange(plantTemp, advancedFilters.temperature.min, advancedFilters.temperature.max)) {
+                return false;
             }
         }
         
-        // Air Circulation filter (numeric range)
         if (advancedFilters.airCirculation.min !== null || advancedFilters.airCirculation.max !== null) {
-            const plantAirCirc = inputs.airCirculationRange || plant.airCirculationRange;
-            if (!plantAirCirc) return false;
-            const plantMin = plantAirCirc.min;
-            const plantMax = plantAirCirc.max;
-                    
-            if (advancedFilters.airCirculation.min !== null && plantMax < advancedFilters.airCirculation.min) {
-                        return false;
-                    }
-            if (advancedFilters.airCirculation.max !== null && plantMin > advancedFilters.airCirculation.max) {
-                        return false;
-                    }
+            if (!plantCoversSelectedRange(inputs.airCirculationRange || plant.airCirculationRange, advancedFilters.airCirculation.min, advancedFilters.airCirculation.max)) {
+                return false;
+            }
         }
         
-        // Water Needs filter (numeric range)
         if (advancedFilters.waterNeeds.min !== null || advancedFilters.waterNeeds.max !== null) {
-            const plantWaterNeeds = inputs.waterNeedsRange || plant.waterNeedsRange;
-            if (!plantWaterNeeds) return false;
-            const plantMin = plantWaterNeeds.min;
-            const plantMax = plantWaterNeeds.max;
-            
-            if (advancedFilters.waterNeeds.min !== null && plantMax < advancedFilters.waterNeeds.min) {
-                return false;
-            }
-            if (advancedFilters.waterNeeds.max !== null && plantMin > advancedFilters.waterNeeds.max) {
+            if (!plantCoversSelectedRange(inputs.waterNeedsRange || plant.waterNeedsRange, advancedFilters.waterNeeds.min, advancedFilters.waterNeeds.max)) {
                 return false;
             }
         }
         
-        // Difficulty filter (numeric range)
+        // Trait filters: overlap (plant band intersects selection)
         if (advancedFilters.difficulty.min !== null || advancedFilters.difficulty.max !== null) {
-            const plantDifficulty = inputs.difficultyRange || plant.difficultyRange;
-            if (!plantDifficulty) return false;
-            const plantMin = plantDifficulty.min;
-            const plantMax = plantDifficulty.max;
-            
-            if (advancedFilters.difficulty.min !== null && plantMax < advancedFilters.difficulty.min) {
-                return false;
-            }
-            if (advancedFilters.difficulty.max !== null && plantMin > advancedFilters.difficulty.max) {
+            if (!plantRangeOverlapsFilter(inputs.difficultyRange || plant.difficultyRange, advancedFilters.difficulty.min, advancedFilters.difficulty.max)) {
                 return false;
             }
         }
         
-        // Growth rate filter (numeric range)
         if (advancedFilters.growthRate.min !== null || advancedFilters.growthRate.max !== null) {
-            const plantGrowthRate = inputs.growthRateRange || plant.growthRateRange;
-            if (!plantGrowthRate) return false;
-            const plantMin = plantGrowthRate.min;
-            const plantMax = plantGrowthRate.max;
-            
-            if (advancedFilters.growthRate.min !== null && plantMax < advancedFilters.growthRate.min) {
-                return false;
-            }
-            if (advancedFilters.growthRate.max !== null && plantMin > advancedFilters.growthRate.max) {
+            if (!plantRangeOverlapsFilter(inputs.growthRateRange || plant.growthRateRange, advancedFilters.growthRate.min, advancedFilters.growthRate.max)) {
                 return false;
             }
         }
         
-        // Soil pH filter (numeric range)
         if (advancedFilters.soilPh.min !== null || advancedFilters.soilPh.max !== null) {
-            const plantSoilPh = inputs.soilPhRange || plant.soilPhRange;
-            if (!plantSoilPh) return false;
-            const plantMin = plantSoilPh.min;
-            const plantMax = plantSoilPh.max;
-            
-            if (advancedFilters.soilPh.min !== null && plantMax < advancedFilters.soilPh.min) {
-                return false;
-            }
-            if (advancedFilters.soilPh.max !== null && plantMin > advancedFilters.soilPh.max) {
+            if (!plantCoversSelectedRange(inputs.soilPhRange || plant.soilPhRange, advancedFilters.soilPh.min, advancedFilters.soilPh.max)) {
                 return false;
             }
         }
         
-        // Water Temperature filter (numeric range, °C) - for aquatic plants
         if (advancedFilters.waterTemperature.min !== null || advancedFilters.waterTemperature.max !== null) {
-            const plantWaterTemp = inputs.waterTemperatureRange || plant.waterTemperatureRange;
-            if (!plantWaterTemp) return false;
-            const coerced = normalizeTemperatureRangeToCelsius(plantWaterTemp) || plantWaterTemp;
-            const plantMin = coerced.min;
-            const plantMax = coerced.max;
-            
-            if (advancedFilters.waterTemperature.min !== null && plantMax < advancedFilters.waterTemperature.min) {
-                return false;
+            let plantWaterTemp = inputs.waterTemperatureRange || plant.waterTemperatureRange;
+            if (plantWaterTemp) {
+                plantWaterTemp = normalizeTemperatureRangeToCelsius(plantWaterTemp) || plantWaterTemp;
             }
-            if (advancedFilters.waterTemperature.max !== null && plantMin > advancedFilters.waterTemperature.max) {
+            if (!plantCoversSelectedRange(plantWaterTemp, advancedFilters.waterTemperature.min, advancedFilters.waterTemperature.max)) {
                 return false;
             }
         }
         
-        // Water pH filter (numeric range) - for aquatic plants
         if (advancedFilters.waterPh.min !== null || advancedFilters.waterPh.max !== null) {
-            const plantWaterPh = inputs.waterPhRange || plant.waterPhRange;
-            if (!plantWaterPh) return false;
-            const plantMin = plantWaterPh.min;
-            const plantMax = plantWaterPh.max;
-            
-            if (advancedFilters.waterPh.min !== null && plantMax < advancedFilters.waterPh.min) {
-                return false;
-            }
-            if (advancedFilters.waterPh.max !== null && plantMin > advancedFilters.waterPh.max) {
+            if (!plantCoversSelectedRange(inputs.waterPhRange || plant.waterPhRange, advancedFilters.waterPh.min, advancedFilters.waterPh.max)) {
                 return false;
             }
         }
         
-        // Water Hardness filter (numeric range) - for aquatic plants
         if (advancedFilters.waterHardness.min !== null || advancedFilters.waterHardness.max !== null) {
-            const plantWaterHardness = inputs.waterHardnessRange || plant.waterHardnessRange;
-            if (!plantWaterHardness) return false;
-            const plantMin = plantWaterHardness.min;
-            const plantMax = plantWaterHardness.max;
-            
-            if (advancedFilters.waterHardness.min !== null && plantMax < advancedFilters.waterHardness.min) {
-                return false;
-            }
-            if (advancedFilters.waterHardness.max !== null && plantMin > advancedFilters.waterHardness.max) {
+            if (!plantCoversSelectedRange(inputs.waterHardnessRange || plant.waterHardnessRange, advancedFilters.waterHardness.min, advancedFilters.waterHardness.max)) {
                 return false;
             }
         }
         
-        // Salinity filter (numeric range) - for aquatic plants
         if (advancedFilters.salinity.min !== null || advancedFilters.salinity.max !== null) {
-            const plantSalinity = inputs.salinityRange || plant.salinityRange;
-            if (!plantSalinity) return false;
-            const plantMin = plantSalinity.min;
-            const plantMax = plantSalinity.max;
-            
-            if (advancedFilters.salinity.min !== null && plantMax < advancedFilters.salinity.min) {
-                return false;
-            }
-            if (advancedFilters.salinity.max !== null && plantMin > advancedFilters.salinity.max) {
+            if (!plantCoversSelectedRange(inputs.salinityRange || plant.salinityRange, advancedFilters.salinity.min, advancedFilters.salinity.max)) {
                 return false;
             }
         }
         
-        // Water Circulation filter (numeric range) - for aquatic plants
         if (advancedFilters.waterCirculation.min !== null || advancedFilters.waterCirculation.max !== null) {
-            const plantWaterCirc = inputs.waterCirculationRange || plant.waterCirculationRange;
-            if (!plantWaterCirc) return false;
-            const plantMin = plantWaterCirc.min;
-            const plantMax = plantWaterCirc.max;
-            
-            if (advancedFilters.waterCirculation.min !== null && plantMax < advancedFilters.waterCirculation.min) {
-                return false;
-            }
-            if (advancedFilters.waterCirculation.max !== null && plantMin > advancedFilters.waterCirculation.max) {
+            if (!plantCoversSelectedRange(inputs.waterCirculationRange || plant.waterCirculationRange, advancedFilters.waterCirculation.min, advancedFilters.waterCirculation.max)) {
                 return false;
             }
         }

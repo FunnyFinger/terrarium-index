@@ -415,6 +415,9 @@
                         </div>
                     </div>
                     
+                    <!-- Care / environment ranges: plant must tolerate the full selection -->
+                    <p class="filter-range-hint">Humidity, light, temperature, and similar ranges show plants that can tolerate the <em>entire</em> selected band (not just overlap it). Leave empty to ignore.</p>
+
                     <!-- Humidity Range -->
                     <div class="filter-group">
                         <label class="filter-group-label">Humidity (%)</label>
@@ -458,6 +461,7 @@
                     <!-- Temperature Range -->
                     <div class="filter-group">
                         <label class="filter-group-label">Temperature (°C)</label>
+                        <p class="filter-group-subhint">Must tolerate this whole band (e.g. 18–25 shows plants OK from 18 through 25).</p>
                         <div class="range-input-group">
                             <input type="number" id="tempMin" class="range-input" placeholder="Min" min="-20" max="55" step="1">
                             <span>to</span>
