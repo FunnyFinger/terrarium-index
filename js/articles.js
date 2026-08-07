@@ -164,19 +164,6 @@
         });
     }
 
-    function categoryOrder(list) {
-        var seen = {};
-        var order = [];
-        list.forEach(function (a) {
-            var cat = a.category || 'Guides';
-            if (!seen[cat]) {
-                seen[cat] = true;
-                order.push(cat);
-            }
-        });
-        return order.sort(function (a, b) { return a.localeCompare(b); });
-    }
-
     function articlesInCategory(category) {
         return visibleArticles().filter(function (a) {
             return (a.category || 'Guides') === category;
@@ -230,17 +217,10 @@
         return card;
     }
 
-    function renderCategoryGrid(category, items, container) {
+    function renderHubGrid(items, container) {
         var section = document.createElement('section');
-        section.className = 'articles-category-section';
-        section.setAttribute('data-category', category);
-
-        var headingHtml = '<div class="articles-category-head">' +
-            '<h2 class="articles-category-heading">' + escapeHtml(category) + '</h2>' +
-            '<a class="articles-category-viewall" href="articles.html?category=' + encodeURIComponent(category) + '">View all</a>' +
-            '</div>';
-
-        section.innerHTML = headingHtml + '<div class="articles-hub-grid"></div>';
+        section.className = 'articles-category-section articles-category-section--solo';
+        section.innerHTML = '<div class="articles-hub-grid"></div>';
         var grid = section.querySelector('.articles-hub-grid');
         items.forEach(function (article) {
             grid.appendChild(createHubCard(article));
@@ -271,28 +251,20 @@
         listEl.classList.remove('hidden');
         listEl.innerHTML = '';
 
+        var displayList = categoryFilter ? articlesInCategory(categoryFilter) : list;
+
         if (categoryFilter) {
-            var filtered = articlesInCategory(categoryFilter);
-            if (countEl) countEl.textContent = filtered.length + ' in ' + categoryFilter;
-            if (!filtered.length) {
-                listEl.innerHTML = '<p class="articles-category-empty">No articles in this category yet.</p>';
-                return;
-            }
-            var singleSection = document.createElement('section');
-            singleSection.className = 'articles-category-section articles-category-section--solo';
-            singleSection.innerHTML = '<div class="articles-hub-grid"></div>';
-            var soloGrid = singleSection.querySelector('.articles-hub-grid');
-            filtered.forEach(function (article) {
-                soloGrid.appendChild(createHubCard(article));
-            });
-            listEl.appendChild(singleSection);
+            if (countEl) countEl.textContent = displayList.length + ' in ' + categoryFilter;
+        } else if (countEl) {
+            countEl.textContent = list.length + ' article' + (list.length === 1 ? '' : 's');
+        }
+
+        if (!displayList.length) {
+            listEl.innerHTML = '<p class="articles-category-empty">No articles in this category yet.</p>';
             return;
         }
 
-        if (countEl) countEl.textContent = list.length + ' article' + (list.length === 1 ? '' : 's');
-        categoryOrder(list).forEach(function (category) {
-            renderCategoryGrid(category, articlesInCategory(category), listEl);
-        });
+        renderHubGrid(displayList, listEl);
     }
 
     function renderExplorerNav(article) {
