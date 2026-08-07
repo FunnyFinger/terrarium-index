@@ -3793,6 +3793,21 @@ html:has(#plantDetailPanel:not(.hidden)) {
 .article-plant-card .badge-muted {
     opacity: 0.85;
 }
+.article-cover-actions input[type="file"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+.article-cover-pick-label {
+    cursor: pointer;
+    margin: 0;
+}
 .article-cover-dropzone {
     display: flex;
     align-items: center;
@@ -3808,6 +3823,12 @@ html:has(#plantDetailPanel:not(.hidden)) {
     border: 2px dashed color-mix(in srgb, var(--primary-color) 45%, var(--border-color));
     background: color-mix(in srgb, var(--primary-color) 6%, var(--card-bg));
     box-sizing: border-box;
+    cursor: pointer;
+}
+body.shopper-mode .article-cover-dropzone {
+    cursor: default;
+    border-style: solid;
+    border-color: transparent;
 }
 .article-cover-wrap.article-cover-dragover,
 .article-cover-preview.article-cover-dragover {
@@ -3822,10 +3843,6 @@ body.shopper-mode .articles-add-btn,
 body.shopper-mode .article-cover-drop-hint,
 body.shopper-mode .article-edit-link {
     display: none !important;
-}
-body.shopper-mode .article-cover-dropzone {
-    border-style: solid;
-    border-color: transparent;
 }
 .article-detail {
     background: var(--card-bg);

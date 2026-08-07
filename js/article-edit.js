@@ -22,7 +22,6 @@
     var excerptEl = document.getElementById('articleExcerpt');
     var coverPreview = document.getElementById('articleCoverPreview');
     var coverFile = document.getElementById('articleCoverFile');
-    var coverPickBtn = document.getElementById('articleCoverPickBtn');
     var coverClearBtn = document.getElementById('articleCoverClearBtn');
     var saveBtn = document.getElementById('articleSaveBtn');
     var deleteBtn = document.getElementById('articleDeleteBtn');
@@ -45,6 +44,13 @@
             .replace(/[^a-z0-9]+/g, '-')
             .replace(/^-+|-+$/g, '')
             .slice(0, 80) || 'article';
+    }
+
+    function coverUrl(article) {
+        if (window.articleImages && typeof window.articleImages.coverDisplayUrl === 'function') {
+            return window.articleImages.coverDisplayUrl(article);
+        }
+        return resolveCover(article && (article.imageUrl || article.coverImage));
     }
 
     function resolveCover(path) {
@@ -79,9 +85,14 @@
         return d.getFullYear() + '-' + m + '-' + day;
     }
 
-    function renderCoverPreview(path) {
+    function renderCoverPreview(articleOrPath) {
         if (!coverPreview) return;
-        var url = resolveCover(path);
+        var url = '';
+        if (articleOrPath && typeof articleOrPath === 'object') {
+            url = coverUrl(articleOrPath);
+        } else if (typeof articleOrPath === 'string') {
+            url = resolveCover(articleOrPath);
+        }
         if (!url) {
             coverPreview.innerHTML = '<p class="article-cover-preview-empty">No cover yet — drop an image here or choose a file.</p>';
             coverPreview.classList.remove('has-image');
@@ -96,7 +107,10 @@
         var bodyHtml = quill ? quill.root.innerHTML : '';
         if (bodyHtml === '<p><br></p>') bodyHtml = '';
         if (window.DOMPurify) {
-            bodyHtml = window.DOMPurify.sanitize(bodyHtml, { USE_PROFILES: { html: true }, ADD_ATTR: ['target', 'rel'] });
+            bodyHtml = window.DOMPurify.sanitize(bodyHtml, {
+                USE_PROFILES: { html: true },
+                ADD_ATTR: ['target', 'rel', 'src', 'alt', 'class']
+            });
         }
         var article = Object.assign({}, current || {}, {
             slug: slug,
@@ -107,7 +121,9 @@
             readMinutes: Math.max(1, parseInt(readEl.value, 10) || 5),
             hidden: !!(hiddenEl && hiddenEl.checked),
             bodyHtml: bodyHtml,
-            coverImage: (current && current.coverImage) || null
+            coverImage: (current && current.coverImage) || null,
+            imageUrl: (current && current.imageUrl) || null,
+            coverVersion: (current && current.coverVersion) || null
         });
         return article;
     }
@@ -121,7 +137,7 @@
         readEl.value = article.readMinutes || 5;
         if (hiddenEl) hiddenEl.checked = !!article.hidden;
         excerptEl.value = article.excerpt || '';
-        renderCoverPreview(article.coverImage);
+        renderCoverPreview(article);
         var html = article.bodyHtml || blocksToHtml(article.body) || '';
         if (quill) {
             quill.setContents([]);
@@ -173,14 +189,11 @@
     }
 
     function uploadToArticlePath(file, filename) {
-        if (!window.supabaseDb || typeof window.supabaseDb.uploadToStorage !== 'function') {
-            return Promise.reject(new Error('Storage unavailable'));
+        if (!window.articleImages || typeof window.articleImages.upload !== 'function') {
+            return Promise.reject(new Error('Image helpers unavailable'));
         }
         var slug = ensureSlugForUpload();
-        var objectPath = 'articles/' + slug + '/' + filename;
-        return window.supabaseDb.uploadToStorage(file, objectPath).then(function (url) {
-            return { path: objectPath, url: url };
-        });
+        return window.articleImages.upload(file, slug, filename);
     }
 
     function uploadInlineImage(file) {
@@ -202,13 +215,17 @@
 
     function uploadCover(file) {
         setStatus('Uploading cover…');
-        var ext = ((file.name || '').split('.').pop() || 'jpg').toLowerCase();
-        if (ext === 'jpeg') ext = 'jpg';
-        if (!/^(jpg|png|gif|webp)$/.test(ext)) ext = 'jpg';
-        return uploadToArticlePath(file, 'cover.' + ext).then(function (res) {
+        var slug = ensureSlugForUpload();
+        if (!window.articleImages || typeof window.articleImages.uploadCover !== 'function') {
+            setStatus('Image helpers unavailable', true);
+            return Promise.resolve();
+        }
+        return window.articleImages.uploadCover(file, slug).then(function (res) {
             if (!current) current = {};
             current.coverImage = res.path;
-            renderCoverPreview(res.path);
+            current.imageUrl = res.url;
+            current.coverVersion = res.version;
+            renderCoverPreview(current);
             setStatus('Cover updated (save article to keep).');
         }).catch(function (err) {
             console.error(err);
@@ -316,6 +333,9 @@
                 return;
             }
             if (!article.bodyHtml && article.body) article.bodyHtml = blocksToHtml(article.body);
+            if (window.articleImages && typeof window.articleImages.assignSeedId === 'function') {
+                window.articleImages.assignSeedId(article);
+            }
             slugManual = true;
             fillForm(article);
             setStatus('');
@@ -337,8 +357,7 @@
         if (slugEl) {
             slugEl.addEventListener('input', function () { slugManual = true; });
         }
-        if (coverPickBtn && coverFile) {
-            coverPickBtn.addEventListener('click', function () { coverFile.click(); });
+        if (coverFile) {
             coverFile.addEventListener('change', function () {
                 var file = coverFile.files && coverFile.files[0];
                 if (file) uploadCover(file);
@@ -349,6 +368,8 @@
             coverClearBtn.addEventListener('click', function () {
                 if (!current) current = {};
                 current.coverImage = null;
+                current.imageUrl = null;
+                current.coverVersion = null;
                 renderCoverPreview(null);
                 setStatus('Cover cleared (save article to keep).');
             });
@@ -396,7 +417,10 @@
             var allowed = canEdit();
             showEditorUi(allowed);
             if (!allowed) return;
-            loadArticle();
+            var authReady = (window.supabaseAuth && typeof window.supabaseAuth.getCurrentUser === 'function')
+                ? window.supabaseAuth.getCurrentUser()
+                : Promise.resolve();
+            authReady.then(loadArticle).catch(loadArticle);
         }
 
         if (window.auth && typeof window.auth.getUser === 'function') {
