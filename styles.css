@@ -3717,11 +3717,16 @@ html:has(#plantDetailPanel:not(.hidden)) {
 }
 
 /* Articles page */
+.articles-page {
+    background: var(--bg-color);
+    color: var(--text-color);
+}
 .articles-main {
     max-width: 920px;
     margin: 0 auto;
     padding-top: 1.5rem;
     padding-bottom: 3rem;
+    color: var(--text-color);
 }
 .articles-toolbar {
     display: flex;
@@ -3739,6 +3744,9 @@ html:has(#plantDetailPanel:not(.hidden)) {
     text-align: center;
     padding: 3rem 1rem;
     color: var(--text-light);
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
 }
 .articles-empty h2 {
     color: var(--primary-color);
@@ -3755,18 +3763,30 @@ html:has(#plantDetailPanel:not(.hidden)) {
     border: 1px solid var(--border-color);
     border-radius: 12px;
     box-shadow: var(--shadow);
-    transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
+    transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s, background-color 0.2s;
 }
 .article-card:hover {
     box-shadow: var(--shadow-hover);
     border-color: var(--accent-color);
+    background: color-mix(in srgb, var(--primary-color) 6%, var(--card-bg));
     transform: translateY(-1px);
 }
 .article-card-link {
     display: block;
     padding: 1.25rem 1.35rem;
-    color: inherit;
+    color: var(--text-color);
     text-decoration: none;
+}
+.article-card-link:visited,
+.article-card-link:hover,
+.article-card-link:active {
+    color: var(--text-color);
+    text-decoration: none;
+}
+.article-card-link:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+    border-radius: 10px;
 }
 .article-card-meta {
     display: flex;
@@ -3789,6 +3809,9 @@ html:has(#plantDetailPanel:not(.hidden)) {
     color: var(--text-color);
     line-height: 1.25;
 }
+.article-card-link:visited .article-card-title {
+    color: var(--text-color);
+}
 .article-card-excerpt {
     margin: 0 0 0.85rem;
     color: var(--text-light);
@@ -3806,6 +3829,7 @@ html:has(#plantDetailPanel:not(.hidden)) {
     border-radius: 12px;
     box-shadow: var(--shadow);
     padding: 1.5rem clamp(1rem, 3vw, 2rem) 2rem;
+    color: var(--text-color);
 }
 .article-back-btn {
     display: inline-flex;
@@ -3818,12 +3842,20 @@ html:has(#plantDetailPanel:not(.hidden)) {
     color: var(--primary-color);
     font-weight: 700;
     cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
 }
 .article-back-btn:hover {
-    background: rgba(45, 80, 22, 0.08);
+    background: color-mix(in srgb, var(--primary-color) 12%, transparent);
+    color: var(--primary-color);
 }
-[data-theme="dark"] .article-back-btn:hover {
-    background: rgba(124, 184, 74, 0.12);
+.article-back-btn:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+.article-detail-header {
+    padding-bottom: 1.25rem;
+    margin-bottom: 0.25rem;
+    border-bottom: 1px solid var(--border-color);
 }
 .article-detail-title {
     margin: 0 0 0.65rem;
@@ -3833,7 +3865,7 @@ html:has(#plantDetailPanel:not(.hidden)) {
     line-height: 1.2;
 }
 .article-detail-excerpt {
-    margin: 0 0 1.5rem;
+    margin: 0;
     color: var(--text-light);
     font-size: 1.05rem;
     line-height: 1.55;
@@ -3841,6 +3873,8 @@ html:has(#plantDetailPanel:not(.hidden)) {
 }
 .article-detail-body {
     max-width: 68ch;
+    color: var(--text-color);
+    padding-top: 1.25rem;
 }
 .article-body-h2 {
     margin: 1.75rem 0 0.65rem;
@@ -3849,16 +3883,33 @@ html:has(#plantDetailPanel:not(.hidden)) {
 }
 .article-body-p {
     margin: 0 0 1rem;
+    color: var(--text-color);
     line-height: 1.7;
     text-align: left;
 }
 .article-body-ul {
     margin: 0 0 1.15rem 1.15rem;
     padding: 0;
+    color: var(--text-color);
     line-height: 1.65;
 }
 .article-body-ul li {
     margin-bottom: 0.4rem;
+}
+.article-body-ul li::marker {
+    color: var(--accent-color);
+}
+a.shop-tab:link,
+a.shop-tab:visited {
+    color: var(--text-light);
+}
+a.shop-tab:hover {
+    color: var(--text-color);
+}
+a.shop-tab.active,
+a.shop-tab.active:link,
+a.shop-tab.active:visited {
+    color: var(--primary-color);
 }
 @media (max-width: 640px) {
     .article-card-title {
