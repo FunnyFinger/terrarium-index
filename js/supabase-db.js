@@ -525,6 +525,61 @@
         }).catch(function () { return 60001; });
     }
 
+    function normalizeArticleRow(r) {
+        var d = (r && r.data) ? Object.assign({}, r.data) : {};
+        if (r && r.id != null) d.id = r.id;
+        if (r && r.slug && !d.slug) d.slug = r.slug;
+        return d;
+    }
+
+    function getArticles() {
+        if (!isConfigured()) return Promise.resolve([]);
+        return request('GET', '/articles?select=id,slug,data&order=id.asc').then(function (rows) {
+            return (rows || []).map(normalizeArticleRow);
+        }).catch(function () { return []; });
+    }
+
+    function getArticleBySlug(slug) {
+        if (!slug || !isConfigured()) return Promise.resolve(null);
+        var q = encodeURIComponent(String(slug));
+        return request('GET', '/articles?slug=eq.' + q + '&select=id,slug,data&limit=1').then(function (rows) {
+            return (rows && rows[0]) ? normalizeArticleRow(rows[0]) : null;
+        }).catch(function () { return null; });
+    }
+
+    function getNextArticleId() {
+        if (!isConfigured()) return Promise.resolve(70001);
+        return request('GET', '/articles?select=id&order=id.desc&limit=1').then(function (rows) {
+            var max = (rows && rows[0] && rows[0].id != null) ? Number(rows[0].id) : 70000;
+            return Math.max(70001, max + 1);
+        }).catch(function () { return 70001; });
+    }
+
+    function createArticle(itemData) {
+        if (!itemData || itemData.id == null || !itemData.slug) return Promise.resolve();
+        if (!isConfigured()) return Promise.resolve();
+        var id = Number(itemData.id);
+        if (!isFinite(id)) return Promise.resolve();
+        var payload = { id: id, slug: String(itemData.slug), data: itemData, updated_at: new Date().toISOString() };
+        return requestAuth('POST', '/articles', payload);
+    }
+
+    function updateArticle(articleId, itemData) {
+        var id = Number(articleId);
+        if (!isFinite(id) || !itemData) return Promise.resolve();
+        if (!isConfigured()) return Promise.resolve();
+        var payload = { data: itemData, updated_at: new Date().toISOString() };
+        if (itemData.slug) payload.slug = String(itemData.slug);
+        return requestAuth('PATCH', '/articles?id=eq.' + id, payload);
+    }
+
+    function deleteArticle(articleId) {
+        var id = Number(articleId);
+        if (!isFinite(id)) return Promise.resolve();
+        if (!isConfigured()) return Promise.resolve();
+        return requestAuth('DELETE', '/articles?id=eq.' + id).catch(function () {});
+    }
+
     // ---- Custom equipment (legacy; prefer equipment_catalog) ----
     function getCustomEquipment() {
         if (!isConfigured()) return Promise.resolve([]);
@@ -705,6 +760,12 @@
         deleteFromVivariumCatalog: deleteFromVivariumCatalog,
         getNextEquipmentId: getNextEquipmentId,
         getNextVivariumId: getNextVivariumId,
+        getArticles: getArticles,
+        getArticleBySlug: getArticleBySlug,
+        getNextArticleId: getNextArticleId,
+        createArticle: createArticle,
+        updateArticle: updateArticle,
+        deleteArticle: deleteArticle,
         getCustomEquipment: getCustomEquipment,
         saveCustomEquipment: saveCustomEquipment,
         getCustomVivariums: getCustomVivariums,

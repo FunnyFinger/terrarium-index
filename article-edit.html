@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#2d5016" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#1a2e0a" media="(prefers-color-scheme: dark)">
+    <title>Edit Article – Vivarium Store</title>
+    <script>
+      (function() {
+        var path = window.location.pathname;
+        var dir = path.replace(/\/?[^/]*$/, '') || '/';
+        if (!dir.endsWith('/')) dir += '/';
+        var base = document.createElement('base');
+        base.href = window.location.origin + dir;
+        document.head.appendChild(base);
+      })();
+    </script>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg?v=2">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css">
+    <link rel="stylesheet" href="styles.css?v=30">
+</head>
+<body class="article-edit-page">
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <header>
+        <div class="banner article-edit-banner">
+            <div id="main-nav-container"></div>
+        </div>
+    </header>
+
+    <main id="main-content" class="container article-edit-main" tabindex="-1">
+        <div class="article-edit-bar">
+            <a href="articles.html" class="article-back-btn">← Back to articles</a>
+            <div class="article-edit-bar-actions">
+                <button type="button" id="articleDeleteBtn" class="btn btn-secondary article-delete-btn hidden">Delete</button>
+                <button type="button" id="articleSaveBtn" class="btn btn-primary">Save article</button>
+            </div>
+        </div>
+        <p id="articleEditStatus" class="article-edit-status" role="status"></p>
+        <p id="articleEditGate" class="article-edit-gate hidden">Sign in as an inventory manager to create or edit articles.</p>
+
+        <form id="articleEditForm" class="article-edit-form hidden" autocomplete="off">
+            <div class="article-edit-grid">
+                <label class="article-edit-field">
+                    <span>Title</span>
+                    <input type="text" id="articleTitle" required maxlength="200" placeholder="Article title">
+                </label>
+                <label class="article-edit-field">
+                    <span>Slug (URL)</span>
+                    <input type="text" id="articleSlug" required maxlength="80" placeholder="article-url-slug">
+                </label>
+                <label class="article-edit-field">
+                    <span>Category</span>
+                    <input type="text" id="articleCategory" maxlength="60" placeholder="Guides, Care, …">
+                </label>
+                <label class="article-edit-field">
+                    <span>Published date</span>
+                    <input type="date" id="articlePublishedAt">
+                </label>
+                <label class="article-edit-field">
+                    <span>Read time (minutes)</span>
+                    <input type="number" id="articleReadMinutes" min="1" max="120" step="1" value="5">
+                </label>
+                <label class="article-edit-field article-edit-field-check">
+                    <input type="checkbox" id="articleHidden">
+                    <span>Hidden from public list</span>
+                </label>
+            </div>
+
+            <label class="article-edit-field">
+                <span>Excerpt</span>
+                <textarea id="articleExcerpt" rows="3" maxlength="500" placeholder="Short summary shown on cards"></textarea>
+            </label>
+
+            <div class="article-edit-field">
+                <span>Cover image</span>
+                <div id="articleCoverPreview" class="article-cover-preview">
+                    <p class="article-cover-preview-empty">No cover yet — drop an image here or choose a file.</p>
+                </div>
+                <div class="article-cover-actions">
+                    <input type="file" id="articleCoverFile" accept="image/*" class="hidden">
+                    <button type="button" id="articleCoverPickBtn" class="btn btn-secondary">Choose cover</button>
+                    <button type="button" id="articleCoverClearBtn" class="btn btn-secondary">Remove cover</button>
+                </div>
+            </div>
+
+            <div class="article-edit-field">
+                <span>Body</span>
+                <div id="articleEditor" class="article-quill-host"></div>
+                <p class="article-edit-hint">Use the toolbar for headings, lists, links, and images. Images upload to article storage.</p>
+            </div>
+        </form>
+    </main>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+    <script defer src="js/config.js"></script>
+    <script defer src="js/supabase-db.js"></script>
+    <script defer src="js/supabase-auth.js"></script>
+    <script defer src="js/auth.js"></script>
+    <script defer src="js/images.js"></script>
+    <script defer src="js/nav.js?v=8"></script>
+    <script defer src="js/article-edit.js?v=1"></script>
+</body>
+</html>

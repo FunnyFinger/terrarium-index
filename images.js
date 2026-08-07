@@ -107,6 +107,25 @@ function resolveVivariumImageUrl(path) {
 }
 
 /**
+ * Resolve article cover / inline image path to full Supabase Storage URL.
+ * Storage folder: articles/{slug}/…
+ */
+function resolveArticleImageUrl(path) {
+    if (!path || typeof path !== 'string') return path;
+    path = String(path).trim();
+    if (!path) return path;
+    if (/^https?:\/\//i.test(path)) return path;
+    var base = (typeof window !== 'undefined' && window.SUPABASE_URL) ? String(window.SUPABASE_URL).replace(/\/$/, '') : '';
+    var storagePrefix = base ? base + '/storage/v1/object/public/vivarium-assets/' : '';
+    if (!storagePrefix) return path;
+    if (path.startsWith('/storage/')) return base + path;
+    if (path.startsWith('articles/')) return storagePrefix + path;
+    if (path.startsWith('images/articles/')) return storagePrefix + path.slice(7);
+    if (path.indexOf('/') !== -1 && /\.(jpg|jpeg|png|gif|webp)$/i.test(path)) return storagePrefix + 'articles/' + path;
+    return path;
+}
+
+/**
  * Normalize plant image path: legacy images/slug/ -> images/plants/slug/,
  * and resolve Supabase-relative paths to full URLs so images load when hosted elsewhere.
  */
@@ -729,6 +748,7 @@ const imageUtils = {
     resolvePlantImageUrl,
     resolveSupplyImageUrl,
     resolveVivariumImageUrl,
+    resolveArticleImageUrl,
     loadImagesFromLocalStorage,
     getPlantImages,
     scanExistingImages,
