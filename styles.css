@@ -3757,12 +3757,16 @@ html:has(#plantDetailPanel:not(.hidden)) {
     text-shadow: 0 1px 10px rgba(0, 0, 0, 0.35);
 }
 .articles-main {
-    max-width: min(1240px, 100%);
+    max-width: none;
     width: 100%;
-    margin: 0 auto;
-    padding-top: 1.5rem;
-    padding-bottom: 3rem;
+    margin: 0;
+    padding: 1.5rem clamp(0.65rem, 1.5vw, 1rem) 3rem;
     color: var(--text-color);
+}
+.articles-page .articles-main.container {
+    --container-padding-x: 0;
+    padding-left: clamp(0.65rem, 1.5vw, 1rem);
+    padding-right: clamp(0.65rem, 1.5vw, 1rem);
 }
 .articles-toolbar {
     display: flex;
