@@ -30,10 +30,38 @@
         return !!(window.auth && typeof window.auth.canManageInventory === 'function' && window.auth.canManageInventory());
     }
 
-    function setStatus(msg, isError) {
+    var statusClearTimer = null;
+    var statusShownAt = 0;
+    var STATUS_MIN_PROGRESS_MS = 800;
+    var STATUS_SUCCESS_HOLD_MS = 3200;
+
+    function setStatus(msg, isError, options) {
+        options = options || {};
+        if (statusClearTimer) {
+            clearTimeout(statusClearTimer);
+            statusClearTimer = null;
+        }
         if (!statusEl) return;
         statusEl.textContent = msg || '';
         statusEl.classList.toggle('is-error', !!isError);
+        statusEl.classList.toggle('is-success', !isError && msg === 'Saved.');
+        statusEl.classList.toggle('is-progress', !isError && /^(Saving|Creating|Uploading|Deleting)/.test(msg || ''));
+        statusShownAt = Date.now();
+        if (options.autoClearMs) {
+            statusClearTimer = setTimeout(function () {
+                if (statusEl.textContent === msg) setStatus('');
+            }, options.autoClearMs);
+        }
+    }
+
+    function setStatusAfterMinProgress(msg, isError, options) {
+        var elapsed = Date.now() - statusShownAt;
+        var wait = Math.max(0, STATUS_MIN_PROGRESS_MS - elapsed);
+        if (wait === 0) {
+            setStatus(msg, isError, options);
+            return;
+        }
+        setTimeout(function () { setStatus(msg, isError, options); }, wait);
     }
 
     function slugify(text) {
@@ -266,11 +294,14 @@
             slugManual = true;
             if (deleteBtn) deleteBtn.classList.remove('hidden');
             history.replaceState(null, '', 'article-edit.html?slug=' + encodeURIComponent(saved.slug));
-            setStatus('Saved.');
+            setStatusAfterMinProgress('Saved.', false, { autoClearMs: STATUS_SUCCESS_HOLD_MS });
             document.title = 'Edit: ' + saved.title + ' – Vivarium Store';
         }).catch(function (err) {
             console.error(err);
-            setStatus('Save failed: ' + (err && err.message ? err.message : 'error') + '. Did you run supabase-articles.sql?', true);
+            setStatusAfterMinProgress(
+                'Save failed: ' + (err && err.message ? err.message : 'error') + '. Did you run supabase-articles.sql?',
+                true
+            );
         }).finally(function () {
             saveBtn.disabled = false;
         });
