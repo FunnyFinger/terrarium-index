@@ -2066,9 +2066,11 @@ function setupEventListeners() {
                 return;
             }
             var rect = filtersSidebarWrapper.getBoundingClientRect();
-            var navHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--main-nav-height'), 10) || 65;
-            var footerPadding = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--filters-footer-padding'), 10) || 24;
-            var stickyTop = 2 * navHeight;
+            var rootStyles = getComputedStyle(document.documentElement);
+            var navHeight = parseInt(rootStyles.getPropertyValue('--main-nav-height'), 10) || 65;
+            var shopTabsHeight = parseInt(rootStyles.getPropertyValue('--shop-tabs-height'), 10) || 0;
+            var footerPadding = parseInt(rootStyles.getPropertyValue('--filters-footer-padding'), 10) || 24;
+            var stickyTop = navHeight + shopTabsHeight;
             if (rect.top <= stickyTop) {
                 filtersSidebar.classList.add('is-sticky');
                 filtersSidebar.style.setProperty('--filters-sticky-left', rect.left + 'px');
@@ -2107,9 +2109,11 @@ function setupEventListeners() {
                 return;
             }
             var rect = legendSidebarWrapper.getBoundingClientRect();
-            var navHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--main-nav-height'), 10) || 65;
-            var footerPadding = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--filters-footer-padding'), 10) || 24;
-            var stickyTop = 2 * navHeight;
+            var rootStyles = getComputedStyle(document.documentElement);
+            var navHeight = parseInt(rootStyles.getPropertyValue('--main-nav-height'), 10) || 65;
+            var shopTabsHeight = parseInt(rootStyles.getPropertyValue('--shop-tabs-height'), 10) || 0;
+            var footerPadding = parseInt(rootStyles.getPropertyValue('--filters-footer-padding'), 10) || 24;
+            var stickyTop = navHeight + shopTabsHeight;
             if (rect.top <= stickyTop) {
                 legendSidebar.classList.add('is-sticky');
                 legendSidebar.style.setProperty('--legend-sticky-right', (window.innerWidth - rect.right) + 'px');
@@ -4488,6 +4492,10 @@ function setupShopTabs() {
         var navBtn = document.getElementById('navBackToList');
         if (navWrap) navWrap.classList.add('nav-back-disabled');
         if (navBtn) navBtn.disabled = true;
+        requestAnimationFrame(function() {
+            window.dispatchEvent(new Event('resize'));
+            window.dispatchEvent(new Event('scroll'));
+        });
     }
     window._onNavBackFromBuildView = function() {
         hideBuildView();

@@ -17,6 +17,7 @@
     --shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
     --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.15);
     --main-nav-height: 65px;
+    --shop-tabs-height: 48px;
     --filters-footer-padding: 32px;
 }
 
@@ -358,7 +359,7 @@ html.detail-startup body {
 
 .filters-sidebar.is-sticky {
     position: fixed;
-    top: var(--filters-sticky-top, calc(2 * var(--main-nav-height)));
+    top: var(--filters-sticky-top, calc(var(--main-nav-height) + var(--shop-tabs-height, 0px)));
     left: var(--filters-sticky-left, 20px);
     z-index: 15;
     box-shadow: var(--shadow-hover);
@@ -533,7 +534,7 @@ html.detail-startup body {
 
 .legend-sidebar.is-sticky {
     position: fixed;
-    top: var(--legend-sticky-top, calc(2 * var(--main-nav-height)));
+    top: var(--legend-sticky-top, calc(var(--main-nav-height) + var(--shop-tabs-height, 0px)));
     right: var(--legend-sticky-right, 0);
     z-index: 15;
     box-shadow: var(--shadow-hover);
@@ -890,7 +891,7 @@ html.detail-startup body {
     
     body.filters-drawer-open .filters-sidebar-wrapper {
         position: fixed;
-        top: var(--main-nav-height);
+        top: calc(var(--main-nav-height) + var(--shop-tabs-height, 0px));
         left: 0;
         right: 0;
         bottom: 0;
@@ -908,7 +909,7 @@ html.detail-startup body {
         /* Full-screen filters panel on mobile */
         width: 100%;
         min-width: 100%;
-        height: calc(100vh - var(--main-nav-height));
+        height: calc(100vh - var(--main-nav-height) - var(--shop-tabs-height, 0px));
         max-height: none;
         margin: 0;
         border-radius: 0;
@@ -951,10 +952,10 @@ html.detail-startup body {
     .legend-sidebar {
         position: fixed !important;
         right: 0;
-        top: calc(var(--main-nav-height) + 0.5rem);
+        top: calc(var(--main-nav-height) + var(--shop-tabs-height, 0px) + 0.5rem);
         bottom: auto;
         height: auto;
-        max-height: calc(100vh - var(--main-nav-height) - 1rem);
+        max-height: calc(100vh - var(--main-nav-height) - var(--shop-tabs-height, 0px) - 1rem);
         width: min(240px, 78vw);
         border-radius: 12px 0 0 12px;
         border-right: 1px solid var(--border-color);
@@ -1010,7 +1011,7 @@ html.detail-startup body {
     }
     body.filters-drawer-open .filters-mobile-sticky-top {
         margin: 0 -1.5rem;
-        padding: max(env(safe-area-inset-top, 0px), var(--main-nav-height)) 1.5rem 0.5rem 1.5rem;
+        padding: 0.5rem 1.5rem 0.5rem 1.5rem;
         min-height: 3rem;
     }
     .filters-mobile-header {
@@ -2074,7 +2075,7 @@ body:has(#plantDetailPanel:not(.hidden)) .main-nav {
     align-items: center;
     text-align: center;
     padding: 2rem 20px;
-    padding-top: calc(65px + 2rem);
+    padding-top: calc(var(--main-nav-height) + var(--shop-tabs-height, 0px) + 2rem);
     max-width: 1200px;
     margin: 0 auto;
     width: 100%;
@@ -3637,23 +3638,44 @@ main {
 }
 
 .shop-tabs {
+    position: fixed;
+    top: var(--main-nav-height);
+    left: 0;
+    right: 0;
+    z-index: 999;
     display: flex;
-    gap: 0;
-    margin-bottom: 1rem;
-    border-bottom: 2px solid var(--border-color);
+    align-items: stretch;
+    justify-content: center;
+    gap: 0.25rem;
+    height: var(--shop-tabs-height);
+    margin: 0;
+    padding: 0 1rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+.shop-tabs::-webkit-scrollbar {
+    display: none;
 }
 .shop-tab {
-    padding: 0.6rem 1.2rem;
+    flex: 0 0 auto;
+    padding: 0 1.15rem;
     border: none;
     background: transparent;
     color: var(--text-light);
-    font-size: 1rem;
-    font-weight: 500;
+    font-size: 0.92rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
     cursor: pointer;
     position: relative;
-    bottom: -2px;
     border-bottom: 2px solid transparent;
     transition: color 0.2s, border-color 0.2s;
+    white-space: nowrap;
 }
 .shop-tab:hover {
     color: var(--text-color);
@@ -3661,6 +3683,26 @@ main {
 .shop-tab.active {
     color: var(--primary-color);
     border-bottom-color: var(--primary-color);
+}
+.shop-tab:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: -2px;
+}
+
+/* Hide shop category bar when product detail / build view is open */
+html:has(.main-layout.detail-view-active) .shop-tabs,
+html:has(#plantDetailPanel:not(.hidden)) .shop-tabs {
+    display: none;
+}
+html:has(.main-layout.detail-view-active),
+html:has(#plantDetailPanel:not(.hidden)) {
+    --shop-tabs-height: 0px;
+}
+
+[data-theme="dark"] .shop-tabs {
+    background: rgba(37, 40, 37, 0.92);
+    border-bottom-color: var(--border-color);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.28);
 }
 
 .plants-grid {
