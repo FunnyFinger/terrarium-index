@@ -113,7 +113,7 @@
         document.title = article.title + ' – Vivarium Store';
         detailEl.innerHTML =
             '<button type="button" class="article-back-btn" id="articleBackBtn">← All articles</button>' +
-            '<header class="article-detail-header">' +
+            '<div class="article-detail-header">' +
                 '<div class="article-card-meta">' +
                     '<span class="article-card-category">' + escapeHtml(article.category || 'Article') + '</span>' +
                     '<span class="article-card-date">' + formatDate(article.publishedAt) + '</span>' +
@@ -121,7 +121,7 @@
                 '</div>' +
                 '<h1 class="article-detail-title">' + escapeHtml(article.title) + '</h1>' +
                 (article.excerpt ? '<p class="article-detail-excerpt">' + escapeHtml(article.excerpt) + '</p>' : '') +
-            '</header>' +
+            '</div>' +
             '<div class="article-detail-body">' + renderBody(article.body) + '</div>';
 
         var backBtn = document.getElementById('articleBackBtn');

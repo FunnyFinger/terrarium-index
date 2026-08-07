@@ -1994,7 +1994,7 @@ p.product-review-by.product-review-meta {
     }
 }
 
-header {
+body > header {
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
     color: white;
     padding: 0;
@@ -2002,11 +2002,11 @@ header {
     width: 100%;
 }
 
-header .container {
+body > header .container {
     padding: 0;
 }
 
-header h1 {
+body > header h1 {
     font-family: 'DM Serif Display', serif;
     font-size: 2.5rem;
     margin-bottom: 0.5rem;
@@ -3853,23 +3853,43 @@ html:has(#plantDetailPanel:not(.hidden)) {
     outline-offset: 2px;
 }
 .article-detail-header {
-    padding-bottom: 1.25rem;
-    margin-bottom: 0.25rem;
+    background: transparent;
+    color: var(--text-color);
+    padding: 0 0 1.35rem;
+    margin: 0 0 0.15rem;
+    border: none;
     border-bottom: 1px solid var(--border-color);
+    box-shadow: none;
+    width: auto;
+    border-radius: 0;
 }
 .article-detail-title {
-    margin: 0 0 0.65rem;
+    margin: 0 0 0.75rem;
     font-family: 'DM Serif Display', serif;
     font-size: clamp(1.75rem, 4vw, 2.35rem);
-    color: var(--primary-color);
+    color: var(--text-color);
     line-height: 1.2;
+    font-weight: 400;
 }
 .article-detail-excerpt {
     margin: 0;
     color: var(--text-light);
     font-size: 1.05rem;
-    line-height: 1.55;
+    line-height: 1.6;
     text-align: left;
+    opacity: 1;
+}
+.article-detail .article-card-meta {
+    margin-bottom: 0.75rem;
+}
+.article-detail .article-card-category {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--primary-color) 12%, var(--card-bg));
+    color: var(--primary-color);
+    border: 1px solid color-mix(in srgb, var(--primary-color) 22%, var(--border-color));
 }
 .article-detail-body {
     max-width: 68ch;
@@ -8121,7 +8141,7 @@ html.embed-add-active #closeUploadModal {
         font-size: 0.9rem;
     }
     
-    header h1 {
+    body > header h1 {
         font-size: 2rem;
     }
     
@@ -8551,7 +8571,7 @@ html.embed-add-active #closeUploadModal {
         font-size: 0.85rem;
     }
     
-    header h1 {
+    body > header h1 {
         font-size: 1.75rem;
     }
     
