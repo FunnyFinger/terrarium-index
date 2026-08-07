@@ -4457,6 +4457,7 @@ a.shop-tab.active:visited {
     resize: vertical;
     box-sizing: border-box;
 }
+.article-quill-host {
     background: var(--bg-color);
     color: var(--text-color);
     border-radius: 0 0 8px 8px;
