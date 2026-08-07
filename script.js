@@ -4450,6 +4450,7 @@ function setupShopTabs() {
     const tabPlants = document.getElementById('tabPlants');
     const tabEquipment = document.getElementById('tabEquipment');
     const tabVivariums = document.getElementById('tabVivariums');
+    const tabArticles = document.getElementById('tabArticles');
     const tabBuild = document.getElementById('tabBuild');
     const buildViewEl = document.getElementById('buildView');
     const listViewEl = document.getElementById('listView');
@@ -4462,11 +4463,13 @@ function setupShopTabs() {
     const controlPanelReopenEl = document.getElementById('controlPanelReopen');
     if (!tabPlants || !tabEquipment) return;
 
-    function setActiveTab(activeTab, inactive1, inactive2, inactive3) {
-        if (activeTab) { activeTab.classList.add('active'); activeTab.setAttribute('aria-selected', 'true'); }
-        if (inactive1) { inactive1.classList.remove('active'); inactive1.setAttribute('aria-selected', 'false'); }
-        if (inactive2) { inactive2.classList.remove('active'); inactive2.setAttribute('aria-selected', 'false'); }
-        if (inactive3) { inactive3.classList.remove('active'); inactive3.setAttribute('aria-selected', 'false'); }
+    function setActiveTab(activeTab) {
+        [tabPlants, tabEquipment, tabVivariums, tabBuild, tabArticles].forEach(function(tab) {
+            if (!tab) return;
+            var on = tab === activeTab;
+            tab.classList.toggle('active', on);
+            tab.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
     }
     function showBuildView() {
         if (mainLayoutEl) mainLayoutEl.classList.add('detail-view-active');
@@ -4525,7 +4528,7 @@ function setupShopTabs() {
     tabPlants.addEventListener('click', () => {
         currentView = 'plants';
         hideBuildView();
-        setActiveTab(tabPlants, tabEquipment, tabVivariums, tabBuild);
+        setActiveTab(tabPlants);
         if (filtersSidebarEl) filtersSidebarEl.style.display = '';
         showPlantsFilters();
         if (controlPanelReopenEl) {
@@ -4543,7 +4546,7 @@ function setupShopTabs() {
     tabEquipment.addEventListener('click', function() {
         currentView = 'equipment';
         hideBuildView();
-        setActiveTab(tabEquipment, tabPlants, tabVivariums, tabBuild);
+        setActiveTab(tabEquipment);
         if (filtersSidebarEl) filtersSidebarEl.style.display = '';
         showEquipmentFilters();
         if (controlPanelReopenEl) {
@@ -4564,7 +4567,7 @@ function setupShopTabs() {
         tabVivariums.addEventListener('click', function() {
             currentView = 'vivariums';
             hideBuildView();
-            setActiveTab(tabVivariums, tabPlants, tabEquipment, tabBuild);
+            setActiveTab(tabVivariums);
             if (filtersSidebarEl) filtersSidebarEl.style.display = '';
             showVivariumFilters();
             if (controlPanelReopenEl) {
@@ -4582,10 +4585,15 @@ function setupShopTabs() {
             if (typeof window.updateLegendButtonVisibility === 'function') window.updateLegendButtonVisibility();
         });
     }
+    if (tabArticles) {
+        tabArticles.addEventListener('click', function() {
+            window.location.href = 'articles.html';
+        });
+    }
     if (tabBuild && buildViewEl) {
         tabBuild.addEventListener('click', () => {
             currentView = 'build';
-            setActiveTab(tabBuild, tabPlants, tabEquipment, tabVivariums);
+            setActiveTab(tabBuild);
             showBuildView();
             if (typeof window.initBuildVivarium === 'function') window.initBuildVivarium();
         });

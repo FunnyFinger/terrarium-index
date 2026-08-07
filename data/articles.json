@@ -1,0 +1,123 @@
+{
+  "articles": [
+    {
+      "slug": "closed-terrarium-basics",
+      "title": "Closed Terrarium Basics: Building a Self-Sustaining World",
+      "excerpt": "Learn how sealed terrariums cycle water, why plant choice matters, and how to avoid the most common beginner failures.",
+      "category": "Guides",
+      "publishedAt": "2026-03-12",
+      "readMinutes": 7,
+      "body": [
+        { "type": "p", "text": "A closed terrarium is a sealed (or mostly sealed) glass enclosure where moisture recycles through evaporation and condensation. Done well, it can stay healthy for months with very little watering." },
+        { "type": "h2", "text": "How the water cycle works" },
+        { "type": "p", "text": "Plants release moisture through transpiration. That vapor condenses on cooler glass and returns to the substrate. Your job is to set the starting moisture level correctly—not to water constantly." },
+        { "type": "h2", "text": "Choose the right plants" },
+        { "type": "p", "text": "Favor compact tropicals that tolerate high humidity and moderate light. Avoid fast growers that will quickly outgrow the glass, and skip succulents—they usually rot in sealed setups." },
+        { "type": "ul", "items": [
+          "Good fits: mosses, ferns, Fittonia, Peperomia, small Begonia",
+          "Risky: cacti, succulents, large climbing aroids",
+          "Start with fewer plants than you think you need"
+        ]},
+        { "type": "h2", "text": "Layering that actually helps" },
+        { "type": "p", "text": "A drainage layer, a barrier (mesh), and an airy substrate reduce waterlogging. Activated charcoal is optional but can help keep the mix fresher in a sealed system." },
+        { "type": "h2", "text": "Common beginner mistakes" },
+        { "type": "ul", "items": [
+          "Overwatering on day one",
+          "Placing the jar in direct hot sun",
+          "Opening the lid daily and breaking the cycle",
+          "Ignoring mold early—ventilate briefly, then reseal once leaves are dry"
+        ]}
+      ]
+    },
+    {
+      "slug": "vivarium-substrate-guide",
+      "title": "Choosing Substrate for Terrariums and Vivariums",
+      "excerpt": "Drainage, moisture retention, and root health start with the mix. Here is a practical way to pick substrate for open, closed, and bioactive setups.",
+      "category": "Care",
+      "publishedAt": "2026-04-02",
+      "readMinutes": 6,
+      "body": [
+        { "type": "p", "text": "Substrate is not one recipe for every enclosure. Open terrariums, closed jars, and bioactive vivariums each need different moisture and airflow behavior." },
+        { "type": "h2", "text": "What a good mix should do" },
+        { "type": "ul", "items": [
+          "Hold moisture without becoming mud",
+          "Allow oxygen to reach roots",
+          "Stay structurally stable as plants grow",
+          "Support clean drainage so water does not pool around stems"
+        ]},
+        { "type": "h2", "text": "Closed terrariums" },
+        { "type": "p", "text": "Use a lighter, airy mix that will not stay soggy. Combine coco coir or peat alternatives with fine bark, perlite or pumice, and a little charcoal. Keep the profile shallow enough for your vessel." },
+        { "type": "h2", "text": "Open terrariums and arid accents" },
+        { "type": "p", "text": "Open vessels dry faster. Increase mineral content (pumice, sand, grit) if you grow drought-tolerant plants, and water more deliberately because there is less recycled humidity." },
+        { "type": "h2", "text": "Bioactive vivariums" },
+        { "type": "p", "text": "Leaf litter, chunky bark, and a drainage layer help cleanup crews thrive. Match the mix to the animal and plant humidity targets rather than copying a houseplant potting soil bag." }
+      ]
+    },
+    {
+      "slug": "humidity-and-airflow",
+      "title": "Humidity and Airflow: Finding the Balance",
+      "excerpt": "High humidity without stagnant air is the difference between lush growth and constant mold. Learn how to tune both.",
+      "category": "Care",
+      "publishedAt": "2026-05-18",
+      "readMinutes": 5,
+      "body": [
+        { "type": "p", "text": "Many tropical plants love humidity, but stagnant wet air invites mold and soft rot. The goal is moist air that still moves." },
+        { "type": "h2", "text": "Read the leaves, not only the gauge" },
+        { "type": "p", "text": "Crispy edges can mean air that is too dry. Persistent wet spots, gray fuzz, or mushy stems usually mean too much moisture and too little exchange." },
+        { "type": "h2", "text": "Simple ways to raise humidity" },
+        { "type": "ul", "items": [
+          "Group plants",
+          "Use a shallow water tray nearby (not sitting in water)",
+          "Mist lightly if leaves dry quickly—avoid soaking crowns",
+          "Choose an enclosure style that matches the plant"
+        ]},
+        { "type": "h2", "text": "Give the air a path" },
+        { "type": "p", "text": "Crack lids periodically on closed builds, leave vents on vivariums, and avoid packing foliage so densely that nothing dries after watering. A small USB fan across—not blasting into—the canopy can help in larger setups." }
+      ]
+    },
+    {
+      "slug": "lighting-tropical-plants",
+      "title": "Lighting Tropical Plants Indoors",
+      "excerpt": "Bright indirect light is the default for many vivarium plants—but distance, duration, and spectrum matter more than a vague window description.",
+      "category": "Guides",
+      "publishedAt": "2026-06-08",
+      "readMinutes": 6,
+      "body": [
+        { "type": "p", "text": "Most tropical foliage plants used in terrariums prefer bright, filtered light. Direct midday sun through glass can cook leaves; a dark corner stalls growth and invites stretch." },
+        { "type": "h2", "text": "Natural light cues" },
+        { "type": "p", "text": "East windows are often gentle. South and west exposures may need sheer curtains. If a plant leans hard toward the window or new leaves are pale and distant, increase light." },
+        { "type": "h2", "text": "Grow lights without guesswork" },
+        { "type": "ul", "items": [
+          "Start with a full-spectrum LED rated for foliage",
+          "Keep fixtures far enough to avoid bleaching (often 20–40 cm depending on strength)",
+          "Run 10–14 hours on a timer for consistency",
+          "Watch new growth for two weeks before making big changes"
+        ]},
+        { "type": "h2", "text": "Enclosure tip" },
+        { "type": "p", "text": "Tall closed jars cast shadows. Place light-loving plants higher and shade lovers lower, or use a top-mounted bar light so the canopy is even." }
+      ]
+    },
+    {
+      "slug": "paludarium-intro",
+      "title": "What Is a Paludarium?",
+      "excerpt": "Part aquarium, part terrarium—paludariums blend water and land. Here is when this style shines and what to plan for first.",
+      "category": "Vivarium Types",
+      "publishedAt": "2026-07-01",
+      "readMinutes": 5,
+      "body": [
+        { "type": "p", "text": "A paludarium combines an aquatic section with a terrestrial or semi-aquatic shoreline. It is ideal when you want emergent plants, water features, and a richer sense of habitat." },
+        { "type": "h2", "text": "Who it is for" },
+        { "type": "p", "text": "Choose a paludarium if you enjoy aquascaping and land plants together, or if your animals need both swimming space and dry ledges. It is more complex than a closed jar, but visually rewarding." },
+        { "type": "h2", "text": "Core planning points" },
+        { "type": "ul", "items": [
+          "Decide water depth and land height before buying hardscape",
+          "Separate aquatic filtration needs from land humidity needs",
+          "Use plants suited to each zone—fully submerged, marginal, and terrestrial",
+          "Plan maintenance access for both water changes and land pruning"
+        ]},
+        { "type": "h2", "text": "Plant ideas by zone" },
+        { "type": "p", "text": "Aquatic and marginal plants belong near the waterline. Keep moisture-loving terrestrials on the bank, and reserve drier shelves for species that dislike wet feet." }
+      ]
+    }
+  ]
+}

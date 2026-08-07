@@ -3664,6 +3664,9 @@ main {
 }
 .shop-tab {
     flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: 0 1.15rem;
     border: none;
     background: transparent;
@@ -3676,6 +3679,14 @@ main {
     border-bottom: 2px solid transparent;
     transition: color 0.2s, border-color 0.2s;
     white-space: nowrap;
+    text-decoration: none;
+}
+a.shop-tab {
+    color: var(--text-light);
+}
+a.shop-tab:hover,
+a.shop-tab:visited {
+    text-decoration: none;
 }
 .shop-tab:hover {
     color: var(--text-color);
@@ -3703,6 +3714,159 @@ html:has(#plantDetailPanel:not(.hidden)) {
     background: rgba(37, 40, 37, 0.92);
     border-bottom-color: var(--border-color);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.28);
+}
+
+/* Articles page */
+.articles-main {
+    max-width: 920px;
+    margin: 0 auto;
+    padding-top: 1.5rem;
+    padding-bottom: 3rem;
+}
+.articles-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+}
+.articles-count {
+    margin: 0;
+    color: var(--text-light);
+    font-size: 0.95rem;
+    text-align: left;
+}
+.articles-empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-light);
+}
+.articles-empty h2 {
+    color: var(--primary-color);
+    font-family: 'DM Serif Display', serif;
+    margin-bottom: 0.5rem;
+}
+.articles-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.article-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
+}
+.article-card:hover {
+    box-shadow: var(--shadow-hover);
+    border-color: var(--accent-color);
+    transform: translateY(-1px);
+}
+.article-card-link {
+    display: block;
+    padding: 1.25rem 1.35rem;
+    color: inherit;
+    text-decoration: none;
+}
+.article-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem 0.85rem;
+    margin-bottom: 0.55rem;
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+.article-card-category {
+    color: var(--primary-color);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+.article-card-title {
+    margin: 0 0 0.45rem;
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.45rem;
+    color: var(--text-color);
+    line-height: 1.25;
+}
+.article-card-excerpt {
+    margin: 0 0 0.85rem;
+    color: var(--text-light);
+    line-height: 1.55;
+    text-align: left;
+}
+.article-card-cta {
+    color: var(--primary-color);
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+.article-detail {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    padding: 1.5rem clamp(1rem, 3vw, 2rem) 2rem;
+}
+.article-back-btn {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    padding: 0.4rem 0.7rem;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--primary-color);
+    font-weight: 700;
+    cursor: pointer;
+}
+.article-back-btn:hover {
+    background: rgba(45, 80, 22, 0.08);
+}
+[data-theme="dark"] .article-back-btn:hover {
+    background: rgba(124, 184, 74, 0.12);
+}
+.article-detail-title {
+    margin: 0 0 0.65rem;
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.75rem, 4vw, 2.35rem);
+    color: var(--primary-color);
+    line-height: 1.2;
+}
+.article-detail-excerpt {
+    margin: 0 0 1.5rem;
+    color: var(--text-light);
+    font-size: 1.05rem;
+    line-height: 1.55;
+    text-align: left;
+}
+.article-detail-body {
+    max-width: 68ch;
+}
+.article-body-h2 {
+    margin: 1.75rem 0 0.65rem;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+}
+.article-body-p {
+    margin: 0 0 1rem;
+    line-height: 1.7;
+    text-align: left;
+}
+.article-body-ul {
+    margin: 0 0 1.15rem 1.15rem;
+    padding: 0;
+    line-height: 1.65;
+}
+.article-body-ul li {
+    margin-bottom: 0.4rem;
+}
+@media (max-width: 640px) {
+    .article-card-title {
+        font-size: 1.25rem;
+    }
+    .article-detail {
+        padding: 1.15rem 1rem 1.5rem;
+    }
 }
 
 .plants-grid {

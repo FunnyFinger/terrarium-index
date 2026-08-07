@@ -18,6 +18,7 @@ const {
 const STATIC_PAGES = [
     { path: '/', priority: '1.0', changefreq: 'weekly' },
     { path: '/build-vivarium.html', priority: '0.8', changefreq: 'monthly' },
+    { path: '/articles.html', priority: '0.7', changefreq: 'weekly' },
     { path: '/taxonomy.html', priority: '0.7', changefreq: 'monthly' },
     { path: '/definitions.html', priority: '0.6', changefreq: 'monthly' }
 ];

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#2d5016" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#1a2e0a" media="(prefers-color-scheme: dark)">
+    <title>Articles – Plants & Terrariums | Vivarium Store</title>
+    <meta name="description" content="Guides and articles about plants, terrariums, vivariums, humidity, lighting, and substrate — practical care knowledge from Vivarium Store.">
+    <link rel="canonical" href="https://vivarium-store.com/articles.html">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vivarium-store.com/articles.html">
+    <meta property="og:title" content="Articles – Plants & Terrariums | Vivarium Store">
+    <meta property="og:description" content="Guides and articles about plants, terrariums, vivariums, humidity, lighting, and substrate.">
+    <meta property="og:image" content="https://vivarium-store.com/images/banner.jpg">
+    <meta property="og:site_name" content="Vivarium Store">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Articles – Plants & Terrariums | Vivarium Store">
+    <meta name="twitter:description" content="Practical guides on plants, terrariums, and vivarium care.">
+    <meta name="twitter:image" content="https://vivarium-store.com/images/banner.jpg">
+    <script>
+      (function() {
+        var path = window.location.pathname;
+        var dir = path.replace(/\/?[^/]*$/, '') || '/';
+        if (!dir.endsWith('/')) dir += '/';
+        var base = document.createElement('base');
+        base.href = window.location.origin + dir;
+        document.head.appendChild(base);
+      })();
+    </script>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg?v=2">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"></noscript>
+    <link rel="stylesheet" href="styles.css?v=27">
+</head>
+<body class="articles-page">
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <header>
+        <div class="banner">
+            <picture>
+                <source type="image/webp" srcset="images/banner-800.webp 960w, images/banner-1600.webp 1600w, images/banner.webp 1920w, images/banner-2400.webp 2400w, images/banner-3200.webp 3200w" sizes="100vw">
+                <img src="images/banner.jpg" srcset="images/banner-800.jpg 960w, images/banner-1600.jpg 1600w, images/banner-2400.jpg 2400w, images/banner-3200.jpg 3200w, images/banner.jpg 3206w" sizes="100vw" alt="Water droplets on a tropical leaf - Vivarium Store" class="banner-image" decoding="async" fetchpriority="high" width="3206" height="2244">
+            </picture>
+            <div id="main-nav-container"></div>
+            <div class="shop-tabs" role="tablist" aria-label="Shop categories">
+                <a href="/?tab=plants" class="shop-tab" role="tab" aria-selected="false">Plants</a>
+                <a href="/?tab=equipment" class="shop-tab" role="tab" aria-selected="false">Supplies</a>
+                <a href="/?tab=vivariums" class="shop-tab" role="tab" aria-selected="false">Vivariums</a>
+                <a href="articles.html" class="shop-tab active" role="tab" aria-selected="true" aria-current="page">Articles</a>
+            </div>
+            <div class="banner-overlay">
+                <h1>Articles</h1>
+                <p class="subtitle">Guides and notes on plants, terrariums, and vivarium care.</p>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content" class="container articles-main" tabindex="-1">
+        <div class="articles-toolbar">
+            <p id="articlesCount" class="articles-count">Loading articles…</p>
+        </div>
+        <div id="articlesEmpty" class="articles-empty hidden">
+            <h2>No articles yet</h2>
+            <p>Check back soon for plant and terrarium guides.</p>
+        </div>
+        <div id="articlesList" class="articles-list" aria-live="polite"></div>
+        <article id="articleDetail" class="article-detail hidden" aria-live="polite"></article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-container">
+            <div class="footer-grid footer-grid--compact">
+                <div class="footer-col">
+                    <h3 class="footer-heading">Explore</h3>
+                    <ul class="footer-links">
+                        <li><a href="/">Shop plants</a></li>
+                        <li><a href="articles.html">Articles</a></li>
+                        <li><a href="build-vivarium.html">Build your own vivarium</a></li>
+                        <li><a href="taxonomy.html">Taxonomy</a></li>
+                        <li><a href="definitions.html">Plant Care &amp; Definitions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3 class="footer-heading">Useful links</h3>
+                    <ul class="footer-links">
+                        <li><a href="https://ariumology.com/" target="_blank" rel="noopener noreferrer">Ariumology</a></li>
+                        <li><a href="https://www.gbif.org/" target="_blank" rel="noopener noreferrer">GBIF</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col footer-brand-col">
+                    <span class="footer-brand">Vivarium <strong>Store</strong></span>
+                    <p class="footer-desc">Rare tropical plants, supplies, and vivarium setups in Kuwait.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copy">&copy; <span id="footer-year">2026</span> Vivarium Store &ndash; All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script defer src="js/config.js"></script>
+    <script defer src="js/supabase-db.js"></script>
+    <script defer src="js/supabase-auth.js"></script>
+    <script defer src="js/auth.js"></script>
+    <script defer src="js/nav.js?v=8"></script>
+    <script defer src="js/articles.js?v=1"></script>
+    <script>document.getElementById('footer-year') && (document.getElementById('footer-year').textContent = new Date().getFullYear());</script>
+</body>
+</html>

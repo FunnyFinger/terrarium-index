@@ -68,7 +68,7 @@
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"></noscript>
     <link rel="preload" as="image" href="images/banner.webp" type="image/webp" imagesrcset="images/banner-800.webp 960w, images/banner-1600.webp 1600w, images/banner.webp 1920w, images/banner-2400.webp 2400w, images/banner-3200.webp 3200w" imagesizes="100vw">
-    <link rel="stylesheet" href="styles.css?v=26">
+    <link rel="stylesheet" href="styles.css?v=27">
     <!-- build-vivarium.css loads only on build-vivarium.html (not needed for catalog) -->
     <style>
       html.embed-add-standby body { opacity: 0; pointer-events: none; }
@@ -288,6 +288,7 @@
                 <button type="button" id="tabPlants" class="shop-tab active" role="tab" aria-selected="true" data-view="plants">Plants</button>
                 <button type="button" id="tabEquipment" class="shop-tab" role="tab" aria-selected="false" data-view="equipment">Supplies</button>
                 <button type="button" id="tabVivariums" class="shop-tab" role="tab" aria-selected="false" data-view="vivariums">Vivariums</button>
+                <button type="button" id="tabArticles" class="shop-tab" role="tab" aria-selected="false" data-view="articles">Articles</button>
             </div>
             <div class="banner-overlay">
                 <h1>Vivarium Store</h1>
@@ -1835,6 +1836,7 @@
                     <h3 class="footer-heading">Explore</h3>
                     <ul class="footer-links">
                         <li><a href="/">Shop plants</a></li>
+                        <li><a href="articles.html">Articles</a></li>
                         <li><a href="build-vivarium.html">Build your own vivarium</a></li>
                         <li><a href="taxonomy.html">Taxonomy</a></li>
                         <li><a href="definitions.html">Plant Care &amp; Definitions</a></li>
@@ -1882,7 +1884,7 @@
     <script defer src="js/supabase-auth.js"></script>
     <script defer src="js/auth.js"></script>
     <script defer src="js/profile-db.js"></script>
-    <script defer src="js/nav.js?v=7"></script>
+    <script defer src="js/nav.js?v=8"></script>
     <script defer src="js/inventory-db.js"></script>
     <script defer src="js/inventory-remote-bridge.js"></script>
     <script defer src="js/turnstile.js?v=2"></script>
@@ -1898,7 +1900,7 @@
     <script defer src="images.js?v=11"></script>
     <!-- upload.js + build-vivarium.js lazy-loaded when needed (staff edit / builder page) -->
     <!-- Finally initialize the application -->
-    <script defer src="script.js?v=31"></script>
+    <script defer src="script.js?v=32"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
       (function () {
