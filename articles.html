@@ -34,7 +34,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"></noscript>
-    <link rel="stylesheet" href="styles.css?v=31">
+    <link rel="stylesheet" href="styles.css?v=33">
 </head>
 <body class="articles-page shopper-mode">
     <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -51,9 +51,9 @@
                 <a href="/?tab=vivariums" class="shop-tab" role="tab" aria-selected="false">Vivariums</a>
                 <a href="articles.html" class="shop-tab active" role="tab" aria-selected="true" aria-current="page">Articles</a>
             </div>
-            <div class="banner-overlay">
-                <h1>Articles</h1>
-                <p class="subtitle">Guides and notes on plants, terrariums, and vivarium care.</p>
+            <div class="banner-overlay articles-hero-overlay">
+                <h1 id="articlesHeroTitle">Articles</h1>
+                <p class="subtitle" id="articlesHeroSubtitle">Guides and notes on plants, terrariums, and vivarium care.</p>
             </div>
         </div>
     </header>
@@ -68,9 +68,9 @@
                 <h2>No articles yet</h2>
                 <p>Check back soon for plant and terrarium guides.</p>
             </div>
-            <div id="articlesList" class="plants-grid card-size-medium articles-grid" aria-live="polite"></div>
+            <div id="articlesList" class="articles-hub-sections" aria-live="polite"></div>
         </div>
-        <article id="articleDetail" class="article-detail hidden" aria-live="polite"></article>
+        <div id="articleDetail" class="article-detail-shell hidden" aria-live="polite"></div>
     </main>
 
     <footer class="site-footer">
@@ -113,7 +113,7 @@
     <script defer src="js/images.js"></script>
     <script defer src="js/article-images.js?v=1"></script>
     <script defer src="js/nav.js?v=8"></script>
-    <script defer src="js/articles.js?v=4"></script>
+    <script defer src="js/articles.js?v=5"></script>
     <script>document.getElementById('footer-year') && (document.getElementById('footer-year').textContent = new Date().getFullYear());</script>
 </body>
 </html>

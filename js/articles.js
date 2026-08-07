@@ -1,5 +1,5 @@
 /**
- * Articles list (plant-card grid) + detail + cover drag-drop for editors.
+ * Articles hub (Gardenia-style cards + category sections) and detail with explorer sidebar.
  * Loads from Supabase articles table; falls back to data/articles.json.
  */
 (function () {
@@ -12,8 +12,19 @@
     var countEl = document.getElementById('articlesCount');
     var addBtn = document.getElementById('articlesAddBtn');
     var listViewEl = document.getElementById('articlesListView');
+    var heroTitleEl = document.getElementById('articlesHeroTitle');
+    var heroSubtitleEl = document.getElementById('articlesHeroSubtitle');
+
+    var DEFAULT_HERO_TITLE = 'Articles';
+    var DEFAULT_HERO_SUBTITLE = 'Guides and notes on plants, terrariums, and vivarium care.';
+    var CATEGORY_SUBTITLES = {
+        'Guides': 'Step-by-step guides for terrariums, lighting, and enclosure basics.',
+        'Care': 'Practical care topics — substrate, humidity, airflow, and plant health.',
+        'Vivarium Types': 'Explore enclosure styles from closed jars to paludariums.'
+    };
 
     var EDIT_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
+    var CHECK_SVG = '<svg class="article-explorer-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>';
 
     function canEdit() {
         return !!(window.auth && typeof window.auth.canManageInventory === 'function' && window.auth.canManageInventory());
@@ -24,6 +35,12 @@
         if (canEdit()) document.body.classList.remove('shopper-mode');
         else document.body.classList.add('shopper-mode');
         if (addBtn) addBtn.classList.toggle('hidden', !canEdit());
+    }
+
+    function setViewMode(mode) {
+        if (!document.body) return;
+        document.body.classList.toggle('articles-view-detail', mode === 'detail');
+        document.body.classList.toggle('articles-view-list', mode === 'list');
     }
 
     function escapeHtml(str) {
@@ -62,6 +79,7 @@
         if (!a.slug && a.title) a.slug = slugify(a.title);
         if (!a.bodyHtml && Array.isArray(a.body)) a.bodyHtml = blocksToHtml(a.body);
         if (a.bodyHtml == null) a.bodyHtml = '';
+        if (!a.category) a.category = 'Guides';
         if (a.hidden == null) a.hidden = false;
         if (window.articleImages && typeof window.articleImages.assignSeedId === 'function') {
             window.articleImages.assignSeedId(a);
@@ -110,14 +128,28 @@
     }
 
     function getSlugFromUrl() {
-        var params = new URLSearchParams(window.location.search || '');
-        return params.get('slug') || '';
+        return new URLSearchParams(window.location.search || '').get('slug') || '';
     }
 
-    function setUrlSlug(slug, replace) {
+    function getCategoryFromUrl() {
+        return new URLSearchParams(window.location.search || '').get('category') || '';
+    }
+
+    function setListUrl(category, replace) {
         var url = new URL(window.location.href);
-        if (slug) url.searchParams.set('slug', slug);
-        else url.searchParams.delete('slug');
+        url.searchParams.delete('slug');
+        if (category) url.searchParams.set('category', category);
+        else url.searchParams.delete('category');
+        url.hash = '';
+        var next = url.pathname + url.search;
+        if (replace) history.replaceState(null, '', next);
+        else history.pushState(null, '', next);
+    }
+
+    function setArticleUrl(slug, replace) {
+        var url = new URL(window.location.href);
+        url.searchParams.set('slug', slug);
+        url.searchParams.delete('category');
         url.hash = '';
         var next = url.pathname + url.search;
         if (replace) history.replaceState(null, '', next);
@@ -132,54 +164,101 @@
         });
     }
 
-    function createCard(article) {
+    function categoryOrder(list) {
+        var seen = {};
+        var order = [];
+        list.forEach(function (a) {
+            var cat = a.category || 'Guides';
+            if (!seen[cat]) {
+                seen[cat] = true;
+                order.push(cat);
+            }
+        });
+        return order.sort(function (a, b) { return a.localeCompare(b); });
+    }
+
+    function articlesInCategory(category) {
+        return visibleArticles().filter(function (a) {
+            return (a.category || 'Guides') === category;
+        });
+    }
+
+    function shortTitle(title) {
+        var t = String(title || '');
+        if (t.length <= 52) return t;
+        return t.slice(0, 49) + '…';
+    }
+
+    function updateHero(categoryFilter) {
+        if (!heroTitleEl || !heroSubtitleEl) return;
+        if (categoryFilter) {
+            heroTitleEl.textContent = categoryFilter;
+            heroSubtitleEl.textContent = CATEGORY_SUBTITLES[categoryFilter] || ('Articles in ' + categoryFilter + '.');
+        } else {
+            heroTitleEl.textContent = DEFAULT_HERO_TITLE;
+            heroSubtitleEl.textContent = DEFAULT_HERO_SUBTITLE;
+        }
+    }
+
+    function createHubCard(article) {
         var cover = coverUrl(article);
         var hasCover = !!cover;
-        var excerpt = article.excerpt || '';
-        if (excerpt.length > 110) excerpt = excerpt.slice(0, 107) + '…';
+        var card = document.createElement('article');
+        card.className = 'articles-hub-card' + (article.hidden ? ' product-hidden' : '');
+        card.setAttribute('data-slug', article.slug);
 
-        var imgHtml = hasCover
-            ? '<img class="plant-image" src="' + escapeHtml(cover) + '" alt="' + escapeHtml(article.title) + '" loading="lazy" decoding="async">'
-            : '<div class="image-placeholder article-cover-dropzone" data-slug="' + escapeHtml(article.slug) + '">' +
+        var mediaHtml = hasCover
+            ? '<img src="' + escapeHtml(cover) + '" alt="" loading="lazy" decoding="async">'
+            : '<div class="articles-hub-card-placeholder article-cover-dropzone" data-slug="' + escapeHtml(article.slug) + '">' +
                 '<span class="article-cover-drop-hint">Drop or click to add cover</span>' +
               '</div>';
 
-        var editHtml =
-            '<div class="card-icons plant-card-icons">' +
-                '<button type="button" class="card-edit-icon article-card-edit" data-slug="' + escapeHtml(article.slug) + '" title="Edit article" aria-label="Edit article">' + EDIT_SVG + '</button>' +
-            '</div>';
+        var editHtml = canEdit()
+            ? '<button type="button" class="articles-hub-card-edit article-card-edit" data-slug="' + escapeHtml(article.slug) + '" title="Edit article" aria-label="Edit article">' + EDIT_SVG + '</button>'
+            : '';
 
-        var badges = '<div class="plant-badges">' +
-            '<span class="badge">' + escapeHtml(article.category || 'Article') + '</span>' +
-            (article.readMinutes ? '<span class="badge badge-muted">' + escapeHtml(article.readMinutes) + ' min</span>' : '') +
-            (article.hidden ? '<span class="badge">Hidden</span>' : '') +
-            '</div>';
-
-        var card = document.createElement('div');
-        card.className = 'plant-card article-plant-card' + (article.hidden ? ' product-hidden' : '');
-        card.setAttribute('data-slug', article.slug);
         card.innerHTML =
-            '<div class="plant-image-container article-cover-wrap" data-slug="' + escapeHtml(article.slug) + '">' +
-                imgHtml +
+            '<div class="articles-hub-card-media article-cover-wrap" data-slug="' + escapeHtml(article.slug) + '">' +
+                mediaHtml +
                 editHtml +
             '</div>' +
-            '<div class="plant-info">' +
-                '<div class="plant-name">' + escapeHtml(article.title) + '</div>' +
-                '<div class="plant-scientific">' + escapeHtml(excerpt) + '</div>' +
-                '<div class="article-card-date-line">' + formatDate(article.publishedAt) + '</div>' +
-                badges +
-            '</div>';
+            '<a class="articles-hub-card-body" href="articles.html?slug=' + encodeURIComponent(article.slug) + '">' +
+                '<h2 class="articles-hub-card-title">' + escapeHtml(article.title) + '</h2>' +
+                '<span class="articles-hub-card-more">Read More <span aria-hidden="true">→</span></span>' +
+            '</a>';
+
         return card;
     }
 
-    function renderList() {
+    function renderCategoryGrid(category, items, container) {
+        var section = document.createElement('section');
+        section.className = 'articles-category-section';
+        section.setAttribute('data-category', category);
+
+        var headingHtml = '<div class="articles-category-head">' +
+            '<h2 class="articles-category-heading">' + escapeHtml(category) + '</h2>' +
+            '<a class="articles-category-viewall" href="articles.html?category=' + encodeURIComponent(category) + '">View all</a>' +
+            '</div>';
+
+        section.innerHTML = headingHtml + '<div class="articles-hub-grid"></div>';
+        var grid = section.querySelector('.articles-hub-grid');
+        items.forEach(function (article) {
+            grid.appendChild(createHubCard(article));
+        });
+        container.appendChild(section);
+    }
+
+    function renderList(categoryFilter) {
         if (!listEl) return;
         var list = visibleArticles();
+        setViewMode('list');
         if (listViewEl) listViewEl.classList.remove('hidden');
         if (detailEl) {
             detailEl.classList.add('hidden');
             detailEl.innerHTML = '';
         }
+        updateHero(categoryFilter);
+
         if (!list.length) {
             listEl.innerHTML = '';
             listEl.classList.add('hidden');
@@ -187,17 +266,57 @@
             if (countEl) countEl.textContent = 'No articles yet';
             return;
         }
+
         if (emptyEl) emptyEl.classList.add('hidden');
         listEl.classList.remove('hidden');
-        if (countEl) countEl.textContent = list.length + ' article' + (list.length === 1 ? '' : 's');
         listEl.innerHTML = '';
-        list.forEach(function (article) {
-            listEl.appendChild(createCard(article));
+
+        if (categoryFilter) {
+            var filtered = articlesInCategory(categoryFilter);
+            if (countEl) countEl.textContent = filtered.length + ' in ' + categoryFilter;
+            if (!filtered.length) {
+                listEl.innerHTML = '<p class="articles-category-empty">No articles in this category yet.</p>';
+                return;
+            }
+            var singleSection = document.createElement('section');
+            singleSection.className = 'articles-category-section articles-category-section--solo';
+            singleSection.innerHTML = '<div class="articles-hub-grid"></div>';
+            var soloGrid = singleSection.querySelector('.articles-hub-grid');
+            filtered.forEach(function (article) {
+                soloGrid.appendChild(createHubCard(article));
+            });
+            listEl.appendChild(singleSection);
+            return;
+        }
+
+        if (countEl) countEl.textContent = list.length + ' article' + (list.length === 1 ? '' : 's');
+        categoryOrder(list).forEach(function (category) {
+            renderCategoryGrid(category, articlesInCategory(category), listEl);
         });
+    }
+
+    function renderExplorerNav(article) {
+        var category = article.category || 'Guides';
+        var peers = articlesInCategory(category);
+        var items = peers.map(function (peer) {
+            var active = peer.slug === article.slug;
+            return '<a class="article-explorer-item' + (active ? ' is-active' : '') + '" href="articles.html?slug=' + encodeURIComponent(peer.slug) + '">' +
+                '<span class="article-explorer-item-label">' + escapeHtml(shortTitle(peer.title)) + '</span>' +
+                (active ? CHECK_SVG : '') +
+            '</a>';
+        }).join('');
+
+        return '<aside class="article-explorer" aria-label="Articles in ' + escapeHtml(category) + '">' +
+            '<a class="article-explorer-back" href="articles.html?category=' + encodeURIComponent(category) + '">' +
+                '<span aria-hidden="true">←</span> ' + escapeHtml(category.toUpperCase()) +
+            '</a>' +
+            '<nav class="article-explorer-nav">' + items + '</nav>' +
+        '</aside>';
     }
 
     function renderDetail(article) {
         if (!detailEl || !article) return;
+        setViewMode('detail');
         if (listViewEl) listViewEl.classList.add('hidden');
         detailEl.classList.remove('hidden');
         if (countEl) countEl.textContent = article.category || 'Article';
@@ -205,55 +324,67 @@
 
         var cover = coverUrl(article);
         var coverBlock = cover
-            ? '<div class="article-detail-cover"><img src="' + escapeHtml(cover) + '" alt=""></div>'
+            ? '<figure class="article-detail-hero-media"><img src="' + escapeHtml(cover) + '" alt=""></figure>'
             : '';
 
         var editLink = canEdit()
             ? '<a class="article-edit-link" href="article-edit.html?slug=' + encodeURIComponent(article.slug) + '">Edit article</a>'
             : '';
 
+        var metaBits = [
+            formatDate(article.publishedAt),
+            article.readMinutes ? escapeHtml(article.readMinutes) + ' min read' : ''
+        ].filter(Boolean).join(' · ');
+
         detailEl.innerHTML =
-            '<div class="article-detail-actions">' +
-                '<button type="button" class="article-back-btn" id="articleBackBtn">← All articles</button>' +
-                editLink +
-            '</div>' +
-            coverBlock +
-            '<div class="article-detail-header">' +
-                '<div class="article-card-meta">' +
-                    '<span class="article-card-category">' + escapeHtml(article.category || 'Article') + '</span>' +
-                    '<span class="article-card-date">' + formatDate(article.publishedAt) + '</span>' +
-                    (article.readMinutes ? '<span class="article-card-read">' + escapeHtml(article.readMinutes) + ' min read</span>' : '') +
+            '<div class="article-detail-layout">' +
+                renderExplorerNav(article) +
+                '<div class="article-detail-main">' +
+                    '<div class="article-detail-actions">' +
+                        '<button type="button" class="article-back-btn" id="articleBackBtn">← All articles</button>' +
+                        editLink +
+                    '</div>' +
+                    '<header class="article-detail-hero">' +
+                        '<div class="article-detail-hero-text">' +
+                            (metaBits ? '<p class="article-detail-meta">' + metaBits + '</p>' : '') +
+                            '<h1 class="article-detail-title">' + escapeHtml(article.title) + '</h1>' +
+                            (article.excerpt ? '<p class="article-detail-excerpt">' + escapeHtml(article.excerpt) + '</p>' : '') +
+                        '</div>' +
+                        coverBlock +
+                    '</header>' +
+                    '<div class="article-detail-body">' + sanitizeHtml(article.bodyHtml) + '</div>' +
                 '</div>' +
-                '<h1 class="article-detail-title">' + escapeHtml(article.title) + '</h1>' +
-                (article.excerpt ? '<p class="article-detail-excerpt">' + escapeHtml(article.excerpt) + '</p>' : '') +
-            '</div>' +
-            '<div class="article-detail-body">' + sanitizeHtml(article.bodyHtml) + '</div>';
+            '</div>';
 
         var backBtn = document.getElementById('articleBackBtn');
-        if (backBtn) backBtn.addEventListener('click', function () { showList(false); });
+        if (backBtn) {
+            backBtn.addEventListener('click', function () {
+                showList(article.category || '', false);
+            });
+        }
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function showList(replace) {
+    function showList(category, replace) {
         document.title = 'Articles – Plants & Terrariums | Vivarium Store';
-        setUrlSlug('', !!replace);
-        renderList();
+        setListUrl(category || '', !!replace);
+        renderList(category || '');
     }
 
     function showArticle(slug, replace) {
         var article = articles.find(function (a) { return a.slug === slug; });
         if (!article) {
-            showList(true);
+            showList(getCategoryFromUrl(), true);
             return;
         }
-        setUrlSlug(slug, !!replace);
+        setArticleUrl(slug, !!replace);
         renderDetail(article);
     }
 
     function routeFromUrl(replace) {
         var slug = getSlugFromUrl();
         if (slug) showArticle(slug, replace);
-        else showList(true);
+        else showList(getCategoryFromUrl(), replace);
     }
 
     function findArticle(slug) {
@@ -286,7 +417,9 @@
             return next;
         }).then(function (next) {
             updateLocalArticle(next);
-            renderList();
+            var slugNow = getSlugFromUrl();
+            if (slugNow) renderDetail(next);
+            else renderList(getCategoryFromUrl());
             return next;
         });
     }
@@ -310,44 +443,20 @@
         input.click();
     }
 
-    function bindListEvents() {
-        if (!listEl) return;
-        listEl.addEventListener('click', function (e) {
-            var editBtn = e.target.closest('.article-card-edit');
-            if (editBtn) {
-                e.preventDefault();
-                e.stopPropagation();
-                var slug = editBtn.getAttribute('data-slug');
-                if (slug) window.location.href = 'article-edit.html?slug=' + encodeURIComponent(slug);
-                return;
-            }
-            var dropzone = e.target.closest('.article-cover-dropzone');
-            if (dropzone && canEdit()) {
-                e.preventDefault();
-                e.stopPropagation();
-                var slugDrop = dropzone.getAttribute('data-slug') || dropzone.closest('[data-slug]') && dropzone.closest('[data-slug]').getAttribute('data-slug');
-                var art = slugDrop && findArticle(slugDrop);
-                if (art) pickCoverFile(art);
-                return;
-            }
-            var card = e.target.closest('.article-plant-card');
-            if (!card) return;
-            var slug2 = card.getAttribute('data-slug');
-            if (slug2) showArticle(slug2, false);
-        });
-
-        listEl.addEventListener('dragover', function (e) {
+    function bindCoverDropTarget(root) {
+        if (!root) return;
+        root.addEventListener('dragover', function (e) {
             if (!canEdit()) return;
             var zone = e.target.closest('.article-cover-wrap');
             if (!zone) return;
             e.preventDefault();
             zone.classList.add('article-cover-dragover');
         });
-        listEl.addEventListener('dragleave', function (e) {
+        root.addEventListener('dragleave', function (e) {
             var zone = e.target.closest('.article-cover-wrap');
             if (zone) zone.classList.remove('article-cover-dragover');
         });
-        listEl.addEventListener('drop', function (e) {
+        root.addEventListener('drop', function (e) {
             if (!canEdit()) return;
             var zone = e.target.closest('.article-cover-wrap');
             if (!zone) return;
@@ -366,6 +475,37 @@
                 zone.classList.remove('article-cover-uploading');
             });
         });
+    }
+
+    function bindListEvents() {
+        if (!listEl) return;
+        listEl.addEventListener('click', function (e) {
+            var editBtn = e.target.closest('.article-card-edit');
+            if (editBtn) {
+                e.preventDefault();
+                e.stopPropagation();
+                var slug = editBtn.getAttribute('data-slug');
+                if (slug) window.location.href = 'article-edit.html?slug=' + encodeURIComponent(slug);
+                return;
+            }
+            var dropzone = e.target.closest('.article-cover-dropzone');
+            if (dropzone && canEdit()) {
+                e.preventDefault();
+                e.stopPropagation();
+                var slugDrop = dropzone.getAttribute('data-slug') || (dropzone.closest('[data-slug]') && dropzone.closest('[data-slug]').getAttribute('data-slug'));
+                var art = slugDrop && findArticle(slugDrop);
+                if (art) pickCoverFile(art);
+                return;
+            }
+            var cardLink = e.target.closest('.articles-hub-card-body');
+            if (cardLink) {
+                e.preventDefault();
+                var href = cardLink.getAttribute('href') || '';
+                var match = href.match(/[?&]slug=([^&]+)/);
+                if (match) showArticle(decodeURIComponent(match[1]), false);
+            }
+        });
+        bindCoverDropTarget(listEl);
     }
 
     function loadFromJsonFallback() {
@@ -416,6 +556,17 @@
         }
 
         bindListEvents();
+        if (detailEl) {
+            detailEl.addEventListener('click', function (e) {
+                var navLink = e.target.closest('.article-explorer-item');
+                if (navLink) {
+                    e.preventDefault();
+                    var href = navLink.getAttribute('href') || '';
+                    var match = href.match(/[?&]slug=([^&]+)/);
+                    if (match) showArticle(decodeURIComponent(match[1]), false);
+                }
+            });
+        }
         window.addEventListener('popstate', function () { routeFromUrl(true); });
 
         loadArticles()
@@ -425,7 +576,7 @@
             })
             .catch(function () {
                 articles = [];
-                renderList();
+                renderList('');
                 if (countEl) countEl.textContent = 'Could not load articles';
             });
     });
