@@ -60,9 +60,9 @@
   "substrateType": "dry",
   "specialNeeds": "succulent",
   "temperatureRange": {
-    "min": 36,
-    "max": 60,
-    "ideal": 48
+    "min": 18,
+    "max": 30,
+    "ideal": 24
   },
   "difficultyRange": {
     "min": 0,

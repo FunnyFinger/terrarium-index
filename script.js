@@ -33,6 +33,10 @@ if (!filterUtils) {
 }
 const {
     NUMERIC_SCALES,
+    TEMPERATURE_SCALE,
+    celsiusToTempPercent,
+    tempPercentToCelsius,
+    normalizeTemperatureRangeToCelsius,
     mapPlantToInputs,
     plantBelongsToTaxonomy,
     createDefaultAdvancedFilters
@@ -2188,20 +2192,21 @@ function setupEventListeners() {
     const dualRangeSliders = [
         { minSlider: 'humidityMinSlider', maxSlider: 'humidityMaxSlider', min: 'humidityMin', max: 'humidityMax', minDisplay: 'humidityMinDisplay', maxDisplay: 'humidityMaxDisplay', maxValue: 100 },
         { minSlider: 'lightMinSlider', maxSlider: 'lightMaxSlider', min: 'lightMin', max: 'lightMax', minDisplay: 'lightMinDisplay', maxDisplay: 'lightMaxDisplay', maxValue: 100 },
-        { minSlider: 'tempMinSlider', maxSlider: 'tempMaxSlider', min: 'tempMin', max: 'tempMax', minDisplay: 'tempMinDisplay', maxDisplay: 'tempMaxDisplay', maxValue: 40 },
+        { minSlider: 'tempMinSlider', maxSlider: 'tempMaxSlider', min: 'tempMin', max: 'tempMax', minDisplay: 'tempMinDisplay', maxDisplay: 'tempMaxDisplay', minValue: -20, maxValue: 55 },
         { minSlider: 'airCirculationMinSlider', maxSlider: 'airCirculationMaxSlider', min: 'airCirculationMin', max: 'airCirculationMax', minDisplay: 'airCirculationMinDisplay', maxDisplay: 'airCirculationMaxDisplay', maxValue: 100 },
         { minSlider: 'waterNeedsMinSlider', maxSlider: 'waterNeedsMaxSlider', min: 'waterNeedsMin', max: 'waterNeedsMax', minDisplay: 'waterNeedsMinDisplay', maxDisplay: 'waterNeedsMaxDisplay', maxValue: 100 },
         { minSlider: 'difficultyMinSlider', maxSlider: 'difficultyMaxSlider', min: 'difficultyMin', max: 'difficultyMax', minDisplay: 'difficultyMinDisplay', maxDisplay: 'difficultyMaxDisplay', maxValue: 100 },
         { minSlider: 'growthRateMinSlider', maxSlider: 'growthRateMaxSlider', min: 'growthRateMin', max: 'growthRateMax', minDisplay: 'growthRateMinDisplay', maxDisplay: 'growthRateMaxDisplay', maxValue: 100 },
         { minSlider: 'soilPhMinSlider', maxSlider: 'soilPhMaxSlider', min: 'soilPhMin', max: 'soilPhMax', minDisplay: 'soilPhMinDisplay', maxDisplay: 'soilPhMaxDisplay', maxValue: 100 },
-        { minSlider: 'waterTempMinSlider', maxSlider: 'waterTempMaxSlider', min: 'waterTempMin', max: 'waterTempMax', minDisplay: 'waterTempMinDisplay', maxDisplay: 'waterTempMaxDisplay', maxValue: 40 },
+        { minSlider: 'waterTempMinSlider', maxSlider: 'waterTempMaxSlider', min: 'waterTempMin', max: 'waterTempMax', minDisplay: 'waterTempMinDisplay', maxDisplay: 'waterTempMaxDisplay', minValue: -20, maxValue: 55 },
         { minSlider: 'waterPhMinSlider', maxSlider: 'waterPhMaxSlider', min: 'waterPhMin', max: 'waterPhMax', minDisplay: 'waterPhMinDisplay', maxDisplay: 'waterPhMaxDisplay', maxValue: 100 },
         { minSlider: 'waterHardnessMinSlider', maxSlider: 'waterHardnessMaxSlider', min: 'waterHardnessMin', max: 'waterHardnessMax', minDisplay: 'waterHardnessMinDisplay', maxDisplay: 'waterHardnessMaxDisplay', maxValue: 100 },
         { minSlider: 'salinityMinSlider', maxSlider: 'salinityMaxSlider', min: 'salinityMin', max: 'salinityMax', minDisplay: 'salinityMinDisplay', maxDisplay: 'salinityMaxDisplay', maxValue: 100 },
         { minSlider: 'waterCirculationMinSlider', maxSlider: 'waterCirculationMaxSlider', min: 'waterCirculationMin', max: 'waterCirculationMax', minDisplay: 'waterCirculationMinDisplay', maxDisplay: 'waterCirculationMaxDisplay', maxValue: 100 }
     ];
     
-    dualRangeSliders.forEach(({ minSlider, maxSlider, min, max, minDisplay, maxDisplay, maxValue }) => {
+    dualRangeSliders.forEach(({ minSlider, maxSlider, min, max, minDisplay, maxDisplay, minValue, maxValue }) => {
+        const rangeMin = typeof minValue === 'number' ? minValue : 0;
         const minSliderEl = document.getElementById(minSlider);
         const maxSliderEl = document.getElementById(maxSlider);
         const minInput = document.getElementById(min);
@@ -2244,8 +2249,8 @@ function setupEventListeners() {
             
             // Sync number inputs to sliders
             minInput.addEventListener('input', (e) => {
-                const value = parseInt(e.target.value) || 0;
-                const clampedValue = Math.max(0, Math.min(maxValue, value));
+                const value = parseInt(e.target.value);
+                const clampedValue = Math.max(rangeMin, Math.min(maxValue, isNaN(value) ? rangeMin : value));
                 minSliderEl.value = clampedValue;
                 if (minDisplayEl) minDisplayEl.textContent = clampedValue;
                 
@@ -2259,8 +2264,8 @@ function setupEventListeners() {
             });
             
             maxInput.addEventListener('input', (e) => {
-                const value = parseInt(e.target.value) || maxValue;
-                const clampedValue = Math.max(0, Math.min(maxValue, value));
+                const value = parseInt(e.target.value);
+                const clampedValue = Math.max(rangeMin, Math.min(maxValue, isNaN(value) ? maxValue : value));
                 maxSliderEl.value = clampedValue;
                 if (maxDisplayEl) maxDisplayEl.textContent = clampedValue;
                 
@@ -2952,7 +2957,7 @@ function calculatePlantVivariumTypesUncached(plant) {
         if (!calculatePlantVivariumTypesUncached._types) {
         calculatePlantVivariumTypesUncached._types = {
             // Scales: humidity/light/air/waterNeeds = 0–100 site scale;
-            // temperature = °C/50*100 (e.g. 36–50 ≈ 18–25°C); soilPh = pH/14*100 (e.g. 46.4 ≈ 6.5).
+            // temperature / waterTemperature = °C (−20…55 UI scale); soilPh = pH/14*100 (e.g. 46.4 ≈ 6.5).
             'open-terrarium': { 
                 name: 'Open Terrarium', 
                 description: 'Imagine a glass container with its top partially open, creating a delicate balance between humidity and fresh air. This is the open terrarium, where tropical plants find their perfect home. The design allows gentle air currents to flow through while maintaining that essential high humidity that many plants crave. You\'ll find terrestrial plants and epiphytes thriving here, their leaves glistening with moisture yet breathing freely. Hardscape elements like driftwood, rocks, and porous walls provide mounting surfaces for epiphytic plants, creating vertical interest and maximizing space utilization. The partially open design prevents the stagnant air conditions that can lead to mold and fungal issues, while still providing the elevated moisture levels that tropical species require. This setup is particularly well-suited for plants that benefit from some air movement, such as those prone to rot in completely still environments. Since the open design allows humidity to escape more readily than closed systems, humidity levels can be restored or maintained through manual misting or automatic water spraying and fogging systems. The increased ventilation also makes open terrariums more forgiving for beginners, as they\'re less prone to overwatering issues and allow for easier adjustment of environmental conditions.',
@@ -2962,7 +2967,7 @@ function calculatePlantVivariumTypesUncached(plant) {
                 airCirculation: { min: 40, max: 75, ideal: 55 }, 
                 substrate: ['moist', 'wet', 'epiphytic'], 
                 waterNeeds: { min: 40, max: 85, ideal: 65 },
-                temperature: { min: 36, max: 50, ideal: 42 },
+                temperature: { min: 18, max: 25, ideal: 21 },
                 difficulty: { min: 30, max: 70, ideal: 50 },
                 soilPh: { min: 35.7, max: 57.1, ideal: 46.4 },
                 waterBody: false
@@ -2976,7 +2981,7 @@ function calculatePlantVivariumTypesUncached(plant) {
                 airCirculation: { min: 0, max: 30, ideal: 15 }, 
                 substrate: ['moist', 'wet', 'epiphytic'], 
                 waterNeeds: { min: 40, max: 90, ideal: 70 },
-                temperature: { min: 36, max: 50, ideal: 42 },
+                temperature: { min: 18, max: 25, ideal: 21 },
                 difficulty: { min: 20, max: 50, ideal: 35 },
                 soilPh: { min: 35.7, max: 57.1, ideal: 46.4 },
                 waterBody: false
@@ -2989,12 +2994,12 @@ function calculatePlantVivariumTypesUncached(plant) {
                 airCirculation: { min: 20, max: 60, ideal: 40 }, 
                 substrate: ['wet', 'aquatic', 'moist', 'epiphytic'], 
                 waterNeeds: { min: 50, max: 100, ideal: 80 },
-                temperature: { min: 36, max: 52, ideal: 44 },
+                temperature: { min: 18, max: 28, ideal: 22 },
                 difficulty: { min: 50, max: 90, ideal: 70 },
                 soilPh: { min: 35.7, max: 57.1, ideal: 46.4 },
                 waterBody: true,
                 waterCirculation: { min: 10, max: 40, ideal: 20 },
-                waterTemperature: { min: 40, max: 52, ideal: 46 },
+                waterTemperature: { min: 20, max: 28, ideal: 24 },
                 waterPh: { min: 42.9, max: 57.1, ideal: 50 },
                 waterHardness: { min: 0, max: 50, ideal: 25 },
                 salinity: { min: 0, max: 5, ideal: 0 }
@@ -3007,7 +3012,7 @@ function calculatePlantVivariumTypesUncached(plant) {
                 airCirculation: { min: 60, max: 100, ideal: 80 }, 
                 substrate: ['epiphytic'], 
                 waterNeeds: { min: 20, max: 60, ideal: 40 },
-                temperature: { min: 36, max: 52, ideal: 44 },
+                temperature: { min: 16, max: 28, ideal: 22 },
                 difficulty: { min: 50, max: 90, ideal: 70 },
                 soilPh: { min: 35.7, max: 57.1, ideal: 46.4 },
                 waterBody: false
@@ -3020,8 +3025,8 @@ function calculatePlantVivariumTypesUncached(plant) {
                 airCirculation: { min: 60, max: 100, ideal: 80 }, 
                 substrate: ['dry'], 
                 waterNeeds: { min: 0, max: 30, ideal: 15 },
-                // 20–35°C daytime; arid setups run warmer than tropical
-                temperature: { min: 40, max: 70, ideal: 55 },
+                // Warm arid days; can include scorching peaks
+                temperature: { min: 15, max: 45, ideal: 28 },
                 difficulty: { min: 30, max: 60, ideal: 45 },
                 soilPh: { min: 42.9, max: 64.3, ideal: 53.6 },
                 waterBody: false
@@ -3035,12 +3040,12 @@ function calculatePlantVivariumTypesUncached(plant) {
                 airCirculation: { min: 0, max: 20, ideal: 10 }, 
                 substrate: ['aquatic'], 
                 waterNeeds: { min: 80, max: 100, ideal: 90 },
-                temperature: { min: 36, max: 52, ideal: 44 },
+                temperature: { min: 18, max: 28, ideal: 24 },
                 difficulty: { min: 50, max: 90, ideal: 70 },
                 soilPh: { min: 35.7, max: 57.1, ideal: 46.4 },
                 waterBody: true,
                 waterCirculation: { min: 10, max: 90, ideal: 50 },
-                waterTemperature: { min: 40, max: 52, ideal: 46 },
+                waterTemperature: { min: 20, max: 28, ideal: 24 },
                 waterPh: { min: 42.9, max: 57.1, ideal: 50 },
                 waterHardness: { min: 0, max: 50, ideal: 25 },
                 salinity: { min: 0, max: 5, ideal: 0 }
@@ -3053,12 +3058,12 @@ function calculatePlantVivariumTypesUncached(plant) {
                 airCirculation: { min: 60, max: 100, ideal: 80 }, 
                 substrate: ['wet', 'aquatic', 'moist', 'epiphytic'], 
                 waterNeeds: { min: 60, max: 100, ideal: 80 },
-                temperature: { min: 36, max: 52, ideal: 44 },
+                temperature: { min: 16, max: 28, ideal: 22 },
                 difficulty: { min: 50, max: 90, ideal: 70 },
                 soilPh: { min: 35.7, max: 57.1, ideal: 46.4 },
                 waterBody: true,
                 waterCirculation: { min: 30, max: 80, ideal: 55 },
-                waterTemperature: { min: 40, max: 52, ideal: 46 },
+                waterTemperature: { min: 18, max: 26, ideal: 22 },
                 waterPh: { min: 42.9, max: 57.1, ideal: 50 },
                 waterHardness: { min: 0, max: 50, ideal: 25 },
                 salinity: { min: 0, max: 5, ideal: 0 }
@@ -3072,7 +3077,7 @@ function calculatePlantVivariumTypesUncached(plant) {
                 airCirculation: { min: 55, max: 100, ideal: 75 }, 
                 substrate: ['moist', 'dry'], 
                 waterNeeds: { min: 20, max: 60, ideal: 40 },
-                temperature: { min: 32, max: 52, ideal: 42 },
+                temperature: { min: 15, max: 28, ideal: 21 },
                 difficulty: { min: 20, max: 60, ideal: 40 },
                 growthRate: { min: 0, max: 100, ideal: 50 },
                 soilPh: { min: 35.7, max: 57.1, ideal: 46.4 },
@@ -3087,7 +3092,7 @@ function calculatePlantVivariumTypesUncached(plant) {
                 airCirculation: { min: 80, max: 100, ideal: 95 }, 
                 substrate: ['moist', 'dry', 'wet'], 
                 waterNeeds: { min: 10, max: 75, ideal: 40 },
-                temperature: { min: 20, max: 80, ideal: 50 },
+                temperature: { min: -15, max: 45, ideal: 20 },
                 difficulty: { min: 20, max: 60, ideal: 40 },
                 soilPh: { min: 28.6, max: 64.3, ideal: 46.4 },
                 waterBody: false
@@ -3652,29 +3657,29 @@ function resetAllFilters() {
     
     // Reset dual range sliders and displays
     const dualRangeSliders = [
-        { minSlider: 'humidityMinSlider', maxSlider: 'humidityMaxSlider', minDisplay: 'humidityMinDisplay', maxDisplay: 'humidityMaxDisplay', maxValue: 100 },
-        { minSlider: 'lightMinSlider', maxSlider: 'lightMaxSlider', minDisplay: 'lightMinDisplay', maxDisplay: 'lightMaxDisplay', maxValue: 100 },
-        { minSlider: 'tempMinSlider', maxSlider: 'tempMaxSlider', minDisplay: 'tempMinDisplay', maxDisplay: 'tempMaxDisplay', maxValue: 40 },
-        { minSlider: 'airCirculationMinSlider', maxSlider: 'airCirculationMaxSlider', minDisplay: 'airCirculationMinDisplay', maxDisplay: 'airCirculationMaxDisplay', maxValue: 100 },
-        { minSlider: 'waterNeedsMinSlider', maxSlider: 'waterNeedsMaxSlider', minDisplay: 'waterNeedsMinDisplay', maxDisplay: 'waterNeedsMaxDisplay', maxValue: 100 },
-        { minSlider: 'difficultyMinSlider', maxSlider: 'difficultyMaxSlider', minDisplay: 'difficultyMinDisplay', maxDisplay: 'difficultyMaxDisplay', maxValue: 100 },
-        { minSlider: 'growthRateMinSlider', maxSlider: 'growthRateMaxSlider', minDisplay: 'growthRateMinDisplay', maxDisplay: 'growthRateMaxDisplay', maxValue: 100 },
-        { minSlider: 'soilPhMinSlider', maxSlider: 'soilPhMaxSlider', minDisplay: 'soilPhMinDisplay', maxDisplay: 'soilPhMaxDisplay', maxValue: 100 },
-        { minSlider: 'waterTempMinSlider', maxSlider: 'waterTempMaxSlider', minDisplay: 'waterTempMinDisplay', maxDisplay: 'waterTempMaxDisplay', maxValue: 40 },
-        { minSlider: 'waterPhMinSlider', maxSlider: 'waterPhMaxSlider', minDisplay: 'waterPhMinDisplay', maxDisplay: 'waterPhMaxDisplay', maxValue: 100 },
-        { minSlider: 'waterHardnessMinSlider', maxSlider: 'waterHardnessMaxSlider', minDisplay: 'waterHardnessMinDisplay', maxDisplay: 'waterHardnessMaxDisplay', maxValue: 100 },
-        { minSlider: 'salinityMinSlider', maxSlider: 'salinityMaxSlider', minDisplay: 'salinityMinDisplay', maxDisplay: 'salinityMaxDisplay', maxValue: 100 },
-        { minSlider: 'waterCirculationMinSlider', maxSlider: 'waterCirculationMaxSlider', minDisplay: 'waterCirculationMinDisplay', maxDisplay: 'waterCirculationMaxDisplay', maxValue: 100 }
+        { minSlider: 'humidityMinSlider', maxSlider: 'humidityMaxSlider', minDisplay: 'humidityMinDisplay', maxDisplay: 'humidityMaxDisplay', minValue: 0, maxValue: 100 },
+        { minSlider: 'lightMinSlider', maxSlider: 'lightMaxSlider', minDisplay: 'lightMinDisplay', maxDisplay: 'lightMaxDisplay', minValue: 0, maxValue: 100 },
+        { minSlider: 'tempMinSlider', maxSlider: 'tempMaxSlider', minDisplay: 'tempMinDisplay', maxDisplay: 'tempMaxDisplay', minValue: -20, maxValue: 55 },
+        { minSlider: 'airCirculationMinSlider', maxSlider: 'airCirculationMaxSlider', minDisplay: 'airCirculationMinDisplay', maxDisplay: 'airCirculationMaxDisplay', minValue: 0, maxValue: 100 },
+        { minSlider: 'waterNeedsMinSlider', maxSlider: 'waterNeedsMaxSlider', minDisplay: 'waterNeedsMinDisplay', maxDisplay: 'waterNeedsMaxDisplay', minValue: 0, maxValue: 100 },
+        { minSlider: 'difficultyMinSlider', maxSlider: 'difficultyMaxSlider', minDisplay: 'difficultyMinDisplay', maxDisplay: 'difficultyMaxDisplay', minValue: 0, maxValue: 100 },
+        { minSlider: 'growthRateMinSlider', maxSlider: 'growthRateMaxSlider', minDisplay: 'growthRateMinDisplay', maxDisplay: 'growthRateMaxDisplay', minValue: 0, maxValue: 100 },
+        { minSlider: 'soilPhMinSlider', maxSlider: 'soilPhMaxSlider', minDisplay: 'soilPhMinDisplay', maxDisplay: 'soilPhMaxDisplay', minValue: 0, maxValue: 100 },
+        { minSlider: 'waterTempMinSlider', maxSlider: 'waterTempMaxSlider', minDisplay: 'waterTempMinDisplay', maxDisplay: 'waterTempMaxDisplay', minValue: -20, maxValue: 55 },
+        { minSlider: 'waterPhMinSlider', maxSlider: 'waterPhMaxSlider', minDisplay: 'waterPhMinDisplay', maxDisplay: 'waterPhMaxDisplay', minValue: 0, maxValue: 100 },
+        { minSlider: 'waterHardnessMinSlider', maxSlider: 'waterHardnessMaxSlider', minDisplay: 'waterHardnessMinDisplay', maxDisplay: 'waterHardnessMaxDisplay', minValue: 0, maxValue: 100 },
+        { minSlider: 'salinityMinSlider', maxSlider: 'salinityMaxSlider', minDisplay: 'salinityMinDisplay', maxDisplay: 'salinityMaxDisplay', minValue: 0, maxValue: 100 },
+        { minSlider: 'waterCirculationMinSlider', maxSlider: 'waterCirculationMaxSlider', minDisplay: 'waterCirculationMinDisplay', maxDisplay: 'waterCirculationMaxDisplay', minValue: 0, maxValue: 100 }
     ];
-    dualRangeSliders.forEach(({ minSlider, maxSlider, minDisplay, maxDisplay, maxValue }) => {
+    dualRangeSliders.forEach(({ minSlider, maxSlider, minDisplay, maxDisplay, minValue, maxValue }) => {
         const minSliderEl = document.getElementById(minSlider);
         const maxSliderEl = document.getElementById(maxSlider);
         const minDisplayEl = document.getElementById(minDisplay);
         const maxDisplayEl = document.getElementById(maxDisplay);
-        if (minSliderEl) minSliderEl.value = '0';
-        if (maxSliderEl) maxSliderEl.value = maxValue.toString();
-        if (minDisplayEl) minDisplayEl.textContent = '0';
-        if (maxDisplayEl) maxDisplayEl.textContent = maxValue.toString();
+        if (minSliderEl) minSliderEl.value = String(minValue);
+        if (maxSliderEl) maxSliderEl.value = String(maxValue);
+        if (minDisplayEl) minDisplayEl.textContent = String(minValue);
+        if (maxDisplayEl) maxDisplayEl.textContent = String(maxValue);
     });
     
     // Reset classification search
@@ -3843,12 +3848,13 @@ function applyAllFilters() {
             }
         }
         
-        // Temperature filter (numeric range)
+        // Temperature filter (numeric range, °C)
         if (advancedFilters.temperature.min !== null || advancedFilters.temperature.max !== null) {
             const plantTemp = inputs.temperatureRange || plant.temperatureRange;
             if (plantTemp) {
-                const plantMin = plantTemp.min;
-                const plantMax = plantTemp.max;
+                const coerced = normalizeTemperatureRangeToCelsius(plantTemp) || plantTemp;
+                const plantMin = coerced.min;
+                const plantMax = coerced.max;
                 
                 if (advancedFilters.temperature.min !== null && plantMax < advancedFilters.temperature.min) {
                     return false;
@@ -3859,10 +3865,10 @@ function applyAllFilters() {
             } else {
                 // Fallback to text parsing if numeric range not available
             if (!plant.temperature) return false;
-            const tempMatch = plant.temperature.match(/(\d+)-(\d+)°C/);
+            const tempMatch = plant.temperature.match(/(-?\d+)\s*[-–]\s*(-?\d+)\s*°C/);
             if (tempMatch) {
-                const plantMinTemp = parseInt(tempMatch[1]);
-                const plantMaxTemp = parseInt(tempMatch[2]);
+                const plantMinTemp = parseInt(tempMatch[1], 10);
+                const plantMaxTemp = parseInt(tempMatch[2], 10);
                 
                 if (advancedFilters.temperature.min !== null && plantMaxTemp < advancedFilters.temperature.min) {
                     return false;
@@ -3951,27 +3957,18 @@ function applyAllFilters() {
             }
         }
         
-        // Water Temperature filter (numeric range) - for aquatic plants
-        // Convert filter input from °C (0-40) to percentage (0-100%) for comparison
-        // Scale: 0°C = 0%, 40°C = 100%
+        // Water Temperature filter (numeric range, °C) - for aquatic plants
         if (advancedFilters.waterTemperature.min !== null || advancedFilters.waterTemperature.max !== null) {
             const plantWaterTemp = inputs.waterTemperatureRange || plant.waterTemperatureRange;
             if (!plantWaterTemp) return false;
-            const plantMin = plantWaterTemp.min;
-            const plantMax = plantWaterTemp.max;
+            const coerced = normalizeTemperatureRangeToCelsius(plantWaterTemp) || plantWaterTemp;
+            const plantMin = coerced.min;
+            const plantMax = coerced.max;
             
-            // Convert filter values from °C to percentage
-            const filterMinPercent = advancedFilters.waterTemperature.min !== null 
-                ? (advancedFilters.waterTemperature.min / 40) * 100 
-                : null;
-            const filterMaxPercent = advancedFilters.waterTemperature.max !== null 
-                ? (advancedFilters.waterTemperature.max / 40) * 100 
-                : null;
-            
-            if (filterMinPercent !== null && plantMax < filterMinPercent) {
+            if (advancedFilters.waterTemperature.min !== null && plantMax < advancedFilters.waterTemperature.min) {
                 return false;
             }
-            if (filterMaxPercent !== null && plantMin > filterMaxPercent) {
+            if (advancedFilters.waterTemperature.max !== null && plantMin > advancedFilters.waterTemperature.max) {
                 return false;
             }
         }
@@ -7519,10 +7516,10 @@ async function showPlantModal(plant) {
         const max = Number(range.max);
         const ideal = range.ideal !== undefined ? Number(range.ideal) : (min + max) / 2;
         
-        // Global scale: 0–100 for percentage-based; positions are % of this fixed scale
-        const minPct = Math.max(0, Math.min(100, min));
-        const maxPct = Math.max(0, Math.min(100, max));
-        const idealPct = Math.max(0, Math.min(100, ideal));
+        // Global scale: 0–100 for percentage-based; temperature uses °C mapped onto −20…55
+        let minPct = Math.max(0, Math.min(100, min));
+        let maxPct = Math.max(0, Math.min(100, max));
+        let idealPct = Math.max(0, Math.min(100, ideal));
         
         let tickMarks = '';
         for (let i = 0; i <= 100; i += 10) {
@@ -7534,10 +7531,13 @@ async function showPlantModal(plant) {
         let rightLabel = '100%';
         let idealLabel = '';
         
-        if (label === 'Temperature') {
-            leftLabel = '0°C';
-            rightLabel = '50°C';
-            idealLabel = ((ideal / 100) * 50).toFixed(0) + '°C';
+        if (label === 'Temperature' || label === 'Water Temperature') {
+            leftLabel = '-20°C';
+            rightLabel = '55°C';
+            idealLabel = ideal.toFixed(0) + '°C';
+            minPct = Math.max(0, Math.min(100, celsiusToTempPercent(min)));
+            maxPct = Math.max(0, Math.min(100, celsiusToTempPercent(max)));
+            idealPct = Math.max(0, Math.min(100, celsiusToTempPercent(ideal)));
         } else if (label === 'Difficulty Level') {
             leftLabel = 'Easy';
             rightLabel = 'Hard';
@@ -7550,10 +7550,6 @@ async function showPlantModal(plant) {
             leftLabel = 'Still';
             rightLabel = 'Strong Current';
             idealLabel = ideal.toFixed(0) + '%';
-        } else if (label === 'Water Temperature') {
-            leftLabel = '0°C';
-            rightLabel = '50°C';
-            idealLabel = ((ideal / 100) * 50).toFixed(0) + '°C';
         } else if (label === 'Water Hardness') {
             leftLabel = '0 dGH';
             rightLabel = '30 dGH';
@@ -10242,9 +10238,13 @@ function generateCareCard(plantId) {
             return '';
         }
         
-        const min = range.min;
-        const max = range.max;
-        const ideal = range.ideal !== undefined ? range.ideal : (min + max) / 2;
+        const minRaw = Number(range.min);
+        const maxRaw = Number(range.max);
+        const idealRaw = range.ideal !== undefined ? Number(range.ideal) : (minRaw + maxRaw) / 2;
+        const isTempScale = (label === 'Temperature' || label === 'Water Temperature');
+        const min = isTempScale ? Math.max(0, Math.min(100, celsiusToTempPercent(minRaw))) : minRaw;
+        const max = isTempScale ? Math.max(0, Math.min(100, celsiusToTempPercent(maxRaw))) : maxRaw;
+        const ideal = isTempScale ? Math.max(0, Math.min(100, celsiusToTempPercent(idealRaw))) : idealRaw;
         
         // Generate tick marks every 10%
         let tickMarks = '';
@@ -10257,11 +10257,10 @@ function generateCareCard(plantId) {
         let rightLabel = '100%';
         let idealLabel = '';
         
-        if (label === 'Temperature') {
-            leftLabel = '0°C';
-            rightLabel = '50°C';
-            const idealTemp = (ideal / 100) * 50;
-            idealLabel = idealTemp.toFixed(0) + '°C';
+        if (label === 'Temperature' || label === 'Water Temperature') {
+            leftLabel = '-20°C';
+            rightLabel = '55°C';
+            idealLabel = idealRaw.toFixed(0) + '°C';
         } else if (label === 'Difficulty Level') {
             leftLabel = 'Easy';
             rightLabel = 'Hard';
@@ -10275,11 +10274,6 @@ function generateCareCard(plantId) {
             leftLabel = 'Still';
             rightLabel = 'Strong Current';
             idealLabel = ideal.toFixed(0) + '%';
-        } else if (label === 'Water Temperature') {
-            leftLabel = '0°C';
-            rightLabel = '50°C';
-            const idealTemp = (ideal / 100) * 50;
-            idealLabel = idealTemp.toFixed(0) + '°C';
         } else if (label === 'Water Hardness') {
             leftLabel = '0 dGH';
             rightLabel = '30 dGH';

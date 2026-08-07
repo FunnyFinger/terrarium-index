@@ -93,7 +93,7 @@ const defaultRanges = {
   lightRange: { min: 60, max: 80, ideal: 70 },
   airCirculationRange: { min: 10, max: 50, ideal: 30 },
   waterNeedsRange: { min: 40, max: 60, ideal: 50 },
-  temperatureRange: { min: 36, max: 48, ideal: 42 },
+  temperatureRange: { min: 18, max: 24, ideal: 21 },
   difficultyRange: { min: 20, max: 60, ideal: 40 },
   soilPhRange: { min: 42.9, max: 50, ideal: 46.4 },
   growthRateRange: { min: 40, max: 60, ideal: 50 },

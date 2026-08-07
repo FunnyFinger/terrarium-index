@@ -2,8 +2,19 @@
   "name": "Tricolor Strawberry Begonia",
   "scientificName": "Saxifraga stolonifera 'Tricolor'",
   "isCultivar": true,
-  "commonNames": ["Tricolor Strawberry Begonia", "Variegated Strawberry Begonia", "Tricolor Strawberry Geranium", "Creeping Saxifrage"],
-  "category": ["tropical", "leafy", "mini", "creeper", "colorful"],
+  "commonNames": [
+    "Tricolor Strawberry Begonia",
+    "Variegated Strawberry Begonia",
+    "Tricolor Strawberry Geranium",
+    "Creeping Saxifrage"
+  ],
+  "category": [
+    "tropical",
+    "leafy",
+    "mini",
+    "creeper",
+    "colorful"
+  ],
   "substrate": "Well Draining",
   "size": "10–45 cm",
   "growthRate": "Fast",
@@ -34,16 +45,48 @@
   "floweringPeriod": "seasonal",
   "propagation": "Stolon Plantlets, Division",
   "colors": "Green, Cream, Pink, White",
-  "humidityRange": { "min": 40, "max": 65, "ideal": 52 },
-  "lightRange": { "min": 55, "max": 85, "ideal": 70 },
-  "airCirculationRange": { "min": 30, "max": 60, "ideal": 45 },
-  "waterNeedsRange": { "min": 40, "max": 65, "ideal": 52 },
+  "humidityRange": {
+    "min": 40,
+    "max": 65,
+    "ideal": 52
+  },
+  "lightRange": {
+    "min": 55,
+    "max": 85,
+    "ideal": 70
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 65,
+    "ideal": 52
+  },
   "substrateType": "moist",
   "specialNeeds": "none",
-  "temperatureRange": { "min": 35, "max": 50, "ideal": 42 },
-  "difficultyRange": { "min": 20, "max": 45, "ideal": 32 },
-  "soilPhRange": { "min": 35.7, "max": 57, "ideal": 46.4 },
-  "growthRateRange": { "min": 50, "max": 75, "ideal": 62 },
+  "temperatureRange": {
+    "min": 17.5,
+    "max": 25,
+    "ideal": 21
+  },
+  "difficultyRange": {
+    "min": 20,
+    "max": 45,
+    "ideal": 32
+  },
+  "soilPhRange": {
+    "min": 35.7,
+    "max": 57,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 50,
+    "max": 75,
+    "ideal": 62
+  },
   "carnivorous": false,
   "geographicOrigin": "East Asia (China, Japan, Korea) — cultivar of horticultural origin"
 }

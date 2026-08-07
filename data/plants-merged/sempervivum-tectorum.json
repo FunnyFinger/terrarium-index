@@ -65,8 +65,8 @@
   "specialNeeds": "none",
   "temperatureRange": {
     "min": 0,
-    "max": 52,
-    "ideal": 46
+    "max": 26,
+    "ideal": 23
   },
   "difficultyRange": {
     "min": 20,

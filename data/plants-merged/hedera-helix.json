@@ -65,9 +65,9 @@
   "substrateType": "moist",
   "specialNeeds": "Regular pruning required to maintain size",
   "temperatureRange": {
-    "min": 32,
-    "max": 50,
-    "ideal": 42
+    "min": 16,
+    "max": 25,
+    "ideal": 21
   },
   "difficultyRange": {
     "min": 30,

@@ -64,9 +64,9 @@
   "substrateType": "dry",
   "specialNeeds": "Handle with care - glochids can cause skin irritation",
   "temperatureRange": {
-    "min": 28,
-    "max": 56,
-    "ideal": 48
+    "min": 14,
+    "max": 28,
+    "ideal": 24
   },
   "difficultyRange": {
     "min": 30,

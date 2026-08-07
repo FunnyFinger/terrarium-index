@@ -72,9 +72,9 @@
     "ideal": 20
   },
   "temperatureRange": {
-    "min": 40,
-    "max": 56.00000000000001,
-    "ideal": 48
+    "min": 20,
+    "max": 28,
+    "ideal": 24
   },
   "difficultyRange": {
     "min": 0,
@@ -87,9 +87,9 @@
     "ideal": 46.4
   },
   "waterTemperatureRange": {
-    "min": 40,
-    "max": 56.00000000000001,
-    "ideal": 48
+    "min": 20,
+    "max": 28,
+    "ideal": 24
   },
   "waterPhRange": {
     "min": 42.857142857142854,

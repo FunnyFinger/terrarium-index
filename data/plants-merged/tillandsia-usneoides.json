@@ -74,9 +74,9 @@
   "substrateType": "epiphytic",
   "specialNeeds": "epiphytic",
   "temperatureRange": {
-    "min": 20,
-    "max": 70,
-    "ideal": 45
+    "min": 10,
+    "max": 35,
+    "ideal": 22.5
   },
   "difficultyRange": {
     "min": 40,

@@ -66,9 +66,9 @@
   "substrateType": "epiphytic",
   "specialNeeds": "orchid",
   "temperatureRange": {
-    "min": 20,
-    "max": 48,
-    "ideal": 34
+    "min": 10,
+    "max": 24,
+    "ideal": 17
   },
   "difficultyRange": {
     "min": 70,

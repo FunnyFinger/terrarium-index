@@ -1,8 +1,15 @@
 {
   "name": "Hedgehog Agave",
   "scientificName": "Agave stricta",
-  "commonNames": ["Hedgehog Agave", "Hedgehog Century Plant"],
-  "category": ["succulent", "xeric", "tropical"],
+  "commonNames": [
+    "Hedgehog Agave",
+    "Hedgehog Century Plant"
+  ],
+  "category": [
+    "succulent",
+    "xeric",
+    "tropical"
+  ],
   "substrate": "Well Draining",
   "size": "30–50 cm",
   "growthRate": "Slow",
@@ -33,16 +40,48 @@
   "floweringPeriod": "rarely-in-cultivation",
   "propagation": "Offsets, Stem Cuttings",
   "colors": "Green",
-  "humidityRange": { "min": 15, "max": 50, "ideal": 30 },
-  "lightRange": { "min": 75, "max": 100, "ideal": 90 },
-  "airCirculationRange": { "min": 40, "max": 80, "ideal": 60 },
-  "waterNeedsRange": { "min": 5, "max": 25, "ideal": 15 },
+  "humidityRange": {
+    "min": 15,
+    "max": 50,
+    "ideal": 30
+  },
+  "lightRange": {
+    "min": 75,
+    "max": 100,
+    "ideal": 90
+  },
+  "airCirculationRange": {
+    "min": 40,
+    "max": 80,
+    "ideal": 60
+  },
+  "waterNeedsRange": {
+    "min": 5,
+    "max": 25,
+    "ideal": 15
+  },
   "substrateType": "dry",
   "specialNeeds": "none",
-  "temperatureRange": { "min": 38, "max": 52, "ideal": 45 },
-  "difficultyRange": { "min": 15, "max": 45, "ideal": 30 },
-  "soilPhRange": { "min": 50, "max": 85, "ideal": 65 },
-  "growthRateRange": { "min": 5, "max": 25, "ideal": 15 },
+  "temperatureRange": {
+    "min": 19,
+    "max": 26,
+    "ideal": 22.5
+  },
+  "difficultyRange": {
+    "min": 15,
+    "max": 45,
+    "ideal": 30
+  },
+  "soilPhRange": {
+    "min": 50,
+    "max": 85,
+    "ideal": 65
+  },
+  "growthRateRange": {
+    "min": 5,
+    "max": 25,
+    "ideal": 15
+  },
   "carnivorous": false,
   "geographicOrigin": "Mexico"
 }

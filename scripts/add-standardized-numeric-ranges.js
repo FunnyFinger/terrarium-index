@@ -230,31 +230,28 @@ function calculateStandardizedRanges(plant) {
         ranges.specialNeeds = 'none';
     }
     
-    // Temperature mapping - convert to numeric range (0-50°C normalized to 0-100%)
+    // Temperature mapping — store °C (−20…55 UI scale)
     const temperatureStr = plant.temperature || '';
-    const tempRangeMatch = temperatureStr.match(/(\d+)\s*[-–]\s*(\d+)\s*°?C/i);
+    const tempRangeMatch = temperatureStr.match(/(-?\d+)\s*[-–]\s*(-?\d+)\s*°?C/i);
     if (tempRangeMatch) {
-        const minTemp = parseInt(tempRangeMatch[1]);
-        const maxTemp = parseInt(tempRangeMatch[2]);
-        const minPercent = Math.max(0, Math.min(100, (minTemp / 50) * 100));
-        const maxPercent = Math.max(0, Math.min(100, (maxTemp / 50) * 100));
+        const minTemp = parseInt(tempRangeMatch[1], 10);
+        const maxTemp = parseInt(tempRangeMatch[2], 10);
         ranges.temperatureRange = {
-            min: minPercent,
-            max: maxPercent,
-            ideal: (minPercent + maxPercent) / 2
+            min: minTemp,
+            max: maxTemp,
+            ideal: (minTemp + maxTemp) / 2
         };
     } else {
-        const singleTempMatch = temperatureStr.match(/(\d+)\s*°?C/i);
+        const singleTempMatch = temperatureStr.match(/(-?\d+)\s*°?C/i);
         if (singleTempMatch) {
-            const temp = parseInt(singleTempMatch[1]);
-            const tempPercent = Math.max(0, Math.min(100, (temp / 50) * 100));
+            const temp = parseInt(singleTempMatch[1], 10);
             ranges.temperatureRange = {
-                min: Math.max(0, tempPercent - 5),
-                max: Math.min(100, tempPercent + 5),
-                ideal: tempPercent
+                min: temp - 2,
+                max: temp + 2,
+                ideal: temp
             };
         } else {
-            ranges.temperatureRange = { min: 40, max: 50, ideal: 45 }; // Default: 20-25°C
+            ranges.temperatureRange = { min: 18, max: 25, ideal: 21 };
         }
     }
     

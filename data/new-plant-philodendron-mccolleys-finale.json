@@ -8,7 +8,12 @@
   ],
   "isCultivar": true,
   "isHybrid": true,
-  "category": ["tropical", "leafy", "philodendron", "aroid"],
+  "category": [
+    "tropical",
+    "leafy",
+    "philodendron",
+    "aroid"
+  ],
   "substrate": "Well Draining",
   "size": "45-90 cm",
   "growthRate": "Moderate to Fast",
@@ -39,16 +44,48 @@
   "floweringPeriod": "does-not-flower-in-cultivation",
   "propagation": "Stem Cuttings, Division, Tissue Culture",
   "colors": "Red, Orange, Copper, Bronze, Green",
-  "humidityRange": { "min": 45, "max": 75, "ideal": 60 },
-  "lightRange": { "min": 50, "max": 80, "ideal": 65 },
-  "airCirculationRange": { "min": 20, "max": 55, "ideal": 35 },
-  "waterNeedsRange": { "min": 40, "max": 65, "ideal": 52 },
+  "humidityRange": {
+    "min": 45,
+    "max": 75,
+    "ideal": 60
+  },
+  "lightRange": {
+    "min": 50,
+    "max": 80,
+    "ideal": 65
+  },
+  "airCirculationRange": {
+    "min": 20,
+    "max": 55,
+    "ideal": 35
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 65,
+    "ideal": 52
+  },
   "substrateType": "dry",
   "specialNeeds": "none",
-  "temperatureRange": { "min": 36, "max": 50, "ideal": 43 },
-  "difficultyRange": { "min": 15, "max": 45, "ideal": 30 },
-  "soilPhRange": { "min": 40, "max": 55, "ideal": 47 },
-  "growthRateRange": { "min": 45, "max": 70, "ideal": 55 },
+  "temperatureRange": {
+    "min": 18,
+    "max": 25,
+    "ideal": 21.5
+  },
+  "difficultyRange": {
+    "min": 15,
+    "max": 45,
+    "ideal": 30
+  },
+  "soilPhRange": {
+    "min": 40,
+    "max": 55,
+    "ideal": 47
+  },
+  "growthRateRange": {
+    "min": 45,
+    "max": 70,
+    "ideal": 55
+  },
   "carnivorous": false,
   "geographicOrigin": "Horticultural hybrid (Orlando, Florida breeding programme)"
 }

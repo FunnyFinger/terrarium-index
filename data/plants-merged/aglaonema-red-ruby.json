@@ -2,8 +2,15 @@
   "id": 410,
   "name": "Red Ruby Aglaonema Variety (Chinese Evergreen)",
   "scientificName": "Aglaonema 'Red Ruby'",
-  "commonNames": ["Chinese Evergreen", "Red Ruby Chinese Evergreen"],
-  "category": ["aglaonema", "leafy", "tropical"],
+  "commonNames": [
+    "Chinese Evergreen",
+    "Red Ruby Chinese Evergreen"
+  ],
+  "category": [
+    "aglaonema",
+    "leafy",
+    "tropical"
+  ],
   "substrate": "Well Draining",
   "size": "25-50 cm",
   "growthRate": "Moderate",
@@ -32,22 +39,74 @@
   "floweringPeriod": "does-not-flower-in-cultivation",
   "propagation": "Stem Cuttings, Division",
   "colors": "Green, Pink, Red, Variegated",
-  "humidityRange": { "min": 50, "max": 80, "ideal": 65 },
-  "lightRange": { "min": 40, "max": 80, "ideal": 60 },
-  "airCirculationRange": { "min": 20, "max": 50, "ideal": 35 },
-  "waterNeedsRange": { "min": 40, "max": 60, "ideal": 50 },
+  "humidityRange": {
+    "min": 50,
+    "max": 80,
+    "ideal": 65
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 80,
+    "ideal": 60
+  },
+  "airCirculationRange": {
+    "min": 20,
+    "max": 50,
+    "ideal": 35
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
   "substrateType": "dry",
   "specialNeeds": "none",
-  "temperatureRange": { "min": 36, "max": 48, "ideal": 42 },
-  "difficultyRange": { "min": 10, "max": 40, "ideal": 25 },
-  "soilPhRange": { "min": 42.9, "max": 50, "ideal": 46.4 },
-  "growthRateRange": { "min": 40, "max": 60, "ideal": 50 },
+  "temperatureRange": {
+    "min": 18,
+    "max": 24,
+    "ideal": 21
+  },
+  "difficultyRange": {
+    "min": 10,
+    "max": 40,
+    "ideal": 25
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
   "carnivorous": false,
-  "waterCirculationRange": { "min": null, "max": null, "ideal": null },
-  "waterTemperatureRange": { "min": null, "max": null, "ideal": null },
-  "waterPhRange": { "min": null, "max": null, "ideal": null },
-  "waterHardnessRange": { "min": null, "max": null, "ideal": null },
-  "salinityRange": { "min": null, "max": null, "ideal": null },
+  "waterCirculationRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "waterTemperatureRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "waterPhRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "waterHardnessRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
+  "salinityRange": {
+    "min": null,
+    "max": null,
+    "ideal": null
+  },
   "geographicOrigin": "Tropical Asia",
   "additionalInfo": null,
   "images": [

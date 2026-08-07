@@ -459,18 +459,18 @@
                     <div class="filter-group">
                         <label class="filter-group-label">Temperature (°C)</label>
                         <div class="range-input-group">
-                            <input type="number" id="tempMin" class="range-input" placeholder="Min" min="0" max="40" step="1">
+                            <input type="number" id="tempMin" class="range-input" placeholder="Min" min="-20" max="55" step="1">
                             <span>to</span>
-                            <input type="number" id="tempMax" class="range-input" placeholder="Max" min="0" max="40" step="1">
+                            <input type="number" id="tempMax" class="range-input" placeholder="Max" min="-20" max="55" step="1">
                         </div>
                         <div class="dual-range-slider-group">
                             <div class="dual-range-container">
-                                <input type="range" id="tempMinSlider" class="range-slider range-slider-min" min="0" max="40" step="1" value="0">
-                                <input type="range" id="tempMaxSlider" class="range-slider range-slider-max" min="0" max="40" step="1" value="40">
+                                <input type="range" id="tempMinSlider" class="range-slider range-slider-min" min="-20" max="55" step="1" value="-20">
+                                <input type="range" id="tempMaxSlider" class="range-slider range-slider-max" min="-20" max="55" step="1" value="55">
                             </div>
                             <div class="range-values">
-                                <span id="tempMinDisplay">0</span>
-                                <span id="tempMaxDisplay">40</span>
+                                <span id="tempMinDisplay">-20</span>
+                                <span id="tempMaxDisplay">55</span>
                             </div>
                         </div>
                     </div>
@@ -579,18 +579,18 @@
                     <div class="filter-group">
                         <label class="filter-group-label">Water Temperature (°C)</label>
                         <div class="range-input-group">
-                            <input type="number" id="waterTempMin" class="range-input" placeholder="Min" min="0" max="40" step="1">
+                            <input type="number" id="waterTempMin" class="range-input" placeholder="Min" min="-20" max="55" step="1">
                             <span>to</span>
-                            <input type="number" id="waterTempMax" class="range-input" placeholder="Max" min="0" max="40" step="1">
+                            <input type="number" id="waterTempMax" class="range-input" placeholder="Max" min="-20" max="55" step="1">
                         </div>
                         <div class="dual-range-slider-group">
                             <div class="dual-range-container">
-                                <input type="range" id="waterTempMinSlider" class="range-slider range-slider-min" min="0" max="40" step="1" value="0">
-                                <input type="range" id="waterTempMaxSlider" class="range-slider range-slider-max" min="0" max="40" step="1" value="40">
+                                <input type="range" id="waterTempMinSlider" class="range-slider range-slider-min" min="-20" max="55" step="1" value="-20">
+                                <input type="range" id="waterTempMaxSlider" class="range-slider range-slider-max" min="-20" max="55" step="1" value="55">
                             </div>
                             <div class="range-values">
-                                <span id="waterTempMinDisplay">0</span>
-                                <span id="waterTempMaxDisplay">40</span>
+                                <span id="waterTempMinDisplay">-20</span>
+                                <span id="waterTempMaxDisplay">55</span>
                             </div>
                         </div>
                     </div>
@@ -1685,9 +1685,9 @@
                     <div class="edit-plant-range-row">
                         <label class="edit-plant-detail-label">Temperature (°C)</label>
                         <div class="edit-plant-size-inputs">
-                            <input type="number" id="uploadTempMin" class="edit-plant-input edit-plant-range-inp" placeholder="Min" step="1" inputmode="numeric">
+                            <input type="number" id="uploadTempMin" class="edit-plant-input edit-plant-range-inp" placeholder="Min" min="-20" max="55" step="1" inputmode="numeric">
                             <span class="edit-plant-size-sep">–</span>
-                            <input type="number" id="uploadTempMax" class="edit-plant-input edit-plant-range-inp" placeholder="Max" step="1" inputmode="numeric">
+                            <input type="number" id="uploadTempMax" class="edit-plant-input edit-plant-range-inp" placeholder="Max" min="-20" max="55" step="1" inputmode="numeric">
                         </div>
                     </div>
                     <div class="edit-plant-range-row">

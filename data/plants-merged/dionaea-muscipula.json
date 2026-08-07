@@ -65,9 +65,9 @@
   "substrateType": "wet",
   "specialNeeds": "Requires winter dormancy, only use distilled/rainwater, nutrient-poor soil",
   "temperatureRange": {
-    "min": 8,
-    "max": 56,
-    "ideal": 46
+    "min": 4,
+    "max": 28,
+    "ideal": 23
   },
   "difficultyRange": {
     "min": 50,

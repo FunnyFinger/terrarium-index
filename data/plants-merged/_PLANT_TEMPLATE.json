@@ -49,9 +49,9 @@
   "substrateType": "",
   "specialNeeds": "",
   "temperatureRange": {
-    "min": 0,
-    "max": 100,
-    "ideal": 50
+    "min": 18,
+    "max": 25,
+    "ideal": 21
   },
   "difficultyRange": {
     "min": 0,

@@ -1,9 +1,19 @@
 {
   "name": "Piccolo Banda Peperomia",
   "scientificName": "Peperomia albovittata 'Piccolo Banda'",
-  "commonNames": ["Piccolo Banda", "Peacock Peperomia", "Peacock Plant", "Radiator Plant"],
+  "commonNames": [
+    "Piccolo Banda",
+    "Peacock Peperomia",
+    "Peacock Plant",
+    "Radiator Plant"
+  ],
   "isCultivar": true,
-  "category": ["tropical", "leafy", "mini", "succulent"],
+  "category": [
+    "tropical",
+    "leafy",
+    "mini",
+    "succulent"
+  ],
   "substrate": "Well Draining",
   "size": "10–30 cm",
   "growthRate": "Slow to Moderate",
@@ -36,16 +46,48 @@
   "floweringPeriod": "spring",
   "propagation": "Stem Cuttings, Leaf Cuttings",
   "colors": "Green, Silver, Purple-brown",
-  "humidityRange": { "min": 40, "max": 65, "ideal": 50 },
-  "lightRange": { "min": 40, "max": 75, "ideal": 58 },
-  "airCirculationRange": { "min": 30, "max": 60, "ideal": 45 },
-  "waterNeedsRange": { "min": 25, "max": 50, "ideal": 38 },
+  "humidityRange": {
+    "min": 40,
+    "max": 65,
+    "ideal": 50
+  },
+  "lightRange": {
+    "min": 40,
+    "max": 75,
+    "ideal": 58
+  },
+  "airCirculationRange": {
+    "min": 30,
+    "max": 60,
+    "ideal": 45
+  },
+  "waterNeedsRange": {
+    "min": 25,
+    "max": 50,
+    "ideal": 38
+  },
   "substrateType": "moist",
   "specialNeeds": "none",
-  "temperatureRange": { "min": 40, "max": 55, "ideal": 47 },
-  "difficultyRange": { "min": 10, "max": 28, "ideal": 16 },
-  "soilPhRange": { "min": 42.9, "max": 58, "ideal": 50 },
-  "growthRateRange": { "min": 25, "max": 50, "ideal": 38 },
+  "temperatureRange": {
+    "min": 20,
+    "max": 27.5,
+    "ideal": 23.5
+  },
+  "difficultyRange": {
+    "min": 10,
+    "max": 28,
+    "ideal": 16
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 58,
+    "ideal": 50
+  },
+  "growthRateRange": {
+    "min": 25,
+    "max": 50,
+    "ideal": 38
+  },
   "carnivorous": false,
   "geographicOrigin": "Cultivar of tropical American Peperomia albovittata (often attributed to Dutch breeding)"
 }

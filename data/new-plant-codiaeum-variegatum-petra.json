@@ -8,7 +8,11 @@
     "Joseph's Coat"
   ],
   "isCultivar": true,
-  "category": ["tropical", "leafy", "foliage"],
+  "category": [
+    "tropical",
+    "leafy",
+    "foliage"
+  ],
   "substrate": "Well Draining",
   "size": "60-120 cm",
   "growthRate": "Moderate",
@@ -39,7 +43,11 @@
       "Provide warm conditions and moderate to high humidity",
       "Toxic if ingested; sap can irritate skin"
     ],
-    "category": ["tropical", "leafy", "foliage"],
+    "category": [
+      "tropical",
+      "leafy",
+      "foliage"
+    ],
     "substrate": "Well Draining",
     "size": "60-200 cm",
     "growthRate": "Moderate",
@@ -60,16 +68,48 @@
     "floweringPeriod": "does-not-flower-in-cultivation",
     "propagation": "Stem Cuttings, Air Layering",
     "colors": "Green, Yellow, Orange, Red, Variegated",
-    "humidityRange": { "min": 45, "max": 75, "ideal": 60 },
-    "lightRange": { "min": 55, "max": 90, "ideal": 75 },
-    "airCirculationRange": { "min": 25, "max": 55, "ideal": 40 },
-    "waterNeedsRange": { "min": 40, "max": 65, "ideal": 50 },
+    "humidityRange": {
+      "min": 45,
+      "max": 75,
+      "ideal": 60
+    },
+    "lightRange": {
+      "min": 55,
+      "max": 90,
+      "ideal": 75
+    },
+    "airCirculationRange": {
+      "min": 25,
+      "max": 55,
+      "ideal": 40
+    },
+    "waterNeedsRange": {
+      "min": 40,
+      "max": 65,
+      "ideal": 50
+    },
     "substrateType": "dry",
     "specialNeeds": "none",
-    "temperatureRange": { "min": 36, "max": 50, "ideal": 43 },
-    "difficultyRange": { "min": 25, "max": 55, "ideal": 40 },
-    "soilPhRange": { "min": 40, "max": 55, "ideal": 47 },
-    "growthRateRange": { "min": 40, "max": 60, "ideal": 50 },
+    "temperatureRange": {
+      "min": 36,
+      "max": 50,
+      "ideal": 43
+    },
+    "difficultyRange": {
+      "min": 25,
+      "max": 55,
+      "ideal": 40
+    },
+    "soilPhRange": {
+      "min": 40,
+      "max": 55,
+      "ideal": 47
+    },
+    "growthRateRange": {
+      "min": 40,
+      "max": 60,
+      "ideal": 50
+    },
     "carnivorous": false,
     "geographicOrigin": "Southern Asia, Indonesia, Eastern Pacific Islands"
   },
@@ -90,16 +130,48 @@
   "floweringPeriod": "does-not-flower-in-cultivation",
   "propagation": "Stem Cuttings, Air Layering",
   "colors": "Green, Yellow, Orange, Pink, Red, Variegated",
-  "humidityRange": { "min": 50, "max": 75, "ideal": 65 },
-  "lightRange": { "min": 60, "max": 90, "ideal": 75 },
-  "airCirculationRange": { "min": 25, "max": 55, "ideal": 40 },
-  "waterNeedsRange": { "min": 40, "max": 65, "ideal": 50 },
+  "humidityRange": {
+    "min": 50,
+    "max": 75,
+    "ideal": 65
+  },
+  "lightRange": {
+    "min": 60,
+    "max": 90,
+    "ideal": 75
+  },
+  "airCirculationRange": {
+    "min": 25,
+    "max": 55,
+    "ideal": 40
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 65,
+    "ideal": 50
+  },
   "substrateType": "dry",
   "specialNeeds": "none",
-  "temperatureRange": { "min": 36, "max": 50, "ideal": 43 },
-  "difficultyRange": { "min": 25, "max": 55, "ideal": 40 },
-  "soilPhRange": { "min": 40, "max": 55, "ideal": 47 },
-  "growthRateRange": { "min": 40, "max": 60, "ideal": 50 },
+  "temperatureRange": {
+    "min": 18,
+    "max": 25,
+    "ideal": 21.5
+  },
+  "difficultyRange": {
+    "min": 25,
+    "max": 55,
+    "ideal": 40
+  },
+  "soilPhRange": {
+    "min": 40,
+    "max": 55,
+    "ideal": 47
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
   "carnivorous": false,
   "geographicOrigin": "Southern Asia, Indonesia, Eastern Pacific Islands (horticultural cultivar)"
 }

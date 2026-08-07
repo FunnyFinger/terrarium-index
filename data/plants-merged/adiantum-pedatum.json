@@ -61,9 +61,9 @@
   "substrateType": "dry",
   "specialNeeds": "none",
   "temperatureRange": {
-    "min": 30,
-    "max": 42,
-    "ideal": 36
+    "min": 15,
+    "max": 21,
+    "ideal": 18
   },
   "difficultyRange": {
     "min": 20,

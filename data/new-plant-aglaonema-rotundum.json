@@ -1,8 +1,15 @@
 {
   "name": "Red Vein Aglaonema",
   "scientificName": "Aglaonema rotundum",
-  "commonNames": ["Red Vein Aglaonema", "Pink Splash Aglaonema"],
-  "category": ["tropical", "leafy", "aglaonema"],
+  "commonNames": [
+    "Red Vein Aglaonema",
+    "Pink Splash Aglaonema"
+  ],
+  "category": [
+    "tropical",
+    "leafy",
+    "aglaonema"
+  ],
   "substrate": "Well Draining",
   "size": "25–45 cm",
   "growthRate": "Moderate",
@@ -33,16 +40,48 @@
   "floweringPeriod": "does-not-flower-in-cultivation",
   "propagation": "Stem Cuttings, Division",
   "colors": "Green, Pink, Red",
-  "humidityRange": { "min": 45, "max": 75, "ideal": 60 },
-  "lightRange": { "min": 35, "max": 70, "ideal": 52 },
-  "airCirculationRange": { "min": 20, "max": 50, "ideal": 35 },
-  "waterNeedsRange": { "min": 40, "max": 60, "ideal": 50 },
+  "humidityRange": {
+    "min": 45,
+    "max": 75,
+    "ideal": 60
+  },
+  "lightRange": {
+    "min": 35,
+    "max": 70,
+    "ideal": 52
+  },
+  "airCirculationRange": {
+    "min": 20,
+    "max": 50,
+    "ideal": 35
+  },
+  "waterNeedsRange": {
+    "min": 40,
+    "max": 60,
+    "ideal": 50
+  },
   "substrateType": "dry",
   "specialNeeds": "none",
-  "temperatureRange": { "min": 38, "max": 48, "ideal": 43 },
-  "difficultyRange": { "min": 25, "max": 50, "ideal": 38 },
-  "soilPhRange": { "min": 42.9, "max": 50, "ideal": 46.4 },
-  "growthRateRange": { "min": 40, "max": 65, "ideal": 52 },
+  "temperatureRange": {
+    "min": 19,
+    "max": 24,
+    "ideal": 21.5
+  },
+  "difficultyRange": {
+    "min": 25,
+    "max": 50,
+    "ideal": 38
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 50,
+    "ideal": 46.4
+  },
+  "growthRateRange": {
+    "min": 40,
+    "max": 65,
+    "ideal": 52
+  },
   "carnivorous": false,
   "geographicOrigin": "Tropical Asia, Sumatra, New Guinea"
 }

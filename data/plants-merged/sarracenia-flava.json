@@ -71,9 +71,9 @@
   "substrateType": "moist",
   "specialNeeds": "carnivorous",
   "temperatureRange": {
-    "min": 20,
-    "max": 60,
-    "ideal": 40
+    "min": 10,
+    "max": 30,
+    "ideal": 20
   },
   "difficultyRange": {
     "min": 70,

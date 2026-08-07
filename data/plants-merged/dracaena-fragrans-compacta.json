@@ -62,9 +62,9 @@
   "substrateType": "moist",
   "specialNeeds": null,
   "temperatureRange": {
-    "min": 45,
-    "max": 55,
-    "ideal": 50
+    "min": 22.5,
+    "max": 27.5,
+    "ideal": 25
   },
   "difficultyRange": {
     "min": 15,

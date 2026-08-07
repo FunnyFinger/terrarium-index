@@ -45,6 +45,44 @@ const NUMERIC_SCALES = {
     }
 };
 
+// Temperature stored in °C on plants. UI/filter scale: -20°C … 55°C.
+// Legacy storage used 0–100% with 0% = 0°C and 100% = 50°C.
+const TEMPERATURE_SCALE = { minC: -20, maxC: 55 };
+const LEGACY_TEMPERATURE_MAX_C = 50;
+
+function celsiusToTempPercent(c) {
+    const n = Number(c);
+    if (!isFinite(n)) return null;
+    const span = TEMPERATURE_SCALE.maxC - TEMPERATURE_SCALE.minC;
+    return ((n - TEMPERATURE_SCALE.minC) / span) * 100;
+}
+
+function tempPercentToCelsius(p) {
+    const n = Number(p);
+    if (!isFinite(n)) return null;
+    const span = TEMPERATURE_SCALE.maxC - TEMPERATURE_SCALE.minC;
+    return TEMPERATURE_SCALE.minC + (n / 100) * span;
+}
+
+function temperatureRangeLooksLikeCelsius(range) {
+    if (!range || typeof range.min !== 'number' || typeof range.max !== 'number') return false;
+    return range.max <= 40 && range.min < 30 && range.min >= TEMPERATURE_SCALE.minC;
+}
+
+function normalizeTemperatureRangeToCelsius(range) {
+    if (!range || typeof range.min !== 'number' || typeof range.max !== 'number') return range;
+    if (temperatureRangeLooksLikeCelsius(range)) {
+        const ideal = typeof range.ideal === 'number' ? range.ideal : (range.min + range.max) / 2;
+        return { min: range.min, max: range.max, ideal: ideal };
+    }
+    const min = (range.min / 100) * LEGACY_TEMPERATURE_MAX_C;
+    const max = (range.max / 100) * LEGACY_TEMPERATURE_MAX_C;
+    const ideal = typeof range.ideal === 'number'
+        ? (range.ideal / 100) * LEGACY_TEMPERATURE_MAX_C
+        : (min + max) / 2;
+    return { min: min, max: max, ideal: ideal };
+}
+
 /** Ensure a range object always has an ideal value. If missing, compute midpoint. */
 function ensureIdeal(range) {
     if (!range || typeof range !== 'object') return range;
@@ -378,28 +416,24 @@ function mapPlantToInputs(plant) {
             inputs.salinityRange = salinityMap[salinityKey] || salinityMap.freshwater;
         }
         
-        // Water Temperature mapping - separate from air temperature for aquatic plants
-        // Use the same temperature field but create a separate waterTemperatureRange
-        // This will be the same as temperatureRange but specifically for water
-        if (inputs.temperatureRange) {
+        // Water Temperature — °C (same storage as air temperature)
+        if (plant.waterTemperatureRange && plant.waterTemperatureRange.min !== undefined && plant.waterTemperatureRange.max !== undefined) {
+            inputs.waterTemperatureRange = ensureIdeal(normalizeTemperatureRangeToCelsius(plant.waterTemperatureRange));
+        } else if (inputs.temperatureRange) {
             inputs.waterTemperatureRange = inputs.temperatureRange;
         } else {
-            // Fallback: parse temperature string again if temperatureRange wasn't set
             const tempStr = plant.temperature || '';
-            const tempRangeMatch = tempStr.match(/(\d+)\s*[-–]\s*(\d+)\s*°?C/i);
+            const tempRangeMatch = tempStr.match(/(-?\d+)\s*[-–]\s*(-?\d+)\s*°?C/i);
             if (tempRangeMatch) {
-                const minTemp = parseInt(tempRangeMatch[1]);
-                const maxTemp = parseInt(tempRangeMatch[2]);
-                const minPercent = Math.max(0, Math.min(100, (minTemp / 50) * 100));
-                const maxPercent = Math.max(0, Math.min(100, (maxTemp / 50) * 100));
+                const minTemp = parseInt(tempRangeMatch[1], 10);
+                const maxTemp = parseInt(tempRangeMatch[2], 10);
                 inputs.waterTemperatureRange = {
-                    min: minPercent,
-                    max: maxPercent,
-                    ideal: (minPercent + maxPercent) / 2
+                    min: minTemp,
+                    max: maxTemp,
+                    ideal: (minTemp + maxTemp) / 2
                 };
             } else {
-                // Default: moderate temperature (22-26°C = 44-52%)
-                inputs.waterTemperatureRange = { min: 44, max: 52, ideal: 48 };
+                inputs.waterTemperatureRange = { min: 22, max: 26, ideal: 24 };
             }
         }
     }
@@ -450,41 +484,32 @@ function mapPlantToInputs(plant) {
         inputs.difficultyRange = { min: 40, max: 60, ideal: 50 };
     }
     
-    // Temperature mapping - convert to numeric range (0-50°C normalized to 0-100%)
-    // Scale: 0°C = 0%, 50°C = 100%
-    // First check if plant already has temperatureRange object
+    // Temperature mapping — stored in °C (−20…55 UI scale). Coerce legacy 0–100% if needed.
     if (plant.temperatureRange && plant.temperatureRange.min !== undefined && plant.temperatureRange.max !== undefined) {
-        inputs.temperatureRange = ensureIdeal(plant.temperatureRange);
+        inputs.temperatureRange = ensureIdeal(normalizeTemperatureRangeToCelsius(plant.temperatureRange));
     } else {
-        // Fall back to parsing temperature string
+        // Fall back to parsing temperature string (supports negatives)
         const temperatureStr = plant.temperature || '';
-        const tempRangeMatch = temperatureStr.match(/(\d+)\s*[-–]\s*(\d+)\s*°?C/i);
+        const tempRangeMatch = temperatureStr.match(/(-?\d+)\s*[-–]\s*(-?\d+)\s*°?C/i);
         if (tempRangeMatch) {
-            const minTemp = parseInt(tempRangeMatch[1]);
-            const maxTemp = parseInt(tempRangeMatch[2]);
-            // Normalize to 0-100% scale (0°C = 0%, 50°C = 100%)
-            const minPercent = Math.max(0, Math.min(100, (minTemp / 50) * 100));
-            const maxPercent = Math.max(0, Math.min(100, (maxTemp / 50) * 100));
+            const minTemp = parseInt(tempRangeMatch[1], 10);
+            const maxTemp = parseInt(tempRangeMatch[2], 10);
             inputs.temperatureRange = {
-                min: minPercent,
-                max: maxPercent,
-                ideal: (minPercent + maxPercent) / 2
+                min: minTemp,
+                max: maxTemp,
+                ideal: (minTemp + maxTemp) / 2
             };
         } else {
-            // Try single temperature value
-            const singleTempMatch = temperatureStr.match(/(\d+)\s*°?C/i);
+            const singleTempMatch = temperatureStr.match(/(-?\d+)\s*°?C/i);
             if (singleTempMatch) {
-                const temp = parseInt(singleTempMatch[1]);
-                const tempPercent = Math.max(0, Math.min(100, (temp / 50) * 100));
-                // Create a small range around the single value (±5%)
+                const temp = parseInt(singleTempMatch[1], 10);
                 inputs.temperatureRange = {
-                    min: Math.max(0, tempPercent - 5),
-                    max: Math.min(100, tempPercent + 5),
-                    ideal: tempPercent
+                    min: temp - 2,
+                    max: temp + 2,
+                    ideal: temp
                 };
             } else {
-                // Default: moderate temperature range (20-25°C = 40-50%)
-                inputs.temperatureRange = { min: 40, max: 50, ideal: 45 };
+                inputs.temperatureRange = { min: 18, max: 25, ideal: 21 };
             }
         }
     }
@@ -678,6 +703,10 @@ function createDefaultAdvancedFilters() {
 window.filterUtils = window.filterUtils || {};
 Object.assign(window.filterUtils, {
     NUMERIC_SCALES,
+    TEMPERATURE_SCALE,
+    celsiusToTempPercent,
+    tempPercentToCelsius,
+    normalizeTemperatureRangeToCelsius,
     mapPlantToInputs,
     plantBelongsToTaxonomy,
     createDefaultAdvancedFilters

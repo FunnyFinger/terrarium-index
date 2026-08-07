@@ -67,9 +67,9 @@
   "substrateType": "moist",
   "specialNeeds": "sensitive leaves",
   "temperatureRange": {
-    "min": 40,
-    "max": 56,
-    "ideal": 48
+    "min": 20,
+    "max": 28,
+    "ideal": 24
   },
   "difficultyRange": {
     "min": 50,

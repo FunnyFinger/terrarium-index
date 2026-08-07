@@ -1,8 +1,15 @@
 {
   "name": "Corn Plant",
   "scientificName": "Dracaena fragrans",
-  "commonNames": ["Corn Plant", "Cornstalk Dracaena", "Happy Plant"],
-  "category": ["tropical", "leafy"],
+  "commonNames": [
+    "Corn Plant",
+    "Cornstalk Dracaena",
+    "Happy Plant"
+  ],
+  "category": [
+    "tropical",
+    "leafy"
+  ],
   "substrate": "Well Draining",
   "size": "60–150 cm",
   "growthRate": "Slow",
@@ -33,16 +40,48 @@
   "floweringPeriod": "rarely-in-cultivation",
   "propagation": "Stem Cuttings, Air Layering",
   "colors": "Green",
-  "humidityRange": { "min": 35, "max": 65, "ideal": 50 },
-  "lightRange": { "min": 30, "max": 75, "ideal": 55 },
-  "airCirculationRange": { "min": 25, "max": 55, "ideal": 40 },
-  "waterNeedsRange": { "min": 35, "max": 55, "ideal": 45 },
+  "humidityRange": {
+    "min": 35,
+    "max": 65,
+    "ideal": 50
+  },
+  "lightRange": {
+    "min": 30,
+    "max": 75,
+    "ideal": 55
+  },
+  "airCirculationRange": {
+    "min": 25,
+    "max": 55,
+    "ideal": 40
+  },
+  "waterNeedsRange": {
+    "min": 35,
+    "max": 55,
+    "ideal": 45
+  },
   "substrateType": "dry",
   "specialNeeds": "none",
-  "temperatureRange": { "min": 38, "max": 48, "ideal": 42 },
-  "difficultyRange": { "min": 10, "max": 35, "ideal": 22 },
-  "soilPhRange": { "min": 42.9, "max": 58, "ideal": 50 },
-  "growthRateRange": { "min": 20, "max": 45, "ideal": 32 },
+  "temperatureRange": {
+    "min": 19,
+    "max": 24,
+    "ideal": 21
+  },
+  "difficultyRange": {
+    "min": 10,
+    "max": 35,
+    "ideal": 22
+  },
+  "soilPhRange": {
+    "min": 42.9,
+    "max": 58,
+    "ideal": 50
+  },
+  "growthRateRange": {
+    "min": 20,
+    "max": 45,
+    "ideal": 32
+  },
   "carnivorous": false,
   "geographicOrigin": "Tropical Africa"
 }
