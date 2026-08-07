@@ -137,7 +137,7 @@
         if (window.DOMPurify) {
             bodyHtml = window.DOMPurify.sanitize(bodyHtml, {
                 USE_PROFILES: { html: true },
-                ADD_ATTR: ['target', 'rel', 'src', 'alt', 'class']
+                ADD_ATTR: ['target', 'rel', 'src', 'alt', 'class', 'style', 'width', 'height']
             });
         }
         var article = Object.assign({}, current || {}, {
@@ -188,35 +188,42 @@
 
     function initQuill() {
         if (!window.Quill) throw new Error('Quill failed to load');
-        quill = new window.Quill('#articleEditor', {
-            theme: 'snow',
-            placeholder: 'Write your article…',
-            modules: {
-                toolbar: {
-                    container: [
-                        [{ header: [1, 2, 3, false] }],
-                        ['bold', 'italic', 'underline', 'strike'],
-                        [{ list: 'ordered' }, { list: 'bullet' }],
-                        [{ indent: '-1' }, { indent: '+1' }],
-                        ['blockquote', 'code-block'],
-                        [{ align: [] }],
-                        ['link', 'image'],
-                        ['clean']
-                    ],
-                    handlers: {
-                        image: function () {
-                            var input = document.createElement('input');
-                            input.type = 'file';
-                            input.accept = 'image/*';
-                            input.onchange = function () {
-                                var file = input.files && input.files[0];
-                                if (file) uploadInlineImage(file);
-                            };
-                            input.click();
-                        }
+        if (window.ImageResize) {
+            window.Quill.register('modules/imageResize', window.ImageResize);
+        }
+        var modules = {
+            toolbar: {
+                container: [
+                    [{ header: [1, 2, 3, false] }],
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{ list: 'ordered' }, { list: 'bullet' }],
+                    [{ indent: '-1' }, { indent: '+1' }],
+                    ['blockquote', 'code-block'],
+                    [{ align: [] }],
+                    ['link', 'image'],
+                    ['clean']
+                ],
+                handlers: {
+                    image: function () {
+                        var input = document.createElement('input');
+                        input.type = 'file';
+                        input.accept = 'image/*';
+                        input.onchange = function () {
+                            var file = input.files && input.files[0];
+                            if (file) uploadInlineImage(file);
+                        };
+                        input.click();
                     }
                 }
             }
+        };
+        if (window.ImageResize) {
+            modules.imageResize = {};
+        }
+        quill = new window.Quill('#articleEditor', {
+            theme: 'snow',
+            placeholder: 'Write your article…',
+            modules: modules
         });
         bindQuillDragDrop();
     }

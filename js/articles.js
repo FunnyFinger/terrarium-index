@@ -121,7 +121,7 @@
         if (window.DOMPurify && typeof window.DOMPurify.sanitize === 'function') {
             return window.DOMPurify.sanitize(html, {
                 USE_PROFILES: { html: true },
-                ADD_ATTR: ['target', 'rel', 'src', 'alt', 'class']
+                ADD_ATTR: ['target', 'rel', 'src', 'alt', 'class', 'style', 'width', 'height']
             });
         }
         return String(html).replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, '');

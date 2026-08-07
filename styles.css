@@ -4239,11 +4239,17 @@ body.shopper-mode .articles-hub-card-edit {
     font-weight: 700;
 }
 .article-detail-body a { color: var(--primary-color); }
+.article-edit-page .ql-editor img {
+    max-width: 100%;
+    height: auto;
+    cursor: pointer;
+}
 .article-detail-body img {
     max-width: 100%;
     height: auto;
     border-radius: 8px;
     margin: 0.75rem 0;
+    display: inline-block;
 }
 .article-detail-body blockquote {
     margin: 1rem 0;
