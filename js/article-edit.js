@@ -218,6 +218,7 @@
                 }
             }
         });
+        bindQuillDragDrop();
     }
 
     function ensureSlugForUpload() {
@@ -235,20 +236,159 @@
         return window.articleImages.upload(file, slug, filename);
     }
 
-    function uploadInlineImage(file) {
+    function uploadInlineImage(file, insertIndex) {
         setStatus('Uploading image…');
         var ext = ((file.name || '').split('.').pop() || 'jpg').toLowerCase();
         if (ext === 'jpeg') ext = 'jpg';
         if (!/^(jpg|png|gif|webp)$/.test(ext)) ext = 'jpg';
         var name = 'inline-' + Date.now() + '.' + ext;
         return uploadToArticlePath(file, name).then(function (res) {
-            var range = quill.getSelection(true);
-            quill.insertEmbed(range.index, 'image', res.url, 'user');
-            quill.setSelection(range.index + 1);
+            var sel = quill.getSelection(true);
+            var index = insertIndex != null ? insertIndex : (sel ? sel.index : Math.max(0, quill.getLength() - 1));
+            quill.insertEmbed(index, 'image', res.url, 'user');
+            quill.setSelection(index + 1);
             setStatus('Image inserted.');
         }).catch(function (err) {
             console.error(err);
             setStatus('Image upload failed: ' + (err && err.message ? err.message : 'error'), true);
+        });
+    }
+
+    function isHttpUrl(text) {
+        return /^https?:\/\/\S+$/i.test(String(text || '').trim());
+    }
+
+    function extractDroppedUrl(dataTransfer) {
+        if (!dataTransfer) return '';
+        var raw = dataTransfer.getData('text/uri-list') ||
+            dataTransfer.getData('URL') ||
+            dataTransfer.getData('text/plain') ||
+            '';
+        raw = String(raw).split('\n').map(function (line) {
+            return line.replace(/^\s*#.*$/, '').trim();
+        }).filter(Boolean)[0] || '';
+        return isHttpUrl(raw) ? raw : '';
+    }
+
+    function selectionFromPoint(clientX, clientY) {
+        if (!quill || !quill.root) return null;
+        var doc = quill.root.ownerDocument;
+        var nativeRange = null;
+        if (typeof doc.caretRangeFromPoint === 'function') {
+            nativeRange = doc.caretRangeFromPoint(clientX, clientY);
+        } else if (typeof doc.caretPositionFromPoint === 'function') {
+            var pos = doc.caretPositionFromPoint(clientX, clientY);
+            if (pos) {
+                nativeRange = doc.createRange();
+                nativeRange.setStart(pos.offsetNode, pos.offset);
+                nativeRange.collapse(true);
+            }
+        }
+        if (!nativeRange || !quill.root.contains(nativeRange.startContainer)) return null;
+        var sel = window.getSelection();
+        if (sel) {
+            sel.removeAllRanges();
+            sel.addRange(nativeRange);
+        }
+        return quill.getSelection(true);
+    }
+
+    function insertIndexFromEvent(evt) {
+        var fromPoint = selectionFromPoint(evt.clientX, evt.clientY);
+        if (fromPoint) return fromPoint.index;
+        var sel = quill.getSelection(true);
+        return sel ? sel.index : Math.max(0, quill.getLength() - 1);
+    }
+
+    function insertLink(url, insertIndex, label) {
+        if (!quill || !url) return;
+        var sel = quill.getSelection(true);
+        var index = insertIndex != null ? insertIndex : (sel ? sel.index : Math.max(0, quill.getLength() - 1));
+        var length = sel && insertIndex == null ? sel.length : 0;
+        if (length > 0) {
+            quill.formatText(sel.index, length, 'link', url, 'user');
+            quill.setSelection(sel.index, length);
+            setStatus('Link applied.');
+            return;
+        }
+        var text = (label || url).trim() || url;
+        quill.insertText(index, text, { link: url }, 'user');
+        quill.setSelection(index + text.length);
+        setStatus('Link inserted.');
+    }
+
+    function bindQuillDragDrop() {
+        if (!quill || !quill.root) return;
+        var host = quill.root.closest('.article-quill-host') || quill.root;
+
+        quill.root.addEventListener('dragover', function (e) {
+            if (!e.dataTransfer) return;
+            var hasFile = Array.prototype.some.call(e.dataTransfer.types || [], function (t) {
+                return t === 'Files';
+            });
+            var hasUrl = Array.prototype.some.call(e.dataTransfer.types || [], function (t) {
+                return t === 'text/uri-list' || t === 'text/plain' || t === 'URL';
+            });
+            if (!hasFile && !hasUrl) return;
+            e.preventDefault();
+            host.classList.add('article-quill-dragover');
+        });
+
+        quill.root.addEventListener('dragleave', function (e) {
+            if (!quill.root.contains(e.relatedTarget)) host.classList.remove('article-quill-dragover');
+        });
+
+        quill.root.addEventListener('drop', function (e) {
+            host.classList.remove('article-quill-dragover');
+            if (!e.dataTransfer) return;
+            e.preventDefault();
+            e.stopPropagation();
+
+            var index = insertIndexFromEvent(e);
+            var file = null;
+            if (e.dataTransfer.files && e.dataTransfer.files.length) {
+                for (var i = 0; i < e.dataTransfer.files.length; i++) {
+                    if (/^image\//.test(e.dataTransfer.files[i].type)) {
+                        file = e.dataTransfer.files[i];
+                        break;
+                    }
+                }
+            }
+            if (file) {
+                uploadInlineImage(file, index);
+                return;
+            }
+
+            var url = extractDroppedUrl(e.dataTransfer);
+            if (url) insertLink(url, index);
+        });
+
+        quill.root.addEventListener('paste', function (e) {
+            var clipboard = e.clipboardData;
+            if (!clipboard) return;
+
+            var imageFile = null;
+            if (clipboard.items && clipboard.items.length) {
+                for (var j = 0; j < clipboard.items.length; j++) {
+                    if (clipboard.items[j].type.indexOf('image') !== -1) {
+                        imageFile = clipboard.items[j].getAsFile();
+                        break;
+                    }
+                }
+            }
+            if (imageFile) {
+                e.preventDefault();
+                var pasteIndex = (quill.getSelection(true) || { index: Math.max(0, quill.getLength() - 1) }).index;
+                uploadInlineImage(imageFile, pasteIndex);
+                return;
+            }
+
+            var pasted = (clipboard.getData('text/plain') || '').trim();
+            if (isHttpUrl(pasted) && !(quill.getSelection(true) || { length: 0 }).length) {
+                e.preventDefault();
+                var linkIndex = (quill.getSelection(true) || { index: Math.max(0, quill.getLength() - 1) }).index;
+                insertLink(pasted, linkIndex);
+            }
         });
     }
 
