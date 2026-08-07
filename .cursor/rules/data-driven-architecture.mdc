@@ -53,7 +53,7 @@ These are **never stored as overrides for individual items** — they are always
 | **Thumbnail path** | `images/plants/{slug}/thumb.jpg` — generated automatically on image upload via `generateThumbnailBlobFromUrl()` and uploaded to Supabase Storage at `plants/{slug}/thumb.jpg` |
 | **`imageUrl` fallback** | If null: `images/plants/{slug}/{slug}-1.jpg` — then resolved to Supabase URL |
 | **Supabase image URL** | `resolvePlantImageUrl(path)` converts any relative path to full Supabase Storage URL |
-| **Vivarium type badges** | `calculatePlantVivariumTypes(plant)` — scores 9 vivarium types by weighted overlap of care ranges vs vivarium ideal ranges. Score ≥ 25 = badge shown. Never stored — always recomputed. |
+| **Vivarium type badges** | `calculatePlantVivariumTypes(plant)` — scores 9 vivarium types by weighted overlap of care ranges vs vivarium ideal ranges. Score ≥ 70 = badge shown. Never stored — always recomputed. |
 | **Hybrid badge** | Detected from `scientificName` containing ` x ` or ` × ` |
 | **Carnivorous badge** | From `plant.carnivorous === true` |
 | **Aquatic badge** | From `category`, `plantType`, `growthHabit`, or `specialNeeds` values |

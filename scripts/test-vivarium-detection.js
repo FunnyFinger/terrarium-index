@@ -209,31 +209,31 @@ function calculatePlantVivariumTypes(plant) {
         const VIVARIUM_TYPES = {
             'open-terrarium': { 
                 name: 'Open Terrarium', 
-                humidity: { min: 70, max: 100, ideal: 85 }, 
+                humidity: { min: 50, max: 85, ideal: 70 }, 
                 light: { min: 20, max: 80, ideal: 50 }, 
-                airCirculation: { min: 40, max: 60, ideal: 50 }, 
+                airCirculation: { min: 40, max: 75, ideal: 55 }, 
                 substrate: ['moist', 'wet', 'epiphytic'], 
-                waterNeeds: { min: 40, max: 100, ideal: 70 },
+                waterNeeds: { min: 40, max: 85, ideal: 65 },
                 waterBody: false
             },
             'closed-terrarium': { 
                 name: 'Closed Terrarium', 
-                humidity: { min: 60, max: 100, ideal: 80 }, 
+                humidity: { min: 70, max: 100, ideal: 90 }, 
                 light: { min: 20, max: 70, ideal: 40 }, 
-                airCirculation: { min: 0, max: 30, ideal: 20 }, 
+                airCirculation: { min: 0, max: 30, ideal: 15 }, 
                 substrate: ['moist', 'wet', 'epiphytic'], 
-                waterNeeds: { min: 40, max: 100, ideal: 70 },
+                waterNeeds: { min: 40, max: 90, ideal: 70 },
                 waterBody: false
             },
             paludarium: { 
                 name: 'Paludarium', 
                 humidity: { min: 70, max: 100, ideal: 90 }, 
                 light: { min: 20, max: 100, ideal: 60 }, 
-                airCirculation: { min: 20, max: 60, ideal: 50 }, 
-                substrate: ['wet', 'aquatic', 'moist'], 
-                waterNeeds: { min: 40, max: 100, ideal: 80 },
+                airCirculation: { min: 20, max: 60, ideal: 40 }, 
+                substrate: ['wet', 'aquatic', 'moist', 'epiphytic'], 
+                waterNeeds: { min: 50, max: 100, ideal: 80 },
                 waterBody: true,
-                waterCirculation: { min: 10, max: 30, ideal: 20 }
+                waterCirculation: { min: 10, max: 40, ideal: 20 }
             },
             aerarium: { 
                 name: 'Aerarium', 
@@ -246,7 +246,7 @@ function calculatePlantVivariumTypes(plant) {
             },
             deserterium: { 
                 name: 'Deserterium', 
-                humidity: { min: 20, max: 50, ideal: 30 }, 
+                humidity: { min: 15, max: 45, ideal: 30 }, 
                 light: { min: 60, max: 100, ideal: 90 }, 
                 airCirculation: { min: 60, max: 100, ideal: 80 }, 
                 substrate: ['dry'], 
@@ -256,28 +256,28 @@ function calculatePlantVivariumTypes(plant) {
             aquarium: { 
                 name: 'Aquarium', 
                 humidity: { min: 100, max: 100, ideal: 100 }, 
-                light: { min: 20, max: 70, ideal: 50 }, 
-                airCirculation: { min: 0, max: 30, ideal: 20 }, 
+                light: { min: 20, max: 90, ideal: 55 }, 
+                airCirculation: { min: 0, max: 20, ideal: 10 }, 
                 substrate: ['aquatic'], 
                 waterNeeds: { min: 80, max: 100, ideal: 90 },
                 waterBody: true,
-                waterCirculation: { min: 0, max: 100, ideal: 50 }
+                waterCirculation: { min: 10, max: 90, ideal: 50 }
             },
             riparium: { 
                 name: 'Riparium', 
-                humidity: { min: 70, max: 100, ideal: 85 }, 
-                light: { min: 20, max: 70, ideal: 50 }, 
+                humidity: { min: 65, max: 100, ideal: 85 }, 
+                light: { min: 20, max: 90, ideal: 55 }, 
                 airCirculation: { min: 60, max: 100, ideal: 80 }, 
-                substrate: ['wet', 'aquatic'], 
+                substrate: ['wet', 'aquatic', 'moist', 'epiphytic'], 
                 waterNeeds: { min: 60, max: 100, ideal: 80 },
                 waterBody: true,
                 waterCirculation: { min: 30, max: 80, ideal: 55 }
             },
             'indoor': { 
                 name: 'Indoor', 
-                humidity: { min: 30, max: 70, ideal: 50 }, 
-                light: { min: 40, max: 100, ideal: 70 }, 
-                airCirculation: { min: 60, max: 100, ideal: 80 }, 
+                humidity: { min: 30, max: 65, ideal: 45 }, 
+                light: { min: 20, max: 85, ideal: 50 }, 
+                airCirculation: { min: 55, max: 100, ideal: 75 }, 
                 substrate: ['moist', 'dry'], 
                 waterNeeds: { min: 20, max: 60, ideal: 40 },
                 waterBody: false
