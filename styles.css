@@ -4197,7 +4197,19 @@ body.shopper-mode .articles-hub-card-edit {
     margin: 0 0 1rem;
     color: var(--text-color);
     line-height: 1.75;
-    text-align: left;
+}
+.article-detail-body .ql-align-center {
+    text-align: center;
+}
+.article-detail-body .ql-align-right {
+    text-align: right;
+}
+.article-detail-body .ql-align-justify {
+    text-align: justify;
+}
+.article-detail-body .ql-align-center img,
+.article-detail-body .ql-align-right img {
+    display: inline-block;
 }
 .article-detail-body ul,
 .article-detail-body ol {

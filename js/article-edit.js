@@ -130,16 +130,20 @@
         coverPreview.classList.add('has-image');
     }
 
+    function sanitizeArticleBodyHtml(html) {
+        if (!html) return '';
+        if (!window.DOMPurify) return String(html).replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, '');
+        return window.DOMPurify.sanitize(html, {
+            USE_PROFILES: { html: true },
+            ADD_ATTR: ['target', 'rel', 'src', 'alt', 'class', 'style', 'width', 'height']
+        });
+    }
+
     function readFormIntoArticle() {
         var slug = slugify(slugEl.value || titleEl.value);
         var bodyHtml = quill ? quill.root.innerHTML : '';
         if (bodyHtml === '<p><br></p>') bodyHtml = '';
-        if (window.DOMPurify) {
-            bodyHtml = window.DOMPurify.sanitize(bodyHtml, {
-                USE_PROFILES: { html: true },
-                ADD_ATTR: ['target', 'rel', 'src', 'alt', 'class', 'style', 'width', 'height']
-            });
-        }
+        bodyHtml = sanitizeArticleBodyHtml(bodyHtml);
         var article = Object.assign({}, current || {}, {
             slug: slug,
             title: (titleEl.value || '').trim() || 'Untitled article',
@@ -159,12 +163,15 @@
     function setQuillHtml(html) {
         if (!quill) return;
         var next = html || '';
-        var current = quill.root.innerHTML;
+        var currentHtml = quill.root.innerHTML;
         var empty = '<p><br></p>';
-        if ((current === empty && !next) || current === next) return;
+        if ((currentHtml === empty && !next) || currentHtml === next) return;
         var selection = quill.getSelection();
         quill.setContents([]);
-        quill.clipboard.dangerouslyPasteHTML(next);
+        if (next) {
+            var delta = quill.clipboard.convert({ html: next });
+            quill.setContents(delta, 'silent');
+        }
         if (selection) {
             try { quill.setSelection(selection); } catch (e) { /* ignore invalid range */ }
         }
