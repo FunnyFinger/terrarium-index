@@ -156,6 +156,20 @@
         return article;
     }
 
+    function setQuillHtml(html) {
+        if (!quill) return;
+        var next = html || '';
+        var current = quill.root.innerHTML;
+        var empty = '<p><br></p>';
+        if ((current === empty && !next) || current === next) return;
+        var selection = quill.getSelection();
+        quill.setContents([]);
+        quill.clipboard.dangerouslyPasteHTML(next);
+        if (selection) {
+            try { quill.setSelection(selection); } catch (e) { /* ignore invalid range */ }
+        }
+    }
+
     function fillForm(article) {
         current = article;
         titleEl.value = article.title || '';
@@ -167,10 +181,7 @@
         excerptEl.value = article.excerpt || '';
         renderCoverPreview(article);
         var html = article.bodyHtml || blocksToHtml(article.body) || '';
-        if (quill) {
-            quill.setContents([]);
-            quill.clipboard.dangerouslyPasteHTML(html || '');
-        }
+        setQuillHtml(html);
         if (deleteBtn) deleteBtn.classList.toggle('hidden', isNew || article.id == null);
         document.title = (isNew ? 'New article' : 'Edit: ' + (article.title || 'Article')) + ' – Vivarium Store';
     }
@@ -434,6 +445,9 @@
         });
     }
 
+    var articleLoaded = false;
+    var loadingArticle = false;
+
     function boot() {
         try {
             initQuill();
@@ -444,22 +458,29 @@
         bindUi();
         showEditorUi(false);
 
-        function afterAuth() {
+        function onAuthUpdate() {
             var allowed = canEdit();
             showEditorUi(allowed);
-            if (!allowed) return;
+            if (!allowed || articleLoaded || loadingArticle) return;
+            loadingArticle = true;
             var authReady = (window.supabaseAuth && typeof window.supabaseAuth.getCurrentUser === 'function')
                 ? window.supabaseAuth.getCurrentUser()
                 : Promise.resolve();
-            authReady.then(loadArticle).catch(loadArticle);
+            authReady.then(loadArticle).then(function () {
+                articleLoaded = true;
+            }).catch(function () {
+                /* allow retry on next auth event if load failed */
+            }).finally(function () {
+                loadingArticle = false;
+            });
         }
 
         if (window.auth && typeof window.auth.getUser === 'function') {
-            window.auth.getUser().then(afterAuth).catch(afterAuth);
+            window.auth.getUser().then(onAuthUpdate).catch(onAuthUpdate);
         } else {
-            afterAuth();
+            onAuthUpdate();
         }
-        window.addEventListener('authStateChange', afterAuth);
+        window.addEventListener('authStateChange', onAuthUpdate);
     }
 
     document.addEventListener('DOMContentLoaded', boot);
